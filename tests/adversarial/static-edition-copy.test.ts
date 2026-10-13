@@ -2,10 +2,16 @@
  * Adversarial guard: the static edition promises no exam.
  *
  * The landing page footer renders in both editions. Its line said "Exámenes con anti-plagio",
- * but the static edition (GitHub Pages) has no session and runs no exam, so the line promised
- * what that edition cannot give. The anti-plagiarism claim may be read only where the static
+ * but the static edition (GitHub Pages, and the pyarcana.dev build where accounts run) has no
+ * session and runs no exam, so the line promised what that edition cannot give. Every wording in
+ * the translation table that tells a learner an exam exists may be read only where the static
  * edition never mounts it: the exam card (ExamView) is mounted only for a signed-in session, and
  * the pricing page with the plan features only outside the static build.
+ *
+ * The first version of this guard looked only at keys that said "anti-plagio". The review found
+ * 'tour.autocheck.body' ("el examen formal con cuenta"), read by the tour the static build mounts,
+ * and 'auth.demoDesc' ("rendir exámenes"), which nothing reads. The scan now covers every key whose
+ * text names an exam, in any quote style, and the plan scan covers every importer of the plan table.
  *
  * Run: node --import tsx --test tests/adversarial/static-edition-copy.test.ts
  */
@@ -23,8 +29,20 @@ const EXAM_CARD = 'src/components/course/ExamView.tsx'
 /** Any wording that tells a learner an exam exists, in Spanish or English. */
 const EXAM_PROMISE = /ex[aá]men|anti-?plagi|\bexams?\b/i
 
-/** The claim that exams are anti-plagiarism. */
-const ANTI_PLAGIARISM = /anti-?plagi/i
+/**
+ * The files that may read a wording that names an exam, each with why the static edition never
+ * mounts it. A file added here is a decision that the static edition cannot show that wording.
+ */
+const DYNAMIC_ONLY_READERS: ReadonlyMap<string, string> = new Map([
+  [EXAM_CARD, 'mounted only when a server session exists (SectionView), which the static build never has'],
+])
+
+/** Importers of the plan table that the static build mounts, with what each reads from it. */
+const PLAN_IMPORTERS: ReadonlyMap<string, string> = new Map([
+  ['src/components/course/PricingPage.tsx', 'lists the plan features; mounted only outside the static build'],
+  ['src/lib/cloud/config.ts', 'reads the free plan maxSections and nothing else'],
+  ['src/lib/subscription-plans.ts', 'the plan table itself'],
+])
 
 function source(file: string): string {
   return readFileSync(join(ROOT, file), 'utf8')
@@ -42,11 +60,12 @@ function sourceFiles(dir = join(ROOT, 'src')): string[] {
 /** Every key of the translation table, read from its source. */
 const KEYS = [...new Set([...source(I18N).matchAll(/^\s+'([^']+)':/gm)].map((m) => m[1]))]
 
-/** The files that name a translation key in quotes, excluding the table itself. */
+/** The files that name a translation key in single quotes, double quotes or backticks, excluding the table itself. */
 function readers(key: string): string[] {
+  const quoted = new RegExp(`['"\`]${key.replace(/\./g, '\\.')}['"\`]`)
   return sourceFiles()
     .filter((file) => file !== I18N)
-    .filter((file) => source(file).includes(`'${key}'`))
+    .filter((file) => quoted.test(source(file)))
 }
 
 describe('static edition copy', () => {
@@ -56,16 +75,18 @@ describe('static edition copy', () => {
     })
   }
 
-  it('every anti-plagiarism claim is read only by the exam card, the one component the static edition never mounts', () => {
-    const claims = KEYS.filter((key) => LANGUAGES.some(({ code }) => ANTI_PLAGIARISM.test(t(key, code))))
+  it('every wording that names an exam is read only by a component the static edition never mounts', () => {
+    const claims = KEYS.filter((key) => LANGUAGES.some(({ code }) => EXAM_PROMISE.test(t(key, code))))
     assert.ok(claims.includes('exam.antiPlagiarism'), 'the scan must see the exam card claim, or it proves nothing')
-    for (const key of claims) {
-      assert.ok(
-        readers(key).every((file) => file === EXAM_CARD),
-        `${key} is read by ${readers(key).join(', ')}`
-      )
-    }
+    assert.ok(claims.length >= 10, `the scan found ${claims.length} exam wordings; it is meant to see them all`)
+    const offenders = claims.flatMap((key) =>
+      readers(key)
+        .filter((file) => !DYNAMIC_ONLY_READERS.has(file))
+        .map((file) => `${key} is read by ${file}`)
+    )
+    assert.deepEqual(offenders, [])
   })
+
 
   it('the exam card is mounted only in the signed-in branch of the section view', () => {
     const sectionView = source('src/components/course/SectionView.tsx')
@@ -76,9 +97,19 @@ describe('static edition copy', () => {
   it('the plan features, which list the exam, are shown only outside the static build', () => {
     const page = source('src/app/page.tsx')
     assert.match(page, /!IS_STATIC_SITE && view === 'pricing'/)
-    const consumers = sourceFiles()
+    // Any importer counts, whichever export it takes (SUBSCRIPTION_PLANS, getPlanByCode, ...): the
+    // first version looked for one name and would have missed `getPlanByCode('pro').features`.
+    const importers = sourceFiles()
       .filter((file) => !/\.test\.|__tests__/.test(file))
-      .filter((file) => source(file).includes('SUBSCRIPTION_PLANS'))
-    assert.deepEqual(consumers.sort(), ['src/components/course/PricingPage.tsx', 'src/lib/subscription-plans.ts'])
+      .filter((file) => /from\s+['"](?:@\/lib\/|\.\/|\.\.\/)(?:lib\/)?subscription-plans['"]/.test(source(file)))
+    const unreviewed = importers.filter((file) => !PLAN_IMPORTERS.has(file))
+    assert.deepEqual(unreviewed, [], 'a file that reads the plan table is mounted by the static build unreviewed')
+    assert.ok(importers.includes('src/components/course/PricingPage.tsx'), 'the scan must see the pricing page, or it proves nothing')
+  })
+
+  it('the one static-build importer of the plan table reads no plan copy', () => {
+    const config = source('src/lib/cloud/config.ts')
+    assert.match(config, /getPlanByCode\('free'\)\?\.maxSections/)
+    assert.doesNotMatch(config, /\.features|\.description|\.tagline|\.hasExams/)
   })
 })
