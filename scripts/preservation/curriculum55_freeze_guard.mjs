@@ -12,8 +12,9 @@
  * now absent is WINDOW_REMOVED. Without history the guard cannot tell the difference, so a shallow
  * checkout is HISTORY_MISSING, never DORMANT.
  *
- * While open, comparing main against the branch point, it fails when any of these differs without
- * an override row for its path:
+ * While open, comparing main against the branch point (and HEAD too, until the renumber exists in the
+ * tree: no renumber_epoch.json, so a pull request to main is held to the freeze before it merges), it
+ * fails when any of these differs without an override row for its path:
  *   - the frozen paths below (the course index and requirements, the three roadmaps, the capstone
  *     catalog, the figure registry, PdfReport.tsx, section_ledger), and the set of exam-bank files;
  *   - in sections S19..S52 at the branch point, the parsed id, index, title, phase, exercise-id set
@@ -132,16 +133,33 @@ function verdict(findings, extra = {}) {
   return { state: findings.length > 0 ? 'FAIL' : 'OK', findings, ...extra }
 }
 
-/** The window while open: the freeze against the branch point. */
-function openWindowVerdict({ history, window, main }) {
+/** Every frozen-item finding for `rev` against the branch point, each tagged with what was compared. */
+function freezeFindingsAgainst({ history, bp, rev, against, overridden }) {
+  return [
+    ...frozenPathFindings(history, bp, rev, overridden),
+    ...sectionFieldFindings(history, bp, rev, overridden),
+  ].map((finding) => ({ ...finding, against }))
+}
+
+/**
+ * The window while open: the freeze against the branch point. Main is always compared. The tree under
+ * test is compared too until the renumber exists in it (no epoch file): in a pull request run origin/main
+ * is the base tip, which does not hold the change under review, so a comparison with main alone goes
+ * green on the pull request and red only after the merge. Once the epoch exists the tree differs from
+ * the branch point on purpose (the renumber), and only main is held to the freeze.
+ */
+function openWindowVerdict({ history, window, main, epoch }) {
   const bp = history.commit(window.branch_point_sha ?? '')
   if (bp === null) return verdict([fail('HISTORY_MISSING', { reason: 'window branch_point_sha is unreadable' })])
+  const head = history.commit('HEAD')
+  if (head === null) return verdict([fail('HISTORY_MISSING', { reason: 'HEAD is unreadable' })])
   const { rows, findings: overrideFindings } = overridesOf(window)
   const overridden = new Set(rows.map((row) => row.path))
+  const targets = [{ rev: main, against: 'main' }]
+  if (epoch === null && head !== main) targets.push({ rev: head, against: 'HEAD' })
   const findings = [
     ...overrideFindings,
-    ...frozenPathFindings(history, bp, main, overridden),
-    ...sectionFieldFindings(history, bp, main, overridden),
+    ...targets.flatMap((target) => freezeFindingsAgainst({ history, bp, overridden, ...target })),
   ]
   return verdict(findings, { frozen_items: FROZEN_PATHS.length, branch_point: bp })
 }
@@ -176,7 +194,7 @@ export function checkFreeze({ history, window, epoch = null, main }) {
   if (window.status === 'closed') return closedWindowVerdict({ history, window, epoch })
   if (window.status !== 'open') return verdict([fail('WINDOW_STATUS_INVALID', { status: window.status ?? null })])
   if (main === null) return verdict([fail('HISTORY_MISSING', { reason: 'neither origin/main nor main is readable' })])
-  return openWindowVerdict({ history, window, main })
+  return openWindowVerdict({ history, window, main, epoch })
 }
 
 function main() {

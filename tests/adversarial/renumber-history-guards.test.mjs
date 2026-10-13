@@ -598,6 +598,28 @@ function freezeScenario({ mainEdits = null, window = {}, windowOn = true } = {})
 const epochNaming = (sha) => ({ schema: 'renumber_epoch/1', renumber_sha: sha, new_slugs: [] })
 
 /**
+ * The shape of a pull request run: the window is open on main, the change under review sits on a
+ * branch ahead of main, and HEAD is that branch (origin/main, here `main`, does not hold the change).
+ * `edits(pre)` returns the branch's Map of path -> text; `epoch` also commits an epoch file on the
+ * branch (the renumbered curriculum/55); `mainEdits` lands on main after the branch was cut.
+ */
+function pullRequestScenario({ edits, epoch = false, mainEdits = null }) {
+  const { dir, pre } = freezeScenario()
+  git(dir, 'switch', '-q', '-c', 'pr')
+  const changes = edits(pre)
+  if (epoch) changes.set(EPOCH, JSON.stringify(epochNaming(pre), null, 2) + '\n')
+  applyEdits(dir, changes)
+  commitAll(dir, 'the change under review')
+  if (mainEdits !== null) {
+    git(dir, 'switch', '-q', 'main')
+    applyEdits(dir, mainEdits)
+    commitAll(dir, 'main moves on')
+    git(dir, 'switch', '-q', 'pr')
+  }
+  return { dir, pre }
+}
+
+/**
  * A repository whose window is closed. `renumber` is the commit the epoch records; with `onSide` it
  * sits on a side branch that HEAD never merges. `windowSha` and `epoch` take that sha and return what
  * the window names and what the epoch holds (null: no epoch file).
@@ -729,6 +751,51 @@ describe('freeze guard: while open, main may not change what the renumber rewrit
     const run = runFreeze(freezeScenario({ mainEdits: new Map([[BANK, '{}\n']]) }).dir)
     assert.equal(run.status, 1)
     assert.ok(withFindingCode(run, 'EXAM_BANK_SET_CHANGED'), run.err)
+  })
+})
+
+describe('freeze guard: a pull request is held to the freeze before it merges', () => {
+  const roadmapEdit = () => new Map([['learning_roadmap.md', 'cambio en la rama\n']])
+
+  it('fails FROZEN_CHANGED for a branch ahead of main that edits a roadmap, which main does not hold yet', () => {
+    const run = runFreeze(pullRequestScenario({ edits: roadmapEdit }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'FROZEN_CHANGED'), run.err)
+    assert.match(run.err, /"against": "HEAD"/)
+    assert.match(run.err, /learning_roadmap\.md/)
+  })
+
+  it('passes the same edit once the branch\'s window names an owner override for it', () => {
+    const edits = (pre) => new Map([
+      ...roadmapEdit(),
+      [WINDOW, freezeWindow(pre, { overrides: [{ path: 'learning_roadmap.md', reason: 'erratum de la hoja', owner_approval: 'O17' }] })],
+    ])
+    const run = runFreeze(pullRequestScenario({ edits }).dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('fails FROZEN_SECTION_FIELD_CHANGED for a section title changed on the branch, and passes a prose-only edit', () => {
+    const path = sectionPath('s19-oldnineteen')
+    const retitled = sectionFile({ slug: 'oldnineteen', index: 19, suffixes: OLD_SUFFIXES, title: 'Título nuevo' })
+    const run = runFreeze(pullRequestScenario({ edits: () => new Map([[path, retitled]]) }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'FROZEN_SECTION_FIELD_CHANGED'), run.err)
+    const prose = sectionFile({ slug: 'oldnineteen', index: 19, suffixes: OLD_SUFFIXES }) + '// una nota de redacción\n'
+    const calm = runFreeze(pullRequestScenario({ edits: () => new Map([[path, prose]]) }).dir)
+    assert.equal(calm.status, 0, calm.err)
+  })
+
+  it('does not hold the tree to the branch point once the epoch exists: curriculum/55 differs by the renumber', () => {
+    const run = runFreeze(pullRequestScenario({ edits: roadmapEdit, epoch: true }).dir)
+    assert.equal(run.status, 0, run.err)
+  })
+
+  it('still holds main to the freeze when the tree has its epoch', () => {
+    const mainEdits = new Map([['learning_roadmap_52_V3.md', 'cambio en main\n']])
+    const run = runFreeze(pullRequestScenario({ edits: roadmapEdit, epoch: true, mainEdits }).dir)
+    assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'FROZEN_CHANGED'), run.err)
+    assert.match(run.err, /"against": "main"/)
   })
 })
 
