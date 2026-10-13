@@ -157,12 +157,15 @@ def digest_violations(catalog: dict, records: dict, slugs: dict[int, str]) -> li
 #: recording over them is a re-baseline (refusals() allows it). Raise it when CLAIM_PATHS or the
 #: payload changes; that edit is itself a visible change to a protected test file.
 DIGEST_SCHEMA = 3
-SEMVER = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
+#: A SemVer 2.0.0 normal version (semver.org §2): three non-negative integers, no leading zeroes.
+#: Read whole with fullmatch, because `$` also matches before a trailing newline, and with [0-9],
+#: because `\d` matches every Unicode decimal digit (Python `re` docs).
+SEMVER = re.compile(r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)")
 
 
 def version_key(version: object) -> tuple[int, int, int] | None:
     """`1.2.0` to (1, 2, 0); None for anything that is not MAJOR.MINOR.PATCH (fail closed)."""
-    match = SEMVER.match(version) if isinstance(version, str) else None
+    match = SEMVER.fullmatch(version) if isinstance(version, str) else None
     return tuple(int(part) for part in match.groups()) if match else None
 
 
@@ -396,6 +399,19 @@ class RecordRefusal(unittest.TestCase):
 
     def test_a_lower_or_unreadable_version_may_not_be_recorded(self) -> None:
         for version in ("0.9.0", "1.0.0-rc1", "v2", ""):
+            with self.subTest(version=version):
+                problems = refusals(self._edited(version), self.previous, self.slugs)
+                self.assertEqual(len(problems), 1, problems)
+                self.assertIn("not above the recorded 1.0.0", problems[0])
+
+    def test_a_version_a_looser_reader_would_take_as_a_bump_may_not_be_recorded(self) -> None:
+        """Each of these reads as above 1.0.0 to some looser parser, and none is a SemVer 2.0.0 normal
+        version (§2: X.Y.Z, non-negative integers, no leading zeroes). A pattern anchored with `$`
+        also matches before a trailing newline, and `\\d` matches every Unicode decimal digit
+        (Python `re` docs), so the first reader accepted three of them as a bump. Refusing them all
+        is what fail closed means here: a claim change is recorded only under a plain higher version.
+        """
+        for version in ("2.0.0\n", "1.0.01", "١.١.٠", "1.0.1-rc1", "v2.0.0", "2.0", "2"):
             with self.subTest(version=version):
                 problems = refusals(self._edited(version), self.previous, self.slugs)
                 self.assertEqual(len(problems), 1, problems)
