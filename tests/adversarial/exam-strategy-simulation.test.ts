@@ -66,6 +66,10 @@ const PASSABLE = 0.05
 // passes "clang" at 8.3% - a regression in #85's S08 rewrites, recorded here rather than hidden.
 // The O20 redo round, which rewrites S08#7, owes it back to below the line.
 //
+// Paid 2026-10-13 by the O20 S10 round: Codex rewrote S08 questions 2, 7, 8, 12, 17 and 23 so
+// the key is no longer the option sharing the most words with the stem, and files-ingestion
+// leaves the "clang" list. 18 -> 17.
+//
 // Every bank: the key is the longest option in 1165 of 1248 questions, and every bank passes all
 // 1000 learners. The fix is distractors as long and as specific as the key, never a trimmed key.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
@@ -89,7 +93,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'apis-sql-geo', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery', 'decisions-rules', 'evidence-dashboard',
-  'fastapi', 'files-ingestion', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
+  'fastapi', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
   'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
 ]
 // Every key in these two banks contains its concept's slug.

@@ -36,7 +36,11 @@ SEED = ROOT / "prisma/seed.ts"
 #: 2026-10-07: 1125 -> 1081. 110 of the GLM lane's rewrites in S05 and S08-S11 (O20); the other 8
 #: go back to Codex. Measured by this file's _BANK, which reads only single-quoted keys -- 1200 of
 #: the 1248 questions. Widening it is its own change, with its own mutation proof.
-LONGEST_IS_CORRECT_OWED = 1081
+#: 2026-10-13: 1081 -> 1069. The O20 S10 round: Codex redid the 8 questions the GLM lane got wrong
+#: and rewrote six S08 items and three S10 keys so the key is no longer the unique longest option.
+#: Same _BANK measure. A separate PR (the exam-audit reader migration) re-baselines this on the
+#: full bank; whichever of the two lands second re-measures.
+LONGEST_IS_CORRECT_OWED = 1069
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 PERFECT_CUE_BANKS_OWED = 11
