@@ -7,6 +7,7 @@ keep the tests on the gate's real entry point, not on a copy of its functions.
 from __future__ import annotations
 
 import importlib.util
+import json
 import subprocess
 import sys
 import tempfile
@@ -112,6 +113,46 @@ class CountingRules(unittest.TestCase):
             return f"def f(x):\n{body}    return -1\n"
         self.assertEqual(score(with_branches(14), "f"), 15)
         self.assertEqual(score(with_branches(15), "f"), 16)
+
+
+CORPUS = json.loads((ROOT / "tests/adversarial/complexity_parity_corpus.json").read_text(encoding="utf-8"))
+
+
+def score_by_qualname(source: str, function: str) -> int:
+    found = [r["score"] for r in rows_of(source) if r["function"] == function]
+    assert len(found) == 1, (function, len(found))
+    return found[0]
+
+
+class ParityCorpus(unittest.TestCase):
+    """34 snippets. `radon` is frozen from radon 6.0.1; `expected` is the ruling. They agree
+    everywhere except the four named divergences, which are pinned rather than hidden."""
+
+    def test_the_corpus_was_frozen_from_radon_six_point_oh_one(self):
+        self.assertEqual(CORPUS["radon"], "6.0.1")
+        self.assertGreaterEqual(len(CORPUS["entries"]), 30)
+
+    def test_every_snippet_scores_its_expected_value(self):
+        for entry in CORPUS["entries"]:
+            with self.subTest(snippet=entry["id"]):
+                self.assertEqual(score_by_qualname(entry["source"], entry["function"]), entry["expected"])
+
+    def test_expected_equals_radon_except_where_a_divergence_is_named(self):
+        for entry in CORPUS["entries"]:
+            with self.subTest(snippet=entry["id"]):
+                if entry["divergence"] is None:
+                    self.assertEqual(entry["expected"], entry["radon"])
+                else:
+                    self.assertNotEqual(entry["expected"], entry["radon"])
+                    self.assertTrue(entry["divergence"].strip())
+
+    def test_the_nist_fig_4_4_stand_in_scores_six(self):
+        """The figure's text could not be retrieved; this is a stand-in built from the NIST 4.1
+        definition (v(G) = decision points + 1), and radon agrees that it scores six."""
+        entry = next(e for e in CORPUS["entries"] if e["id"] == "nist_fig44_port")
+        self.assertEqual(entry["expected"], 6)
+        self.assertEqual(entry["radon"], 6)
+        self.assertEqual(score_by_qualname(entry["source"], "nist_fig44_grade"), 6)
 
 
 if __name__ == "__main__":
