@@ -38,3 +38,13 @@
 /tests/ @PillB
 /scripts/static_public.spec.ts @PillB
 /scripts/regression.spec.ts @PillB
+/scripts/*regression* @PillB
+
+# Curriculum renumber state: the guard inputs the renumber's gates read (owner decision O17, Gate A
+# decision 3). The window, epoch, ledger and pending files have no path yet, so each is a basename
+# rule that holds wherever it is placed.
+/src/lib/eligibility/ @PillB
+curriculum55_window.json @PillB
+renumber_epoch.json @PillB
+renumber_edit_ledger.json @PillB
+authoring_pending.json @PillB
