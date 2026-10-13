@@ -89,6 +89,11 @@ def cited_numbers(badge: dict) -> set[int]:
     return {n for n in (token_number(t) for t in tokens) if n is not None}
 
 
+def section_slugs(manifest: dict) -> dict[int, str]:
+    """Section number to slug, from the manifest: the one place a number is bound to a section."""
+    return {s["index"]: s["slug"] for s in manifest["sections"]}
+
+
 def normalise(text: str) -> str:
     """Lower case, accents removed: one spelling per word for the lexicon and its matches."""
     decomposed = unicodedata.normalize("NFKD", text)

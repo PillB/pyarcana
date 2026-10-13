@@ -1,6 +1,6 @@
 {
-  "schema": 2,
-  "method": "sha256 of the UTF-8 JSON of {catalog path: value} for the fields below, keys sorted, separators ',' and ':', ensure_ascii False",
+  "schema": 3,
+  "method": "sha256 of the UTF-8 JSON of {catalog path: value} for the fields below, keys sorted, separators ',' and ':', ensure_ascii False; required_sections and required_activities enter as manifest slugs ('slug' and 'slug:KIND'), not as S-numbers",
   "fields": [
     "badge_id",
     "version",
@@ -38,127 +38,127 @@
   "records": {
     "progress_phase0_walked": {
       "version": "1.0.0",
-      "sha256": "a45848dd855568ced48485e2f93fef08d48179dfcdad4ea71d901e47451cd460"
+      "sha256": "5f93cc5701f0731148953ca81cca5874fac63badb377f95bb8836691dc124bc0"
     },
     "progress_phase1_walked": {
       "version": "1.0.0",
-      "sha256": "176b93012e87d9c1bb9edb7705d1346f03aa59d956d6bd8cb8c2c2b185c4e8c7"
+      "sha256": "af6e559f9d5f8ed9e486a49870fb5ceedfbab1496d5168707a7dacdc30552bdd"
     },
     "progress_phase2_walked": {
       "version": "1.0.0",
-      "sha256": "ff5b047f533b363e9b342ec6be27e22552e595b3cfb61eab666af3d848a90aec"
+      "sha256": "e18e7d7ccface83cc7af2b4f73609364c1a5298b891189735ed2c678ee0e26c8"
     },
     "progress_phase3_walked": {
       "version": "1.2.0",
-      "sha256": "421d2a4bf5de1561c4c43d341f2cae1dac7dca05b7c12166118fc21d8de6dcee"
+      "sha256": "b7b3c55540773c6f1e5952e53da970a952550a1c716c57bb917397d7fe7678f2"
     },
     "progress_journey_completed": {
       "version": "1.0.0",
-      "sha256": "f19566904c22433e8388abe87d9ead6dd1acfc396058dd2be8d6591701368e22"
+      "sha256": "e18e29cf5e75a3ba272d91b65a5e7d2e2cd34ddd9631881fbe8059790a763c73"
     },
     "python_data_foundations": {
       "version": "1.0.0",
-      "sha256": "6bc024613f2d0f8d5b29c1bd264fa61a76cc434ae2201e3e26978c59410bf02f"
+      "sha256": "a4ea1b7182c38ca29ad8434b157522d6db8e16a10f6621caf22226c8e271f832"
     },
     "independent_data_preparation": {
       "version": "1.0.0",
-      "sha256": "b9ced852ba26e71505f11db3db442be50e944832f889b7011b196aa79deb05c5"
+      "sha256": "5578d45036c2c9e80b1844aa224c7f7576c3142699da511bf93b78e5d44621ea"
     },
     "applied_analytical_reasoning": {
       "version": "1.0.0",
-      "sha256": "7df9624bab540e41190246b30151e6ab574c59cfabad4757f1298087232ea7c7"
+      "sha256": "b47a26e7cfa6741868a7fa1b53f28989a3982f7bd7ff97f8cf40edd879eed7b3"
     },
     "reliable_automation_development": {
       "version": "1.0.0",
-      "sha256": "a1875140bbad568adc311467fc526b86699aaca98d3eb1b2d99bcdffd012e2bb"
+      "sha256": "6748b1f72db11dbe55839c110ff0669d950123772267e842eead59af345df6ca"
     },
     "applied_sql_query_development": {
       "version": "1.0.0",
-      "sha256": "3e2fe4387fef559848dff7845f06a4657bd7ebadea1db8c55609b1480671853a"
+      "sha256": "3e5fd13e41d3aea7e1d96858a0c2948ef089af1c9f064f769380f8a74d27bd05"
     },
     "production_python_delivery_foundations": {
       "version": "1.0.0",
-      "sha256": "5d6ed208e5fd7e84e68e708aebe01860cb39e3dff9a93d5e518c5c1a479bef4f"
+      "sha256": "7066a65f95f0e1593f99f314eff66883e1961a723fa697347170e290c5fea762"
     },
     "responsible_machine_learning_evaluation": {
       "version": "1.0.0",
-      "sha256": "0402ac8c4ca1991c9ac4d9e0fb9b0301497540c9ca837cd8db7066177e72dba0"
+      "sha256": "b3061fc1338998e0b3df9f929df5f38940613b6fa0f763acefa13ff90cc1feb6"
     },
     "applied_rag_llm_service_development": {
       "version": "1.0.0",
-      "sha256": "3aec9e42f311d6ba2e02205430c64c0f08144a83e3b4188c9e86fa9840010479"
+      "sha256": "58129093078f3b6d367af4e49b3cbb0cc34e80788da1cfdfe26a7833612f45b4"
     },
     "reliable_async_python_development": {
       "version": "1.0.0",
-      "sha256": "fbb3059ef58878361034bf6fe71eee7955044cc8e19b7bec03b074025fceb7e2"
+      "sha256": "85c62574eb8315607ed0af79ee5fe3f8854659bab04d4a54589a645de93694d6"
     },
     "applied_mlops_pipeline_delivery": {
       "version": "1.0.0",
-      "sha256": "5876fbca3210170bc61033860b67959c5e16042a5e26e2cb8a949d231a7e98d1"
+      "sha256": "e7402d2169ec3b18b10e173bb59d4db1e6d0c5f9771c7260c438a24a1a82795c"
     },
     "production_python_hardening_practice": {
       "version": "1.0.0",
-      "sha256": "c09c90a68f20d0dea8b2e08a32f649763fcdc7caac03fc38371ef1b05c4d1c2b"
+      "sha256": "83ee5fb2a92f4295ba3742895c608a3ecf5ab18e312c8b6324ab9e695bd69941"
     },
     "applied_deep_learning_practice": {
       "version": "1.0.0",
-      "sha256": "2587429bf8b7b7db6312e8aa306ce73f498566e4f510572af1727fb11b438059"
+      "sha256": "55d4634db70e026692ce88c8875c508f019ca2d53bf2dbc8ddc484b7f52c640d"
     },
     "architecture_decision_practice": {
       "version": "1.0.0",
-      "sha256": "d0b98c7a4929bbaca14d5aeef5c9cf75f6154d49b7201bbf35118099416fe2a3"
+      "sha256": "761df8c08a990448b58bca8a8e24a310dbd50d90f89042fcf062218ffcd6e3c9"
     },
     "llmops_production_delivery": {
       "version": "1.0.0",
-      "sha256": "414f27cfad752f6521aab05a9135eed992a0ec1de442c00be1670eb7c8f3a355"
+      "sha256": "edf3c2170ee8252cf0a3e0d7a28a3a0faeefe459b2f79d75ad527dfa67fa7f7a"
     },
     "container_platform_engineering_practice": {
       "version": "1.0.0",
-      "sha256": "814ebd9ca209c9c27983e749cd9664db8b0f162123a5b9c309aa6a476ca67705"
+      "sha256": "eaa8a269bbbe123677056c133f4e6f93c379905530f30921661ec45495d5eef2"
     },
     "ai_governance_code_review_practice": {
       "version": "1.0.0",
-      "sha256": "839d49c200c77804da08f012e8488d924358d68e67e4acee653b7fb9c01c3ef5"
+      "sha256": "ed5e4269c7581efeef0bf4656b48edcbf178e7636323d8dbbadd0d846c0147ad"
     },
     "integrated_data_analyst_practice": {
       "version": "1.1.0",
-      "sha256": "74c7b482063ecd4890a19f6d330ee4f25cc84464832a93c43f936bfa455ae425"
+      "sha256": "b52d08c9a3271257301a86616f98cb5f9fc5bbfb7f76c1290557d0c6c9d8b674"
     },
     "integrated_data_science_practice": {
       "version": "1.0.0",
-      "sha256": "aa06c5ec977667cfcdc82b8a96ccae0e716f798ebf86a589d73b5ee04290fde0"
+      "sha256": "421f6c1b2c1dc37d29a1fcd1fc8c6fb49ca17e2618be26945c2c78d81b9ecf4e"
     },
     "integrated_ml_engineering_practice": {
       "version": "1.1.0",
-      "sha256": "8abf867ce35ab136ac7b99236b3404bc744a30ec8e1eb3f67738cb0896ad5ab9"
+      "sha256": "5833b13300c81acbcc00a65f19051d93baf2adb8f69688379f865878033faa1f"
     },
     "integrated_automation_engineering_practice": {
       "version": "1.1.0",
-      "sha256": "9e027cf73cad2e7ae2f1e248282e3570a97169771648f8f5b0f44949afc68936"
+      "sha256": "3d9d82a6a2ae353285f89bbb1267970d7dfa2e4a62f6f70b77545bc5e8bbf68f"
     },
     "integrated_production_python_practice": {
       "version": "1.0.0",
-      "sha256": "cac1faa728c0c052fd515401febaeb7d4e5281dc628ab6ed6d7bf3bd60615fe0"
+      "sha256": "b4ffab03e6406bd6a78e0a1db79b89cb7d752c80d7572b51c941a1bd0317c0c8"
     },
     "integrated_python_ai_capstone_foundations": {
       "version": "1.0.0",
-      "sha256": "4596a39c2cc2adfcc3dc74d417e15d37e9f90c3c3b7215e85bcd63e329ef18bc"
+      "sha256": "4991550ec44768426b8e5d9cccc96a97d7d9f02ebec4172aa4c6eea20639bdb6"
     },
     "integrated_python_ai_capstone_independent": {
       "version": "1.0.0",
-      "sha256": "a95f636886cfa9190704235e9fd857128d2f807c6bf52b84e7f5b2d2ad964669"
+      "sha256": "2e63f17c7cc8362c7a3f2bf2aa21caf056a4a7f74a3f14e624aecc5f2d177164"
     },
     "integrated_python_ai_capstone_advanced_applied": {
       "version": "1.0.0",
-      "sha256": "82149bc5782900186525e05ed31483f8a10bb0f31068a6389f89d5524f66e64b"
+      "sha256": "4304c2b42df21484e447f5138070a8e605a6d95a3019ec2cd578ab6507673a3f"
     },
     "integrated_python_ai_capstone_integrated_mastery": {
       "version": "1.1.0",
-      "sha256": "d931fa07a016cce042b6726cdd6523d658d7365c8d7f383c26dfafe9d1e52f43"
+      "sha256": "99a57ac5d390da9265f99fb26bc669c5490bdc2bd75af1922453978c8c1fb1ec"
     },
     "evidence_grounded_ai_systems_capstone": {
       "version": "1.0.0",
-      "sha256": "92360d97e29d2307437c434d7ae7a27269e4d01d6ed0bcd87cddee932da183c0"
+      "sha256": "e188c99a2819a13803ea4d365ad0ce48debfcd750dad91ec82823e6a4ec39665"
     }
   }
 }
