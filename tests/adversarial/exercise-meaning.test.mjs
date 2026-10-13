@@ -19,6 +19,7 @@ import {
   classify,
   fingerprint,
   jaccard,
+  ledgerAnchorFindings,
   ledgerFindings,
   tokensOf,
 } from '../../scripts/exercise_meaning.mjs'
@@ -178,11 +179,59 @@ describe('the real course against its committed anchors', () => {
     assert.deepEqual(classify(committed, current, ledger), [])
   })
 
-  it('names, in the ledger, only exercise ids that the anchors hold at their recorded fingerprint', () => {
-    for (const row of ledger) {
-      assert.ok(EXERCISE_ID.test(row.id), row.id)
-      assert.equal(committed[row.id]?.sha256, row.to_fp, `ledger row ${row.row} is not the current anchor of ${row.id}`)
+  it('names only exercise ids, and the newest row of each holds the anchor the id has now', () => {
+    // The newest row, not every row: the ledger is append-only, so an id that changed twice keeps
+    // its first row at the fingerprint it recorded then (ledgerAnchorFindings).
+    for (const row of ledger) assert.ok(EXERCISE_ID.test(row.id), row.id)
+    assert.deepEqual(ledgerAnchorFindings(committed, ledger), [])
+  })
+
+  it('stays green when the next owner-approved wording edit lands on an id that already has ledger rows', () => {
+    // The workflow of 2026-10-13: edit the exercise, regenerate the anchors, append one row. Doing it
+    // to a historical id (23 of the 34 are in S03, the section the fixer works on next) and then to
+    // the same id again must leave both the sentinel's rule and this test green.
+    const id = ledger.find((row) => row.kind === 'historical').id
+    const first = { ...committed[id], sha256: SHA_A }
+    const second = { ...committed[id], sha256: SHA_B }
+    const rowFor = (n, from, to) => ({ row: n, id, kind: 'changed', from_fp: from, to_fp: to, reason: 'reescrito', decided_by: 'owner', date: '2026-10-13' })
+    const afterFirst = { anchors: { ...committed, [id]: first }, rows: [...ledger, rowFor(ledger.length + 1, committed[id].sha256, SHA_A)] }
+    const afterSecond = { anchors: { ...committed, [id]: second }, rows: [...afterFirst.rows, rowFor(ledger.length + 2, SHA_A, SHA_B)] }
+    for (const state of [afterFirst, afterSecond]) {
+      assert.deepEqual(ledgerAnchorFindings(state.anchors, state.rows), [])
+      assert.deepEqual(ledgerFindings({ baseAnchors: committed, headAnchors: state.anchors, baseRows: ledger, headRows: state.rows }), [])
     }
+  })
+})
+
+describe('ledgerAnchorFindings: the newest row of an id names its anchor', () => {
+  const anchorOf = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
+  const rowFor = (n, id, kind, from, to) => ({ row: n, id, kind, from_fp: from, to_fp: to, reason: 'razón', decided_by: 'owner', date: '2026-10-13' })
+  const ID = 'S05-T1-A-E1'
+
+  it('accepts two successive changes to one id: the first row keeps the fingerprint it recorded', () => {
+    const rows = [rowFor(1, ID, 'changed', SHA_A, SHA_B), rowFor(2, ID, 'changed', SHA_B, SHA_C)]
+    assert.deepEqual(ledgerAnchorFindings({ [ID]: anchorOf(SHA_C) }, rows), [])
+  })
+
+  it('accepts one change to an id whose only row is historical, once a row follows it', () => {
+    const rows = [rowFor(1, ID, 'historical', SHA_A, SHA_B), rowFor(2, ID, 'changed', SHA_B, SHA_C)]
+    assert.deepEqual(ledgerAnchorFindings({ [ID]: anchorOf(SHA_C) }, rows), [])
+  })
+
+  it('reports an anchor that moved with no row after a historical one', () => {
+    const rows = [rowFor(1, ID, 'historical', SHA_A, SHA_B)]
+    const findings = ledgerAnchorFindings({ [ID]: anchorOf(SHA_C) }, rows)
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.row]), [['LEDGER_NEWEST_ROW_NOT_ANCHOR', ID, 1]])
+  })
+
+  it('reports an id whose newest row is not its anchor, and an id whose anchor is gone', () => {
+    const rows = [rowFor(1, ID, 'changed', SHA_A, SHA_B), rowFor(2, ID, 'changed', SHA_B, SHA_C)]
+    assert.equal(ledgerAnchorFindings({ [ID]: anchorOf(SHA_B) }, rows).length, 1)
+    assert.equal(ledgerAnchorFindings({}, rows).length, 1)
+  })
+
+  it('does not examine an id that has no row', () => {
+    assert.deepEqual(ledgerAnchorFindings({ [ID]: anchorOf(SHA_A) }, []), [])
   })
 })
 

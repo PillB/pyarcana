@@ -15,7 +15,12 @@
  * A finding is resolved by a non-historical ledger row for the id whose to_fp is the current sha256.
  *
  * The ledger (audit/safe-agent/exercise-meaning-ledger.json) is append-only. Every anchor change needs a
- * new row (ledgerFindings). The sentinel runs that check against the base commit.
+ * new row (ledgerFindings). The sentinel runs that check against the base commit. The newest row of each
+ * id names the anchor the id holds now (ledgerAnchorFindings).
+ *
+ * To edit the wording of an exercise (owner-confirmed workflow, 2026-10-13): edit it, regenerate the anchors
+ * with `node --import tsx scripts/exercise_fingerprints.mts --write`, then append one ledger row per changed
+ * id (kind `changed`, from_fp the old anchor, to_fp the new one, reason, decided_by, date). Never edit a row.
  *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
@@ -180,6 +185,25 @@ export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRo
   return findings
 }
 
+/**
+ * The ledger's last word on an id must be the anchor the id holds now. The ledger is append-only, so
+ * an id that changed twice has two rows and only the newest names the current anchor; an older row
+ * keeps the fingerprint it recorded. A historical row is the newest row of an id until that id changes
+ * again, and then a later row takes its place. An id with no row is not examined here (classify
+ * reports an anchor that no longer matches the course).
+ */
+export function ledgerAnchorFindings(anchors, rows) {
+  const newest = new Map()
+  for (const row of rows) newest.set(row.id, row)
+  const findings = []
+  for (const [id, row] of newest) {
+    if (anchors[id]?.sha256 !== row.to_fp) {
+      findings.push({ code: 'LEDGER_NEWEST_ROW_NOT_ANCHOR', id, row: row.row, anchor: anchors[id]?.sha256 ?? null })
+    }
+  }
+  return findings
+}
+
 function parseJson(source, label) {
   try {
     return JSON.parse(source)
@@ -226,8 +250,10 @@ function currentFromCourse(root) {
 function runCheck(root) {
   const anchors = readAnchorState(root, null)
   const current = currentFromCourse(root)
-  const findings = classify(anchors.anchors ?? {}, current, anchors.rows)
-  return findings
+  return [
+    ...classify(anchors.anchors ?? {}, current, anchors.rows),
+    ...ledgerAnchorFindings(anchors.anchors ?? {}, anchors.rows),
+  ]
 }
 
 function runLedgerBase(root, base) {
