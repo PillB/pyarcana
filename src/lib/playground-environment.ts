@@ -21,23 +21,27 @@ export const LOCAL_PYTHON_NOTE = {
   body: 'Este ejemplo usa una biblioteca cuya versión fija el curso, pero el navegador tiene otra; por eso, el resultado puede diferir del que aparece impreso en el curso. Para ejecutarlo como lo muestra el curso, guarda el código en un archivo y ejecútalo en tu propio entorno, con las bibliotecas en las versiones fijadas por el curso.',
 } as const
 
-/** The import name of each pinned package whose import name differs from the package name. */
-const IMPORT_NAME: Readonly<Record<string, string>> = {
-  'scikit-learn': 'sklearn',
-  pillow: 'PIL',
-  pymupdf: 'fitz',
-  'python-docx': 'docx',
+/**
+ * The import names of each pinned package whose import name differs from the package name. One
+ * package can be imported under more than one name: PyMuPDF 1.28 is imported as `pymupdf`, and
+ * `fitz` is its older, deprecated alias, which still imports. Both count as the pinned package.
+ */
+const IMPORT_NAMES: Readonly<Record<string, readonly string[]>> = {
+  'scikit-learn': ['sklearn'],
+  pillow: ['PIL'],
+  pymupdf: ['pymupdf', 'fitz'],
+  'python-docx': ['docx'],
 }
 
-/** The module each package a requirements file pins is imported as: `scikit-learn==1.6.1` gives `sklearn`. */
+/** The modules each package a requirements file pins is imported as: `scikit-learn==1.6.1` gives `sklearn`. */
 export function pinnedModules(requirements: string): string[] {
   return requirements
     .split('\n')
     .map((line) => line.replace(/#.*$/, '').trim())
     .filter((line) => /^[A-Za-z0-9_.-]+==/.test(line))
-    .map((line) => {
+    .flatMap((line) => {
       const name = line.split('==')[0].toLowerCase()
-      return IMPORT_NAME[name] ?? name.replace(/-/g, '_')
+      return IMPORT_NAMES[name] ?? [name.replace(/-/g, '_')]
     })
 }
 

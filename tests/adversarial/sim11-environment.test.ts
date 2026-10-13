@@ -206,7 +206,19 @@ describe('SIM-11 rules on fixture examples', () => {
 
   it('the requirements pins map to the modules a snippet imports', () => {
     const requirements = 'numpy==2.2.6\n# comment\nscikit-learn==1.6.1\nPillow==12.3.0\npython-docx==1.2.0\npymupdf==1.28.2\n'
-    assert.deepEqual(pinnedModules(requirements), ['numpy', 'sklearn', 'PIL', 'docx', 'fitz'])
+    assert.deepEqual(pinnedModules(requirements), ['numpy', 'sklearn', 'PIL', 'docx', 'pymupdf', 'fitz'])
+  })
+
+  it('a package imported under two names counts under both: pymupdf and its alias fitz', () => {
+    // Recreation: the course pins pymupdf==1.28.2, which is imported as `pymupdf`. Mapping the
+    // package only to its old alias let an S21-style block with `import pymupdf` pass as browser-pyodide.
+    const pins = pinnedModules('pymupdf==1.28.2\n')
+    assert.equal(pinnedImport('import pymupdf\n', pins), 'pymupdf')
+    assert.equal(pinnedImport('import fitz\n', pins), 'fitz')
+    assert.deepEqual(
+      playgroundFailures([{ name: 'demo-pdf', code: 'import pymupdf\n', environment: 'browser-pyodide' }], pins),
+      ['demo-pdf imports pymupdf, which the course pins: its environment must be local-python']
+    )
   })
 
   it('the imports a snippet makes are its top-level modules, one per line', () => {
