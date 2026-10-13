@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import functools
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -40,6 +41,17 @@ sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 from concept_map import build_concepts  # noqa: E402
 from course_events import fresh_events  # noqa: E402
+from test_active_v3_curriculum_contract import section_ids  # noqa: E402
+
+# Slugs, not tags (design G-4). The tag a section carries is its number, which a renumber moves:
+# "S32" here is microservices today and becomes S34. The tag is read from the section, never typed.
+LEAKAGE_SLUGS = ("packaging", "microservices")
+
+
+def section_tags_of(slugs, root: Path = ROOT) -> list[str]:
+    """The SXX tag each slug's section carries: its number as the course binds it."""
+    ids = section_ids(root)
+    return [f"S{ids[slug][0]:02d}" for slug in slugs]
 
 # RETRACTED 2026-10-04 -- `SELF_CERTIFYING_DEFINITIONS_OWED` is gone, and this note stays so the
 # mistake is not repeated.
@@ -235,10 +247,31 @@ class TheRatchetsMeasureSomethingReal(unittest.TestCase):
         fail through the extractor's own output rather than through a copy of its logic.
         """
         c = concepts()["data-leakage"]
-        for section in ("S17", "S32"):
-            self.assertIn(section, c["sections_used"])
+        for tag in section_tags_of(LEAKAGE_SLUGS):
+            self.assertIn(tag, c["sections_used"])
         self.assertGreaterEqual(len(c["examples"]), 5)
         self.assertGreaterEqual(len(c["exercises"]), 9)
+
+
+class LeakageSectionTagsFollowTheirSlugs(unittest.TestCase):
+    def test_every_leakage_slug_resolves_to_a_tag_on_the_real_tree(self):
+        tags = section_tags_of(LEAKAGE_SLUGS)
+        self.assertEqual(len(tags), len(LEAKAGE_SLUGS))
+        for tag in tags:
+            self.assertRegex(tag, r"^S\d{2}$")
+
+    def test_a_renumbered_slug_yields_its_new_tag(self):
+        """Recreation: microservices bound at slot 34 is tagged S34, not the S32 it used to hold."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src/lib/course/sections").mkdir(parents=True)
+            (root / "src/lib/course/index.ts").write_text(
+                "import { section34 } from './sections/s32-microservices'\n", encoding="utf-8"
+            )
+            (root / "src/lib/course/sections/s32-microservices.ts").write_text(
+                "export const s = {\n  id: 'microservices',\n}\n", encoding="utf-8"
+            )
+            self.assertEqual(section_tags_of(("microservices",), root), ["S34"])
 
 
 if __name__ == "__main__":
