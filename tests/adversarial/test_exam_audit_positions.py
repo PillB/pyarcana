@@ -9,8 +9,8 @@ Each property has a recreation of the defect it closes:
 - The audit checks key positions per bank with a chi-square test (Haladyna, Downing & Rodriguez
   2002: "vary the location of the right answer"; Attali & Bar-Hillel 2003 on key-position bias).
   Exam options are shuffled per attempt since #91, so a stored position does not reach a learner
-  in an exam. The check still guards self-check banks and any static use, so its owed set is a
-  record of the stored banks, not a learner-facing defect.
+  in an exam. The check reads the exam banks only (the self-checks get no position check), so its
+  owed set is a record of the stored exam banks, not a learner-facing defect.
 - The audit flags an option whose whole meaning is a pointer to other options ("todas las
   anteriores", "opción A", "A y B") as P0: the option shuffle would make the reference point at the
   wrong text. It does not flag ordinary Spanish ("una alternativa a pandas") or notation ("los grupos

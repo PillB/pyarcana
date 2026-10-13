@@ -273,9 +273,13 @@ def key_position_issues(banks: list[dict]) -> list[dict]:
 
     The rule is the item-writing one to "vary the location of the right answer" (Haladyna, Downing
     & Rodriguez 2002), and key-position bias is a measurable property of an item set (Attali &
-    Bar-Hillel 2003). Exam options are shuffled per attempt since #91, so a stored position does not
-    reach a learner in an exam. The check still guards the self-check banks and any static use of a
-    bank, so a finding is a record of what the stored bank looks like, not a learner-facing defect.
+    Bar-Hillel 2003).
+
+    It reads the exam banks of prisma/seed.ts and nothing else: the section self-checks come through
+    parse_selfchecks and get no position check. Exam options are shuffled per attempt since #91 and
+    self-check options since #90, so a stored position reaches a learner on neither path. A finding
+    is a record of what the stored bank looks like, not a learner-facing defect; it would matter to
+    any use that read a bank without the shuffle.
     """
     issues: list[dict] = []
     for bank in banks:
