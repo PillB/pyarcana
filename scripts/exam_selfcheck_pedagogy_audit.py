@@ -2,6 +2,7 @@
 """Static integrity audit for exam seed bank + section selfCheck questions."""
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from collections import Counter
@@ -223,10 +224,14 @@ def parse_selfchecks() -> list[dict]:
     return issues
 
 
-def main() -> int:
-    qs = seed_questions()
+def flatten(banks: list[dict]) -> list[dict]:
+    return [q for bank in banks for q in bank["questions"]]
+
+
+def question_issues(qs: list[dict]) -> list[dict]:
+    """Per-question structure: a key in range, two or more options, no repeated option, and an
+    explanation."""
     issues: list[dict] = []
-    by_concept = Counter(q["concept"] for q in qs)
     for q in qs:
         n = len(q["options"])
         if q["correctIndex"] < 0 or q["correctIndex"] >= n:
@@ -246,34 +251,63 @@ def main() -> int:
             issues.append({"severity": "P1", "reason": "seed_dup_options", "concept": q["concept"]})
         if not q["explanation"].strip():
             issues.append({"severity": "P1", "reason": "empty_explanation", "concept": q["concept"]})
+    return issues
 
-    # expect ~3 variants per concept typically
-    thin = [c for c, n in by_concept.items() if n < 3]
-    for c in thin[:50]:
-        issues.append({"severity": "P2", "reason": "concept_lt_3_variants", "concept": c, "n": by_concept[c]})
 
-    sc_issues = parse_selfchecks()
-    issues.extend(sc_issues)
+def concept_variant_issues(qs: list[dict]) -> list[dict]:
+    """P2 for each concept with fewer than three variants. Every concept is reported."""
+    counts = Counter(q["concept"] for q in qs)
+    return [
+        {"severity": "P2", "reason": "concept_lt_3_variants", "concept": concept, "n": n}
+        for concept, n in counts.items()
+        if n < 3
+    ]
 
-    p0 = [i for i in issues if i.get("severity") == "P0"]
-    report = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+
+def build_report(qs: list[dict], issues: list[dict], selfcheck_issues: int, generated_at: str) -> dict:
+    """Every issue, with counts by severity and by reason. Nothing is cut: a report that keeps the
+    first 300 issues hides the 301st with no sign that it exists."""
+    p0 = [i for i in issues if i["severity"] == "P0"]
+    return {
+        "generated_at": generated_at,
         "seed_questions_parsed": len(qs),
-        "unique_concepts": len(by_concept),
-        "selfcheck_issues": len(sc_issues),
+        "unique_concepts": len({q["concept"] for q in qs}),
+        "selfcheck_issues": selfcheck_issues,
         "p0": len(p0),
-        "p1": sum(1 for i in issues if i.get("severity") == "P1"),
-        "issues": issues[:300],
-        "ok": len(p0) == 0,
+        "p1": sum(1 for i in issues if i["severity"] == "P1"),
+        "counts": {
+            "by_severity": dict(sorted(Counter(i["severity"] for i in issues).items())),
+            "by_reason": dict(sorted(Counter(i["reason"] for i in issues).items())),
+        },
+        "issues": issues,
+        "ok": not p0,
     }
-    OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Audit the exam banks and the section self-checks.")
+    parser.add_argument(
+        "--out", type=Path, default=OUT,
+        help="where to write the report (default: the tracked course-state report; tests pass a temp path)",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    banks = exam_bank.load_banks()
+    qs = flatten(banks)
+    sc_issues = parse_selfchecks()
+    issues = [*question_issues(qs), *concept_variant_issues(qs), *sc_issues]
+    report = build_report(qs, issues, len(sc_issues), datetime.now(timezone.utc).isoformat())
+    args.out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(
         json.dumps(
             {
                 "ok": report["ok"],
-                "seed_q": len(qs),
-                "concepts": len(by_concept),
-                "p0": len(p0),
+                "seed_q": report["seed_questions_parsed"],
+                "concepts": report["unique_concepts"],
+                "p0": report["p0"],
                 "p1": report["p1"],
             },
             indent=2,
