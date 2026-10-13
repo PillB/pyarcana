@@ -21,7 +21,6 @@ import {
   Trophy,
   CheckCircle2,
   ShieldCheck,
-  Lock,
   Compass,
   Database,
   Brain,
@@ -537,8 +536,8 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                   title={english ? 'Self-paced learning' : 'Aprendizaje autoguiado'}
                   desc={
                     english
-                      ? 'You advance at your own pace and can ask for external review when you need it. In the public edition, progress is stored only in your browser.'
-                      : 'Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador.'
+                      ? 'You advance at your own pace and can ask for external review when you need it. In the public edition, progress is stored in your browser.'
+                      : 'Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda en tu navegador.'
                   }
                 />
               </div>
@@ -685,7 +684,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
 /**
  * Badge explainer: what the course labels show, and that no page shows a competence badge as earned.
  */
-function BadgeExplainer({ english }: { english: boolean }) {
+export function BadgeExplainer({ english }: { english: boolean }) {
   return (
     <section className="mt-10" aria-labelledby="badge-explainer-title">
       <Card className="overflow-hidden border-gold/30 bg-gradient-to-br from-amber-500/5 to-transparent">
@@ -698,8 +697,8 @@ function BadgeExplainer({ english }: { english: boolean }) {
           </div>
           <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
             {english
-              ? '“Done” means you finished the steps in a section. Nobody checks it, it does not measure mastery, and you are not awarded a competency badge; it is not a professional certification.'
-              : '«Hecho» indica que terminaste los pasos de una sección. Nadie lo comprueba, no mide tu dominio y no se te otorga una insignia de competencia; no es una certificación profesional.'}
+              ? 'On the section cards, “Done” and “Next” form a guide to your progress; it is not a professional certification.'
+              : 'En las tarjetas de sección, «Hecho» y «Siguiente» forman una guía de tu progreso; no es una certificación profesional.'}
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -711,8 +710,8 @@ function BadgeExplainer({ english }: { english: boolean }) {
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
                 <li>
                   {english
-                    ? '“Done” means you finished the steps in a section.'
-                    : '«Hecho» indica que terminaste los pasos de una sección.'}
+                    ? '“Done” appears on a section whose steps you marked as finished; it is your own record.'
+                    : '«Hecho» aparece en una sección cuyos pasos marcaste como terminados; es tu propio registro.'}
                 </li>
                 <li>
                   {english
@@ -721,8 +720,8 @@ function BadgeExplainer({ english }: { english: boolean }) {
                 </li>
                 <li>
                   {english
-                    ? 'These labels do not measure mastery, and nobody checks “Done”.'
-                    : 'Estas etiquetas no miden tu dominio y nadie comprueba «Hecho».'}
+                    ? 'Nobody checks “Done”; that label does not measure your mastery of the topic.'
+                    : 'Nadie comprueba «Hecho»; esa etiqueta no mide tu dominio del tema.'}
                 </li>
               </ul>
             </div>
@@ -740,35 +739,6 @@ function BadgeExplainer({ english }: { english: boolean }) {
                   {english ? 'credential policy' : 'política de credenciales'}
                 </Link>
                 .
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-3 text-xs text-muted-foreground sm:grid-cols-2">
-            <div className="rounded-lg border border-border bg-card p-3">
-              <div className="flex items-center gap-2">
-                <Lock className="h-3.5 w-3.5 text-muted-foreground" />
-                <strong className="text-foreground">
-                  {english ? 'Progress in this browser' : 'Progreso en este navegador'}
-                </strong>
-              </div>
-              <p className="mt-1">
-                {english
-                  ? 'Your progress is saved in this browser. If you sign in, it is also saved on the server. The public edition has no sign-in or server.'
-                  : 'Tu progreso se guarda en este navegador. Si inicias sesión, también se guarda en el servidor. La edición pública no tiene inicio de sesión ni servidor.'}
-              </p>
-            </div>
-            <div className="rounded-lg border border-border bg-card p-3">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" />
-                <strong className="text-foreground">
-                  {english ? 'Verified credentials today' : 'Credenciales verificadas hoy'}
-                </strong>
-              </div>
-              <p className="mt-1">
-                {english
-                  ? 'You can request a verified credential in the account edition after signing in. The server rejects every request and records only exam scores. It cannot check self-checks, You Do projects, the integrator project, the defense, or prerequisite badges. No supervisor verifies badges, and today the server issues no credential.'
-                  : 'Puedes solicitar una credencial verificada en la edición con cuenta después de iniciar sesión. El servidor rechaza todas las solicitudes y registra las notas de los exámenes. No puede comprobar las autoevaluaciones, los proyectos You Do, el proyecto integrador, la defensa ni las insignias que son requisito previo. Ningún supervisor verifica insignias, y hoy el servidor no emite ninguna credencial.'}
               </p>
             </div>
           </div>
