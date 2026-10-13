@@ -60,6 +60,12 @@ const PASSABLE = 0.05
 // Exact owed lists, measured 2026-10-12 on the bank in this commit. A bank that leaves a list was
 // rewritten: strike it. A bank that joins one regressed. Neither may happen silently.
 //
+// Re-measured 2026-10-13, after #85's 110 rewrites (S05, S08-S11) landed beside this test, which
+// had been measured on the bank before them. Two banks left: modules-packaging-cli no longer
+// passes "longest" (3.7%), exceptions-logging no longer passes "clang". One joined: files-ingestion
+// passes "clang" at 8.3% - a regression in #85's S08 rewrites, recorded here rather than hidden.
+// The O20 redo round, which rewrites S08#7, owes it back to below the line.
+//
 // Every bank: the key is the longest option in 1165 of 1248 questions, and every bank passes all
 // 1000 learners. The fix is distractors as long and as specific as the key, never a trimmed key.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
@@ -69,7 +75,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'dbt-bigquery', 'decisions-rules', 'evidence-dashboard', 'exceptions-logging', 'fastapi',
   'files-ingestion', 'functions-contracts', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
-  'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops', 'modules-packaging-cli',
+  'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'oop-domain', 'opensource', 'packaging', 'performance-extreme', 'rag',
   'rapidfuzz-entity', 'rpa-advanced', 'security', 'security-infra', 'setup', 'stdlib-deep',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
@@ -83,7 +89,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'apis-sql-geo', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery', 'decisions-rules', 'evidence-dashboard',
-  'exceptions-logging', 'fastapi', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
+  'fastapi', 'files-ingestion', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
   'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
 ]
 // Every key in these two banks contains its concept's slug.
