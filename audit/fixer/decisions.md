@@ -635,3 +635,33 @@ O20 in `audit/fixer/OWNER_DECISIONS.md`.
 - **Research closed.** The lane's D15 recorded its psychometric research as blocked. It is now
   done: the NBME Item-Writing Guide (6th ed.) and Haladyna, Downing and Rodriguez (2002) both ask
   for a varied key position and options of about equal length.
+
+## D22 — Credential issuance fails closed: every check blocks until the server shows it passed (2026-10-12)
+
+The 403 on every capstone credential is the owner's gate (EXAM-01, AV3-2, O17) and stays. What
+changes is how it is held shut. `unverifiedRequirements(spec)` listed what was known to be
+missing, so it would have opened once each listed item got a verifier, without the engine checks
+it never named: critical competencies at 100%, supplementary exercises, CP projects, required
+activities, the overall score (plan of 2026-10-12, C13).
+
+- **Rule now:** `issuanceBlockers()` (`src/lib/credential-blockers.ts`) is the switch. It is
+  empty only when every requirement has a registered server verifier that passes it
+  (`src/lib/credential-verifiers.ts`, which today registers `section_exams` alone), the real
+  eligibility engine awards on what those verifiers report and nothing else, the request names
+  the badge's own version, and no standing blocker remains.
+- **A gate the engine never reached blocks** (`not_evaluated`): the engine stops at its first
+  failing gate, so "not reported failed" is not "passed".
+- **Standing blocker:** `CREDENTIAL_STORE_NOT_IMPLEMENTED` until issuance writes a `Credential`
+  row. The route still writes a Notification.
+- **Signed version:** the catalog's `spec.version`, never the client's.
+- **Adding a verifier** is how a requirement opens. It never opens issuance by itself, and
+  `credential-blockers.test.ts` holds the production registry to exactly `['section_exams']`.
+- **Replaces** EXAM-01's "`unverifiedRequirements()` as the closed switch". The function stays
+  for the response's `unverifiedRequirements` field.
+- **Proof:** `tests/adversarial/credential-blockers.test.ts`. With all five listed requirements
+  verified, issuance is still refused. One case per engine gate. With everything verified by
+  test fakes and the store blocker lifted, it issues (201), so the refusals are not "always
+  403". The fakes are test-only stand-ins; no real verifier exists for them.
+- **Also:** the browser HMAC re-check on `/verify` and its `NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY`
+  are removed (ADR 5: an HMAC key in the bundle is the signing key). A test now fails on any
+  `NEXT_PUBLIC_*` name containing KEY, SECRET, SIGN, TOKEN, PASSWORD or PRIVATE.
