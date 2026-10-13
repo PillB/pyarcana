@@ -97,9 +97,11 @@ function runSentinel(dir, base) {
 const codes = (result) => result.failures.map((f) => f.code)
 
 describe('roadmapSectionCount', () => {
-  it('counts the real roadmap as the 52 sections its headings declare', () => {
+  it('counts the real roadmap as the sections its headings declare, whatever number that is', () => {
+    // No literal here: the renumber's first commit changes the roadmap to 55 headings, and this
+    // test must stay green through it. The fixed counts are the synthetic cases below.
     const headings = REAL_ROADMAP.match(/^### S\d+ — /gm) ?? []
-    assert.equal(roadmapSectionCount(REAL_ROADMAP), 52)
+    assert.ok(headings.length > 0)
     assert.equal(roadmapSectionCount(REAL_ROADMAP), headings.length)
   })
 
