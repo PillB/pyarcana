@@ -17,6 +17,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { InteractivePlaygroundDemo } from '../../src/components/course/SectionView.tsx'
 import {
   LOCAL_PYTHON_NOTE,
   importedModules,
@@ -156,10 +159,52 @@ describe('SIM-11 environments on the real tree', () => {
     assert.ok(!/No necesitas instalar nada/.test(LOCAL_PYTHON_NOTE.body), LOCAL_PYTHON_NOTE.body)
   })
 
-  it('SectionView reads the declared environment and shows the notice for a local-only example', () => {
-    const source = fs.readFileSync(path.join(ROOT, 'src/components/course/SectionView.tsx'), 'utf-8')
-    assert.ok(source.includes('playgroundMode(demo.environment)'), 'the environment is not read')
-    assert.ok(source.includes('LOCAL_PYTHON_NOTE.body'), 'the local notice is not shown')
+})
+
+/** The block a learner sees under a lesson's "Pruébalo tú mismo", as markup. */
+function playgroundMarkup(slug: string): string {
+  return renderToStaticMarkup(createElement(InteractivePlaygroundDemo, { sectionId: slug, sectionTitle: slug }))
+}
+const runButton = (slug: string): string => `data-testid="demo-run-${slug}-run"`
+const htmlEscaped = (text: string): string =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
+
+describe('SIM-11 the rendered block follows the declared environment', () => {
+  const { pinned, playground } = realInput()
+
+  it('an example declared local-python renders no Run button and shows the notice', () => {
+    const local = playground.filter((e) => e.environment === 'local-python')
+    assert.ok(local.length > 0, 'no local-python example: the check would pass on nothing')
+    for (const ex of local) {
+      const html = playgroundMarkup(ex.name)
+      assert.ok(html.includes(`data-testid="demo-playground-${ex.name}"`), `${ex.name}: the block did not render`)
+      assert.ok(!html.includes(runButton(ex.name)), `${ex.name} is local-python but renders a Run button`)
+      assert.ok(!html.includes(`data-testid="demo-run-${ex.name}"`), `${ex.name} is local-python but renders the playground`)
+      assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title)), `${ex.name} shows no local-only notice`)
+      assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.body)), `${ex.name} shows no local-only notice body`)
+    }
+  })
+
+  it('an example that imports a pinned package renders no Run button, whatever it declares', () => {
+    const pinnedExamples = playground.filter((e) => pinnedImport(e.code, pinned) !== undefined)
+    assert.ok(pinnedExamples.length > 0, 'no playground example imports a pinned package')
+    for (const ex of pinnedExamples) {
+      assert.ok(!playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} imports a pinned package but renders a Run button`)
+    }
+  })
+
+  it('an example declared browser-pyodide renders the Run button and no local-only notice', () => {
+    const browser = playground.filter((e) => e.environment === 'browser-pyodide')
+    assert.ok(browser.length > 0, 'no browser-pyodide example: the check would pass on nothing')
+    for (const ex of browser) {
+      const html = playgroundMarkup(ex.name)
+      assert.ok(html.includes(runButton(ex.name)), `${ex.name} is browser-pyodide but renders no Run button`)
+      assert.ok(!html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title)), `${ex.name} shows the local-only notice`)
+    }
+  })
+
+  it('a section with no playground example renders nothing', () => {
+    assert.equal(playgroundMarkup('no-such-section'), '')
   })
 })
 

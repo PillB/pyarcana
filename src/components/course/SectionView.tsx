@@ -1040,8 +1040,9 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 }
 
 // === Interactive Playground Demo ===
-// Per-section code examples that students can run in the browser
-function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
+// Per-section code examples that students can run in the browser. Exported so a test renders the
+// block a learner sees (SIM-11): an example declared local-python shows no Run button.
+export function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
   const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string; environment: PlaygroundEnvironment }> = {
     'setup': {
       environment: 'browser-pyodide',
