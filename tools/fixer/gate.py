@@ -28,12 +28,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numbering  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+#: Where the numbering epoch and the course live. The reports and the round's files are under ROOT; a test
+#: that points ROOT at a scratch directory to keep them out of the tree keeps reading the real course.
+COURSE_ROOT = ROOT
 CONTENT_PY = ROOT / ".venv-content/bin/python"
 
 
 def section_stem(tag: str) -> str:
     """The file stem of a tag's section (for example "s01-setup"), read from the committed epoch and course."""
-    return Path(numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch(ROOT)), ROOT)).stem
+    epoch = numbering.load_epoch(COURSE_ROOT)
+    return Path(numbering.section_rel(numbering.slug_for_tag(tag, epoch), COURSE_ROOT)).stem
 
 
 def sh(cmd: list[str], timeout: int = 1800) -> subprocess.CompletedProcess:
@@ -193,7 +197,8 @@ def assemble_measures(tag: str, cmap: dict, prose: dict, cs: dict, fu: dict, ids
     surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
     # By the section's own file, not its number prefix: "s07-" also prefixes the inactive s07-pandas.ts.
-    section_path = numbering.section_rel(numbering.slug_for_tag(tag, numbering.load_epoch(ROOT)), ROOT)
+    epoch = numbering.load_epoch(COURSE_ROOT)
+    section_path = numbering.section_rel(numbering.slug_for_tag(tag, epoch), COURSE_ROOT)
     ids_here = sum(1 for f in ids.get("findings", []) if f.get("file") == section_path)
 
     return {

@@ -154,9 +154,10 @@ class GateFindsASectionByItsFile(NumberingFixture):
         super().setUp()
         round_tree(self.root)
         write(self.root, "src/lib/course/sections/s02-legacy.ts", "export const legacy = {\n  id: 'legacy',\n}\n")
-        patcher = mock.patch.object(gate, "ROOT", self.root)
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        for name in ("ROOT", "COURSE_ROOT"):
+            patcher = mock.patch.object(gate, name, self.root)
+            patcher.start()
+            self.addCleanup(patcher.stop)
 
     def test_the_stem_is_the_active_files_own_name(self) -> None:
         self.assertEqual([gate.section_stem(t) for t in ("S01", "S02", "S03")],
