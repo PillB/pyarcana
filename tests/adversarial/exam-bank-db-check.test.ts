@@ -142,6 +142,29 @@ test('one changed option makes only its section stale', async () => {
   assert.deepEqual(notFresh(outcome), [['setup', 'stale']])
 })
 
+test('variant labels swapped between two questions of one concept make only its section stale', async () => {
+  // Same rows, same shape, same multiset of labels: only the tie between a label and its question is
+  // broken. The old seed numbered rows in a findMany pass with no orderBy, so a database it wrote may
+  // carry labels in another order than the new seed's insert-time counter gives them.
+  const bank = BANKS.find((b) => b.slug === 'setup')!
+  const concept = bank.questions[0]!.concept
+  const [first, second] = bank.questions.filter((q) => q.concept === concept)
+  assert.notEqual(first!.question, second!.question, 'the two variants must differ, or swapping them changes nothing')
+  const path = bankDatabase()
+  // The unique key (sectionId, concept, variant) forbids a direct swap, so go through a free value.
+  const relabel = (from: number, to: number) => edit(
+    path,
+    'UPDATE "QuestionBank" SET "variant" = ? WHERE "sectionId" = ? AND "concept" = ? AND "variant" = ?',
+    [to, 'setup', concept, from],
+  )
+  relabel(1, 99)
+  relabel(2, 1)
+  relabel(99, 2)
+  const outcome = await check(path)
+  assert.equal(outcome.exitCode, 1)
+  assert.deepEqual(notFresh(outcome), [['setup', 'stale']])
+})
+
 test('a key of 9 on a four-option question makes its section malformed, not stale', async () => {
   const path = bankDatabase()
   edit(path, 'UPDATE "QuestionBank" SET "correctIndex" = 9 WHERE "id" = (SELECT "id" FROM "QuestionBank" WHERE "sectionId" = ? LIMIT 1)', ['basics'])

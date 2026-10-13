@@ -15,8 +15,10 @@
  *   wrong-shape  the (concept, variant, option count) rows differ from the bank's
  *
  * A section's content hash is sha256 over its rows: each row is JSON of
- * [concept, question, options, correctIndex, explanation], the rows are sorted, and the sorted
- * lines are joined with a newline. `variant` is not in the hash; it is in the shape.
+ * [concept, variant, question, options, correctIndex, explanation], the rows are sorted, and the
+ * sorted lines are joined with a newline. `variant` is in the hash, so each label is tied to the
+ * question it numbers: a database whose variant 1 and variant 2 are swapped is stale, not fresh.
+ * `variant` is also in the shape, which catches a missing or extra label before content is compared.
  *
  * Exit 0: every section is fresh. Exit 1: at least one is not. Exit 2: the check could not run
  * (no --db, no such file, no node:sqlite, not a PyArcana database, or this checkout's bank cannot
@@ -73,19 +75,31 @@ type DbRow = {
 }
 
 /** The fields the content hash covers, once options are parsed. */
-type Content = { concept: string; question: string; options: string[]; correctIndex: number; explanation: string }
+type Content = {
+  concept: string
+  variant: number
+  question: string
+  options: string[]
+  correctIndex: number
+  explanation: string
+}
 
 const shapeKey = (concept: string, variant: number, optionCount: number): string =>
   `${concept} variant ${variant} (${optionCount} options)`
 
 /** sha256 over the sorted content rows, one JSON line each (see the header). */
 export function contentDigest(rows: Content[]): string {
-  const lines = rows.map((r) => JSON.stringify([r.concept, r.question, r.options, r.correctIndex, r.explanation])).sort()
+  const lines = rows.map((r) => JSON.stringify([r.concept, r.variant, r.question, r.options, r.correctIndex, r.explanation])).sort()
   return createHash('sha256').update(lines.join('\n')).digest('hex')
 }
 
 const bankContent = (q: BankQuestion): Content => ({
-  concept: q.concept, question: q.question, options: q.options, correctIndex: q.correctIndex, explanation: q.explanation,
+  concept: q.concept,
+  variant: q.variant,
+  question: q.question,
+  options: q.options,
+  correctIndex: q.correctIndex,
+  explanation: q.explanation,
 })
 
 /** Why exam/start could not show this row, or undefined when it can. */
