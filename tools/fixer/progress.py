@@ -34,12 +34,7 @@ def main() -> None:
     print(f"findings closed: {total_closed}")
     print(f"findings left  : ~{remaining} across {epoch.count - len(done)} untouched sections")
     print(f"questions open : {questions}")
-    print()
-    print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
-    for d in done:
-        print(f"{d['section']:5s} {len(d['findings_closed']):7d} "
-              f"{len(d['findings_open']):5d} {d['patches_rejected']:4d} "
-              f"{len(d['unresolved_questions']):3d}")
+    _print_table(done)
 
     fu = ROOT / "course-state/first_use_all_report.json"
     if fu.exists():
@@ -47,9 +42,21 @@ def main() -> None:
         print(f"\nvocabulary gaps course-wide: {sum(r['issue_counts'].values())} "
               f"({r['issue_counts']})")
 
-    # where the remaining work is heaviest
-    left = sorted(((len(v), k) for k, v in per_section.items()
-                   if k not in {d["section"] for d in done}), reverse=True)[:8]
+    _print_heaviest(per_section, {d["section"] for d in done})
+
+
+def _print_table(done: list[dict]) -> None:
+    print()
+    print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
+    for d in done:
+        print(f"{d['section']:5s} {len(d['findings_closed']):7d} "
+              f"{len(d['findings_open']):5d} {d['patches_rejected']:4d} "
+              f"{len(d['unresolved_questions']):3d}")
+
+
+def _print_heaviest(per_section: dict[str, list], done_tags: set[str]) -> None:
+    """Where the remaining work is heaviest: the untouched sections with the most findings."""
+    left = sorted(((len(v), k) for k, v in per_section.items() if k not in done_tags), reverse=True)[:8]
     if left:
         print("\nheaviest sections still untouched:")
         print("  " + ", ".join(f"{k} ({n})" for n, k in left))

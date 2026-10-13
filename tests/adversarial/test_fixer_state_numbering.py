@@ -18,6 +18,8 @@ round's record unreadable; a ledger denominator of 53 fails the totals check.
 """
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import re
 import sys
@@ -88,6 +90,23 @@ class ProductsCarryTheEpochCount(unittest.TestCase):
         totals = [int(m.group(2)) for m in re.finditer(r"^\| `\w+` \| .* \| (\d+)/(\d+) \|$", ledger, re.M)]
         self.assertTrue(totals, "no step rows found in LEDGER.md")
         self.assertEqual(set(totals), {count})
+
+
+class ProgressListsOnlyWhatIsStillOpen(unittest.TestCase):
+    def test_the_heaviest_list_skips_sections_already_done_and_is_capped_at_eight(self) -> None:
+        """progress.py's "heaviest untouched" list must not name a section a cycle already closed, and must
+        stop at eight. Mutation: drop the done-section filter in _print_heaviest and S10 appears."""
+        import progress
+
+        per_section = {f"S{i:02d}": [None] * i for i in range(1, 11)}
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            progress._print_heaviest(per_section, {"S10", "S09"})
+        text = output.getvalue()
+        self.assertNotIn("S10 (", text)
+        self.assertNotIn("S09 (", text)
+        self.assertIn("S08 (8)", text)
+        self.assertEqual(text.count("("), 8)
 
 
 if __name__ == "__main__":
