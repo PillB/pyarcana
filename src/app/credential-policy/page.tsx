@@ -28,17 +28,17 @@ export default function CredentialPolicyPage() {
 
           <h3 className="mt-4 font-semibold">B — Insignia de habilidad evaluada</h3>
           <p>
-            Según el catálogo, la clase B afirma que el estudiante demostró la competencia de forma independiente mediante una tarea práctica, pruebas ocultas y criterios críticos que no pueden compensarse. Esta afirmación se rige por la especificación de evaluación de PyArcana. Hoy, el servidor no emite insignias de competencia de clase B.
+            Según el catálogo de insignias de PyArcana, la clase B afirma que el estudiante demostró la competencia de forma independiente mediante una tarea práctica, pruebas ocultas y criterios críticos que no pueden compensarse. Esta afirmación se rige por la especificación de evaluación de PyArcana. Hoy, PyArcana no emite insignias de competencia de clase B.
           </p>
 
           <h3 className="mt-4 font-semibold">C — Insignia de capacidad integrada</h3>
           <p>
-            Según el catálogo, la clase C afirma que el estudiante demostró una transferencia integrada mediante un proyecto realista, recuperación de fallos y reproducibilidad. La afirmación incluye una revisión independiente conforme a la especificación de evaluación de PyArcana. Hoy, el servidor no emite insignias integradas de clase C.
+            Según el catálogo, la clase C afirma que el estudiante demostró una transferencia integrada mediante un proyecto realista, recuperación de fallos y reproducibilidad. La afirmación incluye una revisión independiente conforme a la especificación de evaluación de PyArcana. Hoy, PyArcana no emite insignias integradas de clase C.
           </p>
 
           <h3 className="mt-4 font-semibold">D — Credencial verificada PyArcana</h3>
           <p>
-            Según el catálogo, la clase D afirma que el estudiante demostró la capacidad de forma independiente mediante un capstone mayor y una evaluación con defensa. La afirmación incluye evidencia a prueba de manipulación y verificación pública, conforme a la especificación de evaluación de PyArcana. Toda credencial verificada se emite únicamente en el servidor, nunca desde el almacenamiento del navegador. Hoy, el servidor rechaza todas las solicitudes y no emite ninguna.
+            Según el catálogo, la clase D afirma que el estudiante demostró la capacidad de forma independiente mediante un capstone mayor y una evaluación con defensa. La afirmación incluye evidencia a prueba de manipulación y verificación pública, conforme a la especificación de evaluación de PyArcana. Toda credencial verificada se emite únicamente en el servidor, nunca desde el almacenamiento del navegador. Hoy, PyArcana no emite ninguna credencial verificada de clase D.
           </p>
         </section>
 
@@ -64,7 +64,7 @@ export default function CredentialPolicyPage() {
         <section>
           <h2 className="text-lg font-semibold">Verificación y revocación</h2>
           <p>
-            En la edición con cuenta, puedes comprobar una credencial verificada en /verify mediante su identificador. La página muestra la declaración firmada bajo la etiqueta «Capacidad demostrada». No existe un procedimiento que revoque una credencial emitida, y todas quedan registradas como activas.
+            En el LMS dinámico, puedes comprobar una credencial verificada en /verify mediante su identificador. La página muestra la declaración firmada bajo la etiqueta «Capacidad demostrada». No existe un procedimiento que revoque una credencial emitida, y todas quedan registradas como activas.
           </p>
           <p>
             Las insignias del catálogo tienen números de versión, como 1.0.0 y 1.1.0. No existe un procedimiento que marque una credencial emitida como perteneciente a una versión anterior.

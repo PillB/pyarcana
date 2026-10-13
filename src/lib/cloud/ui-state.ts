@@ -182,6 +182,17 @@ export function storageHeadline(i: { signedIn: boolean; isStaticSite: boolean; s
   return i.stage === 'off' ? { key: 'storage.where.localOnly', offerSignIn: false } : { key: 'storage.where.localAndAccount', offerSignIn: true }
 }
 
+/**
+ * The reviewed "where is your progress saved?" sentence for a page that does not know whether the
+ * visitor is signed in (the badge notice). It is storageHeadline's answer for a signed-out visitor,
+ * which holds for a signed-in one too: this browser always, the account where accounts run, the
+ * server in the dynamic edition. Never "only this browser" where accounts run, never an account
+ * where they are off (owner rule, 4 Oct 2026).
+ */
+export function progressWhereKey(i: { isStaticSite: boolean; stage: LaunchStage }): string {
+  return storageHeadline({ signedIn: false, ...i })?.key ?? 'storage.where.localOnly'
+}
+
 export interface MovedCopyInput {
   link: { ok: true } | { ok: false; reason: string }
   /** Accounts run on the canonical origin (this build's stage is on there). */
