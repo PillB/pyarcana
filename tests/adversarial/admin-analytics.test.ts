@@ -6,6 +6,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   PASS_THRESHOLD,
+  bandForPhase,
   buildAnalyticsPayload,
   buildStudentMetrics,
   phaseForSectionIndex,
@@ -13,6 +14,7 @@ import {
   type ProgressRow,
   type UserRow,
 } from '../../src/lib/admin-analytics.ts'
+import { COURSE_SECTIONS, PHASES } from '../../src/lib/course/index.ts'
 
 const NOW = new Date('2026-07-21T12:00:00.000Z')
 
@@ -29,16 +31,38 @@ function user(partial: Partial<UserRow> & { id: string }): UserRow {
   }
 }
 
-describe('phaseForSectionIndex', () => {
-  it('boundaries at 13/26/39', () => {
-    assert.equal(phaseForSectionIndex(1), 1)
-    assert.equal(phaseForSectionIndex(13), 1)
-    assert.equal(phaseForSectionIndex(14), 1)
-    assert.equal(phaseForSectionIndex(26), 1)
-    assert.equal(phaseForSectionIndex(27), 2)
-    assert.equal(phaseForSectionIndex(39), 2)
-    assert.equal(phaseForSectionIndex(40), 3)
-    assert.equal(phaseForSectionIndex(52), 3)
+describe('phase bands come from phase, never from fixed index thresholds (design G-4)', () => {
+  it('every course section is banded by the phase whose range holds its index', () => {
+    for (const s of COURSE_SECTIONS) {
+      const owner = PHASES.find((p) => {
+        const [lo, hi] = p.sections.split('-').map(Number)
+        return s.index >= (lo ?? NaN) && s.index <= (hi ?? NaN)
+      })
+      assert.ok(owner, `${s.id} at index ${s.index} sits in no PHASES range`)
+      assert.equal(phaseForSectionIndex(s.index), bandForPhase(owner.id), s.id)
+    }
+  })
+
+  it('phase 0 is shown as band 1; phases 1 to 3 keep their own band', () => {
+    assert.deepEqual([0, 1, 2, 3].map((p) => bandForPhase(p as 0 | 1 | 2 | 3)), [1, 1, 2, 3])
+  })
+
+  it('a renumber moves the band boundary with the phase table', () => {
+    // Phase 2 starts at 29 after two sections are inserted before it. Fixed thresholds at 26 and
+    // 39 would band index 27 as 2 and miss the move; the phase table bands it as 1.
+    const renumbered = [
+      { id: 0, sections: '1-13' },
+      { id: 1, sections: '14-28' },
+      { id: 2, sections: '29-42' },
+      { id: 3, sections: '43-55' },
+    ] as const
+    assert.equal(phaseForSectionIndex(27, renumbered), 1)
+    assert.equal(phaseForSectionIndex(29, renumbered), 2)
+  })
+
+  it('an index that no phase range holds has no band, rather than an invented one', () => {
+    assert.equal(phaseForSectionIndex(0), null)
+    assert.equal(phaseForSectionIndex(99), null)
   })
 })
 
@@ -219,5 +243,18 @@ describe('buildAnalyticsPayload', () => {
     const last = payload.scoreHistogram[payload.scoreHistogram.length - 1]!
     assert.equal(last.bucket, '90-100')
     assert.equal(last.count, 1)
+  })
+
+  it('the phase breakdown files a phase 0 section under band 1', () => {
+    // `basics` is phase 0. Before the fix the breakdown matched raw phases 1 to 3 only, so a
+    // learner who finished a phase 0 section counted in no band at all.
+    const u = user({ id: 'u10', createdAt: NOW.toISOString() })
+    const progress: ProgressRow[] = [
+      { userId: 'u10', sectionId: 'basics', subStep: 'theory', completed: true, completedAt: NOW.toISOString() },
+    ]
+    const students = buildStudentMetrics([u], progress, [], {}, NOW)
+    const payload = buildAnalyticsPayload(students, progress, [], [u], { now: NOW })
+    const band1 = payload.phaseBreakdown.find((b) => b.phase === 1)
+    assert.equal(band1?.started, 1)
   })
 })

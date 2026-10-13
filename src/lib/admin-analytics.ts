@@ -3,7 +3,7 @@
  * Pass-threshold matches product exam rule (70%).
  */
 
-import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
+import { COURSE_META, COURSE_SECTIONS, PHASES } from '@/lib/course'
 import { isEvidence } from '@/lib/exam-scoring'
 
 export const PASS_THRESHOLD = 70
@@ -71,20 +71,37 @@ function dayKey(d: Date | string): string {
   return x.toISOString().slice(0, 10)
 }
 
-export function sectionMeta() {
-  return COURSE_SECTIONS.map((s) => ({
-    id: s.id,
-    index: s.index,
-    title: s.shortTitle || s.title,
-    phase: s.phase ?? (s.index <= 13 ? 1 : s.index <= 26 ? 1 : s.index <= 39 ? 2 : 3),
-  }))
+type Phase = 0 | 1 | 2 | 3
+type Band = 1 | 2 | 3
+type PhaseRange = { readonly id: Phase; readonly sections: string }
+
+/** The phase whose `sections` range ('a-b' in PHASES) holds this index; null when none does. */
+export function phaseOfIndex(index: number, phases: ReadonlyArray<PhaseRange> = PHASES): Phase | null {
+  const owner = phases.find((p) => {
+    const [lo, hi] = p.sections.split('-').map(Number)
+    return index >= (lo ?? NaN) && index <= (hi ?? NaN)
+  })
+  return owner ? owner.id : null
 }
 
-export function phaseForSectionIndex(index: number): 1 | 2 | 3 {
-  if (index <= 13) return 1 // fundamentals treated as phase 1 band for UI
-  if (index <= 26) return 1
-  if (index <= 39) return 2
-  return 3
+/** The band an admin view groups a phase under. Phase 0, the fundamentals, is shown as band 1. */
+export function bandForPhase(phase: Phase): Band {
+  return phase === 0 ? 1 : phase
+}
+
+/** The band of the section at `index`, from the phase that owns that index; null when none does. */
+export function phaseForSectionIndex(index: number, phases: ReadonlyArray<PhaseRange> = PHASES): Band | null {
+  const phase = phaseOfIndex(index, phases)
+  return phase === null ? null : bandForPhase(phase)
+}
+
+export function sectionMeta() {
+  return COURSE_SECTIONS.map((s) => {
+    const phase = s.phase ?? phaseOfIndex(s.index)
+    // Fail closed: a section in no phase range must not be banded by a made-up threshold.
+    if (phase === null) throw new Error(`section ${s.id} (index ${s.index}) is in no phase range`)
+    return { id: s.id, index: s.index, title: s.shortTitle || s.title, phase }
+  })
 }
 
 export function buildStudentMetrics(
@@ -149,9 +166,8 @@ export function buildStudentMetrics(
 
     let phaseMax: 0 | 1 | 2 | 3 = 0
     for (const sid of Object.keys(bySection)) {
-      const idx = sectionIndex.get(sid) || 0
-      const ph = phaseForSectionIndex(idx)
-      if (ph > phaseMax) phaseMax = ph
+      const band = phaseForSectionIndex(sectionIndex.get(sid) ?? 0)
+      if (band !== null && band > phaseMax) phaseMax = band
     }
 
     let risk: StudentMetrics['risk'] = 'healthy'
@@ -370,11 +386,11 @@ export function buildAnalyticsPayload(
     passedExam: students.filter((s) => s.hasPassedExam).length,
   }
 
-  const phaseBreakdown = [1, 2, 3].map((phase) => {
-    const secs = sections.filter((s) => s.phase === phase)
+  const phaseBreakdown = ([1, 2, 3] as const).map((band) => {
+    const secs = sections.filter((s) => bandForPhase(s.phase) === band)
     return {
-      phase,
-      label: `Fase ${phase}`,
+      phase: band,
+      label: `Fase ${band}`,
       started: secs.reduce((a, s) => a + s.started, 0),
       completed: secs.reduce((a, s) => a + s.completed, 0),
       avgScore: (() => {
