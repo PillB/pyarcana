@@ -290,3 +290,23 @@ test('the setup doc describes the check without a section count that the course 
   // The course gains sections; a count written into the doc goes stale without any test noticing.
   assert.doesNotMatch(docSection(), /\b\d+\s+(course\s+)?sections\b/i)
 })
+
+test('the owner\'s command: the setup doc names db:bank-check and quotes what package.json runs', () => {
+  const scripts = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).scripts as Record<string, string>
+  const command = scripts['db:bank-check']
+  assert.ok(command, 'package.json has no db:bank-check script')
+  assert.match(command, /scripts\/exam_bank_db_check\.mts/)
+  const doc = docSection()
+  assert.match(doc, /bun run db:bank-check --db /)
+  assert.match(doc, /npm run db:bank-check -- --db /)
+  assert.ok(doc.includes(command), `the doc does not quote the script's command: ${command}`)
+})
+
+test('npm run db:bank-check passes --db through, reads the database and exits 0 on a fresh one', () => {
+  const path = bankDatabase()
+  const res = spawnSync('npm', ['run', '--silent', 'db:bank-check', '--', '--db', path], {
+    cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
+  })
+  assert.equal(res.status, 0, res.stderr)
+  assert.match(res.stdout, new RegExp(`^summary: fresh ${COURSE_SECTIONS.length},`, 'm'))
+})

@@ -338,8 +338,10 @@ Run it from the checkout that is deployed, so the bank it compares against is th
 
 ```bash
 cd /var/www/pyarcana
-node --import tsx scripts/exam_bank_db_check.mts --db /path/to/pyarcana.db
+bun run db:bank-check --db /path/to/pyarcana.db
 ```
+
+With npm, put `--` before the flag: `npm run db:bank-check -- --db /path/to/pyarcana.db`. The script `db:bank-check` in `package.json` runs `node --import tsx scripts/exam_bank_db_check.mts`.
 
 The command opens the file read-only and writes nothing. For each course section in the checkout it prints a status, the row counts, and two SHA-256 digests (the database's rows and the checkout's bank). It never prints question text.
 
