@@ -197,6 +197,33 @@ describe('CODEOWNERS covers the renumber guard inputs', () => {
   }
 })
 
+/**
+ * B11's tools (commit 4fd68c186 on claude/phase0b-history-guards-r2, not on main yet): the
+ * fingerprint collector and the classifier that decide when an exercise id has changed meaning.
+ * Editing either changes what the preservation sentinel lets through, so a reviewer must see it.
+ * The ledger they write, audit/safe-agent/exercise-meaning-ledger.json, is already under
+ * /audit/safe-agent/. The two explicit paths below are probes until B11 merges; the tracked-file
+ * test after them then covers whatever the files are called when they land.
+ */
+const B11_TOOLS = [
+  'scripts/exercise_meaning.mjs',
+  'scripts/exercise_fingerprints.mts',
+  'audit/safe-agent/exercise-meaning-ledger.json',
+]
+
+describe('CODEOWNERS covers the B11 exercise-meaning tools', () => {
+  for (const tool of B11_TOOLS) {
+    it(`gives ${tool} an owner`, () => {
+      assert.ok(ownersOf(tool).length > 0, `${tool} has no CODEOWNERS owner`)
+    })
+  }
+
+  it('gives every tracked scripts/exercise_* file an owner, so a rename cannot leave one unowned', () => {
+    const unowned = TRACKED.filter((path) => /^scripts\/exercise_/.test(path) && ownersOf(path).length === 0)
+    assert.deepEqual(unowned, [], `no CODEOWNERS owner for: ${unowned.join(', ')}`)
+  })
+})
+
 /** The ask-first section's bullets, each starting at its `- ` marker. */
 function askFirstBullets() {
   const start = AGENTS.indexOf('## Ask first')
