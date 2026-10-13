@@ -176,6 +176,22 @@ class Unparseable(unittest.TestCase):
         self.assertIn(f"{target}:2:", done.stdout + done.stderr)
 
 
+class FailClosed(unittest.TestCase):
+    """Nothing measured is a failure, never a pass: no path to check, a file that cannot be read,
+    or a scope with no function in it."""
+
+    def test_files_given_no_paths_is_a_usage_error_not_an_empty_pass(self):
+        done = run_gate("--files")
+        self.assertEqual(done.returncode, 2, done.stdout + done.stderr)
+
+    def test_an_unreadable_file_fails_and_is_named_as_unreadable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            missing = Path(tmp) / "gone.py"
+            done = run_gate("--files", str(missing))
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn(f"{missing}:1: cannot read", done.stdout)
+
+
 class InterpreterGuard(unittest.TestCase):
     """A verdict under any Python but CI's 3.12 is refused: 3.9 and 3.13 parse and print differently."""
 
@@ -323,6 +339,17 @@ class Ratchet(unittest.TestCase):
         done = self.gate("--init")
         self.assertEqual(done.returncode, 1, done.stdout)
         self.assertIn("scripts/a.py:1:", done.stdout + done.stderr)
+
+    def test_init_on_a_scope_with_no_function_fails_and_writes_no_baseline(self):
+        self.assertEqual(self.gate("--init").returncode, 1)
+        self.assertFalse((self.root / self.BASELINE).exists())
+
+    def test_a_scope_that_measures_no_function_fails_even_against_a_baseline(self):
+        self.put(function_with_score("f", 3))
+        self.gate("--init")
+        (self.root / "scripts" / "a.py").unlink()
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout)
 
 
 if __name__ == "__main__":

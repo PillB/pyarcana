@@ -40,6 +40,8 @@ SCOPE_FILE = ROOT / "audit/fixer/complexity_scope.json"
 CONVENTION = ("per function; counted as ESLint 9.39.2 and NIST SP 500-235 4.1 count it; parity "
               "corpus frozen from radon 6.0.1 (tests/adversarial/complexity_parity_corpus.json)")
 UNITS = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)
+NOTHING_MEASURED = ("FAIL the scope measured no python function, so there is nothing to pass; "
+                    "check the scope roots in audit/fixer/complexity_scope.json")
 #: Each adds one decision point to the function that contains it. `assert` is a conditional
 #: raise (`if not cond: raise`), so it counts as the `if` it stands for.
 BRANCHES = (ast.If, ast.IfExp, ast.For, ast.AsyncFor, ast.While, ast.ExceptHandler, ast.Assert)
@@ -127,6 +129,8 @@ def function_scores(path: Path, root: Path = ROOT) -> list[dict]:
     except UnicodeDecodeError as err:
         line = path.read_bytes()[: err.start].count(b"\n") + 1
         raise Unparseable(f"{shown}:{line}: not UTF-8 ({err.reason})") from err
+    except OSError as err:
+        raise Unparseable(f"{shown}:1: cannot read ({err.strerror or err})") from err
     try:
         tree = ast.parse(text, filename=shown)
     except SyntaxError as err:
@@ -190,6 +194,9 @@ def report_problems(problems: list[str]) -> None:
 
 
 def check_files(paths: list[str]) -> int:
+    if not paths:
+        print("FAIL --files needs at least one path; with none, nothing is measured", file=sys.stderr)
+        return 2
     rows, problems = measure([Path(a) for a in paths])
     over = [r for r in rows if r["score"] > CEILING]
     report_problems(problems)
@@ -213,6 +220,9 @@ def init(root: Path) -> int:
     if problems:
         report_problems(problems)
         return 1
+    if not rows:
+        print(NOTHING_MEASURED)
+        return 1
     fresh = payload(over_ceiling(keyed(rows)))
     write_baseline(path, fresh)
     print(f"baseline written: {fresh['over_ceiling']} over {CEILING}, worst {fresh['worst']}")
@@ -224,6 +234,9 @@ def ratchet(root: Path) -> int:
     rows, problems = measure(python_files(root), root)
     if problems:
         report_problems(problems)
+        return 1
+    if not rows:
+        print(NOTHING_MEASURED)
         return 1
     if not path.exists():
         print(f"FAIL no baseline at {BASELINE_NAME}; create it with --init and commit it")
