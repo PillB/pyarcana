@@ -51,8 +51,10 @@ test('stable S05 id no longer leaks an OOP playground or PDF label', () => {
   assert.match(playground, /normalize_email/)
   assert.match(playground, /idempotente True/)
   assert.doesNotMatch(playground, /class Animal|class Perro|herencia/)
-  assert.match(pdfReport, /"functions-contracts": '5\. Funciones'/)
-  assert.doesNotMatch(pdfReport, /"functions-contracts": '5\. OOP'/)
+  // The label is the name alone; its number is the section's index, checked on the rendered
+  // labels by tests/adversarial/pdf-section-names.test.ts (G-5).
+  assert.match(pdfReport, /"functions-contracts": 'Funciones'/)
+  assert.doesNotMatch(pdfReport, /"functions-contracts": 'OOP'/)
 })
 
 test('authenticated S05 bank has 24 variants and balanced answer positions', () => {
