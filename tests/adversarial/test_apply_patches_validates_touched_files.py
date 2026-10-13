@@ -72,13 +72,22 @@ class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
                               cwd=self.tmp, capture_output=True, text=True)
         return proc.returncode, json.loads(proc.stdout)
 
-    def assertRefused(self, file: str, anchor: str, replacement: str, why: str) -> None:
+    def assertRefused(self, file: str, anchor: str, replacement: str, why: str, base: bytes | None = None) -> None:
         code, report = self.apply(file, anchor, replacement)
         self.assertEqual(code, 1, report)
         self.assertTrue(report.get("rolled_back"), report)
         self.assertEqual(report["applied"], 0)
         self.assertIn(why, report.get("typecheck_error", ""))
-        self.assertEqual((self.tmp / file).read_bytes(), self.pristine[file], f"{file} was not restored")
+        expected = self.pristine[file] if base is None else base
+        self.assertEqual((self.tmp / file).read_bytes(), expected, f"{file} was not restored")
+
+    def glossary_owing(self, claim: str) -> bytes:
+        """The glossary as a file that still owes `claim` once. The real one owes none since the S18
+        round enforced KFC-001, and these cases are about a file that does."""
+        owing = self.pristine[TERMS].decode("utf-8").replace(
+            DEFINITION, DEFINITION.replace("se infiere.", f"se infiere. {claim}"), 1).encode("utf-8")
+        (self.tmp / TERMS).write_bytes(owing)
+        return owing
 
     def test_a_harmless_glossary_edit_applies(self) -> None:
         """The control: without it, a validator that refuses everything would pass every case."""
@@ -165,13 +174,16 @@ class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
         """Codex P1 on #88: the scan counted one hit per string, so doubling a claim inside a
         string that already held it changed no count and applied."""
         claim = "Probabilidad de observar el resultado si la hipótesis nula es cierta."
-        anchor = f"definition: '{claim}"
-        self.assertEqual(self.pristine[TERMS].decode("utf-8").count(anchor), 1, "fixture anchor not unique")
-        self.assertRefused(TERMS, anchor, f"definition: '{claim} {claim}", "KFC-001 2 -> 3")
+        owing = self.glossary_owing(claim)
+        self.assertEqual(owing.decode("utf-8").count(claim), 1, "fixture anchor not unique")
+        self.assertRefused(TERMS, claim, f"{claim} {claim}", "KFC-001 1 -> 2", base=owing)
 
     def test_a_file_that_still_owes_a_claim_can_be_patched_elsewhere(self) -> None:
-        """The glossary owes KFC-001 (the p-value hover); an unrelated edit must still apply."""
-        code, report = self.apply(TERMS, DEFINITION, DEFINITION.replace("en memoria", "guardado en memoria"))
+        """A file that owes KFC-001 (the p-value hover, as it read before the S18 round) can still
+        take an unrelated edit: the scan compares before and after, not after against zero."""
+        self.glossary_owing("Probabilidad de observar el resultado si la hipótesis nula es cierta.")
+        anchor = "apunta a un valor en memoria"
+        code, report = self.apply(TERMS, anchor, anchor.replace("en memoria", "guardado en memoria"))
         self.assertEqual(code, 0, report)
 
     def test_a_file_with_no_validator_is_refused(self) -> None:
