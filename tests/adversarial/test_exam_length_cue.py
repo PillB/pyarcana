@@ -50,7 +50,7 @@ import exam_bank  # noqa: E402
 #: Another open round (the S10 round) lowers this count; whichever lands second re-measures.
 #:
 #: The 1081 -> 1121 move is a one-time measurement, recorded here and not asserted. Measured on
-#: 2026-10-13 on `prisma/seed.ts` blob 4a31ae3b (origin/main a75a0875), with is_longest below: over
+#: 2026-10-13 on the exam seed, blob 4a31ae3b (origin/main a75a0875), with is_longest below: over
 #: the 52 banks except `setup` and `basics` (1200 questions, the ones the old reader saw) the count
 #: is 1081, the old figure exactly; `setup` adds 22 of 24 and `basics` 18 of 24; 1121 of 1248. To
 #: repeat it on that blob, from the repository root:
