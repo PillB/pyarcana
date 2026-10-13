@@ -35,6 +35,15 @@ class ExamBankLoader(unittest.TestCase):
             self.assertEqual(len(questions), 24, slug)
             self.assertEqual(sorted({q["variant"] for q in questions}), [1, 2, 3], slug)
 
+    def test_learner_text_carries_every_field_a_check_scans(self) -> None:
+        """Recreates the risk: a text check passes because the field it scans is missing from the
+        text it scans. Every field of every question must be in the joined text."""
+        questions = exam_bank.bank_for("setup")
+        text = exam_bank.learner_text(questions)
+        for q in questions:
+            for field in (q["concept"], q["question"], q["explanation"], *q["options"]):
+                self.assertTrue(field and field in text, f"missing from learner text: {field!r}")
+
     def test_an_unknown_bank_raises(self) -> None:
         with self.assertRaises(KeyError):
             exam_bank.bank_for("no-such-section")

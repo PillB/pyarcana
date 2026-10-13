@@ -51,3 +51,12 @@ def bank_for(slug: str, seed: Path = SEED) -> list[dict]:
         if bank["slug"] == slug:
             return bank["questions"]
     raise KeyError(f"no bank {slug!r} in {seed}")
+
+
+def learner_text(questions: list[dict]) -> str:
+    """Every string in these questions a check may scan for a stray label or phrase: concept,
+    question, each option and explanation, one per line. Source comments are not read, so a label
+    in a comment is not in this text."""
+    return "\n".join(
+        "\n".join([q["concept"], q["question"], *q["options"], q["explanation"]]) for q in questions
+    )
