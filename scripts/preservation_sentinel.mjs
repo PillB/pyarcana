@@ -26,6 +26,7 @@ import {
   classifyMissingSectionIds,
   parseSectionIdRenames,
 } from './section_id_renames.mjs'
+import { ROADMAP_PATH, roadmapSectionCount } from './preservation/roadmap_section_count.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -136,6 +137,28 @@ function readSectionIdRenames(treeish) {
   }
 }
 
+/**
+ * The section count the roadmap at `treeish` declares, or null after recording why it could not be
+ * read. A count the sentinel cannot read is a failure, never a guess at 52 or at the tree's own count.
+ */
+function roadmapCountAt(treeish, failures) {
+  const source = tryGit(`git show ${treeish}:${ROADMAP_PATH}`)
+  if (source === null) {
+    failures.push({
+      code: 'ROADMAP_UNREADABLE',
+      path: ROADMAP_PATH,
+      message: `Cannot read ${ROADMAP_PATH}, so the section count cannot be checked`,
+    })
+    return null
+  }
+  try {
+    return roadmapSectionCount(source)
+  } catch (e) {
+    failures.push({ code: 'ROADMAP_MALFORMED', path: ROADMAP_PATH, message: e.message })
+    return null
+  }
+}
+
 function compareCurriculum(base, head, failures) {
   const before = extractActiveCurriculum(base)
   const after = extractActiveCurriculum(head)
@@ -148,9 +171,11 @@ function compareCurriculum(base, head, failures) {
     })
   }
   const sectionIds = classifyMissingSectionIds(before.sections, after.sections, renames)
+  const expectedCount = roadmapCountAt(head, failures)
   const curriculum = {
     before_count: before.activeCount,
     after_count: after.activeCount,
+    expected_count: expectedCount,
     removed_section_ids: sectionIds.removed.map(({ id }) => id),
     renamed_section_ids: sectionIds.renamed,
     removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
@@ -161,10 +186,12 @@ function compareCurriculum(base, head, failures) {
       message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
     })
   }
-  if (after.activeCount !== 52) {
+  if (expectedCount !== null && after.activeCount !== expectedCount) {
     failures.push({
-      code: 'ACTIVE_SECTION_COUNT_NOT_52',
-      message: `Active imported sections must be 52, found ${after.activeCount}`,
+      code: 'ACTIVE_SECTION_COUNT_NOT_ROADMAP',
+      expected: expectedCount,
+      found: after.activeCount,
+      message: `Active imported sections must match the ${expectedCount} headings in ${ROADMAP_PATH}, found ${after.activeCount}`,
     })
   }
   for (const { id, reason } of sectionIds.removed) {
