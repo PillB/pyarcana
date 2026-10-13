@@ -742,3 +742,30 @@ describe('freeze guard: closing the window needs the renumber sha', () => {
     assert.match(run.err, /branch_point_sha is unreadable/)
   })
 })
+
+// ---------------------------------------------------------------------------------------------
+// CI: the guards run in the preservation-sentinel job, which is the only job with full history
+// ---------------------------------------------------------------------------------------------
+
+describe('CI: the preservation-sentinel job runs both guards with full history', () => {
+  const workflow = readFileSync(join(ROOT, '.github/workflows/tests.yml'), 'utf8')
+  const start = workflow.indexOf('\n  preservation-sentinel:\n')
+  const end = workflow.indexOf('\n  lint:\n', start)
+  const job = workflow.slice(start, end)
+
+  it('finds the job in the workflow, so the checks below read the right block', () => {
+    assert.ok(start > 0 && end > start, 'preservation-sentinel job not found in tests.yml')
+  })
+
+  it('checks out with fetch-depth 0, because the guards read history', () => {
+    assert.match(job, /fetch-depth: 0/)
+  })
+
+  it('runs the renumber meaning guard (G-11, G-15)', () => {
+    assert.match(job, /node scripts\/preservation\/renumber_meaning_guard\.mjs/)
+  })
+
+  it('runs the curriculum/55 freeze guard (G-14)', () => {
+    assert.match(job, /node scripts\/preservation\/curriculum55_freeze_guard\.mjs/)
+  })
+})
