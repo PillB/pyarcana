@@ -34,15 +34,16 @@ const CAPSTONE_FILES = readdirSync(join(ROOT, CAPSTONES)).sort().map((f) => `${C
 
 /**
  * Hits each entry still has in the real tree. Lower a count when a fix lands; 0 means enforced.
- * Measured 2026-10-12 on main + PR #86. PR #85's S10 bank rewords two of KFC-003's and adds two
- * KFC-004 hits (its key says `-m` "evita depender del cwd" and the package "falla al arrancar por
- * el import circular"): whichever of #85 and this lands second re-measures 003 and 004.
+ * Measured 2026-10-12 on main + PR #86, re-measured 2026-10-13 when PR #85's S10 bank landed on
+ * top: its rewrites carry the `-m` claim in a key AND its explanation (KFC-003 4 -> 5) and the
+ * circular-import claim in a key and an explanation (KFC-004 2 -> 4). Not new debt: the same S10
+ * claims, now counted where #85 put them; the S10 Codex round (O20) pays all of them to 0.
  */
 const OWED: Record<string, number> = {
   'KFC-001': 0, // ENFORCED 2026-10-13 (S18 round, 0b-7). Was 2: glossary p-value hover (terms.ts:840): the definition, and the 0.05 cut-off - S18 round, 0b-7
   'KFC-002': 0, // ENFORCED 2026-10-13. Was 10: S18 bootstrap advice, including the pinned output of :229 - S18 round
-  'KFC-003': 4, // S10 :69, :98, :821 and the S10 exam key - S10 round (O20)
-  'KFC-004': 2, // S10 :71, :751 - S10 round (O20)
+  'KFC-003': 5, // S10 :69, :98, :821; the S10 exam key and its explanation - S10 round (O20)
+  'KFC-004': 4, // S10 :71, :751; the S10 exam key and its explanation - S10 round (O20)
   'KFC-005': 1, // S10 :366 - S10 round (O20)
   'KFC-006': 0, // ENFORCED 2026-10-13. Was 1: glossary correlation - S18 round (owner ruling 2026-10-12)
   'KFC-007': 0, // ENFORCED 2026-10-13. Was 1: glossary train/test split - S18 round
