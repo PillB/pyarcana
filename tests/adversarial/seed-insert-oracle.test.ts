@@ -36,6 +36,8 @@ type Row = {
 }
 
 const rows: Row[] = []
+/** The data each create() was called with, copied at the moment of the insert. */
+const inserted: Omit<Row, 'id'>[] = []
 const calls: string[] = []
 let disconnected!: () => void
 const done = new Promise<void>((resolve) => { disconnected = resolve })
@@ -47,10 +49,12 @@ class RecordingPrismaClient {
     create: async ({ data }: { data: Omit<Row, 'id'> }) => {
       const row = { id: rows.length + 1, ...data }
       rows.push(row)
+      inserted.push({ ...data })
       return row
     },
     findMany: async () => { calls.push('findMany'); return rows.map((r) => ({ ...r })) },
     update: async ({ where, data }: { where: { id: number }; data: Partial<Row> }) => {
+      calls.push('update')
       const row = rows.find((r) => r.id === where.id)
       if (!row) throw new Error(`update of unknown id ${where.id}`)
       Object.assign(row, data)
@@ -93,8 +97,9 @@ before(async () => {
 test('the recorder stood in for the database (otherwise nothing below means anything)', () => {
   assert.equal(exitCode, undefined, 'the seed exited through its error path')
   assert.equal(calls[0], 'deleteMany')
-  assert.ok(calls.includes('findMany') && calls.at(-1) === '$disconnect', calls.join(','))
+  assert.equal(calls.at(-1), '$disconnect', calls.join(','))
   assert.ok(rows.length > 1000, `only ${rows.length} rows recorded`)
+  assert.equal(inserted.length, rows.length)
 })
 
 test('every inserted row is the reader\'s question, in the same order, field by field', () => {
@@ -113,8 +118,23 @@ test('every inserted row is the reader\'s question, in the same order, field by 
   assert.deepEqual(actual, expected)
 })
 
-test('after the seed renumbers, each row\'s variant is the reader\'s variant', () => {
+test('each insert carries the reader\'s variant, and no pass renumbers the rows afterwards', () => {
   const banks = readQuestionBank(readFileSync(SEED_PATH, 'utf8'), 'prisma/seed.ts')
   const expected = banks.flatMap((b) => b.questions.map((q) => `${b.slug}|${q.concept}|${q.variant}`))
-  assert.deepEqual(rows.map((r) => `${r.sectionId}|${r.concept}|${r.variant}`), expected)
+  // Read from the data passed to create(), not from the recorded rows: a later update() would
+  // otherwise hide a wrong variant that the insert itself wrote.
+  assert.deepEqual(inserted.map((r) => `${r.sectionId}|${r.concept}|${r.variant}`), expected)
+  assert.deepEqual(calls.filter((c) => c === 'update' || c === 'findMany'), [], 'the seed renumbers after inserting')
+})
+
+test('within each (section, concept) the inserted variants are 1, 2, 3 in bank order', () => {
+  const byConcept = new Map<string, number[]>()
+  for (const r of inserted) {
+    const key = `${r.sectionId}|${r.concept}`
+    byConcept.set(key, [...(byConcept.get(key) ?? []), r.variant])
+  }
+  assert.ok(byConcept.size > 0)
+  for (const [key, variants] of byConcept) {
+    assert.deepEqual(variants, [1, 2, 3], key)
+  }
 })
