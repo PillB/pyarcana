@@ -120,7 +120,7 @@ model ExamAttempt {
 // in progress. A table of its own, so no query that returns attempts can carry the key by accident.
 model ExamAttemptForm {
   attemptId String @id
-  items     String // JSON: [{questionId, concept, variant, question, options, correctIndex, explanation}]
+  items     String // JSON: [{questionId, concept, variant, question, options, correctIndex, explanation, optionOrder?}], options and key as shown
 
   attempt ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 }

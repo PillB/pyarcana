@@ -14,9 +14,9 @@ import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { useI18n, t } from '@/lib/i18n'
 
+/** A question as exam/start sends it: options in this attempt's order, and no key or concept. */
 interface ExamQuestion {
   id: string
-  concept: string
   question: string
   options: string[]
 }
@@ -54,10 +54,9 @@ function unscoredReason(a: AttemptSummary): string | null {
   return scoreCounts(a) ? null : 'exam.exposedAttempt'
 }
 
-/** A graded answer from exam/submit. The correct option and the explanation are never sent. */
+/** A graded answer from exam/submit. The correct option, the explanation and the concept are never sent. */
 interface ReviewedAnswer {
   questionId: string
-  concept: string
   question: string
   options: string[]
   selectedIndex: number
