@@ -39,15 +39,15 @@ const CAPSTONE_FILES = readdirSync(join(ROOT, CAPSTONES)).sort().map((f) => `${C
  * el import circular"): whichever of #85 and this lands second re-measures 003 and 004.
  */
 const OWED: Record<string, number> = {
-  'KFC-001': 2, // glossary p-value hover (terms.ts:840): the definition, and the 0.05 cut-off - S18 round, 0b-7
-  'KFC-002': 10, // S18 bootstrap advice, including the pinned output of :229 - S18 round
+  'KFC-001': 0, // ENFORCED 2026-10-13 (S18 round, 0b-7). Was 2: glossary p-value hover (terms.ts:840): the definition, and the 0.05 cut-off - S18 round, 0b-7
+  'KFC-002': 0, // ENFORCED 2026-10-13. Was 10: S18 bootstrap advice, including the pinned output of :229 - S18 round
   'KFC-003': 4, // S10 :69, :98, :821 and the S10 exam key - S10 round (O20)
   'KFC-004': 2, // S10 :71, :751 - S10 round (O20)
   'KFC-005': 1, // S10 :366 - S10 round (O20)
-  'KFC-006': 1, // glossary correlation - S18 round (owner ruling 2026-10-12)
-  'KFC-007': 1, // glossary train/test split - S18 round
-  'KFC-008': 1, // glossary ROC-AUC - S18 round
-  'KFC-009': 1, // glossary StratifiedKFold - S18 round
+  'KFC-006': 0, // ENFORCED 2026-10-13. Was 1: glossary correlation - S18 round (owner ruling 2026-10-12)
+  'KFC-007': 0, // ENFORCED 2026-10-13. Was 1: glossary train/test split - S18 round
+  'KFC-008': 0, // ENFORCED 2026-10-13. Was 1: glossary ROC-AUC - S18 round
+  'KFC-009': 0, // ENFORCED 2026-10-13. Was 1: glossary StratifiedKFold - S18 round
 }
 
 const describe = (h: Hit) => `${h.file}:${h.line} | ${h.excerpt}`
