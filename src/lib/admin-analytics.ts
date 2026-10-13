@@ -89,17 +89,29 @@ export function bandForPhase(phase: Phase): Band {
   return phase === 0 ? 1 : phase
 }
 
-/** The band of the section at `index`, from the phase that owns that index; null when none does. */
+/**
+ * The band the PHASES table gives an index; null when no range holds it. This is the table's view
+ * of a section, not what the admin view bands by (that is the section's own phase, below): a test
+ * holds the two to each other, so a stale range is named instead of mis-banding learners.
+ */
 export function phaseForSectionIndex(index: number, phases: ReadonlyArray<PhaseRange> = PHASES): Band | null {
   const phase = phaseOfIndex(index, phases)
   return phase === null ? null : bandForPhase(phase)
 }
 
+/** The phase a section sits in: the one it declares, else the one whose range holds its index; null when neither. */
+export function phaseOfSection(
+  section: { readonly index: number; readonly phase?: Phase },
+  phases: ReadonlyArray<PhaseRange> = PHASES
+): Phase | null {
+  return section.phase ?? phaseOfIndex(section.index, phases)
+}
+
 export function sectionMeta() {
   return COURSE_SECTIONS.map((s) => {
-    const phase = s.phase ?? phaseOfIndex(s.index)
-    // Fail closed: a section in no phase range must not be banded by a made-up threshold.
-    if (phase === null) throw new Error(`section ${s.id} (index ${s.index}) is in no phase range`)
+    const phase = phaseOfSection(s)
+    // Fail closed: a section in no phase must not be banded by a made-up threshold.
+    if (phase === null) throw new Error(`section ${s.id} (index ${s.index}) is in no phase`)
     return { id: s.id, index: s.index, title: s.shortTitle || s.title, phase }
   })
 }
@@ -112,7 +124,7 @@ export function buildStudentMetrics(
   now = new Date()
 ): StudentMetrics[] {
   const totalSections = COURSE_META.totalSections
-  const sectionIndex = new Map(COURSE_SECTIONS.map((s) => [s.id, s.index]))
+  const sectionPhase = new Map(COURSE_SECTIONS.map((s) => [s.id, phaseOfSection(s)]))
   const ms7 = 7 * 864e5
   const ms14 = 14 * 864e5
   const ms30 = 30 * 864e5
@@ -166,8 +178,8 @@ export function buildStudentMetrics(
 
     let phaseMax: 0 | 1 | 2 | 3 = 0
     for (const sid of Object.keys(bySection)) {
-      const band = phaseForSectionIndex(sectionIndex.get(sid) ?? 0)
-      if (band !== null && band > phaseMax) phaseMax = band
+      const phase = sectionPhase.get(sid) ?? null
+      if (phase !== null && bandForPhase(phase) > phaseMax) phaseMax = bandForPhase(phase)
     }
 
     let risk: StudentMetrics['risk'] = 'healthy'

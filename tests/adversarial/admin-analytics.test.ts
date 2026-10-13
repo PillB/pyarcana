@@ -10,6 +10,7 @@ import {
   buildAnalyticsPayload,
   buildStudentMetrics,
   phaseForSectionIndex,
+  phaseOfIndex,
   type ExamRow,
   type ProgressRow,
   type UserRow,
@@ -31,16 +32,65 @@ function user(partial: Partial<UserRow> & { id: string }): UserRow {
   }
 }
 
+/** One line per section whose declared phase is not the phase the table's range gives its index. */
+function staleRanges(
+  sections: ReadonlyArray<{ readonly id: string; readonly index: number; readonly phase?: 0 | 1 | 2 | 3 }>,
+  phases: Parameters<typeof phaseOfIndex>[1]
+): string[] {
+  return sections.flatMap((s) => {
+    const ranged = phaseOfIndex(s.index, phases)
+    if (s.phase === undefined || ranged === s.phase) return []
+    return [`${s.id} (index ${s.index}) declares phase ${s.phase}, but the PHASES range puts it in ${ranged === null ? 'no phase' : `phase ${ranged}`}`]
+  })
+}
+
 describe('phase bands come from phase, never from fixed index thresholds (design G-4)', () => {
-  it('every course section is banded by the phase whose range holds its index', () => {
-    for (const s of COURSE_SECTIONS) {
-      const owner = PHASES.find((p) => {
-        const [lo, hi] = p.sections.split('-').map(Number)
-        return s.index >= (lo ?? NaN) && s.index <= (hi ?? NaN)
-      })
-      assert.ok(owner, `${s.id} at index ${s.index} sits in no PHASES range`)
-      assert.equal(phaseForSectionIndex(s.index), bandForPhase(owner.id), s.id)
+  it('every course section declares its phase, and the PHASES table puts its index in that phase', () => {
+    assert.deepEqual(
+      COURSE_SECTIONS.filter((s) => s.phase === undefined).map((s) => s.id),
+      [],
+      'a section with no phase is banded by the table alone, so the table cannot be checked against it'
+    )
+    assert.deepEqual(staleRanges(COURSE_SECTIONS, PHASES), [])
+  })
+
+  it('a PHASES range left at the old bounds is named, with the section it mis-bands', () => {
+    // Fixture: two sections inserted into phase 1, so phase 2 starts at 28; the table still ends
+    // phase 1 at 26. Section 27 declares phase 1, and the stale table would band it as phase 2.
+    const sections = [
+      { id: 'inserted-a', index: 26, phase: 1 as const },
+      { id: 'inserted-b', index: 27, phase: 1 as const },
+      { id: 'first-of-phase-2', index: 28, phase: 2 as const },
+    ]
+    const stale = [
+      { id: 1, sections: '14-26' },
+      { id: 2, sections: '27-39' },
+    ] as const
+    assert.deepEqual(staleRanges(sections, stale), [
+      'inserted-b (index 27) declares phase 1, but the PHASES range puts it in phase 2',
+    ])
+    assert.deepEqual(staleRanges(sections, [{ id: 1, sections: '14-27' }, { id: 2, sections: '28-39' }]), [])
+  })
+
+  it('a learner who finished a section is banded by that section\'s own phase, not by a range', () => {
+    // Recreation: a section declares phase 3 while the table, read by index, would call it phase 0.
+    // The admin view must follow the section, so a table left stale after a renumber cannot move it.
+    const section = COURSE_SECTIONS.find((s) => s.id === 'basics')!
+    const declared = section.phase
+    assert.equal(declared, 0, 'the recreation needs basics to be a phase 0 section')
+    const u = user({ id: 'u-band', createdAt: NOW.toISOString() })
+    const progress: ProgressRow[] = [
+      { userId: 'u-band', sectionId: 'basics', subStep: 'theory', completed: true, completedAt: NOW.toISOString() },
+    ]
+    try {
+      section.phase = 3
+      const [m] = buildStudentMetrics([u], progress, [], {}, NOW)
+      assert.equal(m!.phaseMax, 3)
+    } finally {
+      section.phase = declared
     }
+    const [back] = buildStudentMetrics([u], progress, [], {}, NOW)
+    assert.equal(back!.phaseMax, bandForPhase(declared!), 'the section phase was restored')
   })
 
   it('phase 0 is shown as band 1; phases 1 to 3 keep their own band', () => {
