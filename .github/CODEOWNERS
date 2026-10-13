@@ -41,9 +41,11 @@
 /scripts/*regression* @PillB
 
 # Curriculum renumber state: the guard inputs the renumber's gates read (owner decision O17, Gate A
-# decision 3). The window, epoch, ledger and pending files have no path yet, so each is a basename
-# rule that holds wherever it is placed.
+# decision 3). The section manifest (the badge-identity file; 0b-4 drafts it under
+# src/lib/eligibility/), the window, epoch, ledger and pending files have no fixed path yet, so
+# each is a basename rule that holds wherever it is placed.
 /src/lib/eligibility/ @PillB
+section_manifest.json @PillB
 curriculum55_window.json @PillB
 renumber_epoch.json @PillB
 renumber_edit_ledger.json @PillB

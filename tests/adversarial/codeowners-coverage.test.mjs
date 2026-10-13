@@ -171,13 +171,16 @@ describe('CODEOWNERS covers AGENTS.md protected paths', () => {
 })
 
 /**
- * The guard inputs the renumber design names for CODEOWNERS. The manifest sits under
- * src/lib/eligibility/ (its own path is not fixed by the design). The window, epoch, ledger and
- * pending files are named by basename, so each entry is a basename rule that holds wherever the
- * file is placed. Each probe is a path the input may take; each must have an owner.
+ * The guard inputs the renumber design names for CODEOWNERS. The design does not fix a path for
+ * the section manifest (the badge-identity file that lands in 0b-4; AGENTS.md also says
+ * "manifest" for the preservation manifest). The 0b-4 draft puts it at
+ * src/lib/eligibility/section_manifest.json. It is named by basename, so a basename rule holds
+ * wherever 0b-4 places it. The window, epoch, ledger and pending files are named by basename
+ * too. Each probe is a path the input may take; each must have an owner.
  */
 const GUARD_INPUTS = [
-  { token: 'src/lib/eligibility/', probes: ['src/lib/eligibility/engine.ts', 'src/lib/eligibility/manifest.json'] },
+  { token: 'src/lib/eligibility/', probes: ['src/lib/eligibility/engine.ts', 'src/lib/eligibility/section_manifest.json'] },
+  { token: 'section_manifest.json', probes: ['section_manifest.json', 'audit/renumber/section_manifest.json'] },
   { token: 'curriculum55_window.json', probes: ['curriculum55_window.json', 'audit/renumber/curriculum55_window.json'] },
   { token: 'renumber_epoch.json', probes: ['renumber_epoch.json', 'audit/renumber/renumber_epoch.json'] },
   { token: 'renumber_edit_ledger.json', probes: ['renumber_edit_ledger.json', 'audit/renumber/renumber_edit_ledger.json'] },
@@ -203,10 +206,12 @@ function askFirstBullets() {
 }
 
 describe('AGENTS.md ask-first names the renumber guard inputs', () => {
-  it('has one ask-first bullet that names the manifest and every guard input', () => {
+  it('has one ask-first bullet that names the section manifest and every guard input', () => {
+    // "the section manifest", not "the manifest": the Always list uses "manifest" for the
+    // preservation manifest, and a reader must not take the bullet to mean that file.
     const bullet = askFirstBullets().find((b) =>
-      /\bmanifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
-    assert.ok(bullet, `no ask-first bullet names the manifest and all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
+      /\bsection manifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
+    assert.ok(bullet, `no ask-first bullet says "section manifest" and names all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
   })
 })
 
