@@ -75,8 +75,9 @@ def main() -> int:
         if i["code"] in {"USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT",
                          "NO_VISIBLE_DEFINITION"}:
             vocab_bad.add(loc)
+    section_slug = numbering.section_files(ROOT)     # read once: each lookup used to re-read every section file
     for f in ids_rep.get("findings", []):
-        slug = numbering.slug_for_section_file(f.get("file", ""), ROOT)
+        slug = section_slug.get(f.get("file", ""))
         if slug:
             ids_bad.add(slug)
 

@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "tests/adversarial"))
 import build_critique_followup  # noqa: E402
 import build_redaction_prompt  # noqa: E402
 import gate  # noqa: E402
+import ledger  # noqa: E402
 import numbering  # noqa: E402
 import preflight  # noqa: E402
 from numbering import NumberingError  # noqa: E402
@@ -184,6 +185,44 @@ class GateFindsASectionByItsFile(NumberingFixture):
             with self.subTest(tag=tag):
                 measured = gate.assemble_measures(tag, ids=ids, **self.REPORTS)
                 self.assertEqual(measured["identifier_values_in_section"], expected)
+
+
+class LedgerMapsIdentifierFindingsToSectionsInOnePass(NumberingFixture):
+    """ledger.py maps each identifier finding's file to a section. It asked numbering for the section files
+    once per finding, and every ask re-reads every section file: quadratic in the findings and invisible
+    until a section has hundreds."""
+
+    FILES = ("src/lib/course/sections/s02-beta.ts", "src/lib/course/sections/s03-gamma.ts",
+             "src/lib/course/sections/s02-beta.ts", "src/lib/course/sections/s09-elsewhere.ts")
+
+    def setUp(self) -> None:
+        super().setUp()
+        round_tree(self.root)
+        write(self.root, "course-state/synthetic_identifier_report.json",
+              json.dumps({"findings": [{"file": rel} for rel in self.FILES]}))
+
+    def ledger_text(self) -> str:
+        with mock.patch.object(ledger, "ROOT", self.root), \
+                mock.patch.object(ledger, "OUT", self.root / "audit/fixer/LEDGER.md"), \
+                mock.patch.object(sys, "argv", ["ledger.py"]), contextlib.redirect_stdout(io.StringIO()):
+            ledger.main()
+        return (self.root / "audit/fixer/LEDGER.md").read_text(encoding="utf-8")
+
+    def test_the_sections_with_an_identifier_finding_lose_their_ids_box(self) -> None:
+        lines = self.ledger_text().splitlines()
+        header = next(line for line in lines if line.startswith("| sec |"))
+        column = [cell.strip() for cell in header.strip("|").split("|")].index("ids")
+        ids_box = {}
+        for line in lines:
+            if line.startswith("| **S0"):
+                cells = [cell.strip() for cell in line.strip("|").split("|")]
+                ids_box[cells[0]] = cells[column]
+        self.assertEqual(ids_box, {"**S01** alpha": "[x]", "**S02** beta": "[ ]", "**S03** gamma": "[ ]"})
+
+    def test_the_section_files_are_read_once_however_many_findings_there_are(self) -> None:
+        with mock.patch.object(numbering, "course_order", wraps=numbering.course_order) as read:
+            self.ledger_text()
+        self.assertEqual(read.call_count, 1)
 
 
 class CodexBriefsNameTheRightSection(NumberingFixture):
