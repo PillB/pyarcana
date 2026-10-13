@@ -6,6 +6,7 @@ keep the tests on the gate's real entry point, not on a copy of its functions.
 """
 from __future__ import annotations
 
+import importlib.util
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,31 @@ GATE = ROOT / "scripts/complexity_gate_py.py"
 def run_gate(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     return subprocess.run([sys.executable, str(GATE), *args], cwd=cwd or ROOT,
                           capture_output=True, text=True, check=False)
+
+
+def load_gate_module():
+    spec = importlib.util.spec_from_file_location("complexity_gate_py", GATE)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+GATE_MODULE = load_gate_module()
+
+
+def rows_of(source: str) -> list[dict]:
+    """The gate's own per-function rows for one snippet, measured from a temporary file."""
+    with tempfile.TemporaryDirectory() as tmp:
+        target = Path(tmp) / "snippet.py"
+        target.write_text(source, encoding="utf-8")
+        return GATE_MODULE.function_scores(target)
+
+
+def score(source: str, name: str) -> int:
+    """The score of the one function whose last name segment is `name` ("inner" or "f.<lambda>")."""
+    found = [r["score"] for r in rows_of(source) if r["function"].rsplit(".", 1)[-1] == name]
+    assert len(found) == 1, f"expected one function named {name!r}, found {len(found)}"
+    return found[0]
 
 
 class FilesOutsideRoot(unittest.TestCase):
@@ -40,6 +66,52 @@ class FilesOutsideRoot(unittest.TestCase):
             done = run_gate("--files", str(target))
         self.assertEqual(done.returncode, 1, done.stderr)
         self.assertIn(f"{target}:1 f", done.stdout)
+
+
+class CountingRules(unittest.TestCase):
+    """The ruling of 2026-10-12: count like ESLint 9.39.2 and NIST SP 500-235 4.1."""
+
+    def test_a_nested_def_adds_nothing_to_its_outer_function_wherever_it_sits(self):
+        """Direct, the nested def's if was counted twice; under an if, the def was dropped."""
+        direct = ("def outer(xs):\n    def inner(y):\n        if y:\n            return 1\n"
+                  "        return 0\n    return inner(xs)\n")
+        under_if = ("def outer(xs, c):\n    if c:\n        def inner(y):\n            if y:\n"
+                    "                return 1\n            return 0\n        return inner(xs)\n    return 0\n")
+        self.assertEqual(score(direct, "outer"), 1)
+        self.assertEqual(score(under_if, "outer") - score(direct, "outer"), 1,
+                         "the only difference between the two placements is the `if` itself")
+
+    def test_a_nested_def_is_reported_once_with_its_own_score(self):
+        source = ("def outer(xs):\n    def inner(y):\n        if y:\n            return 1\n"
+                  "        return 0\n    return inner(xs)\n")
+        self.assertEqual(sum(r["function"].rsplit(".", 1)[-1] == "inner" for r in rows_of(source)), 1)
+        self.assertEqual(score(source, "inner"), 2)
+
+    def test_and_or_adds_one_per_operator(self):
+        self.assertEqual(score("def f(a, b, c):\n    if a and b or c:\n        return 1\n    return 0\n", "f"), 4)
+
+    def test_a_conditional_expression_adds_one(self):
+        self.assertEqual(score("def f(x):\n    return 1 if x else 0\n", "f"), 2)
+
+    def test_a_comprehension_if_adds_two_for_the_loop_and_the_test(self):
+        self.assertEqual(score("def f(xs):\n    return [x for x in xs if x]\n", "f"), 3)
+
+    def test_a_lambda_is_scored_on_its_own_and_not_into_its_enclosing_function(self):
+        source = "def f(xs):\n    return sorted(xs, key=lambda x: 0 if x else 1)\n"
+        self.assertEqual(score(source, "f"), 1)
+        self.assertEqual(score(source, "<lambda>"), 2)
+
+    def test_a_match_wildcard_case_is_not_a_branch(self):
+        source = ("def f(c):\n    match c:\n        case 1:\n            return 'a'\n"
+                  "        case 2:\n            return 'b'\n        case _:\n            return 'c'\n")
+        self.assertEqual(score(source, "f"), 3)
+
+    def test_fifteen_passes_the_ceiling_and_sixteen_fails_it(self):
+        def with_branches(n: int) -> str:
+            body = "".join(f"    if x == {i}:\n        return {i}\n" for i in range(n))
+            return f"def f(x):\n{body}    return -1\n"
+        self.assertEqual(score(with_branches(14), "f"), 15)
+        self.assertEqual(score(with_branches(15), "f"), 16)
 
 
 if __name__ == "__main__":

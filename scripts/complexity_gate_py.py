@@ -23,31 +23,79 @@ import ast
 import json
 import sys
 from pathlib import Path
+from typing import NamedTuple
 
 ROOT = Path(__file__).resolve().parents[1]
 CEILING = 15
 BASELINE = ROOT / "audit/fixer/complexity_baseline_py.json"
 SCOPES = ("scripts", "tools")
-MATCH_CASE = getattr(ast, "match_case", ())  # absent before Python 3.10
-BRANCHES = (ast.If, ast.For, ast.AsyncFor, ast.While, ast.ExceptHandler, ast.IfExp, ast.Assert)
+UNITS = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)
+#: Each adds one decision point to the function that contains it. `assert` is a conditional
+#: raise (`if not cond: raise`), so it counts as the `if` it stands for.
+BRANCHES = (ast.If, ast.IfExp, ast.For, ast.AsyncFor, ast.While, ast.ExceptHandler, ast.Assert)
 
 
-class Scorer(ast.NodeVisitor):
-    def __init__(self) -> None:
-        self.score = 1
+class Unit(NamedTuple):
+    """One function, method or lambda, scored on its own."""
+    qual: str
+    line: int
+    col: int
+    score: int
 
-    def generic_visit(self, node: ast.AST) -> None:
-        if isinstance(node, BRANCHES):
-            self.score += 1
-        elif isinstance(node, ast.BoolOp):
-            self.score += len(node.values) - 1
-        elif isinstance(node, ast.comprehension):
-            self.score += 1 + len(node.ifs)
-        elif MATCH_CASE and isinstance(node, MATCH_CASE):
-            self.score += 1
+
+def point(node: ast.AST) -> int:
+    """Decision points this node adds to the function that contains it, not counting children."""
+    if isinstance(node, BRANCHES):
+        return 1
+    if isinstance(node, ast.BoolOp):
+        return len(node.values) - 1
+    if isinstance(node, ast.comprehension):
+        return 1 + len(node.ifs)
+    if isinstance(node, ast.match_case):
+        irrefutable = isinstance(node.pattern, ast.MatchAs) and node.pattern.pattern is None
+        return (0 if irrefutable else 1) + (node.guard is not None)
+    return 0
+
+
+def inside(node: ast.AST) -> list[ast.AST]:
+    """What runs as part of the function being counted. A nested def or lambda runs its
+    decorators and default values where it is defined, and its body only when it is called."""
+    if isinstance(node, UNITS):
+        return [*getattr(node, "decorator_list", []), *node.args.defaults,
+                *(d for d in node.args.kw_defaults if d is not None)]
+    return list(ast.iter_child_nodes(node))
+
+
+def score_of(unit: ast.AST) -> int:
+    body = unit.body if isinstance(unit.body, list) else [unit.body]
+    total, stack = 1, list(body)
+    while stack:
+        node = stack.pop()
+        total += point(node)
+        stack.extend(inside(node))
+    return total
+
+
+def qualname(node: ast.AST, prefix: str) -> str:
+    name = "<lambda>" if isinstance(node, ast.Lambda) else node.name
+    return f"{prefix}.{name}" if prefix else name
+
+
+def units(tree: ast.AST) -> list[Unit]:
+    found: list[Unit] = []
+
+    def visit(node: ast.AST, prefix: str) -> None:
         for child in ast.iter_child_nodes(node):
-            if not isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
-                self.visit(child)
+            if isinstance(child, (ast.ClassDef, *UNITS)):
+                qual = qualname(child, prefix)
+                if isinstance(child, UNITS):
+                    found.append(Unit(qual, child.lineno, child.col_offset, score_of(child)))
+                visit(child, qual)
+            else:
+                visit(child, prefix)
+
+    visit(tree, "")
+    return sorted(found, key=lambda u: (u.line, u.col))
 
 
 def display(path: Path) -> str:
@@ -63,15 +111,8 @@ def function_scores(path: Path) -> list[dict]:
         tree = ast.parse(path.read_text(encoding="utf-8"))
     except (SyntaxError, UnicodeDecodeError):
         return []
-    rows = []
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            scorer = Scorer()
-            for child in node.body:
-                scorer.visit(child)
-            rows.append({"file": display(path), "function": node.name,
-                         "line": node.lineno, "score": scorer.score})
-    return rows
+    return [{"file": display(path), "function": u.qual, "line": u.line, "score": u.score}
+            for u in units(tree)]
 
 
 def python_files() -> list[Path]:
