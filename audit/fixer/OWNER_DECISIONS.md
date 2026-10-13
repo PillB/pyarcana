@@ -307,6 +307,37 @@ which touches the progress document's legal constraints), 13 (amending `AGENTS.m
 
 **Retire when:** every item has landed or been superseded by a later decision.
 
+### O20 — Exam banks: adopt the GLM lane's rewrites, shuffle per attempt, trim teaching not precision
+**Scope:** `prisma/seed.ts` QUESTION_BANK, the exam start route, the length-cue ratchet.
+**Status:** live, owed. Evidence: `audit/fixer/glm_exam_bank_review/`.
+
+Answered 2026-10-07, each the recommendation:
+- **Content.** Land 110 of the GLM lane's 118 rewritten questions (S05, S08–S11; 0 wrong keys, 0
+  reorder failures). Codex redoes the other 8 (S05#16, S08#7, S09#9, S09#20, S09#21, S09#22,
+  S10#23, S11#22), and in the same round fixes the S10 key and lesson lines on `python -m` and the
+  working directory (contradicted by the current Python docs) and on circular imports, so key and
+  lesson agree. This replaces existing items, which preservation-first sends to the owner.
+- **Answer positions.** Shuffle each question's options when an attempt starts, and store the
+  permuted key with the attempt (`ExamAttemptForm`). It fixes the 29 banks whose answers all sit at
+  B without editing any question, and it survives the 52 → 55 renumber. The static per-section
+  position cycle is superseded.
+- **Key length.** Follow the NBME Item-Writing Guide: remove teaching points and rationale from the
+  correct option, never the detail that makes it correct. The length-cue test's "never trim the
+  key" docstring is amended to say so.
+- **Decision record.** The GLM lane's D15 collides with main's D15 (ADR-7) and rests on a false root
+  cause: all 52 banks existed; five double-quoted keys were missed by single-quote parsers. It is
+  recorded on main as **D21** with that correction.
+- **Tooling.** Both GLM scripts are retired: the position rebalancer (superseded by the shuffle) and
+  the repair applier (cannot repair a bank's last question, no tests). Codex's question fixes go
+  through `tools/fixer/apply_patches.py`, which already edits any repo file by unique anchor.
+- **Reseed.** Once, after the 110 rewrites and the 8 redos are both merged; the owner runs it.
+  Attempts in progress keep their own questions and key.
+- **S12 and S13.** Their 48 templated questions are the real missing banks. Written next, beside
+  the Phase 0 guard work.
+
+**Retire when:** the 110 and the 8 are on main and reseeded, the shuffle is live, D21 is recorded,
+and S12 and S13 have real banks.
+
 ---
 
 ## Archive
