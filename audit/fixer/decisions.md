@@ -592,3 +592,27 @@ the dashboard recorded no session data, and admin had no aggregate and no downlo
     element. Its sign-in panel shows the refusal line, which proves the button was mounted.
 - **Not chosen:** a separate callback route (/cuenta/microsoft/). It needs a new Entra redirect
   URI, and the load-time rule gives the same protection without one.
+
+## D21 — Fixer state is keyed by slug; a section number is read from the numbering epoch (2026-10-13)
+
+A section's number belongs to a numbering epoch, not to the section. The fixer kept its state
+under numbers, and its number-to-slug map was a gitignored cache indexed by position. The
+Sept 16 id rename (a492d8eab) showed the cost: eight cycle records still named the old ids
+while the numbers they belonged to had not moved.
+
+- **Rule now:** cycle records and the redaction list carry `numbering_epoch` and a `slug`.
+  Every number and slug is read through `tools/fixer/numbering.py`, from
+  `audit/fixer/numbering_epoch.json`, which names the roadmap of record and lists the slugs in
+  order. No fixer tool types a section count (guard: `tests/adversarial/test_fixer_section_counts.py`).
+- **An old slug:** the app's own rename map (`src/lib/section-id-migrations.ts`) carries it to
+  today's slug, applied once. A record keeps `slug_at_record` as provenance.
+- **Why not a new key:** the epoch label is the count, so a renumber writes a new epoch and a
+  record from another epoch is refused, not reread. Cycle files keep their tag names, because
+  `safe_commit.py` stages them by name and the rename would delete tracked paths.
+- **Expert standard:** Kimball, *The Data Warehouse Toolkit* (surrogate keys for rows whose
+  natural label changes), and Google AIP-122 (resource IDs are stable; display names are not).
+- **Open, for the owner:** `audit/fixer/cycles/S03.json` closed findings against
+  `s03-data-structures.ts`. Commit a492d8eab, the id-rename commit, replaced that file with
+  `s03-decisions-rules.ts`: git reports a delete and an add, because the content changed by more
+  than half. The record now maps to decisions-rules through the rename map. Whether those findings
+  still count for the rewritten section is a decision for the owner, not the fixer.
