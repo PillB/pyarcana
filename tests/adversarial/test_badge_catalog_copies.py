@@ -16,19 +16,24 @@ Owner decision O17 (Gate A): the industry copy is synced to the live one. This t
 The renumber will rewrite every section token in these files, which is exactly when a copy that
 nobody compares goes stale again.
 
-Not covered: industry_alignment/badge_requirements/*.md, a snapshot generated on 2026-07-28 and
-read only by its generator, industry_alignment/_phase6_build/build_badge_architecture.py. Re-running
-that generator would rewrite the industry copy from its own data; this test then fails, as it should.
+The fourth copy, industry_alignment/badge_requirements/*.md, was a 2026-07-28 snapshot from the
+generator's own data, and it drifted (C12d). It is now rendered from the live catalog by
+industry_alignment/_phase6_build/regenerate_requirements.py, which applies the generator's own
+requirement_markdown(), and this test compares every file with that render. Re-running the
+generator's main() would still rewrite the industry catalog from its own data; this test then fails,
+as it should. Regenerate the markdown with regenerate_requirements.py, never by hand.
 """
 from __future__ import annotations
 
 import json
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LIVE = ROOT / "src/lib/eligibility/badge_catalog.json"
 INDUSTRY = ROOT / "industry_alignment/badge_catalog.json"
+REQUIREMENTS = ROOT / "industry_alignment/badge_requirements"
 CONTRACTS = ROOT / "src/lib/eligibility/claim_evidence_contracts"
 #: Every field a contract repeats from its catalog entry, as (contract field, catalog path). The
 #: claim text matters most: rewriting `public_claim` and missing `capability_statement` would
@@ -90,6 +95,13 @@ class CatalogCopies(unittest.TestCase):
             self.assertEqual(contract.get("specification_hash"),
                              f"sha256:{badge['badge_id']}:{badge['version']}",
                              f"{path.name}: specification_hash names another version")
+
+    def test_the_requirements_copy_is_the_live_catalog(self) -> None:
+        sys.path.insert(0, str(ROOT / "industry_alignment/_phase6_build"))
+        import regenerate_requirements  # noqa: E402  (the generator's renderer, applied to the live badges)
+
+        rendered = regenerate_requirements.render_all(load(LIVE))
+        self.assertEqual(regenerate_requirements.drift(rendered, REQUIREMENTS), [])
 
 
 if __name__ == "__main__":

@@ -12,14 +12,12 @@
 
 ## Public claim
 
-> The learner has independently synthesized Python data foundations, independent data preparation, applied analytical reasoning, applied SQL query development, and responsible ML evaluation into a single integrated Data-Science-style project with a documented model card, leakage-prevention review, and an audience-tuned writeup.
+> El aprendiz demostró transferencia integrada de Data Science mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Data Scientist at any seniority level (Junior, Mid, Senior, Staff, Principal).
-- Leakage prevention is NOT yet a graded skill (curriculum gap; the Responsible ML Evaluation badge is at pilot status). The integrated project rubric requires the learner to articulate leakage risks from first principles instead.
-- Does not include causal inference, A/B testing, or experimental design at this level (curriculum gaps; deferred to Phase 4).
-- Does not include production deployment (deferred to integrated_ml_engineering_practice).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

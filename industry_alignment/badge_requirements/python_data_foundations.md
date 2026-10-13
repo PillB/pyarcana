@@ -12,14 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated bounded Python fundamentals — interpreter setup, version control with Git, modules and functions, idiomatic Python patterns, OOP basics, and a working test discipline — by passing section exams and completing section You Do projects above the provisional floor.
+> El aprendiz demostró independientemente Python Data Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Python Developer or any role.
-- Does not include pandas, NumPy, SQL, or visualization at this level.
-- Does not imply production-grade Python (no type-safety or observability evidence is collected).
-- Does not exempt the learner from any subsequent badge's prerequisites.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

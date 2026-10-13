@@ -5,20 +5,19 @@
 **Family:** capstone_credential  
 **Credential type:** `verified_credential`  
 **Capability level:** `independent_practitioner`  
-**Verification mode:** `server_verified`  
+**Verification mode:** `server_authoritative`  
 **Status:** `active`  
 **Issuer:** PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)  
 **Generated:** 2026-07-28T22:08:04Z
 
 ## Public claim
 
-> The learner has completed and defended the three Phase 1 capstones (CP-N2-A, CP-N2-B, CP-N2-C) at rubric performance above the provisional floor, with a synthesis writeup demonstrating independent-practitioner-level capability across security, packaging, SQL, RAG, deep learning, and automation.
+> El aprendiz demostró independientemente Python and AI Capstone — Independent mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as any role at any seniority level.
-- Independent-practitioner level means 'can apply independently within a pre-scoped problem'; it does NOT mean 'can diagnose novel failure modes or design new systems unsupervised'.
-- SQL performance tuning and leakage prevention are NOT included (curriculum gaps; relevant badges remain at pilot status).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
