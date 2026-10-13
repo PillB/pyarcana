@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
 """A badge's claim cannot change without its version changing with it (C12e).
 
-Each competency and capstone badge's claim is the 13 fields test_badge_catalog_copies.py repeats
-into its contracts (SHARED: the credential id, version, public name, capability statement, class,
-status, verification mode, prerequisites, critical gates, required sections and activities, and the
-scoring floor and non-compensatory rule). The digest is the sha256 of those fields, as sorted JSON,
-recorded per badge with the version it was recorded under.
+A badge's claim is the 13 fields test_badge_catalog_copies.py repeats into its contracts (SHARED:
+the credential id, version, public name, capability statement, class, status, verification mode,
+prerequisites, critical gates, required sections and activities, and the scoring floor and
+non-compensatory rule) plus five the contracts do not repeat: non_claims, skill_nodes,
+required_projects, newbie_friendly_description and credential_type (ADDED_PATHS; the review of the
+first draft changed each of them under an unchanged version without a failure). The digest is the
+sha256 of those fields, as sorted JSON, recorded per badge with the version it was recorded under.
 
 A changed digest with an unchanged version is red: "claim changed without a version bump". A changed
 digest with a new version is red until the digest is re-recorded, so the record never goes stale.
-Fields outside SHARED (for example the newbie-friendly description) are not claims under this rule
-and may change freely.
+
+LIMITATION: every other field is declared in NOT_DIGESTED with a reason and may change freely under
+this rule: the assessment blueprint, the rest of the scoring rules, the retake, evidence, expiration,
+revocation and legacy-progress policies, and four labels. Whether any of them should be guarded is an
+owner question. A field in neither list fails unclassified_fields(), so a new catalog field cannot
+go unguarded without a decision, and a declaration for a field that no badge has is stale.
 
 Re-record after an approved claim change, with the version bumped in the same change:
   python3 tests/adversarial/test_badge_claim_digests.py --record
@@ -46,7 +52,53 @@ from test_badge_catalog_copies import SHARED, at  # noqa: E402
 
 LIVE = ROOT / "src/lib/eligibility/badge_catalog.json"
 RECORDS = ROOT / "src/lib/eligibility/claim_digests.json"
-CLAIM_PATHS = [path for _, path in SHARED]
+SHARED_PATHS = [path for _, path in SHARED]
+#: Fields the contracts do not repeat, but which say what the credential claims or what earns it.
+#: The review of the first draft showed each of them could change under an unchanged version:
+#: skill_nodes (decision 7 and Gate C add nodes to badges), non_claims, required_projects, and
+#: newbie_friendly_description (design 4.4 reads it as claim text for the teaching-debt patterns).
+#: credential_type is the field the eligibility engine branches on (types.ts CredentialType).
+ADDED_PATHS = ["non_claims", "skill_nodes", "required_projects", "newbie_friendly_description", "credential_type"]
+CLAIM_PATHS = SHARED_PATHS + ADDED_PATHS
+#: Every other top-level field of a badge, and why the digest leaves it out. A field that is in
+#: neither CLAIM_PATHS nor here fails unclassified_fields(), so a new field cannot go unguarded
+#: without someone deciding so. LIMITATION: the fields below are NOT guarded by this rule; whether
+#: any of them should be is an owner question (the assessment and policy fields set what a learner
+#: must do and what happens to the credential, but the engine and the issue route have their own
+#: tests for the ones they read).
+NOT_DIGESTED = {
+    "roles_aligned": "the roles the badge is aligned to; a catalog label that no code branches on",
+    "capability_level": "a label for the level; the credential class carries the rule",
+    "family": "a grouping label derived from credential_class",
+    "market_evidence_ids": "citations of the industry evidence behind the badge: provenance, not a claim",
+    "assessment_blueprint": "the components and weights the engine scores; unguarded here, see the limitation above",
+    "scoring_rules": "only minimum_overall_score and non_compensatory are digested; the rest is scoring detail",
+    "retake_rules": "operational policy: cool-downs and attempt limits",
+    "evidence_rules": "operational policy: what evidence is acceptable",
+    "expiration_policy": "operational policy",
+    "revocation_policy": "operational policy",
+    "legacy_progress_policy": "operational policy: how legacy progress counts",
+    "issuer": "who issues; one value for every badge",
+}
+
+
+def unclassified_fields(catalog: dict) -> list[str]:
+    """Catalog fields that are neither digested nor declared left out, and declarations gone stale."""
+    present = {key for badge in catalog["badges"] for key in badge}
+    digested = {path.split(".")[0] for path in CLAIM_PATHS}
+    return [
+        f"{key}: in the catalog but neither digested nor declared left out"
+        for key in sorted(present - digested - set(NOT_DIGESTED))
+    ] + [
+        f"{key}: declared left out of the digest but no badge has it"
+        for key in sorted(set(NOT_DIGESTED) - present)
+    ]
+
+
+def overlapping_fields(claim_paths: list[str], left_out: dict) -> list[str]:
+    """Fields digested whole and also declared left out. A dotted path digests only part of a field
+    (scoring_rules.minimum_overall_score), so it is never a whole-field overlap."""
+    return sorted(set(left_out) & set(claim_paths))
 
 
 def claim_digest(badge: dict) -> str:
@@ -73,7 +125,7 @@ def digest_violations(catalog: dict, records: dict) -> list[str]:
 #: The version of the method that makes a digest. Digests of another schema are not comparable, so
 #: recording over them is a re-baseline (refusals() allows it). Raise it when CLAIM_PATHS or the
 #: payload changes; that edit is itself a visible change to a protected test file.
-DIGEST_SCHEMA = 1
+DIGEST_SCHEMA = 2
 SEMVER = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 
 
@@ -119,6 +171,7 @@ def record(catalog: dict) -> dict:
         "schema": DIGEST_SCHEMA,
         "method": "sha256 of the UTF-8 JSON of {catalog path: value} for the fields below, keys sorted, separators ',' and ':', ensure_ascii False",
         "fields": CLAIM_PATHS,
+        "left_out": sorted(NOT_DIGESTED),
         "records": {b["badge_id"]: {"version": b["version"], "sha256": claim_digest(b)} for b in catalog["badges"]},
     }
 
@@ -131,8 +184,11 @@ class ClaimDigests(unittest.TestCase):
     def _badge(self, catalog: dict, badge_id: str = "progress_phase0_walked") -> dict:
         return next(b for b in catalog["badges"] if b["badge_id"] == badge_id)
 
-    def test_every_claim_matches_its_recorded_digest_and_the_recorded_fields_are_shared(self) -> None:
-        self.assertEqual(self.records["fields"], CLAIM_PATHS, "re-record: the shared fields changed")
+    def test_every_claim_matches_its_recorded_digest_under_the_current_method(self) -> None:
+        self.assertEqual(self.records["schema"], DIGEST_SCHEMA, "re-record: the method changed")
+        self.assertEqual(self.records["fields"], CLAIM_PATHS, "re-record: the claim fields changed")
+        self.assertEqual(self.records["left_out"], sorted(NOT_DIGESTED), "re-record: the left-out fields changed")
+        self.assertLessEqual(set(SHARED_PATHS), set(CLAIM_PATHS), "the 13 fields the contracts repeat stay digested")
         self.assertEqual(digest_violations(self.catalog, self.records["records"]), [])
 
     def test_a_claim_change_without_a_version_bump_is_red(self) -> None:
@@ -151,10 +207,53 @@ class ClaimDigests(unittest.TestCase):
         problems = digest_violations(catalog, self.records["records"])
         self.assertEqual(problems, ["progress_phase0_walked: claim changed under version 1.0.1; re-record the digest"])
 
-    def test_a_change_outside_the_shared_fields_is_not_a_claim_change(self) -> None:
+    def test_what_a_badge_claims_and_what_earns_it_are_claims(self) -> None:
+        """The review's four fixtures, each of which returned [] with the 13 shared fields only."""
+        edits = {
+            "skill_nodes": lambda b: b["skill_nodes"].append("hypothesis_testing"),
+            "non_claims": lambda b: b["non_claims"].clear(),
+            "required_projects": lambda b: b["required_projects"].append("CP-EXTRA"),
+            "newbie_friendly_description": lambda b: b.update(newbie_friendly_description=b["newbie_friendly_description"] + " (reworded)"),
+            "credential_type": lambda b: b.update(credential_type="competency_badge"),
+        }
+        for field, edit in edits.items():
+            with self.subTest(field=field):
+                catalog = copy.deepcopy(self.catalog)
+                edit(self._badge(catalog, "integrated_python_ai_capstone_independent"))
+                self.assertEqual(
+                    digest_violations(catalog, self.records["records"]),
+                    ["integrated_python_ai_capstone_independent: claim changed without a version bump (version 1.0.0)"],
+                )
+
+    def test_a_field_declared_left_out_may_change_freely(self) -> None:
+        self.assertIn("market_evidence_ids", NOT_DIGESTED)
         catalog = copy.deepcopy(self.catalog)
-        self._badge(catalog)["newbie_friendly_description"] += " (wording only)"
+        self._badge(catalog)["market_evidence_ids"].append("industry_reality_brief.md §99 (a new citation)")
         self.assertEqual(digest_violations(catalog, self.records["records"]), [])
+
+    def test_every_catalog_field_is_either_digested_or_declared_left_out(self) -> None:
+        self.assertEqual(unclassified_fields(self.catalog), [])
+
+    def test_a_new_catalog_field_must_be_classified_before_it_can_go_unguarded(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        self._badge(catalog)["issuer_logo_url"] = "https://example.invalid/logo.png"
+        self.assertEqual(
+            unclassified_fields(catalog),
+            ["issuer_logo_url: in the catalog but neither digested nor declared left out"],
+        )
+
+    def test_a_declared_left_out_field_that_is_not_in_the_catalog_is_stale(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        for badge in catalog["badges"]:
+            del badge["retake_rules"]
+        self.assertEqual(
+            unclassified_fields(catalog),
+            ["retake_rules: declared left out of the digest but no badge has it"],
+        )
+
+    def test_a_field_cannot_be_both_digested_and_declared_left_out(self) -> None:
+        self.assertEqual(overlapping_fields(CLAIM_PATHS, {"public_claim": "x", "scoring_rules": "y"}), ["public_claim"])
+        self.assertEqual(overlapping_fields(CLAIM_PATHS, NOT_DIGESTED), [])
 
     def test_a_badge_with_no_recorded_digest_is_red(self) -> None:
         records = copy.deepcopy(self.records["records"])
