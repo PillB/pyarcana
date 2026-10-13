@@ -50,6 +50,14 @@ import {
 import { useSession } from 'next-auth/react'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
+import {
+  SELF_CHECK_PASS_PCT,
+  authoredOrders,
+  gradeSelfCheck,
+  mathRandomInt,
+  optionOrders,
+  revealsKey,
+} from '@/lib/self-check'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
@@ -844,8 +852,16 @@ function QuizTab({
   score: number
   onSubmitScore: (s: number) => void
 }) {
+  const questions = section.selfCheck.questions
+  // Answers hold AUTHORED option indexes; `orders` only decides where each option is drawn.
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [submitted, setSubmitted] = useState(false)
+  // Authored order on the first render, so the static HTML and hydration agree; shuffled after.
+  const [orders, setOrders] = useState<number[][]>(() => authoredOrders(questions))
+
+  useEffect(() => {
+    setOrders(optionOrders(questions, mathRandomInt))
+  }, [questions])
 
   const handleSelect = (qIdx: number, optIdx: number) => {
     if (submitted) return
@@ -853,15 +869,10 @@ function QuizTab({
   }
 
   const handleSubmit = () => {
-    const total = section.selfCheck.questions.length
-    const correct = section.selfCheck.questions.reduce(
-      (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
-      0
-    )
-    const pct = Math.round((correct / total) * 100)
+    const { pct } = gradeSelfCheck(questions, answers)
     onSubmitScore(pct)
     setSubmitted(true)
-    if (pct >= 70) {
+    if (pct >= SELF_CHECK_PASS_PCT) {
       onDone()
     }
   }
@@ -869,14 +880,12 @@ function QuizTab({
   const handleRetry = () => {
     setAnswers({})
     setSubmitted(false)
+    setOrders(optionOrders(questions, mathRandomInt))
   }
 
-  const total = section.selfCheck.questions.length
-  const correct = section.selfCheck.questions.reduce(
-    (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
-    0
-  )
-  const pct = total > 0 ? Math.round((correct / total) * 100) : 0
+  const { correct, total, pct } = gradeSelfCheck(questions, answers)
+  // Below the pass mark only the score shows: no key, no right/wrong marks, no explanations.
+  const reveal = submitted && revealsKey(pct)
 
   return (
     <div className="space-y-6">
@@ -885,10 +894,10 @@ function QuizTab({
         <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
       </div>
       <Callout type="info" title="¿Para qué este quiz?">
-        Active recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.
+        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más desbloqueas la siguiente sección y ves las respuestas correctas y sus explicaciones. Si no llegas, repasa y reintenta.
       </Callout>
 
-      {section.selfCheck.questions.map((q, qIdx) => {
+      {questions.map((q, qIdx) => {
         const userAnswer = answers[qIdx]
         const isCorrect = userAnswer === q.correctIndex
         return (
@@ -901,10 +910,11 @@ function QuizTab({
                 <p className="text-sm font-medium text-foreground"><InlineText text={q.question} /></p>
               </div>
               <div className="space-y-2">
-                {q.options.map((opt, oIdx) => {
+                {(orders[qIdx] ?? q.options.map((_, i) => i)).map((oIdx, shownAt) => {
+                  const opt = q.options[oIdx]
                   const isSelected = userAnswer === oIdx
-                  const showCorrect = submitted && oIdx === q.correctIndex
-                  const showWrong = submitted && isSelected && oIdx !== q.correctIndex
+                  const showCorrect = reveal && oIdx === q.correctIndex
+                  const showWrong = reveal && isSelected && oIdx !== q.correctIndex
                   return (
                     <button
                       key={oIdx}
@@ -940,7 +950,7 @@ function QuizTab({
                         ) : showWrong ? (
                           <X className="h-3.5 w-3.5" />
                         ) : (
-                          String.fromCharCode(65 + oIdx)
+                          String.fromCharCode(65 + shownAt)
                         )}
                       </span>
                       <span className="flex-1"><InlineText text={opt} /></span>
@@ -948,7 +958,7 @@ function QuizTab({
                   )
                 })}
               </div>
-              {submitted && (
+              {reveal && (
                 <div
                   className={cn(
                     'mt-3 rounded-lg p-3 text-xs',
@@ -977,7 +987,7 @@ function QuizTab({
         </Button>
       ) : (
         <Card
-          className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
+          className={cn('p-5 text-center', reveal ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
           data-testid="sc-result"
         >
           <div className="mb-2 flex justify-center">
@@ -986,16 +996,21 @@ function QuizTab({
             </div>
           </div>
           <div className="text-lg font-bold">
-            {pct >= 70 ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
+            {reveal ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
             {correct} de {total} correctas ({pct}%)
           </p>
+          {!reveal && (
+            <p className="mt-2 text-sm text-muted-foreground" data-testid="sc-below-pass">
+              Verás las respuestas correctas y sus explicaciones cuando alcances el 70%; ahora repasa la teoría y el I Do de esta sección y reintenta.
+            </p>
+          )}
           <div className="mt-4 flex justify-center gap-2">
             <Button variant="outline" onClick={handleRetry} className="gap-2">
               Reintentar
             </Button>
-            {pct >= 70 && (
+            {reveal && (
               <Button className="gap-2" onClick={onDone}>
                 <Award className="h-4 w-4" />
                 Marcar como completada
