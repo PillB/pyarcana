@@ -40,10 +40,10 @@ def load(path: Path, default):
         return default
 
 
-def main() -> int:
-    epoch = numbering.load_epoch(ROOT)
+def fresh_events(epoch: numbering.Epoch) -> dict:
+    """The course's event extract. The cache is gitignored and can be stale, so it is re-extracted when
+    its course order is not the epoch's."""
     events = load(ROOT / ".fixer/events.json", {})
-    # The event cache is gitignored and can be stale: re-extract when its course order is not the epoch's.
     if events.get("active_section_ids") != list(epoch.slugs):
         proc = subprocess.run(["npx", "tsx", "scripts/course_event_extractor.mts"],
                               cwd=ROOT, capture_output=True, text=True)
@@ -53,40 +53,36 @@ def main() -> int:
         if events.get("active_section_ids") != list(epoch.slugs):
             raise SystemExit("the course's section order disagrees with the numbering epoch; "
                              "run tools/fixer/numbering.py to see where")
+    return events
 
-    registry = numbering.registry_findings(ROOT, epoch)
-    first_use = load(ROOT / "course-state/first_use_all_report.json", {"issues": []})
-    ids_rep = load(ROOT / "course-state/synthetic_identifier_report.json", {"findings": []})
-    prose = load(ROOT / "course-state/prose_quality_report.json", {})
-    runtime = load(ROOT / "course-state/python_runtime_audit_report.json", {})
 
-    # per-section evidence
-    figures, concepts = {}, {}
+def figure_counts(events: dict) -> dict[str, int]:
+    """Figures per section slug."""
+    figures: dict[str, int] = {}
     for e in events.get("events", []):
-        s = e["section_id"]
         if e["kind"] == "theory.figure":
-            figures[s] = figures.get(s, 0) + 1
-        if e["kind"] == "theory.heading":
-            concepts.setdefault(s, []).append(e["text"])
+            figures[e["section_id"]] = figures.get(e["section_id"], 0) + 1
+    return figures
 
-    vocab_bad, ids_bad = set(), set()
-    for i in first_use.get("issues", []):
-        loc = (i.get("location") or "").split(".", 1)[0]
-        if i["code"] in {"USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT",
-                         "NO_VISIBLE_DEFINITION"}:
-            vocab_bad.add(loc)
+
+def vocabulary_gaps(first_use: dict) -> set[str]:
+    """Sections the first-use report names a term used before it is defined."""
+    return {(i.get("location") or "").split(".", 1)[0] for i in first_use.get("issues", [])
+            if i["code"] in {"USE_BEFORE_DEFINITION", "DEFINITION_AFTER_REQUIREMENT", "NO_VISIBLE_DEFINITION"}}
+
+
+def identifier_sections(ids_rep: dict) -> set[str]:
+    """Sections whose own file the identifier report has a finding in."""
     section_slug = numbering.section_files(ROOT)     # read once: each lookup used to re-read every section file
-    for f in ids_rep.get("findings", []):
-        slug = section_slug.get(f.get("file", ""))
-        if slug:
-            ids_bad.add(slug)
+    return {slug for f in ids_rep.get("findings", []) if (slug := section_slug.get(f.get("file", "")))}
 
-    runtime_clean = runtime.get("ok") is True
-    redaction_applied = numbering.redacted_slugs(ROOT, epoch)
+
+def section_rows(epoch: numbering.Epoch, evidence: dict) -> tuple[list, dict[str, int]]:
+    """One row per section of the epoch, and how many sections have each step done."""
+    registry = numbering.registry_findings(ROOT, epoch)
     cycles = numbering.cycle_records(ROOT, epoch)
-
+    redaction_applied = numbering.redacted_slugs(ROOT, epoch)
     rows, done_counts = [], {k: 0 for k, _ in STEPS}
-
     for number, slug in enumerate(epoch.slugs, 1):
         tag = numbering.tag_of(number)
         cycle = cycles.get(slug)
@@ -97,20 +93,25 @@ def main() -> int:
         # `--check` could never pass there. A ledger whose number depends on untracked state is the
         # dead-measure shape wearing the campaign's own badge. The evidence is committed now.
         redacted = slug in redaction_applied
-        p = prose.get(tag, {})
+        p = evidence["prose"].get(tag, {})
 
         state = {
             "findings": bool(cycle) and closed >= total and total > 0,
             "redaction": redacted and p.get("run_on_sentences", 99) <= 12,
             "concepts": False,   # judged per section; no automatic proxy yet
-            "figures": figures.get(slug, 0) >= 2,
-            "vocab": slug not in vocab_bad,
-            "ids": slug not in ids_bad,
-            "runtime": runtime_clean,
+            "figures": evidence["figures"].get(slug, 0) >= 2,
+            "vocab": slug not in evidence["vocab_bad"],
+            "ids": slug not in evidence["ids_bad"],
+            "runtime": evidence["runtime_clean"],
         }
         for k, v in state.items():
             done_counts[k] += bool(v)
-        rows.append((tag, slug, total, closed, figures.get(slug, 0), p, state))
+        rows.append((tag, slug, total, closed, evidence["figures"].get(slug, 0), p, state))
+    return rows, done_counts
+
+
+def render(epoch: numbering.Epoch, rows: list, done_counts: dict[str, int]) -> str:
+    """LEDGER.md for these rows."""
 
     def box(v):
         return "[x]" if v else "[ ]"
@@ -147,7 +148,23 @@ def main() -> int:
     notes = ROOT / "audit/fixer/LEDGER_NOTES.md"
     if notes.exists():
         L += ["", "---", "", notes.read_text(encoding="utf-8").rstrip()]
-    text = "\n".join(L) + "\n"
+    return "\n".join(L) + "\n"
+
+
+def main() -> int:
+    epoch = numbering.load_epoch(ROOT)
+    events = fresh_events(epoch)
+    runtime = load(ROOT / "course-state/python_runtime_audit_report.json", {})
+    evidence = {
+        "figures": figure_counts(events),
+        "vocab_bad": vocabulary_gaps(load(ROOT / "course-state/first_use_all_report.json", {"issues": []})),
+        "ids_bad": identifier_sections(load(ROOT / "course-state/synthetic_identifier_report.json",
+                                            {"findings": []})),
+        "prose": load(ROOT / "course-state/prose_quality_report.json", {}),
+        "runtime_clean": runtime.get("ok") is True,
+    }
+    rows, done_counts = section_rows(epoch, evidence)
+    text = render(epoch, rows, done_counts)
     if "--check" in sys.argv:
         current = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
         if current != text:

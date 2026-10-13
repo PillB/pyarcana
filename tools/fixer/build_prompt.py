@@ -41,6 +41,30 @@ def section_file(slug: str) -> Path:
     raise SystemExit(f"no section file for slug {slug!r}")
 
 
+def vocabulary_before(payload: dict, epoch: numbering.Epoch, num: int) -> list[str]:
+    """Vocabulary the learner has actually met before section `num`."""
+    return sorted({
+        t for e in payload["events"]
+        if e["learner_visible"] and numbering.number_of_slug(e["section_id"], epoch) < num
+        for t in e["defines"]
+    })
+
+
+def vocabulary_gaps(slug: str) -> list[dict]:
+    """The first-use gate's findings for this section."""
+    return [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
+            if (i.get("location") or "").split(".", 1)[0] == slug]
+
+
+def identifier_findings(path: Path) -> list[dict]:
+    """D2 violations in this section's file, as concrete work items rather than a policy line."""
+    report = ROOT / "course-state/synthetic_identifier_report.json"
+    if not report.exists():
+        return []
+    rel = str(path.relative_to(ROOT))
+    return [f for f in json.loads(report.read_text(encoding="utf-8"))["findings"] if f["file"] == rel]
+
+
 def main() -> None:
     tag = sys.argv[1]                      # e.g. S01
     epoch = numbering.load_epoch(ROOT)
@@ -56,22 +80,9 @@ def main() -> None:
     order = {"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
     findings.sort(key=lambda f: order.get(f["severity"], 9))
 
-    # Vocabulary the learner has actually met before this section, and the gaps here.
-    seen_before = sorted({
-        t for e in payload["events"]
-        if e["learner_visible"] and numbering.number_of_slug(e["section_id"], epoch) < num
-        for t in e["defines"]
-    })
-    gaps = [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
-            if (i.get("location") or "").split(".", 1)[0] == slug]
-
-    # D2 violations in this section, as concrete work items rather than a policy line
-    d2_path = ROOT / "course-state/synthetic_identifier_report.json"
-    d2 = []
-    if d2_path.exists():
-        rel = str(path.relative_to(ROOT))
-        d2 = [f for f in json.loads(d2_path.read_text(encoding="utf-8"))["findings"]
-              if f["file"] == rel]
+    seen_before = vocabulary_before(payload, epoch, num)
+    gaps = vocabulary_gaps(slug)
+    d2 = identifier_findings(path)
 
     def block(title: str, body: str) -> str:
         return f"\n\n===== {title} =====\n{body}"

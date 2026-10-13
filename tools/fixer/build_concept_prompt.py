@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numbering  # noqa: E402
+from build_prompt import vocabulary_before  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
@@ -224,6 +225,29 @@ def concept_row(cid: str, c: dict, tag: str) -> dict | None:
     }
 
 
+def operating_contract() -> str:
+    """The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule."""
+    wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
+    w0 = wiki.find("## Campaign operating contract")
+    w1 = wiki.find("## Solarize adaptation")
+    return wiki[w0:w1 if w1 > w0 else None].strip() if w0 >= 0 else ""
+
+
+#: Categories of ReviewerFixer finding that bear on vocabulary and prerequisites.
+VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
+         "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
+
+
+def vocabulary_findings(found: list[dict]) -> list[dict]:
+    """The section's registry findings that bear on vocabulary and prerequisites, trimmed to the fields a
+    brief needs. The audits already named many of these gaps in their own words."""
+    return [
+        {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
+        for f in found
+        if any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper() for v in VOCAB)
+    ][:25]
+
+
 def main() -> int:
     tag = sys.argv[1]
     # D14 sections (S02-S04 under route 2) rebuild exercises; everything else stays prose-only.
@@ -246,10 +270,8 @@ def main() -> int:
         return 2
 
     todo.sort(key=lambda t: (not t["never_explained_anywhere"], not t["load_bearing"]))
-    known = sorted({t for e in payload["events"]
-                    if e["learner_visible"] and numbering.number_of_slug(e["section_id"], epoch) < num
-                    for t in e["defines"]})
-    rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
+    known = vocabulary_before(payload, epoch, num)
+    rules =(ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
     decisions = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
     # The owner's answers to questions only they could settle. Separate from decisions.md because
     # these expire: each carries a scope and a "Retire when". Injected rather than remembered -
@@ -257,23 +279,9 @@ def main() -> int:
     # lives only in someone's head or in a chat message is not a decision the round will honour.
     owner = (ROOT / "audit/fixer/OWNER_DECISIONS.md").read_text(encoding="utf-8")
 
-    # The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule.
-    wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
-    w0 = wiki.find("## Campaign operating contract")
-    w1 = wiki.find("## Solarize adaptation")
-    wiki_contract = wiki[w0:w1 if w1 > w0 else None].strip() if w0 >= 0 else ""
-
-    # ReviewerFixer-derived findings for this section that bear on vocabulary and
-    # prerequisites - the audits already named many of these gaps in their own words.
-    VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
-             "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
-    registry = numbering.registry_findings(ROOT, epoch)[slug]
-    audit_findings = [
-        {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
-        for f in registry
-        if any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper() for v in VOCAB)
-    ][:25]
-    text_note = numbering.text_epoch_note(ROOT, epoch)
+    wiki_contract = operating_contract()
+    audit_findings = vocabulary_findings(numbering.registry_findings(ROOT, epoch)[slug])
+    text_note =numbering.text_epoch_note(ROOT, epoch)
     audit_note = f"{text_note}\n" if text_note else ""
 
     print(f"""You are teaching the concepts that PyArcana section {tag} ("{slug}") currently uses
