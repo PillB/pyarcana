@@ -41,7 +41,6 @@ SEED_TEXT_READERS_OWED = {
     "scripts/exam_selfcheck_pedagogy_audit.py",
     "scripts/v3_invariant_validator.py",
     "tests/adversarial/s05_curriculum_integrity.test.mjs",
-    "tests/adversarial/test_exam_length_cue.py",
     "tests/adversarial/test_s01_independent_recovery.py",
     "tests/adversarial/test_s02_independent_contract.py",
     "tests/adversarial/test_s03_independent_contract.py",

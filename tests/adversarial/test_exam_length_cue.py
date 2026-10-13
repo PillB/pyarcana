@@ -1,6 +1,6 @@
 """The longest option must not be the answer.
 
-Measured on 2026-09-29 over every bank in `prisma/seed.ts`: the correct option is the longest of
+Measured on 2026-09-29 over every bank in the exam seed: the correct option is the longest of
 the four in **1125 of 1200 questions, 94%**, where chance is 25%. Eleven banks are at 100%. The
 correct option averages 2.5x the length of the others.
 
@@ -12,7 +12,7 @@ So a learner who always picks the longest option scores about 94 and passes ever
 course without knowing any Python, and `exam-scoring.ts:120` counts a passing attempt as evidence
 of section completion, which is what badges and the certificate are built on.
 
-This is a ratchet, not an absolute gate: 1125 questions cannot be rewritten in one round, and a
+This is a ratchet, not an absolute gate: 1121 questions cannot be rewritten in one round, and a
 gate that is red on every round says nothing about the round. The debt is counted, it may not
 grow, and it must be lowered as it is paid. The same shape as
 `glossary-first-use-ratchet.test.mjs`.
@@ -22,63 +22,85 @@ long and as specific as the key, and "remove language used for teaching points a
 from the key. Never trim the detail that makes the key correct: a key cut to match three short
 distractors has lost the precision it was written to test (owner decision O20, 2026-10-07; this
 docstring said "never trim the key" until then, which forbade the guide's own remedy).
+
+The banks are read through scripts/exam_bank.py, which parses the exam seed with the TypeScript
+compiler. An earlier version of this file matched single-quoted keys with a regex and so never saw
+`setup` or `basics`; see LONGEST_IS_CORRECT_OWED.
 """
 from __future__ import annotations
 
-import re
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SEED = ROOT / "prisma/seed.ts"
+sys.path.insert(0, str(ROOT / "scripts"))
 
-#: Questions whose correct option is the longest. Lower this as banks are repaired.
+import exam_bank  # noqa: E402
+
+#: Questions whose correct option is the longest; a tie with the longest counts. Lower this as
+#: banks are repaired.
 #: 2026-10-07: 1125 -> 1081. 110 of the GLM lane's rewrites in S05 and S08-S11 (O20); the other 8
-#: go back to Codex. Measured by this file's _BANK, which reads only single-quoted keys -- 1200 of
-#: the 1248 questions. Widening it is its own change, with its own mutation proof.
-LONGEST_IS_CORRECT_OWED = 1081
+#: went back to Codex.
+#: 2026-10-13: 1081 -> 1121. A re-measure, not a repair: no question changed. The old count read
+#: single-quoted keys only (`_BANK`), so it saw 1200 of the 1248 questions (44 banks), and it folded
+#: six double-quoted or unquoted banks into the banks before them. Read through the TypeScript
+#: parser, every bank is seen: 1081 over the 1200 the old reader saw, plus +22 for `setup` and +18
+#: for `basics`, which have unquoted keys the regex never matched. 1121 of 1248.
+#: Another open round (the S10 round) lowers this count; whichever lands second re-measures.
+LONGEST_IS_CORRECT_OWED = 1121
+#: What the old single-quote reader counted: every bank except the two unquoted ones below.
+OLD_READER_LONGEST = 1081
+UNSEEN_BY_OLD_READER = frozenset({"setup", "basics"})
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
-PERFECT_CUE_BANKS_OWED = 11
-
-_OPTION = re.compile(r"'((?:[^'\\]|\\.)*)'|\"((?:[^\"\\]|\\.)*)\"")
-_ITEM = re.compile(r"options:\s*\[(.*?)\]\s*,\s*correctIndex:\s*(\d)", re.S)
-_BANK = re.compile(r"^  '([a-z0-9-]+)': \[", re.M)
-
-
-def options(raw: str) -> list[str]:
-    return [m.group(1) or m.group(2) for m in _OPTION.finditer(raw)]
+#: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
+PERFECT_CUE_BANKS_OWED = frozenset({
+    "apis-sql-geo", "architecture-ddd-decisions", "career-strategy", "evidence-dashboard",
+    "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security", "security-infra",
+    "wxpython-gui",
+})
 
 
-def cue_by_bank(source: str) -> dict[str, tuple[int, int]]:
+def is_longest(question: dict) -> bool:
+    """True when the key is as long as the longest option. A tie with the longest counts."""
+    lengths = [len(option) for option in question["options"]]
+    return lengths[question["correctIndex"]] == max(lengths)
+
+
+def cue_by_bank(banks: list[dict]) -> dict[str, tuple[int, int]]:
     """{slug: (questions whose key is the longest option, questions)}."""
-    marks = [(m.start(), m.group(1)) for m in _BANK.finditer(source)]
-    out: dict[str, tuple[int, int]] = {}
-    for i, (start, slug) in enumerate(marks):
-        end = marks[i + 1][0] if i + 1 < len(marks) else len(source)
-        longest = total = 0
-        for raw, index in _ITEM.findall(source[start:end]):
-            opts = options(raw)
-            if len(opts) != 4:
-                continue
-            lengths = [len(o) for o in opts]
-            total += 1
-            longest += lengths[int(index)] == max(lengths)
-        if total:
-            out[slug] = (longest, total)
-    return out
+    return {
+        bank["slug"]: (sum(is_longest(q) for q in bank["questions"]), len(bank["questions"]))
+        for bank in banks
+    }
 
 
 class ExamLengthCue(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.banks = exam_bank.load_banks()
+
     def setUp(self) -> None:
-        self.by_bank = cue_by_bank(SEED.read_text(encoding="utf-8"))
+        self.by_bank = cue_by_bank(self.banks)
         self.longest = sum(c for c, _ in self.by_bank.values())
         self.total = sum(t for _, t in self.by_bank.values())
 
     def test_the_measure_still_sees_the_banks(self):
-        """A parse that silently matches nothing would make every count below zero."""
-        self.assertGreater(len(self.by_bank), 40, "found almost no banks; the parse has rotted")
-        self.assertGreater(self.total, 1000, "found almost no questions; the parse has rotted")
+        """A reader that drops banks makes every count below look smaller than it is."""
+        self.assertGreaterEqual(len(self.by_bank), 52, "the reader lost banks; the count is short")
+        self.assertGreaterEqual(self.total, 1248, "the reader lost questions; the count is short")
+
+    def test_every_question_has_four_options(self):
+        """The cue is measured over four options. Another size would be measured wrongly."""
+        sizes = {len(q["options"]) for bank in self.banks for q in bank["questions"]}
+        self.assertEqual(sizes, {4})
+
+    def test_the_figure_reconciles_with_the_old_reader(self):
+        """Restricted to the questions the old reader saw, the measure gives the old figure."""
+        seen = [q for bank in self.banks if bank["slug"] not in UNSEEN_BY_OLD_READER
+                for q in bank["questions"]]
+        self.assertEqual(sum(is_longest(q) for q in seen), OLD_READER_LONGEST)
 
     def test_the_length_cue_does_not_grow(self):
         self.assertLessEqual(
@@ -95,24 +117,24 @@ class ExamLengthCue(unittest.TestCase):
         )
 
     def test_no_further_bank_becomes_perfectly_predictable(self):
-        perfect = sorted(s for s, (c, t) in self.by_bank.items() if c == t)
-        self.assertLessEqual(
-            len(perfect), PERFECT_CUE_BANKS_OWED,
-            f"{len(perfect)} banks answer to the cue in every question: {', '.join(perfect)}",
-        )
-        self.assertEqual(len(perfect), PERFECT_CUE_BANKS_OWED,
-                         f"only {len(perfect)} remain - lower PERFECT_CUE_BANKS_OWED")
+        perfect = {slug for slug, (c, t) in self.by_bank.items() if c == t}
+        new = sorted(perfect - PERFECT_CUE_BANKS_OWED)
+        self.assertEqual(new, [], f"banks answer to the cue in every question: {', '.join(new)}")
+
+    def test_repaired_perfect_banks_leave_the_owed_set(self):
+        perfect = {slug for slug, (c, t) in self.by_bank.items() if c == t}
+        gone = sorted(PERFECT_CUE_BANKS_OWED - perfect)
+        self.assertEqual(gone, [], f"no longer perfect - remove from PERFECT_CUE_BANKS_OWED: {gone}")
 
     def test_the_detector_reads_lengths_not_positions(self):
         """Falsification: a bank with the key shortest must not be counted, whatever its index."""
-        synthetic = (
-            "  'probe-bank': [\n"
-            "    { options: ['si', 'una respuesta larga y detallada', 'otra igual de larga aqui',"
-            " 'tambien bastante larga'], correctIndex: 0 },\n"
-            "    { options: ['a', 'b', 'c', 'una respuesta larga'], correctIndex: 3 },\n"
-            "  ],\n"
-        )
-        self.assertEqual(cue_by_bank(synthetic)["probe-bank"], (1, 2))
+        synthetic = [
+            {"options": ["si", "una respuesta larga y detallada", "otra igual de larga aqui",
+                         "tambien bastante larga"], "correctIndex": 0},
+            {"options": ["a", "b", "c", "una respuesta larga"], "correctIndex": 3},
+        ]
+        self.assertEqual(cue_by_bank([{"slug": "probe-bank", "questions": synthetic}])["probe-bank"],
+                         (1, 2))
 
 
 if __name__ == "__main__":
