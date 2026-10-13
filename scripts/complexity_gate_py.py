@@ -50,6 +50,14 @@ class Scorer(ast.NodeVisitor):
                 self.visit(child)
 
 
+def display(path: Path) -> str:
+    """Repo-relative when the file is inside ROOT, otherwise the path as given."""
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path.absolute())
+
+
 def function_scores(path: Path) -> list[dict]:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8"))
@@ -61,7 +69,7 @@ def function_scores(path: Path) -> list[dict]:
             scorer = Scorer()
             for child in node.body:
                 scorer.visit(child)
-            rows.append({"file": str(path.relative_to(ROOT)), "function": node.name,
+            rows.append({"file": display(path), "function": node.name,
                          "line": node.lineno, "score": scorer.score})
     return rows
 
@@ -72,7 +80,7 @@ def python_files() -> list[Path]:
 
 
 def check_files(paths: list[str]) -> int:
-    over = [r for a in paths for r in function_scores(Path(a).resolve()) if r["score"] > CEILING]
+    over = [r for a in paths for r in function_scores(Path(a)) if r["score"] > CEILING]
     for r in over:
         print(f"  OVER {r['score']:3d} {r['file']}:{r['line']} {r['function']}")
     print(f"new code: {len(over)} function(s) above {CEILING}")
