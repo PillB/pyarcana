@@ -224,5 +224,105 @@ class Scope(unittest.TestCase):
         self.assertFalse(GATE_MODULE.excluded("scripts/a.py", rules))
 
 
+def function_with_score(name: str, score: int) -> str:
+    """A function whose complexity is exactly `score` (one base point plus score - 1 ifs)."""
+    body = "".join(f"    if x == {i}:\n        return {i}\n" for i in range(score - 1))
+    return f"def {name}(x):\n{body}    return -1\n"
+
+
+class Ratchet(unittest.TestCase):
+    """Per-function ratchet: new code meets the ceiling, baselined debt may not grow, falling
+    debt tightens the baseline, and a missing baseline fails. Runs in a temporary tree."""
+
+    BASELINE = "audit/fixer/complexity_baseline_py.json"
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        (self.root / "scripts").mkdir()
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def put(self, source: str, name: str = "a.py") -> None:
+        (self.root / "scripts" / name).write_text(source, encoding="utf-8")
+
+    def gate(self, *args: str) -> subprocess.CompletedProcess:
+        return run_gate("--root", str(self.root), *args)
+
+    def baseline(self) -> dict:
+        return json.loads((self.root / self.BASELINE).read_text(encoding="utf-8"))
+
+    def test_a_missing_baseline_fails_and_is_not_silently_created(self):
+        self.put(function_with_score("f", 3))
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("--init", done.stdout + done.stderr)
+        self.assertFalse((self.root / self.BASELINE).exists())
+
+    def test_init_writes_a_baseline_and_a_clean_tree_then_passes(self):
+        self.put(function_with_score("f", 3))
+        self.assertEqual(self.gate("--init").returncode, 0)
+        self.assertEqual(self.baseline()["offenders"], {})
+        self.assertEqual(self.gate().returncode, 0)
+
+    def test_init_refuses_to_overwrite_an_existing_baseline(self):
+        self.put(function_with_score("f", 3))
+        self.gate("--init")
+        self.assertEqual(self.gate("--init").returncode, 1)
+
+    def test_a_deleted_baseline_fails_the_gate(self):
+        self.put(function_with_score("f", 3))
+        self.gate("--init")
+        (self.root / self.BASELINE).unlink()
+        self.assertEqual(self.gate().returncode, 1)
+
+    def test_a_new_function_over_the_ceiling_fails_and_is_keyed_by_path_and_name(self):
+        self.put(function_with_score("f", 3))
+        self.gate("--init")
+        self.put(function_with_score("f", 3) + function_with_score("g", 16))
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout)
+        self.assertIn("NEW OVER  16 scripts/a.py::g", done.stdout)
+
+    def test_a_baselined_twenty_that_becomes_twenty_one_fails_though_the_worst_is_unchanged(self):
+        self.put(function_with_score("f", 20) + function_with_score("g", 25))
+        self.gate("--init")
+        self.put(function_with_score("f", 21) + function_with_score("g", 25))
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout)
+        self.assertIn("GREW  20 ->  21 scripts/a.py::f", done.stdout)
+
+    def test_fixing_one_offender_and_adding_another_of_the_same_count_fails(self):
+        self.put(function_with_score("f", 20))
+        self.gate("--init")
+        self.put(function_with_score("f", 10) + function_with_score("h", 18))
+        done = self.gate()
+        self.assertEqual(done.returncode, 1, done.stdout)
+        self.assertIn("NEW OVER  18 scripts/a.py::h", done.stdout)
+
+    def test_falling_scores_tighten_the_baseline_on_disk_and_pass(self):
+        self.put(function_with_score("f", 20) + function_with_score("g", 25))
+        self.gate("--init")
+        self.put(function_with_score("f", 10) + function_with_score("g", 18))
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        tightened = self.baseline()
+        self.assertEqual(tightened["offenders"], {"scripts/a.py::g": 18})
+        self.assertEqual((tightened["over_ceiling"], tightened["worst"]), (1, 18))
+
+    def test_a_repeated_name_in_one_file_is_suffixed_in_source_order(self):
+        self.put(function_with_score("f", 16) + function_with_score("f", 17))
+        self.gate("--init")
+        self.assertEqual(self.baseline()["offenders"],
+                         {"scripts/a.py::f": 16, "scripts/a.py::f#2": 17})
+
+    def test_an_unparseable_file_fails_the_ratchet_and_names_it(self):
+        self.put("def f(:\n")
+        done = self.gate("--init")
+        self.assertEqual(done.returncode, 1, done.stdout)
+        self.assertIn("scripts/a.py:1:", done.stdout + done.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()
