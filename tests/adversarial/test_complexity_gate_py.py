@@ -116,20 +116,33 @@ class CountingRules(unittest.TestCase):
 
 
 class ParameterDefaults(unittest.TestCase):
-    """Two deliberate departures from ESLint, pinned so that a silent change fails. ESLint counts a
-    parameter default (AssignmentPattern) because a JavaScript default runs on each call; a Python
-    default runs once, when the def runs, so the gate does not count it. Counting them would move
-    97 of 1909 functions and push two over the ceiling, so changing this is an owner decision."""
+    """The owner's ruling of 2026-10-12 (O21): Python counts like the TypeScript gate, so a parameter
+    default counts where ESLint counts it. ESLint scores an AssignmentPattern (+1) in the function
+    that owns the parameter, and so does the gate, wherever the def sits. radon does not count a
+    default, so these cases are named divergences in the parity corpus."""
 
-    def test_a_parameter_default_adds_nothing_to_its_own_function(self):
-        source = "def f(x=1, *, y=(2 if x else 3)):\n    return x\n"
+    def test_each_parameter_default_adds_one_to_its_own_function(self):
+        self.assertEqual(score("def f(x=1):\n    return x\n", "f"), 2)
+        self.assertEqual(score("def f(x=1, y=2):\n    return x\n", "f"), 3)
+
+    def test_positional_only_and_keyword_only_defaults_count_too(self):
+        self.assertEqual(score("def f(a=1, /, b=2, *, c=3, d):\n    return a\n", "f"), 4)
+
+    def test_a_lambda_default_counts_toward_the_lambda(self):
+        source = "def f(xs):\n    return sorted(xs, key=lambda x, d=0: x)\n"
+        self.assertEqual(score(source, "<kw key of sorted>"), 2)
         self.assertEqual(score(source, "f"), 1)
 
-    def test_a_default_inside_a_nested_def_counts_toward_the_enclosing_function(self):
-        """It runs where the nested def is defined, so the outer function pays for it."""
+    def test_a_default_expression_is_scored_inside_the_function_that_owns_the_parameter(self):
+        """ESLint: function f(a, x = a ? 2 : 3) is 1 + 1 for the default + 1 for the conditional."""
+        self.assertEqual(score("def f(a, x=(2 if a else 3)):\n    return x\n", "f"), 3)
+        self.assertEqual(score("class C:\n    def m(self, a, x=a or 1):\n        return x\n", "m"), 3)
+
+    def test_a_default_in_a_nested_def_belongs_to_the_nested_def_not_to_the_enclosing_function(self):
+        """ESLint attributes it to the nested function. It is the nested def's parameter."""
         source = "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n"
-        self.assertEqual(score(source, "outer"), 2)
-        self.assertEqual(score(source, "g"), 1)
+        self.assertEqual(score(source, "outer"), 1)
+        self.assertEqual(score(source, "g"), 3)
 
 
 CORPUS = json.loads((ROOT / "tests/adversarial/complexity_parity_corpus.json").read_text(encoding="utf-8"))
@@ -142,8 +155,8 @@ def score_by_qualname(source: str, function: str) -> int:
 
 
 class ParityCorpus(unittest.TestCase):
-    """34 snippets. `radon` is frozen from radon 6.0.1; `expected` is the ruling. They agree
-    everywhere except the four named divergences, which are pinned rather than hidden."""
+    """`radon` is frozen from radon 6.0.1; `expected` is the ruling. They agree everywhere except the
+    named divergences, each with its reason, which are pinned rather than hidden."""
 
     def test_the_corpus_was_frozen_from_radon_six_point_oh_one(self):
         self.assertEqual(CORPUS["radon"], "6.0.1")

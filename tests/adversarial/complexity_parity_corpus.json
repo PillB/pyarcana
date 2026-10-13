@@ -259,6 +259,54 @@
    "divergence": "radon counts a lambda's conditional into its enclosing function; the gate scores a lambda as its own unit, as ESLint scores an arrow function"
   },
   {
+   "id": "default_value",
+   "function": "f",
+   "source": "def f(x=1):\n    return x\n",
+   "radon": 1,
+   "expected": 2,
+   "divergence": "radon does not count a parameter default; ESLint scores each one (AssignmentPattern, +1) in the function that owns the parameter, and the owner ruling of 2026-10-12 (O21) makes the gate count like ESLint"
+  },
+  {
+   "id": "defaults_positional_only_and_keyword_only",
+   "function": "f",
+   "source": "def f(a=1, /, b=2, *, c=3, d):\n    return a\n",
+   "radon": 1,
+   "expected": 4,
+   "divergence": "radon does not count a parameter default; positional, positional-only and keyword-only defaults each add 1, as ESLint scores each AssignmentPattern (O21)"
+  },
+  {
+   "id": "default_conditional_expression",
+   "function": "f",
+   "source": "def f(a, x=(2 if a else 3)):\n    return x\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not look at a default; ESLint scores `function f(a, x = a ? 2 : 3)` as 3, one for the default and one for the conditional inside it, and so does the gate (O21)"
+  },
+  {
+   "id": "default_boolop_in_method",
+   "function": "C.m",
+   "source": "class C:\n    def m(self, a, x=a or 1):\n        return x\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not look at a default; the default and its `or` both belong to the method that owns the parameter, although a class body is not itself scored (O21)"
+  },
+  {
+   "id": "nested_def_default_outer",
+   "function": "outer",
+   "source": "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "nested_def_default_inner",
+   "function": "outer.g",
+   "source": "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not count a default; ESLint attributes a nested function's default to the nested function, not to the one around it, so g scores 3 and outer stays 1 (O21)"
+  },
+  {
    "id": "while_and_inner_for",
    "function": "f",
    "source": "def f(xs, n):\n    while n > 0 and xs:\n        for x in xs:\n            if x:\n                n -= 1\n    return n\n",

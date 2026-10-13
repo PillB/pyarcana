@@ -18,16 +18,16 @@ NIST SP 500-235 section 4.1 otherwise. Section 4.1 warns that constructs which l
 languages may not share control flow, so the count follows the control flow. It is 1 per
 function, plus 1 for each `if`/`elif`, conditional expression, loop, `except` clause, `assert`
 and `match` case that is not an irrefutable pattern, plus 1 for each `and`/`or` operator, and 1
-for each comprehension clause and each `if` in it. A nested def or lambda is scored on its own,
-except that its parameter defaults run where it is defined, so they count toward the function
-that contains it. Three departures from ESLint are deliberate, and tests/adversarial/
-test_complexity_gate_py.py pins each one. A parameter default is not counted: ESLint counts it,
-but a Python default is evaluated once, when the def runs, not on each call. `assert` and
-comprehension clauses are counted: ESLint has no node for them, and radon counts them. A default
-inside a nested def counts toward its enclosing function, where it runs; ESLint attributes it to
-the nested function. Module-level code is not a function and is not scored, as ESLint does not
-score the program. tests/adversarial/complexity_parity_corpus.json pins the counting against
-radon 6.0.1 and names where it departs from radon.
+for each comprehension clause and each `if` in it, plus 1 for each parameter default, as ESLint
+scores an AssignmentPattern (owner ruling 2026-10-12, O21: Python counts like the TypeScript gate).
+A default and the expression inside it are scored in the function that owns the parameter, so a
+nested def's defaults are the nested def's, not those of the function around it. A nested def or
+lambda is scored on its own, except that its decorators run where it is defined, so they count
+toward the function that contains it. `assert`, comprehension clauses, `match` guards and the body
+of a class defined inside a function are counted although ESLint has no node for them: each is a
+decision that runs with the function. Module-level code is not a function and is not scored, as
+ESLint does not score the program. tests/adversarial/complexity_parity_corpus.json pins the
+counting against radon 6.0.1 and names, with a reason, every place it departs from radon.
 
   python3 scripts/complexity_gate_py.py              # check, and tighten the baseline if debt fell
   python3 scripts/complexity_gate_py.py --init       # create the baseline (refuses if one exists)
@@ -84,18 +84,26 @@ def point(node: ast.AST) -> int:
     return 0
 
 
+def defaults_of(unit: ast.AST) -> list[ast.AST]:
+    """The default value of every parameter that has one: positional, positional-only, keyword-only."""
+    return [*unit.args.defaults, *(d for d in unit.args.kw_defaults if d is not None)]
+
+
 def inside(node: ast.AST) -> list[ast.AST]:
-    """What runs as part of the function being counted. A nested def or lambda runs its
-    decorators and default values where it is defined, and its body only when it is called."""
+    """What runs as part of the function being counted. A nested def or lambda is scored on its
+    own, so only its decorators, which run where it is defined, belong to the function around it.
+    Its parameter defaults are its own: ESLint scores them in the function that owns the parameter."""
     if isinstance(node, UNITS):
-        return [*getattr(node, "decorator_list", []), *node.args.defaults,
-                *(d for d in node.args.kw_defaults if d is not None)]
+        return list(getattr(node, "decorator_list", []))
     return list(ast.iter_child_nodes(node))
 
 
 def score_of(unit: ast.AST) -> int:
+    """1, plus 1 for each parameter default (ESLint's AssignmentPattern) and whatever its
+    expression adds, plus the decision points in the body."""
+    defaults = defaults_of(unit)
     body = unit.body if isinstance(unit.body, list) else [unit.body]
-    total, stack = 1, list(body)
+    total, stack = 1 + len(defaults), [*defaults, *body]
     while stack:
         node = stack.pop()
         total += point(node)
