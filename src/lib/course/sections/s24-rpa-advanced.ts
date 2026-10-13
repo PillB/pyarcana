@@ -1439,7 +1439,7 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         kind: "transfer",
         title: "Par acc_ruc y coverage_auto",
         preamble:
-          "- **Contexto:** coverage alta con RUC basura en auto es un dashboard verde mentiroso.\n- **Meta:** calcular acc_ruc sobre golden de 2 filas y coverage_auto = auto/(auto+review).\n- **Éxito:** `0.5 0.7` en una línea.\n- **Límites:** no uses review rate; no hardcodees acc; no sustituyas accuracy por cobertura.",
+          "- **Contexto:** cobertura automática alta con RUC basura en auto es un dashboard verde mentiroso.\n- **Meta:** calcular acc_ruc sobre golden de 2 filas y coverage_auto = auto/(auto+review).\n- **Éxito:** `0.5 0.7` en una línea.\n- **Límites:** no uses review rate; no hardcodees acc; no sustituyas accuracy por cobertura.",
         instruction:
           "1. Elimina el hardcode 1.0 y el `review/(auto+review)`.\n2. Mide acc_ruc con pred==true.\n3. Calcula la cobertura automática: qué proporción del total resolvió el sistema sin pasar por revisión.\n4. Imprime ambos floats.",
         hint: "field_acc + auto/(auto+review)",
@@ -1457,7 +1457,7 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: confunde coverage con review rate y hardcodea acc
+          code: `# DEFECT: confunde cobertura automática con review rate y hardcodea acc
 golden = [
     {"ruc_pred": "20123456789", "ruc_true": "20123456789"},
     {"ruc_pred": "20123456780", "ruc_true": "20123456789"},

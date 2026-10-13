@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T18:06:28.502479+00:00",
+  "generated_at": "2026-10-04T22:16:01.672148+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -38,7 +38,15 @@
       "numpy": "2.2.6",
       "pandas": "3.0.5",
       "scikit-learn": "1.6.1",
-      "scipy": "1.13.1"
+      "scipy": "1.13.1",
+      "matplotlib": "3.11.1",
+      "openpyxl": "3.1.5",
+      "jinja2": "3.1.6",
+      "pillow": "12.3.0",
+      "pymupdf": "1.28.2",
+      "pypdf": "6.16.2",
+      "python-docx": "1.2.0",
+      "playwright": "1.62.0"
     },
     "drift": [],
     "note": "The snippet interpreter matches the declared teaching environment."
@@ -53,6 +61,27 @@
   "p0_count": 0,
   "p1_count": 0,
   "ok": true,
+  "skips": {
+    "status": "ok",
+    "problems": [],
+    "by_reason": {
+      "missing_dependency": 6,
+      "needs_cli_argv": 4,
+      "non_python:bash": 35,
+      "non_python:dotenv": 2,
+      "non_python:gitignore": 2,
+      "non_python:markdown": 20,
+      "non_python:toml": 3
+    },
+    "missing_dependency": [
+      "fastapi solutionCode-9:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi solutionCode-10:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi solutionCode-11:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi code-block-3:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi code-block-11:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "llm-finetuning code-block-4: m fastapi import Depends, FastAPI\nModuleNotFoundError: No module named 'fastapi'"
+    ]
+  },
   "sections_detail": [
     {
       "file": "src/lib/course/sections/s01-setup.ts",
@@ -61,6 +90,13 @@
         "pass": 7,
         "fail": 0,
         "skip": 61
+      },
+      "skip_reasons": {
+        "non_python:bash": 34,
+        "non_python:dotenv": 2,
+        "non_python:gitignore": 2,
+        "non_python:markdown": 20,
+        "non_python:toml": 3
       },
       "artifact_count": 68
     },
@@ -72,6 +108,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 69
     },
     {
@@ -82,6 +119,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 67
     },
     {
@@ -92,6 +130,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 67
     },
     {
@@ -102,6 +141,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -112,6 +152,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -122,6 +163,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -132,6 +174,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -142,6 +185,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -151,6 +195,9 @@
         "pass": 60,
         "fail": 0,
         "skip": 4
+      },
+      "skip_reasons": {
+        "needs_cli_argv": 4
       },
       "artifact_count": 64
     },
@@ -162,6 +209,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -172,6 +220,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -182,6 +231,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -192,6 +242,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -202,6 +253,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -212,6 +264,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -222,6 +275,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -232,6 +286,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -242,6 +297,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -252,6 +308,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -261,6 +318,9 @@
         "pass": 59,
         "fail": 0,
         "skip": 5
+      },
+      "skip_reasons": {
+        "missing_dependency": 5
       },
       "artifact_count": 64
     },
@@ -272,6 +332,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -282,6 +343,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -292,6 +354,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -302,6 +365,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -312,6 +376,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -321,6 +386,9 @@
         "pass": 64,
         "fail": 0,
         "skip": 1
+      },
+      "skip_reasons": {
+        "non_python:bash": 1
       },
       "artifact_count": 65
     },
@@ -332,6 +400,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -342,6 +411,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -352,6 +422,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -362,6 +433,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -372,6 +444,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -382,6 +455,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -392,6 +466,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -402,6 +477,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -412,6 +488,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -422,6 +499,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -432,6 +510,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -442,6 +521,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -452,6 +532,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -461,6 +542,9 @@
         "pass": 65,
         "fail": 0,
         "skip": 1
+      },
+      "skip_reasons": {
+        "missing_dependency": 1
       },
       "artifact_count": 66
     },
@@ -472,6 +556,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -482,6 +567,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -492,6 +578,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -502,6 +589,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -512,6 +600,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -522,6 +611,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -532,6 +622,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -542,6 +633,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -552,6 +644,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -562,6 +655,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -572,6 +666,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     }
   ],

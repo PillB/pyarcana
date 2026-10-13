@@ -6,7 +6,25 @@ Quick-reference memory for the `lessons-only-adversarial-20260903` curriculum-au
 
 This directory contains **audit memory, not curriculum truth by itself**. Current repository content at the audited `main` SHA remains the highest-priority source for current facts.
 
+## Reporting style (agent -> owner)
+
+**Scope: this governs how an agent explains work to the owner. It does not govern learner-facing
+Spanish**, which follows `audit/fixer/writing_rules.md` and the narration-voice rule. Do not apply
+a sentence-length cap to lesson prose; it fragments the teaching.
+
+Write every explanation of code, a plan, an error or a change in about **80% ASD-STE100**:
+
+1. One fact or one instruction per sentence. Instructions: 20 words max. Descriptions: 25 words max.
+2. Use the active voice. Say who does what.
+3. Use the same word for the same thing every time. Define a term once, then reuse it exactly.
+4. Start with the answer. Then give the details.
+5. Put steps in a numbered list. Keep each paragraph to one topic, 6 sentences max.
+6. Keep "the", "a" and "this". Do not drop words to save space.
+7. Answer in the language the owner uses. In other languages, keep sentences just as short.
+8. Add an ASCII diagram when a flow or a structure has more than 3 steps or parts.
+
 ## Campaign operating contract
+
 
 1. **One section per execution.** Resolve and audit only the assigned section before advancing the cursor.
 2. **Canonical source before filename/slug.** Resolve section identity from the current course index/roadmap and source object. Historical filenames and IDs can remain stable URL/save/progress keys even when their semantic label is obsolete.
