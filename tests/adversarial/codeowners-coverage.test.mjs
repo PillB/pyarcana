@@ -51,23 +51,84 @@ function patternRegExp(pattern) {
   return new RegExp(head + globSource(body) + tail)
 }
 
-function codeownersRules(text) {
-  return text
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#'))
-    .map((line) => {
-      const [pattern, ...owners] = line.split(/\s+/)
-      return { owners, re: patternRegExp(pattern) }
-    })
-}
-const RULES = codeownersRules(CODEOWNERS)
+/**
+ * What GitHub accepts as an owner: `@user`, `@org/team` or an email address (docs.github.com,
+ * "About code owners"). This checks the syntax. Whether the user or team exists and has write
+ * access is GitHub's check: `gh api repos/OWNER/REPO/codeowners/errors` reports it for a pushed ref.
+ */
+const OWNER_SYNTAX = /^@[A-Za-z0-9](?:-?[A-Za-z0-9])*(?:\/[\w.-]+)?$|^[^@\s]+@[^@\s]+$/
+/** The gitignore syntax the same page lists as not working in CODEOWNERS: `\#`, a leading `!`, `[ ]`. */
+const UNSUPPORTED_PATTERN = /^\\#|^!|\[/
 
-/** The owners GitHub requests for a path: those of the last rule that matches it. */
-function ownersOf(path) {
-  const hit = RULES.filter((rule) => rule.re.test(path)).at(-1)
+/**
+ * One CODEOWNERS line as a rule, or null for a blank or comment line. A `#` after whitespace
+ * starts an inline comment. `problems` lists why GitHub would skip the line: GitHub drops a line
+ * with invalid syntax and keeps the rest, so a skipped line must not count as an owner here.
+ */
+function parseRule(raw, number) {
+  const line = raw.replace(/\s+#.*$/, '').trim()
+  if (!line || line.startsWith('#')) return null
+  const [pattern, ...owners] = line.split(/\s+/)
+  const problems = owners
+    .filter((owner) => !OWNER_SYNTAX.test(owner))
+    .map((owner) => `"${owner}" is not @user, @org/team or an email address`)
+  if (UNSUPPORTED_PATTERN.test(pattern)) problems.push(`"${pattern}" uses gitignore syntax GitHub does not support`)
+  return { number, pattern, owners, problems, re: patternRegExp(pattern) }
+}
+
+/** The rules GitHub keeps, and the lines it skips. */
+function codeownersRules(text) {
+  const parsed = text.split('\n').map((raw, index) => parseRule(raw, index + 1)).filter(Boolean)
+  return {
+    rules: parsed.filter((rule) => rule.problems.length === 0),
+    skipped: parsed.filter((rule) => rule.problems.length > 0),
+  }
+}
+const { rules: RULES, skipped: SKIPPED } = codeownersRules(CODEOWNERS)
+
+/** The owners GitHub requests for a path: those of the last kept rule that matches it. */
+function ownersOf(path, rules = RULES) {
+  const hit = rules.filter((rule) => rule.re.test(path)).at(-1)
   return hit ? hit.owners : []
 }
+
+describe('CODEOWNERS lines are ones GitHub keeps', () => {
+  it('has no line with a malformed owner or an unsupported pattern', () => {
+    const lines = SKIPPED.map((rule) => `line ${rule.number} (${rule.pattern}): ${rule.problems.join('; ')}`)
+    assert.deepEqual(lines, [], 'GitHub skips these lines, so the paths they name lose their owner')
+  })
+
+  it('accepts @user, @org/team and an email, and refuses anything else', () => {
+    for (const owner of ['@PillB', '@a', '@Pill-B', '@org/team-name', '@org/team_name', 'me@example.com']) {
+      assert.ok(OWNER_SYNTAX.test(owner), `${owner} is a valid owner`)
+    }
+    for (const owner of ['PillB', '@', '@-PillB', '@PillB-', '@org/', '@/team', '@org/a/b', 'PillB@', '@@PillB']) {
+      assert.ok(!OWNER_SYNTAX.test(owner), `${owner} is not a valid owner`)
+    }
+  })
+
+  it('reads an inline comment as a comment, not as owners', () => {
+    const { rules, skipped } = codeownersRules('/a/ @PillB # why\n  # an indented comment\n')
+    assert.deepEqual(skipped, [])
+    assert.deepEqual(rules.map((rule) => rule.owners), [['@PillB']])
+  })
+
+  it('skips a whole line with a malformed owner and falls back to the last line that matches', () => {
+    const { rules, skipped } = codeownersRules('/src/ @A\n/src/x.ts B\n/src/y.ts @C\n')
+    assert.equal(skipped.length, 1)
+    assert.deepEqual(ownersOf('src/x.ts', rules), ['@A'])
+    assert.deepEqual(ownersOf('src/y.ts', rules), ['@C'])
+  })
+
+  it('refuses the gitignore syntax GitHub says does not work', () => {
+    for (const pattern of ['!/a', '\\#a', '/a[0-9]']) {
+      assert.equal(codeownersRules(`${pattern} @PillB`).skipped.length, 1, `${pattern} is skipped`)
+    }
+    for (const pattern of ['/a', 'a/*.md', '**/logs', '/scripts/*regression*']) {
+      assert.equal(codeownersRules(`${pattern} @PillB`).skipped.length, 0, `${pattern} is kept`)
+    }
+  })
+})
 
 /**
  * AGENTS.md's protected-path list: the backticked names before the legacy note (whose
