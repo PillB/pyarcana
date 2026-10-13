@@ -7,7 +7,10 @@
  * This repository has debt above the ceiling, so the ceiling is real and the enforcement is
  * directional. A function new to the codebase must meet 15. A baselined function may not rise above
  * the score recorded for it, and a function that falls leaves the baseline or is lowered in it.
- * Keys are path::name, with a repeated name in one file suffixed #2, #3 in source order.
+ * Keys are path::identity. A function is named by what it is, not by where it sits (see
+ * complexity_gate.identity.mjs): `const f = () => {}` is `f`, a method is `Class.method`, a callback
+ * is `outer.<arg 0 of items.map>`. Only two functions that still share a whole path in one file get
+ * #2, #3 in source order, so an unrelated edit elsewhere in the file cannot renumber a baselined key.
  *
  * Fail closed: a file ESLint cannot parse fails the gate and names path:line. A missing baseline
  * fails the gate, and --init creates one but refuses to overwrite it, so a re-baseline shows
@@ -18,7 +21,8 @@
  *   node scripts/complexity_gate.mjs --root DIR   # measure another tree (used by the tests)
  *
  * Counting is ESLint 9.39.2's `complexity` rule, run with a threshold of 0 so that every function
- * reports its score. Its configuration is scripts/complexity_gate.eslint.config.mjs.
+ * reports its score, wrapped by scripts/complexity_gate.rule.mjs so each report carries the identity
+ * above. Its configuration is scripts/complexity_gate.eslint.config.mjs.
  */
 import { ESLint } from 'eslint'
 import { createRequire } from 'node:module'
@@ -34,8 +38,7 @@ const SCOPE_FILE = join(REPO, 'audit/fixer/complexity_scope.json')
 const CONFIG = join(HERE, 'complexity_gate.eslint.config.mjs')
 const CONVENTION = 'per function; the ESLint complexity rule, which counts a function the way NIST SP 500-235 4.1 does for these constructs; ceiling 15'
 const { version: ESLINT_VERSION } = createRequire(import.meta.url)('eslint/package.json')
-const COMPLEXITY = /^(.*) has a complexity of (\d+)\./
-const QUOTED = /'([^']*)'/
+const COMPLEXITY = /^(.*) has a complexity of (\d+)\.$/s
 
 /** Relative path to a rule-friendly key, using `/` on every platform. */
 const posix = (path) => path.split(sep).join('/')
@@ -43,12 +46,10 @@ const posix = (path) => path.split(sep).join('/')
 /** Orders by code unit, so the baseline is byte-identical wherever it is written. */
 const byText = (a, b) => (a < b ? -1 : a > b ? 1 : 0)
 
-/** `Function 'f' has a complexity of 20.` -> { name: 'f', score: 20 }. Anonymous: `<arrow function>`. */
+/** `Panel.<prop onClick> has a complexity of 20.` -> { name: 'Panel.<prop onClick>', score: 20 }. */
 export function parseComplexity(message) {
   const found = COMPLEXITY.exec(message)
-  if (!found) return null
-  const quoted = QUOTED.exec(found[1])
-  return { name: quoted ? quoted[1] : `<${found[1].toLowerCase()}>`, score: Number(found[2]) }
+  return found ? { name: found[1], score: Number(found[2]) } : null
 }
 
 export function excluded(rel, exclusions) {
@@ -70,7 +71,7 @@ export async function measure(root) {
         problems.push(`${rel}:${m.line ?? 1}: cannot parse (${m.message})`)
       } else if (m.ruleId === null && /^File ignored/.test(m.message)) {
         problems.push(`${rel}: ignored by ESLint, so it was not measured`)
-      } else if (m.ruleId === 'complexity') {
+      } else if (m.ruleId === 'gate/measure') {
         const found = parseComplexity(m.message)
         if (found) rows.push({ file: rel, function: found.name, line: m.line, column: m.column, score: found.score })
         else problems.push(`${rel}:${m.line}: unreadable complexity message: ${m.message}`)
@@ -80,7 +81,7 @@ export async function measure(root) {
   return { rows, problems }
 }
 
-/** Every function's score under its key. A repeated name in one file takes #2, #3 in source order. */
+/** Every function's score under its key. A path repeated in one file takes #2, #3 in source order. */
 export function keyed(rows) {
   const ordered = [...rows].sort((a, b) => byText(a.file, b.file) || a.line - b.line || a.column - b.column)
   const seen = new Map()
