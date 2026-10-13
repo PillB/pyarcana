@@ -155,5 +155,25 @@ class ParityCorpus(unittest.TestCase):
         self.assertEqual(score_by_qualname(entry["source"], "nist_fig44_grade"), 6)
 
 
+class Unparseable(unittest.TestCase):
+    """A file the gate cannot read is a failure that names it, never zero functions and a pass."""
+
+    def test_a_syntax_error_fails_and_names_the_file_and_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "bad.py"
+            target.write_text("def f(:\n    return 1\n", encoding="utf-8")
+            done = run_gate("--files", str(target))
+        self.assertNotEqual(done.returncode, 0, done.stdout)
+        self.assertIn(f"{target}:1:", done.stdout + done.stderr)
+
+    def test_a_file_that_is_not_utf8_fails_and_names_the_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "latin.py"
+            target.write_bytes(b"x = 1\n\xff\xfe = 2\n")
+            done = run_gate("--files", str(target))
+        self.assertNotEqual(done.returncode, 0, done.stdout)
+        self.assertIn(f"{target}:2:", done.stdout + done.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

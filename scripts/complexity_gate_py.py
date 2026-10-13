@@ -106,13 +106,35 @@ def display(path: Path) -> str:
         return str(path.absolute())
 
 
+class Unparseable(Exception):
+    """A file the gate cannot measure. It fails the gate; it is never counted as zero functions."""
+
+
 def function_scores(path: Path) -> list[dict]:
+    shown = display(path)
     try:
-        tree = ast.parse(path.read_text(encoding="utf-8"))
-    except (SyntaxError, UnicodeDecodeError):
-        return []
-    return [{"file": display(path), "function": u.qual, "line": u.line, "score": u.score}
-            for u in units(tree)]
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as err:
+        line = path.read_bytes()[: err.start].count(b"\n") + 1
+        raise Unparseable(f"{shown}:{line}: not UTF-8 ({err.reason})") from err
+    try:
+        tree = ast.parse(text, filename=shown)
+    except SyntaxError as err:
+        raise Unparseable(f"{shown}:{err.lineno or 1}: cannot parse ({err.msg})") from err
+    except ValueError as err:
+        raise Unparseable(f"{shown}:1: cannot parse ({err})") from err
+    return [{"file": shown, "function": u.qual, "line": u.line, "score": u.score} for u in units(tree)]
+
+
+def measure(paths: list[Path]) -> tuple[list[dict], list[str]]:
+    rows: list[dict] = []
+    problems: list[str] = []
+    for path in paths:
+        try:
+            rows.extend(function_scores(path))
+        except Unparseable as err:
+            problems.append(str(err))
+    return rows, problems
 
 
 def python_files() -> list[Path]:
@@ -121,16 +143,23 @@ def python_files() -> list[Path]:
 
 
 def check_files(paths: list[str]) -> int:
-    over = [r for a in paths for r in function_scores(Path(a)) if r["score"] > CEILING]
+    rows, problems = measure([Path(a) for a in paths])
+    over = [r for r in rows if r["score"] > CEILING]
+    for line in problems:
+        print(f"  UNPARSEABLE {line}")
     for r in over:
         print(f"  OVER {r['score']:3d} {r['file']}:{r['line']} {r['function']}")
     print(f"new code: {len(over)} function(s) above {CEILING}")
-    return 1 if over else 0
+    return 1 if over or problems else 0
 
 
 def ratchet(update: bool) -> int:
-    offenders = sorted((r for f in python_files() for r in function_scores(f) if r["score"] > CEILING),
-                       key=lambda r: -r["score"])
+    rows, problems = measure(python_files())
+    if problems:
+        for line in problems:
+            print(f"  UNPARSEABLE {line}")
+        return 1
+    offenders = sorted((r for r in rows if r["score"] > CEILING), key=lambda r: -r["score"])
     now = {"ceiling": CEILING, "over_ceiling": len(offenders), "worst": offenders[0]["score"] if offenders else 0}
     if update or not BASELINE.exists():
         BASELINE.write_text(json.dumps({**now, "offenders": offenders}, indent=1), encoding="utf-8")
