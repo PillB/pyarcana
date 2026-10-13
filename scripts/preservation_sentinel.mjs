@@ -66,6 +66,11 @@ function loadAllowlist() {
 function resolveBase(cliBase) {
   if (cliBase) return cliBase
   const envBase = process.env.PRESERVATION_BASE || process.env.GITHUB_BASE_SHA
+  // A push that creates a branch has no `before`: GitHub sends forty zeros, which is not a commit,
+  // and the diff against it failed every new branch's first push. Compare against where the branch
+  // left main. Without origin/main there is no such point, and the answer is BASE_UNRESOLVED, never
+  // HEAD~1: that would check only the last commit of a branch that may have many.
+  if (envBase && /^0+$/.test(envBase)) return tryGit('git merge-base HEAD origin/main')
   if (envBase) return envBase
   // Prefer origin/main merge-base on PRs
   const mergeBase = tryGit('git merge-base HEAD origin/main')
@@ -182,6 +187,43 @@ function compareCurriculum(base, head, failures) {
   return curriculum
 }
 
+/**
+ * Run one comparison, turning a throw into a failure. A comparison that threw has not run, and a
+ * sentinel that could not compare has not passed. These were warnings until 2026-10-05, and that
+ * was a hole: moving src/lib/course/index.ts reads as a rename to `--diff-filter=D`, so nothing
+ * counted as deleted, the curriculum compare threw, and the sentinel exited 0 having compared no
+ * section and no exercise id.
+ */
+function attempt(code, failures, compare) {
+  try {
+    return compare()
+  } catch (e) {
+    failures.push({ code, message: `Cannot compare, so this check has not passed: ${String(e)}` })
+    return null
+  }
+}
+
+function compareTestsAndMigrations(base, head, allowlist, failures) {
+  const b = testsAndMigrations(base)
+  const a = testsAndMigrations(head)
+  for (const t of b.tests.filter((t) => !a.tests.includes(t) && !allowlist.has(t))) {
+    failures.push({ code: 'TEST_REMOVED', path: t, message: `Test removed: ${t}` })
+  }
+  for (const m of b.migrations.filter((m) => !a.migrations.includes(m) && !allowlist.has(m))) {
+    failures.push({ code: 'MIGRATION_REMOVED', path: m, message: `Migration removed: ${m}` })
+  }
+}
+
+function checkProgressFields(head, failures) {
+  for (const f of progressFieldsPresent(head).missing) {
+    failures.push({
+      code: 'PROGRESS_FIELD_REMOVED',
+      field: f,
+      message: `Progress field missing from progress contract sources: ${f}`,
+    })
+  }
+}
+
 function progressFieldsPresent(treeish) {
   // Prefer pure sanitizer module; fall back to progress-store for older commits.
   let text = null
@@ -258,44 +300,13 @@ function main() {
     }
   }
 
-  // 2) Curriculum ID preservation (when base available)
+  // 2) curriculum ids, 3) tests and migrations, 4) progress fields. Each one that cannot run fails.
   let curriculum = null
   if (base) {
-    try {
-      curriculum = compareCurriculum(base, head, failures)
-    } catch (e) {
-      warnings.push({ code: 'CURRICULUM_COMPARE_SKIPPED', message: String(e) })
-    }
-
-    // 3) Tests / migrations removed
-    try {
-      const b = testsAndMigrations(base)
-      const a = testsAndMigrations(head)
-      const removedTests = b.tests.filter((t) => !a.tests.includes(t) && !allowlist.has(t))
-      const removedMigrations = b.migrations.filter((m) => !a.migrations.includes(m) && !allowlist.has(m))
-      for (const t of removedTests) {
-        failures.push({ code: 'TEST_REMOVED', path: t, message: `Test removed: ${t}` })
-      }
-      for (const m of removedMigrations) {
-        failures.push({ code: 'MIGRATION_REMOVED', path: m, message: `Migration removed: ${m}` })
-      }
-    } catch (e) {
-      warnings.push({ code: 'TEST_MIG_COMPARE_SKIPPED', message: String(e) })
-    }
-
-    // 4) Progress fields
-    try {
-      const afterFields = progressFieldsPresent(head)
-      for (const f of afterFields.missing) {
-        failures.push({
-          code: 'PROGRESS_FIELD_REMOVED',
-          field: f,
-          message: `Progress field missing from progress contract sources: ${f}`,
-        })
-      }
-    } catch (e) {
-      warnings.push({ code: 'PROGRESS_FIELD_CHECK_SKIPPED', message: String(e) })
-    }
+    curriculum = attempt('CURRICULUM_UNCOMPARABLE', failures, () => compareCurriculum(base, head, failures))
+    attempt('TESTS_MIGRATIONS_UNCOMPARABLE', failures,
+      () => compareTestsAndMigrations(base, head, allowlist, failures))
+    attempt('PROGRESS_FIELDS_UNCOMPARABLE', failures, () => checkProgressFields(head, failures))
   }
 
   const result = {
