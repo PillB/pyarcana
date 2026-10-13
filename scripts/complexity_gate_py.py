@@ -27,6 +27,7 @@ from typing import NamedTuple
 
 ROOT = Path(__file__).resolve().parents[1]
 CEILING = 15
+CI_PYTHON = (3, 12)  # the only interpreter a verdict is reported under (CI runs 3.12)
 BASELINE = ROOT / "audit/fixer/complexity_baseline_py.json"
 SCOPES = ("scripts", "tools")
 UNITS = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)
@@ -173,7 +174,21 @@ def ratchet(update: bool) -> int:
     return 1 if now["over_ceiling"] > base["over_ceiling"] or now["worst"] > base["worst"] else 0
 
 
+def refusal() -> str | None:
+    """Why this interpreter may not give a verdict, or None. 3.9 and 3.13 parse and print
+    differently from CI's 3.12, so a verdict from either would not be comparable."""
+    if tuple(sys.version_info[:2]) == CI_PYTHON:
+        return None
+    found = ".".join(str(part) for part in sys.version_info[:3])
+    return (f"REFUSED: Python {found} is not CI's {CI_PYTHON[0]}.{CI_PYTHON[1]}; "
+            "a result here would not be comparable. Run with python3.12.")
+
+
 def main() -> int:
+    why = refusal()
+    if why:
+        print(why, file=sys.stderr)
+        return 2
     args = sys.argv[1:]
     if "--files" in args:
         return check_files(args[args.index("--files") + 1:])

@@ -175,5 +175,32 @@ class Unparseable(unittest.TestCase):
         self.assertIn(f"{target}:2:", done.stdout + done.stderr)
 
 
+class InterpreterGuard(unittest.TestCase):
+    """A verdict under any Python but CI's 3.12 is refused: 3.9 and 3.13 parse and print differently."""
+
+    def run_as(self, version: tuple, target: Path) -> subprocess.CompletedProcess:
+        bootstrap = ("import sys, runpy; sys.version_info = %r; sys.argv = ['gate', '--files', %r]; "
+                     "runpy.run_path(%r, run_name='__main__')" % (version, str(target), str(GATE)))
+        return subprocess.run([sys.executable, "-c", bootstrap], capture_output=True, text=True, check=False)
+
+    def test_other_pythons_are_refused_with_exit_two(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "x.py"
+            target.write_text("def f():\n    return 1\n", encoding="utf-8")
+            for version in ((3, 9, 6, "final", 0), (3, 13, 0, "final", 0)):
+                with self.subTest(version=version[:2]):
+                    done = self.run_as(version, target)
+                    self.assertEqual(done.returncode, 2, done.stdout + done.stderr)
+                    self.assertIn("REFUSED", done.stderr)
+
+    def test_python_312_gives_a_verdict(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "x.py"
+            target.write_text("def f():\n    return 1\n", encoding="utf-8")
+            done = self.run_as((3, 12, 15, "final", 0), target)
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertIn("new code: 0 function(s) above 15", done.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()
