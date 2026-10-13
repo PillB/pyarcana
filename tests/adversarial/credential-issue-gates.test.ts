@@ -42,9 +42,22 @@ const REQUIRED_EXAMS: Record<string, number> = {
   integrated_python_ai_capstone_integrated_mastery: 12, // S40-S51
   evidence_grounded_ai_systems_capstone: 1, // S52
 }
+// Each credential's own catalog version (badges[].version), which the route signs; a request naming
+// another is refused (credential-blockers.test.ts K4). Mastery's is not the catalog-wide 1.0.0.
+const SPEC_VERSION: Record<string, string> = {
+  integrated_python_ai_capstone_integrated_mastery: '1.1.0',
+}
 // What the server cannot verify yet: every blueprint component but the exams, and the
 // prerequisite badges. Each capstone credential lists all of them.
 const UNVERIFIED = ['self_check', 'you_do_projects', 'integrator_project', 'defense', 'prerequisite_badges']
+// The same requirements as blocker codes (src/lib/credential-blockers.ts).
+const UNVERIFIED_BLOCKERS = [
+  'COMPONENT:self_check',
+  'COMPONENT:you_do_projects',
+  'COMPONENT:integrator_project',
+  'COMPONENT:defense',
+  'PREREQUISITES',
+]
 
 // Foundations' sections as the database holds them: section.id slugs, never S## numbers.
 // Written out by hand, not derived from COURSE_SECTIONS, so the test does not share the
@@ -157,7 +170,7 @@ async function requestCredential(badgeId = FOUNDATIONS) {
   const res = await POST(
     new NextRequest('http://localhost/api/credentials/issue', {
       method: 'POST',
-      body: JSON.stringify({ badgeId, specificationVersion: '1.0.0' }),
+      body: JSON.stringify({ badgeId, specificationVersion: SPEC_VERSION[badgeId] ?? '1.0.0' }),
     })
   )
   return { status: res.status, body: await res.json() }
@@ -190,6 +203,16 @@ describe('POST /api/credentials/issue — eligibility per badge', () => {
       assert.equal(body.requiredSections, required, badgeId)
       assert.equal(body.passedSections, required, badgeId)
       assert.deepEqual(body.unverifiedRequirements, UNVERIFIED, badgeId)
+
+      // The same refusal, as blockers: each unverified requirement, and the standing one for the
+      // missing Credential store. Nothing the server did check failed: the exams all passed.
+      const blockers = (kind: string) =>
+        (body.blockers as Array<{ code: string; kind: string }>)
+          .filter((b) => b.kind === kind)
+          .map((b) => b.code)
+      assert.deepEqual(blockers('unverified'), UNVERIFIED_BLOCKERS, badgeId)
+      assert.deepEqual(blockers('standing'), ['CREDENTIAL_STORE_NOT_IMPLEMENTED'], badgeId)
+      assert.deepEqual(blockers('unmet'), [], badgeId)
     }
     assert.equal(notifications.length, 0)
   })

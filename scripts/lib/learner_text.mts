@@ -9,9 +9,13 @@
  *
  * It never imports `seed.ts`: that module runs `main()` against a database when loaded.
  *
- *   readQuestionBank(text)    the literal QUESTION_BANK, every bank and question, or a refusal
- *   literalsFromSource(text)  every string a reader can see, with its line, comments excluded
+ *   readQuestionBank(text)      the literal QUESTION_BANK, every bank and question, or a refusal
+ *   readSeedQuestionBank(root)  the same, read from the repository's seed file
+ *   literalsFromSource(text)    every string a reader can see, with its line, comments excluded
  */
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
 import ts from 'typescript'
 
 export type KeyStyle = 'identifier' | 'single' | 'double'
@@ -221,6 +225,18 @@ export function readQuestionBank(text: string, fileName = 'seed.ts'): Bank[] {
   // An empty bank is a broken seed, not a quiet one: every gate iterating it would pass over nothing.
   if (!banks.length) throw new NonLiteralBank('QUESTION_BANK has no banks', lineOf(sf, literal))
   return banks
+}
+
+/** Where the exam bank lives, relative to the repository root. */
+export const SEED_PATH = 'prisma/seed.ts'
+
+/**
+ * The repository's exam bank. TypeScript consumers call this rather than naming the seed file
+ * themselves, as Python ones call scripts/exam_bank.py: test_seed_readers.py flags any other file
+ * that names it.
+ */
+export function readSeedQuestionBank(root: string): Bank[] {
+  return readQuestionBank(readFileSync(join(root, SEED_PATH), 'utf8'), SEED_PATH)
 }
 
 /** True when the node is a string the reader never sees: a property key or a module path. */

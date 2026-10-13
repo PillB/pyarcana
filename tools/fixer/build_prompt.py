@@ -17,6 +17,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numbering  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/fixer"))
+
+from false_claims import brief_block as false_claims_block  # noqa: E402
 REGISTRY = ROOT / "audit/consolidated/registry.json"
 EVENTS = ROOT / ".fixer/events.json"
 FIRST_USE = ROOT / "course-state/first_use_all_report.json"
@@ -143,6 +146,8 @@ substantially rewrote will be read as a skipped step, not as a clean result.""",
         # because these expire: each carries a scope and a "Retire when".
         block("THE OWNER'S LIVE DECISIONS (binding, override anything below)",
               (ROOT / "audit/fixer/OWNER_DECISIONS.md").read_text(encoding="utf-8")),
+
+        false_claims_block(),
 
         block("WRITING RULES (binding, distilled)",
               (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")

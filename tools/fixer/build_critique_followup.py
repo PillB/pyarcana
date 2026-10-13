@@ -19,6 +19,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numbering  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/fixer"))
+
+from false_claims import brief_block as false_claims_block  # noqa: E402
 
 
 def section_file(slug: str) -> Path:
@@ -93,7 +96,8 @@ For each one:
 
 ===== DISTILLED WRITING RULES (binding) =====
 {rules}
-""")
+
+{false_claims_block()}""")
     return 0
 
 

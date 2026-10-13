@@ -26,7 +26,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 COPY = [
     "src", "prisma/seed.ts", "tsconfig.json", "package.json",
-    "scripts/learner_text_extractor.mts", "scripts/lib", "tools/fixer/apply_patches.py",
+    "scripts/learner_text_extractor.mts", "scripts/false_claims_scan.mts", "scripts/lib",
+    "tools/fixer/apply_patches.py", "audit/fixer/known_false_claims.json",
     "tools/fixer/numbering.py", "audit/fixer/numbering_epoch.json",
 ]
 TERMS = "src/lib/glossary/terms.ts"
@@ -153,6 +154,25 @@ class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
 
     def test_a_syntax_error_in_the_seed_is_refused(self) -> None:
         self.assertRefused(SEED, KEY, KEY.replace("correctIndex: 0,", "correctIndex: 0,,"), "syntax error")
+
+    def test_a_patch_that_adds_a_known_false_claim_is_refused(self) -> None:
+        """KFC-003, verbatim from S10, written into a glossary definition."""
+        claim = "`python -m familiarity_core` evita pelear con `sys.path`."
+        self.assertRefused(TERMS, DEFINITION, DEFINITION.replace("se infiere.", f"se infiere. {claim}"),
+                           "KFC-003 0 -> 1")
+
+    def test_a_second_copy_of_a_claim_in_the_same_string_is_refused(self) -> None:
+        """Codex P1 on #88: the scan counted one hit per string, so doubling a claim inside a
+        string that already held it changed no count and applied."""
+        claim = "Probabilidad de observar el resultado si la hipótesis nula es cierta."
+        anchor = f"definition: '{claim}"
+        self.assertEqual(self.pristine[TERMS].decode("utf-8").count(anchor), 1, "fixture anchor not unique")
+        self.assertRefused(TERMS, anchor, f"definition: '{claim} {claim}", "KFC-001 2 -> 3")
+
+    def test_a_file_that_still_owes_a_claim_can_be_patched_elsewhere(self) -> None:
+        """The glossary owes KFC-001 (the p-value hover); an unrelated edit must still apply."""
+        code, report = self.apply(TERMS, DEFINITION, DEFINITION.replace("en memoria", "guardado en memoria"))
+        self.assertEqual(code, 0, report)
 
     def test_a_file_with_no_validator_is_refused(self) -> None:
         self.assertRefused("notes.md", "una nota", "otra nota", "no validator for notes.md")

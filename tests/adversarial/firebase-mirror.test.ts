@@ -86,7 +86,10 @@ describe('the exam attempt mirror', () => {
       [2, false, '¿Q?']
     )
     assert.deepEqual([data.score, data.timeSpentSec, data.userId], [75, 300, 'learner'])
-    assert.equal(typeof data.variantSeed, 'string')
+    // The draw's seed is not: it maps each question to its concept, which names the key in
+    // banks whose key contains it, and the learner owns this document (Codex P1 on #91).
+    assert.equal('variantSeed' in data, false)
+    assert.doesNotMatch(JSON.stringify(data), /venv/)
   })
 
   it('carries no key whatever the stored answers hold', async () => {
