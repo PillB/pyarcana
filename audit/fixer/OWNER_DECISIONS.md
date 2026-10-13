@@ -411,6 +411,28 @@ Answered 2026-10-13:
 
 **Retire when:** the renumber has merged to main.
 
+### O25 — Four questions from the Phase 0b drafts
+**Scope:** the copy PR (plan PR 13), the number-guards PR (0b-8), the history-guards PR (0b-1),
+the fixer-state PR (0b-6). **Status:** live.
+
+Asked 2026-10-13. The owner answered the fourth; on the first three the owner had no preference, so
+the recommendation was taken, and each says so.
+- **"Tamper-evident", not "tamper-proof"** (no preference; recommendation taken). The badge catalog's
+  Spanish «a prueba de manipulación» reads as tamper-proof, while an HMAC signature only detects a
+  changed document. Codex rewrites the catalog phrase to state detection, and each credential whose
+  claim text changes gets a version bump.
+- **Run button on S10 and S11 demos** (no preference; recommendation taken). The demos that import
+  numpy or scikit-learn show a notice to run them locally instead of a Run button, because the
+  in-browser Python cannot load the course's pinned versions.
+- **34 exercise-meaning changes accepted as history** (no preference; recommendation taken). The S01
+  to S03 exercise ids whose meaning changed since 35d19637 go into the exercise-meaning ledger as
+  historical rows decided by this entry. Every later change needs its own ledger row.
+- **The 12 S03 closures do not count** (answered). They were closed against s03-data-structures.ts,
+  which a later commit replaced. Nothing is awarded retroactively: S03's next round re-checks the 12
+  against the current file.
+
+**Retire when:** the four changes have landed and S03's round has re-checked the 12 findings.
+
 ---
 
 ## Archive
