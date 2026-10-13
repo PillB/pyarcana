@@ -656,6 +656,11 @@ describe('freeze guard: the real tree and its pure rules', () => {
     for (const path of FROZEN_PATHS) assert.ok(existsSync(join(ROOT, path)), `missing frozen path ${path}`)
   })
 
+  it('freezes the three roadmaps verified_facts.json RT-A8 names, not the historical maestro copy', () => {
+    const roadmaps = FROZEN_PATHS.filter((path) => /roadmap/.test(path)).sort()
+    assert.deepEqual(roadmaps, ['learning_roadmap.md', 'learning_roadmap_52_V3.md', 'upload/learning_roadmap_52_V3.md'])
+  })
+
   it('matches every real exam bank, and no other course-state file', () => {
     const banks = readdirSync(join(ROOT, 'course-state')).filter((f) => EXAM_BANK_PATTERN.test(`course-state/${f}`))
     assert.ok(banks.length >= 52, `expected at least 52 exam banks, found ${banks.length}`)
@@ -711,6 +716,15 @@ describe('freeze guard: while open, main may not change what the renumber rewrit
     assert.equal(run.status, 1)
     assert.ok(withFindingCode(run, 'FROZEN_CHANGED'), run.err)
     assert.match(run.err, /learning_roadmap\.md/)
+  })
+
+  it('fails FROZEN_CHANGED when the upload copy of the V3 roadmap changes on main, and passes the historical copy', () => {
+    const upload = runFreeze(freezeScenario({ mainEdits: new Map([['upload/learning_roadmap_52_V3.md', 'cambio\n']]) }).dir)
+    assert.equal(upload.status, 1)
+    assert.ok(withFindingCode(upload, 'FROZEN_CHANGED'), upload.err)
+    assert.match(upload.err, /upload\/learning_roadmap_52_V3\.md/)
+    const historical = runFreeze(freezeScenario({ mainEdits: new Map([['el_arte_de_python_roadmap_maestro_52_secciones.md', 'cambio\n']]) }).dir)
+    assert.equal(historical.status, 0, historical.err)
   })
 
   it('passes the same change once an owner override names its path, reason and approval', () => {

@@ -30,12 +30,16 @@ import { openHistory } from './history.mjs'
 import { INDEX_PATH, SECTIONS_DIR } from './curriculum_snapshot.mjs'
 import { EPOCH_PATH, WINDOW_PATH, readState } from './window_state.mjs'
 
+// The three roadmaps are the ones verified_facts.json RT-A8 names: the root V3, its byte-identical copy
+// under upload/ (read by scripts/v3_regression.spec.ts, and it must receive the identical renumber diff)
+// and learning_roadmap.md (read by scripts/regression.spec.ts). el_arte_de_python_roadmap_maestro_52_secciones.md
+// is historical and no code reads it (reviews_round0/contract_surface.md), so it is not frozen.
 export const FROZEN_PATHS = [
   'src/lib/course/index.ts',
   'course-state/course_requirements.json',
   'learning_roadmap_52_V3.md',
+  'upload/learning_roadmap_52_V3.md',
   'learning_roadmap.md',
-  'el_arte_de_python_roadmap_maestro_52_secciones.md',
   'src/lib/capstones/catalog.ts',
   'src/components/course/figures/index.tsx',
   'src/components/course/figures/data/index.ts',
