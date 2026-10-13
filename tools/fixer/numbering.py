@@ -1,0 +1,275 @@
+#!/usr/bin/env python3
+"""The fixer's one answer to "which section is number N?", and the checks that make it trustworthy.
+
+A section's number belongs to a numbering epoch, not to the section. The epoch
+(audit/fixer/numbering_epoch.json) names the roadmap of record and lists the slugs in number order.
+Every fixer tool reads numbers and slugs through this module, so the answer comes from committed
+files rather than from a cache, and a renumber changes one file.
+
+Fixer state is keyed by slug, and a slug has a number only through the epoch. A record that names
+a number and a slug that disagree, a record with no epoch, or a record from another epoch is refused
+rather than read. An old slug is carried to its current one by the app's own rename map
+(src/lib/section-id-migrations.ts), so a section renamed in place keeps its history.
+
+    python3 tools/fixer/numbering.py     # check the epoch against the roadmap, the course and the state
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+EPOCH_FILE = "audit/fixer/numbering_epoch.json"
+COURSE_INDEX = "src/lib/course/index.ts"
+SECTIONS_DIR = "src/lib/course/sections"
+RENAMES_FILE = "src/lib/section-id-migrations.ts"
+CYCLES_DIR = "audit/fixer/cycles"
+REDACTION_FILE = "audit/fixer/redaction_applied.json"
+
+TAG = re.compile(r"[Ss](\d+)")
+ROADMAP_HEADING = re.compile(r"^### S(\d+) — ", re.M)
+COURSE_ARRAY = re.compile(r"export const COURSE_SECTIONS: CourseSection\[\] = \[(.*?)\n\]", re.S)
+IMPORT = re.compile(r"import \{ (section\d+) \} from '\./sections/([^']+)'")
+SECTION_ID = re.compile(r"^\s*id:\s*['\"]([^'\"]+)['\"]", re.M)
+SECTION_INDEX = re.compile(r"^\s*index:\s*(\d+),", re.M)
+RENAMES_BLOCK = re.compile(r"export const SECTION_ID_RENAMES[^=]*=\s*\{(.*?)\n\}", re.S)
+RENAME_ROW = re.compile(r"^\s*'?([A-Za-z0-9_-]+)'?\s*:\s*'([A-Za-z0-9_-]+)'\s*,?\s*$", re.M)
+
+
+class NumberingError(RuntimeError):
+    """The numbering cannot be trusted, so nothing keyed by it may be read or written."""
+
+
+@dataclass(frozen=True)
+class Epoch:
+    label: int
+    roadmap: str
+    slugs: tuple[str, ...]
+
+    @property
+    def count(self) -> int:
+        return len(self.slugs)
+
+
+def epoch_problems(data: object) -> list[str]:
+    """Why a parsed epoch file cannot be used. Empty when it can."""
+    rows = data.get("sections") if isinstance(data, dict) else None
+    if not isinstance(rows, list) or not rows or not all(isinstance(r, dict) for r in rows):
+        return ["the epoch lists no sections"]
+    problems = []
+    if [r.get("number") for r in rows] != list(range(1, len(rows) + 1)):
+        problems.append("section numbers must run one to n in order")
+    slugs = [r.get("slug") for r in rows]
+    if not all(isinstance(s, str) and s for s in slugs) or len(set(slugs)) != len(slugs):
+        problems.append("slugs must be unique, non-empty strings")
+    if data.get("numbering_epoch") != len(rows):
+        problems.append(f"numbering_epoch is {data.get('numbering_epoch')!r} but the table lists "
+                        f"{len(rows)} sections; the label must be that count")
+    if not isinstance(data.get("roadmap"), str):
+        problems.append("the epoch names no roadmap of record")
+    return problems
+
+
+def load_epoch(root: Path = ROOT) -> Epoch:
+    path = root / EPOCH_FILE
+    if not path.exists():
+        raise NumberingError(f"no numbering epoch recorded at {EPOCH_FILE}: the fixer cannot number sections")
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise NumberingError(f"{EPOCH_FILE} is not valid JSON: {e}") from e
+    problems = epoch_problems(data)
+    if problems:
+        raise NumberingError(f"{EPOCH_FILE}: " + "; ".join(problems))
+    return Epoch(label=data["numbering_epoch"], roadmap=data["roadmap"],
+                 slugs=tuple(r["slug"] for r in data["sections"]))
+
+
+def tag_of(number: int) -> str:
+    return f"S{number:02d}"
+
+
+def number_of_tag(tag: str) -> int:
+    m = TAG.fullmatch(tag.strip())
+    if not m:
+        raise NumberingError(f"{tag!r} is not a section tag")
+    return int(m.group(1))
+
+
+def slug_for_tag(tag: str, epoch: Epoch) -> str:
+    number = number_of_tag(tag)
+    if not 1 <= number <= epoch.count:
+        raise NumberingError(f"{tag} is outside the {epoch.count}-section epoch {epoch.label}")
+    return epoch.slugs[number - 1]
+
+
+def number_of_slug(slug: str, epoch: Epoch) -> int:
+    if slug not in epoch.slugs:
+        raise NumberingError(f"{slug!r} is not a section of this epoch")
+    return epoch.slugs.index(slug) + 1
+
+
+def tag_for_slug(slug: str, epoch: Epoch) -> str:
+    return tag_of(number_of_slug(slug, epoch))
+
+
+def resolve(name: str, epoch: Epoch) -> str:
+    """A slug or a tag, as the slug. Anything else is refused, never passed through."""
+    if TAG.fullmatch(name.strip()):
+        return slug_for_tag(name, epoch)
+    if name in epoch.slugs:
+        return name
+    raise NumberingError(f"{name!r} is not a section of this epoch")
+
+
+def roadmap_numbers(root: Path, roadmap: str) -> list[int]:
+    path = root / roadmap
+    if not path.exists():
+        raise NumberingError(f"the roadmap of record {roadmap} is missing")
+    return [int(n) for n in ROADMAP_HEADING.findall(path.read_text(encoding="utf-8"))]
+
+
+def _read(root: Path, rel: str) -> str:
+    try:
+        return (root / rel).read_text(encoding="utf-8")
+    except FileNotFoundError as e:
+        raise NumberingError(f"{rel} is listed by the course but is missing") from e
+
+
+def course_order(root: Path = ROOT) -> list[tuple[str, int | None, str]]:
+    """(slug, index field, file) for each COURSE_SECTIONS entry, in the order the course lists them."""
+    index = _read(root, COURSE_INDEX)
+    block = COURSE_ARRAY.search(index)
+    if not block:
+        raise NumberingError(f"cannot read COURSE_SECTIONS in {COURSE_INDEX}")
+    imports = {name: f"{SECTIONS_DIR}/{stem}.ts" for name, stem in IMPORT.findall(index)}
+    rows = []
+    for name in re.findall(r"\b(section\d+)\b", block.group(1)):
+        if name not in imports:
+            raise NumberingError(f"COURSE_SECTIONS names {name}, which {COURSE_INDEX} does not import")
+        text = _read(root, imports[name])
+        ident, number = SECTION_ID.search(text), SECTION_INDEX.search(text)
+        rows.append((ident.group(1) if ident else None, int(number.group(1)) if number else None,
+                     imports[name]))
+    return rows
+
+
+def section_files(root: Path = ROOT) -> dict[str, str]:
+    """Active section file (repository-relative) -> slug. Files the course does not import are absent."""
+    return {rel: slug for slug, _, rel in course_order(root) if slug}
+
+
+def slug_for_section_file(rel: str, root: Path = ROOT) -> str | None:
+    """The slug of an active section file, or None for a file the course does not import."""
+    return section_files(root).get(rel)
+
+
+def section_rel(slug: str, root: Path = ROOT) -> str:
+    for path, owner in section_files(root).items():
+        if owner == slug:
+            return path
+    raise NumberingError(f"{slug!r} has no active section file")
+
+
+def renames(root: Path = ROOT) -> dict[str, str]:
+    """The app's rename map, old slug -> current slug, read from the file the app itself uses."""
+    block = RENAMES_BLOCK.search(_read(root, RENAMES_FILE))
+    if not block:
+        raise NumberingError(f"cannot read SECTION_ID_RENAMES in {RENAMES_FILE}")
+    return dict(RENAME_ROW.findall(block.group(1)))
+
+
+def current_slug(slug: str, root: Path = ROOT) -> str:
+    """The slug a stored slug stands for today. One step only: the map never chains."""
+    return renames(root).get(slug, slug)
+
+
+def _checked_cycle_slug(path: Path, record: dict, epoch: Epoch, root: Path) -> str:
+    tag, where = path.stem, path.name
+    if record.get("section") != tag:
+        raise NumberingError(f"{where} is filed as {tag} but says it is {record.get('section')!r}")
+    if "numbering_epoch" not in record:
+        raise NumberingError(f"{where} has no numbering_epoch: a record must say which epoch its number belongs to")
+    if record["numbering_epoch"] != epoch.label:
+        raise NumberingError(f"{where} is from epoch {record['numbering_epoch']}, but the current epoch is {epoch.label}")
+    expected, slug = slug_for_tag(tag, epoch), record.get("slug")
+    if not isinstance(slug, str):
+        raise NumberingError(f"{where} has no slug")
+    written = record.get("slug_at_record")
+    if written is not None and current_slug(written, root) != slug:
+        raise NumberingError(f"{where} was written as {written!r}, which the rename map does not carry to {slug!r}")
+    if slug != expected:
+        raise NumberingError(f"{where}: slug and number mismatch: {tag} is {expected!r} in epoch {epoch.label}, "
+                             f"the record says {slug!r}")
+    return slug
+
+
+def cycle_records(root: Path = ROOT, epoch: Epoch | None = None) -> dict[str, dict]:
+    """Every cycle record, keyed by its slug. Any record that cannot be placed refuses the whole read."""
+    epoch = epoch or load_epoch(root)
+    records: dict[str, dict] = {}
+    for path in sorted((root / CYCLES_DIR).glob("S*.json")):
+        record = json.loads(path.read_text(encoding="utf-8"))
+        records[_checked_cycle_slug(path, record, epoch, root)] = record
+    return records
+
+
+def redacted_slugs(root: Path = ROOT, epoch: Epoch | None = None) -> set[str]:
+    """The sections whose redaction round is recorded. No list yet means none are recorded."""
+    epoch = epoch or load_epoch(root)
+    path = root / REDACTION_FILE
+    if not path.exists():
+        return set()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("numbering_epoch") != epoch.label:
+        raise NumberingError(f"{REDACTION_FILE} carries numbering_epoch {data.get('numbering_epoch')!r}, "
+                             f"not the current {epoch.label}")
+    if not isinstance(data.get("slugs"), list):
+        raise NumberingError(f"{REDACTION_FILE} names no slugs")
+    slugs = set(data["slugs"])
+    unknown = sorted(slugs - set(epoch.slugs))
+    if unknown:
+        raise NumberingError(f"{REDACTION_FILE} names {unknown}, which the epoch does not number")
+    return slugs
+
+
+def check_epoch(root: Path = ROOT) -> list[str]:
+    """Every way the epoch, the roadmap, the course and the fixer state disagree. Empty when they agree."""
+    try:
+        epoch = load_epoch(root)
+        headings = roadmap_numbers(root, epoch.roadmap)
+        order = course_order(root)
+        cycle_records(root, epoch)
+        redacted_slugs(root, epoch)
+    except (NumberingError, json.JSONDecodeError) as e:
+        return [str(e)]
+    problems = []
+    if headings != list(range(1, epoch.count + 1)):
+        problems.append(f"roadmap {epoch.roadmap} headings are {headings}; the epoch has sections 1 to {epoch.count}")
+    slugs = [slug for slug, _, _ in order]
+    if slugs != list(epoch.slugs):
+        problems.append(f"course order {slugs} does not match the epoch's {list(epoch.slugs)}")
+    for position, (slug, number, rel) in enumerate(order, 1):
+        if number != position:
+            problems.append(f"{rel} is section {slug} with index {number}, but the course lists it at position {position}")
+    return problems
+
+
+def main() -> int:
+    problems = check_epoch(ROOT)
+    for problem in problems:
+        print(f"  FAIL {problem}")
+    if problems:
+        print("numbering: refused; the fixer cannot number sections until the epoch, the roadmap, the course "
+              "and the state agree")
+        return 1
+    epoch = load_epoch(ROOT)
+    print(f"numbering: {epoch.count} sections in epoch {epoch.label}, from {epoch.roadmap}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

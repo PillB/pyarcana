@@ -1,0 +1,216 @@
+{
+  "_why": "The numbering epoch: which slug each section number names, and the roadmap of record that numbers them. Section numbers are a property of the epoch, not of the section, so no fixer tool may type a section count; tools/fixer/numbering.py reads everything from this file and checks it against the roadmap, the course order and each section file index.",
+  "_contract": "numbering_epoch is the count of sections in the table, and it names the epoch: a record that carries another label belongs to another numbering and is refused. A renumber writes a new epoch; the renumber commit names the old and new tables.",
+  "numbering_epoch": 52,
+  "roadmap": "learning_roadmap_52_V3.md",
+  "sections": [
+    {
+      "number": 1,
+      "slug": "setup"
+    },
+    {
+      "number": 2,
+      "slug": "basics"
+    },
+    {
+      "number": 3,
+      "slug": "decisions-rules"
+    },
+    {
+      "number": 4,
+      "slug": "iteration-summaries"
+    },
+    {
+      "number": 5,
+      "slug": "functions-contracts"
+    },
+    {
+      "number": 6,
+      "slug": "collections"
+    },
+    {
+      "number": 7,
+      "slug": "text-unicode-regex"
+    },
+    {
+      "number": 8,
+      "slug": "files-ingestion"
+    },
+    {
+      "number": 9,
+      "slug": "exceptions-logging"
+    },
+    {
+      "number": 10,
+      "slug": "modules-packaging-cli"
+    },
+    {
+      "number": 11,
+      "slug": "oop-domain"
+    },
+    {
+      "number": 12,
+      "slug": "apis-sql-geo"
+    },
+    {
+      "number": 13,
+      "slug": "evidence-dashboard"
+    },
+    {
+      "number": 14,
+      "slug": "security"
+    },
+    {
+      "number": 15,
+      "slug": "stdlib-deep"
+    },
+    {
+      "number": 16,
+      "slug": "wxpython-gui"
+    },
+    {
+      "number": 17,
+      "slug": "packaging"
+    },
+    {
+      "number": 18,
+      "slug": "data-engineering"
+    },
+    {
+      "number": 19,
+      "slug": "databases-orm"
+    },
+    {
+      "number": 20,
+      "slug": "rag"
+    },
+    {
+      "number": 21,
+      "slug": "fastapi"
+    },
+    {
+      "number": 22,
+      "slug": "rapidfuzz-entity"
+    },
+    {
+      "number": 23,
+      "slug": "computer-vision"
+    },
+    {
+      "number": 24,
+      "slug": "rpa-advanced"
+    },
+    {
+      "number": 25,
+      "slug": "streamlit-dashboards"
+    },
+    {
+      "number": 26,
+      "slug": "integrator-phase1"
+    },
+    {
+      "number": 27,
+      "slug": "async-concurrency"
+    },
+    {
+      "number": 28,
+      "slug": "llm-agents"
+    },
+    {
+      "number": 29,
+      "slug": "mlops"
+    },
+    {
+      "number": 30,
+      "slug": "security-infra"
+    },
+    {
+      "number": 31,
+      "slug": "streaming-data"
+    },
+    {
+      "number": 32,
+      "slug": "microservices"
+    },
+    {
+      "number": 33,
+      "slug": "advanced-models"
+    },
+    {
+      "number": 34,
+      "slug": "cv-ai-integration"
+    },
+    {
+      "number": 35,
+      "slug": "system-design"
+    },
+    {
+      "number": 36,
+      "slug": "ai-apis-advanced"
+    },
+    {
+      "number": 37,
+      "slug": "dbt-bigquery"
+    },
+    {
+      "number": 38,
+      "slug": "performance-extreme"
+    },
+    {
+      "number": 39,
+      "slug": "integrator-phase2"
+    },
+    {
+      "number": 40,
+      "slug": "architecture-ddd-decisions"
+    },
+    {
+      "number": 41,
+      "slug": "llm-finetuning"
+    },
+    {
+      "number": 42,
+      "slug": "graph-rag"
+    },
+    {
+      "number": 43,
+      "slug": "llmops"
+    },
+    {
+      "number": 44,
+      "slug": "multimodal"
+    },
+    {
+      "number": 45,
+      "slug": "iac"
+    },
+    {
+      "number": 46,
+      "slug": "gpu-computing"
+    },
+    {
+      "number": 47,
+      "slug": "opensource"
+    },
+    {
+      "number": 48,
+      "slug": "ai-governance"
+    },
+    {
+      "number": 49,
+      "slug": "data-contracts"
+    },
+    {
+      "number": 50,
+      "slug": "tech-leadership"
+    },
+    {
+      "number": 51,
+      "slug": "integrator-final"
+    },
+    {
+      "number": 52,
+      "slug": "career-strategy"
+    }
+  ]
+}
