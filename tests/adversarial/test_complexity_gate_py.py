@@ -144,6 +144,12 @@ class ParameterDefaults(unittest.TestCase):
         self.assertEqual(score(source, "outer"), 1)
         self.assertEqual(score(source, "g"), 3)
 
+    def test_a_decorator_on_a_nested_def_still_belongs_to_the_enclosing_function(self):
+        """A decorator is evaluated where the def stands, and ESLint has no counterpart to move it."""
+        source = "def outer(a, b):\n    @deco(a or b)\n    def g():\n        return 1\n    return g\n"
+        self.assertEqual(score(source, "outer"), 2)
+        self.assertEqual(score(source, "g"), 1)
+
 
 CORPUS = json.loads((ROOT / "tests/adversarial/complexity_parity_corpus.json").read_text(encoding="utf-8"))
 

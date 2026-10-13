@@ -307,6 +307,46 @@
    "divergence": "radon does not count a default; ESLint attributes a nested function's default to the nested function, not to the one around it, so g scores 3 and outer stays 1 (O21)"
   },
   {
+   "id": "decorated_nested_def_outer",
+   "function": "outer",
+   "source": "def outer(a, b):\n    @deco(a or b)\n    def g():\n        return 1\n    return g\n",
+   "radon": 1,
+   "expected": 2,
+   "divergence": "radon does not look at a decorator; a decorator runs where the def stands, so its `or` is a decision of the function around it and the gate counts it there"
+  },
+  {
+   "id": "decorated_nested_def_inner",
+   "function": "outer.g",
+   "source": "def outer(a, b):\n    @deco(a or b)\n    def g():\n        return 1\n    return g\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "match_case_guard",
+   "function": "f",
+   "source": "def f(c):\n    match c:\n        case 1 if c > 0:\n            return 'a'\n        case _:\n            return 'b'\n",
+   "radon": 2,
+   "expected": 3,
+   "divergence": "radon does not count a case guard; a guarded case makes two decisions, the pattern and the `if`, and NIST SP 500-235 4.1 counts each decision"
+  },
+  {
+   "id": "class_body_in_function",
+   "function": "f",
+   "source": "def f(x):\n    class C:\n        y = 1 if x else 2\n        if x:\n            z = 1\n    return C\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not enter a class body inside a function; the body runs each time the function does, so its conditional expression and `if` are decisions of the function"
+  },
+  {
+   "id": "class_method_in_function",
+   "function": "f",
+   "source": "def f(x):\n    class C:\n        def m(self):\n            return 1 if x else 2\n    return C\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
    "id": "while_and_inner_for",
    "function": "f",
    "source": "def f(xs, n):\n    while n > 0 and xs:\n        for x in xs:\n            if x:\n                n -= 1\n    return n\n",
