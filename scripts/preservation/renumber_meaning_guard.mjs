@@ -20,7 +20,7 @@
  */
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { openHistory, parseAddedLines } from './history.mjs'
+import { openHistory, parseAddedLines, parseNameStatus } from './history.mjs'
 import {
   SECTIONS_DIR,
   gridFor,
@@ -156,7 +156,7 @@ function sectionRenames(pre, post) {
 function pathsChanged(history, a, b) {
   const text = history.nameStatus(a, b)
   if (text === null) throw new Error(`git cannot list the files that differ between ${a} and ${b}`)
-  return new Set(text.split('\n').filter(Boolean).map((row) => row.split('\t').at(-1)))
+  return new Set(parseNameStatus(text))
 }
 
 /** (d): a moved file that differs from R needs a ledger row, and each ledger row needs a diff. */

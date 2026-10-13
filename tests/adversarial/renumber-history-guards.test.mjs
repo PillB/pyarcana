@@ -26,6 +26,12 @@ import {
   FROZEN_PATHS,
   sectionFieldsOf,
 } from '../../scripts/preservation/curriculum55_freeze_guard.mjs'
+import {
+  openHistory,
+  parseAddedLines,
+  parseNameStatus,
+  unquoteGitPath,
+} from '../../scripts/preservation/history.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
 const SENTINEL = join(ROOT, 'scripts/preservation_sentinel.mjs')
@@ -377,10 +383,58 @@ describe('renumber guard: the pure rules', () => {
     assert.deepEqual(grid, GRID_SUFFIXES.map((s) => `S19-${s}`))
   })
 
-  it('reads the added lines of a unified diff, and no removed line', async () => {
-    const { parseAddedLines } = await import('../../scripts/preservation/history.mjs')
+  it('reads the added lines of a unified diff, and no removed line', () => {
     const diff = 'diff --git a/c.md b/c.md\n--- a/c.md\n+++ b/c.md\n@@ -1 +1,2 @@\n-old\n+new S25\n+other\n'
     assert.deepEqual([...parseAddedLines(diff)], [['c.md', ['new S25', 'other']]])
+  })
+
+  it('reads an added line that starts with "++ " as content, not as a file header', () => {
+    const diff = 'diff --git a/c.md b/c.md\n--- a/c.md\n+++ b/c.md\n@@ -1 +1,2 @@\n+++ b/otro.md\n+línea S25\n'
+    assert.deepEqual([...parseAddedLines(diff)], [['c.md', ['++ b/otro.md', 'línea S25']]])
+  })
+})
+
+describe('git paths: names with a space, an accent, a quote or a backslash', () => {
+  it('unquotes a header path: trailing tab, C escapes and octal bytes', () => {
+    assert.equal(unquoteGitPath('plain.md'), 'plain.md')
+    assert.equal(unquoteGitPath('plain name.md\t'), 'plain name.md')
+    assert.equal(unquoteGitPath('"Gu\\303\\255a de S25.md"\t'), 'Guía de S25.md')
+    assert.equal(unquoteGitPath('"emoji-\\360\\237\\230\\200.md"'), 'emoji-😀.md')
+    assert.equal(unquoteGitPath('"qu\\"ote\\\\slash\\ttab.md"'), 'qu"ote\\slash\ttab.md')
+    assert.equal(unquoteGitPath('"qu\\"ó.md"'), 'qu"ó.md')
+    assert.throws(() => unquoteGitPath('"bad\\qescape.md"'), /escape/)
+  })
+
+  it('lists the real path of each added file, whatever git put around it', () => {
+    const diff = [
+      'diff --git "a/Gu\\303\\255a de S25.md" "b/Gu\\303\\255a de S25.md"', '--- "a/Gu\\303\\255a de S25.md"\t', '+++ "b/Gu\\303\\255a de S25.md"\t', '@@ -0,0 +1 @@', '+uno S25',
+      'diff --git a/plain name.md b/plain name.md', '--- a/plain name.md\t', '+++ b/plain name.md\t', '@@ -0,0 +1 @@', '+dos S26',
+      'diff --git "a/qu\\"ote.md" "b/qu\\"ote.md"', '--- "a/qu\\"ote.md"', '+++ "b/qu\\"ote.md"', '@@ -0,0 +1 @@', '+tres S27',
+      '',
+    ].join('\n')
+    assert.deepEqual([...parseAddedLines(diff)], [
+      ['Guía de S25.md', ['uno S25']],
+      ['plain name.md', ['dos S26']],
+      ['qu"ote.md', ['tres S27']],
+    ])
+  })
+
+  it('reads the names of renames and spaced files from a NUL-separated name-status', () => {
+    const text = ['M', 'plain name.md', 'R100', 'viejo nombre.md', 'Guía nueva.md', 'A', 'qu"ote.md', 'D', 'borrado.md', ''].join('\0')
+    assert.deepEqual(parseNameStatus(text), ['plain name.md', 'Guía nueva.md', 'qu"ote.md', 'borrado.md'])
+    assert.throws(() => parseNameStatus('R100\0solo-uno.md\0'), /missing path/)
+  })
+
+  it('round-trips awkward names through real git: the added-lines map and the name-status list agree', () => {
+    const names = ['plain.md', 'plain name.md', 'Guía de S25.md', 'ñandú/ñ.md', 'qu"ote.md', 'back\\slash.md', 'tab\there.md', 'emoji-😀.md']
+    const dir = newRepo()
+    applyEdits(dir, new Map(names.map((name) => [name, 'base\n'])))
+    const base = commitAll(dir, 'base')
+    applyEdits(dir, new Map(names.map((name) => [name, 'base\nlínea S25 nueva\n'])))
+    const head = commitAll(dir, 'edit')
+    const history = openHistory(dir)
+    assert.deepEqual([...parseAddedLines(history.unifiedDiff(base, head)).keys()].sort(), [...names].sort())
+    assert.deepEqual(parseNameStatus(history.nameStatus(base, head)).sort(), [...names].sort())
   })
 })
 
@@ -553,6 +607,22 @@ describe('renumber guard: the good renumber, and each bad state red', () => {
     const ledger = [{ path: REQUIREMENTS, kind: 'carried_from_main', line, reason: 'línea sin renumerar' }]
     const run = runGuard(scenario({ mainEdits, branchEdits, ledger }).dir)
     assert.equal(run.status, 0, run.err)
+  })
+
+  it('judges a main-side line in a file whose name has a space, an accent or a quote by the real path', () => {
+    const line = '- Requisito de la sección S25 (ver S25-T1-A-E1)'
+    const mapped = '- Requisito de la sección S27 (ver S27-T1-A-E1)'
+    for (const path of ['docs/Guía de S25.md', 'docs/qu"ote S25.md']) {
+      const mainEdits = new Map([[path, `${line}\n`]])
+      const unmapped = runGuard(scenario({ mainEdits, branchEdits: [new Map([[path, `${line}\n`]])] }).dir)
+      assert.equal(unmapped.status, 1, path)
+      assert.ok(withFindingCode(unmapped, 'CARRIED_TOKEN_UNMAPPED'), unmapped.err)
+      const carriedMapped = runGuard(scenario({ mainEdits, branchEdits: [new Map([[path, `${mapped}\n`]])] }).dir)
+      assert.equal(carriedMapped.status, 0, `${path}: ${carriedMapped.err}`)
+      const ledger = [{ path, kind: 'carried_from_main', line, reason: 'línea sin renumerar' }]
+      const withRow = runGuard(scenario({ mainEdits, branchEdits: [new Map([[path, `${line}\n`]])], ledger }).dir)
+      assert.equal(withRow.status, 0, `${path}: ${withRow.err}`)
+    }
   })
 
   it('stands down (d) and G-15 once the renumber is on main, and reports that it did', () => {
