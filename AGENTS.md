@@ -15,6 +15,7 @@ npm run lint && npx tsc --noEmit
 npm run test:v3
 npm run test:adversarial:node && npm run test:adversarial:py   # both halves, always
 npm run test:python-content      # under .venv-content; refuses a verdict otherwise
+npm run test:python-strict       # every declared output line equals what the code prints
 npm run test:ux-gates            # glossary, first-use, identifiers, a11y, contrast
 npm run test:course-complete
 node scripts/preservation_sentinel.mjs   # approved deletions: audit/safe-agent/deletion-allowlist.json
@@ -39,6 +40,7 @@ python3 tools/fixer/preflight.py            # refuses to start on bad preconditi
 tools/fixer/run_round.sh SXX --apply        # findings
 tools/fixer/run_redaction.sh SXX            # grammar and redaction
 tools/fixer/run_concepts.sh SXX             # concepts: remove, rephrase, gloss, teach, defer
+tools/fixer/run_spanish.sh SXX              # English in the Spanish, decided word by word
 ```
 
 Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_QUESTIONS.md`:

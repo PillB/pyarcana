@@ -11,7 +11,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -144,5 +144,41 @@ describe('AGENTS.md ask-first names the renumber guard inputs', () => {
     const bullet = askFirstBullets().find((b) =>
       /\bmanifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
     assert.ok(bullet, `no ask-first bullet names the manifest and all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
+  })
+})
+
+/** The first bash block under an AGENTS.md heading: one command per line. */
+function bashBlockUnder(heading) {
+  const start = AGENTS.indexOf(heading)
+  if (start < 0) throw new Error(`AGENTS.md has no "${heading}" section`)
+  const block = AGENTS.slice(start).match(/```bash\n([\s\S]*?)```/)
+  if (!block) throw new Error(`no bash block under "${heading}"`)
+  return block[1].split('\n')
+}
+
+/** The line after `anchor` must equal `expected` exactly: the owner's wording, spacing included. */
+function assertLineAfter(lines, anchor, expected) {
+  const at = lines.findIndex((line) => line.startsWith(anchor))
+  assert.ok(at >= 0, `"${anchor}" is not in the Done-means block`)
+  assert.equal(lines[at + 1], expected)
+}
+
+describe('AGENTS.md carries the two commands the owner added', () => {
+  it('lists test:python-strict straight after test:python-content in Done means, verbatim', () => {
+    assertLineAfter(bashBlockUnder('## Done means these pass'), 'npm run test:python-content',
+      'npm run test:python-strict       # every declared output line equals what the code prints')
+  })
+
+  it('lists run_spanish.sh straight after run_concepts.sh in When fixing a section, verbatim', () => {
+    assertLineAfter(bashBlockUnder('## When fixing a section'), 'tools/fixer/run_concepts.sh SXX',
+      'tools/fixer/run_spanish.sh SXX              # English in the Spanish, decided word by word')
+  })
+
+  it('names only commands that exist: the npm script, and an executable runner', () => {
+    const scripts = JSON.parse(read('package.json')).scripts
+    assert.ok(scripts['test:python-strict'], 'package.json has no test:python-strict script')
+    const runner = join(ROOT, 'tools/fixer/run_spanish.sh')
+    assert.ok(existsSync(runner), 'tools/fixer/run_spanish.sh is missing')
+    assert.ok((statSync(runner).mode & 0o111) !== 0, 'tools/fixer/run_spanish.sh is not executable')
   })
 })
