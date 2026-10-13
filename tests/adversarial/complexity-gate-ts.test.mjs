@@ -250,6 +250,36 @@ test('keys name what a function is bound to, and the path of what encloses it', 
   ])
 }))
 
+/** A fresh tree with workers/billing/src, where the billing worker keeps its code. */
+function withWorker(body) {
+  const root = mkdtempSync(join(tmpdir(), 'ts-complexity-worker-'))
+  mkdirSync(join(root, 'workers', 'billing', 'src'), { recursive: true })
+  try {
+    return body(root, join(root, 'workers', 'billing', 'src', 'probe.mjs'))
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
+}
+
+test('the TypeScript scope reaches workers/billing, so the worker is baselined and ratcheted', () => withWorker((root, probe) => {
+  writeFileSync(probe, jsFnWith('legacy', 20))
+  assert.equal(gate(root, '--init').status, 0)
+  assert.deepEqual(baseline(root).offenders, { 'workers/billing/src/probe.mjs::legacy': 20 })
+}))
+
+test('a new function over 15 in workers/billing fails the ratchet, and the baselined one may not grow', () => withWorker((root, probe) => {
+  writeFileSync(probe, jsFnWith('legacy', 20))
+  gate(root, '--init')
+  writeFileSync(probe, jsFnWith('legacy', 21))
+  const grew = gate(root)
+  assert.equal(grew.status, 1, output(grew))
+  assert.match(output(grew), /GREW\s+20 ->\s+21 workers\/billing\/src\/probe\.mjs::legacy/)
+  writeFileSync(probe, jsFnWith('legacy', 20) + jsFnWith('fresh', 16))
+  const added = gate(root)
+  assert.equal(added.status, 1, output(added))
+  assert.match(output(added), /NEW OVER\s+16 workers\/billing\/src\/probe\.mjs::fresh/)
+}))
+
 const SAMPLE = `
 export function plain(a: number, b = 1) { if (a && b) return a ?? b; return a?.toFixed() }
 export function ov(a: string): void
