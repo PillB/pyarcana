@@ -191,13 +191,25 @@ function usageLabel(node) {
 const functionLabel = (fn) =>
   fn.id?.name ?? bindingName(fn) ?? usageLabel(fn) ?? (fn.type === 'ArrowFunctionExpression' ? '<arrow function>' : '<function>')
 
-/** True for what names a segment of a path: a function, a class, an object or a list bound to a name. */
+/**
+ * The name of an object or a list that holds functions, or null when the code gives it none. It is
+ * named as a function is: by what it is bound to, or by how it is used (`<arg 0 of m = new Measurement>`,
+ * `<Ctx.Provider value>`, `<returned>`, `<default of opts>`). A list in a list is a row, whose
+ * functions take its title (`ROWS.<item 1 "role">`), so it is not a segment of its own.
+ */
+function literalLabel(node) {
+  const bound = bindingName(node)
+  if (bound !== null) return bound
+  return boundTo(node).parent.type === 'ArrayExpression' ? null : usageLabel(node)
+}
+
+/** True for what names a segment of a path: a function, a class, or an object or a list the code names. */
 const isSegment = (node) =>
-  FUNCTION_TYPES.has(node.type) || CLASS_TYPES.has(node.type) || (LITERALS.has(node.type) && bindingName(node) !== null)
+  FUNCTION_TYPES.has(node.type) || CLASS_TYPES.has(node.type) || (LITERALS.has(node.type) && literalLabel(node) !== null)
 
 function segmentLabel(node) {
   if (FUNCTION_TYPES.has(node.type)) return functionLabel(node)
-  return CLASS_TYPES.has(node.type) ? node.id?.name ?? bindingName(node) ?? '<class>' : bindingName(node)
+  return CLASS_TYPES.has(node.type) ? node.id?.name ?? bindingName(node) ?? '<class>' : literalLabel(node)
 }
 
 /** The segments that hold a node, outermost first. */

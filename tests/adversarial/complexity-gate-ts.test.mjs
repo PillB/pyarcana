@@ -209,8 +209,8 @@ test('two callbacks to the same call in one function are told apart by order, an
   put(root, `export function build(rows: number[]) {\n  return [rows.map((x) => { ${callback(16)}; return -1 }), rows.map((x) => { ${callback(17)}; return -1 })]\n}\n`)
   gate(root, '--init')
   assert.deepEqual(baseline(root).offenders, {
-    'src/a.ts::build.<arg 0 of rows.map>': 16,
-    'src/a.ts::build.<arg 0 of rows.map>#2': 17,
+    'src/a.ts::build.<returned>.<arg 0 of rows.map>': 16,
+    'src/a.ts::build.<returned>.<arg 0 of rows.map>#2': 17,
   })
 }))
 
@@ -592,10 +592,65 @@ const FORM_CASES = [
     code: (extra) => `export function send(options: { fetch?: unknown; other?: unknown }) {\n${extra}  const doFetch = options.fetch ?? (${offender('  ')})\n  return doFetch\n}\n`,
   },
   {
+    form: 'array in ArrowFunctionExpression.body',
+    key: 'rows.<returned>.<item 1 "role">',
+    extra: ", b = [['role', () => 0]]",
+    code: (extra) => `export const rows = (a: number${extra}) => [['role', ${offender()}]]\n`,
+  },
+  {
+    form: 'array in CallExpression.arguments[]',
+    key: 'setup.<arg 0 of register>.<item 1 "role">',
+    extra: "  other([['role', (x: number) => x]])\n",
+    code: (extra) => `export function setup() {\n${extra}  register([['role', ${offender('  ')}]])\n}\n`,
+  },
+  {
+    form: 'array in NewExpression.arguments[]',
+    key: 'table.<arg 0 of Map>.<item 1 "role">',
+    extra: "  void new Set([['role', (x: number) => x]])\n",
+    code: (extra) => `export function table() {\n${extra}  return new Map([['role', ${offender('  ')}]])\n}\n`,
+  },
+  {
+    form: 'array in ReturnStatement.argument',
+    key: 'rows.<returned>.<item 1 "role">',
+    extra: "  register([['role', (x: number) => x]])\n",
+    code: (extra) => `export function rows() {\n${extra}  return [['role', ${offender('  ')}]]\n}\n`,
+  },
+  {
+    form: 'object in ArrowFunctionExpression.body',
+    key: 'make.<returned>.big',
+    extra: ', opts = { big: () => 0 }',
+    code: (extra) => `export const make = (a: number${extra}) => ({ big: ${offender()} })\n`,
+  },
+  {
+    form: 'object in CallExpression.arguments[]',
+    key: 'outer.<arg 0 of m = configure>.big',
+    extra: '  const n = other({ big: (x: number) => x })\n',
+    code: (extra) => `export function outer() {\n${extra}  const m = configure({ big: ${offender('  ')} })\n  return m\n}\n`,
+  },
+  {
     form: 'object in ConditionalExpression.consequent',
     key: 'outer.api.big',
     extra: '  const other = flag ? { big: (x: number) => x } : null\n',
     code: (extra) => `export function outer(flag: boolean) {\n${extra}  const api = flag ? { big: ${offender('  ')} } : null\n  return api\n}\n`,
+  },
+  {
+    form: 'object in JSXExpressionContainer.expression/JSXAttribute',
+    jsx: true,
+    key: 'Calendar.<Picker formatters>.big',
+    extra: '<Picker components={{ big: () => 0 }} />',
+    code: (extra) => `export function Calendar() {\n  return <>${extra}<Picker formatters={{ big: ${offender('    ')} }} /></>\n}\n`,
+  },
+  {
+    form: 'object in NewExpression.arguments[]',
+    key: 'outer.<arg 0 of m = Measurement>.big',
+    extra: '  const n = new Measurement({ big: (x: number) => x })\n',
+    code: (extra) => `export function outer() {\n${extra}  const m = new Measurement({ big: ${offender('  ')} })\n  return m\n}\n`,
+  },
+  {
+    form: 'object in ReturnStatement.argument',
+    key: 'useThing.<returned>.big',
+    extra: '  const big = (x: number) => x\n  void big\n',
+    code: (extra) => `export function useThing() {\n${extra}  return { big: ${offender('  ')} }\n}\n`,
   },
 ]
 
