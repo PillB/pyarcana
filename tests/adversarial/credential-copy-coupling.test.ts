@@ -168,10 +168,18 @@ describe('"The LMS dinámico is not deployed"', () => {
   it('neither page sends the visitor to a URL, a contact or a procedure that does not exist', () => {
     const pages = { policy: flat(POLICY), verify: flat('src/app/verify/page.tsx') }
     for (const [name, text] of Object.entries(pages)) {
-      for (const promise of ['URL del LMS', 'contacta al', 'contacta a ', 'equipo de PyArcana', 'visita la URL', 'puedes comprobar una credencial']) {
+      for (const promise of ['URL del LMS', 'contacta al', 'equipo de PyArcana', 'visita la URL', 'puedes comprobar una credencial', 'registro público']) {
         assert.ok(!text.includes(promise), `the ${name} page says "${promise}"`)
       }
     }
+  })
+
+  it('the policy links to /verify as the page that checks one identifier, and says in the same sentence that the check is not available today', () => {
+    assert.match(
+      flat(POLICY),
+      /por su identificador de verificación, consulta la\{' '\} <Link href="\/verify"[^>]*> página de verificación <\/Link> ; la comprobación no está disponible hoy\./,
+      'the policy no longer says, where it links to /verify, that the check is not available today'
+    )
   })
 
   it('the code agrees: the Pages workflow deploys the static export only, and the Worker has no credential route', () => {

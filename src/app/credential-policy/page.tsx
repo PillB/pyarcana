@@ -50,11 +50,12 @@ export default function CredentialPolicyPage() {
           <p className="text-sm text-muted-foreground">
             Las credenciales de PyArcana describen evidencia demostrada dentro del curso.
             No constituyen certificación profesional acreditada, licencia, ni garantía de
-            empleo. Para verificación de una credencial específica, consulta el{' '}
+            empleo. Para comprobar una credencial específica por su identificador de
+            verificación, consulta la{' '}
             <Link href="/verify" className="font-medium text-foreground underline-offset-2 hover:underline">
-              registro público de verificación
+              página de verificación
             </Link>
-            .
+            ; la comprobación no está disponible hoy.
           </p>
         </section>
 
