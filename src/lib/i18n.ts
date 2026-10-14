@@ -62,7 +62,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Password (mín. 6 caracteres)',
     'auth.loginTab': 'Iniciar sesión',
     'auth.registerTab': 'Crear cuenta',
-    'auth.demoDesc': 'Inicia sesión para guardar tu progreso, rendir exámenes y ver tu dashboard',
     'auth.or': 'o',
     'auth.oauthDesc': 'OAuth está cableado en el código. Solo falta configurar credenciales reales en .env',
     'auth.oauthGoogle': 'Google',
@@ -99,7 +98,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'La Sesión 0 te guía paso a paso: terminal, Python, Git, GitHub y VS Code.',
     'setup.link.cta': 'Empezar por la Sesión 0',
     'progress.createAccount': 'Crear cuenta gratis',
-    'progress.createAccountDesc': 'Crea cuenta para guardar progreso, rendir exámenes con anti-plagio y ver tu dashboard',
 
     'course.curriculum': 'Currículum del curso',
     'course.method': 'Método I Do / We Do / You Do',
@@ -1095,7 +1093,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Contraseña (mín. 6 caracteres)',
     'auth.loginTab': 'Iniciar sesión',
     'auth.registerTab': 'Crear cuenta',
-    'auth.demoDesc': 'Inicia sesión para guardar tu progreso, realizar exámenes y ver tu panel',
     'auth.or': 'o',
     'auth.oauthDesc': 'OAuth está configurado en el código. Solo falta añadir credenciales reales en .env',
     'auth.oauthGoogle': 'Google',
@@ -1132,7 +1129,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'La Sesión 0 te guía paso a paso: terminal, Python, Git, GitHub y VS Code.',
     'setup.link.cta': 'Empezar por la Sesión 0',
     'progress.createAccount': 'Crear cuenta gratis',
-    'progress.createAccountDesc': 'Crea una cuenta para guardar progreso, realizar exámenes con anti-plagio y ver tu panel',
 
     'course.curriculum': 'Plan de estudios del curso',
     'course.method': 'Método I Do / We Do / You Do',
@@ -2128,7 +2124,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Password (min. 6 characters)',
     'auth.loginTab': 'Sign in',
     'auth.registerTab': 'Create account',
-    'auth.demoDesc': 'Sign in to save your progress, take exams, and view your dashboard',
     'auth.or': 'or',
     'auth.oauthDesc': 'OAuth is wired in the code. Just add real credentials in .env',
     'auth.oauthGoogle': 'Google',
@@ -2165,7 +2160,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'Session 0 walks you through it step by step: terminal, Python, Git, GitHub and VS Code. The steps are in Peruvian Spanish.',
     'setup.link.cta': 'Start with Session 0',
     'progress.createAccount': 'Create free account',
-    'progress.createAccountDesc': 'Create an account to save progress, take anti-plagiarism exams, and view your dashboard',
 
     'course.curriculum': 'Course curriculum',
     'course.method': 'I Do / We Do / You Do method',

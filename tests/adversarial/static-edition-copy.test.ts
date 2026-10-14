@@ -12,6 +12,8 @@
  * 'tour.autocheck.body' ("el examen formal con cuenta"), read by the tour the static build mounts,
  * and 'auth.demoDesc' ("rendir exámenes"), which nothing reads. The scan now covers every key whose
  * text names an exam, in any quote style, and the plan scan covers every importer of the plan table.
+ * The owner deleted 'auth.demoDesc' and 'progress.createAccountDesc' (O25); the last describe block
+ * keeps both from coming back.
  *
  * Run: node --import tsx --test tests/adversarial/static-edition-copy.test.ts
  */
@@ -111,5 +113,31 @@ describe('static edition copy', () => {
     const config = source('src/lib/cloud/config.ts')
     assert.match(config, /getPlanByCode\('free'\)\?\.maxSections/)
     assert.doesNotMatch(config, /\.features|\.description|\.tagline|\.hasExams/)
+  })
+})
+
+/**
+ * Wordings the owner had deleted (O25, 2026-10-13). Each promised an exam ("exámenes con
+ * anti-plagio", "rendir exámenes") that the site does not give outside the dynamic LMS, and nothing
+ * rendered either one. The scan above proved no file mounted by the static build reads them; it
+ * cannot stop a later change from writing them back. This case does: a key in this list is defined
+ * in no dictionary and named by no file.
+ */
+const DELETED_WORDINGS = ['progress.createAccountDesc', 'auth.demoDesc']
+
+describe('wordings the owner deleted stay deleted', () => {
+  for (const key of DELETED_WORDINGS) {
+    it(`${key} is defined in no dictionary and named by no file`, () => {
+      const defined = source(I18N).split('\n').filter((line) => line.trim().startsWith(`'${key}':`))
+      assert.deepEqual(defined, [], `${key} is back in the translation table`)
+      for (const { code } of LANGUAGES) assert.equal(t(key, code), key, `${key} resolves to text in ${code}`)
+      assert.deepEqual(readers(key), [], `${key} is named by a file`)
+    })
+  }
+
+  it('the neighbours of the deleted keys are still there, so the case is reading the real table', () => {
+    for (const key of ['progress.createAccount', 'auth.loginTab', 'auth.or']) {
+      assert.ok(KEYS.includes(key), `${key} is missing from the table the case reads`)
+    }
   })
 })
