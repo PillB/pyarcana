@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url'
 
 import { COURSE_SECTIONS } from '../src/lib/course/index'
 import { bankOptions, InvalidBankRow, toFormItem } from '../src/lib/exam-scoring.ts'
+import { servedBank } from '../src/lib/exam-draw.ts'
 import { SECTION_ID_RENAMES } from '../src/lib/section-id-migrations.ts'
 import { readSeedQuestionBank, type Bank, type BankQuestion } from './lib/learner_text.mts'
 
@@ -146,13 +147,16 @@ function classify(id: string, current: DbRow[], aliasRows: DbRow[], bank: Bank):
     const from = [...new Set(aliasRows.map((r) => r.sectionId))].join(', ')
     return { ...base, status: 'alias-only', dbSha256: null, detail: [`${aliasRows.length} rows only under pre-rename id ${from}`] }
   }
-  const bad = current.map((r) => [r, rowProblem(r)] as const).filter(([, p]) => p !== undefined)
+  // What exam/start serves, not only the current id's rows: an old-slug row with no twin under the
+  // current id reaches learners, so it must count here too (Codex P2 on #97).
+  const served = servedBank([...current, ...aliasRows], id)
+  const bad = served.map((r) => [r, rowProblem(r)] as const).filter(([, p]) => p !== undefined)
   if (bad.length) {
     return { ...base, status: 'malformed', dbSha256: null, detail: bad.map(([r, p]) => `${r.concept} variant ${r.variant}: ${p}`) }
   }
-  const shape = shapeDetail(current, bank)
+  const shape = shapeDetail(served, bank)
   if (shape.length) return { ...base, status: 'wrong-shape', dbSha256: null, detail: shape }
-  const dbSha256 = contentDigest(current.map((r) => ({ ...r, options: bankOptions(r) })))
+  const dbSha256 = contentDigest(served.map((r) => ({ ...r, options: bankOptions(r) })))
   const status: SectionStatus = dbSha256 === base.bankSha256 ? 'fresh' : 'stale'
   return { ...base, status, dbSha256, detail: status === 'stale' ? ['content differs from the bank'] : [] }
 }

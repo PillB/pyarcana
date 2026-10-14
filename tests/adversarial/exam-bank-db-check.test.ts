@@ -213,6 +213,26 @@ test('rows left under the old slug beside the current id\'s rows are counted, an
   assert.match(formatReport('test.sqlite', outcome), new RegExp(`^fresh\\s+apis-sql-geo\\s+${rowsInBank}\\s+${rowsInBank}\\s`, 'm'))
 })
 
+test('an old-slug row with no twin under the current id is served, so its section is not fresh', async () => {
+  // Codex P2 on #97: exam/start keeps an old-slug (concept, variant) that the current id lacks, so
+  // a check that hashed only the current id's rows called this database fresh while learners were
+  // served an extra question.
+  const path = bankDatabase()
+  edit(path, 'INSERT INTO "QuestionBank" ("id","sectionId","concept","variant","question","options","correctIndex","explanation") '
+    + 'SELECT "id" || \'-orphan\', ?, "concept", 4, "question", "options", "correctIndex", "explanation" '
+    + 'FROM "QuestionBank" WHERE "sectionId" = ? LIMIT 1', ['performance', 'apis-sql-geo'])
+  const outcome = await check(path)
+  assert.equal(outcome.exitCode, 1)
+  assert.deepEqual(notFresh(outcome), [['apis-sql-geo', 'wrong-shape']])
+})
+
+test('the check and exam/start build the served bank with the same function', () => {
+  const route = readFileSync(join(ROOT, 'src/app/api/exam/start/route.ts'), 'utf8')
+  const script = readFileSync(join(ROOT, 'scripts/exam_bank_db_check.mts'), 'utf8')
+  assert.match(route, /return servedBank\(bank, sectionId\)/)
+  assert.match(script, /servedBank\(\[\.\.\.current, \.\.\.aliasRows\], id\)/)
+})
+
 test('an extra variant makes only its section wrong-shape', async () => {
   const path = bankDatabase()
   edit(path, 'INSERT INTO "QuestionBank" ("id","sectionId","concept","variant","question","options","correctIndex","explanation") '
