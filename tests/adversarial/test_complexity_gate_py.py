@@ -13,6 +13,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Callable, NamedTuple
 
 ROOT = Path(__file__).resolve().parents[2]
 GATE = ROOT / "scripts/complexity_gate_py.py"
@@ -466,7 +467,8 @@ class Ratchet(unittest.TestCase):
             f"holder.slot = lambda x: {chain}",
             f"mapped = list(map(lambda x: {chain}, []))",
             f"keyed = sorted([], key=lambda x: {chain})",
-            f"loose = (lambda x: {chain}) if True else None",
+            f"chosen = (lambda x: {chain}) if True else None",
+            f"print((lambda x: {chain})(1))",
             f"def f(rows):\n    return rows.sort(key=lambda x: {chain})",
             "",
         ]))
@@ -476,6 +478,7 @@ class Ratchet(unittest.TestCase):
             "scripts/a.py::<kw key of keyed = sorted>",
             "scripts/a.py::<lambda>",
             "scripts/a.py::annotated",
+            "scripts/a.py::chosen",
             "scripts/a.py::f.<kw key of rows.sort>",
             "scripts/a.py::holder.slot",
             "scripts/a.py::named",
@@ -586,6 +589,83 @@ class Ratchet(unittest.TestCase):
         (self.root / "scripts" / "a.py").unlink()
         done = self.gate()
         self.assertEqual(done.returncode, 1, done.stdout)
+
+
+OFFENDER = f"lambda x: {lambda_chain(17)}"
+
+
+class FormCase(NamedTuple):
+    """An offender scoring 17 in one form, under `key`; `extra` is an unrelated lambda put before it,
+    in the same function and the same kind of place, that differs from it in a name the code gives."""
+    form: str
+    key: str
+    extra: str
+    code: Callable[[str], str]
+
+
+#: One case per form a lambda, or a container holding one, takes. Keyed by order alone, the
+#: offender and its unrelated lambda would differ only by order, and the offender would turn NEW OVER.
+FORM_CASES = [
+    FormCase("lambda in BoolOp.values", "send.fetch", "    other = options.get('other') or (lambda x: x)\n",
+             lambda extra: f"def send(options):\n{extra}    fetch = options.get('fetch') or ({OFFENDER})\n    return fetch\n"),
+    FormCase("lambda in IfExp.body", "pick.chosen", "    other = (lambda x: x) if flag else None\n",
+             lambda extra: f"def pick(flag):\n{extra}    chosen = ({OFFENDER}) if flag else None\n    return chosen\n"),
+]
+
+
+class FormCases(unittest.TestCase):
+    """The audit of the identity: per form, an unrelated lambda added before a baselined offender
+    moves no key. Every case runs in one tree, with the gate run three times for all of them."""
+
+    BASELINE = "audit/fixer/complexity_baseline_py.json"
+
+    @classmethod
+    def setUpClass(cls):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "scripts" / "forms").mkdir(parents=True)
+            cls.files = [f"scripts/forms/f{i:02d}.py" for i in range(len(FORM_CASES))]
+
+            def write(with_extra: bool) -> None:
+                for case, rel in zip(FORM_CASES, cls.files):
+                    (root / rel).write_text(case.code(case.extra if with_extra else ""), encoding="utf-8")
+
+            def offenders() -> dict:
+                path = root / cls.BASELINE
+                return json.loads(path.read_text(encoding="utf-8"))["offenders"] if path.exists() else {}
+
+            write(False)
+            cls.init = run_gate("--root", str(root), "--init")
+            cls.before = offenders()
+            write(True)
+            cls.after = run_gate("--root", str(root))
+            (root / cls.BASELINE).unlink(missing_ok=True)
+            cls.again = run_gate("--root", str(root), "--init")
+            cls.reread = offenders()
+
+    def check(self, index: int) -> None:
+        case, rel = FORM_CASES[index], self.files[index]
+        key = f"{rel}::{case.key}"
+        self.assertEqual(self.init.returncode, 0, self.init.stdout + self.init.stderr)
+        self.assertEqual([line for line in self.after.stdout.splitlines() if f"{rel}::" in line], [],
+                         "the ratchet still knows it")
+        self.assertEqual({k: v for k, v in self.before.items() if k.startswith(f"{rel}::")}, {key: 17},
+                         "baselined under its name")
+        self.assertEqual(self.again.returncode, 0, self.again.stdout + self.again.stderr)
+        self.assertEqual({k: v for k, v in self.reread.items() if k.startswith(f"{rel}::")}, {key: 17},
+                         "measured again under the same key")
+
+
+def form_test(index: int):
+    def test(self):
+        self.check(index)
+    return test
+
+
+for _index, _case in enumerate(FORM_CASES):
+    _slug = "".join(ch if ch.isalnum() else "_" for ch in _case.form.lower())
+    setattr(FormCases, f"test_{_slug}_keeps_its_key_when_an_unrelated_lambda_is_added_before_it",
+            form_test(_index))
 
 
 if __name__ == "__main__":

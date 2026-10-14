@@ -171,14 +171,28 @@ def bound_name(node: ast.AST, parent: ast.AST | None) -> str | None:
     return None
 
 
+def hands_on(node: ast.AST, parent: ast.AST | None) -> bool:
+    """True when `parent` hands `node` on as its own value: `a or b`, `a and b`, `a if c else b`."""
+    return isinstance(parent, ast.BoolOp) or (isinstance(parent, ast.IfExp) and parent.test is not node)
+
+
+def holder(node: ast.AST, parents: dict) -> tuple[ast.AST, ast.AST | None]:
+    """`node`, or the `or`/`if-else` that hands it on, and the parent that uses that: in
+    `fetch = given or (lambda url: ...)` the lambda is bound to `fetch`."""
+    parent = parents.get(node)
+    while hands_on(node, parent):
+        node, parent = parent, parents.get(parent)
+    return node, parent
+
+
 def result_name(call: ast.Call, parents: dict) -> str | None:
     """The name a call's result reaches, through `await`, an attribute read, a subscript such as
-    `[:10]`, or a further call."""
+    `[:10]`, a further call, or an `or`/`if-else` that hands it on."""
     node = call
     while True:
         up = parents.get(node)
         reads = (isinstance(up, (ast.Attribute, ast.Subscript)) and up.value is node) or (isinstance(up, ast.Call) and up.func is node)
-        if not (isinstance(up, ast.Await) or reads):
+        if not (isinstance(up, ast.Await) or reads or hands_on(node, up)):
             return bound_name(node, up)
         node = up
 
@@ -235,11 +249,12 @@ def usage_label(node: ast.Lambda, parent: ast.AST | None, parents: dict) -> str 
 
 def lambda_label(node: ast.Lambda, parents: dict) -> str:
     """A lambda has no name, so it takes every name the code gives it: what it is bound to
-    (`key = lambda ...` is `key`), else how it is used (`<kw key of first = sorted>`,
-    `<kw type of parser.add_argument "--size">`, `ROWS.<item 1 "role">`, `<returned>`). Only a
-    lambda that is none of these, such as one in a conditional expression, is `<lambda>`."""
-    parent = parents.get(node)
-    return bound_name(node, parent) or usage_label(node, parent, parents) or "<lambda>"
+    (`key = lambda ...` is `key`, and so is `key = given or (lambda ...)`), else how it is used
+    (`<kw key of first = sorted>`, `<kw type of parser.add_argument "--size">`,
+    `ROWS.<item 1 "role">`, `<returned>`). Only a lambda that is none of these, such as one called
+    where it stands with its result unbound, is `<lambda>`."""
+    child, parent = holder(node, parents)
+    return bound_name(child, parent) or usage_label(child, parent, parents) or "<lambda>"
 
 
 def segment_label(node: ast.AST, parents: dict) -> str | None:
