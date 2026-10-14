@@ -153,6 +153,9 @@ export function strayTagFailures(
  * - pandas-merging (merge, join, concatenate) is the same case: files-ingestion never writes a merge
  *   (0 times), because pandas comes in the intermediate block. Its home is RETAGGED below.
  * - seaborn-tutorial: exceptions-logging names no plotting library (seaborn 0 times). Home: RETAGGED.
+ * - kaggle-learn also sat on modules-packaging-cli, which names neither Kaggle nor pandas (0 times;
+ *   the resource is a generic Python, pandas, ML and SQL course). The card keeps its other tags
+ *   (collections, whose own resource list links it, and the pandas section), so it needs no home.
  */
 export const REMOVED_TAGS: readonly Teaching[] = [
   { resource: 'pandas-docs', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
@@ -161,6 +164,7 @@ export const REMOVED_TAGS: readonly Teaching[] = [
   { resource: 'seaborn-datasets', section: 'exceptions-logging', evidence: /seaborn|sns\./gi, atLeast: 3 },
   { resource: 'pandas-merging', section: 'files-ingestion', evidence: /\bmerge\b/gi, atLeast: 30 },
   { resource: 'seaborn-tutorial', section: 'exceptions-logging', evidence: /seaborn|sns\./gi, atLeast: 3 },
+  { resource: 'kaggle-learn', section: 'modules-packaging-cli', evidence: /kaggle|pandas|DataFrame/gi, atLeast: 50 },
 ]
 
 /**
@@ -231,7 +235,7 @@ describe('a resource stays off a section that does not teach its topic (O25)', (
 
   it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
     // A floor, not a ceiling: losing an entry lets its tag come back unseen, adding one is allowed.
-    assert.ok(REMOVED_TAGS.length >= 6, `${REMOVED_TAGS.length} entries`)
+    assert.ok(REMOVED_TAGS.length >= 7, `${REMOVED_TAGS.length} entries`)
     for (const t of REMOVED_TAGS) {
       assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
       assert.ok(realSection(t.section), `no section has the slug ${t.section}`)

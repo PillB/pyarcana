@@ -1141,7 +1141,7 @@ export const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.kaggle.com/learn',
     resourceType: 'course',
     topics: ['python', 'pandas', 'ml', 'sql'],
-    sectionIds: ['s06-collections', 's15-stdlib-deep', 's10-modules-packaging-cli'],
+    sectionIds: ['s06-collections', 's15-stdlib-deep'],
     level: 'foundation',
     language: ['en'],
     access: 'free',
