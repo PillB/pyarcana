@@ -36,6 +36,14 @@ DUMP = ROOT / "scripts/playground_demos_dump.mjs"
 PINNED_OUTPUT_OWED: frozenset[str] = frozenset({"databases-orm"})
 
 
+#: Seconds a demo may run. The lesson audit's default (runtime.TIMEOUT_SEC, 8 s) suits its many small
+#: snippets, but the first import of scikit-learn takes about 10 s on a cold cache (measured under
+#: .venv-content: 10.0 s, then 4.4 s and 3.9 s), and four demos run at once. Under 8 s that is a
+#: timeout reported as a failed demo and nothing else, which sent a reader hunting a content bug.
+#: CI sets PYARCANA_SNIPPET_TIMEOUT=30; this floor gives a local run the same headroom.
+DEMO_TIMEOUT_SEC = max(30, runtime.TIMEOUT_SEC)
+
+
 class DemoReadError(RuntimeError):
     """The demos could not be read; nothing printed by the reader can be trusted."""
 
@@ -59,9 +67,9 @@ def audit_demo(demo_id: str, demo: dict) -> dict | None:
     expected = demo.get("expectedOutput")
     if expected is None:
         return None
-    result = runtime.run_python(demo["code"])
+    result = runtime.run_python(demo["code"], timeout=DEMO_TIMEOUT_SEC)
     if result["timeout"]:
-        return _verdict(demo_id, "fail", "timeout")
+        return _verdict(demo_id, "fail", "timeout", stderr=f"no result within {DEMO_TIMEOUT_SEC}s; not a mismatch")
     if result["exit"] != 0:
         return _verdict(demo_id, "fail", "nonzero_exit", stderr=result["stderr"][-300:])
     got, want = result["stdout"].strip(), expected.strip()

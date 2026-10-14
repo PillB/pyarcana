@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ast
 import contextlib
+import inspect
 import io
 import sys
 import unittest
@@ -45,6 +46,32 @@ class SyntheticDemosAgainstTheirOutput(unittest.TestCase):
         # passes the gate. The playground marks that demo failed.
         verdict = audit.audit_demo("synthetic", synthetic("print('hola')\nraise SystemExit(3)", "hola"))
         self.assertEqual(verdict["status"], "fail", verdict)
+
+
+class ADemoGetsTimeToStartCold(unittest.TestCase):
+    def test_the_local_timeout_is_floored_at_30_seconds(self) -> None:
+        # Defect: audit_demo() passes no timeout, so a local run uses the lesson audit's 8 s default and
+        # a cold-start scikit-learn import (about 10 s) is reported as a failed demo.
+        real = audit.runtime.run_python
+        asked: list[float] = []
+
+        def spy(code: str, *args, **kwargs):
+            default = inspect.signature(real).parameters["timeout"].default
+            asked.append(kwargs.get("timeout", args[0] if args else default))
+            return real(code, *args, **kwargs)
+
+        with mock.patch.object(audit.runtime, "run_python", spy):
+            verdict = audit.audit_demo("synthetic", synthetic("print('hola')", "hola"))
+        self.assertEqual(verdict["status"], "pass", verdict)
+        self.assertEqual(len(asked), 1)
+        self.assertGreaterEqual(asked[0], 30, "a demo must get 30 s or more, whatever the snippet default is")
+
+    def test_a_timeout_is_reported_as_a_timeout_and_not_as_a_mismatch(self) -> None:
+        # Defect: a timeout reads like a content failure. The reason and the message say it was a timeout.
+        with mock.patch.object(audit, "DEMO_TIMEOUT_SEC", 1):
+            verdict = audit.audit_demo("synthetic", synthetic("import time\ntime.sleep(5)\nprint('hola')", "hola"))
+        self.assertEqual((verdict["status"], verdict["reason"]), ("fail", "timeout"), verdict)
+        self.assertIn("not a mismatch", verdict["stderr"])
 
 
 class OwedSetIsAnExactRatchet(unittest.TestCase):
