@@ -36,7 +36,12 @@
  * held that fingerprint at the base and no longer holds it, id holds it at head (or a later row for id
  * carries it on, as for an amended exercise), and no id leaves or is filled twice. Two ids that swap
  * content take two rows. There is no exemption for the renumber PR. A renumbered id cannot be renumbered
- * again within the same PR. The tool is not in this repository yet; this file is the format of record.
+ * again within the same PR. An exercise that a renumber also changes (one that prints its own section
+ * token) takes the renumbered row and then a `changed` row on its new id, from the renumbered
+ * fingerprint. The order of rows of different exercises does not matter: the departure of an id's old
+ * exercise, the amendment of the one that arrived there and the `added` row for a vacated id come in any
+ * order. Only one exercise's own chain is in sequence: its renumbered row first, then its amendments.
+ * The tool is not in this repository yet; this file is the format of record.
  *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
@@ -258,7 +263,7 @@ export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRo
     ...changedAnchorFindings(context),
     ...notVacatedFindings(context),
     ...walk.findings,
-    ...targetFindings(context, walk.arrived),
+    ...targetFindings(context, walk.arrivals),
     ...reusedFindings(context),
   ]
 }
@@ -269,60 +274,100 @@ function departedId(row) {
   return row.kind === 'renumbered' ? row.from_id : null
 }
 
+/** LEDGER_CHAIN_BROKEN for a row whose from_fp is not `expected`, the fingerprint its exercise held. */
+const chainBroken = (row, expected) => ({
+  code: 'LEDGER_CHAIN_BROKEN',
+  id: row.id,
+  ...(row.kind === 'renumbered' && { from_id: row.from_id }),
+  row: row.row,
+  from_fp: row.from_fp,
+  expected_from_fp: expected,
+})
+
 /**
- * The fingerprint the row's from_fp must equal. A renumbered row leaves from_id, which only the rows that
- * change content have touched (renumbered arrivals are kept apart, so the order of a swap's two rows
- * does not matter). Any other row follows its own id: the fingerprint an earlier renumbered row in the
- * same PR filled it with (the amendment of a renumbered exercise starts there), else the content it
- * holds, else null: an id a renumbered row left holds nothing, so the new exercise written into the
- * vacated id (the new S19, S20 and S35) is an `added` row from null.
+ * A renumbered row leaves from_id, which only its old exercise has touched. It fills id with a new chain,
+ * and the exercise the base anchored at id is not part of that chain: it leaves by a row of its own.
  */
-function expectedFrom(row, held, arrived) {
-  if (row.kind === 'renumbered') return held.get(row.from_id) ?? null
-  return arrived.get(row.id)?.fp ?? held.get(row.id) ?? null
+function stepRenumbered(walk, row) {
+  const expected = walk.old.get(row.from_id) ?? null
+  if (row.from_fp !== expected) walk.findings.push(chainBroken(row, expected))
+  walk.old.set(row.from_id, null)
+  walk.fresh.set(row.id, { fp: row.to_fp, row: row.row, arrival: true })
 }
 
 /**
- * Walk the appended rows in order. LEDGER_CHAIN_BROKEN: a row whose from_fp is not the fingerprint its id
- * held when the row was written. The first appended row of an id starts at the base's anchor (null when
- * the base had none) and each later row starts where the previous one ended; a `removed` row ends at null,
- * the id's state when it holds no anchor. A row that cites a fingerprint the id never held records a
- * change that did not happen. A `historical` row describes a change from before the anchors existed and
- * is not part of the chain. Returns the findings and `arrived`: the renumbered arrivals no later row
- * has changed, id -> { fp, row }. One renumbered row cannot be renumbered again within the same PR.
+ * Whether a row of any other kind continues the fresh chain of its id. A row from nothing starts or
+ * resumes it; otherwise it continues the chain whose fingerprint it cites, the fresh one first. A row
+ * that cites neither is judged against the fresh chain when the id has one, else against the old exercise.
+ */
+function continuesFresh(row, chain, oldFp) {
+  if (row.from_fp === null || chain?.fp === row.from_fp) return true
+  return oldFp !== row.from_fp && chain !== undefined
+}
+
+/** A changed, added, reanchored or removed row: it moves the chain it continues to the row's to_fp. */
+function stepAmendment(walk, row) {
+  const chain = walk.fresh.get(row.id)
+  const oldFp = walk.old.get(row.id) ?? null
+  const fresh = continuesFresh(row, chain, oldFp)
+  const expected = fresh ? (chain?.fp ?? null) : oldFp
+  if (row.from_fp !== expected) walk.findings.push(chainBroken(row, expected))
+  else if (row.from_fp === null) walk.fills.push(row)
+  if (fresh) walk.fresh.set(row.id, { arrival: false, row: row.row, ...chain, fp: row.to_fp })
+  else walk.old.set(row.id, row.to_fp)
+}
+
+/** LEDGER_CHAIN_BROKEN for a row from nothing written into an id whose base exercise is still there. */
+function occupiedFindings(walk) {
+  return walk.fills.flatMap((row) => {
+    const occupant = walk.old.get(row.id) ?? null
+    return occupant === null ? [] : [chainBroken(row, occupant)]
+  })
+}
+
+/**
+ * Walk the appended rows. LEDGER_CHAIN_BROKEN: a row whose from_fp is not the fingerprint its exercise
+ * held when the row was written. One id can hold two exercises in a PR: the one the base anchored, which
+ * may still be on its way out, and the one that arrived (a renumbered row's, or one written from
+ * nothing). So the walk keeps two chains per id, and a row continues the one whose fingerprint it cites:
+ *   - `old`: the base's anchor, as in-place edits left it, null once the exercise has left;
+ *   - `fresh`: what arrived since, at the fingerprint its chain has reached, with the row that began it.
+ * A row of one chain never reads the other, so the order of rows of different exercises does not change
+ * the verdict: the departure of an id's old exercise, the amendment of the exercise that arrived there
+ * and the `added` row for a vacated id come in any order. What stays in sequence is one chain: a
+ * renumbered row comes before the amendments of its arrival, and each row starts where the one before it
+ * ended. A `removed` row ends its chain at null. A row from nothing needs the id's old exercise to have
+ * left by the end of the walk, so it is judged after the last row (occupiedFindings). A `historical` row
+ * describes a change from before the anchors existed and is not part of any chain. One renumbered row
+ * cannot be renumbered again within the same PR. Returns the findings, in row order, and `arrivals`: the
+ * chain of every id a renumbered row filled, id -> { fp, row, arrival }.
  */
 function walkAppended({ baseAnchors, added }) {
-  const held = new Map(Object.entries(baseAnchors).map(([id, anchor]) => [id, anchor.sha256]))
-  const arrived = new Map()
-  const findings = []
+  const walk = {
+    old: new Map(Object.entries(baseAnchors).map(([id, anchor]) => [id, anchor.sha256])),
+    fresh: new Map(),
+    fills: [],
+    findings: [],
+  }
   for (const row of added) {
     if (row.kind === 'historical') continue
-    const expected = expectedFrom(row, held, arrived)
-    if (row.from_fp !== expected) {
-      findings.push({ code: 'LEDGER_CHAIN_BROKEN', id: row.id, ...(row.kind === 'renumbered' && { from_id: row.from_id }), row: row.row, from_fp: row.from_fp, expected_from_fp: expected })
-    }
-    if (row.kind === 'renumbered') {
-      arrived.set(row.id, { fp: row.to_fp, row: row.row })
-      held.delete(row.from_id)
-    } else {
-      held.set(row.id, row.to_fp)
-      arrived.delete(row.id)
-    }
+    if (row.kind === 'renumbered') stepRenumbered(walk, row)
+    else stepAmendment(walk, row)
   }
-  return { findings, arrived }
+  walk.findings.push(...occupiedFindings(walk))
+  return { findings: walk.findings.sort((a, b) => a.row - b.row), arrivals: walk.fresh }
 }
 
 /**
- * LEDGER_RENUMBER_TARGET_MISMATCH: a renumbered arrival that no later row changed, where the new id does
- * not hold the fingerprint the row says. Without it a renumbered row could clear the removal of an
- * anchor whose content went nowhere.
+ * LEDGER_RENUMBER_TARGET_MISMATCH: an id a renumbered row filled that does not hold the fingerprint its
+ * chain reached, the renumbered row's own or the last amendment's. Without it a renumbered row, or a
+ * renumbered row and an amendment, could clear the removal of an anchor whose content went nowhere.
  */
-function targetFindings({ headAnchors }, arrived) {
+function targetFindings({ headAnchors }, arrivals) {
   const findings = []
-  for (const [id, { fp, row }] of arrived) {
-    if (headAnchors[id]?.sha256 !== fp) {
-      findings.push({ code: 'LEDGER_RENUMBER_TARGET_MISMATCH', id, row, anchor: headAnchors[id]?.sha256 ?? null })
-    }
+  for (const [id, { fp, row, arrival }] of arrivals) {
+    const holds = headAnchors[id]?.sha256 ?? null
+    if (arrival && holds !== fp) findings.push({ code: 'LEDGER_RENUMBER_TARGET_MISMATCH', id, row, anchor: holds })
   }
   return findings
 }

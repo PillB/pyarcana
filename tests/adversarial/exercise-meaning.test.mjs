@@ -554,6 +554,47 @@ describe('renumbered rows: an exercise keeps its fingerprint under a new id (O25
   })
 })
 
+describe('the chain walk: the order of rows of different exercises does not change the verdict', () => {
+  // S21 takes the exercise S19 held, which prints its own section token and so is amended; S21's own
+  // exercise moves on to S23; the new exercise is written into the vacated S19.
+  const S19 = 'S19-T1-A-E1'
+  const S21 = 'S21-T1-A-E1'
+  const S23 = 'S23-T1-A-E1'
+  const SHA_D = 'd'.repeat(64)
+  const exercise = (sha256) => ({ section: 'S19', sha256, tokens: ['x'] })
+  const stamp = { reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13' }
+  const renumbered = (id, fromId, fp) => ({ id, kind: 'renumbered', from_id: fromId, from_fp: fp, to_fp: fp, ...stamp })
+  const changed = (id, from, to) => ({ id, kind: 'changed', from_fp: from, to_fp: to, ...stamp })
+  const added = (id, to) => ({ id, kind: 'added', from_fp: null, to_fp: to, ...stamp })
+  const base = { [S19]: exercise(SHA_A), [S21]: exercise(SHA_B) }
+  const head = { [S19]: exercise(SHA_D), [S21]: exercise(SHA_C), [S23]: exercise(SHA_B) }
+  const run = (rows, headAnchors = head, baseAnchors = base) =>
+    ledgerFindings({ baseAnchors, headAnchors, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+  const permutations = (items) => (items.length <= 1
+    ? [items]
+    : items.flatMap((item, i) => permutations([...items.slice(0, i), ...items.slice(i + 1)]).map((rest) => [item, ...rest])))
+
+  it('gives no finding in any order that keeps the amendment after the renumbered row it amends (12 of the 24)', () => {
+    const arrival = renumbered(S21, S19, SHA_A)
+    const amendment = changed(S21, SHA_A, SHA_C)
+    const rows = [arrival, amendment, renumbered(S23, S21, SHA_B), added(S19, SHA_D)]
+    const orders = permutations(rows).filter((order) => order.indexOf(arrival) < order.indexOf(amendment))
+    assert.equal(orders.length, 12)
+    for (const order of orders) {
+      assert.deepEqual(run(order), [], order.map((row) => `${row.kind} ${row.id}`).join(' | '))
+    }
+  })
+
+  it('does not let an amended arrival hide a deletion: the new id must hold the fingerprint its chain reached', () => {
+    const rows = [renumbered(S21, S19, SHA_A), changed(S21, SHA_A, SHA_C)]
+    const gone = run(rows, { [S21]: exercise(SHA_B) }, { [S19]: exercise(SHA_A), [S21]: exercise(SHA_B) })
+    assert.ok(gone.some((f) => f.code === 'LEDGER_RENUMBER_TARGET_MISMATCH' && f.id === S21 && f.anchor === SHA_B), JSON.stringify(gone))
+    const missing = run(rows, {}, { [S19]: exercise(SHA_A) })
+    assert.deepEqual(missing.map((f) => [f.code, f.id, f.row]), [['LEDGER_RENUMBER_TARGET_MISMATCH', S21, 1]])
+    assert.deepEqual(run(rows, { [S21]: exercise(SHA_C) }, { [S19]: exercise(SHA_A) }), [])
+  })
+})
+
 describe('renumbered rows at the scale of the design\'s renumber (synthetic anchors)', () => {
   // design_ruled_final.md section 1: sections 1..18 stay, 19..32 move +2, 33..52 move +3, and three new
   // sections (19, 20, 35) take ids the move vacated. Every target id of the shift is also a source id.
@@ -602,6 +643,66 @@ describe('renumbered rows at the scale of the design\'s renumber (synthetic anch
     const rows = renumberedRows.map((row) => (row.id === 'S24-T1-A-E1' ? { ...row, from_id: 'S23-T1-A-E1' } : row))
     const codes = new Set(run([...rows, ...addedRows]).map((x) => x.code))
     assert.ok(codes.has('LEDGER_CHAIN_BROKEN') && codes.has('LEDGER_RENUMBER_REUSED'), [...codes].join())
+  })
+
+  describe('with the amendments the renumber makes (about 214 of the real exercises print their own section token)', () => {
+    // An exercise that prints its own section token changes under f (G-15), so it needs a renumbered row
+    // and then a `changed` row on its new id. Here: every rebound E1.
+    const amendedFrom = rebound.filter((id) => id.endsWith('-E1'))
+    const amendedSha = (from) => shaOf(`amended ${from}`)
+    const amendmentOf = (from) => ({ id: renameId(from), kind: 'changed', from_fp: shaOf(from), to_fp: amendedSha(from), ...stamp })
+    const amendmentRows = amendedFrom.map(amendmentOf)
+    const amendedHead = { ...head, ...Object.fromEntries(amendedFrom.map((from) => [renameId(from), exercise(amendedSha(from))])) }
+    const runAmended = (rows, headAnchors = amendedHead) => ledgerFindings({ baseAnchors: base, headAnchors, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+    const label = (rows) => rows.slice(0, 3).map((row) => `${row.kind} ${row.id}`).join(' | ')
+
+    /** mulberry32: a seeded generator, so a failing order can be replayed. */
+    const generator = (seed) => () => {
+      seed = (seed + 0x6d2b79f5) | 0
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    }
+
+    /** A random order of all the rows in which each amendment still follows the renumbered row it amends. */
+    function shuffled(seed) {
+      const random = generator(seed)
+      const rows = [...renumberedRows, ...amendmentRows, ...addedRows]
+      for (let i = rows.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(random() * (i + 1))
+        ;[rows[i], rows[j]] = [rows[j], rows[i]]
+      }
+      for (const amendment of amendmentRows) {
+        const arrival = rows.findIndex((row) => row.kind === 'renumbered' && row.id === amendment.id)
+        const at = rows.indexOf(amendment)
+        if (at < arrival) [rows[at], rows[arrival]] = [rows[arrival], rows[at]]
+      }
+      return rows
+    }
+
+    it('is 272 amendments, each of an id a renumbered row fills', () => {
+      assert.equal(amendmentRows.length, 272)
+      assert.ok(amendmentRows.every((row) => renumberedRows.some((r) => r.id === row.id)))
+    })
+
+    it('passes with all renumbered rows, then the amendments, then the added rows', () => {
+      assert.deepEqual(runAmended([...renumberedRows, ...amendmentRows, ...addedRows]), [])
+    })
+
+    it('passes with each renumbered row followed by its own amendment, in ascending or descending id order', () => {
+      const pairs = renumberedRows.flatMap((row) => [row, ...amendmentRows.filter((a) => a.id === row.id)])
+      assert.deepEqual(runAmended([...pairs, ...addedRows]), [], 'ascending')
+      const descending = [...renumberedRows].reverse().flatMap((row) => [row, ...amendmentRows.filter((a) => a.id === row.id)])
+      assert.deepEqual(runAmended([...descending, ...addedRows]), [], 'descending')
+    })
+
+    it('passes with the added rows first, and with 8 seeded random orders that keep each amendment after its renumbered row', () => {
+      assert.deepEqual(runAmended([...addedRows, ...renumberedRows, ...amendmentRows]), [], 'added rows first')
+      for (let seed = 1; seed <= 8; seed += 1) {
+        const rows = shuffled(seed)
+        assert.deepEqual(runAmended(rows), [], `seed ${seed}: ${label(rows)}`)
+      }
+    })
   })
 })
 
