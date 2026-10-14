@@ -61,7 +61,10 @@ import exam_bank  # noqa: E402
 #: only way to clear it would be to edit a constant whose comment says it is what the old reader
 #: counted. What guards the reader instead: test_the_measure_still_sees_the_banks (a reader that
 #: drops banks or questions falls under its floors) and the ratchet below.
-LONGEST_IS_CORRECT_OWED = 1121
+#: 2026-10-13, the S10 round (O20) on top: Codex redid the 8 questions the GLM lane got wrong and
+#: rewrote six S08 items and three S10 keys so the key is no longer the unique longest option.
+#: Same AST measure. 1121 -> 1109 (the old single-quote measure moved 1081 -> 1069: the same 12).
+LONGEST_IS_CORRECT_OWED = 1109
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
