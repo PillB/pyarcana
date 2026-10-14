@@ -150,7 +150,7 @@
   "scripts/spanish_quality_audit.py::map_lt_match": 18,
   "scripts/spanish_quality_audit.py::should_keep_lt_match": 18,
   "scripts/unexplained_reference_audit.py::audit_section": 18,
-  "scripts/v3_invariant_validator.py::main": 32,
+  "scripts/v3_invariant_validator.py::main": 24,
   "tests/adversarial/test_capstone_cardinality.py::main": 41,
   "tests/adversarial/test_capstone_consistency.py::main": 41,
   "tests/adversarial/test_capstone_package_content.py::_scan_demo_for_suspicious_tokens": 17,
