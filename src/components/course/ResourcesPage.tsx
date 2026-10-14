@@ -381,7 +381,7 @@ export const RESOURCES: Resource[] = [
     canonicalUrl: 'https://pandas.pydata.org/docs/user_guide/merging.html',
     resourceType: 'official_documentation',
     topics: ['pandas', 'merge', 'join'],
-    sectionIds: ['s08-files-ingestion'],
+    sectionIds: ['s17-packaging'],
     level: 'independent',
     language: ['en'],
     access: 'free',

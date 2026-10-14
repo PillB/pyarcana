@@ -150,12 +150,27 @@ export function strayTagFailures(
  * - exceptions-logging teaches exceptions, debugging and logging, and names no plotting library:
  *   matplotlib-tutorials and seaborn-datasets do not belong on it.
  * The floors are those of REHOMED for the same topics.
+ * - pandas-merging (merge, join, concatenate) is the same case: files-ingestion never writes a merge
+ *   (0 times), because pandas comes in the intermediate block. Its home is RETAGGED below.
  */
 export const REMOVED_TAGS: readonly Teaching[] = [
   { resource: 'pandas-docs', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
   { resource: 'kaggle-learn', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
   { resource: 'matplotlib-tutorials', section: 'exceptions-logging', evidence: /matplotlib|plt\./gi, atLeast: 30 },
   { resource: 'seaborn-datasets', section: 'exceptions-logging', evidence: /seaborn|sns\./gi, atLeast: 3 },
+  { resource: 'pandas-merging', section: 'files-ingestion', evidence: /\bmerge\b/gi, atLeast: 30 },
+]
+
+/**
+ * Resources whose only tag was a section that does not teach them. Removing the tag would leave the
+ * card on no page, so each was moved to the section that teaches its topic (owner answer, O25).
+ * Each section is named by its slug; checked by teachingFailures like REHOMED.
+ * - pandas-merging: the joins section ("Joins, reshape, groupby y cierre analítico") writes `merge`
+ *   about 80 times and cites this very page (pandas.pydata.org/docs/user_guide/merging.html) in its
+ *   own resource list.
+ */
+export const RETAGGED: readonly Teaching[] = [
+  { resource: 'pandas-merging', section: 'packaging', evidence: /\bmerge\b/gi, atLeast: 30 },
 ]
 
 function realSection(slug: string): { stem: string; text: string } | undefined {
@@ -204,12 +219,13 @@ describe('a re-homed resource sits on a section that teaches its topic (O25)', (
 })
 
 describe('a resource stays off a section that does not teach its topic (O25)', () => {
-  it('the four tags the owner removed stay off: pandas and kaggle on files-ingestion, matplotlib and seaborn on exceptions-logging', () => {
+  it('the tags the owner removed stay off: pandas, merging and kaggle on files-ingestion, matplotlib and seaborn on exceptions-logging', () => {
     assert.deepEqual(strayTagFailures(RESOURCES, REMOVED_TAGS, realSection), [])
   })
 
   it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
-    assert.equal(REMOVED_TAGS.length, 4)
+    // A floor, not a ceiling: losing an entry lets its tag come back unseen, adding one is allowed.
+    assert.ok(REMOVED_TAGS.length >= 5, `${REMOVED_TAGS.length} entries`)
     for (const t of REMOVED_TAGS) {
       assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
       assert.ok(realSection(t.section), `no section has the slug ${t.section}`)
@@ -241,5 +257,20 @@ describe('a resource stays off a section that does not teach its topic (O25)', (
       const nowhere: Teaching = { ...entry, section: 'no-such-slug' }
       assert.deepEqual(strayTagFailures(tagged, [nowhere], files('')), ['pandas-docs: no section has the slug no-such-slug'])
     })
+  })
+})
+
+describe('a resource whose tag was removed sits on the section that teaches it (O25)', () => {
+  it('each re-tagged resource is tagged on a section whose text teaches it', () => {
+    assert.deepEqual(teachingFailures(RESOURCES, RETAGGED, realSection), [])
+  })
+
+  it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
+    // A floor, not a ceiling: losing an entry leaves a card with no page unseen, adding one is allowed.
+    assert.ok(RETAGGED.length >= 1, `${RETAGGED.length} entries`)
+    for (const t of RETAGGED) {
+      assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
+      assert.ok(realSection(t.section), `no section has the slug ${t.section}`)
+    }
   })
 })
