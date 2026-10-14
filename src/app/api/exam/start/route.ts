@@ -20,7 +20,7 @@ import {
   InvalidBankRow,
   type FormItem,
 } from '@/lib/exam-scoring'
-import { drawOnePerConcept, presentQuestion } from '@/lib/exam-draw'
+import { drawOnePerConcept, presentQuestion, servedBank } from '@/lib/exam-draw'
 import { secureRandomInt } from '@/lib/exam-rng'
 import type { ExamAttempt, QuestionBank } from '@prisma/client'
 
@@ -179,12 +179,5 @@ async function loadSectionBank(sectionId: string, aliases: string[]): Promise<Qu
   const bank = await db.questionBank.findMany({
     where: { sectionId: { in: aliases } },
   })
-  // A reseed after the rename leaves the same (concept, variant) under both slugs; keep one
-  // copy, the current slug's, so a twinned variant is not drawn twice as often.
-  const byKey = new Map<string, QuestionBank>()
-  for (const q of bank) {
-    const key = `${q.concept}\u0000${q.variant}`
-    if (!byKey.has(key) || q.sectionId === sectionId) byKey.set(key, q)
-  }
-  return Array.from(byKey.values())
+  return servedBank(bank, sectionId)
 }
