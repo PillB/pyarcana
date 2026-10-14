@@ -11,7 +11,8 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { PYODIDE_UNVENDORED_STDLIB, REQUIRED_PACKAGES, detectRequiredPackages } from '@/lib/pyodide'
+import { locatePyodide } from '../../scripts/playground_pyodide_audit.mts'
+import { PYODIDE_UNVENDORED_STDLIB, PYODIDE_VERSION, REQUIRED_PACKAGES, detectRequiredPackages } from '@/lib/pyodide'
 
 const ROOT = join(import.meta.dirname, '..', '..')
 const PLAYGROUND = readFileSync(join(ROOT, 'src/components/course/CodePlayground.tsx'), 'utf8')
@@ -48,6 +49,51 @@ test('every unvendored module the map loads is loaded under the package that pro
   for (const importName of ['sqlite3', 'lzma', 'ssl']) {
     assert.ok(importName in REQUIRED_PACKAGES, `${importName} is unvendored and must be loaded`)
   }
+})
+
+// --- against the pinned Pyodide: its lock file lists every package, and says which are stdlib modules ---
+
+type LockedPackage = { package_type: string; imports: string[] }
+const canonical = (name: string) => name.toLowerCase().replace(/[-_.]+/g, '-')
+const lockedPackages = (): Record<string, LockedPackage> =>
+  JSON.parse(readFileSync(join(locatePyodide(), 'pyodide-lock.json'), 'utf8')).packages
+
+test('PYODIDE_UNVENDORED_STDLIB is exactly what the lock file ships as separate stdlib modules', () => {
+  // Defect: the hand-listed names drift from Pyodide (a typo, or a release that moves a module), and the
+  // import-scope guard trusts a list that no longer matches the runtime the learner has.
+  const expected: Record<string, string> = {}
+  for (const [name, pkg] of Object.entries(lockedPackages())) {
+    if (pkg.package_type !== 'cpython_module') continue
+    for (const importName of pkg.imports) expected[importName] = name
+  }
+  assert.deepEqual(PYODIDE_UNVENDORED_STDLIB, expected)
+})
+
+test('every package REQUIRED_PACKAGES names is a package of the pinned Pyodide', () => {
+  // Defect: `sqlite3: 'sqlite'`. loadPackage logs "No known package" and carries on, the import then
+  // fails, and the learner sees ModuleNotFoundError after a download that loaded nothing.
+  const known = new Set(Object.keys(lockedPackages()).map(canonical))
+  for (const [importName, packageName] of Object.entries(REQUIRED_PACKAGES)) {
+    assert.ok(known.has(canonical(packageName)), `${importName} -> ${packageName} is not a package of Pyodide ${PYODIDE_VERSION}`)
+  }
+})
+
+test('the pyodide devDependency and the lock file are the version the playground loads from the CDN', () => {
+  // Defect: PYODIDE_VERSION moves to a release the gate does not install, so the headless gate keeps
+  // measuring the old Pyodide and reports green for a runtime no learner has any more.
+  const manifest = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
+  assert.equal(manifest.devDependencies.pyodide, PYODIDE_VERSION)
+  assert.ok(readFileSync(join(ROOT, 'bun.lock'), 'utf8').includes(`"pyodide@${PYODIDE_VERSION}"`), 'bun.lock lacks pyodide')
+})
+
+test('CI runs the headless Pyodide gate: the adversarial job runs an npm script that includes it', () => {
+  // Defect: the gate exists and nothing runs it, so a demo that fails in the learner's browser ships.
+  const { scripts } = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
+  assert.match(scripts['test:playground-pyodide'], /playground_pyodide_audit\.mts/)
+  assert.ok(scripts['test:adversarial:node'].includes('npm run test:playground-pyodide'), 'test:adversarial:node skips the gate')
+  assert.ok(scripts['test:adversarial'].includes('npm run test:adversarial:node'), 'test:adversarial skips the node half')
+  const workflow = readFileSync(join(ROOT, '.github/workflows/tests.yml'), 'utf8')
+  assert.ok(/^\s*run: npm run test:adversarial\s*$/m.test(workflow), 'the adversarial job no longer runs npm run test:adversarial')
 })
 
 test('CodePlayground loads packages through the map in src/lib/pyodide.ts and keeps no map of its own', () => {
