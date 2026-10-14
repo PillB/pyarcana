@@ -9,7 +9,9 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SEED = ROOT / "prisma" / "seed.ts"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import exam_bank  # noqa: E402
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s04-iteration-summaries.ts"
@@ -61,17 +63,7 @@ class Section04IndependentContractTests(unittest.TestCase):
         self.assertEqual(run.stdout.rstrip(), match.group("output").rstrip())
 
     def test_authenticated_bank_has_three_variants_per_concept(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(
-            seed,
-            "  // S04 V3 — Iteración y resúmenes",
-            "  // S05 V3 — Funciones, contratos y descomposición",
-        )
-        entries = re.findall(
-            r"\{\s+concept: '([^']+)'.*?correctIndex: ([0-3]),",
-            bank,
-            re.DOTALL,
-        )
+        entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("iteration-summaries")]
 
         self.assertEqual(len(entries), 24)
         by_concept: dict[str, list[int]] = defaultdict(list)
@@ -86,16 +78,7 @@ class Section04IndependentContractTests(unittest.TestCase):
         )
 
     def test_authenticated_bank_positions_are_balanced(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(
-            seed,
-            "  // S04 V3 — Iteración y resúmenes",
-            "  // S05 V3 — Funciones, contratos y descomposición",
-        )
-        positions = [
-            int(index)
-            for index in re.findall(r"correctIndex: ([0-3]),", bank)
-        ]
+        positions = [int(q["correctIndex"]) for q in exam_bank.bank_for("iteration-summaries")]
 
         self.assertEqual(Counter(positions), Counter({0: 6, 1: 6, 2: 6, 3: 6}))
 

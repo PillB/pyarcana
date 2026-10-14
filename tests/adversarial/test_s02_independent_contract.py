@@ -14,10 +14,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s02-basics.ts"
-SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
@@ -147,16 +147,7 @@ class TestSection02IndependentContract(unittest.TestCase):
         self.assertNotIn("basics: 'Basics'", pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  basics: [", "  // S03 V3")
-        entries = [
-            (concept, int(index))
-            for concept, index in re.findall(
-                r"\{\s+concept: '([^']+)'.*?correctIndex: ([0-3]),",
-                bank,
-                re.DOTALL,
-            )
-        ]
+        entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("basics")]
 
         self.assertEqual(len(entries), 24)
         by_concept: dict[str, list[int]] = defaultdict(list)

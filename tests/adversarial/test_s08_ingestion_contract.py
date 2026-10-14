@@ -14,10 +14,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s08-files-ingestion.ts"
-SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
@@ -87,13 +87,8 @@ class TestS08IngestionContract(unittest.TestCase):
         self.assertLessEqual(max(Counter(positions).values()), 3)
 
     def test_authenticated_bank_is_equivalent_and_position_balanced(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        block = _between(seed, "  // S08 V3", '\n  "exceptions-logging": [')
-        entries = re.findall(
-            r"\{\s+concept: '([^']+)'.*?correctIndex:\s*([0-3]),",
-            block,
-            re.DOTALL,
-        )
+        bank = exam_bank.bank_for("files-ingestion")
+        entries = [(q["concept"], q["correctIndex"]) for q in bank]
 
         self.assertEqual(len(entries), 24)
         by_concept: dict[str, list[int]] = defaultdict(list)
@@ -119,7 +114,7 @@ class TestS08IngestionContract(unittest.TestCase):
                 Counter({0: 2, 1: 2, 2: 2, 3: 2}),
             )
 
-        learner_bank = block[block.index('  "files-ingestion": [') :].lower()
+        learner_bank = exam_bank.learner_text(bank).lower()
         self.assertNotIn("id plataforma pandas", learner_bank)
         self.assertNotIn("s08 v3", learner_bank)
         self.assertNotIn("bad_column_count", learner_bank)

@@ -4,12 +4,16 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import exam_bank  # noqa: E402
+
 SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
-SEED = ROOT / "prisma/seed.ts"
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -154,18 +158,9 @@ class Section03TextFirstContractTests(unittest.TestCase):
         self.assertIn("obligan a adivinar la causa", self_check)
 
     def test_authenticated_bank_remains_specific_balanced_and_non_templated(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  // S03 V3", "  // S04 V3")
-        questions = re.findall(
-            r"question:\s*(?:\n\s*)?'((?:\\.|[^'])*)'",
-            bank,
-            re.DOTALL,
-        )
-        explanations = re.findall(
-            r"explanation:\s*(?:\n\s*)?'((?:\\.|[^'])*)'",
-            bank,
-            re.DOTALL,
-        )
+        bank = exam_bank.bank_for("decisions-rules")
+        questions = [q["question"] for q in bank]
+        explanations = [q["explanation"] for q in bank]
 
         self.assertEqual(len(questions), 24)
         self.assertEqual(len(explanations), 24)
@@ -174,7 +169,7 @@ class Section03TextFirstContractTests(unittest.TestCase):
         self.assertTrue(all(len(_words(text)) >= 7 for text in explanations))
         self.assertNotIn(
             "Aplicar el concepto con evidencia verificable",
-            bank,
+            exam_bank.learner_text(bank),
         )
 
 

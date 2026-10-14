@@ -14,12 +14,12 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src/lib/course/sections/s09-exceptions-logging.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
-SEED = ROOT / "prisma/seed.ts"
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -105,13 +105,8 @@ class TestS09ObservabilityContract(unittest.TestCase):
         self.assertNotIn('"exceptions-logging": \'Viz\'', pdf)
 
     def test_authenticated_bank_balances_positions_and_attempts(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, '  "exceptions-logging": [', '\n  "modules-packaging-cli": [')
-        entries = re.findall(
-            r"concept: '([^']+)'.*?correctIndex: ([0-3]),",
-            bank,
-            re.DOTALL,
-        )
+        entries = [(q["concept"], q["correctIndex"])
+                   for q in exam_bank.bank_for("exceptions-logging")]
 
         self.assertEqual(len(entries), 24)
         self.assertEqual(

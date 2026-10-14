@@ -13,19 +13,16 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src/lib/course/sections/s07-text-unicode-regex.ts"
-SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 
-def s07_seed_block() -> str:
-    text = SEED.read_text(encoding="utf-8")
-    start = text.index("  'text-unicode-regex': [")
-    end = text.index("\n  // === S14:", start)
-    return text[start:end]
+def s07_bank() -> list[dict]:
+    return exam_bank.bank_for("text-unicode-regex")
 
 
 class TestS07TextContract(unittest.TestCase):
@@ -50,9 +47,9 @@ class TestS07TextContract(unittest.TestCase):
         self.assertEqual(len(set(manifest["exercise_ids"])), 24)
 
     def test_authenticated_bank_is_balanced_overall_and_by_attempt(self) -> None:
-        block = s07_seed_block()
-        concepts = re.findall(r"concept:\s*'([^']+)'", block)
-        positions = [int(value) for value in re.findall(r"correctIndex:\s*(\d+)", block)]
+        bank = s07_bank()
+        concepts = [q["concept"] for q in bank]
+        positions = [q["correctIndex"] for q in bank]
         self.assertEqual(len(concepts), 24)
         self.assertEqual(len(positions), 24)
         self.assertEqual(Counter(concepts), Counter({
@@ -77,18 +74,18 @@ class TestS07TextContract(unittest.TestCase):
             )
 
     def test_assessment_contract_matches_empty_jaccard_policy(self) -> None:
-        block = s07_seed_block()
+        text = exam_bank.learner_text(s07_bank())
         self.assertIn(
             "si ambos conjuntos están vacíos, el contrato de esta sección devuelve 1.0",
-            block,
+            text,
         )
         self.assertIn(
             "si solo una está vacía, devuelve 0.0",
-            block,
+            text,
         )
-        self.assertNotIn("unión vacía → política 0 o N/A", block)
-        self.assertNotIn("¿Cuándo pasar de str methods a regex en S07?", block)
-        self.assertNotIn("S07 V3", block)
+        self.assertNotIn("unión vacía → política 0 o N/A", text)
+        self.assertNotIn("¿Cuándo pasar de str methods a regex en S07?", text)
+        self.assertNotIn("S07 V3", text)
 
     def test_stdlib_regex_limit_is_truthful(self) -> None:
         source = SECTION.read_text(encoding="utf-8")

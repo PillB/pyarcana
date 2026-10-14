@@ -12,12 +12,12 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
-SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner
+import exam_bank  # noqa: E402
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -145,13 +145,7 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertNotIn('"decisions-rules": \'Data Struct\'', pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  // S03 V3", "  // S04 V3")
-        entries = re.findall(
-            r"\{\s+concept: '([^']+)'.*?correctIndex:\s*([0-3]),",
-            bank,
-            re.DOTALL,
-        )
+        entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("decisions-rules")]
         self.assertEqual(len(entries), 24)
 
         by_concept: dict[str, list[int]] = defaultdict(list)

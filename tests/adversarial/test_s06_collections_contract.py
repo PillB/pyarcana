@@ -3,23 +3,24 @@
 from __future__ import annotations
 
 import re
+import sys
 import unittest
 from collections import Counter, defaultdict
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import exam_bank  # noqa: E402
+
 SECTION = ROOT / "src/lib/course/sections/s06-collections.ts"
-SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 
-def s06_seed_block() -> str:
-    text = SEED.read_text(encoding="utf-8")
-    start = text.index("  collections: [")
-    end = text.index("\n  // S08 V3", start)
-    return text[start:end]
+def s06_bank() -> list[dict]:
+    return exam_bank.bank_for("collections")
 
 
 class TestS06CollectionsContract(unittest.TestCase):
@@ -40,9 +41,9 @@ class TestS06CollectionsContract(unittest.TestCase):
         self.assertEqual(we_do.count("solutionCode:"), 24)
 
     def test_authenticated_bank_is_balanced_overall_and_by_attempt(self) -> None:
-        block = s06_seed_block()
-        concepts = re.findall(r"concept:\s*'([^']+)'", block)
-        positions = [int(value) for value in re.findall(r"correctIndex:\s*(\d+)", block)]
+        bank = s06_bank()
+        concepts = [q["concept"] for q in bank]
+        positions = [q["correctIndex"] for q in bank]
         self.assertEqual(len(concepts), 24)
         self.assertEqual(len(positions), 24)
         self.assertEqual(Counter(concepts), Counter({
@@ -67,14 +68,14 @@ class TestS06CollectionsContract(unittest.TestCase):
             )
 
     def test_authenticated_bank_has_no_curriculum_archaeology(self) -> None:
-        block = s06_seed_block().lower()
+        text = exam_bank.learner_text(s06_bank()).lower()
         for leaked_term in (
             "v3 retarget",
             "id plataforma numpy conservado",
             "target pedagógico",
         ):
-            self.assertNotIn(leaked_term, block)
-        self.assertIn("¿qué entrega demuestra mejor", block)
+            self.assertNotIn(leaked_term, text)
+        self.assertIn("¿qué entrega demuestra mejor", text)
 
     def test_s06_runtime_and_pdf_mappings_match_collections(self) -> None:
         section_view = SECTION_VIEW.read_text(encoding="utf-8")
