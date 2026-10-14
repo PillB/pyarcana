@@ -30,13 +30,11 @@ def problems_for(section_number: int, code: str, *, loaded=None, unvendored=None
         unvendored=data["unvendoredStdlib"] if unvendored is None else unvendored,
     )
 
-#: Demos with imports outside the rule, with the modules, measured from the real demos on
-#: 2026-10-14 (section = position in COURSE_SECTIONS). Owed, not accepted: owner decision O25
-#: replaces each demo, and its entry leaves this map with it.
-IMPORT_SCOPE_OWED = {
-    "modules-packaging-cli": frozenset({"numpy", "sklearn"}),  # S10
-    "oop-domain": frozenset({"numpy"}),  # S11
-}
+#: Demos with imports outside the rule, with the modules (section = position in COURSE_SECTIONS).
+#: Owed, not accepted: owner decision O25 replaces each demo, and its entry leaves this map with it.
+#: Measured 2026-10-14: S10 imported numpy and sklearn, S11 numpy. O25's first phase replaced both
+#: (S10 to S13), so nothing is owed.
+IMPORT_SCOPE_OWED: dict[str, frozenset[str]] = {}
 #: Demos that do not parse, so their imports cannot be read. databases-orm's own code is a
 #: SyntaxError on its line 31 (an unterminated string literal).
 NOT_PARSED_OWED = frozenset({"databases-orm"})
@@ -129,14 +127,19 @@ class UnvendoredStandardLibrary(unittest.TestCase):
 
 
 class RealDemos(unittest.TestCase):
-    def test_the_s10_demo_fails_naming_sklearn_and_the_section(self) -> None:
-        # Defect (the one named in the brief): the current S10 demo ships scikit-learn.
+    def test_the_replaced_s10_to_s13_demos_import_only_the_standard_library(self) -> None:
+        # Defect: one of the four demos O25's first phase wrote (S10 to S13) goes back to a package its
+        # section has not taught; S10 used to ship scikit-learn and S11 numpy. Names the demo and module.
         data = playground()
-        problems = problems_for(10, data["demos"]["modules-packaging-cli"]["code"])
-        self.assertTrue(
-            any(module == "sklearn" and "sklearn" in message and "S10" in message for module, message in problems),
-            problems,
-        )
+        for demo_id in ("modules-packaging-cli", "oop-domain", "apis-sql-geo", "evidence-dashboard"):
+            number = data["sections"].index(demo_id) + 1
+            self.assertIn(number, (10, 11, 12, 13), demo_id)
+            outside = [
+                module
+                for module in scope.imported_modules(ast.parse(data["demos"][demo_id]["code"]))
+                if module not in sys.stdlib_module_names
+            ]
+            self.assertEqual(outside, [], f"S{number} {demo_id} imports a package outside the standard library")
 
     def test_out_of_scope_imports_are_exactly_the_owed_set(self) -> None:
         # Defect: a new out-of-scope import is accepted, or a fixed one stays on the owed list.

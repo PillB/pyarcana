@@ -297,92 +297,69 @@ fatal: required_fields vacío`,
       hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
     },
     'modules-packaging-cli': {
-      title: 'Practica scikit-learn',
-      code: `# Practica scikit-learn (se carga automaticamente)
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score
-import numpy as np
+      title: 'Resuelve la precedencia de configuración (simulado)',
+      code: `# Fuentes de configuración (simulado): no ejecuta una interfaz de línea de comandos.
+DEFAULTS = {"umbral": "0.50", "moneda": "PEN"}
+archivo = {"umbral": "0.65", "region": "sur"}
+entorno = {"modo": "seguro"}
+banderas = {"umbral": "0.80"}
 
-# Datos sinteticos
-np.random.seed(42)
-X = np.random.randn(100, 3)
-y = (X[:, 0] + X[:, 1] > 0).astype(int)
+fuentes = [
+    ("bandera", banderas),
+    ("entorno", entorno),
+    ("archivo", archivo),
+    ("valor por defecto", DEFAULTS),
+]
 
-# Entrenar modelo
-model = LogisticRegression(random_state=42)
-model.fit(X[:80], y[:80])
+def resolver(clave):
+    for nombre, valores in fuentes:
+        if clave in valores:
+            return valores[clave], nombre
+    raise KeyError(f"Falta configuración: {clave}")
 
-# Predecir
-predictions = model.predict(X[80:])
-accuracy = accuracy_score(y[80:], predictions)
-
-print(f"Accuracy: {accuracy:.2%}")
-print(f"Coeficientes: {model.coef_[0].round(3)}")
-print(f"Intercept: {model.intercept_[0]:.3f}")
-
-# Cross-validation
-cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
-print(f"\\nCV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")`,
-      expectedOutput: `Accuracy: 100.00%
-Coeficientes: [2.584 2.408 0.118]
-Intercept: -0.206
-
-CV Accuracy: 96.00% ± 3.74%`,
-      hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
+print("Orden: bandera > entorno > archivo > valor por defecto")
+for clave in ["umbral", "modo", "region", "moneda"]:
+    valor, origen = resolver(clave)
+    print(f"{clave}: {valor} ({origen})")`,
+      expectedOutput: `Orden: bandera > entorno > archivo > valor por defecto
+umbral: 0.80 (bandera)
+modo: seguro (entorno)
+region: sur (archivo)
+moneda: PEN (valor por defecto)`,
+      hint: 'Quita la bandera «umbral» y predice qué valor y qué origen aparecerán antes de ejecutar.',
     },
     'oop-domain': {
-      title: 'Practica testing con asserts',
-      code: `# Practica testing con asserts (simulando pytest)
-import numpy as np
+      title: 'Practica invariantes al construir',
+      code: `from dataclasses import dataclass
+from decimal import Decimal
 
-# Funcion a testear
-def calcular_promedio_ponderado(notas, pesos):
-    """Calcula promedio ponderado."""
-    if len(notas) != len(pesos):
-        raise ValueError("Listas deben tener misma longitud")
-    if sum(pesos) != 1.0:
-        raise ValueError("Pesos deben sumar 1.0")
-    return sum(n * p for n, p in zip(notas, pesos))
+@dataclass
+class Transaction:
+    transaction_id: str
+    amount: Decimal
+    currency: str
 
-# === TESTS ===
+    def __post_init__(self):
+        if self.amount <= 0:
+            raise ValueError("el monto debe ser positivo")
+        if self.currency not in {"PEN", "USD"}:
+            raise ValueError("la moneda no está permitida")
 
-# Test 1: caso normal
-notas = [18, 15, 20]
-pesos = [0.3, 0.3, 0.4]
-resultado = calcular_promedio_ponderado(notas, pesos)
-assert abs(resultado - 17.9) < 0.01, f"Esperado 17.9, got {resultado}"
-print("✓ Test 1: promedio ponderado correcto")
+# Cada intento termina con un objeto válido o con un rechazo explícito.
+def probar_transaccion(transaction_id, amount, currency):
+    try:
+        tx = Transaction(transaction_id, Decimal(amount), currency)
+        print(tx.transaction_id, "aceptada:", str(tx.amount), tx.currency)
+    except ValueError as error:
+        print(transaction_id, "rechazada:", error)
 
-# Test 2: error por longitudes distintas
-try:
-    calcular_promedio_ponderado([1, 2], [1.0])
-    print("✗ Test 2: deberia haber fallado")
-except ValueError as e:
-    assert "misma longitud" in str(e)
-    print("✓ Test 2: error de longitud detectado")
-
-# Test 3: error por pesos que no suman 1
-try:
-    calcular_promedio_ponderado([1, 2], [0.5, 0.3])
-    print("✗ Test 3: deberia haber fallado")
-except ValueError as e:
-    assert "sumar 1.0" in str(e)
-    print("✓ Test 3: error de pesos detectado")
-
-# Test 4: edge case - un solo elemento
-resultado = calcular_promedio_ponderado([20], [1.0])
-assert resultado == 20
-print("✓ Test 4: un solo elemento funciona")
-
-print("\\n✅ Todos los tests pasaron!")`,
-      expectedOutput: `✓ Test 1: promedio ponderado correcto
-✓ Test 2: error de longitud detectado
-✓ Test 3: error de pesos detectado
-✓ Test 4: un solo elemento funciona
-
-✅ Todos los tests pasaron!`,
-      hint: 'Agrega un test para verificar que funciona con notas negativas',
+probar_transaccion("T1", "150.50", "PEN")
+probar_transaccion("T2", "0", "PEN")
+probar_transaccion("T3", "8.00", "EUR")`,
+      expectedOutput: `T1 aceptada: 150.50 PEN
+T2 rechazada: el monto debe ser positivo
+T3 rechazada: la moneda no está permitida`,
+      hint: 'Cambia el monto o la moneda de T3 y predice si la instancia se construirá antes de ejecutar.',
     },
     'text-unicode-regex': {
       title: 'Practica Unicode, regex y evidencia',
@@ -443,131 +420,70 @@ Decisión: review`,
       hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
     },
     'apis-sql-geo': {
-      title: 'Practica multiprocessing y logging',
-      code: `# Practica performance y logging (simulado en Pyodide)
-import time
-import logging
+      title: 'Decide qué respuestas reintentar (simulado)',
+      code: `# Protocolo de Transferencia de Hipertexto, HTTP (simulado): no usa la red.
+REINTENTABLES = {429, 503}
 
-# === LOGGING setup ===
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%H:%M:%S'
-)
-logger = logging.getLogger(__name__)
+def procesar(respuestas):
+    for intento, respuesta in enumerate(respuestas, start=1):
+        estado = respuesta["estado"]
+        if estado == 200:
+            entidad = respuesta["json"]
+            print(f"Intento {intento}: 200 → usar cuerpo")
+            print(f"Entidad: {entidad['id']} / {entidad['region']}")
+            return
+        if estado in REINTENTABLES:
+            print(f"Intento {intento}: {estado} → reintentar")
+            continue
+        print(f"Intento {intento}: {estado} → detenerse")
+        return
 
-# === BENCHMARK: comparar enfoques ===
-def lento(n):
-    """Enfoque con loop tradicional."""
-    resultado = []
-    for i in range(n):
-        if i % 2 == 0:
-            resultado.append(i ** 2)
-    return resultado
-
-def rapido(n):
-    """Enfoque con list comprehension."""
-    return [i ** 2 for i in range(n) if i % 2 == 0]
-
-# Medir tiempo
-n = 100000
-
-inicio = time.time()
-r1 = lento(n)
-t1 = time.time() - inicio
-logger.info(f"Loop tradicional: {t1:.4f}s ({len(r1)} elementos)")
-
-inicio = time.time()
-r2 = rapido(n)
-t2 = time.time() - inicio
-logger.info(f"List comprehension: {t2:.4f}s ({len(r2)} elementos)")
-
-speedup = t1 / t2 if t2 > 0 else 0
-logger.info(f"Speedup: {speedup:.1f}x mas rapido con comprehension")
-
-# Verificar que ambos dan el mismo resultado
-assert r1 == r2, "Los resultados no coinciden!"
-logger.info("✓ Ambos enfoques producen el mismo resultado")`,
-      hint: 'Cambia n a 1000000 y observa como cambia el speedup',
+print("Caso transitorio")
+procesar([
+    {"estado": 503},
+    {"estado": 200, "json": {"id": "C001", "region": "Lima"}},
+])
+print("Caso del cliente")
+procesar([{"estado": 400}])`,
+      expectedOutput: `Caso transitorio
+Intento 1: 503 → reintentar
+Intento 2: 200 → usar cuerpo
+Entidad: C001 / Lima
+Caso del cliente
+Intento 1: 400 → detenerse`,
+      hint: 'Cambia el primer estado de 503 a 404 y predice cuántos intentos se imprimirán antes de ejecutar.',
     },
     'evidence-dashboard': {
-      title: 'Practica automatización con tenacity y argparse',
-      code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
-import time
-import random
-from functools import wraps
+      title: 'Aplica umbrales y falla cerrado',
+      code: `from math import isfinite
 
-# === DECORADOR DE RETRY (simulando tenacity) ===
-def retry(max_attempts=3, delay=0.1):
-    """Decorador que reintenta una funcion hasta max_attempts veces."""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            for attempt in range(1, max_attempts + 1):
-                try:
-                    result = func(*args, **kwargs)
-                    print(f"  ✓ Intento {attempt}: exitoso")
-                    return result
-                except Exception as e:
-                    print(f"  ✗ Intento {attempt}: fallo - {e}")
-                    if attempt < max_attempts:
-                        time.sleep(delay)
-                        print(f"    Reintentando en {delay}s...")
-                    else:
-                        print(f"  ✗ Agotados {max_attempts} intentos")
-                        raise
-        return wrapper
-    return decorator
+# Decide qué hacer con cada par sin inferir fraude.
+def decidir_estado(score, uncertainty):
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        return "invalid_input"
+    if not isfinite(score) or not 0.0 <= score <= 1.0:
+        return "invalid_input"
+    if uncertainty not in {"low", "med", "high"}:
+        return "invalid_input"
+    if uncertainty == "high":
+        return "needs_review"
+    if score < 0.4:
+        return "abstain"
+    if score < 0.8:
+        return "needs_review"
+    return "accept_pair"
 
-# === SIMULAR API QUE FALLA ALEATORIAMENTE ===
-@retry(max_attempts=5, delay=0.05)
-def llamar_api_inestable(endpoint):
-    """Simula una API que falla 70% de las veces."""
-    if random.random() < 0.7:
-        raise ConnectionError(f"Timeout en {endpoint}")
-    return {"status": "ok", "data": [1, 2, 3]}
-
-# Probar la API con retry
-print("=== Llamando API inestable con retry ===")
-random.seed(42)  # para reproducibilidad
-try:
-    resultado = llamar_api_inestable("/api/clientes")
-    print(f"Resultado: {resultado}")
-except Exception as e:
-    print(f"Error final: {e}")
-
-# === SIMULAR ARGPARSE ===
-print("\\n=== Simulando CLI con argumentos ===")
-def procesar_clientes(archivo, formato="csv", verbose=False):
-    """Simula procesamiento de clientes con argumentos CLI."""
-    if verbose:
-        print(f"  Procesando {archivo} en formato {formato}...")
-    # Simular procesamiento
-    clientes = ["Maria", "Luis", "Ana"]
-    if verbose:
-        print(f"  Encontrados {len(clientes)} clientes")
-    return clientes
-
-# Simular: python script.py --archivo clientes.xlsx --formato xlsx --verbose
-procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
-      expectedOutput: `=== Llamando API inestable con retry ===
-  ✗ Intento 1: fallo - Timeout en /api/clientes
-    Reintentando en 0.05s...
-  ✗ Intento 2: fallo - Timeout en /api/clientes
-    Reintentando en 0.05s...
-  ✗ Intento 3: fallo - Timeout en /api/clientes
-    Reintentando en 0.05s...
-  ✗ Intento 4: fallo - Timeout en /api/clientes
-    Reintentando en 0.05s...
-  ✓ Intento 5: exitoso
-Resultado: {'status': 'ok', 'data': [1, 2, 3]}
-
-=== Simulando CLI con argumentos ===
-  Procesando clientes.xlsx en formato xlsx...
-  Encontrados 3 clientes`,
-      hint: 'Cambia max_attempts a 10 y observa cuántos intentos necesita la API',
+casos = [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high"), (float("nan"), "low")]
+for score, uncertainty in casos:
+    estado = decidir_estado(score, uncertainty)
+    print("puntaje", score, "incertidumbre", uncertainty, "estado", estado, "fraude_automático", False)`,
+      expectedOutput: `puntaje 0.9 incertidumbre low estado accept_pair fraude_automático False
+puntaje 0.55 incertidumbre med estado needs_review fraude_automático False
+puntaje 0.2 incertidumbre low estado abstain fraude_automático False
+puntaje 0.85 incertidumbre high estado needs_review fraude_automático False
+puntaje nan incertidumbre low estado invalid_input fraude_automático False`,
+      hint: 'Cambia el primer puntaje a 0.79 y predice si el par se acepta o pasa a revisión antes de ejecutar.',
     },
-    // === Phase 1 demos (S14-S26) — Pyodide-compatible (stdlib only) ===
     'security': {
       title: 'Practica seguridad: hashing y cifrado',
       code: `# Practica seguridad con biblioteca estandar

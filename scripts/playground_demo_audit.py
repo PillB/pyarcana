@@ -29,7 +29,7 @@ import python_content_runtime_audit as runtime  # noqa: E402  (run_python, probe
 DUMP = ROOT / "scripts/playground_demos_dump.mjs"
 
 #: Demos whose stdout does not match their expectedOutput under the pinned interpreter, measured
-#: 2026-10-13 under .venv-content (42 of 43 demos with an expectedOutput match). Owed, not accepted:
+#: 2026-10-14 under .venv-content (43 of 44 demos with an expectedOutput match). Owed, not accepted:
 #: databases-orm's own code is a SyntaxError (an unterminated string literal on its line 31), so
 #: a learner sees the error in the playground. Owner decision O25 replaces the demos phase by phase;
 #: each replacement removes its id from this set.
