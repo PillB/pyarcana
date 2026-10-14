@@ -10,11 +10,13 @@
  * Keys are path::identity. A function is named by what it is, not by where it sits (see
  * complexity_gate.identity.mjs): `const f = () => {}` is `f`, a method is `Class.method`, a callback
  * is `outer.<arg 0 of items.map>`, or `<arg 0 of total = rows.reduce>` when the call's result is
- * bound, or `<arg 1 of test "title">` when the call is given a title. A number is the fallback for
- * what has no name: only units of one file that share a whole path are numbered, #2, #3, on the
- * segment where their paths part. So a number moves only when a unit with that same path is added
- * before it, such as a third unbound `rows.map` callback in the same JSX tree; a function added
- * with any other path, anywhere in the file, moves no key.
+ * bound, or `<arg 1 of test "title">` when the call is given a title; an object or a list around it
+ * is named the same way (`<arg 0 of m = configure>.onLoad`, `MODALS.<item "auth">.open`). A number is
+ * the fallback for what has no name: only units of one file that share a whole path are numbered,
+ * #2, #3, on the segment where their paths part. So a number moves only when a unit with that same
+ * path is added before it, such as a third unbound `rows.map` callback in the same JSX tree, and an
+ * untitled list item moves when an item is added before it in its list; a function added with any
+ * other path, anywhere in the file, moves no key.
  *
  * Fail closed: a file ESLint cannot parse fails the gate and names path:line. A missing baseline
  * fails the gate, and --init creates one but refuses to overwrite it, so a re-baseline shows

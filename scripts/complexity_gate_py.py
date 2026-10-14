@@ -8,13 +8,18 @@ policy: ceiling 15, measured per function, enforced as a ratchet, and failing cl
   * A function already over it is baselined by key (path::Qual.name) with its score. Its score
     may fall and may not rise. A function that falls to the ceiling or below leaves the baseline.
     A lambda takes every name the code gives it, as the TypeScript gate's callbacks do: the
-    name it is assigned to, the call it is handed to and what that call's result is bound to
-    (`<kw key of first = sorted>`), the first string the call is given before it
-    (`<kw type of parser.add_argument "--size">`), its row in a list bound to a name
-    (`ROWS.<item 1 "role">`), `<returned>`, or `<default of cb>`. A number is the fallback for
-    what has no name: only units of one file that share a whole path are numbered, #2, #3, on
-    the segment where their paths part. So a number moves only when a unit with that same path
-    is added before it; a function added with any other path, anywhere in the file, moves no key.
+    name it is assigned to (through `or`, `and` and `if-else`), the call it is handed to and
+    what that call's result is bound to (`<kw key of first = sorted>`), the first string the
+    call is given before it (`<kw type of parser.add_argument "--size">`), its row in a list
+    bound to a name (`ROWS.<item 1 "role">`), `<returned>`, or `<default of cb>`. A list,
+    tuple, set or dict around it is named the same way (`<arg 0 of m = configure>.big`), and a
+    dict in a list by its first string value (`MODALS.<item "auth">.open`). A number is the
+    fallback for what has no name: only units of one file that share a whole path are
+    numbered, #2, #3, on the segment where their paths part. So a number moves only when a unit
+    with that same path is added before it, and an untitled list item when an item is added
+    before it in its list; a function added with any other path, anywhere in the file, moves no
+    key. tests/adversarial/test_complexity_gate_py.py holds one case per form a lambda takes in
+    the tree, and fails on a form new to the tree until it has one.
   * A file the gate cannot parse fails the gate, and the message names path:line.
   * A missing baseline fails the gate. `--init` creates one, and refuses to overwrite one.
 

@@ -237,16 +237,24 @@ same in both languages. In Python that includes each parameter default (owner ru
 `outer.<arg 0 of items.map>`, `big` for `big = lambda ...`. A callback takes every name
 the code gives it: the name its call's result is bound to (`<arg 0 of tooltipLabel = React.useMemo>`),
 the title its call is given (`<arg 1 of test "renders">`), its JSX element and attribute
-(`<button onClick>`), its row's title in a list (`ROWS.<item 1 "role">`), or `<returned>`.
+(`<button onClick>`), its row's title in a list (`ROWS.<item 1 "role">`), or `<returned>`;
+`const doFetch = options.fetch ?? (() => ...)` is `doFetch`. An object or a list around a
+function is named the same way (`<arg 0 of m = configure>.onLoad`, `<returned>.onLoad`), and an
+object in a list by its first string value (`MODALS.<item "auth">.open`).
 A Python lambda is named the same way: `<kw key of first = sorted>`,
 `<kw type of parser.add_argument "--size">`.
 A number is the fallback for what has no name at all: only functions in one file that share
 a whole path are numbered, `#2`, on the segment where their paths part. Two unbound
-`rows.map` callbacks in one JSX tree, or two `useEffect` callbacks in one component, are
-the usual case; a `handler` inside the second effect takes no number while its path is
-unique. So a number moves only when a function with that same path is added before
-it; a function added with any other path, anywhere in the file, moves no key. A function
-that moves into another function, or is renamed, is a new key and counts as new code.
+`rows.map` callbacks in one JSX tree, two `useEffect` callbacks in one component, or two
+`<Button onClick>` handlers in one tree are the usual case; a `handler` inside the second
+effect takes no number while its path is unique. The gate does not read arguments after a
+function, arguments inside its callee, an identifier argument, a JSX element's other attributes
+or text, or the function's body, so functions that differ only there are numbered. So a number
+moves only when a function with that same path is added before it, and a list item with no
+title (`CHECKS.<item 1>`) when an item is added before it in its list; a function added with any
+other path, anywhere in the file, moves no key. A function that moves into another function, or
+is renamed, is a new key and counts as new code. Each gate's test file holds one case per form a
+function takes in the tree and fails on a new form until it has one: that is the audit, kept.
 
 **Re-baselining.** There is no `--update`. A re-baseline is a reviewed diff: delete the
 baseline, run the gate with `--init` (it refuses to overwrite one), and name every function

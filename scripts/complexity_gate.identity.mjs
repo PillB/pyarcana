@@ -8,6 +8,7 @@
  *
  *   function f() {}                         f
  *   const f = () => {}                      f              (the variable it is bound to)
+ *   const f = opts.f ?? (() => {})          f              (through ??, ||, && and the results of ?:)
  *   { f: () => {} } , { f() {} }            f              (the property, under the object's own name)
  *   class C { m() {} get v() {} }           C.m, C.get v   (the class, then the member)
  *   items.map((x) => ...)                   <arg 0 of items.map>
@@ -18,25 +19,37 @@
  *   <List>{(row) => ...}</List>             <List children>
  *   const once = (() => ...)()              <once = (…)()>
  *   const ROWS = [["role", (q) => ...]]     ROWS.<item 1 "role">   (a list bound to a name; a row's title)
+ *   const CHECKS = [(q) => ..., (q) => ...] CHECKS.<item 1>        (no title: its place in the list)
  *   return () => ...                        <returned>
  *   function f(cb = () => {})               f.<default of cb>
  *   export default () => {}                 default
  *
- * and a function inside another is that path, outermost first: `Panel.<arg 0 of rows.map>`. A call's
- * result is followed through `await`, `?.`, a member read and a further call to the name it reaches,
- * so `const n = await rows.filter(f).length` names f's call `n = rows.filter`. A title is the first
- * string or template literal a call or a list holds before the function, whitespace collapsed, with
- * `${…}` for each expression.
+ * and a function inside another is that path, outermost first: `Panel.<arg 0 of rows.map>`. An object
+ * or a list on the path is a segment whenever the code names it, by the same rules: bound
+ * (`api.load`), handed to a call (`<arg 0 of m = configure>.load`), held in JSX
+ * (`<Picker formatters>.load`), returned (`<returned>.load`) or a default. An object in a list is
+ * the row its first string value titles, `MODALS.<item "auth">.open`, with no place in the label. A
+ * call's result is followed through `await`, `?.`, a member read, a further call and `??`/`||`/`?:`
+ * to the name it reaches, so `const n = await rows.filter(f).length` names f's call
+ * `n = rows.filter`. A title is the first string or template literal a call or a list holds before
+ * the function, whitespace collapsed, with `${…}` for each expression.
  *
- * An ordinal is the fallback for what has no name at all. Only units of one file that share the
- * whole path are numbered, and the number goes where their paths part: on the outermost segment at
- * which they sit in different places, counting in source order the places there that hold such a
- * unit. Two unbound `rows.map` callbacks in one JSX tree are `<arg 0 of rows.map>` and
- * `<arg 0 of rows.map>#2`; two untitled `describe` blocks that each hold an `it` callback number the
- * blocks, `<arg 0 of describe>#2.<arg 0 of it>`, not the callbacks across the file. So a number moves
- * only when a unit with that same path is added before it, in a new place or in an earlier place that
- * held none; a new function with any other path moves nothing. A function that moves into another
+ * Those are all the names read. Code that only these leave out does not name a function: arguments
+ * after it (`useEffect(fn, deps)`, `assert.throws(fn, /re/)`), arguments inside its callee
+ * (`page.getByTestId('x').isVisible().catch(fn)` is `<arg 0 of page.getByTestId().isVisible().catch>`),
+ * an identifier argument (`h(Panel, { onPick })`), a JSX element's other attributes or its text, the
+ * function's own body. An ordinal is the fallback for functions that differ only there. Only units of
+ * one file that share the whole path are numbered, and the number goes where their paths part: on the
+ * outermost segment at which they sit in different places, counting in source order the places there
+ * that hold such a unit. Two unbound `rows.map` callbacks in one JSX tree are `<arg 0 of rows.map>`
+ * and `<arg 0 of rows.map>#2`; two untitled `describe` blocks that each hold an `it` callback number
+ * the blocks, `<arg 0 of describe>#2.<arg 0 of it>`, not the callbacks across the file. So a number
+ * moves only when a unit with that same path is added before it, in a new place or in an earlier
+ * place that held none, and a list item with no title moves when an item is added before it in its
+ * list; a new function with any other path moves nothing. A function that moves into another
  * function, or is renamed, is a new key, and the ratchet treats it as new code, the safe direction.
+ * tests/adversarial/complexity-gate-ts.test.mjs holds one case per form a function takes in the
+ * tree, and fails on a form new to the tree until it has one.
  */
 
 const FUNCTION_TYPES = new Set(['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression'])
