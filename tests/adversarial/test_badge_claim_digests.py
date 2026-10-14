@@ -8,29 +8,33 @@ legacy-progress policies, the issuer and the labels (roles, capability level, fa
 the sha256 of those fields, as sorted JSON, recorded per badge with the version it was recorded under.
 
 The rule is a DEFAULT, not a list of fields. NOT_DIGESTED is an allow-list of purely internal fields,
-each with a reason; it holds one entry today (market_evidence_ids, pointers into the repository's own
-research files). A field added to the catalog tomorrow is digested without anyone deciding so, and
-leaves the digest only by an edit to this protected file that names it and argues for it. Two tests keep
-the list honest: a declaration for a field no badge has is stale, and no code under src/ may name a field
-on the list. The earlier versions listed the digested fields and let every other field change freely;
+each with a reason; it is EMPTY today. Its one entry, market_evidence_ids (pointers into the repository's
+own research files), was removed on the owner's answer to the review of r3: the maintainer copies under
+industry_alignment/badge_requirements/ print it as "Market evidence pointers", so the owner counts it
+among the labels. The list is kept, empty, because O25 asks for it: a field added to the catalog
+tomorrow is digested without anyone deciding so, and leaves the digest only by an edit to this protected
+file that names it and argues for it. Two tests keep the list honest: a declaration for a field no badge
+has is stale, and no code under src/ may name a field on the list. While the list is empty both are
+vacuous over it; their mechanisms are tested on a declared field (mock.patch.dict), and each was seen to
+fail on one. The earlier versions listed the digested fields and let every other field change freely;
 the review of the first draft changed skill_nodes, non_claims, required_projects,
 newbie_friendly_description and credential_type under an unchanged version without a failure, and the
 list grew by one field at a time. The 13 fields test_badge_catalog_copies.py repeats into its contracts
 (SHARED) must stay digested.
 
-Every top-level field of the catalog but `badges` is digested too, with no exception, as one record under
-the catalog's own version (the `version` at the top of badge_catalog.json). They are not decoration. `provisional_floors`
-holds CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts: `provisional_floors.section_exam_pct`), which
-decides whether an exam score counts toward a credential, and the issue route prints it in the 403 a
-learner reads. `version` is the catalog version the eligibility engine stamps and checks
-(EligibilityEngine.catalogVersion). `design_constraints` states the policy and repeats the floors in
-prose. The rest (`badge_count`, `family_counts`, `generated_at`, `generated_by`, `specification`) is not
-read by a learner or a verifier, but nothing argues it internal and NOT_DIGESTED names badge fields
-only, so it is digested too; a regeneration of the catalog therefore takes a catalog version bump and a
-re-record. The industry copy
-(industry_alignment/badge_catalog.json) must equal the live one on every top-level field
-(test_badge_catalog_copies.py), so one record covers both. Before this, a floor changed from 85 to 50 in
-both copies, with no version bump, failed no test in the repository.
+Every top-level field of the catalog but `badges` is digested too, with no exception, as one record
+under the catalog's own version (the `version` at the top of badge_catalog.json). They are not
+decoration. `provisional_floors` holds CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts, from
+`provisional_floors.section_exam_pct`), which decides whether an exam score counts toward a credential,
+and the issue route prints it in the 403 a learner reads. `version` is the catalog version the
+eligibility engine stamps and checks (EligibilityEngine.catalogVersion). `design_constraints` states
+the policy and repeats the floors in prose. The rest (`badge_count`, `family_counts`, `generated_at`,
+`generated_by`, `specification`) is not read by a learner or a verifier, but nothing argues it internal
+and NOT_DIGESTED names badge fields only, so it is digested too; a regeneration of the catalog therefore
+takes a catalog version bump and a re-record. The industry copy (industry_alignment/badge_catalog.json)
+must equal the live one on every top-level field (test_badge_catalog_copies.py), so one record covers
+both. Before this, a floor changed from 85 to 50 in both copies, with no version bump, failed no test in
+the repository.
 
 required_sections and required_activities enter the digest as the manifest slugs their S-tags
 resolve to (`S08` as the slug, `S08-YOUDO` as `slug:YOUDO`), not as S-numbers. The renumber moves
@@ -48,9 +52,6 @@ LIMITATIONS, stated rather than absorbed:
   their section_exams component (self_check 85, you_do_projects 80 and integrator_project 85 repeat the
   other floors the same way). A floor changed with a catalog version bump therefore leaves those
   digested claims stating the old number until each badge is bumped as well. Not done.
-- market_evidence_ids is the one field that can change freely. The requirement copies under
-  industry_alignment/badge_requirements/ print it as "Market evidence pointers", for maintainers; if the
-  owner reads it as one of "the labels", delete its line from NOT_DIGESTED and re-record.
 - A pure renumber leaves every digest alone only while no digested field outside the two tag lists names
   an S-number. Four do (test_the_only_digested_text_that_names_a_section_number_is_claim_prose), and a
   renumber must reword them, which is a claim change and takes a version bump.
@@ -81,6 +82,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tests/adversarial"))
@@ -102,13 +104,10 @@ SHARED_FIELDS = {path.split(".")[0] for _, path in SHARED}
 #: reads as a claim is digested, so the assessment blueprint, the scoring rules, the five policies, the
 #: issuer and the labels are not here. A field belongs here only if no learner or verifier reads it;
 #: test_a_field_on_the_internal_list_is_read_by_no_application_code checks the code side of that.
-NOT_DIGESTED = {
-    "market_evidence_ids": (
-        "pointers into the repository's own research files (industry_skill_graph.json, "
-        "role_skill_taxonomy.json, industry_reality_brief.md), which no learner or verifier opens "
-        "and no code under src/ reads"
-    ),
-}
+#: EMPTY since the owner's answer on r3: market_evidence_ids, its one entry, is printed as "Market
+#: evidence pointers" in the maintainer copies under industry_alignment/badge_requirements/, so it is a
+#: label and is digested. The list stays, empty, so that O25's mechanism and its guards stay in place.
+NOT_DIGESTED: dict[str, str] = {}
 #: Source files the internal-field check reads. The lesson files are lesson text, not application code.
 SOURCE_SUFFIXES = (".ts", ".tsx", ".mts", ".js", ".mjs")
 S_NUMBER = re.compile(r"\bS\d{2}\b")
@@ -221,9 +220,10 @@ def digest_violations(catalog: dict, records: dict, slugs: dict[int, str]) -> li
 #: The version of the method that makes a digest. Digests of another schema are not comparable, so
 #: recording over them is a re-baseline (refusals() allows it). Raise it when the payload changes, which
 #: includes a change to NOT_DIGESTED; that edit is itself a visible change to a protected test file.
-#: Schema 4 is O25's default-digested payload: the whole badge but the internal fields (schema 3 was a
-#: hand-written list of 18 paths, and 12 fields were declared free to change).
-DIGEST_SCHEMA = 4
+#: Schema 5 digests market_evidence_ids with the rest of the badge (schema 4, O25's default-digested
+#: payload, left that one field out; schema 3 was a hand-written list of 18 paths). The versions of the
+#: badges did not move: no claim changed, the method did, so recording over schema 4 is a re-baseline.
+DIGEST_SCHEMA = 5
 #: A SemVer 2.0.0 normal version (semver.org §2): three non-negative integers, no leading zeroes.
 #: Read whole with fullmatch, because `$` also matches before a trailing newline, and with [0-9],
 #: because `\d` matches every Unicode decimal digit (Python `re` docs).
@@ -513,18 +513,37 @@ class ClaimDigests(unittest.TestCase):
             ["progress_phase0_walked: claim changed without a version bump (version 1.0.1)"],
         )
 
-    def test_a_field_declared_internal_may_change_freely(self) -> None:
-        self.assertIn("market_evidence_ids", NOT_DIGESTED)
+    def test_the_pointers_the_maintainer_copies_print_are_a_claim(self) -> None:
+        """Owner answer on r3: market_evidence_ids is printed as "Market evidence pointers" in the maintainer
+        copies, so it is a label. Before, it was declared internal and an edit to it returned []."""
         catalog = copy.deepcopy(self.catalog)
         self._badge(catalog)["market_evidence_ids"].append("industry_reality_brief.md §99 (a new citation)")
-        self.assertEqual(digest_violations(catalog, self.records["records"], self.slugs), [])
+        self.assertEqual(
+            digest_violations(catalog, self.records["records"], self.slugs),
+            ["progress_phase0_walked: claim changed without a version bump (version 1.0.0)"],
+        )
+        self.assertIn("market_evidence_ids", digested_fields(self.catalog))
 
-    def test_the_internal_list_is_short_and_each_entry_is_argued(self) -> None:
-        """The allow-list is the only way a field leaves the digest, so it has to stay readable."""
-        self.assertEqual(sorted(NOT_DIGESTED), ["market_evidence_ids"])
+    #: What the field was declared, for the tests below: the mechanism is tested on a declared field.
+    DECLARED = {"market_evidence_ids": "pointers into the repository's own research files, which no one opens"}
+
+    def test_a_field_declared_internal_may_change_freely(self) -> None:
+        """The allow-list is empty today, so the mechanism is tested on a declared field."""
+        with mock.patch.dict(NOT_DIGESTED, self.DECLARED):
+            catalog = copy.deepcopy(self.catalog)
+            recorded = record(catalog, self.slugs)
+            self.assertEqual(recorded["left_out"], ["market_evidence_ids"])
+            self.assertNotIn("market_evidence_ids", recorded["fields"])
+            self._badge(catalog)["market_evidence_ids"].append("industry_reality_brief.md §99 (a new citation)")
+            self.assertEqual(digest_violations(catalog, recorded["records"], self.slugs), [])
+
+    def test_the_internal_list_is_empty_and_an_entry_would_have_to_be_argued(self) -> None:
+        """The allow-list is the only way a field leaves the digest. It is empty (the owner counts
+        market_evidence_ids among the labels); a field joins it by an edit to this assertion, with a reason."""
         for field, reason in NOT_DIGESTED.items():
             with self.subTest(field=field):
                 self.assertGreaterEqual(len(reason.split()), 8, "a reason, not a label")
+        self.assertEqual(sorted(NOT_DIGESTED), [])
 
     def test_a_field_on_the_internal_list_is_read_by_no_application_code(self) -> None:
         """'Purely internal' is checkable from the code side: nothing under src/ names the field. The day a
@@ -535,18 +554,19 @@ class ClaimDigests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             (Path(tmp) / "page.tsx").write_text("const ids = badge.market_evidence_ids\n", encoding="utf-8")
             (Path(tmp) / "other.ts").write_text("const unrelated = 1\n", encoding="utf-8")
-            found = code_that_reads(NOT_DIGESTED, Path(tmp))
+            found = code_that_reads(self.DECLARED, Path(tmp))
         self.assertEqual([(Path(path).name, field) for path, field in found], [("page.tsx", "market_evidence_ids")])
 
     def test_a_declared_internal_field_that_is_not_in_the_catalog_is_stale(self) -> None:
-        catalog = copy.deepcopy(self.catalog)
-        for badge in catalog["badges"]:
-            del badge["market_evidence_ids"]
-        self.assertEqual(
-            stale_declarations(catalog),
-            ["market_evidence_ids: declared internal but no badge has it"],
-        )
-        self.assertEqual(stale_declarations(self.catalog), [])
+        with mock.patch.dict(NOT_DIGESTED, self.DECLARED):
+            self.assertEqual(stale_declarations(self.catalog), [])
+            catalog = copy.deepcopy(self.catalog)
+            for badge in catalog["badges"]:
+                del badge["market_evidence_ids"]
+            self.assertEqual(
+                stale_declarations(catalog),
+                ["market_evidence_ids: declared internal but no badge has it"],
+            )
 
     def test_no_field_the_contracts_repeat_is_internal(self) -> None:
         self.assertEqual(sorted(SHARED_FIELDS & set(NOT_DIGESTED)), [])
