@@ -753,7 +753,7 @@ export const RESOURCES: Resource[] = [
     canonicalUrl: 'https://opentelemetry.io/docs/',
     resourceType: 'standard',
     topics: ['observability', 'telemetry', 'tracing'],
-    sectionIds: ['s38-performance-extreme'],
+    sectionIds: ['s38-performance-extreme', 's51-integrator-final'],
     level: 'advanced',
     language: ['en'],
     access: 'free',
