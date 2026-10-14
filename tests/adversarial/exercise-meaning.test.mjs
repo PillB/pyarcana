@@ -603,6 +603,23 @@ describe('the chain walk: the order of rows of different exercises does not chan
     assert.deepEqual(missing.map((f) => [f.code, f.id, f.row]), [['LEDGER_RENUMBER_TARGET_MISMATCH', S21, 1]])
     assert.deepEqual(run(rows, { [S21]: exercise(SHA_C) }, { [S19]: exercise(SHA_A) }), [])
   })
+
+  it('reports an id filled twice, by a row from nothing and by a renumbered row, in every order of the three rows', () => {
+    // S21 held b. An added row writes c into it, a renumbered row moves S19's exercise a into it, and a
+    // removed row takes b out. The head holds a: c is a phantom row. A renumbered row used to overwrite the
+    // chain an earlier added row had begun, so the three orders with the added row first passed and the
+    // other three failed: the verdict depended on the order of rows of one id.
+    const removed = (id, from) => ({ id, kind: 'removed', from_fp: from, to_fp: null, reason: 'retirado', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
+    const rows = [added(S21, SHA_C), renumbered(S21, S19, SHA_A), removed(S21, SHA_B)]
+    const orders = permutations(rows)
+    assert.equal(orders.length, 6)
+    for (const order of orders) {
+      const findings = run(order, { [S21]: exercise(SHA_A) })
+      const filledTwice = findings.filter((f) => f.code === 'LEDGER_RENUMBER_REUSED')
+      assert.deepEqual(filledTwice.map((f) => [f.role, f.id]), [['arrives', S21]], `${order.map((row) => row.kind).join(' > ')}: ${JSON.stringify(findings)}`)
+    }
+  })
+
 })
 
 describe('renumbered rows: the id a row fills must lose the exercise the base anchored there, by a row', () => {

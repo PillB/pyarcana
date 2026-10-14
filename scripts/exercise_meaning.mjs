@@ -38,13 +38,15 @@
  * held that fingerprint at the base and no longer holds it, id holds it at head (or a later row for id
  * carries it on, as for an amended exercise), the exercise the base anchored at id, if there was one,
  * leaves by a row of its own (LEDGER_RENUMBER_TARGET_OCCUPIED otherwise: it would be gone with no row
- * that starts from its fingerprint), and no id leaves or is filled twice. Two ids that swap content
- * take two rows. There is no exemption for the renumber PR. A renumbered id cannot be renumbered
- * again within the same PR. An exercise that a renumber also changes (one that prints its own section
- * token) takes the renumbered row and then a `changed` row on its new id, from the renumbered
- * fingerprint. The order of rows of different exercises does not matter: the departure of an id's old
- * exercise, the amendment of the one that arrived there and the `added` row for a vacated id come in any
- * order. Only one exercise's own chain is in sequence: its renumbered row first, then its amendments.
+ * that starts from its fingerprint), and no id leaves or is filled twice (by renumbered rows or by rows
+ * from nothing: a renumbered row and an `added` row for one id are a second fill, whichever is written
+ * first, LEDGER_RENUMBER_REUSED). Two ids that swap content take two rows. There is no exemption for the
+ * renumber PR. A renumbered id cannot be renumbered again within the same PR. An exercise that a renumber
+ * also changes (one that prints its own section token) takes the renumbered row and then a `changed` row
+ * on its new id, from the renumbered fingerprint. The order of rows of different exercises does not
+ * matter: the departure of an id's old exercise, the amendment of the one that arrived there and the
+ * `added` row for a vacated id come in any order. Only one exercise's own chain is in sequence: its
+ * renumbered row first, then its amendments.
  * The tool is not in this repository yet; this file is the format of record.
  *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
@@ -376,8 +378,11 @@ function occupiedFindings(walk) {
  * ended. A `removed` row ends its chain at null. A row from nothing needs the id's old exercise to have
  * left by the end of the walk, so it is judged after the last row (occupiedFindings). A `historical` row
  * describes a change from before the anchors existed and is not part of any chain. One renumbered row
- * cannot be renumbered again within the same PR. Returns the findings, in row order, and `arrivals`: the
- * chain of every id a renumbered row filled, id -> { fp, row, arrival }.
+ * cannot be renumbered again within the same PR. An id filled twice (a renumbered row and a row from
+ * nothing, or two of either) keeps only the chain of the row written last, so the walk alone would pass
+ * one order of those rows and fail the other; reusedFindings counts the fills over the rows and reports
+ * it in every order. Returns the findings, in row order, and `arrivals`: the chain of every id a
+ * renumbered row filled, id -> { fp, row, arrival }.
  */
 function walkAppended({ baseAnchors, added }) {
   const walk = {
@@ -410,15 +415,27 @@ function targetFindings({ headAnchors }, arrivals) {
 }
 
 /**
- * LEDGER_RENUMBER_REUSED: one id left twice, or one id filled twice, by the rows of a PR. An id that leaves
- * twice has been copied, not moved; an id that is filled twice holds the content of only one of them.
+ * The id a row puts a new exercise into, or null: the id a renumbered row fills, or the id a row from
+ * nothing writes. A historical row describes a change from before the anchors, and every other row
+ * continues an exercise the id already holds.
+ */
+function filledId(row) {
+  if (row.kind === 'renumbered') return row.id
+  return row.kind !== 'historical' && row.from_fp === null ? row.id : null
+}
+
+/**
+ * LEDGER_RENUMBER_REUSED: one id left twice, or one id filled twice, by the rows of a PR, whether by
+ * renumbered rows or by rows from nothing. An id that leaves twice has been copied, not moved; an id that
+ * is filled twice holds the content of only one of them, and the other row is a phantom. Counting the
+ * fills here, over the rows and not over the walk's chains, keeps the verdict the same in any order.
  */
 function reusedFindings({ added }) {
   const findings = []
   const seen = { departs: new Set(), arrives: new Set() }
   for (const row of added) {
     const departed = departedId(row)
-    const roles = [['departs', departed], ['arrives', row.kind === 'renumbered' ? row.id : null]]
+    const roles = [['departs', departed], ['arrives', filledId(row)]]
     for (const [role, id] of roles) {
       if (id === null) continue
       if (seen[role].has(id)) findings.push({ code: 'LEDGER_RENUMBER_REUSED', role, id, row: row.row })
