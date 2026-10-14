@@ -40,14 +40,22 @@ function globSource(glob) {
 
 /**
  * A CODEOWNERS pattern as a regular expression, with gitignore anchoring: a slash at the start or
- * in the middle roots it at the repository, a bare name matches at any depth, and a trailing slash
- * covers everything beneath the directory.
+ * in the middle roots it at the repository, and a bare name matches at any depth. What it covers
+ * beneath (docs.github.com, "About code owners", whose examples are pinned in a test below):
+ * - a trailing slash covers everything beneath the directory (`/build/logs/`, `apps/`);
+ * - a pattern with no trailing slash covers the path itself AND everything beneath it when that
+ *   path is a directory (`/apps/github` with no owners leaves the whole subdirectory unowned;
+ *   `**\/logs` owns any file in a logs directory) - Codex P2 on #99: anchoring these with `$`
+ *   made the test blind to an ownerless directory override;
+ * - except when the last segment is a glob: `docs/*` matches `docs/getting-started.md` but not
+ *   `docs/build-app/troubleshooting.md`.
  */
 function patternRegExp(pattern) {
   const body = pattern.replace(/^\//, '').replace(/\/$/, '')
   const rooted = pattern.startsWith('/') || body.includes('/')
   const head = rooted ? '^' : '^(?:.*/)?'
-  const tail = pattern.endsWith('/') ? '/.+$' : '$'
+  const lastIsGlob = /[*?]/.test(body.split('/').at(-1))
+  const tail = pattern.endsWith('/') ? '/.+$' : lastIsGlob ? '$' : '(?:/.+)?$'
   return new RegExp(head + globSource(body) + tail)
 }
 
@@ -96,6 +104,38 @@ function ownersOf(path, rules = RULES) {
   const hit = governingRule(path, rules)
   return hit ? hit.owners : []
 }
+
+describe('patterns match the way GitHub documents them', () => {
+  // Each row is an example from docs.github.com, "About code owners" (example CODEOWNERS file).
+  const EXAMPLES = [
+    ['/build/logs/', 'build/logs/x.log', true],
+    ['/build/logs/', 'build/logs/deep/x.log', true],
+    ['apps/', 'apps/x.js', true],
+    ['apps/', 'nested/apps/x.js', true],
+    ['/apps/github', 'apps/github/x.js', true],
+    ['/apps/github', 'apps/github/deep/x.js', true],
+    ['/apps/github', 'apps/githubber/x.js', false],
+    ['**/logs', 'build/logs/x', true],
+    ['**/logs', 'deeply/nested/logs/x', true],
+    ['docs/*', 'docs/getting-started.md', true],
+    ['docs/*', 'docs/build-app/troubleshooting.md', false],
+    ['*.js', 'src/deep/x.js', true],
+  ]
+  for (const [pattern, path, expected] of EXAMPLES) {
+    it(`${pattern} ${expected ? 'matches' : 'does not match'} ${path}`, () => {
+      assert.equal(patternRegExp(pattern).test(path), expected)
+    })
+  }
+
+  it('an ownerless directory rule with no trailing slash, placed last, unowns the files beneath it', () => {
+    // Codex P2 on #99, recreated: GitHub applies the last matching rule, and `/src/lib/eligibility`
+    // with no owners leaves the directory's files unowned. Anchored with `$`, the matcher saw only
+    // the directory path itself, so the owned rule above kept governing and the coverage tests
+    // stayed green while GitHub left the guard inputs unowned.
+    const { rules } = codeownersRules('/src/lib/eligibility/ @PillB\n/src/lib/eligibility\n')
+    assert.deepEqual(ownersOf('src/lib/eligibility/section_manifest.json', rules), [])
+  })
+})
 
 describe('CODEOWNERS lines are ones GitHub keeps', () => {
   it('has no line with a malformed owner or an unsupported pattern', () => {
