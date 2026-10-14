@@ -1,17 +1,17 @@
 {
  "ceiling": 15,
- "over_ceiling": 32,
+ "over_ceiling": 31,
  "worst": 78,
  "worst_offenders": [
   {
    "score": 78,
    "file": "src/components/course/Dashboard.tsx",
-   "line": 78
+   "line": 77
   },
   {
    "score": 43,
    "file": "src/lib/eligibility/engine.ts",
-   "line": 112
+   "line": 173
   },
   {
    "score": 42,
@@ -36,7 +36,7 @@
   {
    "score": 26,
    "file": "src/components/course/ExamView.tsx",
-   "line": 82
+   "line": 81
   },
   {
    "score": 26,
