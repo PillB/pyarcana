@@ -217,7 +217,8 @@ function verdict(findings, retired = []) {
  * No epoch file at HEAD. That is DORMANT only if no epoch was ever committed: a file that existed in
  * HEAD's history and is gone is EPOCH_REMOVED (deleting it must not switch G-11 and G-15 off, the
  * same loophole G-14's WINDOW_REMOVED closes). A shallow checkout cannot tell the two apart, so it
- * is HISTORY_MISSING, never DORMANT.
+ * is HISTORY_MISSING, never DORMANT. Owner, 2026-10-13: the epoch is not retirable, so EPOCH_REMOVED
+ * is permanent; a deliberate cleanup would need an owner decision that changes this guard.
  */
 function absentEpochVerdict(history) {
   if (history.isShallow()) return verdict([fail('HISTORY_MISSING', { reason: 'the repository is shallow' })])
