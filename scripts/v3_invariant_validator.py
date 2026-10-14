@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 """
 V3 structural invariant validator for El Arte de Python.
-Compares section content files + seed bank against canonical counting vector slices.
+Compares section content files against canonical counting vector slices.
 Exit 0 if no P0 regressions on inspected artifacts; exit 1 on failures.
+
+The exam bank is not read here. tests/adversarial/exam-bank-coverage.test.ts checks every section's
+bank (8 concepts x 3 variants, 4 options, key in range) through scripts/lib/learner_text.mts, which
+parses prisma/seed.ts. That test runs in the adversarial-unit job, which installs the Node packages;
+this job does not.
 """
 from __future__ import annotations
 
 import json
 import re
 import sys
-from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
-SEED = ROOT / "prisma/seed.ts"
 LEDGER = ROOT / "course-state/section_ledger.json"
 
 def declared_section_count(root: Path = ROOT) -> int:
@@ -50,32 +53,6 @@ EX_RE = re.compile(r'\bid:\s*[\'"](S\d{2}-T\d-[AB]-E\d)[\'"]')
 SUBTOPIC_RE = re.compile(r'subtopicId:\s*[\'"](S\d{2}-T\d-[AB])[\'"]')
 
 
-def parse_seed_bank(text: str) -> dict[str, Counter]:
-    """Return sectionId -> Counter(concept -> n)."""
-    # QUESTION_BANK: Record = { setup: [ ... ], basics: [ ... ], ... }
-    banks: dict[str, Counter] = {}
-    # Split by top-level keys like `setup: [`
-    for m in re.finditer(r"\n\s*([a-z0-9-]+):\s*\[", text):
-        key = m.group(1)
-        if key in ("options",):
-            continue
-        start = m.end()
-        # find matching bracket depth
-        depth = 1
-        i = start
-        while i < len(text) and depth:
-            if text[i] == "[":
-                depth += 1
-            elif text[i] == "]":
-                depth -= 1
-            i += 1
-        block = text[start : i - 1]
-        concepts = re.findall(r"concept:\s*'([^']+)'", block)
-        if concepts:
-            banks[key] = Counter(concepts)
-    return banks
-
-
 def inspect_section_file(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
     sid_m = SECTION_ID_RE.search(text)
@@ -101,9 +78,6 @@ def main() -> int:
     # Prefer s01-setup style names; also sNN-*.ts
     section_files = [p for p in section_files if re.match(r"s\d{2}-", p.name)]
     reports = [inspect_section_file(p) for p in section_files]
-
-    seed_text = SEED.read_text(encoding="utf-8") if SEED.exists() else ""
-    banks = parse_seed_bank(seed_text) if seed_text else {}
 
     failures = []
     warnings = []
@@ -145,15 +119,6 @@ def main() -> int:
         if setup["subtopics"] < 8:
             failures.append(f"setup subtopics={setup['subtopics']} want >=8")
 
-    if "setup" in banks:
-        c = banks["setup"]
-        if len(c) != 8:
-            failures.append(f"setup exam concepts={len(c)} want 8")
-        if any(v != 3 for v in c.values()):
-            failures.append(f"setup exam variants not 3 each: {dict(c)}")
-        if sum(c.values()) != 24:
-            failures.append(f"setup exam total={sum(c.values())} want 24")
-
     # Ledger row count, derived from the section bindings (G-9)
     failures.extend(ledger_row_failures(LEDGER, CANONICAL["sections"]))
 
@@ -172,7 +137,6 @@ def main() -> int:
             }
             for r in reports
         ],
-        "seed_concepts_per_section": {k: len(v) for k, v in banks.items()},
         "failures": failures,
         "warnings": warnings[:50],
         "warning_count": len(warnings),
