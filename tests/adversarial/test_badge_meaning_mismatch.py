@@ -22,10 +22,16 @@ the design asks of every count (G-4, G-9), so the renumber does not tighten it b
 
 OWNER DECISION O25 (2026-10-13): THIS DEBT IS HELD AS AN EXACT RATCHET. The owner accepted that the
 badge claims whose required sections do not teach the claimed skill are owed, as the number this module
-measures (92 pairs over 21 badges when the owner decided), together with the five prerequisite
-inversions of test_badge_prerequisite_inversions.py. Nothing may grow; a claim fixed lowers the number,
-and the same change must pin the lower number, so the count never drifts quietly in either direction. The
-Phase 1 re-key pays the debt down. The module measures only, and approves nothing.
+measures, together with the five prerequisite inversions of test_badge_prerequisite_inversions.py.
+Nothing may grow; a claim fixed lowers the number, and the same change must pin the lower number, so the
+count never drifts quietly in either direction. The Phase 1 re-key pays the debt down. The module
+measures only, and approves nothing.
+
+THE NUMBER IS THE SAME MEASURE AS O25'S, WITH THE CODEX-REVIEWED LEXICON. O25 recorded 92 pairs over 21
+badges. That figure came from the lexicon an agent drafted. The same definition (below), over the same
+sections and the same badges, with the lexicon Codex reviewed, gives 102 pairs over 20 badges. Only the
+lexicon changed, not the measure. The owner kept 102 over 20 as the exact ratchet (answer on the review
+of the third draft of this change, 2026-10-14), so that is what is pinned.
 
 PINNED NOW: 102 pairs over 20 badges; 5 skills that no section teaches. (test_the_header_states_the_pins
 fails when these words and the constants below disagree, so a re-pin cannot leave this header stale.)
@@ -61,6 +67,19 @@ Sensitivity, measured 2026-10-13 with the reviewed lexicon and NOT pinned: title
 and 68 over 21 with outcomes; counting (badge, required section) pairs in which the section teaches none
 of the badge's claimed skills gives 35 over 18. None gives the plan's 31 over 19.
 
+A KNOWN LIMIT OF THE TITLE-PLUS-OUTCOMES MEASURE. A skill that a lesson teaches only in its body, with no
+section title or learning outcome naming it, is taught nowhere to this measure. The Codex review of the
+lexicon found five of them: deep_learning (S33, a tiny neural net with autograd), kubernetes (S45), Python
+generators (S37) and Pydantic (S41 and S42). The first two are claimed by competency badges, and they are
+two of the five NODES_WITHOUT_HOME_OWED although their lessons do teach them (a skill with no home is
+never a mismatch pair, so the pair count is not touched by this). The last two have no node in the
+lexicon, so nothing here can see them. No lexicon term fixes this: the surface holds no word to match,
+and a term that matched the lesson body would make this a different measure. The fix is a learning
+outcome in the lesson, which is course content (a protected path) and so the owner's call, or G-16, the
+practice-and-assessment half of O19's rule from Phase 1a, which looks past the outcomes. Until then the
+list of skills that no section teaches reads two longer than the lessons justify, and is counted as the
+teaching debt O18 describes.
+
 Expert standard: constructive alignment (Biggs and Tang, Teaching for Quality Learning at
 University), where a credential's assessed evidence must be taught in the sections it names.
 """
@@ -90,7 +109,8 @@ MAX_SECTION_SHARE_DIVISOR = 3
 COMPETENCY_CLASSES = ("B", "C")
 #: Owed counts, measured on 2026-10-13 over the live catalog and the Codex-reviewed lexicon. An exact
 #: ratchet (O25): a fix lowers them and the test then asks for the lower number; a new mismatch raises
-#: the count and fails. Measured with the drafted lexicon, before the review, they were 92 and 21.
+#: the count and fails. The same measure as O25's 92 and 21, which the drafted lexicon gave before the
+#: Codex review; the owner kept the reviewed figure.
 MISMATCH_PAIRS_OWED = 102
 MISMATCH_BADGES_OWED = 20
 #: Competency-claimed skills that no section teaches through the lexicon, measured the same day. Owed
