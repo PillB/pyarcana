@@ -24,6 +24,14 @@ test('a demo that imports sqlite3, lzma or ssl makes the playground load that pa
   assert.deepEqual(detectRequiredPackages('import ssl\n'), ['ssl'])
 })
 
+test('a demo that imports hashlib makes the playground load the hashlib package', () => {
+  // Defect: S14's demo calls hashlib.pbkdf2_hmac, which raises AttributeError in the browser until
+  // Pyodide's `hashlib` package (the OpenSSL part) is loaded. The CPython audit could not see it; the
+  // headless Pyodide gate did (module 'hashlib' has no attribute 'pbkdf2_hmac').
+  assert.deepEqual(detectRequiredPackages('import hashlib\nclave = hashlib.pbkdf2_hmac("sha256", b"x", b"y", 1)\n'), ['hashlib'])
+  assert.equal(REQUIRED_PACKAGES.hashlib, 'hashlib')
+})
+
 test('the detector still reads every import form the playground handled before the move', () => {
   // Defect: the move changes the regex. The follow-on characters are whitespace, a comma, the end
   // of the line, or a dot, and the match is at the start of a line.
@@ -33,6 +41,21 @@ test('the detector still reads every import form the playground handled before t
   assert.deepEqual(detectRequiredPackages('def f():\n    import pandas as pd\n'), ['pandas'])
   assert.deepEqual(detectRequiredPackages('# import numpy\nprint("import numpy")\n'), [])
   assert.deepEqual(detectRequiredPackages('import json\nfrom pathlib import Path\n'), [])
+})
+
+test('every name on an import line is seen, not only the first', () => {
+  // Defect: S07's demo says `import csv, hashlib, io, json`. hashlib is the second name, so the package
+  // was not loaded, hashlib was imported without its OpenSSL part, and Python kept that broken module
+  // in sys.modules, so S14's hashlib.pbkdf2_hmac failed for the rest of the page session.
+  assert.deepEqual(detectRequiredPackages('import csv, hashlib, io, json\n'), ['hashlib'])
+  assert.deepEqual(detectRequiredPackages('import numpy as np, pandas as pd\n'), ['numpy', 'pandas'])
+  assert.deepEqual(detectRequiredPackages('import os, matplotlib.pyplot as plt  # grafica\n'), ['matplotlib'])
+})
+
+test('a name that is only a property of every object loads nothing', () => {
+  // Defect: the lookup uses `in` or plain indexing, so `import constructor` finds Object.prototype's
+  // constructor and asks loadPackage for a function.
+  assert.deepEqual(detectRequiredPackages('import constructor\nimport toString, hasOwnProperty\n'), [])
 })
 
 test('an import name that is only a prefix of another package does not load it', () => {

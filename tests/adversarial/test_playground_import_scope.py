@@ -8,6 +8,7 @@ that turns each red.
 """
 from __future__ import annotations
 
+import ast
 import sys
 import unittest
 from pathlib import Path
@@ -146,6 +147,23 @@ class RealDemos(unittest.TestCase):
         # Defect: a demo that does not parse is counted as clean, hiding its imports.
         _, unparsed, _ = real_findings()
         self.assertEqual(unparsed, NOT_PARSED_OWED)
+
+    def test_the_browser_loads_every_package_the_guard_lets_a_demo_import(self) -> None:
+        # Defect: the guard reads imports with an AST, but CodePlayground loads packages from a text
+        # scan of the code. A demo can pass the guard and still import a module the browser never
+        # loaded (S07's `import csv, hashlib, io, json` missed hashlib, the second name on the line).
+        data = playground()
+        missed: dict[str, list[str]] = {}
+        for demo_id, demo in data["demos"].items():
+            try:
+                modules = scope.imported_modules(ast.parse(demo["code"]))
+            except SyntaxError:
+                continue
+            needed = {data["requiredPackages"][m] for m in modules if m in data["requiredPackages"]}
+            absent = sorted(needed - set(data["detected"][demo_id]))
+            if absent:
+                missed[demo_id] = absent
+        self.assertEqual(missed, {})
 
     def test_every_demo_has_a_section(self) -> None:
         # Defect: a demo keyed by an id that is not a section is checked against no section at all.

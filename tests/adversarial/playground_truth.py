@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 @lru_cache(maxsize=1)
 def playground() -> dict:
     """{"prelude": str, "requiredPackages": {import name: package}, "unvendoredStdlib": {import name: package},
+    "detected": {demo id: [package, ...] the playground loads for it},
     "sections": [id, ...] in COURSE_SECTIONS order, "demos": {id: demo}}."""
     proc = subprocess.run(
         ["npx", "tsx", "scripts/playground_extractor.mts"],

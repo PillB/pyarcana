@@ -44,14 +44,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const PACKAGE_LOAD_TIMEOUT_MS = 5 * 60 * 1000
 
 /**
- * Demos whose stdout does not match their expectedOutput under Pyodide 0.26.2, measured 2026-10-14
- * (41 of the 43 demos with an expectedOutput match). Owed, not accepted: the set must shrink as
- * demos are replaced (owner decision O25) and cannot grow.
+ * Demos whose stdout does not match their expectedOutput under Pyodide 0.26.2, measured 2026-10-14.
+ * Owed, not accepted: the set must shrink as demos are replaced (owner decision O25) and cannot grow.
  *  - databases-orm: its own code is a SyntaxError (an unterminated string literal on line 31).
- *  - security: `hashlib.pbkdf2_hmac` raises AttributeError, because the playground does not load
- *    Pyodide's `hashlib` package (the OpenSSL part of hashlib). The next commit loads it.
  */
-export const PYODIDE_OUTPUT_OWED: ReadonlySet<string> = new Set<string>(['databases-orm', 'security'])
+export const PYODIDE_OUTPUT_OWED: ReadonlySet<string> = new Set<string>(['databases-orm'])
 
 /** The part of the Pyodide API this script uses. */
 export interface PyodideLike {
