@@ -953,6 +953,56 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     assert.deepEqual(sentinelRules({ head: REBOUND_HEAD, rows: [renumberedRow()], branch: 'curriculum/55', files }), [])
   })
 
+  const SECTION_PATH = 'src/lib/course/sections/s01-one.ts'
+  /** A section file that lists these exercise ids, so the sentinel can see one leave the course. */
+  const sectionWith = (ids) => `export const section01 = {\n  id: 'one',\n  index: 1,\n${ids.map((id) => `  exercise: { id: '${id}' },`).join('\n')}\n}\n`
+
+  /**
+   * The sentinel's whole result after a commit that takes E1 out of the course source and out of the anchors,
+   * from a base that lists E1 and E2 in both and holds `baseRows` in the ledger. `rows` are appended.
+   */
+  function sentinelAfterRemoval({ rows, baseRows = [] }) {
+    const { dir, base } = repo({
+      ...CURRICULUM,
+      [SECTION_PATH]: sectionWith([E1, E2]),
+      [ANCHORS_PATH]: anchorsOf({ [E1]: SHA_A, [E2]: SHA_B }),
+      [LEDGER_PATH]: ledgerFile(baseRows),
+    })
+    write(dir, { [SECTION_PATH]: sectionWith([E2]), [ANCHORS_PATH]: anchorsOf(REMOVED_HEAD), [LEDGER_PATH]: ledgerFile([...baseRows, ...rows]) })
+    git(dir, 'add', '-A')
+    git(dir, 'commit', '-q', '-m', 'E1 leaves the course')
+    const run = runSentinel(dir, base)
+    return { status: run.status, ...sentinelResult(dir) }
+  }
+
+  it('passes the whole sentinel when an exercise leaves the course source with an appended removed row naming the owner decision', () => {
+    // EXERCISE_IDS_REMOVED used to fail on any exercise id that left a section file, so the removed row
+    // let the ledger rule pass and the sentinel still failed.
+    const result = sentinelAfterRemoval({ rows: [removedRow()] })
+    assert.deepEqual(result.failures, [])
+    assert.equal(result.status, 0)
+    assert.deepEqual([result.curriculum.removed_exercise_ids, result.curriculum.ledgered_removed_exercise_ids], [[], [E1]])
+  })
+
+  it('still fails EXERCISE_IDS_REMOVED when the ledger does not let that exercise leave', () => {
+    const recorded = [removedRow(), { row: 2, id: E1, kind: 'added', from_fp: null, to_fp: SHA_A, reason: 'vuelve', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' }]
+    const cases = {
+      'no row': { rows: [] },
+      'a removed row whose decided_by names no owner decision': { rows: [removedRow({ decided_by: 'medido' })] },
+      'a removed row for another id': { rows: [removedRow({ id: E2, from_fp: SHA_B })] },
+      'a removed row that cites another fingerprint': { rows: [removedRow({ from_fp: SHA_C })] },
+      'a row of another kind': { rows: [removedRow({ kind: 'changed', to_fp: SHA_C })] },
+      'a removed row the base already recorded': { rows: [], baseRows: recorded },
+    }
+    for (const [label, args] of Object.entries(cases)) {
+      const result = sentinelAfterRemoval(args)
+      assert.equal(result.status, 1, label)
+      const gone = result.failures.find((f) => f.code === 'EXERCISE_IDS_REMOVED')
+      assert.deepEqual(gone?.sample, [E1], `${label}: ${JSON.stringify(result.failures)}`)
+      assert.deepEqual(result.curriculum.ledgered_removed_exercise_ids, [], label)
+    }
+  })
+
   it('stays dormant before any anchors exist: neither the base nor HEAD has them, so nothing is compared', () => {
     const { dir, base } = repo({ ...CURRICULUM })
     write(dir, { 'notes.txt': 'unrelated change\n' })

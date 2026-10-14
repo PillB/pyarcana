@@ -6,7 +6,9 @@
  * - deletes tracked files not on the deletion allowlist
  * - removes protected active curriculum section IDs / exercise IDs
  *   (a section id renamed through SECTION_ID_RENAMES to an id still active is preserved:
- *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
+ *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs.
+ *   An exercise id may leave only with a `removed` row appended to the exercise-meaning ledger that names
+ *   an owner decision and cites the anchor the base held for it; see scripts/exercise_meaning.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
  * Baseline: --base, else PRESERVATION_BASE / GITHUB_BASE_SHA, else the merge-base with
@@ -27,7 +29,7 @@ import {
   parseSectionIdRenames,
 } from './section_id_renames.mjs'
 import { ROADMAP_PATH, roadmapSectionCount } from './preservation/roadmap_section_count.mjs'
-import { ANCHORS_PATH, ledgerFindings, readAnchorState } from './exercise_meaning.mjs'
+import { ANCHORS_PATH, ledgerFindings, ledgeredRemovals, readAnchorState } from './exercise_meaning.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -160,9 +162,32 @@ function roadmapCountAt(treeish, failures) {
   }
 }
 
+/**
+ * The exercise ids an appended `removed` ledger row lets leave the course (an owner decision, see
+ * scripts/exercise_meaning.mjs). A ledger that cannot be read excuses nothing: the removal stays a
+ * failure, and compareExerciseMeaning says why the ledger could not be read.
+ */
+function ledgeredRemovalIds(base, head) {
+  try {
+    const was = readAnchorState(ROOT, base)
+    const now = readAnchorState(ROOT, head)
+    return ledgeredRemovals({ baseAnchors: was.anchors, baseRows: was.rows, headRows: now.rows })
+  } catch {
+    return new Set()
+  }
+}
+
+/** The exercise ids that left the course source, split into those the ledger lets leave and those nothing excuses. */
+function splitRemovedExerciseIds(base, head, before, after) {
+  const gone = [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id))
+  const excused = gone.length > 0 ? ledgeredRemovalIds(base, head) : new Set()
+  return { removed: gone.filter((id) => !excused.has(id)), ledgered: gone.filter((id) => excused.has(id)) }
+}
+
 function compareCurriculum(base, head, failures) {
   const before = extractActiveCurriculum(base)
   const after = extractActiveCurriculum(head)
+  const exercises = splitRemovedExerciseIds(base, head, before, after)
   const { renames, error } = readSectionIdRenames(head)
   if (error) {
     failures.push({
@@ -179,7 +204,8 @@ function compareCurriculum(base, head, failures) {
     expected_count: expectedCount,
     removed_section_ids: sectionIds.removed.map(({ id }) => id),
     renamed_section_ids: sectionIds.renamed,
-    removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
+    removed_exercise_ids: exercises.removed,
+    ledgered_removed_exercise_ids: exercises.ledgered,
   }
   if (after.activeCount < before.activeCount) {
     failures.push({

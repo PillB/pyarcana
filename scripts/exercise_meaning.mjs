@@ -26,8 +26,10 @@
  *
  * To remove an exercise (owner decision O25, 2026-10-13): append a row of kind `removed` for its id, with
  * from_fp the anchor it held, to_fp null, and decided_by naming the owner decision (`owner: O<n> (date)`).
- * The row clears ANCHOR_REMOVED (ledgerFindings) and EXERCISE_REMOVED (classify). The decision is checked
- * by its form only: OWNER_DECISIONS.md retires entries, so a lookup there would break when one retires.
+ * The row clears ANCHOR_REMOVED (ledgerFindings), EXERCISE_REMOVED (classify) and the preservation
+ * sentinel's EXERCISE_IDS_REMOVED for that id (ledgeredRemovals), so the exercise can leave the course
+ * source as well as the anchors. The decision is checked by its form only: OWNER_DECISIONS.md retires
+ * entries, so a lookup there would break when one retires.
  *
  * To rebind an exercise to a new id (the renumber, owner decision O25): one row of kind `renumbered` per
  * pair, written by the renumber tool: id the new id, from_id the old one, from_fp = to_fp the one
@@ -249,6 +251,23 @@ function appendOnlyFindings(baseRows, headRows) {
   return findings
 }
 
+/** The well-formed rows added after the base's rows: the only rows that can clear a finding. */
+function appendedRows(baseRows, headRows) {
+  return headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
+}
+
+/**
+ * The exercise ids the ledger lets leave the course between a base and a head: each id with a
+ * well-formed `removed` row appended after the base's rows that cites the anchor the base held for it.
+ * The row names the owner decision (rowProblems), so the preservation sentinel's EXERCISE_IDS_REMOVED
+ * excuses exactly these ids. Without base anchors there is nothing to cite, and nothing is excused.
+ */
+export function ledgeredRemovals({ baseAnchors, baseRows = [], headRows = [] }) {
+  if (baseAnchors === null) return new Set()
+  const removals = appendedRows(baseRows, headRows).filter((row) => row.kind === 'removed' && baseAnchors[row.id]?.sha256 === row.from_fp)
+  return new Set(removals.map((row) => row.id))
+}
+
 /**
  * The ledger rule between a base and a head. `baseAnchors` is null when the base has no anchor file,
  * which is the commit that introduces the anchors; nothing to compare against there. Otherwise every
@@ -264,7 +283,7 @@ function appendOnlyFindings(baseRows, headRows) {
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
   const findings = appendOnlyFindings(baseRows, headRows)
   if (baseAnchors === null) return findings
-  const added = headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
+  const added = appendedRows(baseRows, headRows)
   const context = { baseAnchors, headAnchors, added }
   const walk = walkAppended(context)
   return [
