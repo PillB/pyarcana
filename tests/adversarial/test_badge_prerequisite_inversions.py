@@ -7,8 +7,14 @@ earn the prerequisite after the material the badge says they hold. The rule was 
 audit; it is now prerequisite_inversions(), which a test can call without the course events.
 
 Owed, not failing: five inversions exist today (VP-0 in audit/fixer/renumber_g0/SYNTHESIS.md found
-four of the five real). The count is pinned exactly. `--check` is read-only: it writes nothing,
-never reads the event stream, and exits 0 only when the count equals the owed number.
+four of the five real). Owner decision O25 (2026-10-13) holds them as an exact ratchet, together with
+the meaning mismatches of test_badge_meaning_mismatch.py: the five are owed, none may be added, one
+fixed lowers the pinned number in the same change, and the Phase 1 re-key pays them down. `--check`
+is read-only: it writes nothing, never reads the event stream, and exits 0 only when the count equals
+the owed number.
+
+PINNED NOW: 5 inversions. (test_the_header_states_the_pin fails when these words and INVERSIONS_OWED
+disagree, so a re-pin cannot leave this header stale.)
 
 Boundary: equal last sections are not an inversion, one section later is.
 """
@@ -42,6 +48,10 @@ def stamp(path: Path) -> tuple[bool, int, int]:
 
 
 class PrerequisiteInversions(unittest.TestCase):
+    def test_the_header_states_the_pin(self) -> None:
+        """The header is what the owner reads to learn what is owed. It must say what the constant says."""
+        self.assertIn(f"PINNED NOW: {INVERSIONS_OWED} inversions.", " ".join((__doc__ or "").split()))
+
     def test_the_live_catalog_has_exactly_the_owed_inversions(self) -> None:
         catalog = json.loads(audit.CATALOG.read_text(encoding="utf-8"))
         self.assertEqual(len(audit.prerequisite_inversions(catalog["badges"])), INVERSIONS_OWED)

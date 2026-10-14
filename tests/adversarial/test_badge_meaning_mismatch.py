@@ -4,8 +4,8 @@
 A competency badge (classes B and C) claims skill nodes and requires sections. A claim is backed
 when some section the badge requires teaches the skill. A claim is a MEANING MISMATCH when the
 skill is taught somewhere in the course but not by any required section: the badge's evidence
-comes from the wrong place. Owed, not failing: the count is pinned, so the ratchet can fall and
-may not rise.
+comes from the wrong place. Owed, not failing: the count is pinned exactly (O25, below), so the
+ratchet may fall, in the change that pins the lower number, and may not rise.
 
 Not counted here:
 - a skill that no section teaches (deep_learning, kubernetes, mentoring, ...). That is a teaching
@@ -20,10 +20,20 @@ after the renumber), is rejected and gives its node no home. Without the second 
 word would home every skill and hide every mismatch. The cap is derived from the section count, as
 the design asks of every count (G-4, G-9), so the renumber does not tighten it by accident.
 
+OWNER DECISION O25 (2026-10-13): THIS DEBT IS HELD AS AN EXACT RATCHET. The owner accepted that the
+badge claims whose required sections do not teach the claimed skill are owed, as the number this module
+measures (92 pairs over 21 badges when the owner decided), together with the five prerequisite
+inversions of test_badge_prerequisite_inversions.py. Nothing may grow; a claim fixed lowers the number,
+and the same change must pin the lower number, so the count never drifts quietly in either direction. The
+Phase 1 re-key pays the debt down. The module measures only, and approves nothing.
+
+PINNED NOW: 92 pairs over 21 badges; 5 skills that no section teaches. (test_the_header_states_the_pins
+fails when these words and the constants below disagree, so a re-pin cannot leave this header stale.)
+
 THE MEASURE, AND HOW IT DIFFERS FROM THE PLAN'S 31 PAIRS OVER 19 BADGES. The fix plan (PR 12) expected
 MISMATCH_PAIRS_OWED 31 and MISMATCH_BADGES_OWED 19 from an exploration whose definition, lexicon and
-output are not in the repository, so that figure cannot be reproduced or audited. This test pins 92
-pairs over 21 badges instead, under the definition above:
+output are not in the repository, so that figure cannot be reproduced or audited. This test pins the
+number below instead, under the definition above:
 - unit: a (badge, skill) pair, one claim with no evidence behind it. Fixing it (re-key the badge to the
   section that teaches the skill, or drop the claim with the owner's approval) lowers exactly one number.
 - surface: each section's title and learning outcomes, the text a learner reads as what the section
@@ -33,13 +43,14 @@ pairs over 21 badges instead, under the definition above:
 - classes: B and C. Progress markers (A) are exempt under O19; level capstones (D) are positional.
 Why this is the better definition: it is reproducible (every input is in the repo, so the number moves
 only through a visible diff), its unit is the claim and not the section, and it matches the home rule
-the owner already approved. Its price: the lexicon is keyword matching that an agent drafted, so the
-count is only as good as those terms (owner review is pending), and it is looser than the full home rule.
-Sensitivity, measured 2026-10-13 with this lexicon and NOT pinned: title only gives 78 pairs over 20
-badges; B alone 49 over 16 and C alone 43 over 5; node-name words as terms give 27 over 15 on titles and
-68 over 21 with outcomes; counting (badge, required section) pairs in which the section teaches none of
-the badge's claimed skills gives 29 over 17. None gives 31 over 19. The owner chooses: keep 92 over 21,
-supply the exploration's definition so it can be reproduced here, or measure the stricter home rule.
+the owner already approved. Its price: the lexicon is keyword matching, so the count is only as good as
+its terms, and it is looser than the full home rule. O25 has Codex review every term against the lessons
+and puts the final list in the pull request diff for the owner; that review changes the lexicon and so
+the counts, and the commit that applies it states the new values.
+Sensitivity, measured 2026-10-13 with the lexicon as drafted and NOT pinned: title only gives 78 pairs
+over 20 badges; B alone 49 over 16 and C alone 43 over 5; node-name words as terms give 27 over 15 on
+titles and 68 over 21 with outcomes; counting (badge, required section) pairs in which the section
+teaches none of the badge's claimed skills gives 29 over 17. None gives 31 over 19.
 
 Expert standard: constructive alignment (Biggs and Tang, Teaching for Quality Learning at
 University), where a credential's assessed evidence must be taught in the sections it names.
@@ -170,6 +181,15 @@ class MeaningMismatchRatchet(unittest.TestCase):
 
     def test_every_competency_skill_is_in_the_lexicon(self) -> None:
         self.assertEqual(lexicon_gaps(self.catalog, self.lexicon), [])
+
+    def test_the_header_states_the_pins(self) -> None:
+        """The header is what the owner reads to learn what is owed. It must say what the constants say."""
+        doc = " ".join((__doc__ or "").split())
+        self.assertIn(
+            f"PINNED NOW: {MISMATCH_PAIRS_OWED} pairs over {MISMATCH_BADGES_OWED} badges; "
+            f"{len(NODES_WITHOUT_HOME_OWED)} skills that no section teaches.",
+            doc,
+        )
 
     def test_the_lexicon_states_the_rules_this_test_enforces(self) -> None:
         """The thresholds live here, in a protected test. The lexicon repeats them so a reader sees
