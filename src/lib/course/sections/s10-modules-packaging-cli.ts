@@ -66,9 +66,11 @@ export const section10: CourseSection = {
       heading: "Imports, namespaces y __main__",
       subtopicId: "S10-T1-A",
       paragraphs: [
-        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script. Ejecutar `python -m familiarity_core` corre el paquete sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar). Para que funcione, el paquete necesita un archivo `__main__.py`: eso es lo que `-m` busca y ejecuta. Si falta, Python responde `No module named familiarity_core.__main__` — un error que se lee como si el paquete no existiera y en realidad dice que le falta esa puerta de entrada.",
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script.",
+        "Ejecutar `python -m familiarity_core` busca el paquete por su nombre de importación en `sys.path` (la lista interna que decide de qué carpetas importar) y lo corre con contexto de paquete, por lo que funcionan sus imports relativos. Como el directorio actual encabeza `sys.path`, Python resuelve primero los imports desde la carpeta donde corres el comando. Para que funcione, el paquete necesita un archivo `__main__.py`: eso es lo que `-m` busca y ejecuta. Si falta, Python responde `No module named familiarity_core.__main__` — un error que se lee como si el paquete no existiera y en realidad dice que le falta esa puerta de entrada.",
         "En S09, `audit_log.py` ejecutaba la demo y las comprobaciones cada vez que corría; eso estaba bien mientras nada lo importaba. Ahora, al importarlo, esas acciones también correrían: `if __name__ == '__main__':` separa «ejecutar el archivo» de «importar el archivo» y deja el CLI o la demo fuera del segundo camino. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
-        "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido, usando *lazy import* — que es postergar el `import` hasta dentro de una función, cuando ya hace falta — o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
+        "Los módulos `a` y `b` pueden importarse mutuamente, y el ciclo falla solo si uno usa, mientras el otro se inicializa, un nombre que este aún no definió. Con `from b import x` en el nivel superior del módulo, Python lanza `ImportError`; con `b.x` en ese mismo lugar, lanza `AttributeError`. Ambos mensajes señalan un módulo parcialmente inicializado. Un nombre que el otro módulo definió antes de entrar al ciclo sí funciona; también funciona `import b` si `b.x` se usa después, dentro de una función.",
+        "Extrae primero el código compartido a un tercer módulo; si no basta, invierte la dependencia. Prefiere ese rediseño a esconder `import` dentro de funciones o métodos. Usa un *lazy import* —postergar el `import` hasta dentro de una función, cuando ya hace falta— solo como último recurso documentado.",
       ],
       code: {
         language: 'python',
@@ -95,7 +97,7 @@ ana perez`,
         type: "tip",
         title: "python -m",
         content:
-          "Ejecutar `python -m familiarity_core` usa el paquete como __main__ sin pelear con sys.path.",
+          "`python -m familiarity_core` busca el paquete por su nombre en `sys.path` y ejecuta su `__main__.py` con contexto de paquete; el directorio actual todavía influye en la búsqueda.",
       },
     },
     {
@@ -111,7 +113,7 @@ ana perez`,
       paragraphs: [
         "El prefijo `_` marca helpers **privados** (es una convención: el guion bajo le dice al lector «esto es detalle interno, no lo importes de afuera»). La fachada — el archivo `__init__.py` o `api.py` que el equipo ve como entrada al paquete — reexporta solo lo **estable**. Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperle el código.",
         "Una **API pública pequeña** (p. ej. 4 símbolos: normalize, compare, report…) reduce breaking changes. SemVer — *Semantic Versioning*, un esquema de versiones de tres números — en simple: **añadir** es minor; **renombrar/eliminar** es major. Fail-closed en contratos rotos.",
-        "El *lazy import* dentro de funciones evita ciclos y acelera el arranque del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue declarada en `__all__`, pero el módulo pesado se carga solo al primer uso.",
+        "El *lazy import* dentro de funciones evita que un ciclo falle al importar y acelera el arranque del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue declarada en `__all__`, pero el módulo pesado se carga solo al primer uso.",
       ],
       code: {
         language: 'python',
@@ -363,7 +365,8 @@ print(cfg)`,
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
-        "Secretos **fuera del repo**: `.env` (el archivo de variables de entorno) va en `.gitignore` (la lista de archivos que git ignora), **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**. Defaults seguros (log level INFO, no debug con PII — *Personally Identifiable Information*, datos personales identificables).",
+        "Secretos **fuera del repo**: `.env` (el archivo de variables de entorno) va en `.gitignore` (la lista de archivos que git ignora), **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**.",
+        "Sin una configuración de `logging`, **`root`** —el logger situado en la cima de la jerarquía, al que los demás loggers propagan sus mensajes— muestra `WARNING` y niveles más graves. `INFO` es una elección del proyecto, y el nivel controla cuántos mensajes se registran, no la privacidad. El código debe enmascarar u omitir los datos personales identificables (PII, *Personally Identifiable Information*) en cualquier nivel, incluido `DEBUG`.",
         "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report. Fail-closed — no proceses a ciegas.",
         "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Mensaje de error: nombra la **clave** y el **subcomando** (`config: falta input_path para ingest`); jamás imprimas el valor de un token en el *traceback* — el volcado de errores que Python muestra — aunque el adaptador remoto lo tenga en memoria.",
       ],
@@ -684,7 +687,7 @@ ingest ok`,
         },
         why: "Validar al arranque con mensaje accionable evita fallos a mitad de un batch. Fail-closed y contextual: solo lo que el comando necesita. No exijas tokens de APIs remotas en un ETL local.",
         retrospective:
-          "El error clásico es un validador global que exige `input_path` también a `normalize` o, al revés, no validar y fallar a mitad del batch. Pregunta: ¿por qué el mensaje debe nombrar la clave y el comando? We Do: qué va a `.gitignore`, validar claves y endurecer defaults inseguros.",
+          "El error clásico es un validador global que exige `input_path` también a `normalize` o, al revés, no validar y fallar a mitad del batch. Pregunta: ¿por qué el mensaje debe nombrar la clave y el comando? We Do: qué va a `.gitignore`, validar claves y aplicar políticas a los defaults.",
       },
     ],
   },
@@ -748,7 +751,7 @@ x`,
         kind: "independent",
         title: "Util compartido y sufijos `:a` / `:b`",
         preamble:
-          "- **Contexto:** si `module_a` y `module_b` se necesitan mutuamente, el import circular rompe el paquete al arrancar.\n- **Meta:** concentrar la normalización en `util_norm` y dejar que A/B solo orquesten.\n- **Éxito:** tres líneas `hola:a`, `hola:b`, `ok`.\n- **Límites:** no crees dependencia A↔B; no dejes el casefold fuera del util; quita `print('ok', True)` y usa `print(\"ok\")` final.",
+          "- **Contexto:** si `module_a` y `module_b` se importan mutuamente, el ciclo falla solo si uno usa un nombre que el otro aún no definió mientras se inicializa.\n- **Meta:** concentrar la normalización en `util_norm` y dejar que A/B solo orquesten.\n- **Éxito:** tres líneas `hola:a`, `hola:b`, `ok`.\n- **Límites:** no crees dependencia A↔B; no dejes el casefold fuera del util; quita `print('ok', True)` y usa `print(\"ok\")` final.",
         instruction:
           "1. Corrige `util_norm` para strip + casefold.\n2. Asigna el sufijo correcto: A → `:a`, B → `:b`.\n3. Imprime ambos procesos y un `ok` final de contrato.\n4. No hardcodees el texto «hola» fuera de la función.",
         hint: "La lógica compartida vive en util_norm; A y B solo orquestan.",
@@ -818,7 +821,7 @@ ok`,
         feedback:
           "Si `same_package` devuelve el estilo de plugin, el match por kind está invertido o caíste en el default genérico. Kind desconocido debe lanzar `ValueError` (fail-closed), no devolver `PYTHONPATH=.`.",
         retrospective:
-          "El label es solo UI; la política se decide por un kind tipificado. `python -m familiarity_core` evita pelear con `sys.path`. En T1-B el foco pasa de *cómo importar* a *qué exportar* en la fachada.",
+          "El label es solo UI; la política se decide por un kind tipificado. `python -m familiarity_core` localiza el paquete por `sys.path` y conserva su contexto para los imports relativos; el directorio actual sigue influyendo. En T1-B el foco pasa de *cómo importar* a *qué exportar* en la fachada.",
         starterCode: {
           language: 'python',
           title: "import_style.py",
@@ -2018,7 +2021,7 @@ ignore: credentials.json`,
         feedback:
           "Si sale `passed_bad` o no aparece `data_dir` en el error, `validate_config` aún no exige ambas claves. El caso feliz imprime solo `ok`; el incompleto debe lanzar y capturarse — no dejes pasar el segundo `validate_config` en silencio.",
         retrospective:
-          "Mensajes con nombre de clave son documentación ejecutable para el operador. El mismo espíritu que `config: falta input_path para ingest` de la demo. Pregunta: ¿stacktrace crudo o `RuntimeError` con clave? E3: endurecer defaults inseguros (DEBUG, tokens).",
+          "Mensajes con nombre de clave son documentación ejecutable para el operador. El mismo espíritu que `config: falta input_path para ingest` de la demo. Pregunta: ¿stacktrace crudo o `RuntimeError` con clave? E3: aplicar políticas a los defaults (volumen de `DEBUG` y tokens).",
         starterCode: {
           language: 'python',
           title: "validate_cfg.py",
@@ -2059,12 +2062,12 @@ config: falta clave requerida 'data_dir'`,
         id: "S10-T4-B-E3",
         subtopicId: "S10-T4-B",
         kind: "transfer",
-        title: "Endurecer defaults inseguros",
+        title: "Aplicar políticas a los defaults",
         preamble:
-          "- **Contexto:** un default con token hardcodeado o DEBUG ruidoso es un pie de mina en el primer install.\n- **Meta:** transformar un dict inseguro en defaults seguros sin mutar a ciegas el original más de lo necesario.\n- **Éxito:** tres líneas `clave: old -> new` del contrato.\n- **Límites:** no dejes el token truthy; no hardcodees el dict final sin aplicar reglas.",
+          "- **Contexto:** un token hardcodeado es inseguro. `DEBUG` aumenta el volumen; cambiarlo a `INFO` no enmascara datos.\n- **Meta:** transformar una copia del dict según tres políticas explícitas, sin confundir volumen con privacidad.\n- **Éxito:** tres líneas `clave: valor anterior -> valor ajustado` del contrato.\n- **Límites:** no dejes un token con valor; no hardcodees el dict final sin aplicar políticas.",
         instruction:
-          "1. Copia `cfg` y aplica reglas por clave.\n2. DEBUG→INFO, echo_sql True→False, api_token truthy→None.\n3. Imprime old → new recorriendo las claves del inseguro.\n4. Quita `ok`.",
-        hint: "Copia cfg; aplica reglas por clave; no hardcodees un dict final sin transformar.",
+          "1. Copia `cfg` y aplica políticas por clave.\n2. DEBUG→INFO, echo_sql True→False, api_token truthy→None.\n3. Imprime anterior → ajustado recorriendo las claves de entrada.\n4. Quita `ok`.",
+        hint: "Copia cfg; aplica políticas por clave; no hardcodees un dict final sin transformar.",
         hints: [
           "out = dict(cfg); luego if out.get('log_level') == 'DEBUG': out['log_level'] = 'INFO'.",
           "Si api_token es truthy, fíjalo a None (sin secretos en defaults).",
@@ -2072,13 +2075,13 @@ config: falta clave requerida 'data_dir'`,
         edgeCases: ["token default None + validate al usar"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "Si el token o DEBUG sobreviven, `harden_defaults` no aplica las reglas: DEBUG→INFO, `echo_sql` True→False, `api_token` truthy→None. Copia el dict y transforma; no hardcodees el dict final sin recorrer claves.",
+          "Si el token, `DEBUG` o `echo_sql` sobreviven, `harden_defaults` no aplicó las tres políticas. El cambio de `DEBUG` a `INFO` reduce volumen; no sustituye el enmascarado de datos personales.",
         retrospective:
-          "Defaults seguros + validación al uso del token (si un adaptador remoto lo necesita) es el cierre de T4. En el You Do unes layout, CLI, precedencia y secretos en el paquete instalable del gate.",
+          "Aplicar políticas a los defaults y la validación al usar el token cierran T4. La privacidad no depende del nivel de registro. En el You Do unes layout, CLI, precedencia y secretos en el paquete instalable del gate.",
         starterCode: {
           language: 'python',
           title: "secure_defaults.py",
-          code: `# secure defaults
+          code: `# políticas a los defaults
 # DEFECT: harden_defaults no cambia nada; quita print('ok', True)
 def harden_defaults(cfg: dict) -> dict:
     return dict(cfg)

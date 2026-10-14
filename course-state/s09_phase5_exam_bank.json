@@ -1,7 +1,7 @@
 {
   "version": "3.2",
   "section": "S09",
-  "section_id": "visualization",
+  "section_id": "exceptions-logging",
   "phase": "PHASE_5",
   "lane": "LANE-N1-FINISH",
   "generated_at": "2026-07-20T18:00:00Z",
@@ -13,7 +13,7 @@
     "format": "MCQ-4",
     "language": "es-PE professional",
     "seed_path": "prisma/seed.ts",
-    "seed_key": "visualization"
+    "seed_key": "exceptions-logging"
   },
   "retired_from_bank": [
     "matplotlib-oo-api",

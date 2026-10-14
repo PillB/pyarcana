@@ -1,10 +1,457 @@
 {
-  "generated_at": "2026-08-23T03:40:26.732345+00:00",
+  "generated_at": "2026-10-13T21:51:23.967237+00:00",
   "seed_questions_parsed": 1248,
   "unique_concepts": 416,
   "selfcheck_issues": 0,
   "p0": 0,
-  "p1": 0,
-  "issues": [],
+  "p1": 39,
+  "counts": {
+    "by_severity": {
+      "P1": 39
+    },
+    "by_reason": {
+      "key_position_imbalanced": 37,
+      "stand_in_bank": 2
+    }
+  },
+  "issues": [
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "apis-sql-geo",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "evidence-dashboard",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "security",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "stdlib-deep",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "wxpython-gui",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "packaging",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "data-engineering",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "databases-orm",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "rag",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "fastapi",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "rapidfuzz-entity",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "computer-vision",
+      "counts": {
+        "0": 1,
+        "1": 23
+      },
+      "chi_square": 64.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "rpa-advanced",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "streamlit-dashboards",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "integrator-phase1",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "async-concurrency",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "llm-agents",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "mlops",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "security-infra",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "microservices",
+      "counts": {
+        "0": 1,
+        "1": 23
+      },
+      "chi_square": 64.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "advanced-models",
+      "counts": {
+        "0": 4,
+        "1": 20
+      },
+      "chi_square": 45.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "cv-ai-integration",
+      "counts": {
+        "0": 8,
+        "1": 16
+      },
+      "chi_square": 29.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "ai-apis-advanced",
+      "counts": {
+        "0": 11,
+        "1": 13
+      },
+      "chi_square": 24.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "dbt-bigquery",
+      "counts": {
+        "0": 10,
+        "1": 14
+      },
+      "chi_square": 25.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "performance-extreme",
+      "counts": {
+        "0": 18,
+        "1": 6
+      },
+      "chi_square": 36.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "integrator-phase2",
+      "counts": {
+        "0": 7,
+        "1": 17
+      },
+      "chi_square": 32.33,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "llm-finetuning",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "graph-rag",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "llmops",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "multimodal",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "iac",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "gpu-computing",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "opensource",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "ai-governance",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "tech-leadership",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "integrator-final",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "key_position_imbalanced",
+      "bank": "career-strategy",
+      "counts": {
+        "1": 24
+      },
+      "chi_square": 72.0,
+      "critical": 16.27,
+      "n": 24
+    },
+    {
+      "severity": "P1",
+      "reason": "stand_in_bank",
+      "bank": "apis-sql-geo",
+      "signals": [
+        "explanations_per_concept",
+        "few_distinct_options",
+        "slug_in_key",
+        "templated_stems"
+      ]
+    },
+    {
+      "severity": "P1",
+      "reason": "stand_in_bank",
+      "bank": "evidence-dashboard",
+      "signals": [
+        "explanations_per_concept",
+        "few_distinct_options",
+        "slug_in_key",
+        "templated_stems"
+      ]
+    }
+  ],
   "ok": true
 }
