@@ -616,6 +616,8 @@ FORM_CASES = [
              lambda extra: f"def outer():\n{extra}    m = configure({{'big': {OFFENDER}}})\n    return m\n"),
     FormCase("dict in Return.value", "use_thing.<returned>.big", "    big = lambda x: x\n",
              lambda extra: f"def use_thing():\n{extra}    return {{'big': {OFFENDER}}}\n"),
+    FormCase("dict in List.elts", 'MODALS.<item "auth">.open', "    {'id': 'glossary', 'open': lambda x: x},\n",
+             lambda extra: f"MODALS = [\n{extra}    {{'id': 'auth', 'open': {OFFENDER}}},\n]\n"),
 ]
 
 
