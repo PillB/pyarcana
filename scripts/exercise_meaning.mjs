@@ -35,8 +35,8 @@
  * anchor of id (EXERCISE_REMOVED and EXERCISE_UNANCHORED in classify) when both ends are true: from_id
  * held that fingerprint at the base and no longer holds it, id holds it at head (or a later row for id
  * carries it on, as for an amended exercise), and no id leaves or is filled twice. Two ids that swap
- * content take two rows. There is no exemption for the renumber PR. One renumbered row cannot be
- * renumbered again within the same PR. The tool is not in this repository yet; this file is the format of record.
+ * content take two rows. There is no exemption for the renumber PR. A renumbered id cannot be renumbered
+ * again within the same PR. The tool is not in this repository yet; this file is the format of record.
  *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
