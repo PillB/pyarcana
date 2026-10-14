@@ -32,7 +32,7 @@ import { ProgressWhereFor } from '../../src/components/account/ProgressWhere.tsx
 import { ExamGradingNote } from '../../src/components/legal/ExamGradingNote.tsx'
 import { LAUNCH_STAGES, type LaunchStage } from '../../src/lib/cloud/config.ts'
 import { progressWhereKey } from '../../src/lib/cloud/ui-state.ts'
-import { LANGUAGES, useI18n, type Language } from '../../src/lib/i18n.ts'
+import { LANGUAGES, t, useI18n, type Language } from '../../src/lib/i18n.ts'
 
 const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..')
 
@@ -43,9 +43,22 @@ function text(html: string): string {
   return html.replace(/<[^>]*>/g, ' ').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim()
 }
 
-function progressWhere(stage: LaunchStage, isStaticSite: boolean, lang: Language): string {
+/**
+ * A server render reads the store's INITIAL state (zustand's getInitialState), so setLang alone
+ * leaves every render in es-PE: the first version of this file checked "en" and "es-ES" without ever
+ * rendering them, and passed an English sentence that said "only in this browser" where accounts run.
+ * Setting the initial state's language as well makes the render use it.
+ */
+function setRenderLanguage(lang: Language): void {
   useI18n.getState().setLang(lang)
-  return text(renderToStaticMarkup(h(ProgressWhereFor, { stage, isStaticSite })))
+  ;(useI18n.getInitialState() as { lang: Language }).lang = lang
+}
+
+function progressWhere(stage: LaunchStage, isStaticSite: boolean, lang: Language): string {
+  setRenderLanguage(lang)
+  const shown = text(renderToStaticMarkup(h(ProgressWhereFor, { stage, isStaticSite })))
+  assert.ok(shown.includes(t(progressWhereKey({ isStaticSite, stage }), lang)), `the render is not in ${lang}: ${shown}`)
+  return shown
 }
 
 /** Whether learners can sign in on this edition and stage (the dynamic LMS always has accounts). */
