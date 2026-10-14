@@ -71,5 +71,33 @@ class DocsAndScriptsMatchTheGates(unittest.TestCase):
                       "package.json has no lint:complexity:py script for the Python ratchet")
 
 
+def fenced_after(path: str, heading: str) -> list[str]:
+    """The commands in the first fenced block after `heading`, comments and spacing removed."""
+    text = (ROOT / path).read_text(encoding="utf-8")
+    start = text.index("```", text.index(heading))
+    body = text[text.index("\n", start) + 1:text.index("\n```", start)]
+    return [line.split("#")[0].strip() for line in body.splitlines()]
+
+
+class DoneListsNameBothRatchets(unittest.TestCase):
+    """Owner decision O25: what an agent must run before calling work done names the Python
+    ratchet on the line under the TypeScript one, under python3.12, the only interpreter the
+    gate gives a verdict under."""
+
+    PYTHON_GATE = "python3.12 scripts/complexity_gate_py.py"
+
+    def assert_python_gate_under_typescript_gate(self, path: str, heading: str) -> None:
+        commands = fenced_after(path, heading)
+        under = commands.index("node scripts/complexity_gate.mjs") + 1
+        self.assertEqual(commands[under] if under < len(commands) else None, self.PYTHON_GATE,
+                         f"{path} ({heading}) names the TypeScript ratchet but not the Python one under it")
+
+    def test_agents_md_done_means_these_pass_names_the_python_ratchet(self):
+        self.assert_python_gate_under_typescript_gate("AGENTS.md", "## Done means these pass")
+
+    def test_claude_md_verification_block_names_the_python_ratchet(self):
+        self.assert_python_gate_under_typescript_gate("CLAUDE.md", "## Verifying content")
+
+
 if __name__ == "__main__":
     unittest.main()

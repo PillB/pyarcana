@@ -51,4 +51,5 @@ npm run test:ux-gates           # glossary, first-use, identifiers, a11y, contra
 npm run test:python-content     # executes every lesson snippet
 npm run test:course-complete
 node scripts/complexity_gate.mjs
+python3.12 scripts/complexity_gate_py.py
 ```

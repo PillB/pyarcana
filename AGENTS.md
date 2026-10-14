@@ -19,6 +19,7 @@ npm run test:ux-gates            # glossary, first-use, identifiers, a11y, contr
 npm run test:course-complete
 node scripts/preservation_sentinel.mjs   # approved deletions: audit/safe-agent/deletion-allowlist.json
 node scripts/complexity_gate.mjs # cyclomatic ceiling 15, ratchet
+python3.12 scripts/complexity_gate_py.py # the same ratchet for Python; refuses other interpreters
 python3 tools/fixer/ledger.py --check
 ```
 
