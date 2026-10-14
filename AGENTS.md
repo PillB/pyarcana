@@ -15,6 +15,7 @@ npm run lint && npx tsc --noEmit
 npm run test:v3
 npm run test:adversarial:node && npm run test:adversarial:py   # both halves, always
 npm run test:python-content      # under .venv-content; refuses a verdict otherwise
+npm run test:python-strict       # every declared output line equals what the code prints
 npm run test:ux-gates            # glossary, first-use, identifiers, a11y, contrast
 npm run test:course-complete
 node scripts/preservation_sentinel.mjs   # approved deletions: audit/safe-agent/deletion-allowlist.json
@@ -39,6 +40,7 @@ python3 tools/fixer/preflight.py            # refuses to start on bad preconditi
 tools/fixer/run_round.sh SXX --apply        # findings
 tools/fixer/run_redaction.sh SXX            # grammar and redaction
 tools/fixer/run_concepts.sh SXX             # concepts: remove, rephrase, gloss, teach, defer
+tools/fixer/run_spanish.sh SXX              # English in the Spanish, decided word by word
 ```
 
 Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_QUESTIONS.md`:
@@ -95,9 +97,16 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   `DestructiveChangeRequest` (`audit/safe-agent/destructive-change-register.json`) with
   paths, reason, obsolescence evidence, alternatives, user-data impact, rollback, tests,
   and human plus verifier approval.
-- Changing what a credential claims (`badge_catalog.json`), or relaxing a gate threshold.
+- Changing what a credential claims (`badge_catalog.json`, or the signed statement in
+  `src/lib/credential-statement.ts`), or relaxing a gate threshold.
 - Restructuring a practice layer or moving a project between sections.
 - Changing a protected path.
+- Changing a renumber guard input: the section manifest (`src/lib/eligibility/section_manifest.json`,
+  the badge-identity file, not the preservation manifest), every other file under
+  `src/lib/eligibility/`, including `src/lib/eligibility/skill_node_terms.json` and
+  `src/lib/eligibility/claim_digests.json`,
+  `audit/fixer/numbering_epoch.json`, `curriculum55_window.json`, `renumber_epoch.json`,
+  `renumber_edit_ledger.json` or `authoring_pending.json`.
 
 ## Never
 
