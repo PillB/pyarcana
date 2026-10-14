@@ -33,8 +33,8 @@ import { EPOCH_PATH, WINDOW_PATH, readState } from './window_state.mjs'
 // The three roadmaps are the ones verified_facts.json RT-A8 names: the root V3, its byte-identical copy
 // under upload/ (read by scripts/v3_regression.spec.ts, and it must receive the identical renumber diff)
 // and learning_roadmap.md (read by scripts/regression.spec.ts). el_arte_de_python_roadmap_maestro_52_secciones.md
-// is historical and no code reads it (reviews_round0/contract_surface.md), so it is not frozen. Owner,
-// 2026-10-13: it stays unfrozen; add it back only if a reader of that file appears.
+// is historical and no code reads it (reviews_round0/contract_surface.md), so it is not frozen. Engineering
+// decision, 2026-10-13: it stays unfrozen; add it back only if a reader of that file appears.
 export const FROZEN_PATHS = [
   'src/lib/course/index.ts',
   'course-state/course_requirements.json',
