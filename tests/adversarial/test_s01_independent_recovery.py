@@ -10,14 +10,15 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 from scripts.newbie_packet_builder import active_manifest, parse_section_learner
+import exam_bank  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[2]
 INDEX = ROOT / "src" / "lib" / "course" / "index.ts"
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s01-setup.ts"
-SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
@@ -139,13 +140,7 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
         self.assertNotIn("edad_meses", block)
 
     def test_authenticated_bank_is_balanced_across_attempts_and_concepts(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  setup: [", "  basics: [")
-        entries = re.findall(
-            r"\{\s+concept: '([^']+)'.*?correctIndex:\s*([0-3]),",
-            bank,
-            re.DOTALL,
-        )
+        entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("setup")]
 
         self.assertEqual(len(entries), 24)
         positions = [int(index) for _, index in entries]
