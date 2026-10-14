@@ -288,6 +288,7 @@ class TheCommandIsIdempotentAndRefusalsChangeNothing(RenumberedTree):
         hint = "python3 tools/fixer/ledger.py"
         self.assertTrue(any(hint in note for note in self.advance()))
         self.assertFalse(any(hint in note for note in self.advance()), "the second run advanced nothing")
+
     def test_the_command_line_refuses_a_bad_invocation(self) -> None:
         out = io.StringIO()
         with mock.patch.object(restamp, "ROOT", self.root), contextlib.redirect_stdout(out):

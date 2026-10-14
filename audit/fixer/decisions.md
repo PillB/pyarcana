@@ -708,7 +708,8 @@ correction.
   `test_fixer_tool_boundaries.py` (which also runs `run_concepts.sh`, so a refused brief stops the
   run instead of reading as "nothing unexplained"), `test_fixer_reopened_findings.py` (the O25
   mark, below) and `test_fixer_code_spacing.py` (an operator spaced on one side only, the slip
-  two reviews found in these files).
+  two reviews found in these files, and a `def` or `class` with no blank line above it, the slip
+  the third found).
 - **An old slug:** the app's own rename map (`src/lib/section-id-migrations.ts`) carries it to
   today's slug, applied once. A record keeps `slug_at_record` as provenance.
 - **State from another epoch is refused, not reread**, because a number read under the wrong
