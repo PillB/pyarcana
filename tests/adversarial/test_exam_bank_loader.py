@@ -35,6 +35,32 @@ class ExamBankLoader(unittest.TestCase):
             self.assertEqual(len(questions), 24, slug)
             self.assertEqual(sorted({q["variant"] for q in questions}), [1, 2, 3], slug)
 
+    def test_learner_text_carries_every_field_a_check_scans(self) -> None:
+        """Recreates the risk: a text check passes because the field it scans is missing from the
+        text it scans. Every field of every question must be in the joined text."""
+        questions = exam_bank.bank_for("setup")
+        text = exam_bank.learner_text(questions)
+        for q in questions:
+            for field in (q["concept"], q["question"], q["explanation"], *q["options"]):
+                self.assertTrue(field and field in text, f"missing from learner text: {field!r}")
+
+    def test_an_escaped_newline_is_read_as_a_newline(self) -> None:
+        """Recreates the defect of the regex readers: `\\n` inside a question became the letter `n`,
+        so a fenced code block in a stem ran together. A scratch seed pins it, so a rewrite of the
+        live question cannot make this test pass or fail."""
+        stem = r"Observas este diff:\n```\n- timeout = 5\n+ timeout = 30\n```\n¿Qué cambió?"
+        body = (
+            "const QUESTION_BANK = {\n  probe: [\n    {\n      concept: 'probe',\n"
+            f"      question: '{stem}',\n"
+            "      options: ['a', 'b', 'c', 'd'],\n      correctIndex: 0,\n      explanation: 'e',\n    },\n  ],\n}\n"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            seed = Path(tmp) / "seed.ts"
+            seed.write_text(body, encoding="utf-8")
+            question = exam_bank.bank_for("probe", seed)[0]["question"]
+        self.assertEqual(question.count("\n"), 5)
+        self.assertIn("```\n- timeout = 5\n+ timeout = 30\n```\n", question)
+
     def test_an_unknown_bank_raises(self) -> None:
         with self.assertRaises(KeyError):
             exam_bank.bank_for("no-such-section")

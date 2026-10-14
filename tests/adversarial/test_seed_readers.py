@@ -37,21 +37,9 @@ SANCTIONED = {
 }
 
 #: Still reading the bank with a private parser. Strike each one as it moves to exam_bank.py.
-SEED_TEXT_READERS_OWED = {
-    "scripts/exam_selfcheck_pedagogy_audit.py",
-    "tests/adversarial/s05_curriculum_integrity.test.mjs",
-    "tests/adversarial/test_exam_length_cue.py",
-    "tests/adversarial/test_s01_independent_recovery.py",
-    "tests/adversarial/test_s02_independent_contract.py",
-    "tests/adversarial/test_s03_independent_contract.py",
-    "tests/adversarial/test_s03_text_first_contract.py",
-    "tests/adversarial/test_s04_independent_contract.py",
-    "tests/adversarial/test_s06_collections_contract.py",
-    "tests/adversarial/test_s06_text_first_contract.py",
-    "tests/adversarial/test_s07_text_contract.py",
-    "tests/adversarial/test_s08_ingestion_contract.py",
-    "tests/adversarial/test_s09_observability_contract.py",
-}
+#: 2026-10-13: empty. #96 migrated the audit, the length cue and the 11 per-section tests; #97
+#: migrated v3_invariant_validator.py. Every reader of the seed now goes through exam_bank.py.
+SEED_TEXT_READERS_OWED: set[str] = set()
 
 
 def readers(files: dict[str, str]) -> set[str]:
