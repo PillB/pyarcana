@@ -533,6 +533,16 @@ describe('renumbered rows: an exercise keeps its fingerprint under a new id (O25
     assert.deepEqual(classify(anchors, current, rows), [])
   })
 
+  it('classify: a renumbered row does not clear a change at an id whose anchored exercise no row retires', () => {
+    // OTHER is anchored with AXIS. OLD's BAR moves into it, and nothing says where AXIS went.
+    const anchors = { [OLD]: anchor('S05', BAR), [OTHER]: anchor('S05', AXIS) }
+    const current = { [OTHER]: anchors[OLD] }
+    const rows = [renumbered(1, OTHER, OLD, anchors[OLD].sha256)]
+    assert.deepEqual(classify(anchors, current, rows).map((f) => [f.code, f.id]), [['EXERCISE_CONTENT_MOVED', OTHER]])
+    const leaves = { row: 2, id: OTHER, kind: 'removed', from_fp: anchors[OTHER].sha256, to_fp: null, reason: 'retirado', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' }
+    assert.deepEqual(classify(anchors, current, [...rows, leaves]), [])
+  })
+
   it('ledgerAnchorFindings: the old id needs no anchor after a renumber, and the new id holds the row\'s fingerprint', () => {
     const rows = [changed(1, OLD, SHA_B, SHA_A), renumbered(2, NEW, OLD, SHA_A)]
     assert.deepEqual(ledgerAnchorFindings({ [NEW]: exercise(SHA_A) }, rows), [])
@@ -595,6 +605,46 @@ describe('the chain walk: the order of rows of different exercises does not chan
   })
 })
 
+describe('renumbered rows: the id a row fills must lose the exercise the base anchored there, by a row', () => {
+  const E1 = 'S05-T1-A-E1'
+  const E2 = 'S05-T1-A-E2'
+  const E3 = 'S05-T1-A-E3'
+  const exercise = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
+  const stamp = { reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13' }
+  const renumbered = (id, fromId, fp) => ({ id, kind: 'renumbered', from_id: fromId, from_fp: fp, to_fp: fp, ...stamp })
+  const added = (id, to) => ({ id, kind: 'added', from_fp: null, to_fp: to, ...stamp })
+  const removed = (id, from) => ({ id, kind: 'removed', from_fp: from, to_fp: null, reason: 'retirado', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
+  const base = { [E1]: exercise(SHA_A), [E2]: exercise(SHA_B) }
+  const run = (rows, head, baseAnchors = base) =>
+    ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+  const occupied = (findings) => findings.filter((f) => f.code === 'LEDGER_RENUMBER_TARGET_OCCUPIED').map((f) => [f.id, f.row, f.occupant_fp])
+
+  it('reports content moved into an id whose base exercise no row moves out, with the id refilled', () => {
+    // E2 held b. E1's exercise a moves into E2 and E1 is written anew, so every id is still present and
+    // every anchor has a row, yet b is gone and no row starts from b.
+    const findings = run([renumbered(E2, E1, SHA_A), added(E1, SHA_C)], { [E1]: exercise(SHA_C), [E2]: exercise(SHA_A) })
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.row, f.occupant_fp]), [['LEDGER_RENUMBER_TARGET_OCCUPIED', E2, 1, SHA_B]])
+  })
+
+  it('reports the same when E1 is not refilled', () => {
+    assert.deepEqual(occupied(run([renumbered(E2, E1, SHA_A)], { [E2]: exercise(SHA_A) })), [[E2, 1, SHA_B]])
+  })
+
+  it('accepts the move once a row takes the base exercise out of the id, written before or after', () => {
+    const head = { [E2]: exercise(SHA_A), [E3]: exercise(SHA_B) }
+    assert.deepEqual(run([renumbered(E2, E1, SHA_A), renumbered(E3, E2, SHA_B)], head), [])
+    assert.deepEqual(run([renumbered(E3, E2, SHA_B), renumbered(E2, E1, SHA_A)], head), [])
+  })
+
+  it('does not count a removed row that cites the arrival\'s fingerprint as the departure of the base exercise', () => {
+    // The removed row names E2, but it removes what arrived there (a). The base exercise b has no row.
+    const findings = run([renumbered(E2, E1, SHA_A), removed(E2, SHA_A)], {})
+    assert.deepEqual(occupied(findings), [[E2, 1, SHA_B]])
+    const both = run([removed(E2, SHA_B), renumbered(E2, E1, SHA_A)], { [E2]: exercise(SHA_A) })
+    assert.deepEqual(both, [])
+  })
+})
+
 describe('renumbered rows at the scale of the design\'s renumber (synthetic anchors)', () => {
   // design_ruled_final.md section 1: sections 1..18 stay, 19..32 move +2, 33..52 move +3, and three new
   // sections (19, 20, 35) take ids the move vacated. Every target id of the shift is also a source id.
@@ -633,10 +683,16 @@ describe('renumbered rows at the scale of the design\'s renumber (synthetic anch
     assert.equal(findings.length, 888)
   })
 
-  it('reports exactly the id whose renumbered row was dropped', () => {
+  it('reports exactly the two ids whose renumbered row was dropped: the one it fills and the one it leaves', () => {
+    // S24 <- S22 is dropped. S24 holds an anchor no row names, and S22, which S20's row refills, has lost
+    // its exercise with no row that starts from it.
     const dropped = renumberedRows.find((row) => row.id === 'S24-T1-A-E1')
+    assert.equal(dropped.from_id, 'S22-T1-A-E1')
     const findings = run([...renumberedRows.filter((row) => row !== dropped), ...addedRows])
-    assert.deepEqual(findings.map((x) => [x.code, x.id]), [['ANCHOR_CHANGED_UNLEDGERED', 'S24-T1-A-E1']])
+    assert.deepEqual(findings.map((x) => [x.code, x.id]), [
+      ['ANCHOR_CHANGED_UNLEDGERED', 'S24-T1-A-E1'],
+      ['LEDGER_RENUMBER_TARGET_OCCUPIED', 'S22-T1-A-E1'],
+    ])
   })
 
   it('reports a renumbered row that names the wrong old id', () => {

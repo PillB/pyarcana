@@ -34,8 +34,10 @@
  * fingerprint, then reason, decided_by, date. It clears ANCHOR_REMOVED for from_id and the unledgered
  * anchor of id (EXERCISE_REMOVED and EXERCISE_UNANCHORED in classify) when both ends are true: from_id
  * held that fingerprint at the base and no longer holds it, id holds it at head (or a later row for id
- * carries it on, as for an amended exercise), and no id leaves or is filled twice. Two ids that swap
- * content take two rows. There is no exemption for the renumber PR. A renumbered id cannot be renumbered
+ * carries it on, as for an amended exercise), the exercise the base anchored at id, if there was one,
+ * leaves by a row of its own (LEDGER_RENUMBER_TARGET_OCCUPIED otherwise: it would be gone with no row
+ * that starts from its fingerprint), and no id leaves or is filled twice. Two ids that swap content
+ * take two rows. There is no exemption for the renumber PR. A renumbered id cannot be renumbered
  * again within the same PR. An exercise that a renumber also changes (one that prints its own section
  * token) takes the renumbered row and then a `changed` row on its new id, from the renumbered
  * fingerprint. The order of rows of different exercises does not matter: the departure of an id's old
@@ -106,13 +108,21 @@ function bestSibling(id, now, anchors) {
 }
 
 /**
+ * Whether the exercise the anchors hold at `id` has a row that retires it: a removed row for the id, or
+ * a renumbered row from it. An id the anchors do not hold has nothing to retire.
+ */
+const occupantLeaves = (rows, anchors, id) => anchors[id] === undefined
+  || rows.some((row) => row.kind !== 'historical' && departedId(row) === id && row.from_fp === anchors[id].sha256)
+
+/**
  * Whether a row accepts `id` holding `sha`: any non-historical row for the id that ends there. A
  * renumbered row also needs the anchor it renumbers from to hold the fingerprint it cites, so a row
- * cannot invent where an exercise came from.
+ * cannot invent where an exercise came from, and the exercise the anchors hold at `id` to leave by a
+ * row of its own, so a row cannot move content over an exercise and drop that one.
  */
 function resolvedBy(rows, anchors, id, sha) {
   return rows.some((row) => row.kind !== 'historical' && row.id === id && row.to_fp === sha
-    && (row.kind !== 'renumbered' || anchors[row.from_id]?.sha256 === row.from_fp))
+    && (row.kind !== 'renumbered' || (anchors[row.from_id]?.sha256 === row.from_fp && occupantLeaves(rows, anchors, id))))
 }
 
 /**
@@ -249,7 +259,7 @@ function appendOnlyFindings(baseRows, headRows) {
  * Only a well-formed appended row clears a finding: a malformed row is reported by LEDGER_ROW_INVALID
  * and clears nothing. Each appended row also starts where its id stood (walkAppended), so the ledger
  * cannot cite a fingerprint the id never held, and a renumbered row must be true at both of its ids
- * (notVacatedFindings, targetFindings, reusedFindings). The renumber PR is not exempt.
+ * (notVacatedFindings, targetFindings, occupiedFindings, reusedFindings). The renumber PR is not exempt.
  */
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
   const findings = appendOnlyFindings(baseRows, headRows)
@@ -293,6 +303,7 @@ function stepRenumbered(walk, row) {
   if (row.from_fp !== expected) walk.findings.push(chainBroken(row, expected))
   walk.old.set(row.from_id, null)
   walk.fresh.set(row.id, { fp: row.to_fp, row: row.row, arrival: true })
+  walk.fills.push(row)
 }
 
 /**
@@ -317,11 +328,18 @@ function stepAmendment(walk, row) {
   else walk.old.set(row.id, row.to_fp)
 }
 
-/** LEDGER_CHAIN_BROKEN for a row from nothing written into an id whose base exercise is still there. */
+/**
+ * A row that puts a new exercise into an id (a renumbered row, or a row from nothing) needs the exercise
+ * the base anchored there to have left by a row of its own. Otherwise that exercise is gone and no row
+ * starts from its fingerprint. A renumbered row is LEDGER_RENUMBER_TARGET_OCCUPIED, a row from nothing
+ * LEDGER_CHAIN_BROKEN: the id held a fingerprint, not nothing.
+ */
 function occupiedFindings(walk) {
   return walk.fills.flatMap((row) => {
     const occupant = walk.old.get(row.id) ?? null
-    return occupant === null ? [] : [chainBroken(row, occupant)]
+    if (occupant === null) return []
+    if (row.kind !== 'renumbered') return [chainBroken(row, occupant)]
+    return [{ code: 'LEDGER_RENUMBER_TARGET_OCCUPIED', id: row.id, row: row.row, occupant_fp: occupant }]
   })
 }
 
