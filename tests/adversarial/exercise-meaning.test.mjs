@@ -186,6 +186,17 @@ describe('the real course against its committed anchors', () => {
     assert.deepEqual(ledgerAnchorFindings(committed, ledger), [])
   })
 
+  it('records every historical row as decided by the owner in O25, with no stand-in note', () => {
+    // O25 (2026-10-13) accepted the exercise-meaning changes made between 35d19637 and the anchors.
+    // The draft's rows said "measured ... no decision is recorded here"; that was a stand-in.
+    const historical = ledger.filter((row) => row.kind === 'historical')
+    assert.ok(historical.length > 0, 'the ledger holds no historical rows, so this check would pass for nothing')
+    for (const row of historical) {
+      assert.equal(row.decided_by, 'owner: O25 (2026-10-13)', `row ${row.row} (${row.id})`)
+      assert.doesNotMatch(row.reason, /no decision is recorded|measured/i, `row ${row.row} (${row.id})`)
+    }
+  })
+
   it('stays green when the next owner-approved wording edit lands on an id that already has ledger rows', () => {
     // The workflow of 2026-10-13: edit the exercise, regenerate the anchors, append one row. Doing it
     // to a historical id (23 of the 34 are in S03, the section the fixer works on next) and then to
