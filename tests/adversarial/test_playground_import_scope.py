@@ -19,6 +19,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import playground_import_scope as scope  # noqa: E402
 from playground_truth import playground  # noqa: E402
 
+
+def problems_for(section_number: int, code: str, *, loaded=None, unvendored=None) -> list[tuple[str, str]]:
+    """import_scope_problems with the playground's real map, unless a test substitutes one."""
+    data = playground()
+    return scope.import_scope_problems(
+        section_number, code,
+        loaded=data["requiredPackages"] if loaded is None else loaded,
+        unvendored=data["unvendoredStdlib"] if unvendored is None else unvendored,
+    )
+
 #: Demos with imports outside the rule, with the modules, measured from the real demos on
 #: 2026-10-14 (section = position in COURSE_SECTIONS). Owed, not accepted: owner decision O25
 #: replaces each demo, and its entry leaves this map with it.
@@ -42,7 +52,7 @@ def real_findings() -> tuple[dict[str, frozenset[str]], set[str], list[str]]:
         if demo_id in no_section:
             continue
         try:
-            problems = scope.import_scope_problems(sections.index(demo_id) + 1, demo["code"])
+            problems = problems_for(sections.index(demo_id) + 1, demo["code"])
         except SyntaxError:
             unparsed.add(demo_id)
             continue
@@ -54,34 +64,74 @@ def real_findings() -> tuple[dict[str, frozenset[str]], set[str], list[str]]:
 class ImportScopeRule(unittest.TestCase):
     def test_scikit_learn_is_refused_in_every_section(self) -> None:
         # Defect: a demo imports scikit-learn, which no section teaches.
-        problems = scope.import_scope_problems(10, "from sklearn.linear_model import LogisticRegression\n")
+        problems = problems_for(10, "from sklearn.linear_model import LogisticRegression\n")
         self.assertEqual([module for module, _ in problems], ["sklearn"])
 
     def test_numpy_is_refused_before_s14_and_allowed_from_s14(self) -> None:
         # Defect (boundary): numpy allowed one section early, at S13.
-        self.assertEqual(len(scope.import_scope_problems(13, "import numpy as np\n")), 1)
-        self.assertEqual(scope.import_scope_problems(14, "import numpy as np\n"), [])
+        self.assertEqual(len(problems_for(13, "import numpy as np\n")), 1)
+        self.assertEqual(problems_for(14, "import numpy as np\n"), [])
 
     def test_pandas_is_refused_before_s15_and_allowed_from_s15(self) -> None:
         # Defect (boundary): pandas allowed one section early, at S14.
-        self.assertEqual(len(scope.import_scope_problems(14, "import pandas as pd\n")), 1)
-        self.assertEqual(scope.import_scope_problems(15, "import pandas as pd\n"), [])
+        self.assertEqual(len(problems_for(14, "import pandas as pd\n")), 1)
+        self.assertEqual(problems_for(15, "import pandas as pd\n"), [])
 
     def test_the_standard_library_is_always_allowed(self) -> None:
         # Defect (false positive): a legitimate stdlib demo in S1 is refused by the check.
-        self.assertEqual(scope.import_scope_problems(1, "import json, re\nfrom pathlib import Path\n"), [])
+        self.assertEqual(problems_for(1, "import json, re\nfrom pathlib import Path\n"), [])
 
     def test_code_that_does_not_parse_is_an_error_not_a_pass(self) -> None:
         # Defect: an unparseable demo has no imports read, so it passes the check silently.
         with self.assertRaises(SyntaxError):
-            scope.import_scope_problems(10, "import sklearn\nprint(('unterminated)\n")
+            problems_for(10, "import sklearn\nprint(('unterminated)\n")
+
+
+class UnvendoredStandardLibrary(unittest.TestCase):
+    """Pyodide 0.26.2 does not include sqlite3, lzma and ssl; `import sqlite3` raises
+    ModuleNotFoundError in the browser unless CodePlayground loads the package first. CPython has
+    them, so a check that asks only `module in sys.stdlib_module_names` passes a demo the learner
+    cannot run (review of the playground infrastructure PR, minor finding)."""
+
+    def real_map_without(self, module: str) -> set[str]:
+        return set(playground()["requiredPackages"]) - {module}
+
+    def test_sqlite3_is_refused_when_the_playground_does_not_load_it(self) -> None:
+        # Defect: a demo imports sqlite3 and the map does not load it. Names the module.
+        found = problems_for(29, "import sqlite3\n", loaded=self.real_map_without("sqlite3"))
+        self.assertEqual([module for module, _ in found], ["sqlite3"])
+        self.assertIn("does not load", found[0][1])
+
+    def test_lzma_and_ssl_are_refused_when_the_playground_does_not_load_them(self) -> None:
+        # Defect (the other two of the three): the check knows sqlite3 only.
+        for module in ("lzma", "ssl"):
+            found = problems_for(29, f"import {module}\n", loaded=self.real_map_without(module))
+            self.assertEqual([m for m, _ in found], [module], module)
+
+    def test_an_unvendored_module_the_playground_loads_is_allowed(self) -> None:
+        # Defect (false positive): every unvendored module is refused, even the ones CodePlayground
+        # loads, so the demos that rely on sqlite3 could never be written.
+        for module in ("sqlite3", "lzma", "ssl"):
+            self.assertEqual(problems_for(29, f"import {module}\n"), [], module)
+
+    def test_an_unvendored_module_nobody_loads_is_refused_with_the_real_map(self) -> None:
+        # Defect: the guard trusts `sys.stdlib_module_names` for modules the map never loads
+        # (`test`, `pydoc_data`), which Pyodide 0.26.2 leaves out and the playground does not load.
+        for module in ("test", "pydoc_data"):
+            found = problems_for(29, f"import {module}\n")
+            self.assertEqual([m for m, _ in found], [module], module)
+
+    def test_modules_that_run_without_loading_anything_are_not_refused(self) -> None:
+        # Defect (false positive): hashlib and decimal are measured to import on a bare Pyodide
+        # 0.26.2 (only their private _hashlib and _pydecimal are separate), and the course uses them.
+        self.assertEqual(problems_for(29, "import hashlib\nimport decimal\n"), [])
 
 
 class RealDemos(unittest.TestCase):
     def test_the_s10_demo_fails_naming_sklearn_and_the_section(self) -> None:
         # Defect (the one named in the brief): the current S10 demo ships scikit-learn.
         data = playground()
-        problems = scope.import_scope_problems(10, data["demos"]["modules-packaging-cli"]["code"])
+        problems = problems_for(10, data["demos"]["modules-packaging-cli"]["code"])
         self.assertTrue(
             any(module == "sklearn" and "sklearn" in message and "S10" in message for module, message in problems),
             problems,

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Loader2, RotateCcw, Terminal, CheckCircle2, XCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PLAYGROUND_PRELUDE, PYODIDE_CDN } from '@/lib/pyodide'
+import { PLAYGROUND_PRELUDE, PYODIDE_CDN, detectRequiredPackages } from '@/lib/pyodide'
 
 // Pyodide is loaded from CDN — only once per session
 let pyodidePromise: Promise<any> | null = null
@@ -122,44 +122,10 @@ export function CodePlayground({
       .catch((err) => setLoadError(err.message || 'Error cargando Pyodide'))
   }, [])
 
-  // Map Python import names to Pyodide package names.
-  // Many course demos use numpy / pandas / matplotlib / sklearn — these are NOT
-  // loaded automatically by Pyodide and must be loaded explicitly via loadPackage
-  // before the user code runs, otherwise the demo fails with ModuleNotFoundError.
-  const REQUIRED_PACKAGES: Record<string, string> = {
-    numpy: 'numpy',
-    pandas: 'pandas',
-    matplotlib: 'matplotlib',
-    sklearn: 'scikit-learn',
-    scipy: 'scipy',
-    sympy: 'sympy',
-    networkx: 'networkx',
-    PIL: 'Pillow',
-    pillow: 'Pillow',
-    yaml: 'pyyaml',
-    requests: 'requests',
-    beautifulsoup4: 'beautifulsoup4',
-    bs4: 'beautifulsoup4',
-  }
-
-  const detectRequiredPackages = (src: string): string[] => {
-    const needed = new Set<string>()
-    for (const [importName, packageName] of Object.entries(REQUIRED_PACKAGES)) {
-      // Match `import <name>` or `from <name> import ...` at the start of a line.
-      // The character after <name> can be: whitespace, comma, end-of-line (for
-      // `import numpy` or `import numpy as np`), or a dot (for
-      // `import matplotlib.pyplot` or `from sklearn.linear_model import ...`).
-      const importRegex = new RegExp(
-        `^\\s*(?:from\\s+${importName}(?:\\.|\\s|,|$)|import\\s+${importName}(?:\\.|\\s|,|$))`,
-        'm',
-      )
-      if (importRegex.test(src)) {
-        needed.add(packageName)
-      }
-    }
-    return Array.from(needed)
-  }
-
+  // The import -> package map and the detector live in src/lib/pyodide.ts, so the content gates
+  // (scripts/playground_import_scope.py, scripts/playground_pyodide_audit.mts) read the same map the
+  // learner's browser uses. numpy / pandas / sklearn and the unvendored sqlite3 / lzma / ssl are NOT
+  // loaded by Pyodide on its own; they are loaded below before the code runs.
   const runCode = useCallback(async () => {
     if (!pyodideReady || !pyodideRef.current) return
     setLoading(true)
