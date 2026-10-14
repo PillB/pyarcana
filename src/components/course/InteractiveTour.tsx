@@ -45,6 +45,8 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useSession } from 'next-auth/react'
+import { tourAutocheckBodyKey } from '@/lib/cloud/ui-state'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { t, useI18n } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
@@ -73,9 +75,11 @@ interface TourStep {
   sectionId?: string
   /** Lesson tab to select after navigation so the target is mounted. */
   subStep?: 'theory' | 'ido' | 'wedo' | 'youdo' | 'quiz'
+  /** Picks the body by the NextAuth user when the step reads differently per session. Defaults to bodyKey. */
+  bodyKeyFor?: (nextAuthUser: unknown) => string
 }
 
-const STEPS: TourStep[] = [
+export const STEPS: TourStep[] = [
   {
     titleKey: 'tour.welcome.title',
     bodyKey: 'tour.welcome.body',
@@ -148,6 +152,7 @@ const STEPS: TourStep[] = [
     target: '[data-testid="sc-submit"]',
     titleKey: 'tour.autocheck.title',
     bodyKey: 'tour.autocheck.body',
+    bodyKeyFor: tourAutocheckBodyKey,
     placement: 'bottom',
     navigate: 'section',
     sectionId: 'S01',
@@ -197,6 +202,21 @@ const STEPS: TourStep[] = [
     placement: 'center',
   },
 ]
+
+/** The translation key of a step's body for this session (the fifth tab differs per session). */
+export function tourBodyKey(step: TourStep, nextAuthUser: unknown): string {
+  return step.bodyKeyFor ? step.bodyKeyFor(nextAuthUser) : step.bodyKey
+}
+
+/**
+ * A step's body in the learner's language, for the learner's session. The fifth tab holds the
+ * self-check quiz or, once signed in to the dynamic LMS, the section exam, and the body says which.
+ */
+export function TourBodyText({ step }: { step: TourStep }) {
+  const lang = useI18n((s) => s.lang)
+  const { data: session } = useSession()
+  return <>{t(tourBodyKey(step, session?.user), lang)}</>
+}
 
 interface Rect {
   top: number
@@ -509,7 +529,7 @@ export function InteractiveTour({ open, onClose, onNavigate }: InteractiveTourPr
             {tr(currentStep.titleKey)}
           </h3>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            {tr(currentStep.bodyKey)}
+            <TourBodyText step={currentStep} />
           </p>
         </div>
 
@@ -590,7 +610,9 @@ export function InteractiveTour({ open, onClose, onNavigate }: InteractiveTourPr
           {/* Visually-hidden accessible title/desc — Radix Dialog requires them. */}
           <DialogHeader className="sr-only">
             <DialogTitle>{tr(currentStep.titleKey)}</DialogTitle>
-            <DialogDescription>{tr(currentStep.bodyKey)}</DialogDescription>
+            <DialogDescription>
+              <TourBodyText step={currentStep} />
+            </DialogDescription>
           </DialogHeader>
           {card}
         </DialogContent>

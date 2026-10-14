@@ -193,6 +193,31 @@ export function progressWhereKey(i: { isStaticSite: boolean; stage: LaunchStage 
   return storageHeadline({ signedIn: false, ...i })?.key ?? 'storage.where.localOnly'
 }
 
+// --- the lesson's fifth tab ------------------------------------------------------------------------
+
+export type FifthTab = 'exam' | 'selfCheck'
+
+/**
+ * What the lesson's fifth tab, "Autocheck", holds. A NextAuth session (the dynamic LMS, signed in)
+ * gets the section exam; everyone else gets the self-check quiz. A static build never has a NextAuth
+ * session (Providers passes `session={null}` when IS_STATIC_SITE), so there it is always the quiz,
+ * whatever the launch stage and even for a learner signed in to a cloud account. SectionView mounts
+ * the tab and the tour describes it, both through this function, so they cannot disagree.
+ */
+export function fifthTabFor(nextAuthUser: unknown): FifthTab {
+  return nextAuthUser ? 'exam' : 'selfCheck'
+}
+
+/**
+ * The tour's body for the step about that tab: the quiz (retry as often as you like) or, for a
+ * signed-in learner on the dynamic LMS, the exam (70% to pass, 3 attempts). The exam text names an
+ * exam, so this is the one place a file the static build mounts may name 'tour.autocheck.bodyExam'
+ * (tests/adversarial/static-edition-copy.test.ts reviews it).
+ */
+export function tourAutocheckBodyKey(nextAuthUser: unknown): string {
+  return fifthTabFor(nextAuthUser) === 'exam' ? 'tour.autocheck.bodyExam' : 'tour.autocheck.body'
+}
+
 export interface MovedCopyInput {
   link: { ok: true } | { ok: false; reason: string }
   /** Accounts run on the canonical origin (this build's stage is on there). */

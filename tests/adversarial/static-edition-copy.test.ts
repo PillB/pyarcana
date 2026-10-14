@@ -39,6 +39,20 @@ const DYNAMIC_ONLY_READERS: ReadonlyMap<string, string> = new Map([
   [EXAM_CARD, 'mounted only when a server session exists (SectionView), which the static build never has'],
 ])
 
+/**
+ * Wordings that name an exam and are read by a file the static build does mount, because that file
+ * picks the wording by session and the static build never has one. Each entry is a decision: key,
+ * the reading file, and why the static build never gets the wording. The cases that prove the reason
+ * are in tour-autocheck-by-edition.test.ts (the static build and a signed-out learner render the
+ * quiz text; only a NextAuth session renders the exam text; Providers gives a static build no session).
+ */
+const SESSION_PICKED_READERS: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
+  [
+    'tour.autocheck.bodyExam',
+    new Map([['src/lib/cloud/ui-state.ts', 'tourAutocheckBodyKey returns it only for a NextAuth user, which a static build never has']]),
+  ],
+])
+
 /** Importers of the plan table that the static build mounts, with what each reads from it. */
 const PLAN_IMPORTERS: ReadonlyMap<string, string> = new Map([
   ['src/components/course/PricingPage.tsx', 'lists the plan features; mounted only outside the static build'],
@@ -83,17 +97,25 @@ describe('static edition copy', () => {
     assert.ok(claims.length >= 10, `the scan found ${claims.length} exam wordings; it is meant to see them all`)
     const offenders = claims.flatMap((key) =>
       readers(key)
-        .filter((file) => !DYNAMIC_ONLY_READERS.has(file))
+        .filter((file) => !DYNAMIC_ONLY_READERS.has(file) && !SESSION_PICKED_READERS.get(key)?.has(file))
         .map((file) => `${key} is read by ${file}`)
     )
     assert.deepEqual(offenders, [])
   })
 
+  it('a session-picked exam wording is read only by the reviewed file, and the scan sees the exam key', () => {
+    const claims = KEYS.filter((key) => LANGUAGES.some(({ code }) => EXAM_PROMISE.test(t(key, code))))
+    assert.ok(claims.includes('tour.autocheck.bodyExam'), 'the tour exam wording no longer names an exam, or the key moved')
+    for (const [key, files] of SESSION_PICKED_READERS) {
+      assert.deepEqual(readers(key).sort(), [...files.keys()].sort(), `${key} is read by files other than the reviewed ones`)
+    }
+  })
 
   it('the exam card is mounted only in the signed-in branch of the section view', () => {
     const sectionView = source('src/components/course/SectionView.tsx')
-    // The static build has no session, so the quiz tab renders instead of the exam card.
-    assert.match(sectionView, /session\?\.user\s*\?\s*\(\s*<ExamView/)
+    // The static build has no session, so the quiz tab renders instead of the exam card. The tab and
+    // the tour choose through fifthTabFor, so the tour describes the tab the learner sees.
+    assert.match(sectionView, /fifthTabFor\(session\?\.user\)\s*===\s*'exam'\s*\?\s*\(\s*<ExamView/)
   })
 
   it('the plan features, which list the exam, are shown only outside the static build', () => {
