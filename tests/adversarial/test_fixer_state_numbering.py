@@ -136,7 +136,9 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
         record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
         for needed in ("numbering_epoch.json", "renumber_epoch.json", "restamp.py advance", "previous_epochs",
-                       "text_numbering_epoch", "roadmap_of_record_problems", "ROADMAP_PATH"):
+                       "text_numbering_epoch", "roadmap_of_record_problems", "ROADMAP_PATH",
+                       "test_fixer_tool_boundaries.py", "test_fixer_reopened_findings.py",
+                       "test_fixer_code_spacing.py"):
             self.assertIn(needed, record)
 
     def test_the_record_states_the_16_sept_rename_as_git_reports_it(self) -> None:
