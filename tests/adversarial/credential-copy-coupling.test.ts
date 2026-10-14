@@ -127,6 +127,62 @@ describe('"/verify checks an identifier only in the dynamic LMS"', () => {
   })
 })
 
+/**
+ * What a check of a verified credential shows: each fact the policy lists, with the field the verify
+ * route returns for it and the label the verify page prints. The policy once said a recruiter "can
+ * inspect a concise evidence summary"; no route or page shows any evidence, so a learner or a
+ * recruiter was promised a view that does not exist (review of #97, minor 2).
+ */
+const SHOWN_BY_A_CHECK: ReadonlyArray<{ policy: string; field: string; label: string }> = [
+  { policy: 'clase', field: 'credentialClass', label: 'Clase {result.credentialClass}' },
+  { policy: 'nombre de la insignia', field: 'badgeName', label: 'Insignia:' },
+  { policy: 'especificación', field: 'specificationVersion', label: 'Especificación:' },
+  { policy: 'emisor', field: 'issuer', label: 'Emisor:' },
+  { policy: 'fecha de emisión', field: 'issuedAt', label: 'Emitida:' },
+  { policy: 'estado', field: 'revocationStatus', label: 'Estado:' },
+  { policy: 'referencia al titular', field: 'holderReference', label: 'Titular:' },
+  { policy: 'declaración firmada', field: 'capabilityStatement', label: 'Capacidad demostrada:' },
+]
+
+/** The sentence of the policy that lists what a check shows. */
+function checkSentence(): string {
+  const found = flat(POLICY).match(/Comprobar una credencial verificada muestra [^.]*\./)
+  assert.ok(found, 'the credential policy no longer has the sentence that lists what a check shows; update this case with the new wording')
+  return found[0]
+}
+
+describe('"A check of a verified credential shows the record and the signed statement, and no evidence"', () => {
+  it('the policy lists what a check shows, and promises no evidence summary and no recruiter view', () => {
+    const page = flat(POLICY).toLowerCase()
+    for (const promise of ['resumen conciso de evidencia', 'reclutador puede inspeccionar', 'con qué evidencia']) {
+      assert.ok(!page.includes(promise), `the credential policy promises "${promise}"`)
+    }
+    const sentence = checkSentence()
+    for (const { policy } of SHOWN_BY_A_CHECK.filter((fact) => fact.policy !== 'declaración firmada')) {
+      assert.ok(sentence.includes(policy), `the sentence no longer lists "${policy}"`)
+    }
+    assert.ok(flat(POLICY).includes('La declaración firmada nombra'), 'the policy no longer describes the signed statement')
+  })
+
+  it('the verify route returns each listed fact, and the verify page prints its label', () => {
+    const route = source('src/app/api/credentials/verify/route.ts')
+    const page = flat('src/app/verify/page.tsx')
+    for (const { policy, field, label } of SHOWN_BY_A_CHECK) {
+      assert.match(route, new RegExp(`\\b${field}: credential\\.${field}`), `the verify route no longer returns ${field}, which the policy lists as "${policy}"`)
+      assert.ok(page.includes(label), `the verify page no longer prints "${label}", which the policy lists as "${policy}"`)
+    }
+  })
+
+  it('no route, page or module in src/ shows or reads credential evidence, so the policy has none to promise', () => {
+    const route = source('src/app/api/credentials/verify/route.ts')
+    const page = source('src/app/verify/page.tsx')
+    assert.doesNotMatch(route, /evidence/i, 'the verify route now returns evidence; the policy must say so')
+    assert.doesNotMatch(page, /evidenc/i, 'the verify page now shows evidence; the policy must say so')
+    const readers = srcFiles().filter((file) => /credentialEvidence|evidenceSummary/.test(source(file)))
+    assert.deepEqual(readers, [], 'something reads the credential evidence table; the policy must say what it shows')
+  })
+})
+
 describe('"The server grades each exam; the browser does not"', () => {
   it('the notice still says so, in the paragraph only the dynamic LMS shows', () => {
     assert.ok(flat('src/components/legal/ExamGradingNote.tsx').includes('el servidor califica cada examen de sección'))

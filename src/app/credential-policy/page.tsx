@@ -45,10 +45,7 @@ export default function CredentialPolicyPage() {
         <section>
           <h2 className="text-lg font-semibold">Qué demuestra una credencial</h2>
           <p>
-            Cada credencial describe exactamente qué capacidad se demostró, bajo qué
-            condiciones de evaluación, con qué evidencia y bajo qué versión de
-            especificación. Un reclutador puede inspeccionar un resumen conciso de
-            evidencia.
+            Comprobar una credencial verificada muestra clase, nombre de la insignia, especificación —versión numerada de las reglas de esa insignia—, emisor, fecha de emisión, estado y referencia al titular. La declaración firmada nombra qué se demostró y la versión de la especificación bajo la cual se demostró.
           </p>
           <p className="text-sm text-muted-foreground">
             Las credenciales de PyArcana describen evidencia demostrada dentro del curso.

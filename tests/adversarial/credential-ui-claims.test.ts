@@ -83,6 +83,10 @@ const FALSE_CLAIMS = [
   'a prueba de alteración',
   'tamper-proof',
   'tamper proof',
+  // An evidence summary a recruiter can inspect: no route or page shows any credential evidence.
+  'resumen conciso de evidencia',
+  'reclutador puede inspeccionar',
+  'inspeccionar un resumen',
   // A revocation and versioning procedure that no route implements.
   'puede revocarse',
   'pueden marcarse como',
