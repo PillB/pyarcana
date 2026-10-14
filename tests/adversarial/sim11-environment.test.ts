@@ -2,13 +2,17 @@
  * SIM-11: an example's declared environment is load-bearing, and the course's own pins decide it.
  *
  * The browser runs Pyodide, which ships other versions of the libraries that requirements-content.txt
- * pins. An example that imports a pinned package prints a version-dependent result, so it must be
+ * pins. An example that uses a pinned package prints a version-dependent result, so it must be
  * declared `local-python`. Two checks follow from that rule:
- * - the playground (SectionView's "Pruébalo tú mismo" demos) is two-sided: a pinned import is
- *   local-python, and a local-python example is one that imports a pinned package; the component
- *   reads the declared environment, so a local-python example is never run in the browser;
- * - the I Do demos (`demoId` steps in the section files) are one-sided: a pinned import must be
- *   declared local-python, so a future block (S19, S20, S23) cannot print a pinned output in the browser.
+ * - the playground (SectionView's "Pruébalo tú mismo" demos) is two-sided: a pinned package the code
+ *   uses is local-python, and a local-python example is one that uses a pinned package; an import the
+ *   code never refers to changes no output and decides nothing (owner decision O25: the S11 demo
+ *   imports numpy and never calls it, so it keeps its Run button). The component reads the declared
+ *   environment, so a local-python example is never run in the browser;
+ * - the I Do demos (`demoId` steps in the section files) are one-sided and stricter: any pinned
+ *   import must be declared local-python, used or not, because a starter that imports the library
+ *   the learner is about to call (s21-fastapi's jinja2 lab) has not used it yet. So a future block
+ *   (S19, S20, S23) cannot print a pinned output in the browser.
  * Each rule is recreated on fixture examples, and the real tree must satisfy both.
  */
 import { describe, it } from 'node:test'
@@ -25,8 +29,11 @@ import {
   LOCAL_RUN_COMMAND,
   importedModules,
   pinnedImport,
+  pinnedImportUsed,
   pinnedModules,
   playgroundMode,
+  scanImports,
+  withoutComments,
 } from '../../src/lib/playground-environment.ts'
 import { readBindings } from '../../scripts/course_bindings.mjs'
 
@@ -99,18 +106,18 @@ export function iDoExamples(file: string, source: string): Example[] {
   return out
 }
 
-/** Two-sided: a pinned import is local-python, and local-python is only for a pinned import. */
+/** Two-sided: a pinned package the code uses is local-python, and local-python is only for a used pinned package. */
 export function playgroundFailures(examples: readonly Example[], pinned: readonly string[]): string[] {
   return examples.flatMap((ex) => {
-    const pkg = pinnedImport(ex.code, pinned)
+    const pkg = pinnedImportUsed(ex.code, pinned)
     if (ex.environment === undefined || !PLAYGROUND_ENVIRONMENTS.has(ex.environment)) {
       return [`${ex.name} declares environment '${ex.environment}': not browser-pyodide or local-python`]
     }
     if (pkg !== undefined && ex.environment !== 'local-python') {
-      return [`${ex.name} imports ${pkg}, which the course pins: its environment must be local-python`]
+      return [`${ex.name} uses ${pkg}, which the course pins: its environment must be local-python`]
     }
     if (pkg === undefined && ex.environment === 'local-python') {
-      return [`${ex.name} imports no pinned package: its environment must be browser-pyodide`]
+      return [`${ex.name} uses no pinned package: its environment must be browser-pyodide`]
     }
     return []
   })
@@ -217,11 +224,20 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
     }
   })
 
-  it('an example that imports a pinned package renders no Run button, whatever it declares', () => {
-    const pinnedExamples = playground.filter((e) => pinnedImport(e.code, pinned) !== undefined)
-    assert.ok(pinnedExamples.length > 0, 'no playground example imports a pinned package')
+  it('an example that uses a pinned package renders no Run button, whatever it declares', () => {
+    const pinnedExamples = playground.filter((e) => pinnedImportUsed(e.code, pinned) !== undefined)
+    assert.ok(pinnedExamples.length > 0, 'no playground example uses a pinned package')
     for (const ex of pinnedExamples) {
-      assert.ok(!playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} imports a pinned package but renders a Run button`)
+      assert.ok(!playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} uses a pinned package but renders a Run button`)
+    }
+  })
+
+  it('an example that imports a pinned package and never uses it keeps its Run button (S11, O25)', () => {
+    const dead = playground.filter((e) => pinnedImport(e.code, pinned) !== undefined && pinnedImportUsed(e.code, pinned) === undefined)
+    assert.ok(dead.length > 0, 'no playground example has a dead pinned import: the check would pass on nothing')
+    for (const ex of dead) {
+      assert.equal(ex.environment, 'browser-pyodide', `${ex.name} imports a pinned package it never uses, so it cannot drift`)
+      assert.ok(playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} lost its Run button over an unused import`)
     }
   })
 
@@ -243,17 +259,26 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
 describe('SIM-11 rules on fixture examples', () => {
   const pinned = ['numpy', 'sklearn']
 
-  it('a playground example that imports a pinned package but is declared browser-pyodide is named', () => {
-    const ex = [{ name: 'demo-x', code: 'import numpy as np\n', environment: 'browser-pyodide' }]
+  it('a playground example that uses a pinned package but is declared browser-pyodide is named', () => {
+    const ex = [{ name: 'demo-x', code: 'import numpy as np\nprint(np.zeros(3))\n', environment: 'browser-pyodide' }]
     assert.deepEqual(playgroundFailures(ex, pinned), [
-      'demo-x imports numpy, which the course pins: its environment must be local-python',
+      'demo-x uses numpy, which the course pins: its environment must be local-python',
     ])
   })
 
   it('a playground example declared local-python with no pinned import is named', () => {
     const ex = [{ name: 'demo-y', code: 'import json\n', environment: 'local-python' }]
     assert.deepEqual(playgroundFailures(ex, pinned), [
-      'demo-y imports no pinned package: its environment must be browser-pyodide',
+      'demo-y uses no pinned package: its environment must be browser-pyodide',
+    ])
+  })
+
+  it('a pinned import the code never uses decides nothing: browser-pyodide passes, local-python is named (S11)', () => {
+    // Recreation of the S11 demo: `import numpy as np`, then plain assert tests that never call np.
+    const code = 'import numpy as np\n\ndef f(x):\n    return x\nassert f(1) == 1\nprint("ok")\n'
+    assert.deepEqual(playgroundFailures([{ name: 'demo-s11', code, environment: 'browser-pyodide' }], pinned), [])
+    assert.deepEqual(playgroundFailures([{ name: 'demo-s11', code, environment: 'local-python' }], pinned), [
+      'demo-s11 uses no pinned package: its environment must be browser-pyodide',
     ])
   })
 
@@ -276,6 +301,14 @@ describe('SIM-11 rules on fixture examples', () => {
     ])
   })
 
+  it('an I Do starter is held to the import, not the use: a starter that imports the library it will call is named', () => {
+    // s21-fastapi's jinja2 lab imports Template and prints a fixed line; the learner's solution calls it.
+    const ex = [{ name: 'S21-lab', code: 'from jinja2 import Template\nprint("fixed")\n', environment: 'browser-pyodide' }]
+    assert.deepEqual(iDoFailures(ex, ['jinja2']), [
+      'S21-lab imports jinja2, which the course pins: its environment must be local-python',
+    ])
+  })
+
   it('an I Do demo with no pinned import is not constrained', () => {
     const ex = [{ name: 'S02-T1-A-DEMO', code: 'import json\n', environment: 'browser-pyodide' }]
     assert.deepEqual(iDoFailures(ex, pinned), [])
@@ -292,9 +325,10 @@ describe('SIM-11 rules on fixture examples', () => {
     const pins = pinnedModules('pymupdf==1.28.2\n')
     assert.equal(pinnedImport('import pymupdf\n', pins), 'pymupdf')
     assert.equal(pinnedImport('import fitz\n', pins), 'fitz')
+    const code = 'import pymupdf\ndoc = pymupdf.open("a.pdf")\n'
     assert.deepEqual(
-      playgroundFailures([{ name: 'demo-pdf', code: 'import pymupdf\n', environment: 'browser-pyodide' }], pins),
-      ['demo-pdf imports pymupdf, which the course pins: its environment must be local-python']
+      playgroundFailures([{ name: 'demo-pdf', code, environment: 'browser-pyodide' }], pins),
+      ['demo-pdf uses pymupdf, which the course pins: its environment must be local-python']
     )
   })
 
@@ -311,6 +345,77 @@ describe('SIM-11 rules on fixture examples', () => {
     assert.equal(pinnedImport('import numpy as np', pinned), 'numpy')
     assert.equal(pinnedImport('from sklearn.cluster import KMeans', pinned), 'sklearn')
     assert.equal(pinnedImport('import json', pinned), undefined)
+  })
+
+  describe('a pinned import counts as used only when the code refers to a name it binds', () => {
+    const used = (code: string): string | undefined => pinnedImportUsed(code, pinned)
+
+    it('an alias that is called is a use; an alias nothing refers to is not', () => {
+      assert.equal(used('import numpy as np\nx = np.zeros(3)\n'), 'numpy')
+      assert.equal(used('import numpy as np\nx = 1\n'), undefined)
+    })
+
+    it('a plain import binds the module name, and a dotted one binds its first part', () => {
+      assert.equal(used('import numpy\nnumpy.zeros(3)\n'), 'numpy')
+      assert.equal(used('import sklearn.linear_model\nsklearn.linear_model.LogisticRegression()\n'), 'sklearn')
+      assert.equal(used('import sklearn.linear_model\nx = 1\n'), undefined)
+    })
+
+    it('a from-import binds the names it lists, under their aliases', () => {
+      assert.equal(used('from sklearn.cluster import KMeans as KM\nKM(3)\n'), 'sklearn')
+      assert.equal(used('from sklearn.cluster import KMeans as KM\nKMeans = 1\n'), undefined)
+      assert.equal(used('from sklearn.cluster import KMeans\nx = 1\n'), undefined)
+    })
+
+    it('a parenthesised import over several lines is read whole, and its names are found', () => {
+      const code = 'from sklearn.metrics import (\n    accuracy_score,  # exactitud\n    f1_score,\n)\nprint(f1_score([0], [0]))\n'
+      assert.equal(used(code), 'sklearn')
+      assert.equal(used('from sklearn.metrics import (\n    accuracy_score,\n    f1_score,\n)\nx = 1\n'), undefined)
+    })
+
+    it('a backslash-continued import and a statement after a semicolon are read', () => {
+      assert.equal(used('from numpy import zeros, \\\n    ones\nones(2)\n'), 'numpy')
+      assert.equal(used('x = 1; import numpy as np\nnp.zeros(2)\n'), 'numpy')
+      assert.equal(used('import numpy as np; y = 2\nprint(y)\n'), undefined)
+    })
+
+    it('a star import counts, because the names it binds are not in the text', () => {
+      assert.equal(used('from numpy import *\nx = 1\n'), 'numpy')
+    })
+
+    it('a name used only inside a string counts: f"{np.mean(x)}" runs np', () => {
+      assert.equal(used('import numpy as np\nx = [1]\nprint(f"media {np.mean(x)}")\n'), 'numpy')
+    })
+
+    it('a name that appears only in a comment does not count, and a # inside a string hides nothing', () => {
+      assert.equal(used('import numpy as np\n# np.zeros(3) queda para el ejercicio\nx = 1\n'), undefined)
+      assert.equal(used('import numpy as np\nprint("#1", np.zeros(2))\n'), 'numpy')
+      assert.equal(used("import numpy as np\nlabel = '#'; v = np.ones(2)\n"), 'numpy')
+    })
+
+    it('one used import is enough when a module is imported twice', () => {
+      assert.equal(used('import numpy as np\nimport numpy\nnumpy.zeros(1)\n'), 'numpy')
+    })
+
+    it('a package outside the pins is never reported, used or not', () => {
+      assert.equal(used('import json\njson.dumps({})\n'), undefined)
+    })
+  })
+
+  it('comments come out of the code and strings stay, including triple-quoted ones and escaped quotes', () => {
+    assert.equal(withoutComments('a = 1  # nota\nb = 2\n'), 'a = 1  \nb = 2\n')
+    assert.equal(withoutComments('s = "a # b"  # c\n'), 's = "a # b"  \n')
+    assert.equal(withoutComments("s = '''x # y\nz'''  # c\n"), "s = '''x # y\nz'''  \n")
+    assert.equal(withoutComments('s = "a\\" # b"  # c\n'), 's = "a\\" # b"  \n')
+  })
+
+  it('the scanner returns the imports and the code that is left once they are taken out', () => {
+    const scanned = scanImports('import numpy as np\nx = np.zeros(2)\nfrom os import path as p\n')
+    assert.deepEqual(scanned.bindings, [
+      { module: 'numpy', names: ['np'] },
+      { module: 'os', names: ['p'] },
+    ])
+    assert.equal(scanned.rest, '\nx = np.zeros(2)\n\n')
   })
 
   it('the mode fails closed: only browser-pyodide runs in the browser', () => {

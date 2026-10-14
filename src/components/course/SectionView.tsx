@@ -1380,7 +1380,7 @@ CV Accuracy: 96.00% ± 3.74%`,
       hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
     },
     'oop-domain': {
-      environment: 'local-python',
+      environment: 'browser-pyodide',
       title: 'Practica testing con asserts',
       code: `# Práctica de pruebas con assert y try/except.
 import numpy as np
