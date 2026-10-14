@@ -4262,8 +4262,14 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
           <Callout type="info" title={LOCAL_PYTHON_NOTE.title}>
             {LOCAL_PYTHON_NOTE.body}
           </Callout>
-          <CodeBlock code={demo.code} language="python" title={demo.title} />
+          <CodeBlock code={demo.code} language="python" title={demo.title} output={demo.expectedOutput} />
           <CodeBlock code={LOCAL_RUN_COMMAND} language="bash" />
+          {demo.hint && (
+            <details className="rounded-lg border border-border/60 bg-violet-500/5 px-4 py-2" data-testid={`demo-hint-${sectionId}`}>
+              <summary className="cursor-pointer text-xs font-medium text-violet-600">Ver pista</summary>
+              <p className="mt-1 text-xs text-foreground/70">{demo.hint}</p>
+            </details>
+          )}
         </>
       )}
     </div>

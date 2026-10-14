@@ -44,6 +44,9 @@ export interface Example {
   readonly name: string
   readonly code: string
   readonly environment: string | undefined
+  /** What the example prints, as the course shows it. Playground examples only. */
+  readonly expectedOutput?: string
+  readonly hint?: string
 }
 
 const nameOf = (p: ts.ObjectLiteralElementLike): string | undefined =>
@@ -76,7 +79,15 @@ export function playgroundExamples(sectionView: string): Example[] {
     if (ts.isVariableDeclaration(node) && node.name.getText() === 'demos' && node.initializer && ts.isObjectLiteralExpression(node.initializer)) {
       for (const p of node.initializer.properties) {
         const entry = ts.isPropertyAssignment(p) && ts.isObjectLiteralExpression(p.initializer) ? propertiesOf(p.initializer) : undefined
-        if (entry) out.push({ name: nameOf(p) ?? '?', code: textOf(entry.get('code')) ?? '', environment: textOf(entry.get('environment')) })
+        if (entry) {
+          out.push({
+            name: nameOf(p) ?? '?',
+            code: textOf(entry.get('code')) ?? '',
+            environment: textOf(entry.get('environment')),
+            expectedOutput: textOf(entry.get('expectedOutput')),
+            hint: textOf(entry.get('hint')),
+          })
+        }
       }
     }
     ts.forEachChild(node, visit)
@@ -212,6 +223,29 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
     assert.ok(setup, 'no bound section has the slug setup')
     const s01 = fs.readFileSync(path.join(ROOT, 'src/lib/course/sections', `${setup.stem}.ts`), 'utf-8')
     assert.ok(s01.includes(`\`${LOCAL_RUN_COMMAND}\``), `S01 never shows the learner ${LOCAL_RUN_COMMAND}, so the command is new here`)
+  })
+
+  it('a local-only example shows the output the course prints for it, so the learner can compare', () => {
+    // The notice says the result may differ from the one printed in the course; the block must print it.
+    const local = playground.filter((e) => e.environment === 'local-python')
+    const withOutput = local.filter((e) => e.expectedOutput !== undefined)
+    assert.ok(withOutput.length > 0, 'no local-python example declares an expected output: the check would pass on nothing')
+    for (const ex of withOutput) {
+      const text = visibleText(playgroundMarkup(ex.name))
+      for (const line of ex.expectedOutput!.trim().split('\n').filter((l) => l.trim() !== '')) {
+        assert.ok(text.includes(line.trim()), `${ex.name} does not show its expected output line: ${line}`)
+      }
+    }
+  })
+
+  it('a local-only example keeps its hint, under the "Ver pista" label the playground already uses', () => {
+    const local = playground.filter((e) => e.environment === 'local-python' && e.hint !== undefined)
+    assert.ok(local.length > 0, 'no local-python example has a hint: the check would pass on nothing')
+    for (const ex of local) {
+      const html = playgroundMarkup(ex.name)
+      assert.ok(html.includes('Ver pista'), `${ex.name} shows no hint label`)
+      assert.ok(visibleText(html).includes(ex.hint!), `${ex.name} does not show its hint: ${ex.hint}`)
+    }
   })
 
   it('no local-only example comments that the library loads by itself or that the browser runs it', () => {
