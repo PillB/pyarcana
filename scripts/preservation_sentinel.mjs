@@ -8,7 +8,8 @@
  *   (a section id renamed through SECTION_ID_RENAMES to an id still active is preserved:
  *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs.
  *   An exercise id may leave only with a `removed` row appended to the exercise-meaning ledger that names
- *   an owner decision and cites the anchor the base held for it; see scripts/exercise_meaning.mjs)
+ *   an owner decision the base's OWNER_DECISIONS.md records and cites the anchor the base held for it;
+ *   see scripts/exercise_meaning.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
  * Baseline: --base, else PRESERVATION_BASE / GITHUB_BASE_SHA, else the merge-base with
@@ -29,7 +30,7 @@ import {
   parseSectionIdRenames,
 } from './section_id_renames.mjs'
 import { ROADMAP_PATH, roadmapSectionCount } from './preservation/roadmap_section_count.mjs'
-import { ANCHORS_PATH, ledgerFindings, ledgeredRemovals, readAnchorState } from './exercise_meaning.mjs'
+import { ANCHORS_PATH, ledgerFindings, ledgeredRemovals, readAnchorState, readOwnerDecisions } from './exercise_meaning.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -163,15 +164,15 @@ function roadmapCountAt(treeish, failures) {
 }
 
 /**
- * The exercise ids an appended `removed` ledger row lets leave the course (an owner decision, see
- * scripts/exercise_meaning.mjs). A ledger that cannot be read excuses nothing: the removal stays a
- * failure, and compareExerciseMeaning says why the ledger could not be read.
+ * The exercise ids an appended `removed` ledger row lets leave the course (an owner decision that
+ * OWNER_DECISIONS.md records at the base, see scripts/exercise_meaning.mjs). A ledger or a decision record
+ * that cannot be read excuses nothing: the removal stays a failure, and compareExerciseMeaning says why.
  */
 function ledgeredRemovalIds(base, head) {
   try {
     const was = readAnchorState(ROOT, base)
     const now = readAnchorState(ROOT, head)
-    return ledgeredRemovals({ baseAnchors: was.anchors, baseRows: was.rows, headRows: now.rows })
+    return ledgeredRemovals({ baseAnchors: was.anchors, baseRows: was.rows, headRows: now.rows, ownerDecisions: readOwnerDecisions(ROOT, base) })
   } catch {
     return new Set()
   }
@@ -331,6 +332,7 @@ function compareExerciseMeaning(base, head, failures) {
     headAnchors: after.anchors,
     baseRows: before.rows,
     headRows: after.rows,
+    ownerDecisions: readOwnerDecisions(ROOT, base),
   })
   for (const finding of findings) {
     failures.push({ ...finding, code: 'EXERCISE_MEANING_LEDGER', rule: finding.code })

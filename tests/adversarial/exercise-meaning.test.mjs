@@ -17,11 +17,13 @@ import {
   ANCHORS_PATH,
   EXERCISE_ID,
   LEDGER_PATH,
+  OWNER_DECISIONS_PATH,
   classify,
   fingerprint,
   jaccard,
   ledgerAnchorFindings,
   ledgerFindings,
+  recordedOwnerDecisions,
   tokensOf,
 } from '../../scripts/exercise_meaning.mjs'
 import { currentAnchors } from '../../scripts/exercise_fingerprints.mts'
@@ -39,6 +41,9 @@ after(() => {
 const SHA_A = 'a'.repeat(64)
 const SHA_B = 'b'.repeat(64)
 const SHA_C = 'c'.repeat(64)
+
+/** The owner decisions the tests treat as recorded. A removed row names O25 (owner decision, 2026-10-13). */
+const RECORDED = new Set(['O25'])
 
 /** Two vocabularies that share almost nothing, so a swap is unmistakable. */
 const BAR = { title: 'Barras para comparar', tests: 'salida coincide', code: 'chart = "bar"\nprint(chart)', output: 'bar' }
@@ -267,7 +272,7 @@ describe('ledgerFindings: the chain, an appended row starts where the base left 
   const exercise = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
   const rowFor = (n, id, kind, from, to, over = {}) => ({ row: n, id, kind, from_fp: from, to_fp: to, reason: 'razón', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13', ...over })
   const base = { [ID]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
-  const run = (rows, head, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows })
+  const run = (rows, head, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows, ownerDecisions: RECORDED })
   const chainFindings = (findings) => findings.filter((f) => f.code === 'LEDGER_CHAIN_BROKEN')
 
   it('accepts a row whose from_fp is the anchor the base held, and one for a new id with a null from_fp', () => {
@@ -325,6 +330,35 @@ describe('ledgerFindings: the chain, an appended row starts where the base left 
   })
 })
 
+describe('recordedOwnerDecisions: the owner decisions a removed row may name', () => {
+  const doc = [
+    '# Owner decisions, live',
+    '',
+    'A sentence records nothing: O999 is said here, and O998 in the line below.',
+    'See O997. A heading mark in mid-line, ### O996, is not a heading either.',
+    '',
+    '### O25 — a live decision',
+    '**Status:** live.',
+    '',
+    '---',
+    '',
+    '## Archive',
+    '',
+    '### O3 — retired 2026-10-20',
+    'Replaced by O25.',
+    '',
+  ].join('\n')
+
+  it('records each `### O<n>` heading, live or in the Archive, and nothing a sentence mentions', () => {
+    assert.deepEqual([...recordedOwnerDecisions(doc)].sort(), ['O25', 'O3'])
+  })
+
+  it('reads the real record: O1, the first entry, and O25, the one a removed row names today', () => {
+    const real = recordedOwnerDecisions(readFileSync(join(ROOT, OWNER_DECISIONS_PATH), 'utf8'))
+    for (const number of ['O1', 'O25']) assert.ok(real.has(number), `${OWNER_DECISIONS_PATH} has no \`### ${number}\` heading, so no removed row could name it`)
+  })
+})
+
 describe('removed rows: an exercise leaves the course only by an owner decision (O25)', () => {
   const ID = 'S05-T1-A-E1'
   const OTHER = 'S05-T1-A-E2'
@@ -333,7 +367,7 @@ describe('removed rows: an exercise leaves the course only by an owner decision 
   const removed = (over = {}) => ({ row: 1, id: ID, kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado del curso', decided_by: OWNER, date: '2026-10-13', ...over })
   const base = { [ID]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
   const head = { [OTHER]: exercise(SHA_B) }
-  const findingsFor = (rows, headAnchors = head) => ledgerFindings({ baseAnchors: base, headAnchors, baseRows: [], headRows: rows })
+  const findingsFor = (rows, headAnchors = head, ownerDecisions = RECORDED) => ledgerFindings({ baseAnchors: base, headAnchors, baseRows: [], headRows: rows, ownerDecisions })
   const codeList = (findings) => findings.map((f) => f.code)
 
   it('reports an anchor that left the course with no row', () => {
@@ -363,6 +397,21 @@ describe('removed rows: an exercise leaves the course only by an owner decision 
     }
   })
 
+  it('refuses a removed row that names an owner decision the record does not hold (O999), and it clears nothing', () => {
+    // `owner: O999` has the form, and nobody decided O999: an invented citation.
+    const findings = findingsFor([removed({ decided_by: 'owner: O999 (2026-10-13)' })])
+    assert.deepEqual(codeList(findings), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'], JSON.stringify(findings))
+    assert.ok(findings[0].problems.some((p) => /O999/.test(p) && /does not record/.test(p)), JSON.stringify(findings[0]))
+  })
+
+  it('refuses every removed row when the record of owner decisions was not read (none given, or null)', () => {
+    const none = ledgerFindings({ baseAnchors: base, headAnchors: head, baseRows: [], headRows: [removed()] })
+    for (const findings of [none, findingsFor([removed()], head, null)]) {
+      assert.deepEqual(codeList(findings), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'], JSON.stringify(findings))
+      assert.ok(findings[0].problems.some((p) => /could not be read/.test(p)), JSON.stringify(findings[0]))
+    }
+  })
+
   it('refuses a removed row that holds a to_fp, or has no from_fp to point at', () => {
     for (const over of [{ to_fp: SHA_B }, { from_fp: null }, { from_fp: 'no-hash-here' }]) {
       const findings = findingsFor([removed(over)])
@@ -371,7 +420,7 @@ describe('removed rows: an exercise leaves the course only by an owner decision 
   })
 
   it('refuses a removed row for an id the head still anchors, unchanged', () => {
-    const findings = ledgerFindings({ baseAnchors: base, headAnchors: base, baseRows: [], headRows: [removed()] })
+    const findings = ledgerFindings({ baseAnchors: base, headAnchors: base, baseRows: [], headRows: [removed()], ownerDecisions: RECORDED })
     assert.deepEqual(codeList(findings), ['LEDGER_ID_NOT_VACATED'])
     assert.equal(findings[0].id, ID)
   })
@@ -414,7 +463,7 @@ describe('renumbered rows: an exercise keeps its fingerprint under a new id (O25
   const changed = (n, id, from, to) => ({ row: n, id, kind: 'changed', from_fp: from, to_fp: to, reason: 'reescrito', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
   const base = { [OLD]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
   const rebound = { [NEW]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
-  const findingsFor = (rows, head = rebound, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows })
+  const findingsFor = (rows, head = rebound, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows, ownerDecisions: RECORDED })
   const codeList = (findings) => findings.map((f) => f.code)
 
   it('reports a rebound id with no row: the old anchor is removed and the new one is unledgered', () => {
@@ -579,7 +628,7 @@ describe('the chain walk: the order of rows of different exercises does not chan
   const base = { [S19]: exercise(SHA_A), [S21]: exercise(SHA_B) }
   const head = { [S19]: exercise(SHA_D), [S21]: exercise(SHA_C), [S23]: exercise(SHA_B) }
   const run = (rows, headAnchors = head, baseAnchors = base) =>
-    ledgerFindings({ baseAnchors, headAnchors, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+    ledgerFindings({ baseAnchors, headAnchors, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })), ownerDecisions: RECORDED })
   const permutations = (items) => (items.length <= 1
     ? [items]
     : items.flatMap((item, i) => permutations([...items.slice(0, i), ...items.slice(i + 1)]).map((rest) => [item, ...rest])))
@@ -633,7 +682,7 @@ describe('renumbered rows: the id a row fills must lose the exercise the base an
   const removed = (id, from) => ({ id, kind: 'removed', from_fp: from, to_fp: null, reason: 'retirado', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
   const base = { [E1]: exercise(SHA_A), [E2]: exercise(SHA_B) }
   const run = (rows, head, baseAnchors = base) =>
-    ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+    ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })), ownerDecisions: RECORDED })
   const occupied = (findings) => findings.filter((f) => f.code === 'LEDGER_RENUMBER_TARGET_OCCUPIED').map((f) => [f.id, f.row, f.occupant_fp])
 
   it('reports content moved into an id whose base exercise no row moves out, with the id refilled', () => {
@@ -803,11 +852,27 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
   const git = (dir, ...args) => execFileSync('git', ['-c', 'user.name=meaning-test', '-c', 'user.email=meaning-test@example.invalid', '-c', 'commit.gpgsign=false', ...args], { cwd: dir, encoding: 'utf8' }).trim()
   const exercise = (fp) => ({ section: 'S05', sha256: fp, tokens: ['x'] })
 
+  /**
+   * An OWNER_DECISIONS.md that records the `live` decisions as entries and the `archived` ones in the
+   * Archive section, where a retired decision keeps its heading.
+   */
+  const decisionsDoc = ({ live = ['O25'], archived = [] } = {}) => [
+    '# Owner decisions, live',
+    '',
+    ...live.flatMap((n) => [`### ${n} — a live decision`, '**Status:** live.', '']),
+    '---',
+    '',
+    '## Archive',
+    '',
+    ...(archived.length === 0 ? ['*(empty — nothing retired yet)*', ''] : archived.flatMap((n) => [`### ${n} — retired 2026-10-20`, ''])),
+  ].join('\n')
+
+  /** A throwaway repository whose one commit holds `files` and a decisions record that has O25 live. */
   function repo(files) {
     const dir = mkdtempSync(join(tmpdir(), 'exercise-meaning-'))
     tempDirs.push(dir)
     git(dir, 'init', '-q', '-b', 'main')
-    write(dir, files)
+    write(dir, { [OWNER_DECISIONS_PATH]: decisionsDoc(), ...files })
     git(dir, 'add', '-A')
     git(dir, 'commit', '-q', '-m', 'base')
     return { dir, base: git(dir, 'rev-parse', 'HEAD') }
@@ -977,15 +1042,17 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
   /**
    * The sentinel's whole result after a commit that takes E1 out of the course source and out of the anchors,
    * from a base that lists E1 and E2 in both and holds `baseRows` in the ledger. `rows` are appended.
+   * `baseFiles` are committed with the base, `files` with the commit that removes E1.
    */
-  function sentinelAfterRemoval({ rows, baseRows = [] }) {
+  function sentinelAfterRemoval({ rows, baseRows = [], baseFiles = {}, files = {} }) {
     const { dir, base } = repo({
       ...CURRICULUM,
       [SECTION_PATH]: sectionWith([E1, E2]),
       [ANCHORS_PATH]: anchorsOf({ [E1]: SHA_A, [E2]: SHA_B }),
       [LEDGER_PATH]: ledgerFile(baseRows),
+      ...baseFiles,
     })
-    write(dir, { [SECTION_PATH]: sectionWith([E2]), [ANCHORS_PATH]: anchorsOf(REMOVED_HEAD), [LEDGER_PATH]: ledgerFile([...baseRows, ...rows]) })
+    write(dir, { [SECTION_PATH]: sectionWith([E2]), [ANCHORS_PATH]: anchorsOf(REMOVED_HEAD), [LEDGER_PATH]: ledgerFile([...baseRows, ...rows]), ...files })
     git(dir, 'add', '-A')
     git(dir, 'commit', '-q', '-m', 'E1 leaves the course')
     const run = runSentinel(dir, base)
@@ -1018,6 +1085,57 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
       assert.deepEqual(gone?.sample, [E1], `${label}: ${JSON.stringify(result.failures)}`)
       assert.deepEqual(result.curriculum.ledgered_removed_exercise_ids, [], label)
     }
+  })
+
+  const O999 = removedRow({ decided_by: 'owner: O999 (2026-10-13)' })
+
+  it('fails the sentinel on the removal and on the row when the owner decision is not one the base records', () => {
+    const cases = {
+      'an invented O-number': { rows: [O999] },
+      'an O-number only the PR adds to OWNER_DECISIONS.md': { rows: [O999], files: { [OWNER_DECISIONS_PATH]: decisionsDoc({ live: ['O25', 'O999'] }) } },
+      'an O-number the record only mentions in a sentence': { rows: [O999], baseFiles: { [OWNER_DECISIONS_PATH]: `${decisionsDoc()}\nO999 was asked about and never decided.\n` } },
+    }
+    for (const [label, args] of Object.entries(cases)) {
+      const result = sentinelAfterRemoval(args)
+      assert.equal(result.status, 1, label)
+      const gone = result.failures.find((f) => f.code === 'EXERCISE_IDS_REMOVED')
+      assert.deepEqual(gone?.sample, [E1], `${label}: ${JSON.stringify(result.failures)}`)
+      assert.deepEqual(result.curriculum.ledgered_removed_exercise_ids, [], label)
+      const invalid = result.failures.filter((f) => f.code === 'EXERCISE_MEANING_LEDGER').map((f) => f.rule)
+      assert.deepEqual(invalid, ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'], `${label}: ${JSON.stringify(result.failures)}`)
+    }
+  })
+
+  it('passes the whole sentinel when the owner decision is only in the Archive of the base', () => {
+    // A retired decision moves to the Archive and still authorises the removal that cites it.
+    const result = sentinelAfterRemoval({ rows: [removedRow({ decided_by: 'owner: O3 (2026-10-20)' })], baseFiles: { [OWNER_DECISIONS_PATH]: decisionsDoc({ archived: ['O3'] }) } })
+    assert.deepEqual(result.failures, [])
+    assert.equal(result.status, 0)
+    assert.deepEqual(result.curriculum.ledgered_removed_exercise_ids, [E1])
+  })
+
+  /** The CLI's --ledger-base check after a commit that takes E1 out of the anchors and appends `rows`. */
+  function cliAfterRemoval({ rows, files = {} }) {
+    const { dir, base } = repo({ [ANCHORS_PATH]: anchorsOf({ [E1]: SHA_A, [E2]: SHA_B }), [LEDGER_PATH]: ledgerFile([]) })
+    write(dir, { [ANCHORS_PATH]: anchorsOf(REMOVED_HEAD), [LEDGER_PATH]: ledgerFile(rows), ...files })
+    git(dir, 'add', '-A')
+    git(dir, 'commit', '-q', '-m', 'E1 leaves the anchors')
+    return spawnSync(process.execPath, [CLI, '--ledger-base', base], { cwd: dir, encoding: 'utf8' })
+  }
+
+  it('passes the CLI for a removed row whose owner decision the base records, and fails it for O999', () => {
+    const recorded = cliAfterRemoval({ rows: [removedRow()] })
+    assert.equal(recorded.status, 0, recorded.stderr)
+    const invented = cliAfterRemoval({ rows: [O999] })
+    assert.equal(invented.status, 1)
+    assert.match(invented.stderr, /LEDGER_ROW_INVALID/)
+    assert.match(invented.stderr, /O999/)
+  })
+
+  it('fails the CLI for an owner decision that only the PR adds to OWNER_DECISIONS.md', () => {
+    const run = cliAfterRemoval({ rows: [O999], files: { [OWNER_DECISIONS_PATH]: decisionsDoc({ live: ['O25', 'O999'] }) } })
+    assert.equal(run.status, 1)
+    assert.match(run.stderr, /LEDGER_ROW_INVALID/)
   })
 
   it('stays dormant before any anchors exist: neither the base nor HEAD has them, so nothing is compared', () => {

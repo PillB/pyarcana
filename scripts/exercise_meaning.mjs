@@ -28,8 +28,11 @@
  * from_fp the anchor it held, to_fp null, and decided_by naming the owner decision (`owner: O<n> (date)`).
  * The row clears ANCHOR_REMOVED (ledgerFindings), EXERCISE_REMOVED (classify) and the preservation
  * sentinel's EXERCISE_IDS_REMOVED for that id (ledgeredRemovals), so the exercise can leave the course
- * source as well as the anchors. The decision is checked by its form only: OWNER_DECISIONS.md retires
- * entries, so a lookup there would break when one retires.
+ * source as well as the anchors. The decision is looked up in audit/fixer/OWNER_DECISIONS.md as the base
+ * commit holds it: a `### O<n>` heading, live or in the Archive (a retired decision moves there and keeps
+ * its heading). An O-number no heading records, a mention in a sentence, an O-number only the PR's own
+ * copy of the file adds, and a base with no such file all refuse the row. The lookup proves the decision
+ * exists, not that it covers this exercise: the owner reads that in the PR.
  *
  * To rebind an exercise to a new id (the renumber, owner decision O25): one row of kind `renumbered` per
  * pair, written by the renumber tool: id the new id, from_id the old one, from_fp = to_fp the one
@@ -64,8 +67,9 @@ export const LEDGER_PATH = 'audit/safe-agent/exercise-meaning-ledger.json'
 export const MEANING_FLOOR = 0.5
 export const MOVE_MARGIN = 0.1
 const LEDGER_KINDS = new Set(['changed', 'added', 'reanchored', 'renumbered', 'removed', 'historical'])
-/** A decided_by that names an owner decision: `owner: O25 (2026-10-13)`. The form only; see the header. */
-export const OWNER_DECISION = /^owner: O\d+\b/
+/** A decided_by that names an owner decision: `owner: O25 (2026-10-13)`. Group 1 is the decision's number. */
+export const OWNER_DECISION = /^owner: (O\d+)\b/
+export const OWNER_DECISIONS_PATH = 'audit/fixer/OWNER_DECISIONS.md'
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const FP_SCRIPT = 'scripts/exercise_fingerprints.mts'
 
@@ -224,49 +228,61 @@ function renumberedProblems(row) {
   return problems
 }
 
+/**
+ * Problems with the owner decision a removed row names: its form, then whether the record holds it.
+ * `ownerDecisions` is the set of numbers OWNER_DECISIONS.md records, or null when it could not be read,
+ * and then no decision can be confirmed: a row never passes on a record nobody read.
+ */
+function decisionProblems(row, ownerDecisions) {
+  if (row?.kind !== 'removed' || isBlank(row.decided_by)) return []
+  const named = OWNER_DECISION.exec(row.decided_by)?.[1]
+  if (named === undefined) return ['decided_by must name an owner decision (owner: O<n> (date)) for a removed exercise']
+  if (ownerDecisions === null) return [`decided_by names ${named}, but ${OWNER_DECISIONS_PATH} could not be read, so the decision cannot be confirmed`]
+  return ownerDecisions.has(named) ? [] : [`decided_by names ${named}, which ${OWNER_DECISIONS_PATH} does not record (live or archived)`]
+}
+
 /** Problems with the evidence a row carries: its fingerprints, its reason, its decider and its date. */
-function evidenceProblems(row) {
+function evidenceProblems(row, ownerDecisions) {
   const problems = [...fingerprintProblems(row), ...renumberedProblems(row)]
   for (const key of ['reason', 'decided_by']) if (isBlank(row?.[key])) problems.push(`${key} must be non-empty`)
-  if (row?.kind === 'removed' && !isBlank(row.decided_by) && !OWNER_DECISION.test(row.decided_by)) {
-    problems.push('decided_by must name an owner decision (owner: O<n> (date)) for a removed exercise')
-  }
+  problems.push(...decisionProblems(row, ownerDecisions))
   if (typeof row?.date !== 'string' || !ISO_DATE.test(row.date)) problems.push('date must be YYYY-MM-DD')
   return problems
 }
 
-function rowProblems(row, index) {
-  return [...placementProblems(row, index), ...evidenceProblems(row)]
+function rowProblems(row, index, ownerDecisions) {
+  return [...placementProblems(row, index), ...evidenceProblems(row, ownerDecisions)]
 }
 
 /** The append-only rule: base rows are a prefix of head rows, unchanged. Rows are well formed and numbered. */
-function appendOnlyFindings(baseRows, headRows) {
+function appendOnlyFindings(baseRows, headRows, ownerDecisions) {
   const findings = []
   if (headRows.length < baseRows.length) findings.push({ code: 'LEDGER_ROW_REMOVED', count: baseRows.length - headRows.length })
   baseRows.forEach((row, index) => {
     if (JSON.stringify(headRows[index]) !== JSON.stringify(row)) findings.push({ code: 'LEDGER_ROW_EDITED', row: index + 1 })
   })
   headRows.forEach((row, index) => {
-    const problems = rowProblems(row, index)
+    const problems = rowProblems(row, index, ownerDecisions)
     if (problems.length > 0) findings.push({ code: 'LEDGER_ROW_INVALID', row: index + 1, problems })
   })
   return findings
 }
 
 /** The well-formed rows added after the base's rows: the only rows that can clear a finding. */
-function appendedRows(baseRows, headRows) {
-  return headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
+function appendedRows(baseRows, headRows, ownerDecisions) {
+  return headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index, ownerDecisions).length === 0)
 }
 
 /**
  * The exercise ids the ledger lets leave the course between a base and a head: each id with a
  * well-formed `removed` row appended after the base's rows that cites the anchor the base held for it.
- * The row names the owner decision (rowProblems), so the preservation sentinel's EXERCISE_IDS_REMOVED
- * excuses exactly these ids. Without base anchors there is nothing to cite, and nothing is excused.
+ * The row names an owner decision the record holds (rowProblems), so the preservation sentinel's
+ * EXERCISE_IDS_REMOVED excuses exactly these ids. Without base anchors there is nothing to cite, and
+ * without the owner decisions (`ownerDecisions` null) no decision can be confirmed: nothing is excused.
  */
-export function ledgeredRemovals({ baseAnchors, baseRows = [], headRows = [] }) {
+export function ledgeredRemovals({ baseAnchors, baseRows = [], headRows = [], ownerDecisions = null }) {
   if (baseAnchors === null) return new Set()
-  const removals = appendedRows(baseRows, headRows).filter((row) => row.kind === 'removed' && baseAnchors[row.id]?.sha256 === row.from_fp)
+  const removals = appendedRows(baseRows, headRows, ownerDecisions).filter((row) => row.kind === 'removed' && baseAnchors[row.id]?.sha256 === row.from_fp)
   return new Set(removals.map((row) => row.id))
 }
 
@@ -281,11 +297,14 @@ export function ledgeredRemovals({ baseAnchors, baseRows = [], headRows = [] }) 
  * and clears nothing. Each appended row also starts where its id stood (walkAppended), so the ledger
  * cannot cite a fingerprint the id never held, and a renumbered row must be true at both of its ids
  * (notVacatedFindings, targetFindings, occupiedFindings, reusedFindings). The renumber PR is not exempt.
+ * A `removed` row also needs the owner decision it names to be one OWNER_DECISIONS.md records:
+ * `ownerDecisions` is the set of numbers (`O25`) that file holds at the base, or null when it could not
+ * be read, and then no removed row passes.
  */
-export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
-  const findings = appendOnlyFindings(baseRows, headRows)
+export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [], ownerDecisions = null }) {
+  const findings = appendOnlyFindings(baseRows, headRows, ownerDecisions)
   if (baseAnchors === null) return findings
-  const added = appendedRows(baseRows, headRows)
+  const added = appendedRows(baseRows, headRows, ownerDecisions)
   const context = { baseAnchors, headAnchors, added }
   const walk = walkAppended(context)
   return [
@@ -552,6 +571,23 @@ export function readAnchorState(root, rev) {
   }
 }
 
+/**
+ * The owner decisions a document records, as numbers (`O25`): every `### O<n>` heading, live or in the
+ * Archive, where a retired decision keeps its heading. A sentence that mentions O<n> records nothing.
+ */
+export function recordedOwnerDecisions(markdown) {
+  return new Set([...markdown.matchAll(/^### (O\d+)\b/gm)].map((match) => match[1]))
+}
+
+/**
+ * The owner decisions OWNER_DECISIONS.md records at `rev`, or null when it has no such file there. The
+ * base is read, not the head: a decision that only the PR's own copy of the file holds is one the PR wrote.
+ */
+export function readOwnerDecisions(root, rev) {
+  const source = readAtCommit(root, rev, OWNER_DECISIONS_PATH)
+  return source === null ? null : recordedOwnerDecisions(source)
+}
+
 /** The current exercises, from the real course module, through the TypeScript collector. */
 function currentFromCourse(root) {
   const out = execFileSync(process.execPath, ['--import', 'tsx', join(root, FP_SCRIPT), '--json'], {
@@ -579,6 +615,7 @@ function runLedgerBase(root, base) {
     headAnchors: after.anchors ?? {},
     baseRows: before.rows,
     headRows: after.rows,
+    ownerDecisions: readOwnerDecisions(root, base),
   })
 }
 
