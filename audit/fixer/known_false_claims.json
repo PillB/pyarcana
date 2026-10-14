@@ -110,7 +110,7 @@
         "\\b(?:falla|rompe)\\w* al arrancar{W25}\\bcircular",
         "ciclo{W15}\\brompe el arranque"
       ],
-      "correct_statement": "Two modules may import each other. It fails only when one uses a name from the other while that module is still being initialized - a top-level `from b import x`, or `b.x` at import time - and Python then raises an ImportError naming a partially initialized module. A plain `import b` with the name used later, inside functions, works. Extracting the shared code to a third module is still the first remedy.",
+      "correct_statement": "Two modules may import each other. It fails only when one uses, while the other is still being initialized, a name the other has not defined yet: a top-level `from b import x` then raises ImportError (cannot import name), and a top-level `b.x` raises AttributeError; both messages name a partially initialized module. A name the other module defined before the cycle was entered works, and so does a plain `import b` with the name used later, inside functions. Extracting the shared code to a third module is still the first remedy.",
       "citation": {
         "source": "Python 3.12 documentation, Programming FAQ, How can I have modules that mutually import each other?",
         "url": "https://docs.python.org/3.12/faq/programming.html#how-can-i-have-modules-that-mutually-import-each-other",
@@ -139,7 +139,7 @@
       "patterns": [
         "defaults? segur\\w*{W25}\\binfo\\b"
       ],
-      "correct_statement": "Unconfigured, Python's root logger shows WARNING and above; INFO is a level a project chooses. The level controls volume, not privacy: personal data is redacted at every level.",
+      "correct_statement": "Unconfigured, Python's root logger shows WARNING and above; INFO is a level a project chooses. The level controls volume, not privacy: personal data is masked or left out of the message at every level, DEBUG included (in Spanish, \"enmascarar\" or \"omitir\"; \"redactar\" means to write).",
       "citation": {
         "source": "Python 3.12 documentation, Logging HOWTO, When to use logging",
         "url": "https://docs.python.org/3.12/howto/logging.html#when-to-use-logging",
