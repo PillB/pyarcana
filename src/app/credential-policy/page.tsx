@@ -38,7 +38,7 @@ export default function CredentialPolicyPage() {
 
           <h3 className="mt-4 font-semibold">D — Credencial verificada PyArcana</h3>
           <p>
-            Según el catálogo, la clase D afirma que el estudiante demostró la capacidad de forma independiente mediante un capstone mayor y una evaluación con defensa. La afirmación incluye evidencia que revela cualquier alteración y verificación pública, conforme a la especificación de evaluación de PyArcana. Toda credencial verificada se emite únicamente en el servidor, nunca desde el almacenamiento del navegador. Hoy, PyArcana no emite ninguna credencial verificada de clase D.
+            Según el catálogo, la clase D afirma que el estudiante demostró la capacidad de forma independiente mediante un capstone mayor y una evaluación con defensa. La afirmación incluye un registro firmado de credencial cuya alteración queda revelada y verificación pública, conforme a la especificación de evaluación de PyArcana. Toda credencial verificada se emite únicamente en el servidor, nunca desde el almacenamiento del navegador. Hoy, PyArcana no emite ninguna credencial verificada de clase D.
           </p>
         </section>
 

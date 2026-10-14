@@ -57,8 +57,11 @@ const FINAL = 'evidence_grounded_ai_systems_capstone'
 
 // Each capstone credential's own catalog version (badges[].version in badge_catalog.json), written
 // out by hand so the test does not read the value it checks. None is the catalog's top-level 1.0.0:
-// each credential's claim text changed on 2026-10-13 ("a prueba de manipulación" became "revela
-// cualquier alteración", owner decision O25), so each carries the next patch version of its own.
+// each credential's claim text changed on 2026-10-13 ("a prueba de manipulación" became a clause
+// that reveals an alteration, owner decision O25), so each carries the next patch version of its
+// own. The clause was reworded again on 2026-10-14, before any release, to speak of the credential
+// record and not the learner's evidence; the requirements did not change, so the versions did not
+// move again.
 const VERSION: Record<string, string> = {
   integrated_python_ai_capstone_foundations: '1.0.1',
   integrated_python_ai_capstone_independent: '1.0.1',

@@ -35,17 +35,19 @@ const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..')
  * [English clause of the statement, Spanish clause of the catalog's public_claim it renders], in the
  * order the claim makes them.
  *
- * The fourth row is the one the owner changed (O25, 2026-10-13). The catalog used to say "evidencia a
+ * The fourth row is the one the owner changed twice (O25). The catalog used to say "evidencia a
  * prueba de manipulación", which reads as tamper-proof, while the server's HMAC signature only
- * shows a change after the fact, and the English statement says so ("tamper-evident"). The catalog
- * now says "evidencia que revela cualquier alteración", and each credential whose claim text changed
- * carries a higher version (credential-blockers.test.ts pins them).
+ * shows a change after the fact (2026-10-13: "evidencia que revela cualquier alteración"). That
+ * still read as if the learner's evidence showed the alteration, and the signature covers the
+ * credential record (badge, version, class, statement, date, status, holder, issuer), not the exam
+ * answers or the project behind it (2026-10-14). The clause now names the record. Each credential
+ * whose claim text changed carries a higher version (credential-blockers.test.ts pins them).
  */
 const RENDERINGS: ReadonlyArray<readonly [english: string, spanish: string]> = [
   ['The learner independently demonstrated', 'El aprendiz demostró independientemente'],
   ['through a major capstone', 'mediante capstone mayor'],
   ['in an assessment with a defense', 'evaluación con defensa'],
-  ['with tamper-evident evidence', 'evidencia que revela cualquier alteración'],
+  ['with a signed credential record that reveals any changes to it', 'registro firmado de credencial cuya alteración queda revelada'],
   ['with public verification', 'verificación pública'],
   ['under PyArcana Specification', 'bajo la especificación PyArcana'],
 ]
@@ -135,6 +137,25 @@ describe('capabilityStatement', () => {
     })
   }
 
+  // The HMAC signature covers the credential record, not the exam answers or the project behind it
+  // (owner decision O25, 2026-10-14). The clause that promises detection must name the record. The
+  // pairing above cannot see this: a clause and its rendering can agree and both say "evidence".
+  for (const spec of VERIFIED) {
+    it(`${spec.badge_id}: the clause that reveals an alteration names the credential record, not the learner's evidence`, () => {
+      const claim = publicClaim(spec.badge_id)
+      const claimName = /independientemente (.+?) mediante/.exec(claim)?.[1] ?? spec.name
+      const spanish = claimClauses(claim, claimName, spec.version).filter((clause) => /alteraci/i.test(clause))
+      assert.equal(spanish.length, 1, `the catalog claim has ${spanish.length} clauses about an alteration: ${spanish.join(' | ')}`)
+      assert.match(spanish[0], /registro/i, `the claim's alteration clause does not name the record: "${spanish[0]}"`)
+      assert.doesNotMatch(spanish[0], /evidencia|prueba/i, `the claim's alteration clause speaks of evidence: "${spanish[0]}"`)
+
+      const english = statementClauses(capabilityStatement(spec), spec.name, spec.version).filter((clause) => /alteration|changes|tamper/i.test(clause))
+      assert.equal(english.length, 1, `the statement has ${english.length} clauses about an alteration: ${english.join(' | ')}`)
+      assert.match(english[0], /\brecord\b/i, `the statement's alteration clause does not name the record: "${english[0]}"`)
+      assert.doesNotMatch(english[0], /\bevidence\b/i, `the statement's alteration clause speaks of evidence: "${english[0]}"`)
+    })
+  }
+
   // The guard has to be able to fail. Each case is a statement the defect could have written.
   describe('the guard reports what a bad statement does wrong', () => {
     const spec = VERIFIED[0]
@@ -164,7 +185,11 @@ describe('capabilityStatement', () => {
     })
 
     it('reports clauses out of the catalog order', () => {
-      const bad = good.replace('in an assessment with a defense, with tamper-evident evidence', 'with tamper-evident evidence, in an assessment with a defense')
+      const bad = good.replace(
+        'in an assessment with a defense, with a signed credential record that reveals any changes to it',
+        'with a signed credential record that reveals any changes to it, in an assessment with a defense'
+      )
+      assert.notEqual(bad, good, 'the statement no longer has the clauses this case swaps')
       assert.match(check(bad).join('\n'), /out of the catalog's order/)
     })
 
