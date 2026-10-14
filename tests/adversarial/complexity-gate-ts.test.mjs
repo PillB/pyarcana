@@ -616,6 +616,12 @@ const FORM_CASES = [
     code: (extra) => `export function rows() {\n${extra}  return [['role', ${offender('  ')}]]\n}\n`,
   },
   {
+    form: 'object in ArrayExpression.elements[]',
+    key: 'MODALS.<item "auth">.open',
+    extra: "  { id: 'glossary', open: (x: number) => x },\n",
+    code: (extra) => `export const MODALS = [\n${extra}  { id: 'auth', open: ${offender('  ')} },\n]\n`,
+  },
+  {
     form: 'object in ArrowFunctionExpression.body',
     key: 'make.<returned>.big',
     extra: ', opts = { big: () => 0 }',

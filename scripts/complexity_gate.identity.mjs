@@ -194,13 +194,17 @@ const functionLabel = (fn) =>
 /**
  * The name of an object or a list that holds functions, or null when the code gives it none. It is
  * named as a function is: by what it is bound to, or by how it is used (`<arg 0 of m = new Measurement>`,
- * `<Ctx.Provider value>`, `<returned>`, `<default of opts>`). A list in a list is a row, whose
- * functions take its title (`ROWS.<item 1 "role">`), so it is not a segment of its own.
+ * `<Ctx.Provider value>`, `<returned>`, `<default of opts>`). An object in a list is the row its first
+ * string value titles, `MODALS.<item "auth">`, with no place, so a row added before it moves nothing; a
+ * list in a list is a row, whose functions take its title (`ROWS.<item 1 "role">`).
  */
 function literalLabel(node) {
   const bound = bindingName(node)
   if (bound !== null) return bound
-  return boundTo(node).parent.type === 'ArrayExpression' ? null : usageLabel(node)
+  if (boundTo(node).parent.type !== 'ArrayExpression') return usageLabel(node)
+  if (node.type !== 'ObjectExpression') return null
+  const title = titled(node.properties.map((p) => p.value), node.properties.length)
+  return title === '' ? null : `<item${title}>`
 }
 
 /** True for what names a segment of a path: a function, a class, or an object or a list the code names. */
