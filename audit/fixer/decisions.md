@@ -674,11 +674,26 @@ in `audit/consolidated/registry.json` as `section: "S20"`. Its number-to-slug ma
 gitignored cache (`.fixer/events.json`) indexed by position, so a stale copy could name a
 different section than the committed course did.
 
-The 16 Sept 2026 id rename (a492d8ea) showed the cost. It was a pure rename: `git show
---name-status` reports R096 for `s03-data-structures.ts` to `s03-decisions-rules.ts`, a
-37-line change, and R099 for ten more. It changed eleven ids (S03 to S13) and moved no
-number. Six cycle records (S03 to S08) still named the old ids afterwards; S01 and S02 were
-never renamed, and no record reaches S09.
+The 16 Sept 2026 id rename (a492d8ea) showed the cost. It changed eleven ids (S03 to S13) and
+moved no number, but it was not a pure rename. `git show -M --name-status a492d8ea` lists
+`R096  src/lib/course/sections/s03-data-structures.ts  src/lib/course/sections/s03-decisions-rules.ts`
+and `R099` for the ten others (R100 would be a rename with no edit). `git diff -M --numstat
+a492d8ea^ a492d8ea -- src/lib/course/sections/` gives `37 37` for S03, `4 4` for eight of the
+others, `7 7` for S08 and `12 8` for S09. The 37 changed lines of S03 (`git diff -M -U0`) are
+three lines of the header comment, the `id` line (`'data-structures'` became
+`"decisions-rules"`), 22 lines that only add backticks or change the quote style (`review` became
+`` `review` ``), and 11 lines whose learner-visible wording changed. Among those 11: the `and`/`or`
+hint ("Short-circuit: or se detiene en el primero truthy" became "Por cortocircuito, `or` se
+detiene en el primer operando truthy"), the steps of the exercise that began "Implementa guards"
+(now "Implementa salidas tempranas"), the hint "Primero None, luego not in allowlist, luego len !=
+esperado" (now naming `ALLOWED_DOC` and `DOC_LEN[tipo]`), and the quiz question that said
+"chequear" (now "comprobar"). Whether any finding closed before the rename concerned one of
+those lines is not assumed here; S03's next round re-checks it (see O25 below). Six cycle
+records (S03 to S08) still named the old ids afterwards (`slug_at_record` in each); S01 and S02
+were never renamed, and no record reaches S09. The message of commit `df976a8c` says the rename
+of "S01-S13" changed "eight sections' ids" and left "the eight cycle records" with old ids; the
+numbers above are from git, and commit messages are not rewritten, so this paragraph is the
+correction.
 
 - **Rule now:** every cycle record carries `numbering_epoch` and `slug`, the redaction list
   carries `numbering_epoch`, and the registry carries `numbering_epoch` (the numbering of each

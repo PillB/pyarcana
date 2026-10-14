@@ -139,6 +139,26 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
                        "text_numbering_epoch", "roadmap_of_record_problems", "ROADMAP_PATH"):
             self.assertIn(needed, record)
 
+    def test_the_record_states_the_16_sept_rename_as_git_reports_it(self) -> None:
+        """The record called the rename pure and said it "did not change that file's content". Git says R096
+        (a rename with edits; a pure one is R100) and 37 changed lines, some of them learner-visible text. The
+        facts were checked against `git show -M --name-status a492d8ea` and `git diff -M --numstat` and
+        `-U0` when this was written; a test cannot run them (CI checks out one commit), so it pins what the
+        record says: the status letter, the corrected claim, and that its line counts add up to the 37.
+        Mutations: put "pure rename" back, or change 22 or 11, and this fails."""
+        text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
+        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        self.assertIn("R096", record)
+        self.assertIn("not a pure rename", record)
+        for false_claim in ("It was a pure rename", "did not change that file's content"):
+            self.assertNotIn(false_claim, record)
+        header = 3                                    # "three lines of the header comment"
+        ident = 1                                     # "the `id` line"
+        formatting = int(re.search(r"(\d+) lines that only add backticks", record).group(1))
+        reworded = int(re.search(r"(\d+) lines whose learner-visible wording changed", record).group(1))
+        stated_total = int(re.search(r"gives `(\d+) \d+` for S03", record).group(1))
+        self.assertEqual(header + ident + formatting + reworded, stated_total)
+
     def test_the_record_does_not_make_a_new_roadmap_file_the_only_way_through(self) -> None:
         """The record told the operator to pass `--roadmap <the new roadmap>` on every flip, which the owner's
         roadmap diff (an in-place edit) does not need, and which a test then rejected. Plain `advance` keeps
