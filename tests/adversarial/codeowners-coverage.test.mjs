@@ -295,6 +295,15 @@ describe('AGENTS.md ask-first names the renumber guard inputs', () => {
       /\bsection manifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
     assert.ok(bullet, `no ask-first bullet says "section manifest" and names all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
   })
+
+  for (const path of NAMED_PATHS) {
+    it(`names ${path} in full, as a code span, in an ask-first bullet`, () => {
+      // The full path, not the basename: `numbering_epoch.json` alone does not say which file, and
+      // a longer path that merely contains this one must not satisfy the check.
+      const named = askFirstBullets().some((bullet) => bullet.includes(`\`${path}\``))
+      assert.ok(named, `no ask-first bullet names \`${path}\``)
+    })
+  }
 })
 
 /** The first bash block under an AGENTS.md heading: one command per line. */
