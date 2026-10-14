@@ -267,7 +267,7 @@ def main() -> int:
             if (row := concept_row(cid, c, tag)) is not None]
     if not todo:
         print(f"{tag}: no unexplained concepts", file=sys.stderr)
-        return 2
+        return 2        # run_concepts.sh reads exactly this status as "nothing to teach"; every other one stops it
 
     todo.sort(key=lambda t: (not t["never_explained_anywhere"], not t["load_bearing"]))
     known = vocabulary_before(payload, epoch, num)

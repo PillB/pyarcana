@@ -9,7 +9,8 @@ answer at any of them passes every unit test of numbering.py:
   * preflight.py, which must refuse a tree whose epoch, course or state disagree;
   * gate.py, whose strict-output measure and identifier measure find a section by its file;
   * build_redaction_prompt.py and build_critique_followup.py, which name the section to Codex and read the
-    prose report by tag.
+    prose report by tag;
+  * run_concepts.sh, which must tell the brief builder's "nothing to teach" (exit 2) from a refusal.
 
 The review of the first draft mutated each of these in a scratch copy (section_path returned the next
 section; preflight dropped check_numbering; gate forced its filter to a section that does not exist) and
@@ -20,6 +21,7 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -268,6 +270,79 @@ class CodexBriefsNameTheRightSection(NumberingFixture):
         write(self.root, ".fixer/S09c1.result.json", json.dumps(critique))
         with self.assertRaises(NumberingError):
             self.brief(build_critique_followup, "S09c1")
+
+
+class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
+    """run_concepts.sh ran the brief builder with its stderr thrown away and read every non-zero status as
+    "nothing unexplained". The builder now refuses a registry stamped for another epoch (exit 1), so a tree
+    whose registry was regenerated after a renumber printed "nothing unexplained in S02" for a section that
+    had work. Exit 2 is the builder's one word for "nothing to teach"; any other status is a refusal.
+
+    The real runner and the real builder run in a copy of the fixer tools, so their ROOT is the temporary
+    course. Two stand-ins, both test-only: gate.py (it measures the whole course through npm and node, and
+    is not what this tests) and run_codex.py (an external model). The codex stand-in leaves a marker file
+    and exits 1, so a run that got past the brief is told apart from one the brief stopped."""
+
+    CODEX_MARKER = ".fixer/codex-was-called"
+
+    def setUp(self) -> None:
+        super().setUp()
+        round_tree(self.root)
+        shutil.copytree(ROOT / "tools/fixer", self.root / "tools/fixer",
+                        ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copy(ROOT / "audit/fixer/known_false_claims.json", self.root / "audit/fixer/known_false_claims.json")
+        write(self.root, "tools/fixer/gate.py", "raise SystemExit(0)\n")
+        write(self.root, "tools/fixer/run_codex.py",
+              f"from pathlib import Path\nPath('{self.CODEX_MARKER}').write_text('called')\nraise SystemExit(1)\n")
+        self.bin = self.root / "bin"
+        self.bin.mkdir()
+        (self.bin / "python3").symlink_to(sys.executable)
+
+    def run_runner(self, *tags: str) -> CompletedProcess:
+        env = {**os.environ, "PATH": f"{self.bin}{os.pathsep}{os.environ['PATH']}"}
+        return subprocess.run(["bash", "tools/fixer/run_concepts.sh", *(tags or ("S02",))], cwd=self.root,
+                              env=env, capture_output=True, text=True, timeout=120)
+
+    def codex_was_called(self) -> bool:
+        return (self.root / self.CODEX_MARKER).exists()
+
+    def test_a_brief_the_builder_can_write_reaches_codex(self) -> None:
+        """The control: with a sound tree the runner gets past the brief, so the refusals below are the brief's."""
+        done = self.run_runner()
+        self.assertTrue(self.codex_was_called(), done.stdout + done.stderr)
+        self.assertIn("codex failed - stopping", done.stdout)
+
+    def test_a_registry_stamped_for_another_epoch_stops_the_run_and_says_why(self) -> None:
+        registry(self.root, ROUND_FILED, stamp=2)
+        done = self.run_runner()
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("S02 brief refused", done.stdout)
+        self.assertIn("is from epoch 2, but the current epoch is 3", done.stdout + done.stderr)
+        self.assertNotIn("nothing unexplained", done.stdout)
+        self.assertFalse(self.codex_was_called())
+
+    def test_an_unstamped_registry_stops_the_run_and_says_why(self) -> None:
+        registry(self.root, ROUND_FILED, stamp=None)
+        done = self.run_runner()
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("S02 brief refused", done.stdout)
+        self.assertIn("no numbering_epoch", done.stdout + done.stderr)
+        self.assertNotIn("nothing unexplained", done.stdout)
+
+    def test_a_refusal_stops_the_run_before_the_next_section(self) -> None:
+        registry(self.root, ROUND_FILED, stamp=2)
+        done = self.run_runner("S02", "S03")
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("S02 concepts", done.stdout)
+        self.assertNotIn("S03 concepts", done.stdout)
+
+    def test_a_section_with_nothing_to_teach_is_clean_and_the_run_goes_on(self) -> None:
+        write(self.root, "course-state/concept_map.json", json.dumps({}))
+        done = self.run_runner()
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertIn("nothing unexplained in S02", done.stdout)
+        self.assertNotIn("refused", done.stdout)
+        self.assertFalse(self.codex_was_called())
 
 
 if __name__ == "__main__":
