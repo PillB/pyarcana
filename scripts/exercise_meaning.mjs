@@ -22,6 +22,11 @@
  * with `node --import tsx scripts/exercise_fingerprints.mts --write`, then append one ledger row per changed
  * id (kind `changed`, from_fp the old anchor, to_fp the new one, reason, decided_by, date). Never edit a row.
  *
+ * To remove an exercise (owner decision O25, 2026-10-13): append a row of kind `removed` for its id, with
+ * from_fp the anchor it held, to_fp null, and decided_by naming the owner decision (`owner: O<n> (date)`).
+ * The row clears ANCHOR_REMOVED (ledgerFindings) and EXERCISE_REMOVED (classify). The decision is checked
+ * by its form only: OWNER_DECISIONS.md retires entries, so a lookup there would break when one retires.
+ *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
  */
@@ -36,7 +41,9 @@ export const ANCHORS_PATH = 'audit/safe-agent/exercise-meaning-anchors.json'
 export const LEDGER_PATH = 'audit/safe-agent/exercise-meaning-ledger.json'
 export const MEANING_FLOOR = 0.5
 export const MOVE_MARGIN = 0.1
-const LEDGER_KINDS = new Set(['changed', 'added', 'reanchored', 'renumbered', 'historical'])
+const LEDGER_KINDS = new Set(['changed', 'added', 'reanchored', 'renumbered', 'removed', 'historical'])
+/** A decided_by that names an owner decision: `owner: O25 (2026-10-13)`. The form only; see the header. */
+export const OWNER_DECISION = /^owner: O\d+\b/
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const FP_SCRIPT = 'scripts/exercise_fingerprints.mts'
 
@@ -86,6 +93,11 @@ function resolvedBy(rows, id, sha) {
   return rows.some((row) => row.kind !== 'historical' && row.id === id && row.to_fp === sha)
 }
 
+/** Whether a `removed` row retires `id` as the anchor `sha` holds it. */
+function removedBy(rows, id, sha) {
+  return rows.some((row) => row.kind === 'removed' && row.id === id && row.from_fp === sha)
+}
+
 /** The finding for one exercise whose fingerprint differs from its anchor, or null when it is a wording edit. */
 function changeFinding(id, anchor, now, anchors) {
   const similarity = jaccard(anchor.tokens, now.tokens)
@@ -115,7 +127,7 @@ export function classify(anchors, current, rows = []) {
     if (finding && !resolvedBy(rows, id, now.sha256)) findings.push(finding)
   }
   for (const id of Object.keys(anchors).sort()) {
-    if (!(id in current)) findings.push({ code: 'EXERCISE_REMOVED', id })
+    if (!(id in current) && !removedBy(rows, id, anchors[id].sha256)) findings.push({ code: 'EXERCISE_REMOVED', id })
   }
   return findings
 }
@@ -128,16 +140,32 @@ function placementProblems(row, index) {
   const problems = []
   if (row?.row !== index + 1) problems.push('row must number 1..n in order')
   if (typeof row?.id !== 'string' || !EXERCISE_ID.test(row.id)) problems.push('id must be an exercise id')
-  if (!LEDGER_KINDS.has(row?.kind)) problems.push('kind must be changed, added, reanchored, renumbered or historical')
+  if (!LEDGER_KINDS.has(row?.kind)) problems.push('kind must be changed, added, reanchored, renumbered, removed or historical')
+  return problems
+}
+
+/**
+ * Problems with the fingerprints a row carries. A removed row retires an anchor: from_fp is the anchor
+ * it held and to_fp is null. Every other row ends at a sha256, and starts at one, or at null for an
+ * exercise that had no anchor.
+ */
+function fingerprintProblems(row) {
+  const problems = []
+  const removed = row?.kind === 'removed'
+  if (removed && row.to_fp !== null) problems.push('to_fp must be null: a removed exercise holds no fingerprint')
+  if (!removed && !isSha256(row?.to_fp)) problems.push('to_fp must be a sha256')
+  if (removed && !isSha256(row?.from_fp)) problems.push('from_fp must be the sha256 of the anchor that is removed')
+  if (!removed && row?.from_fp !== null && !isSha256(row?.from_fp)) problems.push('from_fp must be a sha256, or null for an exercise that had no anchor')
   return problems
 }
 
 /** Problems with the evidence a row carries: its fingerprints, its reason, its decider and its date. */
 function evidenceProblems(row) {
-  const problems = []
-  if (!isSha256(row?.to_fp)) problems.push('to_fp must be a sha256')
-  if (row?.from_fp !== null && !isSha256(row?.from_fp)) problems.push('from_fp must be a sha256, or null for an exercise that had no anchor')
+  const problems = fingerprintProblems(row)
   for (const key of ['reason', 'decided_by']) if (isBlank(row?.[key])) problems.push(`${key} must be non-empty`)
+  if (row?.kind === 'removed' && !isBlank(row.decided_by) && !OWNER_DECISION.test(row.decided_by)) {
+    problems.push('decided_by must name an owner decision (owner: O<n> (date)) for a removed exercise')
+  }
   if (typeof row?.date !== 'string' || !ISO_DATE.test(row.date)) problems.push('date must be YYYY-MM-DD')
   return problems
 }
@@ -165,15 +193,31 @@ function appendOnlyFindings(baseRows, headRows) {
  * which is the commit that introduces the anchors; nothing to compare against there. Otherwise every
  * anchor that differs at head needs a row added after the base's rows, naming that id and that
  * fingerprint. A `historical` row records a change made before the anchors existed, so it never
- * accepts a change made now (the same rule as classify's resolvedBy).
+ * accepts a change made now (the same rule as classify's resolvedBy). An anchor that left the course
+ * (ANCHOR_REMOVED) needs a `removed` row for its id. Only a well-formed appended row clears a finding:
+ * a malformed row is reported by LEDGER_ROW_INVALID and clears nothing.
  */
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
   const findings = appendOnlyFindings(baseRows, headRows)
   if (baseAnchors === null) return findings
-  const added = headRows.slice(baseRows.length)
+  const added = headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
+  const context = { baseAnchors, headAnchors, added }
+  return [...findings, ...removedAnchorFindings(context), ...changedAnchorFindings(context), ...notVacatedFindings(context)]
+}
+
+/** ANCHOR_REMOVED: an anchor the base had and the head lacks, with no appended `removed` row for the id. */
+function removedAnchorFindings({ baseAnchors, headAnchors, added }) {
+  const findings = []
   for (const id of Object.keys(baseAnchors)) {
-    if (!(id in headAnchors)) findings.push({ code: 'ANCHOR_REMOVED', id })
+    if (id in headAnchors) continue
+    if (!added.some((row) => row.kind === 'removed' && row.id === id)) findings.push({ code: 'ANCHOR_REMOVED', id })
   }
+  return findings
+}
+
+/** ANCHOR_CHANGED_UNLEDGERED: an anchor that is new or differs from the base, with no row naming id and fingerprint. */
+function changedAnchorFindings({ baseAnchors, headAnchors, added }) {
+  const findings = []
   for (const id of Object.keys(headAnchors)) {
     const before = baseAnchors[id]
     const now = headAnchors[id]
@@ -185,21 +229,45 @@ export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRo
   return findings
 }
 
+/** Whether `id` holds other content at head than at the base, or is gone: the id no longer names what it named. */
+const vacated = ({ baseAnchors, headAnchors }, id) => !(id in headAnchors) || headAnchors[id].sha256 !== baseAnchors[id]?.sha256
+
+/**
+ * LEDGER_ID_NOT_VACATED: a `removed` row for an id the head still anchors with the fingerprint the base
+ * gave it. The row says the exercise left the course while the anchor says it did not.
+ */
+function notVacatedFindings(context) {
+  return context.added
+    .filter((row) => row.kind === 'removed' && !vacated(context, row.id))
+    .map((row) => ({ code: 'LEDGER_ID_NOT_VACATED', id: row.id, row: row.row }))
+}
+
 /**
  * The ledger's last word on an id must be the anchor the id holds now. The ledger is append-only, so
  * an id that changed twice has two rows and only the newest names the current anchor; an older row
  * keeps the fingerprint it recorded. A historical row is the newest row of an id until that id changes
  * again, and then a later row takes its place. An id with no row is not examined here (classify
  * reports an anchor that no longer matches the course).
+ *
+ * A `removed` row is not an anchor: it excuses the missing anchor of an id whose last word it is, and an
+ * id that is removed and still anchored is reported. An id that came back after its removal is
+ * judged by the row that brought it back. Where a removal sits among the rows of its own PR is not
+ * judged (ledgerFindings judges each appended removal, LEDGER_ID_NOT_VACATED), so an anchor equal to
+ * the arrival row's passes whatever the order.
  */
 export function ledgerAnchorFindings(anchors, rows) {
-  const newest = new Map()
-  for (const row of rows) newest.set(row.id, row)
+  const arrivals = new Map()
+  const departures = new Map()
+  for (const row of rows) (row.kind === 'removed' ? departures : arrivals).set(row.id, row)
   const findings = []
-  for (const [id, row] of newest) {
-    if (anchors[id]?.sha256 !== row.to_fp) {
-      findings.push({ code: 'LEDGER_NEWEST_ROW_NOT_ANCHOR', id, row: row.row, anchor: anchors[id]?.sha256 ?? null })
-    }
+  for (const id of new Set(rows.map((row) => row.id))) {
+    const arrival = arrivals.get(id)
+    const departure = departures.get(id)
+    const held = anchors[id]?.sha256
+    if (arrival && held === arrival.to_fp) continue
+    const departedSince = departure !== undefined && (arrival === undefined || departure.row > arrival.row)
+    if (departedSince && held === undefined) continue
+    findings.push({ code: 'LEDGER_NEWEST_ROW_NOT_ANCHOR', id, row: (departedSince ? departure : arrival).row, anchor: held ?? null })
   }
   return findings
 }

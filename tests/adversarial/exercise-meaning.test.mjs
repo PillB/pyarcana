@@ -246,6 +246,86 @@ describe('ledgerAnchorFindings: the newest row of an id names its anchor', () =>
   })
 })
 
+describe('removed rows: an exercise leaves the course only by an owner decision (O25)', () => {
+  const ID = 'S05-T1-A-E1'
+  const OTHER = 'S05-T1-A-E2'
+  const OWNER = 'owner: O25 (2026-10-13)'
+  const exercise = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
+  const removed = (over = {}) => ({ row: 1, id: ID, kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado del curso', decided_by: OWNER, date: '2026-10-13', ...over })
+  const base = { [ID]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+  const head = { [OTHER]: exercise(SHA_B) }
+  const findingsFor = (rows, headAnchors = head) => ledgerFindings({ baseAnchors: base, headAnchors, baseRows: [], headRows: rows })
+  const codeList = (findings) => findings.map((f) => f.code)
+
+  it('reports an anchor that left the course with no row', () => {
+    assert.deepEqual(codeList(findingsFor([])), ['ANCHOR_REMOVED'])
+  })
+
+  it('accepts the removal once an appended removed row names the id and the owner decision', () => {
+    assert.deepEqual(findingsFor([removed()]), [])
+  })
+
+  it('does not accept the removal with a row of any other kind', () => {
+    for (const kind of ['changed', 'added', 'reanchored', 'historical']) {
+      const findings = findingsFor([removed({ kind, to_fp: SHA_B })])
+      assert.ok(codeList(findings).includes('ANCHOR_REMOVED'), `${kind}: ${JSON.stringify(findings)}`)
+    }
+  })
+
+  it('does not accept the removal of one id as the removal of another', () => {
+    assert.ok(codeList(findingsFor([removed({ id: OTHER, from_fp: SHA_B })])).includes('ANCHOR_REMOVED'))
+  })
+
+  it('refuses a removed row whose decided_by names no owner decision, and it clears nothing', () => {
+    for (const decided_by of ['medido', 'owner', 'owner: sí', 'agent: O25', 'O25']) {
+      const findings = findingsFor([removed({ decided_by })])
+      assert.deepEqual(codeList(findings), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'], `${decided_by}: ${JSON.stringify(findings)}`)
+      assert.ok(findings[0].problems.some((p) => /decided_by/.test(p)), JSON.stringify(findings[0]))
+    }
+  })
+
+  it('refuses a removed row that holds a to_fp, or has no from_fp to point at', () => {
+    for (const over of [{ to_fp: SHA_B }, { from_fp: null }, { from_fp: 'no-hash-here' }]) {
+      const findings = findingsFor([removed(over)])
+      assert.equal(findings[0]?.code, 'LEDGER_ROW_INVALID', JSON.stringify({ over, findings }))
+    }
+  })
+
+  it('refuses a removed row for an id the head still anchors, unchanged', () => {
+    const findings = ledgerFindings({ baseAnchors: base, headAnchors: base, baseRows: [], headRows: [removed()] })
+    assert.deepEqual(codeList(findings), ['LEDGER_ID_NOT_VACATED'])
+    assert.equal(findings[0].id, ID)
+  })
+
+  it('accepts a removed row for an id the head holds again with other content, when a row names that', () => {
+    const reused = { ...head, [ID]: exercise(SHA_C) }
+    const added = { row: 2, id: ID, kind: 'added', from_fp: null, to_fp: SHA_C, reason: 'otro ejercicio', decided_by: OWNER, date: '2026-10-13' }
+    assert.deepEqual(findingsFor([removed(), added], reused), [])
+  })
+
+  it('classify: resolves EXERCISE_REMOVED with a removed row for the anchor it holds, and no other', () => {
+    const anchors = { [ID]: anchor('S05', BAR), [OTHER]: anchor('S05', AXIS) }
+    const current = { [OTHER]: anchors[OTHER] }
+    assert.deepEqual(classify(anchors, current).map((f) => f.code), ['EXERCISE_REMOVED'])
+    assert.deepEqual(classify(anchors, current, [removed({ from_fp: anchors[ID].sha256 })]), [])
+    assert.equal(classify(anchors, current, [removed({ from_fp: SHA_C })]).length, 1, 'a row for another fingerprint')
+    assert.equal(classify(anchors, current, [removed({ id: OTHER, from_fp: anchors[OTHER].sha256 })]).length, 1, 'a row for another id')
+  })
+
+  it('ledgerAnchorFindings: an id the ledger removed needs no anchor, and one that is still anchored is reported', () => {
+    const changed = { row: 1, id: ID, kind: 'changed', from_fp: SHA_A, to_fp: SHA_B, reason: 'r', decided_by: 'owner', date: '2026-10-13' }
+    assert.deepEqual(ledgerAnchorFindings({}, [changed, removed({ row: 2, from_fp: SHA_B })]), [])
+    const findings = ledgerAnchorFindings({ [ID]: exercise(SHA_C) }, [removed()])
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.row]), [['LEDGER_NEWEST_ROW_NOT_ANCHOR', ID, 1]])
+  })
+
+  it('ledgerAnchorFindings: an id that came back after its removal holds the anchor of the row that brought it back', () => {
+    const back = { row: 2, id: ID, kind: 'added', from_fp: null, to_fp: SHA_C, reason: 'r', decided_by: 'owner', date: '2026-10-13' }
+    assert.deepEqual(ledgerAnchorFindings({ [ID]: exercise(SHA_C) }, [removed(), back]), [])
+    assert.equal(ledgerAnchorFindings({}, [removed(), back]).length, 1)
+  })
+})
+
 describe('CODEOWNERS: the B11 guard and its state are the owner\'s files', () => {
   const owners = readFileSync(join(ROOT, '.github/CODEOWNERS'), 'utf8')
     .split('\n')
@@ -363,6 +443,34 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     const run = runSentinel(dir, base)
     assert.equal(run.status, 1)
     assert.ok(sentinelResult(dir).failures.some((f) => f.code === 'EXERCISE_ANCHORS_REMOVED'), JSON.stringify(sentinelResult(dir).failures))
+  })
+
+  const twoAnchors = (shaA, shaB) => JSON.stringify({ schema: 'exercise_meaning_anchors/1', exercises: { 'S05-T1-A-E1': exercise(shaA), 'S05-T1-A-E2': exercise(shaB) } })
+  const oneAnchor = (sha) => JSON.stringify({ schema: 'exercise_meaning_anchors/1', exercises: { 'S05-T1-A-E2': exercise(sha) } })
+  const removedRow = (over = {}) => ({ row: 1, id: 'S05-T1-A-E1', kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado del curso', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13', ...over })
+
+  /** The sentinel's exercise-meaning failures after a commit that drops exercise E1 from the anchors. */
+  function sentinelAfterRemoval(rows) {
+    const { dir, base } = repo({ ...CURRICULUM, [ANCHORS_PATH]: twoAnchors(SHA_A, SHA_B), [LEDGER_PATH]: ledgerFile([]) })
+    write(dir, { [ANCHORS_PATH]: oneAnchor(SHA_B), [LEDGER_PATH]: ledgerFile(rows) })
+    git(dir, 'add', '-A')
+    git(dir, 'commit', '-q', '-m', 'exercise E1 leaves the course')
+    runSentinel(dir, base)
+    return sentinelResult(dir).failures.filter((f) => f.code === 'EXERCISE_MEANING_LEDGER')
+  }
+
+  it('fails the preservation sentinel on an exercise that leaves the anchors with no removed row', () => {
+    const failures = sentinelAfterRemoval([])
+    assert.deepEqual(failures.map((f) => f.rule), ['ANCHOR_REMOVED'])
+  })
+
+  it('passes the preservation sentinel when a removed row names the owner decision', () => {
+    assert.deepEqual(sentinelAfterRemoval([removedRow()]), [])
+  })
+
+  it('fails the preservation sentinel on a removed row that names no owner decision', () => {
+    const failures = sentinelAfterRemoval([removedRow({ decided_by: 'medido' })])
+    assert.deepEqual(failures.map((f) => f.rule), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'])
   })
 
   it('stays dormant before any anchors exist: neither the base nor HEAD has them, so nothing is compared', () => {
