@@ -500,9 +500,25 @@ describe('exam/start shows each attempt its own option order (owner decision O20
   it('answers 404 for a section with no bank, and uses up no attempt', async () => {
     store.attempts = []
     store.questions = bank('basics')
-    const { status } = await startExam()
+    const { status, body } = await startExam()
     assert.equal(status, 404)
+    assert.match(body.error, /No hay preguntas/)
     assert.equal(store.attempts.length, 0)
+  })
+
+  it('starts a renamed section from the rows still stored under its old slug', async () => {
+    // `performance` became `apis-sql-geo`. A database the rename migration has not reached keeps
+    // the bank under the old slug, and exam/start must still find it under either id.
+    for (const requested of ['apis-sql-geo', 'performance']) {
+      store.attempts = []
+      store.forms = []
+      store.questions = bank('performance', 'apis-sql-geo')
+      const { status, body } = await startExam(requested)
+      assert.equal(status, 200, `requested ${requested}: ${JSON.stringify(body)}`)
+      assert.equal(body.questions.length, 8)
+      assert.ok(body.questions.every((q: Row) => String(q.id).startsWith('apis-sql-geo-')))
+      assert.equal(store.attempts[0]!.sectionId, 'apis-sql-geo')
+    }
   })
 })
 
