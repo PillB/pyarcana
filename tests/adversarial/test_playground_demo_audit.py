@@ -6,15 +6,20 @@ the defect it guards; the commit that adds this file records the mutation that t
 """
 from __future__ import annotations
 
+import ast
+import contextlib
+import io
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import playground_demo_audit as audit  # noqa: E402
+import playground_import_scope as scope  # noqa: E402
 from playground_truth import playground  # noqa: E402
 
 
@@ -50,6 +55,86 @@ class OwedSetIsAnExactRatchet(unittest.TestCase):
     def test_an_owed_demo_that_now_matches_is_a_problem(self) -> None:
         # Defect: a fixed (or deleted) owed id stays on the list, so the set never shrinks.
         self.assertEqual(len(audit.ownership_problems(set(), frozenset({"viejo"}))), 1)
+
+
+DRIFTED = {"status": "drifted", "drift": [{"package": "pandas", "declared": "3.0.5", "installed": "2.2.0"}]}
+CLEAN = {"status": "ok", "drift": []}
+
+
+def run_main(demos: dict, owed: frozenset, drift: dict = CLEAN) -> tuple[int, str, str, mock.Mock]:
+    """main() as CI runs it, with the demos, the owed set and the interpreter probe stood in.
+    Returns (exit code, stdout, stderr, the load_demos mock)."""
+    out, err = io.StringIO(), io.StringIO()
+    with mock.patch.object(audit, "load_demos", return_value=demos) as load, \
+            mock.patch.object(audit, "PINNED_OUTPUT_OWED", owed), \
+            mock.patch.object(audit.runtime, "probe_version_drift", return_value=drift), \
+            contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        code = audit.main()
+    return code, out.getvalue(), err.getvalue(), load
+
+
+def stdlib_only(demos: dict) -> dict:
+    """The real demos this interpreter can run whatever it has installed: those that import only the
+    standard library, plus those that do not parse (databases-orm), which fail by their own code."""
+    kept = {}
+    for demo_id, demo in demos.items():
+        try:
+            modules = scope.imported_modules(ast.parse(demo["code"]))
+        except SyntaxError:
+            kept[demo_id] = demo
+            continue
+        if all(module in sys.stdlib_module_names for module in modules):
+            kept[demo_id] = demo
+    return kept
+
+
+class MainDecidesTheExitCodeCIReads(unittest.TestCase):
+    """main() is the function `npm run test:python-content` runs. Its exit code is the gate."""
+
+    def test_a_mismatch_that_is_not_owed_exits_1(self) -> None:
+        # Defect: main() returns 0 whatever the demos print, so the pinned-output gate is off and
+        # every other test in this file stays green (the exit code was never asserted).
+        code, out, err, _ = run_main({"zz-nuevo": synthetic("print('hola')", "adios")}, frozenset())
+        self.assertEqual(code, 1, (out, err))
+        self.assertIn("zz-nuevo", err)
+        self.assertIn('"ok": false', out)
+
+    def test_an_owed_mismatch_is_tolerated_and_exits_0(self) -> None:
+        # Defect: main() ignores PINNED_OUTPUT_OWED, so a demo the owner has recorded as owed fails
+        # the build and the ratchet cannot be adopted.
+        code, out, err, _ = run_main({"viejo": synthetic("print('hola')", "adios")}, frozenset({"viejo"}))
+        self.assertEqual(code, 0, (out, err))
+        self.assertIn('"ok": true', out)
+
+    def test_an_owed_demo_that_now_matches_exits_1(self) -> None:
+        # Defect: the owed list is never read back by main(), so a fixed demo stays owed for ever.
+        code, _, err, _ = run_main({"viejo": synthetic("print('hola')", "hola")}, frozenset({"viejo"}))
+        self.assertEqual(code, 1, err)
+        self.assertIn("viejo", err)
+
+    def test_a_drifted_interpreter_is_refused_with_exit_2_before_any_demo_is_read(self) -> None:
+        # Defect: the drift refusal is removed, so a pandas that is not the pinned one reports
+        # mismatches as content failures (the phantom failures that moving the pin to pandas 3 caused).
+        code, out, err, load = run_main({"zz-nuevo": synthetic("print('hola')", "adios")}, frozenset(), DRIFTED)
+        self.assertEqual(code, 2, (out, err))
+        self.assertIn("pandas 2.2.0 (declared 3.0.5)", err)
+        load.assert_not_called()
+        self.assertEqual(out, "", "a refused run must not print a verdict")
+
+    def test_the_real_demos_this_interpreter_can_run_exit_0(self) -> None:
+        # Defect (the other side): the gate fails the real demos. It runs the real load_demos (the node
+        # reader) and the real owed set. Only the stdlib-only slice (and databases-orm, owed) runs here,
+        # because the adversarial job has no numpy; the content job runs all of them with the script itself.
+        demos = stdlib_only(audit.load_demos())
+        self.assertIn("databases-orm", demos, "the slice must hold the owed demo, or the owed set is not exercised")
+        self.assertGreater(len(demos), 20)
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(audit, "load_demos", return_value=demos), \
+                mock.patch.object(audit.runtime, "probe_version_drift", return_value=CLEAN), \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = audit.main()
+        self.assertEqual(code, 0, (out.getvalue(), err.getvalue()))
+        self.assertIn('"ok": true', out.getvalue())
 
 
 class ContentGateReaderMatchesTheModule(unittest.TestCase):
