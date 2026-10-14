@@ -8,14 +8,15 @@ Each test below is proved red by a named mutation; see the commit message that a
 """
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
 import unittest
-from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from playground_truth import playground  # noqa: E402
 
 #: The text pandas 2.2.0 passes to warnings.warn() when pyarrow is not installed. Copied from
 #: pandas/__init__.py (the `pa_not_found` branch of the pyarrow check): the f-string's
@@ -29,18 +30,6 @@ PANDAS_PYARROW_WARNING = (
     "please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466\n"
     "        "
 )
-
-
-@lru_cache(maxsize=1)
-def playground() -> dict:
-    """The prelude, demos and section ids as the TypeScript modules define them."""
-    proc = subprocess.run(
-        ["npx", "tsx", "scripts/playground_extractor.mts"],
-        cwd=ROOT, capture_output=True, text=True,
-    )
-    if proc.returncode != 0:
-        raise RuntimeError(f"playground_extractor.mts exited {proc.returncode}: {proc.stderr[-1500:]}")
-    return json.loads(proc.stdout)
 
 
 def stderr_of(code: str) -> str:
