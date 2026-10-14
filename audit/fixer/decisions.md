@@ -723,6 +723,17 @@ correction.
   and a second run changes nothing. It refuses a record whose slug disagrees with its old number,
   a section the new course no longer lists, an epoch with no table, and a renumber that keeps
   the section count (the label is the count, so it could not be told from the last epoch).
+- **The epoch flip is three steps, and LEDGER.md counts the new epoch only after the third.**
+  The first is `python3 tools/fixer/restamp.py advance`. It cannot write LEDGER.md, because that
+  file is generated from the gate's reports, and those still describe the old course:
+  `course-state/prose_quality_report.json` is keyed by tag, so its `S20` row is the old `S20`
+  until the gate has rebuilt it. Right after `advance`, then, the ledger still counts the old
+  epoch's sections, and `test_the_ledger_step_totals_are_the_epoch_count` fails. The second step
+  is a gate run, `python3 tools/fixer/gate.py snapshot SXX` for any section, which rebuilds
+  those reports for the whole course. The third is `python3 tools/fixer/ledger.py`, which then
+  writes LEDGER.md with the new epoch's count. The epoch commit is the output of all three, in
+  that order: a ledger built before the gate run reads reports that still describe the old
+  course. `advance` ends by printing the order (`restamp.LEDGER_NEXT`).
 - **The roadmap of record is whatever the epoch file names, and no fixer code or test types its
   name.** The owner's roadmap diff edits the roadmap in place (the design applies "the HEAD
   roadmap"), so plain `advance` keeps the name; `--roadmap PATH` is for a roadmap that moves to
@@ -755,11 +766,12 @@ correction.
   now uses. Today no record is at S19 or later, so none would move. (2) The epoch label is the
   section count, so a renumber that keeps the count needs a different label scheme first.
   (3) `course-state/concept_map.json` and `prose_quality_report.json` are keyed by tag too, but
-  the gate regenerates them from the course, so a restamp leaves them; run `ledger.py` and the
-  gate after it. (4) The registry's `section` is re-keyed in place rather than copied, so the
-  file is rewritten whole (2,124 findings, none changed but `section`). (5) The audit's own
-  rendering of the registry (`audit/consolidated/INDEX.md`, `findings.csv` and `sections/S*.md`)
-  stays at the numbering the auditors used and is not restamped; no tool reads it.
+  the gate regenerates them from the course, so a restamp leaves them; the gate run and then
+  `ledger.py` come after it (the epoch-flip paragraph above). (4) The registry's `section` is
+  re-keyed in place rather than copied, so the file is rewritten whole (2,124 findings, none
+  changed but `section`). (5) The audit's own rendering of the registry
+  (`audit/consolidated/INDEX.md`, `findings.csv` and `sections/S*.md`) stays at the numbering the
+  auditors used and is not restamped; no tool reads it. The owner confirmed this on 2026-10-14.
 - **Expert standard:** Kimball, *The Data Warehouse Toolkit* (surrogate keys for rows whose
   natural label changes); Google AIP-122 (resource IDs are stable; display names are not); and
   Sadalage and Ambler, *Refactoring Databases* (a change that moves keys is a scripted,

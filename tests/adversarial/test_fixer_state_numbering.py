@@ -171,6 +171,24 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
                          "D23 tells the operator to pass --roadmap <the new roadmap> on every flip")
         self.assertIn("python3 tools/fixer/restamp.py advance`", record)
 
+    def test_the_record_says_the_ledger_counts_the_new_epoch_only_after_a_gate_run_and_ledger_py(self) -> None:
+        """`advance` cannot write LEDGER.md, which is generated from the gate's reports, so an epoch commit
+        that stops at `advance` leaves the ledger counting the old epoch (the totals test stays red). The
+        record said only "run `ledger.py` and the gate after it", which is the wrong order: the ledger would
+        be built from reports the gate has not yet rebuilt. Mutations: drop the paragraph, drop the gate or
+        `ledger.py` from it, put the ledger first, or put the old sentence back, and this fails."""
+        text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
+        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        heading = "- **The epoch flip is three steps"
+        self.assertTrue(heading in record, f"D23 has no paragraph starting {heading!r}")
+        steps = record.split(heading, 1)[1].split("\n- **", 1)[0]
+        for needed in ("tools/fixer/restamp.py advance", "tools/fixer/gate.py", "tools/fixer/ledger.py",
+                       "LEDGER.md"):
+            self.assertTrue(needed in steps, f"the epoch-flip paragraph of D23 does not name {needed}")
+        self.assertLess(steps.index("restamp.py advance"), steps.index("gate.py"), "advance comes first")
+        self.assertLess(steps.index("gate.py"), steps.index("ledger.py"), "the gate runs before the ledger")
+        self.assertNotIn("`ledger.py` and the gate after it", record)
+
 
 class ProgressListsOnlyWhatIsStillOpen(unittest.TestCase):
     def test_the_heaviest_list_skips_sections_already_done_and_is_capped_at_eight(self) -> None:
