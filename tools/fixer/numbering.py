@@ -36,7 +36,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2]
 EPOCH_FILE = "audit/fixer/numbering_epoch.json"
@@ -104,6 +104,20 @@ def _previous_problems(data: dict) -> list[str]:
     return problems
 
 
+def roadmap_path_problem(roadmap: object) -> str | None:
+    """Why a value cannot name the roadmap of record, or None when it can.
+
+    The path is committed in the epoch file, and `restamp.py advance --roadmap` takes it from the command
+    line, so it must be a path inside the repository: an absolute path or one that climbs out would be read
+    from wherever it points."""
+    if not isinstance(roadmap, str) or not roadmap.strip():
+        return "the epoch names no roadmap of record"
+    path = PurePosixPath(roadmap)
+    if path.is_absolute() or ".." in path.parts:
+        return f"the roadmap of record {roadmap!r} must be a path inside the repository"
+    return None
+
+
 def epoch_problems(data: object) -> list[str]:
     """Why a parsed epoch file cannot be used. Empty when it can."""
     rows = data.get("sections") if isinstance(data, dict) else None
@@ -118,8 +132,9 @@ def epoch_problems(data: object) -> list[str]:
     if data.get("numbering_epoch") != len(rows):
         problems.append(f"numbering_epoch is {data.get('numbering_epoch')!r} but the table lists "
                         f"{len(rows)} sections; the label must be that count")
-    if not isinstance(data.get("roadmap"), str):
-        problems.append("the epoch names no roadmap of record")
+    why = roadmap_path_problem(data.get("roadmap"))
+    if why:
+        problems.append(why)
     problems.extend(_previous_problems(data))
     return problems
 
@@ -442,8 +457,8 @@ def main() -> int:
     if problems:
         print("numbering: refused; the fixer cannot number sections until the epoch, the roadmap, the course "
               "and the state agree")
-        print(f"after a renumber has changed the course and the roadmap, `{RESTAMP_COMMAND} advance "
-              f"--roadmap <the new roadmap>` moves the epoch and the state together")
+        print(f"after a renumber has changed the course and the roadmap, `{RESTAMP_COMMAND} advance` moves the "
+              f"epoch and the state together (add `--roadmap PATH` when the roadmap of record moved to another file)")
         return 1
     epoch = load_epoch(ROOT)
     print(f"numbering: {epoch.count} sections in epoch {epoch.label}, from {epoch.roadmap}")

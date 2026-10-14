@@ -7,7 +7,8 @@ files by hand. tools/fixer/restamp.py is the way through: `advance` writes the n
 as the renumber left it, keeps the old table in `previous_epochs`, and carries every record by its slug.
 
 These tests renumber a small course (a section inserted at position 2) and then the real state at the size
-of the real renumber (three sections inserted into 52), and check that:
+of the real renumber (three sections inserted into the real course, whatever its size is when the test
+runs), and check that:
   * the tree is red before the command, for the stated reason, and green after it;
   * each record keeps what it said and only its numbers move: a cycle file follows its section, the
     registry's findings stay with their section, finding ids and text are untouched;
@@ -22,6 +23,7 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import os
 import shutil
 import sys
 import tempfile
@@ -36,7 +38,8 @@ sys.path.insert(0, str(ROOT / "tests/adversarial"))
 import numbering  # noqa: E402
 import restamp  # noqa: E402
 from numbering import NumberingError  # noqa: E402
-from numbering_fixture import NumberingFixture, build, cycle, redaction, registry, write  # noqa: E402
+from numbering_fixture import (  # noqa: E402
+    NumberingFixture, build, cycle, redaction, registry, roadmap_of_record_problems, write)
 
 OLD = ("alpha", "beta", "gamma")
 NEW = ("alpha", "fresh", "beta", "gamma")        # a section inserted at 2: beta is S03 and gamma S04 now
@@ -109,6 +112,60 @@ class TheTreeIsRedBeforeAndGreenAfter(RenumberedTree):
         problems = numbering.check_epoch(self.root)
         self.assertEqual(len(problems), 1, problems)
         self.assertIn("restamp.py", problems[0])
+
+
+class TheRoadmapOfRecordIsWhatTheEpochNames(RenumberedTree):
+    """The roadmap check read the name from a typed literal, so the epoch flip turned the tree red the
+    moment it succeeded. These flip a fixture epoch and run the one function the real-tree test runs
+    (roadmap_of_record_problems), which reads the name from the epoch file."""
+
+    @staticmethod
+    def roadmap_text(sections: int) -> str:
+        return "".join(f"### S{n} — Titulo {n}\n" for n in range(1, sections + 1))
+
+    def test_a_flip_to_a_new_roadmap_file_leaves_the_roadmap_check_green(self) -> None:
+        """The old roadmap file stays as it was (three sections); the renumbered course has a new one (four).
+        A check that kept reading the old name would see three headings against a four-section epoch."""
+        write(self.root, "roadmap.md", self.roadmap_text(3))
+        write(self.root, "roadmap_next.md", self.roadmap_text(4))
+        self.assertEqual(roadmap_of_record_problems(self.root), [], "green before: the epoch names roadmap.md")
+        restamp.advance(self.root, "roadmap_next.md")
+        epoch = numbering.load_epoch(self.root)
+        self.assertEqual((epoch.label, epoch.roadmap), (4, "roadmap_next.md"))
+        self.assertEqual(roadmap_of_record_problems(self.root), [])
+        self.assertEqual(numbering.check_epoch(self.root), [])
+
+    def test_a_flip_in_place_keeps_the_roadmap_the_epoch_already_names(self) -> None:
+        """The case the renumber design describes: the owner's roadmap diff edits the file in place, and
+        `advance` with no --roadmap keeps its name."""
+        restamp.advance(self.root)
+        self.assertEqual(numbering.load_epoch(self.root).roadmap, "roadmap.md")
+        self.assertEqual(roadmap_of_record_problems(self.root), [])
+        self.assertEqual(numbering.check_epoch(self.root), [])
+
+    def test_the_check_reports_a_roadmap_the_epoch_names_but_the_repository_lacks(self) -> None:
+        restamp.advance(self.root)
+        (self.root / "roadmap.md").unlink()
+        self.assertEqual(roadmap_of_record_problems(self.root), ["the roadmap of record roadmap.md is not a file"])
+
+    def test_the_check_reports_headings_that_do_not_match_the_epoch(self) -> None:
+        restamp.advance(self.root)
+        write(self.root, "roadmap.md", self.roadmap_text(2))
+        problems = roadmap_of_record_problems(self.root)
+        self.assertEqual(len(problems), 1, problems)
+        self.assertIn("headings [1, 2]", problems[0])
+
+    def test_a_roadmap_outside_the_repository_is_refused_and_nothing_is_written(self) -> None:
+        """The file exists and has the right headings, so only the path rule can refuse it: without that
+        rule the epoch file would be written with a path that leaves the repository."""
+        outside = Path(tempfile.mkdtemp(prefix="pyarcana-outside-"))
+        self.addCleanup(shutil.rmtree, outside, True)
+        write(outside, "roadmap_next.md", self.roadmap_text(4))
+        before = snapshot(self.root)
+        for roadmap in (str(outside / "roadmap_next.md"), os.path.relpath(outside / "roadmap_next.md", self.root)):
+            with self.subTest(roadmap=roadmap), self.assertRaisesRegex(NumberingError, "inside the repository"):
+                restamp.advance(self.root, roadmap)
+            self.assertEqual(snapshot(self.root), before)
 
 
 class EachRecordIsCarriedBySlug(RenumberedTree):
@@ -224,6 +281,13 @@ class TheCommandIsIdempotentAndRefusalsChangeNothing(RenumberedTree):
         self.assertIn("epoch 3 -> 4", out.getvalue())
         self.assertIn("numbering: ok", out.getvalue())
 
+    def test_the_command_says_the_ledger_is_the_next_step_and_only_when_it_advanced(self) -> None:
+        """LEDGER.md carries per-step totals out of the epoch's count, and a flip simulated on a copy of the
+        real tree left exactly that test red until `ledger.py` ran. The ledger is generated from the gate's
+        reports, which the gate rebuilds, so `advance` cannot honestly write it; it says what comes next."""
+        hint = "python3 tools/fixer/ledger.py"
+        self.assertTrue(any(hint in note for note in self.advance()))
+        self.assertFalse(any(hint in note for note in self.advance()), "the second run advanced nothing")
     def test_the_command_line_refuses_a_bad_invocation(self) -> None:
         out = io.StringIO()
         with mock.patch.object(restamp, "ROOT", self.root), contextlib.redirect_stdout(out):
@@ -277,10 +341,15 @@ class TheTwoEpochFilesTellOneStory(RenumberedTree):
 
 class AtTheSizeOfTheRealRenumber(unittest.TestCase):
     """The real epoch, cycle records, redaction list, registry and rename map, with a course that has three
-    new sections inserted at S19, S20 and S35, as the design's renumber does (52 -> 55 while the real epoch
-    is 52). Every expectation is derived from the course built here, so it holds under any real epoch."""
+    new sections inserted at S19, S20 and S35, the shape of the design's renumber. Every expectation is derived
+    from the course built here, so it holds under any real epoch.
 
-    INSERT = {19: "inferencia", 20: "diseno-experimental", 35: "regresion"}
+    The inserted slugs are invented and cannot be real sections. They used to be `inferencia`,
+    `diseno-experimental` and `regresion`, the names the renumber is expected to give its new sections; the day
+    the real epoch lists them, inserting them again made a course that listed each twice, and this class
+    errored on the very flip it exists to prove. A flip simulated on a copy of the real tree found that."""
+
+    INSERT = {19: "inserted-first", 20: "inserted-second", 35: "inserted-third"}
 
     def setUp(self) -> None:
         self.root = Path(tempfile.mkdtemp(prefix="pyarcana-renumber-"))
@@ -294,6 +363,7 @@ class AtTheSizeOfTheRealRenumber(unittest.TestCase):
             else:
                 shutil.copy(source, target)
         self.old = numbering.load_epoch(ROOT)
+        self.assertEqual(set(self.INSERT.values()) & set(self.old.slugs), set(), "an invented slug became real")
         slugs = list(self.old.slugs)
         for number in sorted(self.INSERT):
             slugs.insert(number - 1, self.INSERT[number])
@@ -303,7 +373,7 @@ class AtTheSizeOfTheRealRenumber(unittest.TestCase):
         shutil.copy(ROOT / numbering.RENAMES_FILE, self.root / numbering.RENAMES_FILE)
         self.registry_before = numbering.registry_findings(ROOT, self.old)
 
-    def test_one_command_takes_52_to_55_and_the_state_follows_its_sections(self) -> None:
+    def test_one_command_adds_three_sections_and_the_state_follows_its_sections(self) -> None:
         self.assertEqual(len(self.new_slugs), self.old.count + 3)
         self.assertTrue(numbering.check_epoch(self.root), "the renumbered course is refused before the command")
         notes = restamp.advance(self.root, "roadmap.md")
@@ -323,8 +393,11 @@ class AtTheSizeOfTheRealRenumber(unittest.TestCase):
     def test_a_section_after_an_insertion_is_filed_under_its_new_number(self) -> None:
         restamp.advance(self.root, "roadmap.md")
         epoch = numbering.load_epoch(self.root)
-        # The first section, the first after the two insertions at 19 and 20, and the last.
-        for slug in (self.old.slugs[0], self.old.slugs[18], self.old.slugs[-1]):
+        # The first section with findings, the first one after the two insertions at 19 and 20, and the last.
+        # Sections with none are skipped: after an earlier flip the real epoch has sections no auditor saw.
+        with_findings = [slug for slug in self.old.slugs if self.registry_before[slug]]
+        after_insertion = next(slug for slug in with_findings if self.old.slugs.index(slug) >= 18)
+        for slug in (with_findings[0], after_insertion, with_findings[-1]):
             tag = numbering.tag_of(self.new_slugs.index(slug) + 1)
             finding = numbering.registry_findings(self.root, epoch)[slug][0]
             self.assertEqual((numbering.tag_for_slug(slug, epoch), finding["section"]), (tag, tag), slug)

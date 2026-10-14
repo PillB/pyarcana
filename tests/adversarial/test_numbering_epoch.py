@@ -74,6 +74,40 @@ class EpochAndTags(NumberingFixture):
         self.assertEqual(numbering.resolve("alpha", epoch), "alpha")
 
 
+class TheRoadmapPath(NumberingFixture):
+    """The epoch file commits a roadmap path, and `restamp.py advance --roadmap` takes it from the command
+    line, so it is validated at that boundary: a path that leaves the repository would be committed as
+    the roadmap of record and read from wherever it points."""
+
+    def test_a_repository_relative_path_is_accepted(self) -> None:
+        for name in ("roadmap.md", "docs/roadmap_next.md"):
+            with self.subTest(name=name):
+                self.assertIsNone(numbering.roadmap_path_problem(name))
+
+    def test_an_empty_absolute_or_escaping_path_is_not_a_roadmap_of_record(self) -> None:
+        for name in ("", "  ", "/etc/roadmap.md", "../roadmap.md", "docs/../../roadmap.md", None, 5):
+            with self.subTest(name=name):
+                self.assertIsNotNone(numbering.roadmap_path_problem(name))
+
+    def test_an_epoch_file_that_names_such_a_roadmap_is_refused(self) -> None:
+        build(self.root)
+        path = self.root / "audit/fixer/numbering_epoch.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["roadmap"] = "../outside.md"
+        path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(NumberingError, "inside the repository"):
+            numbering.load_epoch(self.root)
+
+    def test_an_epoch_file_with_no_roadmap_is_still_refused_for_that_reason(self) -> None:
+        build(self.root)
+        path = self.root / "audit/fixer/numbering_epoch.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        del data["roadmap"]
+        path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(NumberingError, "names no roadmap of record"):
+            numbering.load_epoch(self.root)
+
+
 class PreviousEpochs(NumberingFixture):
     """The epoch file remembers the tables of the epochs it replaced, which is what lets state stamped with
     one of them be carried to the current numbering instead of being refused for good."""

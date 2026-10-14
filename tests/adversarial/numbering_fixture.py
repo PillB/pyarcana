@@ -8,9 +8,30 @@ from __future__ import annotations
 
 import json
 import shutil
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools/fixer"))
+
+import numbering  # noqa: E402
+
+
+def roadmap_of_record_problems(root: Path) -> list[str]:
+    """Why the roadmap the epoch file names cannot be the roadmap of record. Empty when it can.
+
+    The name comes from the epoch file and from nowhere else. `restamp.py advance` moves it (in place, or to
+    a new file with --roadmap), so a check that typed the file's name would turn the tree red the day the
+    epoch flipped; the real tree and a flipped fixture both run this one function."""
+    epoch = numbering.load_epoch(root)
+    if not (root / epoch.roadmap).is_file():
+        return [f"the roadmap of record {epoch.roadmap} is not a file"]
+    headings = numbering.roadmap_numbers(root, epoch.roadmap)
+    if headings != list(range(1, epoch.count + 1)):
+        return [f"{epoch.roadmap} has headings {headings}; the epoch numbers sections 1 to {epoch.count}"]
+    return []
 
 
 def write(root: Path, rel: str, text: str) -> None:

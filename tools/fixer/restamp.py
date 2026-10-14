@@ -8,9 +8,14 @@ through. State is keyed by slug and a slug does not move, so each record is carr
 number it had is read from the table of the epoch it was stamped with, the slug it names must still be a
 section of the new epoch, and the number it has now is looked up there.
 
-    python3 tools/fixer/restamp.py                       # state stamped with an earlier epoch -> current
-    python3 tools/fixer/restamp.py advance --roadmap R   # the course was renumbered: write the next
-                                                         # epoch from it, then restamp, in one step
+    python3 tools/fixer/restamp.py                        # state stamped with an earlier epoch -> current
+    python3 tools/fixer/restamp.py advance [--roadmap R]  # the course was renumbered: write the next
+                                                          # epoch from it, then restamp, in one step
+
+The roadmap of record is whatever the epoch file names. A roadmap edited in place keeps its name, so plain
+`advance` is enough; `--roadmap R` is for a roadmap that moved to a new file, and R must be a path inside the
+repository. Nothing else types the name (test_fixer_state_numbering.py guards that), so the flip does not turn
+a check red.
 
 What it rewrites, and what it leaves:
   * audit/fixer/cycles/SXX.json: `section`, `numbering_epoch` and `slug` are re-keyed. The file is renamed
@@ -40,6 +45,11 @@ import numbering  # noqa: E402
 from numbering import NumberingError  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+
+#: LEDGER.md is generated from the gate's reports, which the gate rebuilds, so this command cannot write it
+#: honestly. Until it is regenerated, its per-step totals still count the old epoch.
+LEDGER_NEXT = ("next: run the gate, then `python3 tools/fixer/ledger.py`: LEDGER.md still counts the old "
+               "epoch's sections")
 
 #: (files to write: path -> text, files to remove, one line per change)
 Plan = tuple[dict[Path, str], list[Path], list[str]]
@@ -214,6 +224,9 @@ def _epoch_text(root: Path, epoch: numbering.Epoch) -> str:
 def next_epoch(root: Path, roadmap: str) -> numbering.Epoch | None:
     """The epoch the course now describes, or None when it is the current one. Refuses what cannot be carried."""
     old = numbering.load_epoch(root)
+    why = numbering.roadmap_path_problem(roadmap)
+    if why:
+        raise NumberingError(f"cannot advance: {why}")
     order = numbering.course_order(root)
     slugs = tuple(slug for slug, _, _ in order)
     if None in slugs:
@@ -247,7 +260,7 @@ def advance(root: Path = ROOT, roadmap: str | None = None) -> list[str]:
     writes, removes, notes = plan_state(root, new)
     writes[root / numbering.EPOCH_FILE] = _epoch_text(root, new)
     apply(writes, removes)
-    return [f"epoch {old.label} -> {new.label}, roadmap {new.roadmap}"] + notes
+    return [f"epoch {old.label} -> {new.label}, roadmap {new.roadmap}"] + notes + [LEDGER_NEXT]
 
 
 def _arguments(argv: list[str]) -> tuple[bool, str | None]:

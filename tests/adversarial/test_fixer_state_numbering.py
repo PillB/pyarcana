@@ -29,18 +29,49 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
+sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 import numbering  # noqa: E402
+from numbering_fixture import roadmap_of_record_problems  # noqa: E402
 
 
 class EpochMatchesTheTree(unittest.TestCase):
     def test_the_epoch_agrees_with_the_roadmap_and_the_course(self) -> None:
         self.assertEqual(numbering.check_epoch(ROOT), [])
 
-    def test_the_epoch_names_the_roadmap_of_record(self) -> None:
-        epoch = numbering.load_epoch(ROOT)
-        self.assertEqual(epoch.roadmap, "learning_roadmap_52_V3.md")
-        self.assertTrue((ROOT / epoch.roadmap).exists())
+    def test_the_roadmap_the_epoch_names_is_a_file_with_one_heading_per_section(self) -> None:
+        """The name is read from the epoch file. It used to be compared with a typed file name, so the
+        epoch flip (`restamp.py advance --roadmap ...`) turned this red the moment it succeeded. The same
+        function runs against a flipped fixture in test_numbering_restamp.py."""
+        self.assertEqual(roadmap_of_record_problems(ROOT), [])
+
+
+class NothingTypesTheRoadmapFileName(unittest.TestCase):
+    """The class behind the flip going red: a typed roadmap file name is right until the epoch names another.
+    The one place the name lives is audit/fixer/numbering_epoch.json (data, not code)."""
+
+    NAME = re.compile(r"learning_roadmap_\d+_V3")
+
+    def checked_files(self) -> list[Path]:
+        files = sorted((ROOT / "tools/fixer").glob("*.py")) + sorted((ROOT / "tools/fixer").glob("*.sh"))
+        tests = ROOT / "tests/adversarial"
+        return files + [tests / "numbering_fixture.py", tests / "test_fixer_state_numbering.py",
+                        tests / "test_fixer_tool_boundaries.py"] + sorted(tests.glob("test_numbering_*.py"))
+
+    def test_no_fixer_tool_or_fixer_state_test_names_the_roadmap_file(self) -> None:
+        files = self.checked_files()
+        self.assertGreater(len(files), 20)
+        typed = [f"{path.relative_to(ROOT)}:{n}: {line.strip()}" for path in files
+                 for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
+                 if self.NAME.search(line)]
+        self.assertEqual(typed, [], "a roadmap file name typed in code goes stale when the epoch flips:\n  "
+                         + "\n  ".join(typed))
+
+    def test_the_pattern_matches_the_name_it_guards_against(self) -> None:
+        stem = "learning_roadmap_"          # assembled, so this file does not match its own scan
+        self.assertTrue(self.NAME.search(f'ROADMAP = "{stem}52_V3.md"'))
+        self.assertTrue(self.NAME.search(f"{stem}55_V3.md"))
+        self.assertFalse(self.NAME.search("roadmap.md"))
 
 
 class StateIsKeyedBySlug(unittest.TestCase):
@@ -105,8 +136,18 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
         record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
         for needed in ("numbering_epoch.json", "renumber_epoch.json", "restamp.py advance", "previous_epochs",
-                       "text_numbering_epoch"):
+                       "text_numbering_epoch", "roadmap_of_record_problems", "ROADMAP_PATH"):
             self.assertIn(needed, record)
+
+    def test_the_record_does_not_make_a_new_roadmap_file_the_only_way_through(self) -> None:
+        """The record told the operator to pass `--roadmap <the new roadmap>` on every flip, which the owner's
+        roadmap diff (an in-place edit) does not need, and which a test then rejected. Plain `advance` keeps
+        the name. Mutation: put the old sentence back and this fails."""
+        text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
+        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        self.assertEqual(record.count("--roadmap <the new roadmap>"), 0,
+                         "D23 tells the operator to pass --roadmap <the new roadmap> on every flip")
+        self.assertIn("python3 tools/fixer/restamp.py advance`", record)
 
 
 class ProgressListsOnlyWhatIsStillOpen(unittest.TestCase):

@@ -695,14 +695,27 @@ never renamed, and no record reaches S09.
   today's slug, applied once. A record keeps `slug_at_record` as provenance.
 - **State from another epoch is refused, not reread**, because a number read under the wrong
   epoch names the wrong section. The way through is
-  `python3 tools/fixer/restamp.py advance --roadmap <the new roadmap>`, run after the renumber
-  has changed the course and the roadmap. It writes the next epoch from the course, keeps the
+  `python3 tools/fixer/restamp.py advance`, run after the renumber has changed the course and
+  the roadmap (add `--roadmap PATH` only when the roadmap of record moved to another file; see
+  the next point). It writes the next epoch from the course, keeps the
   old table in the epoch file's `previous_epochs`, and carries each record by its slug: cycle
   records are re-keyed, the redaction list is stamped, and the registry's findings are re-keyed
   and stamped. It plans and checks everything before it writes, so a refusal changes nothing,
   and a second run changes nothing. It refuses a record whose slug disagrees with its old number,
   a section the new course no longer lists, an epoch with no table, and a renumber that keeps
   the section count (the label is the count, so it could not be told from the last epoch).
+- **The roadmap of record is whatever the epoch file names, and no fixer code or test types its
+  name.** The owner's roadmap diff edits the roadmap in place (the design applies "the HEAD
+  roadmap"), so plain `advance` keeps the name; `--roadmap PATH` is for a roadmap that moves to
+  a new file, and PATH must lie inside the repository. The real-tree check
+  (`roadmap_of_record_problems`, in `tests/adversarial/numbering_fixture.py`) reads the name from
+  the epoch file, and `test_numbering_restamp.py` runs the same function against a fixture whose
+  epoch was flipped to a new roadmap file. A class guard in `test_fixer_state_numbering.py` fails
+  on a roadmap file name typed in `tools/fixer` or in the fixer-state tests. One dependency sits
+  outside this PR: 0b-1's `scripts/preservation/roadmap_section_count.mjs` types
+  `ROADMAP_PATH = 'learning_roadmap_52_V3.md'`. That is right while the roadmap is edited in
+  place; if the flip ever names a new roadmap file, that constant must read the name from
+  `audit/fixer/numbering_epoch.json` instead.
 - **The findings' text is not rewritten.** Finding ids (`S28-F04`) stay as ids, and the prose of
   a finding still cites the numbers its auditors used. `text_numbering_epoch` keeps saying so,
   and the two briefs that carry finding text tell Codex how to read an old number once the
