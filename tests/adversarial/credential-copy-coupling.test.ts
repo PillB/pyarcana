@@ -119,6 +119,19 @@ describe('"/verify checks an identifier only in the dynamic LMS"', () => {
     assert.ok(page.includes('«Capacidad demostrada»'))
   })
 
+  it('the policy says what "LMS dinámico" is: the edition that runs on PyArcana\'s own server', () => {
+    const inside = /LMS dinámico \(([^)]+)\)/.exec(flat(POLICY))?.[1]
+    assert.ok(inside, 'the policy no longer explains "LMS dinámico" in a parenthesis')
+    assert.match(inside, /sistema de gestión del aprendizaje/, 'the parenthesis no longer expands LMS')
+    assert.match(inside, /servidor propio de PyArcana/, 'the parenthesis no longer says the edition runs on PyArcana\'s own server')
+  })
+
+  it('the code agrees: the static builds answer 503 on the verify and issue routes, so only the server edition checks', () => {
+    for (const route of ['src/app/api/credentials/verify/route.ts', 'src/app/api/credentials/issue/route.ts']) {
+      assert.match(source(route), /if \(IS_STATIC_SITE\)\s*\{[\s\S]{0,200}status: 503/, `${route} no longer refuses a static build with 503`)
+    }
+  })
+
   it('the verify page shows that label, and tells a static build that verification is unavailable', () => {
     const verify = flat('src/app/verify/page.tsx')
     assert.ok(verify.includes('Capacidad demostrada:'))

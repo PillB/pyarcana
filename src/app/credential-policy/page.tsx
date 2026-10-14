@@ -61,7 +61,7 @@ export default function CredentialPolicyPage() {
         <section>
           <h2 className="text-lg font-semibold">Verificación y revocación</h2>
           <p>
-            En el LMS dinámico (sistema de gestión del aprendizaje), puedes comprobar una credencial verificada en /verify mediante su identificador. La página muestra la declaración firmada bajo la etiqueta «Capacidad demostrada». No existe un procedimiento que revoque una credencial emitida, y todas quedan registradas como activas.
+            En el LMS dinámico (sistema de gestión del aprendizaje: la edición que se ejecuta en el servidor propio de PyArcana), puedes comprobar una credencial verificada en /verify mediante su identificador. La página muestra la declaración firmada bajo la etiqueta «Capacidad demostrada». No existe un procedimiento que revoque una credencial emitida, y todas quedan registradas como activas.
           </p>
           <p>
             Las insignias del catálogo tienen números de versión, como 1.0.0 y 1.1.0. No existe un procedimiento que marque una credencial emitida como perteneciente a una versión anterior.
