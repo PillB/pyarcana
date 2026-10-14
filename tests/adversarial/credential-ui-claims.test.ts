@@ -77,6 +77,12 @@ const FALSE_CLAIMS = [
   'verified credentials show what you demonstrated',
   'demuestra una capacidad acotada',
   'demuestra transferencia entre secciones',
+  // Prevention, where the product only detects: the server's signature shows a changed credential
+  // when it is checked and stops no one from editing it (owner decision O25, 2026-10-13).
+  'a prueba de manipulación',
+  'a prueba de alteración',
+  'tamper-proof',
+  'tamper proof',
   // A revocation and versioning procedure that no route implements.
   'puede revocarse',
   'pueden marcarse como',

@@ -1,11 +1,11 @@
 {
   "credential_id": "evidence_grounded_ai_systems_capstone",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "status": "active",
   "credential_class": "D",
   "credential_class_name": "Verified PyArcana Credential",
   "public_name": "Evidence-Grounded AI Systems Capstone",
-  "capability_statement": "El aprendiz demostró independientemente Evidence-Grounded AI Systems Capstone mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.",
+  "capability_statement": "El aprendiz demostró independientemente Evidence-Grounded AI Systems Capstone mediante capstone mayor, evaluación con defensa, evidencia que revela cualquier alteración y verificación pública, bajo la especificación PyArcana 1.0.1.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -36,5 +36,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_authoritative",
-  "specification_hash": "sha256:evidence_grounded_ai_systems_capstone:1.0.0"
+  "specification_hash": "sha256:evidence_grounded_ai_systems_capstone:1.0.1"
 }

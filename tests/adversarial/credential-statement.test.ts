@@ -35,15 +35,17 @@ const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..')
  * [English clause of the statement, Spanish clause of the catalog's public_claim it renders], in the
  * order the claim makes them.
  *
- * OWNER-PENDING: the catalog says "evidencia a prueba de manipulación", which reads as tamper-proof.
- * An HMAC signature is tamper-evident, and the English says so. Whether the catalog or the statement
- * changes is the owner's call; until then this row records the pairing as it stands.
+ * The fourth row is the one the owner changed (O25, 2026-10-13). The catalog used to say "evidencia a
+ * prueba de manipulación", which reads as tamper-proof, while the server's HMAC signature only
+ * shows a change after the fact, and the English statement says so ("tamper-evident"). The catalog
+ * now says "evidencia que revela cualquier alteración", and each credential whose claim text changed
+ * carries a higher version (credential-blockers.test.ts pins them).
  */
 const RENDERINGS: ReadonlyArray<readonly [english: string, spanish: string]> = [
   ['The learner independently demonstrated', 'El aprendiz demostró independientemente'],
   ['through a major capstone', 'mediante capstone mayor'],
   ['in an assessment with a defense', 'evaluación con defensa'],
-  ['with tamper-evident evidence', 'evidencia a prueba de manipulación'],
+  ['with tamper-evident evidence', 'evidencia que revela cualquier alteración'],
   ['with public verification', 'verificación pública'],
   ['under PyArcana Specification', 'bajo la especificación PyArcana'],
 ]
