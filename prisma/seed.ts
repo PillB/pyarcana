@@ -1532,17 +1532,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'purity-io-injection',
-      question:
-        'Idempotencia de `normalize_telefono` significa que para entradas válidas…',
+      question: 'Tras normalizar un teléfono válido una vez, ¿qué resultado demuestra idempotencia al aplicar de nuevo `normalize_telefono`?',
       options: [
-        'f(f(x)) == f(x)',
-        'f muta x in-place dos veces',
-        'f lanza si se llama dos veces',
-        'f(x) != f(f(x)) siempre',
+        '`normalize_telefono` mantiene la forma canónica obtenida sin modificarla.',
+        '`normalize_telefono` añade el código de país a la forma canónica obtenida.',
+        '`normalize_telefono` cambia el valor otra vez y se estabiliza al tercer intento.',
+        '`normalize_telefono` rechaza una entrada que ya está en forma canónica.',
       ],
       correctIndex: 0,
-      explanation:
-        'Aplicar dos veces no cambia el resultado canónico. Gate típico del inicio CP-N1-B.',
+      explanation: 'La segunda aplicación debe conservar el resultado canónico que produjo la primera. Añadir un prefijo en la segunda llamada cambiaría el valor y rompería la idempotencia.',
     },
     {
       concept: 'purity-io-injection',
@@ -1998,13 +1996,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'pathlib-with-modes',
       question: '¿Qué ventaja ofrece pathlib.Path frente a concatenar rutas a mano?',
       options: [
-        'Obliga a usar rutas absolutas en todo el pipeline',
-        'Normaliza por sí sola el contenido de cada archivo',
-        'Path ofrece exists y read_text y unifica separadores entre sistemas',
-        'Garantiza que la ruta exista antes de abrirla',
+        'Convierte rutas relativas en absolutas y confirma que existan antes de abrirlas',
+        'Permite que `open()` corrija la codificación y normalice el texto Unicode antes de leerlo',
+        'Une partes con el operador `/`, brinda `read_text` y adapta el separador a cada sistema',
+        'Crea el archivo indicado por la ruta y garantiza que siga disponible al abrirlo',
       ],
       correctIndex: 2,
-      explanation: 'Path une rutas y ofrece operaciones de archivo sin adivinar separadores; no normaliza contenido ni garantiza que la ruta exista.',
+      explanation: 'Path no convierte rutas en absolutas ni comprueba su existencia por sí solo: `resolve()` y `exists()` son llamadas explícitas. El operador `/` une partes, `read_text` lee el contenido y el separador se adapta a cada sistema, pero crear un `Path` no crea el archivo.',
     },
     {
       concept: 'newlines-atomic-write',
@@ -2061,28 +2059,28 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'csv-dialects-headers',
       question:
-        'Cast de tipos en CSV stdlib: los valores llegan como…',
+        'Con las opciones predeterminadas de `csv.reader`, ¿cómo llegan los campos y dónde se convierten?',
       options: [
-        'str (o None según dialecto); el cast es responsabilidad del pipeline',
-        'bytes utf-16',
-        'decimal.Decimal por defecto',
-        'int/float automáticos siempre',
+        'Como texto; el normalizador aplica después conversiones del contrato con `int` o `Decimal`',
+        'Como bytes; `DictReader` los decodifica al leer cada registro con la codificación del contrato',
+        'Como números inferidos; el dialecto elige entre `int`, `float` o `Decimal` por columna',
+        'Como valores tipados; el encabezado declara qué conversión corresponde a cada columna',
       ],
       correctIndex: 0,
       explanation:
-        'csv no tipa. int()/políticas de null se aplican en el normalizador.',
+        'Con las opciones predeterminadas, `csv.reader` devuelve cada campo como `str`; el archivo ya se decodificó al abrirse con el `encoding` del contrato. El normalizador aplica `int` o `Decimal`; solo un modo configurado como `QUOTE_NONNUMERIC` convierte campos no entrecomillados a `float`.',
     },
     {
       concept: 'csv-dialects-headers',
-      question: 'Dialectos (delimitador ; vs ,): ¿qué práctica alinea con ingesta robusta?',
+      question: 'Un proveedor entrega CSV separado por punto y coma. ¿Qué decisión respeta el contrato de ingesta?',
       options: [
-        'Asumir siempre coma y recortar las columnas sobrantes',
-        'Usar split(",") y recomponer después los campos entre comillas',
-        'Reemplazar todos los punto y coma antes de parsear',
-        'Configurar el delimitador según el contrato y dejarlo explícito en el código',
+        'Reemplazar `;` por `,` en el texto antes de interpretar los campos entre comillas',
+        'Usar `split(";")` y reconstruir luego los campos que contenían el separador',
+        'Dejar el separador implícito y corregir las columnas después de leer cada fila',
+        'Pasar `delimiter=";"` al lector y documentar esa elección junto con la fuente',
       ],
       correctIndex: 3,
-      explanation: 'El módulo csv respeta campos entre comillas. El delimitador se decide desde el contrato o la fuente y queda explícito en la ingesta.',
+      explanation: 'El lector necesita el delimitador que fija el contrato para respetar comillas y límites de campo. `split` puede partir un valor que contiene punto y coma, y reemplazar `;` por `,` rompe un monto sin comillas como `10,50` en dos campos.',
     },
     {
       concept: 'irregular-rows-quarantine',
@@ -2127,14 +2125,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Diferencia práctica JSON array vs JSONL para transacciones:',
       options: [
-        'Array = un objeto por línea; JSONL = una lista dentro de un documento',
-        'Ambos exigen reescribir el archivo completo para añadir una transacción',
-        'JSONL solo es válido si el archivo termina en .json',
-        'Array = un documento lista; JSONL = un objeto JSON por línea (streaming/append amigable)',
+        'JSONL reúne los objetos en una lista y exige leer el documento completo',
+        'Un array JSON admite escribir objetos tras el corchete final y queda válido, igual que JSONL',
+        'JSONL cambia la extensión del archivo; conserva la estructura de un array JSON',
+        'Una lista completa vive en un solo documento; JSONL guarda un objeto JSON por línea',
       ],
       correctIndex: 3,
       explanation:
-        'JSONL brilla en logs/streams. Array es un único parse de lista.',
+        'Un array encierra la lista completa entre corchetes; escribir otro objeto después del corchete final produce JSON inválido. JSONL guarda cada objeto en su propia línea, por lo que permite añadir otra línea.',
     },
     {
       concept: 'json-serialize',
@@ -2186,15 +2184,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'schema-nulls-evolution',
-      question: 'En un objeto JSON de entrada, ¿por qué no son iguales null y una clave omitida?',
+      question: 'El contrato distingue `null` de un campo ausente. ¿Qué observa Python al leer ambos casos?',
       options: [
-        'Siempre representan el mismo caso para cualquier lector',
-        'null deja la clave presente; una clave omitida no aparece',
-        'null elimina el archivo completo antes de validarlo',
-        'Una clave omitida siempre termina con SyntaxError',
+        '`null` elimina la clave durante `json.loads`; el campo ausente crea la clave con `None`',
+        '`null` produce `None` con la clave presente; el campo ausente no crea esa clave',
+        'La clave ausente se completa con `None` al validar el esquema, igual que un `null`',
+        'Ambos llegan como `None` al cargar el objeto, así que el contrato no puede distinguirlos',
       ],
       correctIndex: 1,
-      explanation: 'null se convierte en None, pero la clave sigue presente. Una clave omitida no aparece; el contrato decide cómo tratar cada caso.',
+      explanation: 'Al cargar JSON, `null` se vuelve `None`, pero `"campo" in obj` sigue siendo verdadero. La ausencia no es un valor: la clave no llegó y el contrato decide cómo tratarla.',
     },
     {
       concept: 'backups-hashes-provenance',
@@ -2261,16 +2259,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'reconciliation-manifest',
       question:
-        '¿Qué entrega demuestra el cierre del gate CP-N1-B?',
+        '¿Qué conjunto de evidencias permite cerrar el gate CP-N1-B?',
       options: [
-        'ETL stdlib CSV/JSON con cuarentena, hashes y manifest (cierre CP-N1-B)',
-        'Un script que publica clean aunque pierda filas del input',
-        'Un backup del crudo sin conteos, cuarentena ni reconciliación',
-        'Una descarga en vivo de datos personales sin contrato de fuente',
+        'Un ETL reproducible con datos sintéticos: clean, cuarentena y manifest por fuente, hash del crudo y error si no reconcilia',
+        'Un ETL reproducible que publica clean aunque pierda filas, con un total general sin detalle por fuente ni respaldo del crudo',
+        'Una copia del crudo y un archivo clean, con conteos escritos a mano y sin una comprobación por fuente que pudiera fallar',
+        'Un ETL reproducible con datos sintéticos que guarda clean y cuarentena, y usa `run_id` para nombrar la corrida',
       ],
       correctIndex: 0,
       explanation:
-        'El gate se demuestra con archivos sintéticos, contratos de ingesta, provenance y reconciliación fail-closed.',
+        'El cierre prueba qué bytes entraron y dónde terminó cada registro, algo que un `run_id` por sí solo no prueba; si una fuente no cuadra, el proceso termina con error sin publicar un éxito. Un total general puede ocultar pérdidas compensadas entre fuentes.',
     },
   ],
   "exceptions-logging": [
@@ -2384,15 +2382,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'minimal-repro-hypothesis-rootcause',
-      question: '¿Qué es una reproducción mínima (minimal repro) en debugging de pipeline?',
+      question: 'Al investigar un fallo, ¿qué artefacto constituye una reproducción mínima?',
       options: [
-        'Volver a correr todo el dataset de producción',
-        'Un print aleatorio en main',
-        'El menor input/código que aún dispara el fallo de forma determinista',
-        'Borrar el traceback',
+        'Una corrida del lote completo con sus fuentes, opciones y registros de la misma sesión',
+        'Una entrada corta que ya no produce el fallo al ejecutarse por separado',
+        'El menor caso autocontenido que conserva lo necesario para provocar el fallo',
+        'Una captura del traceback sin la entrada exacta ni los pasos para repetir el problema',
       ],
       correctIndex: 2,
-      explanation: 'Minimal repro aísla la causa y permite hipótesis falsables.',
+      explanation: 'La reproducción mínima elimina el ruido, pero conserva cada condición necesaria para que aparezca el fallo. Acortar solo la entrada no sirve si el problema deja de reproducirse.',
     },
     {
       concept: 'minimal-repro-hypothesis-rootcause',
@@ -2516,39 +2514,39 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'failfast-vs-continue',
-      question: 'Éxito parcial de un lote significa:',
+      question: '¿Cuándo puede considerarse válido el éxito parcial de un lote?',
       options: [
-        'Algunas filas OK, otras en cuarentena; manifiesto/conteos reflejan ambos',
-        'Mentir el exit code 0 sin métricas',
-        'Borrar las fallidas del disco',
-        'Ignorar el manifiesto',
+        'Las entradas críticas están presentes, los conteos cuadran y la política acepta los rechazos observados',
+        'El lote incluye las entradas críticas, aunque los conteos no cuadren y la fuente prohíba publicar esos rechazos',
+        'Los conteos cuadran, aunque falten entradas críticas y la política no permita publicar con esos rechazos',
+        'Los rechazos quedan dentro del porcentaje permitido, aunque el lote omita conteos y entradas críticas requeridas',
       ],
       correctIndex: 0,
-      explanation: 'Éxito parcial es observable y auditable, no opaco.',
+      explanation: 'El éxito parcial exige entradas críticas presentes, conteos reconciliados y una política que permita esos rechazos. Cuadrar los conteos no basta si faltan entradas o la fuente prohíbe publicar.',
     },
     {
       concept: 'idempotency-retries-quarantine',
-      question: '¿Qué errores son candidatos a retry con backoff?',
+      question: '¿En cuál situación corresponde reintentar con backoff?',
       options: [
-        'ValueError de schema de fila',
-        'SyntaxError de tu código',
-        'Errores transitorios de red/5xx/timeout de proveedor, con tope e idempotencia',
-        'KeyError de columna faltante permanente',
+        'Una fila incumple el esquema y lanza `ValueError`; el mismo dato se enviaría otra vez con intentos limitados',
+        'El proveedor responde 400 por un campo mal formado; reintentar con backoff sin tope hasta que responda bien',
+        'Una lectura sin efectos falla por un `TimeoutError` que el contrato clasifica como temporal, con intentos limitados',
+        'Una escritura agota el tiempo sin clave de idempotencia; el receptor quizá ya guardó el dato y podría duplicarlo al reintentar',
       ],
       correctIndex: 2,
-      explanation: 'Retry solo transitorios; schema/bugs no se curan con reintentos.',
+      explanation: 'Una lectura sin efectos puede repetirse tras un fallo temporal si el contrato fija un máximo. Un timeout de escritura sin idempotencia es tentador, pero repetirlo podría duplicar un dato ya guardado.',
     },
     {
       concept: 'idempotency-retries-quarantine',
       question: 'Una operación de escritura a cuarentena debe ser preferentemente:',
       options: [
-        'No determinista y con side-effects duplicados sin clave',
-        'Sin path de destino fijo',
-        'Solo en memoria RAM sin disco',
-        'Idempotente: volver a ejecutar no duplica registros ni corrompe el estado',
+        'Dependiente de la hora, con un destino distinto creado automáticamente en cada intento',
+        'Acumulativa, con otra copia del registro creada tras cada reintento',
+        'Temporal, con el registro conservado solo en memoria hasta terminar',
+        'Idempotente, con una clave estable que el receptor compara antes de guardar',
       ],
       correctIndex: 3,
-      explanation: 'Idempotencia evita duplicados al reintentar jobs.',
+      explanation: 'El receptor debe comparar una clave estable y reutilizar el resultado anterior o actualizar la misma entrada. Crear un destino nuevo en cada intento convierte el reintento en un duplicado.',
     },
     {
       concept: 'idempotency-retries-quarantine',
@@ -2580,13 +2578,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'imports-namespaces-main',
       question: 'Frente a ejecutar un script suelto, ¿qué aporta `python -m familiarity_core`?',
       options: [
-        'Es idéntico y nunca cambia cómo Python busca módulos o paquetes instalados',
-        '`python -m` impide usar `argparse` dentro del paquete',
-        'Solo sirve cuando el paquete contiene un único módulo',
-        '`python -m` usa la entrada del paquete y evita depender del `cwd`',
+        'Ejecuta el archivo indicado sin consultar las rutas de importación',
+        'Instala la distribución y después carga su único módulo principal',
+        'Busca el script desde una ruta fija e ignora el paquete instalado',
+        'Busca el nombre importable y conserva el contexto del paquete',
       ],
       correctIndex: 3,
-      explanation: '`-m` ejecuta `__main__.py` desde el paquete y evita imports frágiles ligados al `cwd`.',
+      explanation: '`-m` busca el nombre indicado en `sys.path`, como un import, y lo ejecuta con contexto de paquete; así funcionan los imports relativos. El directorio actual encabeza `sys.path`, por lo que la ubicación desde donde ejecutas aún importa.',
     },
     {
       concept: 'imports-namespaces-main',
@@ -2602,15 +2600,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'public-api-dependencies',
-      question: 'Según la sección, ¿qué ocurre cuando los módulos A y B se importan mutuamente?',
+      question: '¿Cuándo falla un ciclo en el que los módulos A y B se importan mutuamente?',
       options: [
-        'La versión SemVer aumenta durante cada importación',
-        'El paquete mejora su rendimiento durante el arranque',
-        'El paquete falla al arrancar por el import circular',
-        'La API pública añade automáticamente ambos módulos',
+        'Si accede al otro módulo después de que ambos terminaron de inicializarse',
+        'Si hace un `import` simple y usa ese nombre más tarde en una función',
+        'Si lee durante la inicialización un nombre que el otro aún no definió',
+        'Si consulta un nombre que el otro módulo definió antes de iniciar el ciclo',
       ],
       correctIndex: 2,
-      explanation: 'Un ciclo A↔B rompe el arranque; el primer recurso es extraer la lógica compartida a un tercer módulo.',
+      explanation: 'El ciclo falla solo si un módulo usa, durante la inicialización, un nombre que el otro aún no definió; un `import` simple con uso dentro de una función, o un nombre definido antes de entrar al ciclo, sí funciona. En el nivel superior, `from b import x` lanza `ImportError` y `b.x` lanza `AttributeError`; ambos mensajes señalan un módulo parcialmente inicializado.',
     },
     {
       concept: 'public-api-dependencies',
@@ -2842,15 +2840,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'secrets-defaults-early-validation',
-      question: 'Default seguro para un flag de escritura destructiva (--force):',
+      question: 'Al aplicar `harden_defaults` a la configuración del ejercicio, ¿qué valor debe tomar `echo_sql` si al inicio es `True`?',
       options: [
-        'True por defecto',
-        'Random cada run',
-        'False/off por defecto; el usuario opt-in explícito',
-        'Leído de un comentario HTML',
+        '`True`, para conservar sin cambios el valor que recibió `harden_defaults` al comenzar',
+        '`None`, para aplazar la decisión hasta validar el subcomando elegido',
+        '`False`, para aplicar la regla antes de ejecutar la configuración del comando',
+        '`INFO`, para vincular las consultas con el nivel de registro elegido',
       ],
       correctIndex: 2,
-      explanation: 'Defaults seguros > conveniencia peligrosa.',
+      explanation: '`harden_defaults` cambia `echo_sql` de `True` a `False` antes de usar la configuración. Conservar `True` o sustituirlo por un nivel de registro no aplica la regla practicada.',
     },
   ],
   "oop-domain": [
@@ -3120,15 +3118,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'domain-deps-tests',
-      question: 'Dependencia de reloj/uuid en el dominio se maneja mejor:',
+      question: 'Un servicio de dominio necesita la hora actual y un identificador nuevo. ¿Cómo se logra que una prueba sea determinista?',
       options: [
-        'Llamando datetime.now() y uuid4() esparcidos sin seam',
-        'Inyectando clock/id generator para tests deterministas',
-        'Dormir 10s en cada test',
-        'Ignorando el tiempo',
+        'Lee la hora y genera el identificador dentro del método; la prueba acepta el resultado sin comprobarlo',
+        'Recibe un reloj y un generador de identificadores cuyos resultados controla la prueba en cada caso',
+        'Ejecuta la prueba a la misma hora del día y reutiliza el identificador de la corrida anterior',
+        'Espera entre ejecuciones y compara solo el formato de la hora y del identificador generado',
       ],
       correctIndex: 1,
-      explanation: 'Seams de tiempo/id = asserts estables.',
+      explanation: 'Recibir el reloj y el generador permite que la prueba entregue valores fijos. Ejecutarla a la misma hora no controla la fecha ni los segundos, y reutilizar un identificador incumple la necesidad de crear uno nuevo.',
     },
     {
       concept: 'domain-deps-tests',
@@ -15457,14 +15455,21 @@ async function main() {
   await prisma.questionBank.deleteMany({})
   console.log('  ✓ Cleared existing questions')
 
+  // Each row's variant is numbered as it is inserted: 1, 2, 3 per (section, concept), in bank order.
+  // Nothing is renumbered afterwards, so the result does not depend on the order a later query
+  // returns rows in.
+  const variantSeen = new Map<string, number>()
   let count = 0
   for (const [sectionId, questions] of Object.entries(QUESTION_BANK)) {
     for (const q of questions) {
+      const key = `${sectionId}|${q.concept}`
+      const variant = (variantSeen.get(key) ?? 0) + 1
+      variantSeen.set(key, variant)
       await prisma.questionBank.create({
         data: {
           sectionId,
           concept: q.concept,
-          variant: count % 3 + 1, // will be overwritten by the unique constraint logic
+          variant,
           question: q.question,
           options: JSON.stringify(q.options),
           correctIndex: q.correctIndex,
@@ -15472,24 +15477,6 @@ async function main() {
         },
       })
       count++
-    }
-  }
-
-  // Now fix variant numbers: for each (sectionId, concept), assign variants 1, 2, 3 in order
-  const allQuestions = await prisma.questionBank.findMany()
-  const grouped = new Map<string, typeof allQuestions>()
-  for (const q of allQuestions) {
-    const key = `${q.sectionId}|${q.concept}`
-    if (!grouped.has(key)) grouped.set(key, [])
-    grouped.get(key)!.push(q)
-  }
-
-  for (const [, qs] of grouped.entries()) {
-    for (let i = 0; i < qs.length; i++) {
-      await prisma.questionBank.update({
-        where: { id: qs[i].id },
-        data: { variant: i + 1 },
-      })
     }
   }
 
