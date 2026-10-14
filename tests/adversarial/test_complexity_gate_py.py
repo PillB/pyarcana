@@ -466,20 +466,109 @@ class Ratchet(unittest.TestCase):
             f"holder.slot = lambda x: {chain}",
             f"mapped = list(map(lambda x: {chain}, []))",
             f"keyed = sorted([], key=lambda x: {chain})",
-            f"loose = [lambda x: {chain}]",
+            f"loose = (lambda x: {chain}) if True else None",
             f"def f(rows):\n    return rows.sort(key=lambda x: {chain})",
             "",
         ]))
         self.gate("--init")
         self.assertEqual(sorted(self.baseline()["offenders"]), [
             "scripts/a.py::<arg 0 of map>",
-            "scripts/a.py::<kw key of sorted>",
+            "scripts/a.py::<kw key of keyed = sorted>",
             "scripts/a.py::<lambda>",
             "scripts/a.py::annotated",
             "scripts/a.py::f.<kw key of rows.sort>",
             "scripts/a.py::holder.slot",
             "scripts/a.py::named",
         ])
+
+    def test_a_lambda_whose_call_result_is_bound_is_keyed_by_the_binding(self):
+        """An unrelated `sorted(..., key=lambda ...)` above a bound one must not renumber it."""
+        build = lambda extra: ("def build(rows):\n" + extra +
+                               f"    first = sorted(rows, key=lambda x: {lambda_chain(20)})\n"
+                               "    return first\n")
+        self.put(build(""))
+        self.assertEqual(self.gate("--init").returncode, 0)
+        self.put(build("    early = sorted(rows, key=lambda x: x)\n"))
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"], {"scripts/a.py::build.<kw key of first = sorted>": 20})
+
+    def test_a_lambda_is_keyed_by_the_title_its_call_is_given(self):
+        """`parser.add_argument("--size", type=lambda s: ...)`: an unrelated argument added above
+        must not renumber it."""
+        cli = lambda extra: ("def cli(parser):\n" + extra +
+                             f"    parser.add_argument('--size', type=lambda x: {lambda_chain(20)})\n")
+        self.put(cli(""))
+        self.assertEqual(self.gate("--init").returncode, 0)
+        self.put(cli("    parser.add_argument('--name', type=lambda x: x)\n"))
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"],
+                         {'scripts/a.py::cli.<kw type of parser.add_argument "--size">': 20})
+
+    def test_a_lambda_added_to_an_earlier_place_does_not_renumber_one_in_a_later_place(self):
+        """Two conditional `helper` defs share a name, so they are told apart by order, and each
+        lambda by order inside its own helper, never by order across the whole file."""
+        source = lambda extra: ("def outer(flag):\n    if flag:\n        def helper(rows):\n" + extra +
+                                "            return sorted(rows, key=lambda x: x)\n"
+                                "    else:\n        def helper(rows):\n"
+                                f"            return sorted(rows, key=lambda x: {lambda_chain(20)})\n"
+                                "    return helper\n")
+        self.put(source(""))
+        self.assertEqual(self.gate("--init").returncode, 0)
+        self.put(source("            print(sorted(rows, key=lambda x: -x))\n"))
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"],
+                         {"scripts/a.py::outer.helper#2.<kw key of sorted>": 20})
+
+    def test_a_lambda_takes_every_name_the_code_gives_it(self):
+        chain = lambda_chain(16)
+        self.put("\n".join([
+            "def cli(parser, gate, mock):",
+            f"    mock.patch.object(gate, 'sh', lambda x: {chain})",
+            f"    parser.add_argument(f'--{{gate}}-limit', type=lambda x: {chain})",
+            f"    n = sorted([], key=lambda x: {chain}).count(1)",
+            f"    report[n] = {{'top': sorted([], key=lambda x: {chain})[:10]}}",
+            "    return n",
+            f"ROWS = [('role', lambda x: {chain})]",
+            f"CHECKS = [lambda x: x, lambda x: {chain}]",
+            f"HANDLERS = {{'save': lambda x: {chain}}}",
+            f"def factory():\n    return lambda x: {chain}",
+            f"def run(cb=lambda x: {chain}):\n    return cb",
+            f"once = (lambda x: {chain})(1)",
+            "",
+        ]))
+        done = self.gate("--init")
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(sorted(self.baseline()["offenders"]), [
+            "scripts/a.py::<once = (…)()>",
+            "scripts/a.py::CHECKS.<item 1>",
+            "scripts/a.py::HANDLERS.save",
+            'scripts/a.py::ROWS.<item 1 "role">',
+            'scripts/a.py::cli.<arg 2 of mock.patch.object "sh">',
+            "scripts/a.py::cli.<kw key of n = sorted>",
+            'scripts/a.py::cli.<kw type of parser.add_argument "--{…}-limit">',
+            "scripts/a.py::cli.report[…].<kw key of top = sorted>",
+            "scripts/a.py::factory.<returned>",
+            "scripts/a.py::run.<default of cb>",
+        ])
+
+    def test_a_name_further_in_already_tells_two_lambdas_apart_so_no_number_is_added(self):
+        """Numbering every segment among its siblings would key the inner lambda
+        `<arg 0 of map>#2.<kw key of sorted>` and move it when a map is added above."""
+        source = lambda extra: ("def build(rows):\n" + extra +
+                                "    a = list(map(lambda r: r, rows))\n"
+                                f"    b = list(map(lambda r: sorted(r, key=lambda x: {lambda_chain(20)}), rows))\n"
+                                "    return a, b\n")
+        self.put(source(""))
+        self.assertEqual(self.gate("--init").returncode, 0)
+        key = "scripts/a.py::build.<arg 0 of map>.<kw key of sorted>"
+        self.assertEqual(self.baseline()["offenders"], {key: 20})
+        self.put(source("    z = list(map(lambda r: -r, rows))\n"))
+        done = self.gate()
+        self.assertEqual(done.returncode, 0, done.stdout)
+        self.assertEqual(self.baseline()["offenders"], {key: 20})
 
     def test_an_unparseable_file_fails_the_ratchet_and_names_it(self):
         self.put("def f(:\n")

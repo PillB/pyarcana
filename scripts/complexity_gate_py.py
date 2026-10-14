@@ -7,9 +7,14 @@ policy: ceiling 15, measured per function, enforced as a ratchet, and failing cl
   * A function new to the codebase must meet the ceiling.
   * A function already over it is baselined by key (path::Qual.name) with its score. Its score
     may fall and may not rise. A function that falls to the ceiling or below leaves the baseline.
-    A lambda is keyed by the name it is assigned to or the call it is handed to
-    (`<kw key of sorted>`), and only an unbound one is `<lambda>`, numbered #2, #3 by order, so
-    adding an unrelated lambda cannot renumber a baselined key.
+    A lambda takes every name the code gives it, as the TypeScript gate's callbacks do: the
+    name it is assigned to, the call it is handed to and what that call's result is bound to
+    (`<kw key of first = sorted>`), the first string the call is given before it
+    (`<kw type of parser.add_argument "--size">`), its row in a list bound to a name
+    (`ROWS.<item 1 "role">`), `<returned>`, or `<default of cb>`. A number is the fallback for
+    what has no name: only units of one file that share a whole path are numbered, #2, #3, on
+    the segment where their paths part. So a number moves only when a unit with that same path
+    is added before it; a function added with any other path, anywhere in the file, moves no key.
   * A file the gate cannot parse fails the gate, and the message names path:line.
   * A missing baseline fails the gate. `--init` creates one, and refuses to overwrite one.
 
@@ -113,55 +118,191 @@ def score_of(unit: ast.AST) -> int:
 
 
 def dotted(expr: ast.AST) -> str:
-    """`a`, `a.b`, `a().b`: an assignment target or callee as written, call arguments left out."""
+    """`a`, `a.b`, `a().b`, `a[…]`: an assignment target or callee as written, call arguments and
+    subscripts left out."""
     if isinstance(expr, ast.Name):
         return expr.id
     if isinstance(expr, ast.Attribute):
         return f"{dotted(expr.value)}.{expr.attr}"
     if isinstance(expr, ast.Call):
         return f"{dotted(expr.func)}()"
+    if isinstance(expr, ast.Subscript):
+        return f"{dotted(expr.value)}[…]"
     return "…"
 
 
-def lambda_label(node: ast.Lambda, parent: ast.AST | None, grandparent: ast.AST | None) -> str:
-    """A lambda has no name, so it is named by what it is bound to (`key = lambda ...` is `key`) or
-    by the call it is handed to (`<kw key of sorted>`, `<arg 0 of map>`). Only a lambda that is
-    neither, such as one in a list, is `<lambda>`, and then the gate numbers it #2, #3 by order.
-    An ordinal alone moves whenever an earlier lambda is added, which turns a baselined lambda
-    into NEW OVER without it having grown."""
-    if isinstance(parent, ast.Assign) and len(parent.targets) == 1:
-        target = parent.targets[0]
-    else:
-        target = parent.target if isinstance(parent, ast.AnnAssign) else None
-    if isinstance(target, (ast.Name, ast.Attribute)):
-        return dotted(target)
+#: A list, tuple, set or dict is a segment of a path when it is bound to a name: `ROWS = [...]`.
+CONTAINERS = (ast.List, ast.Tuple, ast.Set, ast.Dict)
+
+
+def target_text(target: ast.AST) -> str:
+    """`x`, `self.x`, `a, b`, `*rest`: an assignment target as written."""
+    if isinstance(target, (ast.Tuple, ast.List)):
+        return ", ".join(target_text(e) for e in target.elts)
+    if isinstance(target, ast.Starred):
+        return f"*{target_text(target.value)}"
+    return dotted(target)
+
+
+def title_of(node: ast.AST | None) -> str | None:
+    """A title the code spells out: a string, or an f-string with `{…}` for each expression."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.JoinedStr):
+        return "".join(v.value if isinstance(v, ast.Constant) else "{…}" for v in node.values)
+    return None
+
+
+def titled(items: list, place: int) -> str:
+    """` "title"` for the first of `items` before `place` that spells out a title, else ''."""
+    title = next((t for t in map(title_of, items[:place]) if t is not None), None)
+    return "" if title is None else " " + json.dumps(" ".join(title.split()), ensure_ascii=False)
+
+
+def bound_name(node: ast.AST, parent: ast.AST | None) -> str | None:
+    """What `node` is bound to: an assignment, annotated, augmented or walrus target, or the
+    string key of the dict it is a value of."""
+    if isinstance(parent, ast.Assign) and parent.value is node and len(parent.targets) == 1:
+        return target_text(parent.targets[0])
+    if isinstance(parent, (ast.AnnAssign, ast.AugAssign, ast.NamedExpr)) and parent.value is node:
+        return target_text(parent.target)
+    if isinstance(parent, ast.Dict):
+        return next((title_of(k) for k, v in zip(parent.keys, parent.values) if v is node), None)
+    return None
+
+
+def result_name(call: ast.Call, parents: dict) -> str | None:
+    """The name a call's result reaches, through `await`, an attribute read, a subscript such as
+    `[:10]`, or a further call."""
+    node = call
+    while True:
+        up = parents.get(node)
+        reads = (isinstance(up, (ast.Attribute, ast.Subscript)) and up.value is node) or (isinstance(up, ast.Call) and up.func is node)
+        if not (isinstance(up, ast.Await) or reads):
+            return bound_name(node, up)
+        node = up
+
+
+def call_label(call: ast.Call, place: str, before: int, parents: dict) -> str:
+    """`<kw key of first = sorted>`, `<arg 1 of page.on "requestfailed">`: the place, the callee,
+    what its result is bound to, and the first title among the positional arguments before it."""
+    bound = result_name(call, parents)
+    callee = dotted(call.func) if bound is None else f"{bound} = {dotted(call.func)}"
+    return f"<{place} of {callee}{titled(call.args, before)}>"
+
+
+def param_of(args: ast.arguments, default: ast.AST) -> str:
+    """The parameter whose default `default` is."""
+    positional = [*args.posonlyargs, *args.args]
+    pairs = [*zip(positional[len(positional) - len(args.defaults):], args.defaults),
+             *zip(args.kwonlyargs, args.kw_defaults)]
+    return next((arg.arg for arg, value in pairs if value is default), "…")
+
+
+def used_in_call(node: ast.Lambda, call: ast.Call, parents: dict) -> str | None:
+    if call.func is node:
+        bound = result_name(call, parents)
+        return None if bound is None else f"<{bound} = (…)()>"
+    place = next((i for i, arg in enumerate(call.args) if arg is node), None)
+    return None if place is None else call_label(call, f"arg {place}", place, parents)
+
+
+def used_as_keyword(keyword: ast.keyword, parents: dict) -> str | None:
+    call = parents.get(keyword)
+    if keyword.arg is None or not isinstance(call, ast.Call):
+        return None
+    return call_label(call, f"kw {keyword.arg}", len(call.args), parents)
+
+
+def used_in_items(node: ast.Lambda, items: list) -> str:
+    place = next(i for i, item in enumerate(items) if item is node)
+    return f"<item {place}{titled(items, place)}>"
+
+
+def usage_label(node: ast.Lambda, parent: ast.AST | None, parents: dict) -> str | None:
+    """How a lambda is used: handed to a call, called at once, held in a list (the row titled
+    "role" in `("role", lambda q: ...)`), returned, or a parameter's default."""
     if isinstance(parent, ast.Call):
-        place = [i for i, arg in enumerate(parent.args) if arg is node]
-        return f"<arg {place[0]} of {dotted(parent.func)}>" if place else "<lambda>"
-    if isinstance(parent, ast.keyword) and parent.arg and isinstance(grandparent, ast.Call):
-        return f"<kw {parent.arg} of {dotted(grandparent.func)}>"
-    return "<lambda>"
+        return used_in_call(node, parent, parents)
+    if isinstance(parent, ast.keyword):
+        return used_as_keyword(parent, parents)
+    if isinstance(parent, (ast.List, ast.Tuple, ast.Set)):
+        return used_in_items(node, parent.elts)
+    if isinstance(parent, ast.Return) or (isinstance(parent, ast.Lambda) and parent.body is node):
+        return "<returned>"
+    return f"<default of {param_of(parent, node)}>" if isinstance(parent, ast.arguments) else None
 
 
-def qualname(node: ast.AST, prefix: str, parent: ast.AST | None, grandparent: ast.AST | None) -> str:
-    name = lambda_label(node, parent, grandparent) if isinstance(node, ast.Lambda) else node.name
-    return f"{prefix}.{name}" if prefix else name
+def lambda_label(node: ast.Lambda, parents: dict) -> str:
+    """A lambda has no name, so it takes every name the code gives it: what it is bound to
+    (`key = lambda ...` is `key`), else how it is used (`<kw key of first = sorted>`,
+    `<kw type of parser.add_argument "--size">`, `ROWS.<item 1 "role">`, `<returned>`). Only a
+    lambda that is none of these, such as one in a conditional expression, is `<lambda>`."""
+    parent = parents.get(node)
+    return bound_name(node, parent) or usage_label(node, parent, parents) or "<lambda>"
+
+
+def segment_label(node: ast.AST, parents: dict) -> str | None:
+    """The name `node` gives a path, or None when it is not a segment: a class or def by its
+    name, a lambda by `lambda_label`, a list, tuple, set or dict by the name it is bound to."""
+    if isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+        return node.name
+    if isinstance(node, ast.Lambda):
+        return lambda_label(node, parents)
+    return bound_name(node, parents.get(node)) if isinstance(node, CONTAINERS) else None
+
+
+class Placed(NamedTuple):
+    """A unit, the segments that hold it (outermost first, the unit last) and their labels."""
+    node: ast.AST
+    chain: tuple
+    labels: tuple
+    suffix: dict
+
+
+def number(group: list[Placed], level: int = 0) -> None:
+    """Numbers units that share a whole path of labels. Their chains hold the same node at every
+    level before `level`. At the first level where they part, the places in source order take #2,
+    #3; then the units in each place are numbered the same way, further in."""
+    if len(group) < 2:
+        return
+    while all(p.chain[level] is group[0].chain[level] for p in group):
+        level += 1
+    places: dict[ast.AST, list[Placed]] = {}
+    for p in group:
+        places.setdefault(p.chain[level], []).append(p)
+    ordered = sorted(places.items(), key=lambda item: (item[0].lineno, item[0].col_offset))
+    for i, (_, held) in enumerate(ordered):
+        for p in held if i else []:
+            p.suffix[level] = f"#{i + 1}"
+        number(held, level + 1)
 
 
 def units(tree: ast.AST) -> list[Unit]:
-    found: list[Unit] = []
+    """Every def and lambda, keyed by its path of names. Only units that share a whole path are
+    numbered, on the segment where their paths part (see `number`), so a number moves only when a
+    unit with that same path is added before it; a unit with any other path moves nothing."""
+    parents = {child: node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
+    groups: dict[tuple, list[Placed]] = {}
 
-    def visit(node: ast.AST, parent: ast.AST | None, prefix: str) -> None:
+    def visit(node: ast.AST, chain: tuple, labels: tuple) -> None:
         for child in ast.iter_child_nodes(node):
-            if isinstance(child, (ast.ClassDef, *UNITS)):
-                qual = qualname(child, prefix, node, parent)
-                if isinstance(child, UNITS):
-                    found.append(Unit(qual, child.lineno, child.col_offset, score_of(child)))
-                visit(child, node, qual)
-            else:
-                visit(child, node, prefix)
+            label = segment_label(child, parents)
+            if label is None:
+                visit(child, chain, labels)
+                continue
+            here, named = (*chain, child), (*labels, label)
+            if isinstance(child, UNITS):
+                groups.setdefault(named, []).append(Placed(child, here, named, {}))
+            visit(child, here, named)
 
-    visit(tree, None, "")
+    visit(tree, (), ())
+    found = []
+    for group in groups.values():
+        number(group)
+        for p in group:
+            qual = ".".join(label + p.suffix.get(i, "") for i, label in enumerate(p.labels))
+            found.append(Unit(qual, p.node.lineno, p.node.col_offset, score_of(p.node)))
     return sorted(found, key=lambda u: (u.line, u.col))
 
 
@@ -203,8 +344,9 @@ def measure(paths: list[Path], root: Path = ROOT) -> tuple[list[dict], list[str]
 
 
 def keyed(rows: list[dict]) -> dict[str, int]:
-    """Every function's score under its key, path::Qual.name. A name repeated within one file is
-    suffixed #2, #3 in source order, so a key does not move when another function is edited."""
+    """Every function's score under its key, path::Qual.name. `units` already numbers units that
+    share a path; this only keeps two keys apart whose text happens to match, as `a.b = lambda: 0`
+    and a lambda keyed `b` inside a dict bound to `a` do, with #2 in source order."""
     seen: Counter = Counter()
     out: dict[str, int] = {}
     for row in sorted(rows, key=lambda r: (r["file"], r["line"])):

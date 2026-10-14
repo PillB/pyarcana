@@ -238,6 +238,8 @@ same in both languages. In Python that includes each parameter default (owner ru
 the code gives it: the name its call's result is bound to (`<arg 0 of tooltipLabel = React.useMemo>`),
 the title its call is given (`<arg 1 of test "renders">`), its JSX element and attribute
 (`<button onClick>`), its row's title in a list (`ROWS.<item 1 "role">`), or `<returned>`.
+A Python lambda is named the same way: `<kw key of first = sorted>`,
+`<kw type of parser.add_argument "--size">`.
 A number is the fallback for what has no name at all: only functions in one file that share
 a whole path are numbered, `#2`, on the segment where their paths part. Two unbound
 `rows.map` callbacks in one JSX tree, or two `useEffect` callbacks in one component, are
