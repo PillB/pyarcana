@@ -71,6 +71,37 @@ class DocsAndScriptsMatchTheGates(unittest.TestCase):
                       "package.json has no lint:complexity:py script for the Python ratchet")
 
 
+PACKAGE = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+#: The TypeScript gate, its rule, identity and ESLint configuration, and its test.
+GATE_FILES = ("scripts/complexity_gate.mjs", "scripts/complexity_gate.rule.mjs",
+              "scripts/complexity_gate.identity.mjs", "scripts/complexity_gate.eslint.config.mjs",
+              "tests/adversarial/complexity-gate-ts.test.mjs")
+
+
+def package_of(specifier: str) -> str | None:
+    """`eslint/use-at-your-own-risk` -> eslint, `@a/b/c` -> @a/b; None for node: and relative."""
+    if specifier.startswith(("node:", ".")):
+        return None
+    parts = specifier.split("/")
+    return "/".join(parts[:2]) if specifier.startswith("@") else parts[0]
+
+
+class TheGateDeclaresWhatItImports(unittest.TestCase):
+    """The gate imported typescript-eslint, which arrived only through eslint-config-next, so a
+    change to that package's dependencies could remove the gate's parser without a diff here."""
+
+    def test_every_package_the_typescript_gate_imports_is_a_declared_dependency(self):
+        declared = {**PACKAGE.get("dependencies", {}), **PACKAGE.get("devDependencies", {})}
+        imported = set()
+        for path in GATE_FILES:
+            source = (ROOT / path).read_text(encoding="utf-8")
+            imported |= {p for s in re.findall(r"""^import .*? from ['"]([^'"]+)['"]""", source, re.M)
+                         if (p := package_of(s))}
+        self.assertGreaterEqual(imported, {"eslint", "typescript-eslint"}, "the import scan found too little")
+        self.assertEqual(sorted(imported - declared.keys()), [],
+                         "package.json does not declare these packages the gate imports")
+
+
 def fenced_after(path: str, heading: str) -> list[str]:
     """The commands in the first fenced block after `heading`, comments and spacing removed."""
     text = (ROOT / path).read_text(encoding="utf-8")
