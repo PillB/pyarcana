@@ -147,6 +147,11 @@ def round_tree(root: Path, slugs=("alpha", "beta", "gamma"), filed: dict[str, in
                                               "kind": "prose"}],
                          "examples": [], "self_checks": [], "definitions": [], "uses": []}
         for i in range(1, len(slugs) + 1)}))
+    standing_documents(root)
+
+
+def standing_documents(root: Path) -> None:
+    """The documents every brief builder reads whole and injects into a brief."""
     for rel in ("audit/fixer/LEDGER_NOTES.md", "audit/fixer/writing_rules.md", "audit/fixer/decisions.md",
                 "audit/fixer/OWNER_DECISIONS.md", "audit/fixer/wiki/README.md"):
         write(root, rel, f"# {rel}\n")

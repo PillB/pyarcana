@@ -41,6 +41,7 @@ import ledger  # noqa: E402
 import numbering  # noqa: E402
 import preflight  # noqa: E402
 from numbering import NumberingError  # noqa: E402
+from fixer_gate_tree import UNEXPLAINED, gate_ready_course, write_sections  # noqa: E402
 from numbering_fixture import ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, write  # noqa: E402
 
 
@@ -278,23 +279,21 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
     whose registry was regenerated after a renumber printed "nothing unexplained in S02" for a section that
     had work. Exit 2 is the builder's one word for "nothing to teach"; any other status is a refusal.
 
-    The real runner and the real builder run in a copy of the fixer tools, so their ROOT is the temporary
-    course. Two stand-ins, both test-only: gate.py (it measures the whole course through npm and node, and
-    is not what this tests) and run_codex.py (an external model). The codex stand-in leaves a marker file
-    and exits 1, so a run that got past the brief is told apart from one the brief stopped.
+    The real runner, the real gate and the real builder run in a copy of the fixer tools, so their ROOT is
+    the temporary course (fixer_gate_tree.py builds it). The gate measures that course for real and writes
+    the concept map the brief is built from, so which sections have work to teach is a fact about the
+    course's text, not about a file the test wrote. One stand-in, test only: run_codex.py, the external,
+    paid model. It leaves a marker file and exits 1, so a run that got past the brief is told apart from
+    one the brief stopped.
 
     Owner decision O26 (audit/fixer/OWNER_DECISIONS.md): the run_codex.py stand-in stays (a); the gate.py
-    stand-in is replaced by the real gate (b)."""
+    stand-in this class used to hold was replaced by the real gate (b)."""
 
     CODEX_MARKER = ".fixer/codex-was-called"
 
     def setUp(self) -> None:
         super().setUp()
-        round_tree(self.root)
-        shutil.copytree(ROOT / "tools/fixer", self.root / "tools/fixer",
-                        ignore=shutil.ignore_patterns("__pycache__"))
-        shutil.copy(ROOT / "audit/fixer/known_false_claims.json", self.root / "audit/fixer/known_false_claims.json")
-        write(self.root, "tools/fixer/gate.py", "raise SystemExit(0)\n")
+        gate_ready_course(self.root, {2: UNEXPLAINED})
         write(self.root, "tools/fixer/run_codex.py",
               f"from pathlib import Path\nPath('{self.CODEX_MARKER}').write_text('called')\nraise SystemExit(1)\n")
         self.bin = self.root / "bin"
@@ -304,16 +303,36 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
     def run_runner(self, *tags: str) -> CompletedProcess:
         env = {**os.environ, "PATH": f"{self.bin}{os.pathsep}{os.environ['PATH']}"}
         return subprocess.run(["bash", "tools/fixer/run_concepts.sh", *(tags or ("S02",))], cwd=self.root,
-                              env=env, capture_output=True, text=True, timeout=120)
+                              env=env, capture_output=True, text=True, timeout=900)
 
     def codex_was_called(self) -> bool:
         return (self.root / self.CODEX_MARKER).exists()
+
+    def gate_measures(self, tag: str = "S02") -> dict:
+        """What the gate wrote when the runner asked it to snapshot `tag`."""
+        path = self.root / f".fixer/{tag}.gate-before.json"
+        self.assertTrue(path.exists(), f"the runner never got a measurement of {tag} from the gate")
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def test_the_runner_gets_a_real_measurement_of_the_section_before_it_builds_the_brief(self) -> None:
+        """The control for the gate: the numbers are the temporary course's own, so the real gate ran."""
+        done = self.run_runner()
+        measured = self.gate_measures()
+        self.assertNotIn(None, measured.values(), f"an instrument could not run: {measured}\n{done.stdout}")
+        self.assertEqual(measured.get("surprising_uses_in_section"), 1, "the one unexplained lambda of S02")
+        self.assertEqual(measured.get("strict_output_mismatches_in_section"), 0)
+        strict = json.loads((self.root / ".fixer/S02.strict-output.json").read_text(encoding="utf-8"))
+        self.assertEqual([(row["file"], row["verdict"]) for row in strict["rows"]],
+                         [("src/lib/course/sections/s02-beta.ts", "match")],
+                         "the strict audit did not run the section's snippet under the pinned interpreter")
 
     def test_a_brief_the_builder_can_write_reaches_codex(self) -> None:
         """The control: with a sound tree the runner gets past the brief, so the refusals below are the brief's."""
         done = self.run_runner()
         self.assertTrue(self.codex_was_called(), done.stdout + done.stderr)
         self.assertIn("codex failed - stopping", done.stdout)
+        brief = (self.root / ".fixer/S02k.prompt.txt").read_text(encoding="utf-8")
+        self.assertIn('"concept": "lambda"', brief, "the brief is not built from the gate's concept map")
 
     def test_a_registry_stamped_for_another_epoch_stops_the_run_and_says_why(self) -> None:
         registry(self.root, ROUND_FILED, stamp=2)
@@ -340,9 +359,10 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
         self.assertNotIn("S03 concepts", done.stdout)
 
     def test_a_section_with_nothing_to_teach_is_clean_and_the_run_goes_on(self) -> None:
-        write(self.root, "course-state/concept_map.json", json.dumps({}))
+        write_sections(self.root)
         done = self.run_runner()
         self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertEqual(self.gate_measures().get("surprising_uses_in_section"), 0, "S02 uses no unexplained term")
         self.assertIn("nothing unexplained in S02", done.stdout)
         self.assertNotIn("refused", done.stdout)
         self.assertFalse(self.codex_was_called())
