@@ -106,8 +106,53 @@ NODES_WITHOUT_HOME_OWED = (
 )
 
 
+#: Sections the drafted lexicon wrongly gave as the home of a skill, because a term shares its spelling
+#: with another meaning there, and which the Codex review (O25) took away. Each is (skill, section id,
+#: what the word means in that section). The section id is the stable one in the section file, which the
+#: renumber does not change. A term that brings one of these back fails test_known_false_friends_are_no_home,
+#: whatever the term is called. Only the homographs and sense clashes are pinned; the homes Codex judged
+#: weak (a section that only lists the skill among other checks) are left to the exact count. If a lesson
+#: comes to teach the skill in one of these sections, retire the pin with the owner's approval.
+FALSE_HOMES = (
+    ("git_workflow", "mlops", "S29 BEGIN/COMMIT/ROLLBACK is a SQL transaction, not a git commit"),
+    ("classical_ml", "exceptions-logging", "S09 'tests de regresion' is a regression test, not regression modelling"),
+    ("testing_discipline", "multimodal", "S44 'lint, types, tests' names a CI stage, not testing discipline"),
+    ("python_core", "architecture-ddd-decisions", "S40 'requisitos funcionales' is not the Python function"),
+    ("python_core", "cv-ai-integration", "S34 'clase positiva' is a class label, not a Python class"),
+    ("model_evaluation", "basics", "S02 'Evaluar aritmetica' evaluates an expression, not a model"),
+    ("business_framing", "async-concurrency", "S27 'rama de negocio' is a code branch under test"),
+    ("data_cleaning", "async-concurrency", "S27 normalize_name is only the function under test"),
+    ("written_communication", "performance-extreme", "S38 'redactar PII' removes sensitive data, it does not write"),
+    ("observability", "computer-vision", "S23 'trace' is a Playwright debugging artifact"),
+    ("python_idioms", "rpa-advanced", "S24 'idiomas' is languages, not idioms"),
+    ("uncertainty_quantification", "gpu-computing", "S46 'intervalo' is a backfill window"),
+    ("sql_fundamentals", "llm-agents", "S28 SQLite is a test double there, not SQL being taught"),
+    ("drift_monitoring", "wxpython-gui", "S16 'schema drift' is a data-contract change, not model drift"),
+    ("mlops_pipelines", "streamlit-dashboards", "S25 'adapter mock de pipeline/endpoint' is an inference adapter"),
+    ("process_analysis", "integrator-phase2", "S39 'flujo canonico' is an ML data flow, not a business process"),
+    ("python_visualization", "streaming-data", "S31 'Visualizar con privacidad' is a graph view, not a chart"),
+    ("data_validation", "advanced-models", "S33 'validacion cruzada' is model validation, not data validation"),
+)
+
+
 def surfaces_of(sections: list[dict]) -> dict[int, str]:
     return {s["index"]: normalise(s["title"] + " " + " ".join(s["outcomes"])) for s in sections}
+
+
+def false_home_violations(
+    lexicon: dict, surfaces: dict[int, str], index_of: dict[str, int], pins: tuple = FALSE_HOMES
+) -> list[str]:
+    """Each pinned (skill, section) that the lexicon makes a home again, or that no longer names a real
+    skill or section (a pin that cannot match proves nothing)."""
+    problems = []
+    for node, slug, why in pins:
+        if node not in lexicon["nodes"]:
+            problems.append(f"{node}: pinned false home, but the skill is not in the lexicon")
+        elif slug not in index_of:
+            problems.append(f"{node}: pinned false home {slug!r}, but no section has that id")
+        elif index_of[slug] in homes(node, lexicon, surfaces):
+            problems.append(f"{node}: section {slug!r} is a home again ({why})")
+    return problems
 
 
 def term_sections(term: str, surfaces: dict[int, str]) -> set[int]:
@@ -180,7 +225,9 @@ def lexicon_gaps(catalog: dict, lexicon: dict) -> list[str]:
 class MeaningMismatchRatchet(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.surfaces = surfaces_of(source_sections())  # reads 52 large files; read-only below
+        sections = source_sections()  # reads 52 large files; read-only below
+        cls.surfaces = surfaces_of(sections)
+        cls.index_of = {s["slug"]: s["index"] for s in sections}
 
     def setUp(self) -> None:
         self.catalog = load(CATALOG)
@@ -191,6 +238,31 @@ class MeaningMismatchRatchet(unittest.TestCase):
 
     def test_every_competency_skill_is_in_the_lexicon(self) -> None:
         self.assertEqual(lexicon_gaps(self.catalog, self.lexicon), [])
+
+    def test_known_false_friends_are_no_home(self) -> None:
+        """The review's central finding, as a test: the drafted lexicon homed these skills in sections
+        where only the spelling matched. Nothing may bring them back, under any term."""
+        self.assertEqual(false_home_violations(self.lexicon, self.surfaces, self.index_of), [])
+
+    def test_a_term_that_brings_a_false_home_back_is_named(self) -> None:
+        lexicon = copy.deepcopy(self.lexicon)
+        lexicon["nodes"]["git_workflow"].append("commit")
+        lexicon["nodes"]["classical_ml"].append("regresion")
+        found = false_home_violations(lexicon, self.surfaces, self.index_of)
+        self.assertEqual(sorted(p.split(":")[0] for p in found), ["classical_ml", "git_workflow"], found)
+        self.assertIn("'mlops' is a home again", " ".join(found))
+
+    def test_a_pin_that_names_no_skill_or_no_section_is_reported_not_passed(self) -> None:
+        pins = (("no_such_skill", "basics", "x"), ("git_workflow", "no-such-section", "y"))
+        found = false_home_violations(self.lexicon, self.surfaces, self.index_of, pins)
+        self.assertEqual(len(found), 2, found)
+        self.assertIn("not in the lexicon", found[0])
+        self.assertIn("no section has that id", found[1])
+
+    def test_every_false_home_pin_says_why(self) -> None:
+        for node, slug, why in FALSE_HOMES:
+            with self.subTest(node=node, section=slug):
+                self.assertGreaterEqual(len(why.split()), 5, "a reason, not a label")
 
     def test_the_header_states_the_pins(self) -> None:
         """The header is what the owner reads to learn what is owed. It must say what the constants say."""
