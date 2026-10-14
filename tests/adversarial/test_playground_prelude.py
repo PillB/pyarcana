@@ -50,14 +50,16 @@ class PreludeSilencesOnlyThePandasWarning(unittest.TestCase):
         self.prelude = playground()["prelude"]
 
     def test_prelude_silences_the_pandas_pyarrow_warning(self) -> None:
-        # Recreates the defect: without the filter this warning reaches the playground's stderr.
+        # Liveness first: a warning that never fires is also silent, so the silence below proves
+        # nothing unless the same warning reaches stderr without the prelude.
+        fires = stderr_of(warn_from_main(PANDAS_PYARROW_WARNING))
+        self.assertIn(
+            "Pyarrow will become a required dependency", fires,
+            "the pandas warning does not fire without the prelude, so silence would prove nothing",
+        )
+        # Recreates the defect: with the prelude, this warning must not reach the playground's stderr.
         stderr = stderr_of(self.prelude + "\n" + warn_from_main(PANDAS_PYARROW_WARNING))
         self.assertEqual(stderr, "", "the pandas pyarrow warning reached stderr through PLAYGROUND_PRELUDE")
-
-    def test_without_the_prelude_the_pandas_warning_does_reach_stderr(self) -> None:
-        # Probe liveness: if this were empty, the test above would pass on a warning that never fires.
-        stderr = stderr_of(warn_from_main(PANDAS_PYARROW_WARNING))
-        self.assertIn("Pyarrow will become a required dependency", stderr)
 
     def test_prelude_leaves_other_deprecation_warnings_visible(self) -> None:
         # Control against a blanket filter: an unrelated DeprecationWarning must still reach stderr.
