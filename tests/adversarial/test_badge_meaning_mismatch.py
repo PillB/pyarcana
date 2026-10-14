@@ -27,7 +27,7 @@ inversions of test_badge_prerequisite_inversions.py. Nothing may grow; a claim f
 and the same change must pin the lower number, so the count never drifts quietly in either direction. The
 Phase 1 re-key pays the debt down. The module measures only, and approves nothing.
 
-PINNED NOW: 108 pairs over 20 badges; 5 skills that no section teaches. (test_the_header_states_the_pins
+PINNED NOW: 102 pairs over 20 badges; 5 skills that no section teaches. (test_the_header_states_the_pins
 fails when these words and the constants below disagree, so a re-pin cannot leave this header stale.)
 
 THE MEASURE, AND HOW IT DIFFERS FROM THE PLAN'S 31 PAIRS OVER 19 BADGES. The fix plan (PR 12) expected
@@ -46,18 +46,20 @@ only through a visible diff), its unit is the claim and not the section, and it 
 the owner already approved. Its price: the lexicon is keyword matching, so the count is only as good as
 its terms, and it is looser than the full home rule.
 
-THE LEXICON WAS REVIEWED BY CODEX (O25). An agent drafted the terms. Codex then checked each one against the
-lessons: does the term mean the skill in the section it matches, and does a better term appear in the
-lessons? It dropped terms that share a spelling with another meaning (`commit` is also SQL COMMIT,
-`regresion` is also a regression test, `tests` also names a CI stage) and added the terms the lessons use.
-The review moved the count from 92 pairs over 21 badges, measured with the drafted terms, to the pinned
-number: terms that no longer home a skill in a section it does not teach also stop covering the claims
-that leaned on them. The final list is in the pull request diff for the owner, who decides whether the
-ratchet is final.
-Sensitivity, measured 2026-10-13 with the reviewed lexicon and NOT pinned: title only gives 85 pairs over
-20 badges; B alone 52 over 15 and C alone 56 over 5; node-name words as terms give 27 over 15 on titles
+THE LEXICON WAS REVIEWED BY CODEX (O25), IN TWO PASSES. An agent drafted the terms. Codex then checked each
+one against the lessons: does the term mean the skill in the section it matches, and does a better term
+appear in the lessons? It dropped terms that share a spelling with another meaning (`commit` is also SQL
+COMMIT, `regresion` is also a regression test, `tests` also names a CI stage) and added the terms the
+lessons use. A second Codex pass red-teamed the first for homes it lost (a section that does teach the
+skill) and for terms that copy one outcome word for word and stop matching when an editor rewords it. The
+pinned number moved from 92 pairs over 21 badges, measured with the drafted terms, to 108 over 20 after the
+first pass and to the pinned number after the second: a skill dropped from a section that does not teach
+it also stops covering the claims that leaned on that section. The final list is in the pull request diff
+for the owner, who decides whether the ratchet is final.
+Sensitivity, measured 2026-10-13 with the reviewed lexicon and NOT pinned: title only gives 84 pairs over
+20 badges; B alone 49 over 15 and C alone 53 over 5; node-name words as terms give 27 over 15 on titles
 and 68 over 21 with outcomes; counting (badge, required section) pairs in which the section teaches none
-of the badge's claimed skills gives 39 over 18. None gives the plan's 31 over 19.
+of the badge's claimed skills gives 35 over 18. None gives the plan's 31 over 19.
 
 Expert standard: constructive alignment (Biggs and Tang, Teaching for Quality Learning at
 University), where a credential's assessed evidence must be taught in the sections it names.
@@ -89,7 +91,7 @@ COMPETENCY_CLASSES = ("B", "C")
 #: Owed counts, measured on 2026-10-13 over the live catalog and the Codex-reviewed lexicon. An exact
 #: ratchet (O25): a fix lowers them and the test then asks for the lower number; a new mismatch raises
 #: the count and fails. Measured with the drafted lexicon, before the review, they were 92 and 21.
-MISMATCH_PAIRS_OWED = 108
+MISMATCH_PAIRS_OWED = 102
 MISMATCH_BADGES_OWED = 20
 #: Competency-claimed skills that no section teaches through the lexicon, measured the same day. Owed
 #: teaching debt (O18; G-16 owns it from Phase 1a). Pinned both ways: a skill that gains a home must
