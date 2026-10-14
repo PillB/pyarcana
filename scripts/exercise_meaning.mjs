@@ -29,6 +29,15 @@
  * The row clears ANCHOR_REMOVED (ledgerFindings) and EXERCISE_REMOVED (classify). The decision is checked
  * by its form only: OWNER_DECISIONS.md retires entries, so a lookup there would break when one retires.
  *
+ * To rebind an exercise to a new id (the renumber, owner decision O25): one row of kind `renumbered` per
+ * pair, written by the renumber tool: id the new id, from_id the old one, from_fp = to_fp the one
+ * fingerprint, then reason, decided_by, date. It clears ANCHOR_REMOVED for from_id and the unledgered
+ * anchor of id (EXERCISE_REMOVED and EXERCISE_UNANCHORED in classify) when both ends are true: from_id
+ * held that fingerprint at the base and no longer holds it, id holds it at head (or a later row for id
+ * carries it on, as for an amended exercise), and no id leaves or is filled twice. Two ids that swap
+ * content take two rows. There is no exemption for the renumber PR. One renumbered row cannot be
+ * renumbered again within the same PR. The tool is not in this repository yet; this file is the format of record.
+ *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
  */
@@ -91,13 +100,24 @@ function bestSibling(id, now, anchors) {
   return best
 }
 
-function resolvedBy(rows, id, sha) {
-  return rows.some((row) => row.kind !== 'historical' && row.id === id && row.to_fp === sha)
+/**
+ * Whether a row accepts `id` holding `sha`: any non-historical row for the id that ends there. A
+ * renumbered row also needs the anchor it renumbers from to hold the fingerprint it cites, so a row
+ * cannot invent where an exercise came from.
+ */
+function resolvedBy(rows, anchors, id, sha) {
+  return rows.some((row) => row.kind !== 'historical' && row.id === id && row.to_fp === sha
+    && (row.kind !== 'renumbered' || anchors[row.from_id]?.sha256 === row.from_fp))
 }
 
-/** Whether a `removed` row retires `id` as the anchor `sha` holds it. */
-function removedBy(rows, id, sha) {
-  return rows.some((row) => row.kind === 'removed' && row.id === id && row.from_fp === sha)
+/**
+ * Whether a row retires `id`, as the anchor `sha` holds it: a removed row for the id, or a renumbered
+ * row from the id whose new id holds the same fingerprint in the course now.
+ */
+function retiredBy(rows, current, id, sha) {
+  return rows.some((row) => row.from_fp === sha
+    && ((row.kind === 'removed' && row.id === id)
+      || (row.kind === 'renumbered' && row.from_id === id && current[row.id]?.sha256 === row.to_fp)))
 }
 
 /** The finding for one exercise whose fingerprint differs from its anchor, or null when it is a wording edit. */
@@ -121,15 +141,15 @@ export function classify(anchors, current, rows = []) {
     const now = current[id]
     const anchor = anchors[id]
     if (!anchor) {
-      if (!resolvedBy(rows, id, now.sha256)) findings.push({ code: 'EXERCISE_UNANCHORED', id })
+      if (!resolvedBy(rows, anchors, id, now.sha256)) findings.push({ code: 'EXERCISE_UNANCHORED', id })
       continue
     }
     if (anchor.sha256 === now.sha256) continue
     const finding = changeFinding(id, anchor, now, anchors)
-    if (finding && !resolvedBy(rows, id, now.sha256)) findings.push(finding)
+    if (finding && !resolvedBy(rows, anchors, id, now.sha256)) findings.push(finding)
   }
   for (const id of Object.keys(anchors).sort()) {
-    if (!(id in current) && !removedBy(rows, id, anchors[id].sha256)) findings.push({ code: 'EXERCISE_REMOVED', id })
+    if (!(id in current) && !retiredBy(rows, current, id, anchors[id].sha256)) findings.push({ code: 'EXERCISE_REMOVED', id })
   }
   return findings
 }
@@ -148,22 +168,46 @@ function placementProblems(row, index) {
 
 /**
  * Problems with the fingerprints a row carries. A removed row retires an anchor: from_fp is the anchor
- * it held and to_fp is null. Every other row ends at a sha256, and starts at one, or at null for an
- * exercise that had no anchor.
+ * it held and to_fp is null. A renumbered row moves an anchor to a new id and keeps it (see
+ * renumberedProblems): both ends are a sha256. Every other row ends at a sha256, and starts at one, or
+ * at null for an exercise that had no anchor.
  */
 function fingerprintProblems(row) {
   const problems = []
   const removed = row?.kind === 'removed'
   if (removed && row.to_fp !== null) problems.push('to_fp must be null: a removed exercise holds no fingerprint')
   if (!removed && !isSha256(row?.to_fp)) problems.push('to_fp must be a sha256')
-  if (removed && !isSha256(row?.from_fp)) problems.push('from_fp must be the sha256 of the anchor that is removed')
-  if (!removed && row?.from_fp !== null && !isSha256(row?.from_fp)) problems.push('from_fp must be a sha256, or null for an exercise that had no anchor')
+  problems.push(...startProblems(row))
+  return problems
+}
+
+/** Problems with where a row starts: a moved anchor starts at a sha256, any other row at one or at null. */
+function startProblems(row) {
+  const moved = row?.kind === 'removed' || row?.kind === 'renumbered'
+  if (moved) return isSha256(row.from_fp) ? [] : ['from_fp must be the sha256 of the anchor that is removed or renumbered']
+  const valid = row?.from_fp === null || isSha256(row?.from_fp)
+  return valid ? [] : ['from_fp must be a sha256, or null for an exercise that had no anchor']
+}
+
+/**
+ * Problems with the ids of a renumbered row. `id` is the new id and from_id the one it leaves; the
+ * fingerprint is the same at both ends. Any other kind has no from_id.
+ */
+function renumberedProblems(row) {
+  const problems = []
+  if (row?.kind !== 'renumbered') {
+    if (row?.from_id !== undefined) problems.push('from_id belongs to a renumbered row only')
+    return problems
+  }
+  if (typeof row.from_id !== 'string' || !EXERCISE_ID.test(row.from_id)) problems.push('from_id must be the exercise id the row renumbers from')
+  else if (row.from_id === row.id) problems.push('from_id must differ from id')
+  if (row.to_fp !== row.from_fp) problems.push('to_fp must equal from_fp: a renumbered exercise keeps its fingerprint')
   return problems
 }
 
 /** Problems with the evidence a row carries: its fingerprints, its reason, its decider and its date. */
 function evidenceProblems(row) {
-  const problems = fingerprintProblems(row)
+  const problems = [...fingerprintProblems(row), ...renumberedProblems(row)]
   for (const key of ['reason', 'decided_by']) if (isBlank(row?.[key])) problems.push(`${key} must be non-empty`)
   if (row?.kind === 'removed' && !isBlank(row.decided_by) && !OWNER_DECISION.test(row.decided_by)) {
     problems.push('decided_by must name an owner decision (owner: O<n> (date)) for a removed exercise')
@@ -196,52 +240,118 @@ function appendOnlyFindings(baseRows, headRows) {
  * anchor that differs at head needs a row added after the base's rows, naming that id and that
  * fingerprint. A `historical` row records a change made before the anchors existed, so it never
  * accepts a change made now (the same rule as classify's resolvedBy). An anchor that left the course
- * (ANCHOR_REMOVED) needs a `removed` row for its id. Only a well-formed appended row clears a finding:
- * a malformed row is reported by LEDGER_ROW_INVALID and clears nothing. Each appended row also starts
- * where its id stood (chainFindings), so the ledger cannot cite a fingerprint the id never held.
+ * (ANCHOR_REMOVED) needs a `removed` row for its id, or a `renumbered` row that moves it to a new id.
+ * Only a well-formed appended row clears a finding: a malformed row is reported by LEDGER_ROW_INVALID
+ * and clears nothing. Each appended row also starts where its id stood (walkAppended), so the ledger
+ * cannot cite a fingerprint the id never held, and a renumbered row must be true at both of its ids
+ * (notVacatedFindings, targetFindings, reusedFindings). The renumber PR is not exempt.
  */
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
   const findings = appendOnlyFindings(baseRows, headRows)
   if (baseAnchors === null) return findings
   const added = headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
   const context = { baseAnchors, headAnchors, added }
+  const walk = walkAppended(context)
   return [
     ...findings,
     ...removedAnchorFindings(context),
     ...changedAnchorFindings(context),
     ...notVacatedFindings(context),
-    ...chainFindings(context),
+    ...walk.findings,
+    ...targetFindings(context, walk.arrived),
+    ...reusedFindings(context),
   ]
 }
 
+/** The id a row vacates, or null: the exercise a removed row retires, the id a renumbered row leaves. */
+function departedId(row) {
+  if (row.kind === 'removed') return row.id
+  return row.kind === 'renumbered' ? row.from_id : null
+}
+
 /**
- * LEDGER_CHAIN_BROKEN: an appended row whose from_fp is not the fingerprint its id held when the row was
- * written. The first appended row of an id starts at the base's anchor (null when the base had none),
- * and each later row starts where the previous one ended; a `removed` row ends at null, the id's state
- * when it holds no anchor. A row that
- * cites a fingerprint the id never held records a change that did not happen. A `historical` row
- * describes a change from before the anchors existed and is not part of the chain.
+ * The fingerprint the row's from_fp must equal. A renumbered row leaves from_id, which only the rows that
+ * change content have touched (renumbered arrivals are kept apart, so the order of a swap's two rows
+ * does not matter). Any other row follows its own id: the fingerprint an earlier renumbered row in the
+ * same PR filled it with (the amendment of a renumbered exercise starts there), else the content it
+ * holds, else null: an id a renumbered row left holds nothing, so the new exercise written into the
+ * vacated id (the new S19, S20 and S35) is an `added` row from null.
  */
-function chainFindings({ baseAnchors, added }) {
+function expectedFrom(row, held, arrived) {
+  if (row.kind === 'renumbered') return held.get(row.from_id) ?? null
+  return arrived.get(row.id)?.fp ?? held.get(row.id) ?? null
+}
+
+/**
+ * Walk the appended rows in order. LEDGER_CHAIN_BROKEN: a row whose from_fp is not the fingerprint its id
+ * held when the row was written. The first appended row of an id starts at the base's anchor (null when
+ * the base had none) and each later row starts where the previous one ended; a `removed` row ends at null,
+ * the id's state when it holds no anchor. A row that cites a fingerprint the id never held records a
+ * change that did not happen. A `historical` row describes a change from before the anchors existed and
+ * is not part of the chain. Returns the findings and `arrived`: the renumbered arrivals no later row
+ * has changed, id -> { fp, row }. One renumbered row cannot be renumbered again within the same PR.
+ */
+function walkAppended({ baseAnchors, added }) {
   const held = new Map(Object.entries(baseAnchors).map(([id, anchor]) => [id, anchor.sha256]))
+  const arrived = new Map()
   const findings = []
   for (const row of added) {
     if (row.kind === 'historical') continue
-    const expected = held.get(row.id) ?? null
+    const expected = expectedFrom(row, held, arrived)
     if (row.from_fp !== expected) {
-      findings.push({ code: 'LEDGER_CHAIN_BROKEN', id: row.id, row: row.row, from_fp: row.from_fp, expected_from_fp: expected })
+      findings.push({ code: 'LEDGER_CHAIN_BROKEN', id: row.id, ...(row.kind === 'renumbered' && { from_id: row.from_id }), row: row.row, from_fp: row.from_fp, expected_from_fp: expected })
     }
-    held.set(row.id, row.to_fp)
+    if (row.kind === 'renumbered') {
+      arrived.set(row.id, { fp: row.to_fp, row: row.row })
+      held.delete(row.from_id)
+    } else {
+      held.set(row.id, row.to_fp)
+      arrived.delete(row.id)
+    }
+  }
+  return { findings, arrived }
+}
+
+/**
+ * LEDGER_RENUMBER_TARGET_MISMATCH: a renumbered arrival that no later row changed, where the new id does
+ * not hold the fingerprint the row says. Without it a renumbered row could clear the removal of an
+ * anchor whose content went nowhere.
+ */
+function targetFindings({ headAnchors }, arrived) {
+  const findings = []
+  for (const [id, { fp, row }] of arrived) {
+    if (headAnchors[id]?.sha256 !== fp) {
+      findings.push({ code: 'LEDGER_RENUMBER_TARGET_MISMATCH', id, row, anchor: headAnchors[id]?.sha256 ?? null })
+    }
   }
   return findings
 }
 
-/** ANCHOR_REMOVED: an anchor the base had and the head lacks, with no appended `removed` row for the id. */
+/**
+ * LEDGER_RENUMBER_REUSED: one id left twice, or one id filled twice, by the rows of a PR. An id that leaves
+ * twice has been copied, not moved; an id that is filled twice holds the content of only one of them.
+ */
+function reusedFindings({ added }) {
+  const findings = []
+  const seen = { departs: new Set(), arrives: new Set() }
+  for (const row of added) {
+    const departed = departedId(row)
+    const roles = [['departs', departed], ['arrives', row.kind === 'renumbered' ? row.id : null]]
+    for (const [role, id] of roles) {
+      if (id === null) continue
+      if (seen[role].has(id)) findings.push({ code: 'LEDGER_RENUMBER_REUSED', role, id, row: row.row })
+      seen[role].add(id)
+    }
+  }
+  return findings
+}
+
+/** ANCHOR_REMOVED: an anchor the base had and the head lacks, with no appended row that retires the id. */
 function removedAnchorFindings({ baseAnchors, headAnchors, added }) {
   const findings = []
   for (const id of Object.keys(baseAnchors)) {
     if (id in headAnchors) continue
-    if (!added.some((row) => row.kind === 'removed' && row.id === id)) findings.push({ code: 'ANCHOR_REMOVED', id })
+    if (!added.some((row) => departedId(row) === id)) findings.push({ code: 'ANCHOR_REMOVED', id })
   }
   return findings
 }
@@ -264,13 +374,15 @@ function changedAnchorFindings({ baseAnchors, headAnchors, added }) {
 const vacated = ({ baseAnchors, headAnchors }, id) => !(id in headAnchors) || headAnchors[id].sha256 !== baseAnchors[id]?.sha256
 
 /**
- * LEDGER_ID_NOT_VACATED: a `removed` row for an id the head still anchors with the fingerprint the base
- * gave it. The row says the exercise left the course while the anchor says it did not.
+ * LEDGER_ID_NOT_VACATED: a `removed` or `renumbered` row that vacates an id the head still anchors with
+ * the fingerprint the base gave it. The row says the exercise left the id while the anchor says it did
+ * not (for a renumbered row, that is a copy). An id another row fills with other content is vacated.
  */
 function notVacatedFindings(context) {
-  return context.added
-    .filter((row) => row.kind === 'removed' && !vacated(context, row.id))
-    .map((row) => ({ code: 'LEDGER_ID_NOT_VACATED', id: row.id, row: row.row }))
+  return context.added.flatMap((row) => {
+    const id = departedId(row)
+    return id !== null && !vacated(context, id) ? [{ code: 'LEDGER_ID_NOT_VACATED', id, row: row.row }] : []
+  })
 }
 
 /**
@@ -280,18 +392,23 @@ function notVacatedFindings(context) {
  * again, and then a later row takes its place. An id with no row is not examined here (classify
  * reports an anchor that no longer matches the course).
  *
- * A `removed` row is not an anchor: it excuses the missing anchor of an id whose last word it is, and an
- * id that is removed and still anchored is reported. An id that came back after its removal is
- * judged by the row that brought it back. Where a removal sits among the rows of its own PR is not
- * judged (ledgerFindings judges each appended removal, LEDGER_ID_NOT_VACATED), so an anchor equal to
- * the arrival row's passes whatever the order.
+ * A `removed` row is not an anchor, and a `renumbered` row is an anchor for its new id and a departure
+ * for its from_id. A departure excuses the missing anchor of an id whose last word it is, and an id that
+ * is departed and still anchored is reported. An id that came back after its departure is judged by the
+ * row that brought it back. Where a departure sits among the rows of its own PR is not judged
+ * (ledgerFindings judges each appended one, LEDGER_ID_NOT_VACATED), so an anchor equal to the arrival
+ * row's passes whatever the order: two ids that swapped their content need two rows, in either order.
  */
 export function ledgerAnchorFindings(anchors, rows) {
   const arrivals = new Map()
   const departures = new Map()
-  for (const row of rows) (row.kind === 'removed' ? departures : arrivals).set(row.id, row)
+  for (const row of rows) {
+    if (row.kind !== 'removed') arrivals.set(row.id, row)
+    const departed = departedId(row)
+    if (departed !== null) departures.set(departed, row)
+  }
   const findings = []
-  for (const id of new Set(rows.map((row) => row.id))) {
+  for (const id of new Set(rows.flatMap((row) => [row.id, departedId(row)]).filter((id) => id !== null))) {
     const arrival = arrivals.get(id)
     const departure = departures.get(id)
     const held = anchors[id]?.sha256

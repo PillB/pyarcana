@@ -8,6 +8,7 @@
 import { after, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -404,6 +405,206 @@ describe('removed rows: an exercise leaves the course only by an owner decision 
   })
 })
 
+describe('renumbered rows: an exercise keeps its fingerprint under a new id (O25)', () => {
+  const OLD = 'S05-T1-A-E1'
+  const OTHER = 'S05-T1-A-E2'
+  const NEW = 'S06-T1-A-E1'
+  const exercise = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
+  const renumbered =(n, id, fromId, fp, over = {}) => ({ row: n, id, kind: 'renumbered', from_id: fromId, from_fp: fp, to_fp: fp, reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13', ...over })
+  const changed = (n, id, from, to) => ({ row: n, id, kind: 'changed', from_fp: from, to_fp: to, reason: 'reescrito', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
+  const base = { [OLD]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+  const rebound = { [NEW]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+  const findingsFor = (rows, head = rebound, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows })
+  const codeList = (findings) => findings.map((f) => f.code)
+
+  it('reports a rebound id with no row: the old anchor is removed and the new one is unledgered', () => {
+    assert.deepEqual(codeList(findingsFor([])), ['ANCHOR_REMOVED', 'ANCHOR_CHANGED_UNLEDGERED'])
+  })
+
+  it('accepts the rebinding once a renumbered row names the old id, the new id and the one fingerprint', () => {
+    assert.deepEqual(findingsFor([renumbered(1, NEW, OLD, SHA_A)]), [])
+  })
+
+  it('does not let a row of another kind clear the removal of the old id', () => {
+    const findings = findingsFor([changed(1, NEW, null, SHA_A)])
+    assert.deepEqual(codeList(findings).filter((c) => c === 'ANCHOR_REMOVED'), ['ANCHOR_REMOVED'])
+  })
+
+  it('refuses a renumbered row that is malformed: another fingerprint at the end, no from_id, a from_id that is not an exercise, or the same id', () => {
+    for (const over of [{ to_fp: SHA_B }, { from_fp: null, to_fp: null }, { from_id: undefined }, { from_id: 'S5-T1-A-E1' }, { from_id: NEW }]) {
+      const findings = findingsFor([renumbered(1, NEW, OLD, SHA_A, over)])
+      assert.equal(findings[0]?.code, 'LEDGER_ROW_INVALID', JSON.stringify({ over, findings }))
+    }
+  })
+
+  it('refuses from_id on a row of any other kind', () => {
+    const findings = findingsFor([{ ...changed(1, NEW, null, SHA_A), from_id: OLD }])
+    assert.equal(findings[0]?.code, 'LEDGER_ROW_INVALID')
+    assert.ok(findings[0].problems.some((p) => /from_id/.test(p)), JSON.stringify(findings[0]))
+  })
+
+  it('reports a renumbered row whose fingerprint is not the one the old id held', () => {
+    const head = { [NEW]: exercise(SHA_C), [OTHER]: exercise(SHA_B) }
+    const findings = findingsFor([renumbered(1, NEW, OLD, SHA_C)], head)
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.expected_from_fp]), [['LEDGER_CHAIN_BROKEN', NEW, SHA_A]])
+  })
+
+  it('reports a renumbered row for an old id the head still anchors, unchanged: that is a copy', () => {
+    const copy = { [OLD]: exercise(SHA_A), [NEW]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+    const findings = findingsFor([renumbered(1, NEW, OLD, SHA_A)], copy)
+    assert.deepEqual(findings.map((f) => [f.code, f.id]), [['LEDGER_ID_NOT_VACATED', OLD]])
+  })
+
+  it('does not let a renumbered row hide a deletion: the new id must hold the fingerprint', () => {
+    const gone = { [OTHER]: exercise(SHA_B) }
+    const findings = findingsFor([renumbered(1, NEW, OLD, SHA_A)], gone)
+    assert.deepEqual(findings.map((f) => [f.code, f.id]), [['LEDGER_RENUMBER_TARGET_MISMATCH', NEW]])
+  })
+
+  it('reports a new id that holds other content than its renumbered row says', () => {
+    const head = { [NEW]: exercise(SHA_C), [OTHER]: exercise(SHA_B) }
+    const findings = findingsFor([renumbered(1, NEW, OLD, SHA_A)], head)
+    assert.deepEqual(codeList(findings).sort(), ['ANCHOR_CHANGED_UNLEDGERED', 'LEDGER_RENUMBER_TARGET_MISMATCH'])
+  })
+
+  it('reports an old id renumbered to two new ids, a new id renumbered from two old ids, and an id both removed and renumbered', () => {
+    const reused = (findings) => findings.filter((f) => f.code === 'LEDGER_RENUMBER_REUSED').map((f) => [f.role, f.id, f.row])
+    const copy = { [NEW]: exercise(SHA_A), 'S06-T1-A-E2': exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+    const twice = findingsFor([renumbered(1, NEW, OLD, SHA_A), renumbered(2, 'S06-T1-A-E2', OLD, SHA_A)], copy)
+    assert.deepEqual(reused(twice), [['departs', OLD, 2]])
+    const merged = findingsFor([renumbered(1, NEW, OLD, SHA_A), renumbered(2, NEW, OTHER, SHA_B)], { [NEW]: exercise(SHA_B) })
+    assert.deepEqual(reused(merged), [['arrives', NEW, 2]])
+    const removedToo = { row: 2, id: OLD, kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' }
+    assert.deepEqual(reused(findingsFor([renumbered(1, NEW, OLD, SHA_A), removedToo])), [['departs', OLD, 2]])
+  })
+
+  it('accepts two ids that swap their content, whichever row comes first', () => {
+    const swapped = { [OLD]: exercise(SHA_B), [OTHER]: exercise(SHA_A) }
+    const toOther = renumbered(1, OTHER, OLD, SHA_A)
+    const toOld = renumbered(2, OLD, OTHER, SHA_B)
+    assert.deepEqual(findingsFor([toOther, toOld], swapped), [])
+    assert.deepEqual(findingsFor([{ ...toOld, row: 1 }, { ...toOther, row: 2 }], swapped), [])
+  })
+
+  it('still checks the id a swap fills first, once the second row of the swap vacates it', () => {
+    const wrong = { [OLD]: exercise(SHA_B), [OTHER]: exercise(SHA_C) }
+    const findings = findingsFor([renumbered(1, OTHER, OLD, SHA_A), renumbered(2, OLD, OTHER, SHA_B)], wrong)
+    assert.deepEqual(findings.filter((f) => f.code === 'LEDGER_RENUMBER_TARGET_MISMATCH').map((f) => [f.id, f.row]), [[OTHER, 1]])
+  })
+
+  it('accepts a renumber and an amendment of the same exercise in one PR, when the amendment starts at the renumbered fingerprint', () => {
+    const head = { [NEW]: exercise(SHA_C), [OTHER]: exercise(SHA_B) }
+    assert.deepEqual(findingsFor([renumbered(1, NEW, OLD, SHA_A), changed(2, NEW, SHA_A, SHA_C)], head), [])
+    const wrong = findingsFor([renumbered(1, NEW, OLD, SHA_A), changed(2, NEW, SHA_B, SHA_C)], head)
+    assert.deepEqual(wrong.map((f) => [f.code, f.row, f.expected_from_fp]), [['LEDGER_CHAIN_BROKEN', 2, SHA_A]])
+  })
+
+  it('accepts a new exercise written into an id the renumber vacated, as an added row from null', () => {
+    // The new S19, S20 and S35 reuse the ids old S19, S20 and S35 left.
+    const head = { [OLD]: exercise(SHA_C), [NEW]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+    const added = (from) => ({ row: 2, id: OLD, kind: 'added', from_fp: from, to_fp: SHA_C, reason: 'ejercicio nuevo', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
+    assert.deepEqual(findingsFor([renumbered(1, NEW, OLD, SHA_A), added(null)], head), [])
+    const claimsOld = findingsFor([renumbered(1, NEW, OLD, SHA_A), added(SHA_A)], head)
+    assert.deepEqual(claimsOld.map((f) => [f.code, f.row, f.expected_from_fp]), [['LEDGER_CHAIN_BROKEN', 2, null]])
+  })
+
+  it('classify: with the anchors not yet regenerated, a renumbered row resolves the pair and no other row does', () => {
+    const anchors = { [OLD]: anchor('S05', BAR) }
+    const current = { [NEW]: anchor('S06', BAR) }
+    const fp = anchors[OLD].sha256
+    assert.deepEqual(classify(anchors, current).map((f) => f.code), ['EXERCISE_UNANCHORED', 'EXERCISE_REMOVED'])
+    assert.deepEqual(classify(anchors, current, [renumbered(1, NEW, OLD, fp)]), [])
+    assert.deepEqual(classify(anchors, current, [renumbered(1, NEW, OLD, SHA_C)]).map((f) => f.code), ['EXERCISE_UNANCHORED', 'EXERCISE_REMOVED'], 'a row for another fingerprint')
+    assert.deepEqual(classify(anchors, current, [renumbered(1, NEW, OTHER, fp)]).map((f) => f.code), ['EXERCISE_UNANCHORED', 'EXERCISE_REMOVED'], 'a row from an id that is not the anchored one')
+  })
+
+  it('classify: a renumbered row does not clear the removal when the new id holds something else', () => {
+    const anchors = { [OLD]: anchor('S05', BAR) }
+    const current = { [NEW]: anchor('S06', AXIS) }
+    const rows = [renumbered(1, NEW, OLD, anchors[OLD].sha256)]
+    assert.deepEqual(classify(anchors, current, rows).map((f) => f.code), ['EXERCISE_UNANCHORED', 'EXERCISE_REMOVED'])
+  })
+
+  it('classify: two ids that swapped their content are resolved by two renumbered rows', () => {
+    const anchors = { [OLD]: anchor('S05', BAR), [OTHER]: anchor('S05', AXIS) }
+    const current = { [OLD]: anchors[OTHER], [OTHER]: anchors[OLD] }
+    assert.equal(classify(anchors, current).length, 2)
+    const rows = [renumbered(1, OTHER, OLD, anchors[OLD].sha256), renumbered(2, OLD, OTHER, anchors[OTHER].sha256)]
+    assert.deepEqual(classify(anchors, current, rows), [])
+  })
+
+  it('ledgerAnchorFindings: the old id needs no anchor after a renumber, and the new id holds the row\'s fingerprint', () => {
+    const rows = [changed(1, OLD, SHA_B, SHA_A), renumbered(2, NEW, OLD, SHA_A)]
+    assert.deepEqual(ledgerAnchorFindings({ [NEW]: exercise(SHA_A) }, rows), [])
+    assert.deepEqual(ledgerAnchorFindings({ [NEW]: exercise(SHA_C) }, rows).map((f) => [f.id, f.row]), [[NEW, 2]])
+    assert.deepEqual(ledgerAnchorFindings({}, [renumbered(1, NEW, OLD, SHA_A)]).map((f) => f.id), [NEW])
+  })
+
+  it('ledgerAnchorFindings: an old id that is still anchored after it was renumbered away is reported', () => {
+    const findings = ledgerAnchorFindings({ [NEW]: exercise(SHA_A), [OLD]: exercise(SHA_C) }, [renumbered(1, NEW, OLD, SHA_A)])
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.row]), [['LEDGER_NEWEST_ROW_NOT_ANCHOR', OLD, 1]])
+  })
+
+  it('ledgerAnchorFindings: a swap passes in either order of its two rows', () => {
+    const swapped = { [OLD]: exercise(SHA_B), [OTHER]: exercise(SHA_A) }
+    const toOther = renumbered(1, OTHER, OLD, SHA_A)
+    const toOld = renumbered(2, OLD, OTHER, SHA_B)
+    assert.deepEqual(ledgerAnchorFindings(swapped, [toOther, toOld]), [])
+    assert.deepEqual(ledgerAnchorFindings(swapped, [{ ...toOld, row: 1 }, { ...toOther, row: 2 }]), [])
+  })
+})
+
+describe('renumbered rows at the scale of the design\'s renumber (synthetic anchors)', () => {
+  // design_ruled_final.md section 1: sections 1..18 stay, 19..32 move +2, 33..52 move +3, and three new
+  // sections (19, 20, 35) take ids the move vacated. Every target id of the shift is also a source id.
+  const pad = (n) => String(n).padStart(2, '0')
+  const f = (n) => (n <= 18 ? n : n <= 32 ? n + 2 : n + 3)
+  const suffixes = [1, 2, 3, 4].flatMap((t) => ['A', 'B'].flatMap((z) => [1, 2, 3].map((e) => `T${t}-${z}-E${e}`)))
+  const idsOf = (sections) => sections.flatMap((n) => suffixes.map((suffix) => `S${pad(n)}-${suffix}`))
+  const shaOf = (key) => createHash('sha256').update(key).digest('hex')
+  const exercise = (sha256) => ({ section: 'S00', sha256, tokens: ['x'] })
+  const oldSections = Array.from({ length: 52 }, (_, i) => i + 1)
+  const base = Object.fromEntries(idsOf(oldSections).map((id) => [id, exercise(shaOf(id))]))
+  const renameId = (id) => `S${pad(f(Number(id.slice(1, 3))))}${id.slice(3)}`
+  const stamp = { reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13' }
+
+  const rebound = idsOf(oldSections).filter((id) => renameId(id) !== id)
+  const renumberedRows = rebound.map((from) => ({ id: renameId(from), kind: 'renumbered', from_id: from, from_fp: shaOf(from), to_fp: shaOf(from), ...stamp }))
+  const newIds = idsOf([19, 20, 35])
+  const addedRows = newIds.map((id) => ({ id, kind: 'added', from_fp: null, to_fp: shaOf(`new ${id}`), ...stamp }))
+  const head = Object.fromEntries([
+    ...idsOf(oldSections).map((id) => [renameId(id), exercise(shaOf(id))]),
+    ...newIds.map((id) => [id, exercise(shaOf(`new ${id}`))]),
+  ])
+  const run = (rows) => ledgerFindings({ baseAnchors: base, headAnchors: head, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+
+  it('is 816 renumbered rows and 72 added rows', () => {
+    assert.deepEqual([renumberedRows.length, addedRows.length], [816, 72])
+  })
+
+  it('passes with one renumbered row per rebound id followed by the added rows', () => {
+    assert.deepEqual(run([...renumberedRows, ...addedRows]), [])
+  })
+
+  it('reports the 888 changed anchors when the same renumber comes with no rows', () => {
+    const findings = run([])
+    assert.deepEqual([...new Set(findings.map((f) => f.code))], ['ANCHOR_CHANGED_UNLEDGERED'])
+    assert.equal(findings.length, 888)
+  })
+
+  it('reports exactly the id whose renumbered row was dropped', () => {
+    const dropped = renumberedRows.find((row) => row.id === 'S24-T1-A-E1')
+    const findings = run([...renumberedRows.filter((row) => row !== dropped), ...addedRows])
+    assert.deepEqual(findings.map((x) => [x.code, x.id]), [['ANCHOR_CHANGED_UNLEDGERED', 'S24-T1-A-E1']])
+  })
+
+  it('reports a renumbered row that names the wrong old id', () => {
+    const rows = renumberedRows.map((row) => (row.id === 'S24-T1-A-E1' ? { ...row, from_id: 'S23-T1-A-E1' } : row))
+    const codes = new Set(run([...rows, ...addedRows]).map((x) => x.code))
+    assert.ok(codes.has('LEDGER_CHAIN_BROKEN') && codes.has('LEDGER_RENUMBER_REUSED'), [...codes].join())
+  })
+})
+
 describe('CODEOWNERS: the B11 guard and its state are the owner\'s files', () => {
   const owners = readFileSync(join(ROOT, '.github/CODEOWNERS'), 'utf8')
     .split('\n')
@@ -542,32 +743,57 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     assert.ok(sentinelResult(dir).failures.some((f) => f.code === 'EXERCISE_ANCHORS_REMOVED'), JSON.stringify(sentinelResult(dir).failures))
   })
 
-  const twoAnchors = (shaA, shaB) => JSON.stringify({ schema: 'exercise_meaning_anchors/1', exercises: { 'S05-T1-A-E1': exercise(shaA), 'S05-T1-A-E2': exercise(shaB) } })
-  const oneAnchor = (sha) => JSON.stringify({ schema: 'exercise_meaning_anchors/1', exercises: { 'S05-T1-A-E2': exercise(sha) } })
-  const removedRow = (over = {}) => ({ row: 1, id: 'S05-T1-A-E1', kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado del curso', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13', ...over })
+  const E1 = 'S05-T1-A-E1'
+  const E2 = 'S05-T1-A-E2'
+  const MOVED = 'S06-T1-A-E1'
+  const anchorsOf = (entries) => JSON.stringify({ schema: 'exercise_meaning_anchors/1', exercises: Object.fromEntries(Object.entries(entries).map(([id, fp]) => [id, exercise(fp)])) })
+  const removedRow = (over = {}) => ({ row: 1, id: E1, kind: 'removed', from_fp: SHA_A, to_fp: null, reason: 'retirado del curso', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13', ...over })
+  const renumberedRow = (over = {}) => ({ row: 1, id: MOVED, kind: 'renumbered', from_id: E1, from_fp: SHA_A, to_fp: SHA_A, reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13', ...over })
+  const REMOVED_HEAD = { [E2]: SHA_B }
+  const REBOUND_HEAD = { [MOVED]: SHA_A, [E2]: SHA_B }
 
-  /** The sentinel's exercise-meaning failures after a commit that drops exercise E1 from the anchors. */
-  function sentinelAfterRemoval(rows) {
-    const { dir, base } = repo({ ...CURRICULUM, [ANCHORS_PATH]: twoAnchors(SHA_A, SHA_B), [LEDGER_PATH]: ledgerFile([]) })
-    write(dir, { [ANCHORS_PATH]: oneAnchor(SHA_B), [LEDGER_PATH]: ledgerFile(rows) })
+  /**
+   * The sentinel's exercise-meaning failures (their rules) after a commit that rewrites the anchors from
+   * { E1: A, E2: B } to `head` and the ledger to `rows`. `branch` names the branch the commit is made on.
+   */
+  function sentinelRules({ head, rows, branch = null, files = {} }) {
+    const { dir, base } = repo({ ...CURRICULUM, [ANCHORS_PATH]: anchorsOf({ [E1]: SHA_A, [E2]: SHA_B }), [LEDGER_PATH]: ledgerFile([]) })
+    if (branch !== null) git(dir, 'switch', '-q', '-c', branch)
+    write(dir, { [ANCHORS_PATH]: anchorsOf(head), [LEDGER_PATH]: ledgerFile(rows), ...files })
     git(dir, 'add', '-A')
-    git(dir, 'commit', '-q', '-m', 'exercise E1 leaves the course')
+    git(dir, 'commit', '-q', '-m', 'the anchors change')
     runSentinel(dir, base)
-    return sentinelResult(dir).failures.filter((f) => f.code === 'EXERCISE_MEANING_LEDGER')
+    return sentinelResult(dir).failures.filter((f) => f.code === 'EXERCISE_MEANING_LEDGER').map((f) => f.rule)
   }
 
   it('fails the preservation sentinel on an exercise that leaves the anchors with no removed row', () => {
-    const failures = sentinelAfterRemoval([])
-    assert.deepEqual(failures.map((f) => f.rule), ['ANCHOR_REMOVED'])
+    assert.deepEqual(sentinelRules({ head: REMOVED_HEAD, rows: [] }), ['ANCHOR_REMOVED'])
   })
 
   it('passes the preservation sentinel when a removed row names the owner decision', () => {
-    assert.deepEqual(sentinelAfterRemoval([removedRow()]), [])
+    assert.deepEqual(sentinelRules({ head: REMOVED_HEAD, rows: [removedRow()] }), [])
   })
 
   it('fails the preservation sentinel on a removed row that names no owner decision', () => {
-    const failures = sentinelAfterRemoval([removedRow({ decided_by: 'medido' })])
-    assert.deepEqual(failures.map((f) => f.rule), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'])
+    assert.deepEqual(sentinelRules({ head: REMOVED_HEAD, rows: [removedRow({ decided_by: 'medido' })] }), ['LEDGER_ROW_INVALID', 'ANCHOR_REMOVED'])
+  })
+
+  it('fails the preservation sentinel on a rebound id with no renumbered row', () => {
+    assert.deepEqual(sentinelRules({ head: REBOUND_HEAD, rows: [] }), ['ANCHOR_REMOVED', 'ANCHOR_CHANGED_UNLEDGERED'])
+  })
+
+  it('passes the preservation sentinel when a renumbered row names the pair and the one fingerprint', () => {
+    assert.deepEqual(sentinelRules({ head: REBOUND_HEAD, rows: [renumberedRow()] }), [])
+  })
+
+  it('fails the preservation sentinel on a renumbered row that hides a deletion: the new id is not anchored', () => {
+    assert.deepEqual(sentinelRules({ head: REMOVED_HEAD, rows: [renumberedRow()] }), ['LEDGER_RENUMBER_TARGET_MISMATCH'])
+  })
+
+  it('does not exempt the renumber PR: on curriculum/55, with the epoch committed, a rebound id still needs its row', () => {
+    const files = { 'audit/safe-agent/renumber_epoch.json': JSON.stringify({ schema: 'renumber_epoch/1', renumber_sha: '0'.repeat(40), new_slugs: [] }) }
+    assert.deepEqual(sentinelRules({ head: REBOUND_HEAD, rows: [], branch: 'curriculum/55', files }), ['ANCHOR_REMOVED', 'ANCHOR_CHANGED_UNLEDGERED'])
+    assert.deepEqual(sentinelRules({ head: REBOUND_HEAD, rows: [renumberedRow()], branch: 'curriculum/55', files }), [])
   })
 
   it('stays dormant before any anchors exist: neither the base nor HEAD has them, so nothing is compared', () => {
