@@ -37,9 +37,9 @@ SANCTIONED = {
 }
 
 #: Still reading the bank with a private parser. Strike each one as it moves to exam_bank.py.
-SEED_TEXT_READERS_OWED = {
-    "scripts/v3_invariant_validator.py",
-}
+#: 2026-10-13: empty. #96 migrated the audit, the length cue and the 11 per-section tests; #97
+#: migrated v3_invariant_validator.py. Every reader of the seed now goes through exam_bank.py.
+SEED_TEXT_READERS_OWED: set[str] = set()
 
 
 def readers(files: dict[str, str]) -> set[str]:

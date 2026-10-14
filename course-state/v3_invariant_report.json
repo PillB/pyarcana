@@ -523,11 +523,6 @@
       "v3_tagged": true
     }
   ],
-  "seed_concepts_per_section": {
-    "setup": 8,
-    "basics": 8,
-    "collections": 8
-  },
   "failures": [],
   "warnings": [],
   "warning_count": 0,
