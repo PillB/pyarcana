@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Loader2, RotateCcw, Terminal, CheckCircle2, XCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PYODIDE_CDN } from '@/lib/pyodide'
+import { PLAYGROUND_PRELUDE, PYODIDE_CDN } from '@/lib/pyodide'
 
 // Pyodide is loaded from CDN — only once per session
 let pyodidePromise: Promise<any> | null = null
@@ -111,7 +111,9 @@ export function CodePlayground({
 
   useEffect(() => {
     loadPyodide()
-      .then((pyodide) => {
+      .then(async (pyodide) => {
+        // Before the playground accepts code, so the learner's first `import pandas` is filtered.
+        await pyodide.runPythonAsync(PLAYGROUND_PRELUDE)
         pyodideRef.current = pyodide
         // @ts-ignore
         window.pyodide = pyodide
