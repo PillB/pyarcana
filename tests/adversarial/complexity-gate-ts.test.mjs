@@ -7,7 +7,7 @@
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -577,19 +577,130 @@ test("the gate's rule reports exactly the units and scores of ESLint's own compl
 const offender = (indent = '') => `(x: number) => {\n${ifs(16, `${indent}  `)}\n${indent}  return -1\n${indent}}`
 
 /**
- * One case per form a function, or an object or a list that holds one, takes. `code('')` is a file
- * whose one offender, scoring 17, sits in that form under the name `key`; `code(extra)` adds an
- * unrelated function before it, in the same function and the same kind of place, that differs from
- * it in a name the code gives (a callee, a binding, a title, a property, an element). The offender
- * must keep its key. Keyed by order alone, the two would differ only by order, and the offender
- * would turn NEW OVER.
+ * One case for each form a function takes in the tree, and each form an object or a list that holds
+ * one takes: the guard below lists the forms from the tree itself and fails on one with no case here.
+ * `code('')` is a file whose one offender, scoring 17, sits in that form under the name `key`;
+ * `code(extra)` adds an unrelated function before it, in the same function and the same kind of
+ * place, that differs from it in a name the code gives (a callee, a binding, a title, a property, an
+ * element). The offender must keep its key. Keyed by order alone, the two would differ only by order,
+ * and the offender would turn NEW OVER.
  */
 const FORM_CASES = [
+  {
+    form: 'function in CallExpression.arguments[]',
+    key: 'build.<arg 0 of rows.map>',
+    extra: '  rows.forEach((x) => x)\n',
+    code: (extra) => `export function build(rows: number[]) {\n${extra}  return rows.map(${offender('  ')})\n}\n`,
+  },
+  {
+    form: 'function in VariableDeclarator.init',
+    key: 'outer.big',
+    extra: '  const small = (x: number) => x\n',
+    code: (extra) => `export function outer() {\n${extra}  const big = ${offender('  ')}\n  return big\n}\n`,
+  },
+  {
+    form: 'function in JSXExpressionContainer.expression/JSXAttribute',
+    jsx: true,
+    key: 'Panel.<button onClick>',
+    extra: '<a onFocus={() => 0} />',
+    code: (extra) => `export function Panel() {\n  return <div>${extra}<button onClick={${offender('    ')}} /></div>\n}\n`,
+  },
+  {
+    form: 'function in ArrayExpression.elements[]',
+    key: 'ROWS.<item 1 "role">',
+    extra: "  ['state', (x: number) => x],\n",
+    code: (extra) => `export const ROWS = [\n${extra}  ['role', ${offender('  ')}],\n]\n`,
+  },
+  {
+    form: 'function in Property.value',
+    key: 'api.big',
+    extra: '  small: (x: number) => x,\n',
+    code: (extra) => `export const api = {\n${extra}  big: ${offender('  ')},\n}\n`,
+  },
+  {
+    form: 'function in MethodDefinition.value/method',
+    key: 'Box.big',
+    extra: '  small(x: number) { return x }\n',
+    code: (extra) => `export class Box {\n${extra}  big(x: number) {\n${ifs(16, '    ')}\n    return -1\n  }\n}\n`,
+  },
+  {
+    form: 'function in ReturnStatement.argument',
+    key: 'subscribe.<returned>',
+    extra: '  const off = () => 0\n',
+    code: (extra) => `export function subscribe() {\n${extra}  return ${offender('  ')}\n}\n`,
+  },
+  {
+    form: 'function in Property.value/method',
+    key: 'api.big',
+    extra: '  small(x: number) { return x },\n',
+    code: (extra) => `export const api = {\n${extra}  big(x: number) {\n${ifs(16, '    ')}\n    return -1\n  },\n}\n`,
+  },
+  {
+    form: 'function in NewExpression.arguments[]',
+    key: 'wait.<arg 0 of Promise>',
+    extra: '  void new Worker((x: number) => x)\n',
+    code: (extra) => `export function wait() {\n${extra}  return new Promise(${offender('  ')})\n}\n`,
+  },
+  {
+    form: 'function in AssignmentExpression.right',
+    key: 'install.target.big',
+    extra: '  target.small = (x: number) => x\n',
+    code: (extra) => `export function install(target: Record<string, unknown>) {\n${extra}  target.big = ${offender('  ')}\n}\n`,
+  },
+  {
+    form: 'function in CallExpression.callee',
+    key: 'outer.<big = (…)()>',
+    extra: '  const small = ((x: number) => x)(1)\n',
+    code: (extra) => `export function outer() {\n${extra}  const big = (${offender('  ')})(1)\n  return big\n}\n`,
+  },
+  {
+    form: 'function in MethodDefinition.value/constructor',
+    key: 'Box.constructor',
+    extra: '  small(x: number) { return x }\n',
+    code: (extra) => `export class Box {\n${extra}  constructor(x: number) {\n${ifs(16, '    ')}\n  }\n}\n`,
+  },
+  {
+    form: 'function in ArrowFunctionExpression.body',
+    key: 'curry.<returned>',
+    extra: ', b = () => 0',
+    code: (extra) => `export const curry = (a: number${extra}) => ${offender()}\n`,
+  },
+  {
+    form: 'function in AssignmentPattern.right',
+    key: 'run.<default of cb>',
+    extra: 'first = (x: number) => x, ',
+    code: (extra) => `export function run(${extra}cb = ${offender()}) {\n  return cb\n}\n`,
+  },
+  {
+    form: 'function in JSXExpressionContainer.expression/JSXElement',
+    jsx: true,
+    key: 'Page.<Frame children>',
+    extra: '<Panel>{() => 0}</Panel>',
+    code: (extra) => `export function Page() {\n  return <>${extra}<Frame>{${offender('    ')}}</Frame></>\n}\n`,
+  },
   {
     form: 'function in LogicalExpression.right',
     key: 'send.doFetch',
     extra: '  const other = options.other ?? ((x: number) => x)\n',
     code: (extra) => `export function send(options: { fetch?: unknown; other?: unknown }) {\n${extra}  const doFetch = options.fetch ?? (${offender('  ')})\n  return doFetch\n}\n`,
+  },
+  {
+    form: 'function in PropertyDefinition.value',
+    key: 'Box.big',
+    extra: '  small = (x: number) => x\n',
+    code: (extra) => `export class Box {\n${extra}  big = ${offender('  ')}\n}\n`,
+  },
+  {
+    form: 'function in MethodDefinition.value/get',
+    key: 'Box.get big',
+    extra: '  get small() { return 0 }\n',
+    code: (extra) => `export class Box {\n${extra}  get big() {\n    const x = Math.random()\n${ifs(16, '    ')}\n    return -1\n  }\n}\n`,
+  },
+  {
+    form: 'array in ArrayExpression.elements[]',
+    key: 'routes.<arg 0 of dispatch>.<item 1 "role">',
+    extra: "    ['state', (x: number) => x],\n",
+    code: (extra) => `export function routes() {\n  return dispatch([\n${extra}    ['role', ${offender('    ')}],\n  ])\n}\n`,
   },
   {
     form: 'array in ArrowFunctionExpression.body',
@@ -598,10 +709,28 @@ const FORM_CASES = [
     code: (extra) => `export const rows = (a: number${extra}) => [['role', ${offender()}]]\n`,
   },
   {
+    form: 'array in AssignmentExpression.right',
+    key: 'install.target.rows.<item 1 "role">',
+    extra: "  target.other = [['role', (x: number) => x]]\n",
+    code: (extra) => `export function install(target: Record<string, unknown>) {\n${extra}  target.rows = [['role', ${offender('  ')}]]\n}\n`,
+  },
+  {
     form: 'array in CallExpression.arguments[]',
     key: 'setup.<arg 0 of register>.<item 1 "role">',
     extra: "  other([['role', (x: number) => x]])\n",
     code: (extra) => `export function setup() {\n${extra}  register([['role', ${offender('  ')}]])\n}\n`,
+  },
+  {
+    form: 'array in ForOfStatement.right',
+    key: 'check.<item 1 "role">',
+    extra: "  for (const [, f] of [['state', (x: number) => x]]) f(0)\n",
+    code: (extra) => `export function check() {\n${extra}  for (const [, f] of [['role', ${offender('  ')}]]) f(0)\n}\n`,
+  },
+  {
+    form: 'array in MemberExpression.object',
+    key: 'label.<arg 0 of rows.map>',
+    extra: '  const n = [...new Set(rows.filter((x) => x > 0))].length\n',
+    code: (extra) => `export function label(rows: number[]) {\n${extra}  return [...new Set(rows.map(${offender('  ')}))].join(', ')\n}\n`,
   },
   {
     form: 'array in NewExpression.arguments[]',
@@ -610,10 +739,22 @@ const FORM_CASES = [
     code: (extra) => `export function table() {\n${extra}  return new Map([['role', ${offender('  ')}]])\n}\n`,
   },
   {
+    form: 'array in Property.value',
+    key: 'config.rows.<item 1 "role">',
+    extra: "  other: [['role', (x: number) => x]],\n",
+    code: (extra) => `export const config = {\n${extra}  rows: [['role', ${offender('  ')}]],\n}\n`,
+  },
+  {
     form: 'array in ReturnStatement.argument',
     key: 'rows.<returned>.<item 1 "role">',
     extra: "  register([['role', (x: number) => x]])\n",
     code: (extra) => `export function rows() {\n${extra}  return [['role', ${offender('  ')}]]\n}\n`,
+  },
+  {
+    form: 'array in VariableDeclarator.init',
+    key: 'ROWS.<item 1 "role">',
+    extra: "export const STATES = [['role', (x: number) => x]]\n",
+    code: (extra) => `${extra}export const ROWS = [['role', ${offender()}]]\n`,
   },
   {
     form: 'object in ArrayExpression.elements[]',
@@ -626,6 +767,12 @@ const FORM_CASES = [
     key: 'make.<returned>.big',
     extra: ', opts = { big: () => 0 }',
     code: (extra) => `export const make = (a: number${extra}) => ({ big: ${offender()} })\n`,
+  },
+  {
+    form: 'object in AssignmentExpression.right',
+    key: 'install.target.api.big',
+    extra: '  target.other = { big: (x: number) => x }\n',
+    code: (extra) => `export function install(target: Record<string, unknown>) {\n${extra}  target.api = { big: ${offender('  ')} }\n}\n`,
   },
   {
     form: 'object in CallExpression.arguments[]',
@@ -653,10 +800,35 @@ const FORM_CASES = [
     code: (extra) => `export function outer() {\n${extra}  const m = new Measurement({ big: ${offender('  ')} })\n  return m\n}\n`,
   },
   {
+    form: 'object in Property.value',
+    key: 'api.inner.big',
+    extra: '  other: { big: (x: number) => x },\n',
+    code: (extra) => `export const api = {\n${extra}  inner: { big: ${offender('  ')} },\n}\n`,
+  },
+  {
+    form: 'object in PropertyDefinition.value',
+    key: 'Box.handlers.big',
+    extra: '  others = { big: (x: number) => x }\n',
+    code: (extra) => `export class Box {\n${extra}  handlers = { big: ${offender('  ')} }\n}\n`,
+  },
+  {
     form: 'object in ReturnStatement.argument',
     key: 'useThing.<returned>.big',
     extra: '  const big = (x: number) => x\n  void big\n',
     code: (extra) => `export function useThing() {\n${extra}  return { big: ${offender('  ')} }\n}\n`,
+  },
+  {
+    form: 'object in VariableDeclarator.init',
+    key: 'api.big',
+    extra: 'export const other = { big: (x: number) => x }\n',
+    code: (extra) => `${extra}export const api = { big: ${offender()} }\n`,
+  },
+  {
+    form: 'nested: a function inside an anonymous function, with an unrelated pair added before both',
+    jsx: true,
+    key: 'Page.<arg 0 of useEffect>.handler',
+    extra: '  useMemo(() => {\n    const memo = (x: number) => x\n    return memo\n  })\n',
+    code: (extra) => `export function Page() {\n${extra}  useEffect(() => {\n    const handler = ${offender('    ')}\n    return handler\n  })\n  return null\n}\n`,
   },
 ]
 
@@ -699,3 +871,75 @@ FORM_CASES.forEach((c, i) => test(`${c.form}: an unrelated function added before
   assert.equal(again.status, 0, output(again))
   assert.deepEqual(entriesOf(reread, file), { [key]: 17 }, 'measured again under the same key')
 }))
+
+const TYPE_ONLY = new Set(['TSAsExpression', 'TSSatisfiesExpression', 'TSNonNullExpression', 'TSTypeAssertion'])
+const LITERAL_KIND = { ObjectExpression: 'object', ArrayExpression: 'array' }
+/** What tells two places in one parent apart beyond the field: an accessor's kind, a JSX holder. */
+const PLACE_DETAIL = {
+  JSXExpressionContainer: (p) => `/${p.parent.type}`,
+  MethodDefinition: (p) => `/${p.kind}`,
+  Property: (p) => (p.method ? '/method' : p.kind === 'init' ? '' : `/${p.kind}`),
+}
+
+/** How a node sits in its parent, looking through type-only wrappers: `CallExpression.arguments[]`. */
+function placeOf(node) {
+  let child = node
+  while (TYPE_ONLY.has(child.parent.type)) child = child.parent
+  const p = child.parent
+  const field = Object.keys(p).find((k) => k !== 'parent' && (p[k] === child || (Array.isArray(p[k]) && p[k].includes(child))))
+  return `${p.type}.${field}${Array.isArray(p[field]) ? '[]' : ''}${PLACE_DETAIL[p.type]?.(p) ?? ''}`
+}
+
+/** The forms on a function's path: its own, if it is an expression, and that of each object or list around it. */
+function formsAt(fn, literals) {
+  const own = fn.type === 'FunctionDeclaration' ? [] : [`function in ${placeOf(fn)}`]
+  return [...own, ...literals.map((literal) => `${LITERAL_KIND[literal.type]} in ${placeOf(literal)}`)]
+}
+
+/** Calls `found(fn, forms)` for every function in `code`, with the forms on its path. */
+function eachFunction(code, file, found) {
+  const { ast, visitorKeys } = tseslint.parser.parseForESLint(code, { range: true, sourceType: 'module', ecmaVersion: 'latest', ecmaFeatures: { jsx: !/\.[cm]?ts$/.test(file) } })
+  const visit = (node, parent, literals) => {
+    node.parent = parent
+    if (FUNCTIONS.has(node.type)) found(node, formsAt(node, literals))
+    const around = LITERAL_KIND[node.type] ? [...literals, node] : literals
+    for (const key of visitorKeys[node.type] ?? []) for (const child of [node[key]].flat()) if (child?.type) visit(child, node, around)
+  }
+  visit(ast, null, [])
+}
+
+/** Every form in the TypeScript gate's scope, with one file that holds it. */
+function formsInTree() {
+  const scope = JSON.parse(readFileSync(join(ROOT, 'audit/fixer/complexity_scope.json'), 'utf8'))
+  const roots = scope.typescript.map((t) => t.root)
+  const listed = execFileSync('git', ['ls-files', '-z', '--', ...roots], { cwd: ROOT, encoding: 'utf8' }).split('\0')
+  const measured = (rel) => scope.typescript.some((t) => rel.startsWith(`${t.root}/`) && t.suffixes.some((s) => rel.endsWith(s)))
+  const kept = (rel) => !scope.GATE_EXCLUSIONS.some(({ path }) => rel === path || (path.endsWith('/') && rel.startsWith(path)))
+  const forms = new Map()
+  for (const rel of listed.filter((r) => measured(r) && kept(r))) {
+    eachFunction(readFileSync(join(ROOT, rel), 'utf8'), rel, (fn, at) => at.forEach((form) => forms.has(form) || forms.set(form, rel)))
+  }
+  return forms
+}
+
+test('every form a function, or an object or a list holding one, takes in the tree has a case above', () => {
+  // The audit as a guard: a form new to the tree fails here until a case shows that an unrelated
+  // function added before an offender in that form moves no key.
+  const covered = new Set(FORM_CASES.map((c) => c.form))
+  const inTree = formsInTree()
+  assert.ok(inTree.size >= 30, `the walk found only ${inTree.size} forms`)
+  assert.deepEqual([...inTree].filter(([form]) => !covered.has(form)).map(([form, rel]) => `${form} (as in ${rel})`), [])
+})
+
+test('each case puts its offender in the form it names', () => {
+  const misplaced = FORM_CASES.filter((c) => !c.form.startsWith('nested:')).filter((c, i) => {
+    const code = c.code('')
+    const at = code.indexOf('x === 15')
+    let forms = []
+    eachFunction(code, caseFile(c, i), (fn, here) => {
+      if (fn.range[0] <= at && at < fn.range[1]) forms = here
+    })
+    return !forms.includes(c.form)
+  })
+  assert.deepEqual(misplaced.map((c) => c.form), [])
+})
