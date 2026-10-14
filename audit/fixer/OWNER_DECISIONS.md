@@ -426,7 +426,20 @@ the recommendation was taken, and each says so.
   in-browser Python cannot load the course's pinned versions. *Correction, same day:* the question
   overstated S11. Its demo imports numpy and never uses it, so its output cannot drift; it keeps
   its Run button. Only S10's demo (scikit-learn) shows the notice, and the notice shows the
-  expected output so the learner can compare.
+  expected output so the learner can compare. *Superseded for S10 and S11 by the off-topic demos
+  decision below:* the demos live in the `demos` map of `src/components/course/SectionView.tsx`,
+  keyed by section id, and S10's is a scikit-learn model only because it is a leftover of the
+  pre-V3 section that slug used to name. Once it is an on-topic standard-library demo, nothing
+  needs the notice; the SIM-11 guard stays for any future demo that imports a pinned package.
+
+A fourth question, the same day, answered as recommended:
+- **Off-topic playground demos are replaced now, phase by phase.** The «Pruébalo tú mismo» demos
+  of S10 to S52 follow the pre-V3 topic of their slug, not the V3 section (S10 runs scikit-learn,
+  S14 «NumPy» demos hashing, S15 «Pandas» demos functools); S01 to S09 already match. Codex writes
+  an on-topic, standard-library demo per section, using only what that section and earlier ones
+  teach, so it runs in the browser and its printed output is pinned. S10 and S11 go first, then
+  one phase at a time; a guard checks every demo against its section, and the owner sees the
+  diffs. This replaces existing learner content, which is why it was asked.
 - **34 exercise-meaning changes accepted as history** (no preference; recommendation taken). The S01
   to S03 exercise ids whose meaning changed since 35d19637 go into the exercise-meaning ledger as
   historical rows decided by this entry. Every later change needs its own ledger row.
@@ -458,7 +471,7 @@ A third batch, the same day, all four answered as recommended:
   (old id -> new id, same fingerprint) for each rebound id; a removed id needs a `removed` row
   naming the owner's decision. The renumber PR is not exempt (history-guards PR).
 
-**Retire when:** all twelve changes have landed and S03's round has re-checked the 12 findings.
+**Retire when:** all thirteen changes have landed, every playground demo matches its section, and S03's round has re-checked the 12 findings.
 
 ---
 
