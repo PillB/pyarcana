@@ -49,6 +49,28 @@ function srcFiles(dir = 'src'): string[] {
   })
 }
 
+/** Every file under `dir` whose path matches `keep`, relative to the repository, tests left out. */
+function filesUnder(dir: string, keep: RegExp): string[] {
+  return readdirSync(join(ROOT, dir)).flatMap((name) => {
+    const path = join(dir, name)
+    if (statSync(join(ROOT, path)).isDirectory()) return filesUnder(path, keep)
+    return keep.test(path) && !/\.test\./.test(path) ? [path] : []
+  })
+}
+
+/**
+ * What a learner reads: the section files, the components, the interface strings and the pages of
+ * the app. The credential policy is left out because its sentences are the claims under test.
+ */
+function learnerPages(): string[] {
+  return [
+    ...filesUnder('src/lib/course/sections', /\.ts$/),
+    ...filesUnder('src/components', /\.tsx?$/),
+    'src/lib/i18n.ts',
+    ...filesUnder('src/app', /\/page\.tsx$/).filter((file) => file !== POLICY),
+  ]
+}
+
 const VERIFIED = [...loadBadgeSpecs().specs.values()].filter((spec) => spec.credential_type === 'verified_credential')
 
 describe('"PyArcana issues no credential today"', () => {
@@ -248,19 +270,47 @@ describe('"A check of a verified credential shows the record and the signed stat
   })
 })
 
+const AI_TERM = String.raw`(?:\bIA\b|\bAI\b|inteligencia artificial|artificial intelligence|\bLLMs?\b)`
+
+/**
+ * A request, in a page, for a declaration about AI use. The scan reads the phrasings a course
+ * author would write in Spanish and in English; it cannot prove that no page asks, and a request
+ * worded some other way passes it. "Declarar" alone is Python and is not flagged.
+ */
+const AI_DECLARATION_REQUEST = new RegExp(
+  [
+    String.raw`declaraci[oó]n[^.]{0,40}${AI_TERM}`,
+    String.raw`${AI_TERM}[^.]{0,25}declaraci[oó]n`,
+    String.raw`declar\w*[^.]{0,50}\b(?:uso|usaste|usado|usas)\b[^.]{0,40}(?:${AI_TERM}|asistentes?|herramientas?)`,
+    String.raw`declar\w*[^.]{0,40}(?:herramientas?|asistentes?) de ${AI_TERM}`,
+    String.raw`${AI_TERM}[- ](?:use |usage )?(?:declaration|disclosure|statement)`,
+    String.raw`(?:declar|disclos|acknowledg|report)\w*[^.]{0,40}\b(?:use|usage) of ${AI_TERM}`,
+    String.raw`(?:declar|disclos|acknowledg|report)\w*[^.]{0,40}${AI_TERM} (?:tools?|assistants?|use)`,
+  ].join('|'),
+  'i'
+)
+
+/** A page that asks the learner to defend work: the oral defense of S25 and S52, and the callout that closes every project. */
+const DEFENSE_REQUEST = /defensa oral|consolida y defiende/i
+
+/** A sentence that says no page asks, requires or requests something. */
+const NO_PAGE_ASKS = /ninguna (?:p[aá]gina|lecci[oó]n)|solicit|\bpid[eo]n?\b|exig|requier/i
+
 /**
  * The policy's "Política de IA" once said AI tools are allowed "sujeto a declaración, ejecución
  * independiente, explicación de decisiones importantes y defensa frente a requisitos modificados".
  * The server records no declaration of AI use and no defense, oral or written: the only evidence it
- * holds is ExamAttempt rows (credential-verifiers.ts), and no page, route or table asks for either.
- * The section now says so; this case keeps it true.
+ * holds is ExamAttempt rows (credential-verifiers.ts), and no table or route holds either. No page
+ * asks the learner for a declaration about AI use. A page does ask for a defense (S52's CP-FINAL
+ * project asks for an oral one), so the section says nothing about whether a page asks for one.
+ * The section says what is true; these cases keep it true.
  */
 describe('"PyArcana records no declaration of AI use and no defense"', () => {
   it('the policy says so, and no longer promises a declaration, an explanation of decisions or a defense', () => {
     const page = flat(POLICY)
     for (const sentence of [
       'PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita.',
-      'Ninguna página solicita al estudiante una declaración ni una defensa.',
+      'Ninguna página solicita al estudiante una declaración sobre el uso de IA.',
     ]) {
       assert.ok(page.includes(sentence), `the policy no longer says "${sentence}"`)
     }
@@ -280,6 +330,53 @@ describe('"PyArcana records no declaration of AI use and no defense"', () => {
     assert.deepEqual(routes, [], 'a route for a defense or a declaration exists; the policy says none is recorded')
     const asking = srcFiles('src/components').filter((file) => /Defens|AiDeclaration|AIDeclaration/.test(file))
     assert.deepEqual(asking, [], 'a component for a defense or a declaration exists; the policy says no page asks for one')
+  })
+
+  it('no section, component, interface string or page asks the learner for a declaration about AI use', () => {
+    const files = learnerPages()
+    const sections = files.filter((file) => file.startsWith('src/lib/course/sections/s'))
+    assert.ok(sections.length >= 52, `only ${sections.length} section files scanned; the scan no longer reads the course`)
+    assert.ok(files.length >= sections.length + 50, `only ${files.length} files scanned; the scan no longer reads the components and pages`)
+    const asking = files.flatMap((file) => {
+      const found = AI_DECLARATION_REQUEST.exec(flat(file))
+      return found ? [`${file}: "${found[0]}"`] : []
+    })
+    assert.deepEqual(asking, [], 'a page now asks the learner for a declaration about AI use; the policy says no page does. Change the policy.')
+  })
+
+  it('the scan sees the phrasings of a request for a declaration about AI use, and passes the ordinary uses of "declarar"', () => {
+    for (const request of [
+      'Declara el uso de IA que hiciste en tu README.',
+      'Añade una declaración sobre las herramientas de IA que usaste.',
+      'Declara qué herramientas de IA usaste.',
+      'Disclose your use of AI tools in the README.',
+      'Add an AI-use declaration to your project.',
+    ]) {
+      assert.ok(AI_DECLARATION_REQUEST.test(request), `the scan misses "${request}"`)
+    }
+    for (const ordinary of [
+      'Declara la variable antes de usarla.',
+      'La declaración de tipos en Python no es obligatoria.',
+      'Las vistas parciales de lab lo declaran cuando omiten AI o email.',
+    ]) {
+      assert.ok(!AI_DECLARATION_REQUEST.test(ordinary), `the scan flags "${ordinary}"`)
+    }
+  })
+
+  /**
+   * The r5 draft of the section said "Ninguna página solicita al estudiante una declaración ni una
+   * defensa". S52's CP-FINAL project asks for an "oral defense" (starter code: "defensa oral
+   * (trade-offs + contribución personal)"), and S25's portfolio note asks for one in 30 seconds, so
+   * the sentence was false (review of #97's r5, 2026-10-14). What the pages ask for is true of the
+   * course whatever the policy says; the policy may claim that no page asks only if none does.
+   */
+  it('the policy does not say that no page asks for a defense while a page does', () => {
+    const askingForDefense = learnerPages().filter((file) => DEFENSE_REQUEST.test(flat(file)))
+    const claimsNoPageAsks = aiPolicySentences().filter((sentence) => /defensa/i.test(sentence) && NO_PAGE_ASKS.test(sentence))
+    assert.ok(
+      claimsNoPageAsks.length === 0 || askingForDefense.length === 0,
+      `the policy says no page asks for a defense ("${claimsNoPageAsks.join(' ')}"), but ${askingForDefense.join(', ')} ask for one`
+    )
   })
 })
 
