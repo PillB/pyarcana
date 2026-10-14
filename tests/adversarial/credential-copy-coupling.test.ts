@@ -206,7 +206,12 @@ describe('"A check of a verified credential shows the record and the signed stat
 describe('"PyArcana records no declaration of AI use and no defense"', () => {
   it('the policy says so, and no longer promises a declaration, an explanation of decisions or a defense', () => {
     const page = flat(POLICY)
-    assert.ok(page.includes('no registra ninguna declaración ni defensa'), 'the policy no longer says nothing records a declaration or a defense')
+    for (const sentence of [
+      'PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita.',
+      'Ninguna página solicita al estudiante una declaración ni una defensa.',
+    ]) {
+      assert.ok(page.includes(sentence), `the policy no longer says "${sentence}"`)
+    }
     for (const promise of ['sujeto a declaración', 'explicación de decisiones importantes', 'defensa frente a requisitos modificados']) {
       assert.ok(!page.includes(promise), `the credential policy promises "${promise}"`)
     }
@@ -223,6 +228,51 @@ describe('"PyArcana records no declaration of AI use and no defense"', () => {
     assert.deepEqual(routes, [], 'a route for a defense or a declaration exists; the policy says none is recorded')
     const asking = srcFiles('src/components').filter((file) => /Defens|AiDeclaration|AIDeclaration/.test(file))
     assert.deepEqual(asking, [], 'a component for a defense or a declaration exists; the policy says no page asks for one')
+  })
+})
+
+/**
+ * The "Política de IA" states the rule the badge catalog sets for the evidence behind a credential
+ * of class B, C or D, and no other. The page once said AI tools are allowed "sujeto a declaración",
+ * a permission no source gives. The stand-in paragraph that replaced it kept a second exclusion, "el
+ * trabajo que no pueda explicar o adaptar", which the catalog does not make: it came from the old
+ * paragraph's last sentence (found in review of #97's r4, 2026-10-14).
+ */
+const AI_RULE =
+  'El trabajo presentado como evidencia debe ser independiente, y el código generado por IA no es aceptable cuando nada muestra que el estudiante lo revisó.'
+
+/** The sentences of the policy's "Política de IA" paragraph. */
+function aiPolicySentences(): string[] {
+  const body = /Política de IA<\/h2>\s*<p>\s*([\s\S]*?)\s*<\/p>/.exec(source(POLICY))?.[1]
+  assert.ok(body, 'the credential policy has no "Política de IA" paragraph; update this case with the new markup')
+  return body.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/)
+}
+
+interface CatalogBadge {
+  badge_id: string
+  credential_class: string
+  evidence_rules: { independent_work_required: boolean; unacceptable_evidence: string[] }
+}
+
+describe('"The AI policy states the catalog\'s evidence rule and no other"', () => {
+  it('every class B, C and D badge of the catalog requires independent work and excludes AI-generated code without a review trail', () => {
+    const { badges } = JSON.parse(source('src/lib/eligibility/badge_catalog.json')) as { badges: CatalogBadge[] }
+    const classed = badges.filter((badge) => ['B', 'C', 'D'].includes(badge.credential_class))
+    assert.ok(classed.length >= 26, `only ${classed.length} class B, C and D badges found`)
+    for (const badge of classed) {
+      assert.equal(badge.evidence_rules.independent_work_required, true, `${badge.badge_id} no longer requires independent work; the AI policy says it does`)
+      assert.ok(
+        badge.evidence_rules.unacceptable_evidence.some((item) => item.startsWith('AI-generated code without review trail')),
+        `${badge.badge_id} no longer excludes AI-generated code without a review trail; the AI policy says it does`
+      )
+    }
+  })
+
+  it('the policy states that rule word for word, and no other sentence of the section accepts, excludes, allows or forbids anything', () => {
+    const sentences = aiPolicySentences()
+    assert.ok(sentences.includes(AI_RULE), `the AI policy no longer states the catalog's rule as "${AI_RULE}"; update this case with the new wording`)
+    const others = sentences.filter((sentence) => sentence !== AI_RULE && /acept|excluy|rechaz|admit|permit|prohib|prohíb/i.test(sentence))
+    assert.deepEqual(others, [], 'the AI policy states a rule the catalog does not make')
   })
 })
 
