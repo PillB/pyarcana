@@ -21,6 +21,8 @@
  * To edit the wording of an exercise (owner-confirmed workflow, 2026-10-13): edit it, regenerate the anchors
  * with `node --import tsx scripts/exercise_fingerprints.mts --write`, then append one ledger row per changed
  * id (kind `changed`, from_fp the old anchor, to_fp the new one, reason, decided_by, date). Never edit a row.
+ * An appended row's from_fp must be the fingerprint its id held before the row (the base's anchor, or the
+ * previous appended row's to_fp; null for an id with no anchor): LEDGER_CHAIN_BROKEN otherwise.
  *
  * To remove an exercise (owner decision O25, 2026-10-13): append a row of kind `removed` for its id, with
  * from_fp the anchor it held, to_fp null, and decided_by naming the owner decision (`owner: O<n> (date)`).
@@ -195,14 +197,43 @@ function appendOnlyFindings(baseRows, headRows) {
  * fingerprint. A `historical` row records a change made before the anchors existed, so it never
  * accepts a change made now (the same rule as classify's resolvedBy). An anchor that left the course
  * (ANCHOR_REMOVED) needs a `removed` row for its id. Only a well-formed appended row clears a finding:
- * a malformed row is reported by LEDGER_ROW_INVALID and clears nothing.
+ * a malformed row is reported by LEDGER_ROW_INVALID and clears nothing. Each appended row also starts
+ * where its id stood (chainFindings), so the ledger cannot cite a fingerprint the id never held.
  */
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [] }) {
   const findings = appendOnlyFindings(baseRows, headRows)
   if (baseAnchors === null) return findings
   const added = headRows.slice(baseRows.length).filter((row, index) => rowProblems(row, baseRows.length + index).length === 0)
   const context = { baseAnchors, headAnchors, added }
-  return [...findings, ...removedAnchorFindings(context), ...changedAnchorFindings(context), ...notVacatedFindings(context)]
+  return [
+    ...findings,
+    ...removedAnchorFindings(context),
+    ...changedAnchorFindings(context),
+    ...notVacatedFindings(context),
+    ...chainFindings(context),
+  ]
+}
+
+/**
+ * LEDGER_CHAIN_BROKEN: an appended row whose from_fp is not the fingerprint its id held when the row was
+ * written. The first appended row of an id starts at the base's anchor (null when the base had none),
+ * and each later row starts where the previous one ended; a `removed` row ends at null, the id's state
+ * when it holds no anchor. A row that
+ * cites a fingerprint the id never held records a change that did not happen. A `historical` row
+ * describes a change from before the anchors existed and is not part of the chain.
+ */
+function chainFindings({ baseAnchors, added }) {
+  const held = new Map(Object.entries(baseAnchors).map(([id, anchor]) => [id, anchor.sha256]))
+  const findings = []
+  for (const row of added) {
+    if (row.kind === 'historical') continue
+    const expected = held.get(row.id) ?? null
+    if (row.from_fp !== expected) {
+      findings.push({ code: 'LEDGER_CHAIN_BROKEN', id: row.id, row: row.row, from_fp: row.from_fp, expected_from_fp: expected })
+    }
+    held.set(row.id, row.to_fp)
+  }
+  return findings
 }
 
 /** ANCHOR_REMOVED: an anchor the base had and the head lacks, with no appended `removed` row for the id. */

@@ -214,6 +214,20 @@ describe('the real course against its committed anchors', () => {
   })
 })
 
+describe('the real ledger and the chain', () => {
+  const committed = JSON.parse(readFileSync(join(ROOT, ANCHORS_PATH), 'utf8')).exercises
+  const ledger = JSON.parse(readFileSync(join(ROOT, LEDGER_PATH), 'utf8')).rows
+
+  it('refuses the next owner-approved edit when its row starts from the wrong fingerprint', () => {
+    const id = ledger.find((row) => row.kind === 'historical').id
+    const edited = { ...committed, [id]: { ...committed[id], sha256: SHA_A } }
+    const rowFrom = (from) => ({ row: ledger.length + 1, id, kind: 'changed', from_fp: from, to_fp: SHA_A, reason: 'reescrito', decided_by: 'owner', date: '2026-10-13' })
+    const check = (from) => ledgerFindings({ baseAnchors: committed, headAnchors: edited, baseRows: ledger, headRows: [...ledger, rowFrom(from)] })
+    assert.deepEqual(check(committed[id].sha256), [])
+    assert.deepEqual(check(SHA_B).map((f) => [f.code, f.id, f.expected_from_fp]), [['LEDGER_CHAIN_BROKEN', id, committed[id].sha256]])
+  })
+})
+
 describe('ledgerAnchorFindings: the newest row of an id names its anchor', () => {
   const anchorOf = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
   const rowFor = (n, id, kind, from, to) => ({ row: n, id, kind, from_fp: from, to_fp: to, reason: 'razón', decided_by: 'owner', date: '2026-10-13' })
@@ -243,6 +257,70 @@ describe('ledgerAnchorFindings: the newest row of an id names its anchor', () =>
 
   it('does not examine an id that has no row', () => {
     assert.deepEqual(ledgerAnchorFindings({ [ID]: anchorOf(SHA_A) }, []), [])
+  })
+})
+
+describe('ledgerFindings: the chain, an appended row starts where the base left the id (O25)', () => {
+  const ID = 'S05-T1-A-E1'
+  const OTHER = 'S05-T1-A-E2'
+  const exercise = (sha256) => ({ section: 'S05', sha256, tokens: ['x'] })
+  const rowFor = (n, id, kind, from, to, over = {}) => ({ row: n, id, kind, from_fp: from, to_fp: to, reason: 'razón', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13', ...over })
+  const base = { [ID]: exercise(SHA_A), [OTHER]: exercise(SHA_B) }
+  const run = (rows, head, baseAnchors = base) => ledgerFindings({ baseAnchors, headAnchors: head, baseRows: [], headRows: rows })
+  const chainFindings = (findings) => findings.filter((f) => f.code === 'LEDGER_CHAIN_BROKEN')
+
+  it('accepts a row whose from_fp is the anchor the base held, and one for a new id with a null from_fp', () => {
+    const head = { [ID]: exercise(SHA_C), [OTHER]: exercise(SHA_B), 'S05-T1-A-E3': exercise(SHA_A) }
+    const rows = [rowFor(1, ID, 'changed', SHA_A, SHA_C), rowFor(2, 'S05-T1-A-E3', 'added', null, SHA_A)]
+    assert.deepEqual(run(rows, head), [])
+  })
+
+  it('reports a row whose from_fp is not the base anchor of its id, naming the one expected', () => {
+    const findings = run([rowFor(1, ID, 'changed', SHA_B, SHA_C)], { ...base, [ID]: exercise(SHA_C) })
+    assert.deepEqual(findings.map((f) => [f.code, f.id, f.row, f.from_fp, f.expected_from_fp]), [['LEDGER_CHAIN_BROKEN', ID, 1, SHA_B, SHA_A]])
+  })
+
+  it('reports an added row (null from_fp) for an id the base already anchors', () => {
+    const findings = chainFindings(run([rowFor(1, ID, 'added', null, SHA_C)], { ...base, [ID]: exercise(SHA_C) }))
+    assert.deepEqual(findings.map((f) => f.expected_from_fp), [SHA_A])
+  })
+
+  it('reports a row that claims an old fingerprint for an id the base had no anchor for', () => {
+    const head = { ...base, 'S05-T1-A-E3': exercise(SHA_C) }
+    const findings = chainFindings(run([rowFor(1, 'S05-T1-A-E3', 'changed', SHA_A, SHA_C)], head))
+    assert.deepEqual(findings.map((f) => [f.id, f.expected_from_fp]), [['S05-T1-A-E3', null]])
+  })
+
+  it('accepts two rows for one id in one PR when the second starts where the first ended', () => {
+    const rows = [rowFor(1, ID, 'changed', SHA_A, SHA_B), rowFor(2, ID, 'reanchored', SHA_B, SHA_C)]
+    assert.deepEqual(run(rows, { ...base, [ID]: exercise(SHA_C) }), [])
+  })
+
+  it('reports a second row for one id that does not start where the first ended', () => {
+    const rows = [rowFor(1, ID, 'changed', SHA_A, SHA_B), rowFor(2, ID, 'changed', SHA_A, SHA_C)]
+    const findings = chainFindings(run(rows, { ...base, [ID]: exercise(SHA_C) }))
+    assert.deepEqual(findings.map((f) => [f.row, f.expected_from_fp]), [[2, SHA_B]])
+  })
+
+  it('follows a removal: an id removed and added back in one PR starts the new row from null', () => {
+    const rows = [rowFor(1, ID, 'removed', SHA_A, null), rowFor(2, ID, 'added', null, SHA_C)]
+    assert.deepEqual(run(rows, { ...base, [ID]: exercise(SHA_C) }), [])
+    const wrong = [rowFor(1, ID, 'removed', SHA_A, null), rowFor(2, ID, 'added', SHA_A, SHA_C)]
+    assert.deepEqual(chainFindings(run(wrong, { ...base, [ID]: exercise(SHA_C) })).map((f) => f.row), [2])
+  })
+
+  it('leaves a historical row out of the chain: it describes a change from before the anchors', () => {
+    const findings = run([rowFor(1, ID, 'historical', SHA_C, SHA_B)], { ...base, [ID]: exercise(SHA_B) })
+    assert.deepEqual(findings.map((f) => f.code), ['ANCHOR_CHANGED_UNLEDGERED'])
+  })
+
+  it('does not run on the commit that introduces the anchors, which has no base to chain from', () => {
+    assert.deepEqual(ledgerFindings({ baseAnchors: null, headAnchors: base, baseRows: [], headRows: [rowFor(1, ID, 'historical', SHA_C, SHA_A)] }), [])
+  })
+
+  it('does not chain a row the base already recorded, only the rows added after them', () => {
+    const recorded = rowFor(1, ID, 'changed', SHA_C, SHA_A)
+    assert.deepEqual(ledgerFindings({ baseAnchors: base, headAnchors: base, baseRows: [recorded], headRows: [recorded] }), [])
   })
 })
 
@@ -380,7 +458,8 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
   })
 
   it('fails the CLI when an old ledger row is rewritten, even with a new row added', () => {
-    const { dir, base } = repo({ [ANCHORS_PATH]: anchorsFile(SHA_A), [LEDGER_PATH]: ledgerFile([changedRow()]) })
+    // The base is coherent: its one row ended at SHA_B, so SHA_B is the anchor and the new row starts there.
+    const { dir, base } = repo({ [ANCHORS_PATH]: anchorsFile(SHA_B), [LEDGER_PATH]: ledgerFile([changedRow()]) })
     write(dir, { [ANCHORS_PATH]: anchorsFile(SHA_C), [LEDGER_PATH]: ledgerFile([changedRow({ reason: 'borrado' }), changedRow({ row: 2, from_fp: SHA_B, to_fp: SHA_C })]) })
     const run = spawnSync(process.execPath, [CLI, '--ledger-base', base], { cwd: dir, encoding: 'utf8' })
     assert.equal(run.status, 1)
@@ -399,6 +478,14 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     const run = spawnSync(process.execPath, [CLI, '--ledger-base'], { cwd: dir, encoding: 'utf8' })
     assert.equal(run.status, 1)
     assert.match(run.stderr, /needs a commit/)
+  })
+
+  it('fails the CLI on an appended row that does not start at the anchor the base held', () => {
+    const { dir, base } = repo({ [ANCHORS_PATH]: anchorsFile(SHA_A), [LEDGER_PATH]: ledgerFile([]) })
+    write(dir, { [ANCHORS_PATH]: anchorsFile(SHA_B), [LEDGER_PATH]: ledgerFile([changedRow({ from_fp: SHA_C })]) })
+    const run = spawnSync(process.execPath, [CLI, '--ledger-base', base], { cwd: dir, encoding: 'utf8' })
+    assert.equal(run.status, 1)
+    assert.match(run.stderr, /LEDGER_CHAIN_BROKEN/)
   })
 
   it('passes the CLI when the change comes with an appended row that names it', () => {
@@ -434,6 +521,16 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     assert.equal(run.status, 1)
     const result = sentinelResult(dir)
     assert.ok(result.failures.some((f) => f.code === 'EXERCISE_MEANING_LEDGER' && /ANCHOR_CHANGED_UNLEDGERED/.test(JSON.stringify(f))), JSON.stringify(result.failures))
+  })
+
+  it('fails the preservation sentinel on an appended row that does not start at the anchor the base held', () => {
+    const { dir, base } = repo({ ...CURRICULUM, [ANCHORS_PATH]: anchorsFile(SHA_A), [LEDGER_PATH]: ledgerFile([]) })
+    write(dir, { [ANCHORS_PATH]: anchorsFile(SHA_B), [LEDGER_PATH]: ledgerFile([changedRow({ from_fp: SHA_C })]) })
+    git(dir, 'add', '-A')
+    git(dir, 'commit', '-q', '-m', 'a row that skips a step')
+    assert.equal(runSentinel(dir, base).status, 1)
+    const failures = sentinelResult(dir).failures.filter((f) => f.code === 'EXERCISE_MEANING_LEDGER')
+    assert.deepEqual(failures.map((f) => f.rule), ['LEDGER_CHAIN_BROKEN'])
   })
 
   it('fails the preservation sentinel when the anchors the base had are deleted', () => {
