@@ -1,164 +1,162 @@
 {
-  "schema": 3,
-  "method": "sha256 of the UTF-8 JSON of {catalog path: value} for the fields below, keys sorted, separators ',' and ':', ensure_ascii False; required_sections and required_activities enter as manifest slugs ('slug' and 'slug:KIND'), not as S-numbers",
+  "schema": 4,
+  "method": "sha256 of the UTF-8 JSON of {field: value} for every field of the badge except those in left_out, keys sorted, separators ',' and ':', ensure_ascii False; a field added to the catalog is digested by default; required_sections and required_activities enter as manifest slugs ('slug' and 'slug:KIND'), not as S-numbers",
   "fields": [
-    "badge_id",
-    "version",
-    "name",
-    "public_claim",
-    "credential_class",
-    "status",
-    "verification_mode",
-    "prerequisite_badges",
-    "critical_competencies",
-    "required_sections",
-    "required_activities",
-    "scoring_rules.minimum_overall_score",
-    "scoring_rules.non_compensatory",
-    "non_claims",
-    "skill_nodes",
-    "required_projects",
-    "newbie_friendly_description",
-    "credential_type"
-  ],
-  "left_out": [
     "assessment_blueprint",
+    "badge_id",
     "capability_level",
+    "credential_class",
+    "credential_type",
+    "critical_competencies",
     "evidence_rules",
     "expiration_policy",
     "family",
     "issuer",
     "legacy_progress_policy",
-    "market_evidence_ids",
+    "name",
+    "newbie_friendly_description",
+    "non_claims",
+    "prerequisite_badges",
+    "public_claim",
+    "required_activities",
+    "required_projects",
+    "required_sections",
     "retake_rules",
     "revocation_policy",
     "roles_aligned",
-    "scoring_rules"
+    "scoring_rules",
+    "skill_nodes",
+    "status",
+    "verification_mode",
+    "version"
+  ],
+  "left_out": [
+    "market_evidence_ids"
   ],
   "records": {
     "progress_phase0_walked": {
       "version": "1.0.0",
-      "sha256": "5f93cc5701f0731148953ca81cca5874fac63badb377f95bb8836691dc124bc0"
+      "sha256": "dab139fab81ad9e6a8b3dd223e50e29a2952d11ba5f6aa1d3ac79f43f2129a80"
     },
     "progress_phase1_walked": {
       "version": "1.0.0",
-      "sha256": "af6e559f9d5f8ed9e486a49870fb5ceedfbab1496d5168707a7dacdc30552bdd"
+      "sha256": "d090810bb37d7cd9d05ddecbf023730b5b79055bfe713fb28f99b50f6e367127"
     },
     "progress_phase2_walked": {
       "version": "1.0.0",
-      "sha256": "e18e7d7ccface83cc7af2b4f73609364c1a5298b891189735ed2c678ee0e26c8"
+      "sha256": "ca9bead9f3768934dfe7e8b3009f1c11fb0a581b5d4ab5a358e6302115d80b1d"
     },
     "progress_phase3_walked": {
       "version": "1.2.0",
-      "sha256": "b7b3c55540773c6f1e5952e53da970a952550a1c716c57bb917397d7fe7678f2"
+      "sha256": "01ea686aa023d78a4dac069daaa6dbde6ccff3f50400bdd35cfc0cc9ef071ff0"
     },
     "progress_journey_completed": {
       "version": "1.0.0",
-      "sha256": "e18e29cf5e75a3ba272d91b65a5e7d2e2cd34ddd9631881fbe8059790a763c73"
+      "sha256": "0a7c1e0261a67f92b1a65106a92c5250aab6dff52bffb9395d5ec0c13451b470"
     },
     "python_data_foundations": {
       "version": "1.0.0",
-      "sha256": "a4ea1b7182c38ca29ad8434b157522d6db8e16a10f6621caf22226c8e271f832"
+      "sha256": "a91f40581ab98e83029bf89e41387e447122250de28441b3151705049ec8749e"
     },
     "independent_data_preparation": {
       "version": "1.0.0",
-      "sha256": "5578d45036c2c9e80b1844aa224c7f7576c3142699da511bf93b78e5d44621ea"
+      "sha256": "4aa67050e5c92c15e68d51e23e680ad3521dd7c3d4871e06b7965ef364f1dd4a"
     },
     "applied_analytical_reasoning": {
       "version": "1.0.0",
-      "sha256": "b47a26e7cfa6741868a7fa1b53f28989a3982f7bd7ff97f8cf40edd879eed7b3"
+      "sha256": "89e4554d1754cd6451f0dad269dc200b031b31b15b5aa1aba3206860a1f635d0"
     },
     "reliable_automation_development": {
       "version": "1.0.0",
-      "sha256": "6748b1f72db11dbe55839c110ff0669d950123772267e842eead59af345df6ca"
+      "sha256": "60f01a66414f36f9019d1d5c6afe0bbd8f36d1a339217b80487911d14e9efad2"
     },
     "applied_sql_query_development": {
       "version": "1.0.0",
-      "sha256": "3e5fd13e41d3aea7e1d96858a0c2948ef089af1c9f064f769380f8a74d27bd05"
+      "sha256": "e54bd96b09d7927a771f12ff861ad03b9cc1c021b2ca095537ca739589c59049"
     },
     "production_python_delivery_foundations": {
       "version": "1.0.0",
-      "sha256": "7066a65f95f0e1593f99f314eff66883e1961a723fa697347170e290c5fea762"
+      "sha256": "1e2eb9bfed55d4c5a1271b8813356dd4b2e4262b1996e6593249d6c56e28d96a"
     },
     "responsible_machine_learning_evaluation": {
       "version": "1.0.0",
-      "sha256": "b3061fc1338998e0b3df9f929df5f38940613b6fa0f763acefa13ff90cc1feb6"
+      "sha256": "b8e6c83b10fe1a28d0e83c53da0b64ba3aebfe1b9e8b8398eda808eaa8df2e40"
     },
     "applied_rag_llm_service_development": {
       "version": "1.0.0",
-      "sha256": "58129093078f3b6d367af4e49b3cbb0cc34e80788da1cfdfe26a7833612f45b4"
+      "sha256": "c473d351fd0d7a0fc6f1d8eece8706a37e07ec7f14286a916f65bc6d7a227810"
     },
     "reliable_async_python_development": {
       "version": "1.0.0",
-      "sha256": "85c62574eb8315607ed0af79ee5fe3f8854659bab04d4a54589a645de93694d6"
+      "sha256": "48e5baf4d4f114b50168d6977f776ddbccc669795924bfd94ec08f80a3aaf531"
     },
     "applied_mlops_pipeline_delivery": {
       "version": "1.0.0",
-      "sha256": "e7402d2169ec3b18b10e173bb59d4db1e6d0c5f9771c7260c438a24a1a82795c"
+      "sha256": "deca7d71ab9f1cd1f549bab908ea0d47b23ae5ef3c0b18cdc4d6dd3232dfc3e4"
     },
     "production_python_hardening_practice": {
       "version": "1.0.0",
-      "sha256": "83ee5fb2a92f4295ba3742895c608a3ecf5ab18e312c8b6324ab9e695bd69941"
+      "sha256": "7be0e6795362cd6fad27500b84584bd268af12dfa71367eb0af17345b9b6cba5"
     },
     "applied_deep_learning_practice": {
       "version": "1.0.0",
-      "sha256": "55d4634db70e026692ce88c8875c508f019ca2d53bf2dbc8ddc484b7f52c640d"
+      "sha256": "5fa75b2708502cbc5363599c540776819ad03466778da8647fd4760670e584af"
     },
     "architecture_decision_practice": {
       "version": "1.0.0",
-      "sha256": "761df8c08a990448b58bca8a8e24a310dbd50d90f89042fcf062218ffcd6e3c9"
+      "sha256": "8069729cfe0f8c7e7c1c29036dfaabd8e966dbd4f8cc59c658b0eb63326a391a"
     },
     "llmops_production_delivery": {
       "version": "1.0.0",
-      "sha256": "edf3c2170ee8252cf0a3e0d7a28a3a0faeefe459b2f79d75ad527dfa67fa7f7a"
+      "sha256": "710a1aa730ed4c155e13472f9c554b40d712ae9825e10eb797616c9688ebaf03"
     },
     "container_platform_engineering_practice": {
       "version": "1.0.0",
-      "sha256": "eaa8a269bbbe123677056c133f4e6f93c379905530f30921661ec45495d5eef2"
+      "sha256": "3d61dd15ca20fc6024d9dd9458500c625d7fe1daee03449a1eaa1b247e0084e9"
     },
     "ai_governance_code_review_practice": {
       "version": "1.0.0",
-      "sha256": "ed5e4269c7581efeef0bf4656b48edcbf178e7636323d8dbbadd0d846c0147ad"
+      "sha256": "344406ec6024d219b95b06b51f0a067257ad46433785760c4fd2107de4b2061a"
     },
     "integrated_data_analyst_practice": {
       "version": "1.1.0",
-      "sha256": "b52d08c9a3271257301a86616f98cb5f9fc5bbfb7f76c1290557d0c6c9d8b674"
+      "sha256": "dca980970462377484fb6158207f294854522f978bb8ea571029808bb337c5c1"
     },
     "integrated_data_science_practice": {
       "version": "1.0.0",
-      "sha256": "421f6c1b2c1dc37d29a1fcd1fc8c6fb49ca17e2618be26945c2c78d81b9ecf4e"
+      "sha256": "9f30c22f8b42ac7feed4f60024bd1b9c7ad8361cdcd62df7d0e2700fe5e981de"
     },
     "integrated_ml_engineering_practice": {
       "version": "1.1.0",
-      "sha256": "5833b13300c81acbcc00a65f19051d93baf2adb8f69688379f865878033faa1f"
+      "sha256": "435f6191d8f481677ae3d222de73f2a917f5ca299cce7dd3e95ff5f3ba5a8efd"
     },
     "integrated_automation_engineering_practice": {
       "version": "1.1.0",
-      "sha256": "3d9d82a6a2ae353285f89bbb1267970d7dfa2e4a62f6f70b77545bc5e8bbf68f"
+      "sha256": "804262506424fec6db0d1c0b807747a1b565574212b13f0c94fa44a302025734"
     },
     "integrated_production_python_practice": {
       "version": "1.0.0",
-      "sha256": "b4ffab03e6406bd6a78e0a1db79b89cb7d752c80d7572b51c941a1bd0317c0c8"
+      "sha256": "2b870798dfea4b9ca5016fa162d82865fabc6e3e0ae02cfeca5c2e09effeff5d"
     },
     "integrated_python_ai_capstone_foundations": {
       "version": "1.0.0",
-      "sha256": "4991550ec44768426b8e5d9cccc96a97d7d9f02ebec4172aa4c6eea20639bdb6"
+      "sha256": "b73f3e5b16960f5f142216ef2256a2e1f5d67ced84b4cb43efa3258fc3e232bf"
     },
     "integrated_python_ai_capstone_independent": {
       "version": "1.0.0",
-      "sha256": "2e63f17c7cc8362c7a3f2bf2aa21caf056a4a7f74a3f14e624aecc5f2d177164"
+      "sha256": "50208b05c24fea0003dcf8d406604907899af5956d68d038acc890d59f6572ee"
     },
     "integrated_python_ai_capstone_advanced_applied": {
       "version": "1.0.0",
-      "sha256": "4304c2b42df21484e447f5138070a8e605a6d95a3019ec2cd578ab6507673a3f"
+      "sha256": "8e27277c775f8067c4c3141b3496824f1b6c75899d663296288583cbee1ab960"
     },
     "integrated_python_ai_capstone_integrated_mastery": {
       "version": "1.1.0",
-      "sha256": "99a57ac5d390da9265f99fb26bc669c5490bdc2bd75af1922453978c8c1fb1ec"
+      "sha256": "fb59b0c47fc1d47ed3170161f2ba0b46fd5376e9dabec7feae419b8b14dff8c6"
     },
     "evidence_grounded_ai_systems_capstone": {
       "version": "1.0.0",
-      "sha256": "e188c99a2819a13803ea4d365ad0ce48debfcd750dad91ec82823e6a4ec39665"
+      "sha256": "a29a91730439335707d79ffa60695ba77c6e47c9941cbb0d7fad53d4c14d9ae5"
     }
   }
 }
