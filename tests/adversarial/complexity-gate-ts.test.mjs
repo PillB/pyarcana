@@ -282,6 +282,18 @@ test('a callback whose call result is bound is keyed by the binding, so an unrel
   assert.deepEqual(baseline(root).offenders, { 'src/c.tsx::ChartTooltipContent.<arg 0 of tooltipLabel = React.useMemo>': 18 })
 }))
 
+test('a title need not come first: the first string a call is given before the callback names it', () => withTree((root) => {
+  // `register(app, 'save', cb)`, `vi.spyOn`-style and `mock.patch.object(gate, "sh", fn)` shapes.
+  const save = `  register(app, 'save', (x: number) => {\n${ifs(16, '    ')}\n    return -1\n  })\n`
+  const routes = (extra) => `export function routes(app: object) {\n${extra}${save}}\n`
+  put(root, routes(''))
+  assert.equal(gate(root, '--init').status, 0)
+  put(root, routes("  register(app, 'load', () => 0)\n"))
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, { 'src/a.ts::routes.<arg 2 of register "save">': 17 })
+}))
+
 test('a callback added to an earlier block does not renumber a baselined callback in a later one', () => withTree((root) => {
   // Neither block has a title or a binding, so the blocks are told apart by order among themselves,
   // and each callback by order inside its own block, never by order across the whole file.

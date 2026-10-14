@@ -24,8 +24,9 @@
  *
  * and a function inside another is that path, outermost first: `Panel.<arg 0 of rows.map>`. A call's
  * result is followed through `await`, `?.`, a member read and a further call to the name it reaches,
- * so `const n = await rows.filter(f).length` names f's call `n = rows.filter`. A title is the string
- * or template literal a call or a list starts with, whitespace collapsed, `${…}` for each expression.
+ * so `const n = await rows.filter(f).length` names f's call `n = rows.filter`. A title is the first
+ * string or template literal a call or a list holds before the function, whitespace collapsed, with
+ * `${…}` for each expression.
  *
  * An ordinal is the fallback for what has no name at all. Only units of one file that share the
  * whole path are numbered, and the number goes where their paths part: on the outermost segment at
@@ -123,9 +124,12 @@ function titleOf(arg) {
   return arg.quasis.map((q) => q.value.cooked ?? q.value.raw).join('${…}')
 }
 
-/** ` "title"` when the first of `items` spells out a title and `place` is not that first item, else ''. */
+/**
+ * ` "title"` for the first of `items` before `place` that spells out a title, else ''. A title need
+ * not come first: `mock.patch.object(target, 'name', fn)` and `register(app, 'save', fn)` name fn too.
+ */
 function titled(items, place) {
-  const title = place > 0 ? titleOf(items[0]) : null
+  const title = items.slice(0, place).map(titleOf).find((text) => text !== null) ?? null
   return title === null ? '' : ` ${JSON.stringify(title.replace(/\s+/g, ' ').trim())}`
 }
 
