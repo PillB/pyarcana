@@ -102,8 +102,9 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 - Restructuring a practice layer or moving a project between sections.
 - Changing a protected path.
 - Changing a renumber guard input: the section manifest (`src/lib/eligibility/section_manifest.json`,
-  the badge-identity file, not the preservation manifest), the rest of `src/lib/eligibility/`
-  (`src/lib/eligibility/skill_node_terms.json`, `src/lib/eligibility/claim_digests.json`),
+  the badge-identity file, not the preservation manifest), every other file under
+  `src/lib/eligibility/`, including `src/lib/eligibility/skill_node_terms.json` and
+  `src/lib/eligibility/claim_digests.json`,
   `audit/fixer/numbering_epoch.json`, `curriculum55_window.json`, `renumber_epoch.json`,
   `renumber_edit_ledger.json` or `authoring_pending.json`.
 

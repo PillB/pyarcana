@@ -176,12 +176,11 @@ describe('CODEOWNERS covers AGENTS.md protected paths', () => {
 })
 
 /**
- * The guard inputs the renumber design names for CODEOWNERS. The design does not fix a path for
- * the section manifest (the badge-identity file that lands in 0b-4; AGENTS.md also says
- * "manifest" for the preservation manifest). The 0b-4 draft puts it at
- * src/lib/eligibility/section_manifest.json. It is named by basename, so a basename rule holds
- * wherever 0b-4 places it. The window, epoch, ledger and pending files are named by basename
- * too. Each probe is a path the input may take; each must have an owner.
+ * The guard inputs the renumber design names for CODEOWNERS. The section manifest (the
+ * badge-identity file, not the preservation manifest AGENTS.md also calls "manifest") lives at
+ * src/lib/eligibility/section_manifest.json, and keeps a basename rule too, so a copy placed
+ * elsewhere stays owned. The window, epoch, ledger and pending files have no fixed path yet and
+ * are named by basename. Each probe is a path the input may take; each must have an owner.
  */
 const GUARD_INPUTS = [
   {
@@ -291,8 +290,11 @@ describe('AGENTS.md ask-first names the renumber guard inputs', () => {
   it('has one ask-first bullet that names the section manifest and every guard input', () => {
     // "the section manifest", not "the manifest": the Always list uses "manifest" for the
     // preservation manifest, and a reader must not take the bullet to mean that file.
+    // A directory token must stand as its own code span: every full path under it contains the
+    // directory as a substring, so a bullet narrowed to two files would otherwise still match.
+    const names = (b, token) => (token.endsWith('/') ? b.includes(`\`${token}\``) : b.includes(token))
     const bullet = askFirstBullets().find((b) =>
-      /\bsection manifest\b/.test(b) && GUARD_INPUTS.every((input) => b.includes(input.token)))
+      /\bsection manifest\b/.test(b) && GUARD_INPUTS.every((input) => names(b, input.token)))
     assert.ok(bullet, `no ask-first bullet says "section manifest" and names all of: ${GUARD_INPUTS.map((i) => i.token).join(', ')}`)
   })
 
