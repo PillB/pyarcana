@@ -16,6 +16,7 @@
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
     "db:seed": "tsx prisma/seed.ts",
+    "db:bank-check": "node --import tsx scripts/exam_bank_db_check.mts",
     "test:v3-counts": "node scripts/v3_regression_counts.test.mjs",
     "test:v3-structure": "python3 scripts/check_section_structure.py",
     "test:v3-invariant": "python3 scripts/v3_invariant_validator.py",

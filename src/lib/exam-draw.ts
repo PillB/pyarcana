@@ -11,6 +11,26 @@ import { bankOptions, itemKey, toFormItem, type BankRow, type FormItem } from '.
 export type Rng = (n: number) => number
 
 /**
+ * The bank exam/start serves for a section, from its rows under the current id and every
+ * pre-rename id. A reseed after a rename leaves the same (concept, variant) under both slugs; one
+ * copy is kept, the current id's, so a twinned variant is not drawn twice as often. A row whose
+ * (concept, variant) exists only under an old slug is kept: learners are served it. The owner's
+ * database check (scripts/exam_bank_db_check.mts) hashes this same set, so it cannot call a
+ * section fresh while learners are served something else.
+ */
+export function servedBank<T extends { sectionId: string; concept: string; variant: number }>(
+  rows: T[],
+  sectionId: string,
+): T[] {
+  const byKey = new Map<string, T>()
+  for (const q of rows) {
+    const key = `${q.concept}\u0000${q.variant}`
+    if (!byKey.has(key) || q.sectionId === sectionId) byKey.set(key, q)
+  }
+  return Array.from(byKey.values())
+}
+
+/**
  * A uniformly random order of 0..n-1: the Fisher–Yates shuffle (Durstenfeld's form), which makes
  * each of the n! orders equally likely when rng is uniform. Each step draws j from [0, i]
  * inclusive. Drawing it from [0, i) instead (Sattolo) reaches only the (n-1)! cyclic orders, and

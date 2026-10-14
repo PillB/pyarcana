@@ -15455,14 +15455,21 @@ async function main() {
   await prisma.questionBank.deleteMany({})
   console.log('  ✓ Cleared existing questions')
 
+  // Each row's variant is numbered as it is inserted: 1, 2, 3 per (section, concept), in bank order.
+  // Nothing is renumbered afterwards, so the result does not depend on the order a later query
+  // returns rows in.
+  const variantSeen = new Map<string, number>()
   let count = 0
   for (const [sectionId, questions] of Object.entries(QUESTION_BANK)) {
     for (const q of questions) {
+      const key = `${sectionId}|${q.concept}`
+      const variant = (variantSeen.get(key) ?? 0) + 1
+      variantSeen.set(key, variant)
       await prisma.questionBank.create({
         data: {
           sectionId,
           concept: q.concept,
-          variant: count % 3 + 1, // will be overwritten by the unique constraint logic
+          variant,
           question: q.question,
           options: JSON.stringify(q.options),
           correctIndex: q.correctIndex,
@@ -15470,24 +15477,6 @@ async function main() {
         },
       })
       count++
-    }
-  }
-
-  // Now fix variant numbers: for each (sectionId, concept), assign variants 1, 2, 3 in order
-  const allQuestions = await prisma.questionBank.findMany()
-  const grouped = new Map<string, typeof allQuestions>()
-  for (const q of allQuestions) {
-    const key = `${q.sectionId}|${q.concept}`
-    if (!grouped.has(key)) grouped.set(key, [])
-    grouped.get(key)!.push(q)
-  }
-
-  for (const [, qs] of grouped.entries()) {
-    for (let i = 0; i < qs.length; i++) {
-      await prisma.questionBank.update({
-        where: { id: qs[i].id },
-        data: { variant: i + 1 },
-      })
     }
   }
 
