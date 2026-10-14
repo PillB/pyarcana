@@ -257,14 +257,26 @@ def lambda_label(node: ast.Lambda, parents: dict) -> str:
     return bound_name(child, parent) or usage_label(child, parent, parents) or "<lambda>"
 
 
+def container_label(node: ast.AST, parents: dict) -> str | None:
+    """The name of a list, tuple, set or dict, or None when the code gives it none. It is named as a
+    lambda is: by what it is bound to, or by how it is used (`<arg 0 of register>`, `<returned>`,
+    `<default of opts>`). A tuple or list in a list is a row, whose lambdas take its title
+    (`ROWS.<item 1 "role">`), so it is not a segment of its own."""
+    child, parent = holder(node, parents)
+    named = bound_name(child, parent)
+    if named is not None:
+        return named
+    return None if isinstance(parent, (ast.List, ast.Tuple, ast.Set)) else usage_label(child, parent, parents)
+
+
 def segment_label(node: ast.AST, parents: dict) -> str | None:
     """The name `node` gives a path, or None when it is not a segment: a class or def by its
-    name, a lambda by `lambda_label`, a list, tuple, set or dict by the name it is bound to."""
+    name, a lambda by `lambda_label`, a list, tuple, set or dict by `container_label`."""
     if isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
         return node.name
     if isinstance(node, ast.Lambda):
         return lambda_label(node, parents)
-    return bound_name(node, parents.get(node)) if isinstance(node, CONTAINERS) else None
+    return container_label(node, parents) if isinstance(node, CONTAINERS) else None
 
 
 class Placed(NamedTuple):

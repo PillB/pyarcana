@@ -610,6 +610,12 @@ FORM_CASES = [
              lambda extra: f"def send(options):\n{extra}    fetch = options.get('fetch') or ({OFFENDER})\n    return fetch\n"),
     FormCase("lambda in IfExp.body", "pick.chosen", "    other = (lambda x: x) if flag else None\n",
              lambda extra: f"def pick(flag):\n{extra}    chosen = ({OFFENDER}) if flag else None\n    return chosen\n"),
+    FormCase("dict in IfExp.body", "outer.api.big", "    other = {'big': lambda x: x} if flag else None\n",
+             lambda extra: f"def outer(flag):\n{extra}    api = {{'big': {OFFENDER}}} if flag else None\n    return api\n"),
+    FormCase("dict in Call.args", "outer.<arg 0 of m = configure>.big", "    n = other({'big': lambda x: x})\n",
+             lambda extra: f"def outer():\n{extra}    m = configure({{'big': {OFFENDER}}})\n    return m\n"),
+    FormCase("dict in Return.value", "use_thing.<returned>.big", "    big = lambda x: x\n",
+             lambda extra: f"def use_thing():\n{extra}    return {{'big': {OFFENDER}}}\n"),
 ]
 
 
