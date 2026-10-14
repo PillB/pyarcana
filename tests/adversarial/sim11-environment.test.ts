@@ -14,6 +14,13 @@
  *   the learner is about to call (s21-fastapi's jinja2 lab) has not used it yet. So a future block
  *   (S19, S20, S23) cannot print a pinned output in the browser.
  * Each rule is recreated on fixture examples, and the real tree must satisfy both.
+ *
+ * The block a learner sees is checked twice. On the real tree, every example in the demos table must
+ * render the block its declaration requires; no test requires the table to hold a local-python demo
+ * or a dead pinned import, because the S10 to S52 demos are being replaced with on-topic ones that
+ * run in the browser (owner decision O25), and the live table will hold neither. On fixture demos,
+ * rendered through PlaygroundDemoBlock, each guarantee of the local-only block and of the
+ * unused-import case is proved whatever the table holds.
  */
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
@@ -23,7 +30,7 @@ import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { InteractivePlaygroundDemo } from '../../src/components/course/SectionView.tsx'
+import { InteractivePlaygroundDemo, PlaygroundDemoBlock, type PlaygroundDemo } from '../../src/components/course/SectionView.tsx'
 import {
   LOCAL_PYTHON_NOTE,
   LOCAL_RUN_COMMAND,
@@ -162,12 +169,6 @@ describe('SIM-11 environments on the real tree', () => {
     assert.deepEqual(playgroundFailures(playground, pinned), [])
   })
 
-  it('the playground uses both environments, so the rule is exercised on both sides', () => {
-    const { playground } = realInput()
-    assert.ok(playground.some((e) => e.environment === 'local-python'), 'no local-python example')
-    assert.ok(playground.some((e) => e.environment === 'browser-pyodide'), 'no browser-pyodide example')
-  })
-
   it('every I Do demo that imports a pinned package is declared local-python', () => {
     const { pinned, iDo } = realInput()
     assert.ok(iDo.length > 0, 'no I Do demos were read: the check would pass on nothing')
@@ -181,9 +182,13 @@ describe('SIM-11 environments on the real tree', () => {
 
 })
 
-/** The block a learner sees under a lesson's "Pruébalo tú mismo", as markup. */
+/** The block a learner sees under a lesson's "Pruébalo tú mismo", as markup: the demos table's entry for the slug. */
 function playgroundMarkup(slug: string): string {
   return renderToStaticMarkup(createElement(InteractivePlaygroundDemo, { sectionId: slug, sectionTitle: slug }))
+}
+/** The same block for a demo the test supplies, so the check does not depend on what the table holds. */
+function blockMarkup(slug: string, demo: PlaygroundDemo): string {
+  return renderToStaticMarkup(createElement(PlaygroundDemoBlock, { sectionId: slug, demo }))
 }
 const runButton = (slug: string): string => `data-testid="demo-run-${slug}-run"`
 /** What a reader sees: the tags gone and the entities React writes turned back into characters. */
@@ -198,27 +203,63 @@ const visibleText = (html: string): string =>
 const htmlEscaped = (text: string): string =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
 
-describe('SIM-11 the rendered block follows the declared environment', () => {
+/** A local-python block must not offer to run the example, and must say why (the notice). */
+function localNoticeFailures(slug: string, html: string): string[] {
+  const failures: string[] = []
+  if (!html.includes(`data-testid="demo-playground-${slug}"`)) failures.push(`${slug}: the block did not render`)
+  if (html.includes(runButton(slug))) failures.push(`${slug} is local-python but renders a Run button`)
+  if (html.includes(`data-testid="demo-run-${slug}"`)) failures.push(`${slug} is local-python but renders the playground`)
+  if (!html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title))) failures.push(`${slug} shows no local-only notice`)
+  if (!html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.body))) failures.push(`${slug} shows no local-only notice body`)
+  return failures
+}
+
+/** A local-only block shows the command that launches the saved script. */
+const runCommandFailures = (slug: string, html: string): string[] =>
+  visibleText(html).includes(LOCAL_RUN_COMMAND) ? [] : [`${slug} shows no run command`]
+
+/** The notice says the result may differ from the one printed in the course, so the block must print it. */
+function outputFailures(slug: string, html: string, expectedOutput: string | undefined): string[] {
+  const text = visibleText(html)
+  return (expectedOutput ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line !== '' && !text.includes(line))
+    .map((line) => `${slug} does not show its expected output line: ${line}`)
+}
+
+/** A local-only block keeps the hint, under the "Ver pista" label the playground already uses. */
+function hintFailures(slug: string, html: string, hint: string | undefined): string[] {
+  if (hint === undefined) return []
+  const failures: string[] = []
+  if (!html.includes('Ver pista')) failures.push(`${slug} shows no hint label`)
+  if (!visibleText(html).includes(hint)) failures.push(`${slug} does not show its hint: ${hint}`)
+  return failures
+}
+
+/** A browser block offers Run and shows no local-only notice. */
+function browserBlockFailures(slug: string, html: string): string[] {
+  const failures: string[] = []
+  if (!html.includes(runButton(slug))) failures.push(`${slug} is browser-pyodide but renders no Run button`)
+  if (html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title))) failures.push(`${slug} shows the local-only notice`)
+  return failures
+}
+
+describe('SIM-11 the rendered block follows the declared environment, for every example in the demos table', () => {
+  // None of these requires the table to hold an example of a given kind: a check that finds none
+  // has nothing to judge, and a demo added later is judged the moment it exists.
   const { pinned, playground } = realInput()
+  const local = playground.filter((e) => e.environment === 'local-python')
 
   it('an example declared local-python renders no Run button and shows the notice', () => {
-    const local = playground.filter((e) => e.environment === 'local-python')
-    assert.ok(local.length > 0, 'no local-python example: the check would pass on nothing')
-    for (const ex of local) {
-      const html = playgroundMarkup(ex.name)
-      assert.ok(html.includes(`data-testid="demo-playground-${ex.name}"`), `${ex.name}: the block did not render`)
-      assert.ok(!html.includes(runButton(ex.name)), `${ex.name} is local-python but renders a Run button`)
-      assert.ok(!html.includes(`data-testid="demo-run-${ex.name}"`), `${ex.name} is local-python but renders the playground`)
-      assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title)), `${ex.name} shows no local-only notice`)
-      assert.ok(html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.body)), `${ex.name} shows no local-only notice body`)
-    }
+    assert.deepEqual(local.flatMap((ex) => localNoticeFailures(ex.name, playgroundMarkup(ex.name))), [])
   })
 
-  it('a local-only example shows the command that launches a saved script, and S01 taught that command', () => {
-    const local = playground.filter((e) => e.environment === 'local-python')
-    for (const ex of local) {
-      assert.ok(visibleText(playgroundMarkup(ex.name)).includes(LOCAL_RUN_COMMAND), `${ex.name} shows no run command`)
-    }
+  it('a local-only example shows the command that launches a saved script', () => {
+    assert.deepEqual(local.flatMap((ex) => runCommandFailures(ex.name, playgroundMarkup(ex.name))), [])
+  })
+
+  it('S01 taught the command a local-only block shows', () => {
     const setup = readBindings(ROOT).find((b) => b.id === 'setup')
     assert.ok(setup, 'no bound section has the slug setup')
     const s01 = fs.readFileSync(path.join(ROOT, 'src/lib/course/sections', `${setup.stem}.ts`), 'utf-8')
@@ -226,31 +267,15 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
   })
 
   it('a local-only example shows the output the course prints for it, so the learner can compare', () => {
-    // The notice says the result may differ from the one printed in the course; the block must print it.
-    const local = playground.filter((e) => e.environment === 'local-python')
-    const withOutput = local.filter((e) => e.expectedOutput !== undefined)
-    assert.ok(withOutput.length > 0, 'no local-python example declares an expected output: the check would pass on nothing')
-    for (const ex of withOutput) {
-      const text = visibleText(playgroundMarkup(ex.name))
-      for (const line of ex.expectedOutput!.trim().split('\n').filter((l) => l.trim() !== '')) {
-        assert.ok(text.includes(line.trim()), `${ex.name} does not show its expected output line: ${line}`)
-      }
-    }
+    assert.deepEqual(local.flatMap((ex) => outputFailures(ex.name, playgroundMarkup(ex.name), ex.expectedOutput)), [])
   })
 
   it('a local-only example keeps its hint, under the "Ver pista" label the playground already uses', () => {
-    const local = playground.filter((e) => e.environment === 'local-python' && e.hint !== undefined)
-    assert.ok(local.length > 0, 'no local-python example has a hint: the check would pass on nothing')
-    for (const ex of local) {
-      const html = playgroundMarkup(ex.name)
-      assert.ok(html.includes('Ver pista'), `${ex.name} shows no hint label`)
-      assert.ok(visibleText(html).includes(ex.hint!), `${ex.name} does not show its hint: ${ex.hint}`)
-    }
+    assert.deepEqual(local.flatMap((ex) => hintFailures(ex.name, playgroundMarkup(ex.name), ex.hint)), [])
   })
 
   it('no local-only example comments that the library loads by itself or that the browser runs it', () => {
     const claims = /se carga|carga autom|pyodide|navegador|browser/i
-    const local = playground.filter((e) => e.environment === 'local-python')
     for (const ex of local) {
       const comments = ex.code.split('\n').filter((line) => line.trim().startsWith('#'))
       assert.ok(comments.length > 0, `${ex.name} has no comment line: the check would pass on nothing`)
@@ -259,17 +284,13 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
   })
 
   it('an example that uses a pinned package renders no Run button, whatever it declares', () => {
-    const pinnedExamples = playground.filter((e) => pinnedImportUsed(e.code, pinned) !== undefined)
-    assert.ok(pinnedExamples.length > 0, 'no playground example uses a pinned package')
-    for (const ex of pinnedExamples) {
+    for (const ex of playground.filter((e) => pinnedImportUsed(e.code, pinned) !== undefined)) {
       assert.ok(!playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} uses a pinned package but renders a Run button`)
     }
   })
 
   it('an example that imports a pinned package and never uses it keeps its Run button (S11, O25)', () => {
-    const dead = playground.filter((e) => pinnedImport(e.code, pinned) !== undefined && pinnedImportUsed(e.code, pinned) === undefined)
-    assert.ok(dead.length > 0, 'no playground example has a dead pinned import: the check would pass on nothing')
-    for (const ex of dead) {
+    for (const ex of playground.filter((e) => pinnedImport(e.code, pinned) !== undefined && pinnedImportUsed(e.code, pinned) === undefined)) {
       assert.equal(ex.environment, 'browser-pyodide', `${ex.name} imports a pinned package it never uses, so it cannot drift`)
       assert.ok(playgroundMarkup(ex.name).includes(runButton(ex.name)), `${ex.name} lost its Run button over an unused import`)
     }
@@ -278,15 +299,69 @@ describe('SIM-11 the rendered block follows the declared environment', () => {
   it('an example declared browser-pyodide renders the Run button and no local-only notice', () => {
     const browser = playground.filter((e) => e.environment === 'browser-pyodide')
     assert.ok(browser.length > 0, 'no browser-pyodide example: the check would pass on nothing')
-    for (const ex of browser) {
-      const html = playgroundMarkup(ex.name)
-      assert.ok(html.includes(runButton(ex.name)), `${ex.name} is browser-pyodide but renders no Run button`)
-      assert.ok(!html.includes(htmlEscaped(LOCAL_PYTHON_NOTE.title)), `${ex.name} shows the local-only notice`)
-    }
+    assert.deepEqual(browser.flatMap((ex) => browserBlockFailures(ex.name, playgroundMarkup(ex.name))), [])
   })
 
   it('a section with no playground example renders nothing', () => {
     assert.equal(playgroundMarkup('no-such-section'), '')
+  })
+})
+
+describe('SIM-11 the rendered block on fixture demos, whatever the demos table holds (owner decision O25)', () => {
+  const pinned = ['numpy', 'sklearn']
+  /** Uses numpy, so the rule declares it local-python. */
+  const LOCAL: PlaygroundDemo = {
+    title: 'Media con NumPy',
+    environment: 'local-python',
+    code: 'import numpy as np\n\nvalores = np.arange(4)\nprint(valores.mean())\n',
+    expectedOutput: 'Media calculada: 1.5\nSegunda línea de salida\n',
+    hint: 'Pista del fixture: mira la media.',
+  }
+  /** Imports numpy and never refers to it: its output cannot drift, so it runs in the browser (S11). */
+  const DEAD: PlaygroundDemo = {
+    title: 'Contrato sin NumPy',
+    environment: 'browser-pyodide',
+    code: 'import numpy as np\n\ndef doble(x):\n    return x * 2\n\nassert doble(2) == 4\nprint("listo")\n',
+    expectedOutput: 'listo',
+    hint: 'Pista del fixture: el import no se usa.',
+  }
+  const asExample = (name: string, demo: PlaygroundDemo): Example => ({ name, ...demo })
+
+  it('a fixture declared local-python renders no Run button and shows the notice', () => {
+    assert.deepEqual(playgroundFailures([asExample('fx-local', LOCAL)], pinned), [], 'the fixture is not a valid local-python example')
+    assert.deepEqual(localNoticeFailures('fx-local', blockMarkup('fx-local', LOCAL)), [])
+  })
+
+  it('a local-only fixture shows the command that launches a saved script', () => {
+    assert.deepEqual(runCommandFailures('fx-local', blockMarkup('fx-local', LOCAL)), [])
+  })
+
+  it('a local-only fixture shows each line of its expected output, so the learner can compare', () => {
+    assert.deepEqual(outputFailures('fx-local', blockMarkup('fx-local', LOCAL), LOCAL.expectedOutput), [])
+  })
+
+  it('a local-only fixture keeps its hint, under the "Ver pista" label', () => {
+    assert.deepEqual(hintFailures('fx-local', blockMarkup('fx-local', LOCAL), LOCAL.hint), [])
+  })
+
+  it('a fixture that uses a pinned package renders no Run button', () => {
+    assert.equal(pinnedImportUsed(LOCAL.code, pinned), 'numpy', 'the fixture does not use numpy')
+    assert.ok(!blockMarkup('fx-local', LOCAL).includes(runButton('fx-local')), 'fx-local uses a pinned package but renders a Run button')
+  })
+
+  it('a fixture that imports a pinned package and never uses it keeps its Run button and shows no notice (S11)', () => {
+    assert.equal(pinnedImport(DEAD.code, pinned), 'numpy', 'the fixture does not import numpy')
+    assert.equal(pinnedImportUsed(DEAD.code, pinned), undefined, 'the fixture uses numpy')
+    assert.deepEqual(playgroundFailures([asExample('fx-dead', DEAD)], pinned), [], 'the fixture is not a valid browser-pyodide example')
+    assert.deepEqual(browserBlockFailures('fx-dead', blockMarkup('fx-dead', DEAD)), [])
+  })
+
+  it('the same import lands on different environments by whether the code uses it, and each renders its own side', () => {
+    const used: PlaygroundDemo = { title: 'Usa np', environment: 'local-python', code: 'import numpy as np\nprint(np.zeros(2))\n' }
+    const unused: PlaygroundDemo = { title: 'No usa np', environment: 'browser-pyodide', code: 'import numpy as np\nprint("hola")\n' }
+    assert.deepEqual(playgroundFailures([asExample('fx-used', used), asExample('fx-unused', unused)], pinned), [])
+    assert.deepEqual(localNoticeFailures('fx-used', blockMarkup('fx-used', used)), [])
+    assert.deepEqual(browserBlockFailures('fx-unused', blockMarkup('fx-unused', unused)), [])
   })
 })
 

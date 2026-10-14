@@ -1042,8 +1042,18 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 // === Interactive Playground Demo ===
 // Per-section code examples that students can run in the browser. Exported so a test renders the
 // block a learner sees (SIM-11): an example declared local-python shows no Run button.
+// PlaygroundDemoBlock is the block for one demo, so a test can render a fixture demo and does not
+// depend on the demos that happen to be in the table below.
+export interface PlaygroundDemo {
+  code: string
+  expectedOutput?: string
+  hint?: string
+  title: string
+  environment: PlaygroundEnvironment
+}
+
 export function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
-  const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string; environment: PlaygroundEnvironment }> = {
+  const demos: Record<string, PlaygroundDemo> = {
     'setup': {
       environment: 'browser-pyodide',
       title: 'Practica el intérprete y tu primer script',
@@ -4235,7 +4245,11 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
   }
   const demo = demos[sectionId]
   if (!demo) return null
+  return <PlaygroundDemoBlock sectionId={sectionId} demo={demo} />
+}
 
+/** The block one playground demo renders as; `sectionId` only names its test ids. */
+export function PlaygroundDemoBlock({ sectionId, demo }: { sectionId: string; demo: PlaygroundDemo }) {
   // SIM-11: the declared environment decides whether the browser runs the example at all.
   const mode = playgroundMode(demo.environment)
   return (
