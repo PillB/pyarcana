@@ -156,6 +156,8 @@ export function strayTagFailures(
  * - kaggle-learn also sat on modules-packaging-cli, which names neither Kaggle nor pandas (0 times;
  *   the resource is a generic Python, pandas, ML and SQL course). The card keeps its other tags
  *   (collections, whose own resource list links it, and the pandas section), so it needs no home.
+ * - data-to-viz (which chart to use for which data) is seaborn-tutorial's case: exceptions-logging
+ *   says chart or gráfico once. Home: RETAGGED. Found by the review of the round before this one.
  */
 export const REMOVED_TAGS: readonly Teaching[] = [
   { resource: 'pandas-docs', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
@@ -165,6 +167,7 @@ export const REMOVED_TAGS: readonly Teaching[] = [
   { resource: 'pandas-merging', section: 'files-ingestion', evidence: /\bmerge\b/gi, atLeast: 30 },
   { resource: 'seaborn-tutorial', section: 'exceptions-logging', evidence: /seaborn|sns\./gi, atLeast: 3 },
   { resource: 'kaggle-learn', section: 'modules-packaging-cli', evidence: /kaggle|pandas|DataFrame/gi, atLeast: 50 },
+  { resource: 'data-to-viz', section: 'exceptions-logging', evidence: /chart|gráfic/gi, atLeast: 30 },
 ]
 
 /**
@@ -177,10 +180,13 @@ export const REMOVED_TAGS: readonly Teaching[] = [
  * - seaborn-tutorial: the visualization section ("Visualización y comunicación accesible") names
  *   seaborn as the optional styling layer over Matplotlib and cites this tutorial's URL in its own
  *   resource list, so its floor is low (3), like seaborn-datasets in REHOMED.
+ * - data-to-viz: the same section chooses the chart type from the analytic question (its first
+ *   learning outcome), says chart or gráfico about 140 times, and cites this site in its own list.
  */
 export const RETAGGED: readonly Teaching[] = [
   { resource: 'pandas-merging', section: 'packaging', evidence: /\bmerge\b/gi, atLeast: 30 },
   { resource: 'seaborn-tutorial', section: 'databases-orm', evidence: /seaborn|sns\./gi, atLeast: 3 },
+  { resource: 'data-to-viz', section: 'databases-orm', evidence: /chart|gráfic/gi, atLeast: 30 },
 ]
 
 function realSection(slug: string): { stem: string; text: string } | undefined {
@@ -235,7 +241,7 @@ describe('a resource stays off a section that does not teach its topic (O25)', (
 
   it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
     // A floor, not a ceiling: losing an entry lets its tag come back unseen, adding one is allowed.
-    assert.ok(REMOVED_TAGS.length >= 7, `${REMOVED_TAGS.length} entries`)
+    assert.ok(REMOVED_TAGS.length >= 8, `${REMOVED_TAGS.length} entries`)
     for (const t of REMOVED_TAGS) {
       assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
       assert.ok(realSection(t.section), `no section has the slug ${t.section}`)
@@ -277,7 +283,7 @@ describe('a resource whose tag was removed sits on the section that teaches it (
 
   it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
     // A floor, not a ceiling: losing an entry leaves a card with no page unseen, adding one is allowed.
-    assert.ok(RETAGGED.length >= 2, `${RETAGGED.length} entries`)
+    assert.ok(RETAGGED.length >= 3, `${RETAGGED.length} entries`)
     for (const t of RETAGGED) {
       assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
       assert.ok(realSection(t.section), `no section has the slug ${t.section}`)

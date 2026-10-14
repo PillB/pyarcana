@@ -461,7 +461,7 @@ export const RESOURCES: Resource[] = [
     canonicalUrl: 'https://www.data-to-viz.com/',
     resourceType: 'reference',
     topics: ['visualization', 'decision-tree'],
-    sectionIds: ['s09-exceptions-logging'],
+    sectionIds: ['s19-databases-orm'],
     level: 'reference',
     language: ['en'],
     access: 'free',
