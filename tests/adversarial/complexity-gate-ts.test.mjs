@@ -8,7 +8,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -238,7 +238,7 @@ test('keys name what a function is bound to, and the path of what encloses it', 
   const done = gate(root, '--init')
   assert.equal(done.status, 0, output(done))
   assert.deepEqual(Object.keys(baseline(root).offenders).sort(), [
-    'src/a.ts::<arrow function>',
+    'src/a.ts::<once = (…)()>',
     'src/a.ts::Box.<static block>',
     'src/a.ts::Box.field',
     'src/a.ts::Box.get v',
@@ -248,8 +248,213 @@ test('keys name what a function is bound to, and the path of what encloses it', 
     'src/a.ts::api.prop',
     'src/a.ts::default',
     'src/a.ts::outer.inner',
-    'src/b.tsx::Panel.<prop onClick>',
+    'src/b.tsx::Panel.<button onClick>',
   ])
+}))
+
+/** `count` lines of `if`, each one decision, indented by `indent`. */
+const ifs = (count, indent) => Array.from({ length: count }, (_, i) => `${indent}if (x === ${i}) return ${i}`).join('\n')
+
+test('a test callback is keyed by its title, so an unrelated block added above it renumbers nothing', () => withScopes((root) => {
+  // The shape of scripts/code_rendering.spec.ts. The draft keyed both test callbacks
+  // `<arg 1 of test.describe>.<arg 1 of test>` and numbered them across the file.
+  const spec = join(root, 'scripts', 'a.spec.ts')
+  const fidelity = `test.describe('Code rendering fidelity', () => {\n  test('big one', async ({ page }) => {\n${ifs(23, '    ')}\n  })\n})\n`
+  writeFileSync(spec, fidelity)
+  assert.equal(gate(root, '--init').status, 0)
+  writeFileSync(spec, `test.describe('A new, unrelated block', () => {\n  test('small new test', async () => {})\n})\n${fidelity}`)
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, {
+    'scripts/a.spec.ts::<arg 1 of test.describe "Code rendering fidelity">.<arg 1 of test "big one">': 24,
+  })
+}))
+
+test('a callback whose call result is bound is keyed by the binding, so an unrelated useMemo above it renumbers nothing', () => withTree((root) => {
+  // The shape of src/components/ui/chart.tsx, `const tooltipLabel = React.useMemo(() => {`.
+  const label = `  const tooltipLabel = React.useMemo(() => {\n${ifs(17, '    ')}\n    return -1\n  }, [x])\n`
+  const component = (extra) => `export function ChartTooltipContent({ x }: { x: number }) {\n${extra}${label}  return tooltipLabel\n}\n`
+  put(root, component(''), 'c.tsx')
+  assert.equal(gate(root, '--init').status, 0)
+  put(root, component('  const unrelated = React.useMemo(() => x * 2, [x])\n'), 'c.tsx')
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, { 'src/c.tsx::ChartTooltipContent.<arg 0 of tooltipLabel = React.useMemo>': 18 })
+}))
+
+test('a callback added to an earlier block does not renumber a baselined callback in a later one', () => withTree((root) => {
+  // Neither block has a title or a binding, so the blocks are told apart by order among themselves,
+  // and each callback by order inside its own block, never by order across the whole file.
+  const block = (body) => `describe(() => {\n${body}})\n`
+  const small = '  it(() => {})\n'
+  const big = `  it(() => {\n${ifs(19, '    ')}\n  })\n`
+  put(root, block(small) + block(big))
+  assert.equal(gate(root, '--init').status, 0)
+  put(root, block(small + small) + block(big))
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, { 'src/a.ts::<arg 0 of describe>#2.<arg 0 of it>': 20 })
+}))
+
+test('a callback is named by its binding, its title, or its JSX element and attribute', () => withTree((root) => {
+  const fn = (indent) => `(x) => {\n${ifs(15, `${indent}  `)}\n${indent}  return -1\n${indent}}`
+  put(root, [
+    'export function Comp({ rows, page }) {',
+    `  const total = rows.reduce(${fn('  ')}, 0)`,
+    `  const [value, setValue] = useState(${fn('  ')})`,
+    `  const { data } = useQuery(${fn('  ')})`,
+    `  const evens = rows.filter(${fn('  ')}).length`,
+    `  const config = { label: useMemo(${fn('  ')}) }`,
+    `  emitter.on('ready', ${fn('  ')})`,
+    `  emitter.on(\`tick \${total}\`, ${fn('  ')})`,
+    `  return <List onPick={${fn('  ')}}>{${fn('  ')}}</List>`,
+    '}',
+    `export async function load(page) {\n  const found = await page.evaluate(${fn('  ')})\n  return found\n}`,
+    `export const once = (${fn('')})(1)`,
+    '',
+  ].join('\n'), 'a.tsx')
+  const done = gate(root, '--init')
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(Object.keys(baseline(root).offenders).sort(), [
+    'src/a.tsx::<once = (…)()>',
+    'src/a.tsx::Comp.<List children>',
+    'src/a.tsx::Comp.<List onPick>',
+    'src/a.tsx::Comp.<arg 0 of [value, setValue] = useState>',
+    'src/a.tsx::Comp.<arg 0 of evens = rows.filter>',
+    'src/a.tsx::Comp.<arg 0 of total = rows.reduce>',
+    'src/a.tsx::Comp.<arg 0 of { data } = useQuery>',
+    'src/a.tsx::Comp.<arg 1 of emitter.on "ready">',
+    'src/a.tsx::Comp.<arg 1 of emitter.on "tick ${…}">',
+    'src/a.tsx::Comp.config.<arg 0 of label = useMemo>',
+    'src/a.tsx::load.<arg 0 of found = page.evaluate>',
+  ])
+}))
+
+test('a JSX handler is told apart by its element, so a handler on another element added above it renumbers nothing', () => withTree((root) => {
+  const handler = `<button onClick={(x: number) => {\n${ifs(16, '    ')}\n    return -1\n  }} />`
+  const panel = (extra) => `export function Panel() {\n  return <>${extra}${handler}</>\n}\n`
+  put(root, panel(''), 'b.tsx')
+  assert.equal(gate(root, '--init').status, 0)
+  put(root, panel('<div onClick={() => 1} />'), 'b.tsx')
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, { 'src/b.tsx::Panel.<button onClick>': 17 })
+}))
+
+test('a row of a list is keyed by its title and a returned function by being returned, so unrelated arrows above renumber nothing', () => withTree((root) => {
+  // The shape of the worker's tables, `["role", (q) => ...]`, and of a cleanup, `return () => ...`.
+  // The draft called both `<arrow function>` and numbered them across the file.
+  const rows = (extra) => `export const ROWS = [\n${extra}  ['role', (x: number) => {\n${ifs(16, '    ')}\n    return -1\n  }],\n]\n`
+  const subscribe = (extra) => `export function subscribe() {\n${extra}  return (x: number) => {\n${ifs(17, '    ')}\n    return -1\n  }\n}\n`
+  put(root, rows('') + subscribe(''))
+  assert.equal(gate(root, '--init').status, 0)
+  put(root, `void (() => 0)\n${rows("  ['state', (x: number) => x],\n")}${subscribe('  void (() => 0)\n')}`)
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(baseline(root).offenders, { 'src/a.ts::ROWS.<item 1 "role">': 17, 'src/a.ts::subscribe.<returned>': 18 })
+}))
+
+test('a list item without a title is keyed by its place in its own list, and a default by its parameter', () => withTree((root) => {
+  const fn = `(x: number) => {\n${ifs(15, '    ')}\n    return -1\n  }`
+  put(root, `export const CHECKS = [\n  (x: number) => x,\n  ${fn},\n]\nexport function run(cb = ${fn}) {\n  return cb\n}\n`)
+  const done = gate(root, '--init')
+  assert.equal(done.status, 0, output(done))
+  assert.deepEqual(Object.keys(baseline(root).offenders), ['src/a.ts::CHECKS.<item 1>', 'src/a.ts::run.<default of cb>'])
+}))
+
+test('a name further in already tells two callbacks apart, so no number is added and an unrelated callback above moves nothing', () => withTree((root) => {
+  // The shape of ResourcesPage.tsx: two effects, the second holding `handler`. Its path is already
+  // unique, so neither effect is numbered, and a third effect added first does not move it. Numbering
+  // every segment among its siblings would key it `<arg 0 of useEffect>#2.handler`, then `#3`.
+  const effect = (body) => `  useEffect(() => {\n${body}  }, [])\n`
+  const handler = `    const handler = (x: number) => {\n${ifs(16, '      ')}\n      return -1\n    }\n    window.addEventListener('keydown', handler)\n`
+  const page = (extra) => `export function ResourcesPage() {\n${extra}${effect('    reset()\n')}${effect(handler)}  return null\n}\n`
+  put(root, page(''), 'r.tsx')
+  assert.equal(gate(root, '--init').status, 0)
+  assert.deepEqual(baseline(root).offenders, { 'src/r.tsx::ResourcesPage.<arg 0 of useEffect>.handler': 17 })
+  put(root, page(effect('    other()\n')), 'r.tsx')
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+}))
+
+const FUNCTIONS = new Set(['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression'])
+
+/** Where a statement can go before everything else in a body or a file: after its directives. */
+function headOf(block) {
+  const first = block.body.find((statement) => !statement.directive)
+  if (first) return first.range[0]
+  return block.type === 'Program' ? block.range[1] : block.range[1] - 1
+}
+
+/** A callee to copy: one whose text holds no decision (`?.`, `??`, `? :`, `&&`, `||`), so a copy adds none. */
+const DECIDES = /\?|&&|\|\|/
+
+/** Each function, and the file, with the calls it makes itself (not through a nested function) that take a function. */
+function callsByScope(ast, keys, code) {
+  const scopes = new Map([[ast, new Map()]])
+  const visit = (node, scope) => {
+    if (FUNCTIONS.has(node.type)) scopes.set(node, new Map())
+    const inner = FUNCTIONS.has(node.type) ? node : scope
+    for (const [place, arg] of (node.arguments ?? []).entries()) {
+      const callee = `${node.type === 'NewExpression' ? 'new ' : ''}${code.slice(...node.callee.range)}`
+      if (FUNCTIONS.has(arg.type) && !DECIDES.test(callee)) scopes.get(scope).set(`${place} ${callee}`, { callee, place })
+    }
+    for (const key of keys[node.type] ?? []) for (const child of [node[key]].flat()) if (child?.type) visit(child, inner)
+  }
+  visit(ast, ast)
+  return scopes
+}
+
+/**
+ * Statements that add unrelated functions to a scope: an anonymous arrow, and for each call the scope
+ * already hands a function to, a callback to the same callee at the same place whose call is bound to a
+ * fresh name, and one under a fresh title. Each adds nothing to the score of what is around it.
+ */
+function unrelatedFunctions(calls, fresh) {
+  const out = ['void (() => 0);']
+  for (const { callee, place } of calls.values()) {
+    out.push(`const ${fresh()} = ${callee}(${'0, '.repeat(place)}() => 0);`)
+    if (place > 0) out.push(`${callee}('an unrelated title ${fresh()}', ${'0, '.repeat(place - 1)}() => 0);`)
+  }
+  return `${out.join(' ')} `
+}
+
+/** `code` with unrelated functions put first in the file and first in every function with a block body. */
+function withUnrelatedFunctions(code, file) {
+  const jsx = !/\.[cm]?ts$/.test(file)
+  const { ast, visitorKeys } = tseslint.parser.parseForESLint(code, { range: true, loc: true, sourceType: 'module', ecmaVersion: 'latest', ecmaFeatures: { jsx } })
+  let count = 0
+  const fresh = () => `__unrelated${++count}`
+  const edits = [...callsByScope(ast, visitorKeys, code)]
+    .filter(([scope]) => scope === ast || scope.body.type === 'BlockStatement')
+    .map(([scope, calls]) => ({ at: headOf(scope === ast ? ast : scope.body), text: unrelatedFunctions(calls, fresh) }))
+    .sort((a, b) => b.at - a.at)
+  return { code: edits.reduce((text, { at, text: add }) => text.slice(0, at) + add + text.slice(at), code), scopes: edits.length }
+}
+
+test('unrelated functions added first in every scope of the baselined files change no key of the real baseline', () => withTree((root) => {
+  // The owner's test of the fix: every file the repository's baseline names, copied as it is, measures
+  // to the same keys; then an unrelated function is put before everything else in the file and in
+  // every function with a block body, beside each callback already there. Not one key may move.
+  const recorded = JSON.parse(readFileSync(join(ROOT, BASELINE), 'utf8')).offenders
+  const files = [...new Set(Object.keys(recorded).map((key) => key.split('::')[0]))]
+  for (const rel of files) {
+    mkdirSync(dirname(join(root, rel)), { recursive: true })
+    copyFileSync(join(ROOT, rel), join(root, rel))
+  }
+  assert.equal(gate(root, '--init').status, 0)
+  assert.deepEqual(Object.keys(baseline(root).offenders), Object.keys(recorded), 'the copies measure to the baselined keys')
+  const before = readFileSync(join(root, BASELINE), 'utf8')
+  let scopes = 0
+  for (const rel of files) {
+    const changed = withUnrelatedFunctions(readFileSync(join(root, rel), 'utf8'), rel)
+    writeFileSync(join(root, rel), changed.code)
+    scopes += changed.scopes
+  }
+  assert.ok(scopes > files.length * 5, `unrelated functions went into only ${scopes} scopes`)
+  const done = gate(root)
+  assert.equal(done.status, 0, output(done))
+  assert.equal(readFileSync(join(root, BASELINE), 'utf8'), before, 'nothing grew or fell, so nothing was rewritten')
 }))
 
 test('an exclusion inside a root takes that file out of the measure, and the control proves it', () => withTree((root) => {

@@ -9,8 +9,12 @@
  * the score recorded for it, and a function that falls leaves the baseline or is lowered in it.
  * Keys are path::identity. A function is named by what it is, not by where it sits (see
  * complexity_gate.identity.mjs): `const f = () => {}` is `f`, a method is `Class.method`, a callback
- * is `outer.<arg 0 of items.map>`. Only two functions that still share a whole path in one file get
- * #2, #3 in source order, so an unrelated edit elsewhere in the file cannot renumber a baselined key.
+ * is `outer.<arg 0 of items.map>`, or `<arg 0 of total = rows.reduce>` when the call's result is
+ * bound, or `<arg 1 of test "title">` when the call is given a title. A number is the fallback for
+ * what has no name: only units of one file that share a whole path are numbered, #2, #3, on the
+ * segment where their paths part. So a number moves only when a unit with that same path is added
+ * before it, such as a third unbound `rows.map` callback in the same JSX tree; a function added
+ * with any other path, anywhere in the file, moves no key.
  *
  * Fail closed: a file ESLint cannot parse fails the gate and names path:line. A missing baseline
  * fails the gate, and --init creates one but refuses to overwrite it, so a re-baseline shows
@@ -82,7 +86,11 @@ export async function measure(root, scopeFile = SCOPE_FILE) {
   return { rows, problems }
 }
 
-/** Every function's score under its key. A path repeated in one file takes #2, #3 in source order. */
+/**
+ * Every function's score under its key. The identity already numbers units that share a path; this
+ * only keeps two keys apart whose text happens to match, as `a.b = () => {}` and `const a = { b() {} }`
+ * do, with #2 in source order.
+ */
 export function keyed(rows) {
   const ordered = [...rows].sort((a, b) => byText(a.file, b.file) || a.line - b.line || a.column - b.column)
   const seen = new Map()

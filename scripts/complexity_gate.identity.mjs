@@ -6,25 +6,46 @@
  * does not: adding an unrelated arrow function earlier in the file renumbers every later one, and a
  * baselined offender becomes NEW OVER. So a function is named by what it is, never by where it sits:
  *
- *   function f() {}                      f
- *   const f = () => {}                   f              (the variable it is bound to)
- *   { f: () => {} } , { f() {} }         f              (the property, under the object's own name)
- *   class C { m() {} get v() {} }        C.m, C.get v   (the class, then the member)
- *   items.map((x) => ...)                <arg 0 of items.map>
- *   <button onClick={() => ...} />       <prop onClick>
- *   export default () => {}              default
+ *   function f() {}                         f
+ *   const f = () => {}                      f              (the variable it is bound to)
+ *   { f: () => {} } , { f() {} }            f              (the property, under the object's own name)
+ *   class C { m() {} get v() {} }           C.m, C.get v   (the class, then the member)
+ *   items.map((x) => ...)                   <arg 0 of items.map>
+ *   const t = items.map((x) => ...)         <arg 0 of t = items.map>     (what the call's result is bound to)
+ *   const [v, setV] = useState(() => ...)   <arg 0 of [v, setV] = useState>
+ *   test('renders', () => ...)              <arg 1 of test "renders">    (the title the call is given)
+ *   <button onClick={() => ...} />          <button onClick>
+ *   <List>{(row) => ...}</List>             <List children>
+ *   const once = (() => ...)()              <once = (…)()>
+ *   const ROWS = [["role", (q) => ...]]     ROWS.<item 1 "role">   (a list bound to a name; a row's title)
+ *   return () => ...                        <returned>
+ *   function f(cb = () => {})               f.<default of cb>
+ *   export default () => {}                 default
  *
- * and a function inside another function is that path, outermost first: `Panel.<arg 0 of rows.map>`.
- * Only when two functions in one file still share a whole path does the gate add `#2`, `#3` in source
- * order, so an ordinal now means "the second callback to the same call inside the same function",
- * which only a sibling edit can move. A function that moves into another function, or is renamed,
- * is a new key; the ratchet then treats it as new code, which is the safe direction.
+ * and a function inside another is that path, outermost first: `Panel.<arg 0 of rows.map>`. A call's
+ * result is followed through `await`, `?.`, a member read and a further call to the name it reaches,
+ * so `const n = await rows.filter(f).length` names f's call `n = rows.filter`. A title is the string
+ * or template literal a call or a list starts with, whitespace collapsed, `${…}` for each expression.
+ *
+ * An ordinal is the fallback for what has no name at all. Only units of one file that share the
+ * whole path are numbered, and the number goes where their paths part: on the outermost segment at
+ * which they sit in different places, counting in source order the places there that hold such a
+ * unit. Two unbound `rows.map` callbacks in one JSX tree are `<arg 0 of rows.map>` and
+ * `<arg 0 of rows.map>#2`; two untitled `describe` blocks that each hold an `it` callback number the
+ * blocks, `<arg 0 of describe>#2.<arg 0 of it>`, not the callbacks across the file. So a number moves
+ * only when a unit with that same path is added before it, in a new place or in an earlier place that
+ * held none; a new function with any other path moves nothing. A function that moves into another
+ * function, or is renamed, is a new key, and the ratchet treats it as new code, the safe direction.
  */
 
 const FUNCTION_TYPES = new Set(['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression'])
 const CLASS_TYPES = new Set(['ClassDeclaration', 'ClassExpression'])
+/** Object and array literals: a segment of a path when bound to a name, as in `const ROUTES = [...]`. */
+const LITERALS = new Set(['ObjectExpression', 'ArrayExpression'])
 /** Type-only wrappers that do not change what a value is bound to: `(() => {}) as Handler`. */
 const WRAPPERS = new Set(['TSAsExpression', 'TSSatisfiesExpression', 'TSNonNullExpression', 'TSTypeAssertion'])
+/** What a call's result passes through, unchanged in what it is bound to: `await f()`, `a?.f()`, `f()!`. */
+const THROUGH = new Set([...WRAPPERS, 'AwaitExpression', 'ChainExpression'])
 
 /** The key of a class member or object property, or null when it is computed from a variable. */
 function keyName(member) {
@@ -51,6 +72,16 @@ function memberName(member) {
   return member.kind === 'get' || member.kind === 'set' ? `${member.kind} ${name}` : name
 }
 
+/** The names a declaration binds, as written: `f`, `[value, setValue]`, `{ data, error }`. */
+function patternName(id) {
+  if (id.type === 'Identifier') return id.name
+  if (id.type === 'AssignmentPattern') return patternName(id.left)
+  if (id.type === 'RestElement') return `...${patternName(id.argument)}`
+  if (id.type === 'ArrayPattern') return `[${id.elements.map((e) => (e ? patternName(e) : '')).join(', ')}]`
+  if (id.type !== 'ObjectPattern') return '…'
+  return `{ ${id.properties.map((p) => patternName(p.type === 'RestElement' ? p : p.value)).join(', ')} }`
+}
+
 /** The node and its parent, looking through type-only wrappers. */
 function boundTo(node) {
   let child = node
@@ -59,7 +90,7 @@ function boundTo(node) {
 }
 
 const BINDERS = {
-  VariableDeclarator: (child, p) => (p.init === child && p.id.type === 'Identifier' ? p.id.name : null),
+  VariableDeclarator: (child, p) => (p.init === child ? patternName(p.id) : null),
   AssignmentExpression: (child, p) => (p.right === child ? dotted(p.left) : null),
   Property: (child, p) => (p.value === child ? memberName(p) : null),
   MethodDefinition: (child, p) => (p.value === child ? memberName(p) : null),
@@ -75,37 +106,176 @@ export function bindingName(node) {
   return bind ? bind(child, parent) : null
 }
 
-/** `<arg 0 of items.map>` for a function passed to a call, `<prop onClick>` for a JSX handler. */
+/** The name a call's result reaches, through `await`, `?.`, a type-only wrapper, `.length` or `.then(...)`. */
+function resultName(call) {
+  let node = call
+  for (let up = node.parent; ; up = node.parent) {
+    const reads = (up.type === 'MemberExpression' && up.object === node) || (up.type === 'CallExpression' && up.callee === node)
+    if (!THROUGH.has(up.type) && !reads) return bindingName(node)
+    node = up
+  }
+}
+
+/** A title the code spells out: `'renders'`, or a template literal with `${…}` for each expression. */
+function titleOf(arg) {
+  if (arg?.type === 'Literal' && typeof arg.value === 'string') return arg.value
+  if (arg?.type !== 'TemplateLiteral') return null
+  return arg.quasis.map((q) => q.value.cooked ?? q.value.raw).join('${…}')
+}
+
+/** ` "title"` when the first of `items` spells out a title and `place` is not that first item, else ''. */
+function titled(items, place) {
+  const title = place > 0 ? titleOf(items[0]) : null
+  return title === null ? '' : ` ${JSON.stringify(title.replace(/\s+/g, ' ').trim())}`
+}
+
+/** `<arg 1 of t = test.describe "title">`: the place, the callee, what its result is bound to, its title. */
+function callLabel(call, place) {
+  const bound = resultName(call)
+  const callee = bound === null ? dotted(call.callee) : `${bound} = ${dotted(call.callee)}`
+  return `<arg ${place} of ${callee}${titled(call.arguments, place)}>`
+}
+
+/** `<once = (…)()>` for a function called where it is written, when what it returns is bound to a name. */
+function calledAtOnce(call) {
+  const bound = resultName(call)
+  return bound === null ? null : `<${bound} = (…)()>`
+}
+
+/** `button`, `Foo.Bar`, `svg:rect`: a JSX element's name as written. */
+function jsxName(name) {
+  if (name.type === 'JSXIdentifier') return name.name
+  if (name.type === 'JSXMemberExpression') return `${jsxName(name.object)}.${name.property.name}`
+  return name.type === 'JSXNamespacedName' ? `${name.namespace.name}:${name.name.name}` : '…'
+}
+
+/** `<button onClick>` for a function in a JSX attribute, `<List children>` for one between an element's tags. */
+function jsxLabel(container) {
+  const holder = container.parent
+  if (holder.type === 'JSXElement') return `<${jsxName(holder.openingElement.name)} children>`
+  if (holder.type !== 'JSXAttribute' || holder.name.type !== 'JSXIdentifier') return null
+  return `<${jsxName(holder.parent.name)} ${holder.name.name}>`
+}
+
+/**
+ * How a function with no name of its own is used: handed to a call, called at once, held in JSX, held
+ * in a list (`["role", (q) => ...]` is the row titled "role"), returned, or a parameter's default.
+ */
+const USAGES = {
+  CallExpression: (child, p) => (p.callee === child ? calledAtOnce(p) : callLabel(p, p.arguments.indexOf(child))),
+  NewExpression: (child, p) => (p.callee === child ? null : callLabel(p, p.arguments.indexOf(child))),
+  JSXExpressionContainer: (child, p) => jsxLabel(p),
+  ArrayExpression: (child, p) => `<item ${p.elements.indexOf(child)}${titled(p.elements, p.elements.indexOf(child))}>`,
+  ReturnStatement: () => '<returned>',
+  ArrowFunctionExpression: (child, p) => (p.body === child ? '<returned>' : null),
+  AssignmentPattern: (child, p) => (p.right === child ? `<default of ${patternName(p.left)}>` : null),
+}
+
 function usageLabel(node) {
   const { child, parent } = boundTo(node)
-  const place = parent.arguments?.indexOf(child) ?? -1 // -1: the callee itself, as in `(() => {})()`
-  if (place !== -1) return `<arg ${place} of ${dotted(parent.callee)}>`
-  const attribute = parent.type === 'JSXExpressionContainer' ? parent.parent : null
-  return attribute?.type === 'JSXAttribute' && attribute.name.type === 'JSXIdentifier' ? `<prop ${attribute.name.name}>` : null
+  const usage = USAGES[parent.type]
+  return usage ? usage(child, parent) : null
 }
 
 const functionLabel = (fn) =>
   fn.id?.name ?? bindingName(fn) ?? usageLabel(fn) ?? (fn.type === 'ArrowFunctionExpression' ? '<arrow function>' : '<function>')
 
-const classLabel = (cls) => cls.id?.name ?? bindingName(cls) ?? '<class>'
+/** True for what names a segment of a path: a function, a class, an object or a list bound to a name. */
+const isSegment = (node) =>
+  FUNCTION_TYPES.has(node.type) || CLASS_TYPES.has(node.type) || (LITERALS.has(node.type) && bindingName(node) !== null)
 
-/** The names of what encloses a node, outermost first: functions, classes and named objects. */
-function enclosing(node) {
-  const names = []
-  for (let up = node.parent; up; up = up.parent) {
-    if (FUNCTION_TYPES.has(up.type)) names.unshift(functionLabel(up))
-    else if (CLASS_TYPES.has(up.type)) names.unshift(classLabel(up))
-    else if (up.type === 'ObjectExpression') names.unshift(...[bindingName(up)].filter(Boolean))
-  }
-  return names
+function segmentLabel(node) {
+  if (FUNCTION_TYPES.has(node.type)) return functionLabel(node)
+  return CLASS_TYPES.has(node.type) ? node.id?.name ?? bindingName(node) ?? '<class>' : bindingName(node)
+}
+
+/** The segments that hold a node, outermost first. */
+function segmentsAbove(node) {
+  const found = []
+  for (let up = node.parent; up; up = up.parent) if (isSegment(up)) found.unshift(up)
+  return found
 }
 
 /**
- * The identity of one reported unit. `kind` is how ESLint names a unit that is not a function:
- * a class field's initializer expression, or a class static block.
+ * The unit ESLint's complexity rule scores at this node, if any, as [kind, node, label]: a function,
+ * a class field's initializer (ESLint scores `x = ...` in a class body on its own) or a static block.
  */
-export function identityOf(node, kind) {
-  if (/^class field initializer/i.test(kind)) return [...enclosing(node), bindingName(node) ?? '<field>', '<initializer>'].join('.')
-  if (/^class static block/i.test(kind)) return [...enclosing(node), '<static block>'].join('.')
-  return [...enclosing(node), functionLabel(node)].join('.')
+function unitAt(node) {
+  if (FUNCTION_TYPES.has(node.type)) return ['function', node, functionLabel(node)]
+  if (node.type === 'StaticBlock') return ['static', node, '<static block>']
+  if (node.type !== 'PropertyDefinition' || !node.value) return null
+  return ['initializer', node.value, `${keyName(node) ?? '<field>'}.<initializer>`]
+}
+
+/** The child nodes of `node`, by the parser's visitor keys. */
+const childrenOf = (node, keys) =>
+  (keys[node.type] ?? []).flatMap((key) => node[key] ?? []).filter((child) => typeof child?.type === 'string')
+
+/** Every unit in a file, each with the path of segments that holds it and the labels of that path. */
+function unitsOf(program, keys) {
+  const units = []
+  const labels = new Map()
+  const labelOf = (node) => (labels.has(node) ? labels.get(node) : labels.set(node, segmentLabel(node)).get(node))
+  const visit = (node) => {
+    const found = unitAt(node)
+    if (found) {
+      const [kind, at, label] = found
+      const above = segmentsAbove(at)
+      const unit = { kind, node: at, suffix: [] }
+      Object.assign(unit, { chain: [...above, unit], labels: [...above.map(labelOf), label] })
+      units.push(unit)
+    }
+    for (const child of childrenOf(node, keys)) visit(child)
+  }
+  visit(program)
+  return units
+}
+
+const startOf = (place) => (place.range ?? place.node.range)[0]
+
+/**
+ * Numbers units that share a whole path of labels. Their chains hold the same node at every level
+ * before `from`. At the first level where they part, the places in source order take #2, #3; then
+ * the units in each place are numbered the same way, further in.
+ */
+function number(units, from) {
+  if (units.length < 2) return
+  let level = from
+  while (units.every((unit) => unit.chain[level] === units[0].chain[level])) level += 1
+  const places = new Map()
+  for (const unit of units) places.set(unit.chain[level], [...(places.get(unit.chain[level]) ?? []), unit])
+  const ordered = [...places].sort(([a], [b]) => startOf(a) - startOf(b))
+  ordered.forEach(([, held], i) => {
+    if (i > 0) for (const unit of held) unit.suffix[level] = `#${i + 1}`
+    number(held, level + 1)
+  })
+}
+
+/** kind -> node -> key, for every unit in the file. */
+function keysOf(program, visitorKeys) {
+  const groups = new Map()
+  for (const unit of unitsOf(program, visitorKeys)) {
+    const path = JSON.stringify(unit.labels)
+    groups.set(path, [...(groups.get(path) ?? []), unit])
+  }
+  const table = { function: new Map(), initializer: new Map(), static: new Map() }
+  for (const units of groups.values()) {
+    number(units, 0)
+    for (const unit of units) table[unit.kind].set(unit.node, unit.labels.map((l, i) => l + (unit.suffix[i] ?? '')).join('.'))
+  }
+  return table
+}
+
+const TABLES = new WeakMap()
+
+/**
+ * The identity of one reported unit. `kind` is how ESLint names it: `Class field initializer`,
+ * `Class static block`, or a function's name. Fails closed on a unit it does not know.
+ */
+export function identityOf(node, kind, sourceCode) {
+  if (!TABLES.has(sourceCode.ast)) TABLES.set(sourceCode.ast, keysOf(sourceCode.ast, sourceCode.visitorKeys))
+  const tag = /^class field initializer/i.test(kind) ? 'initializer' : /^class static block/i.test(kind) ? 'static' : 'function'
+  const key = TABLES.get(sourceCode.ast)[tag].get(node)
+  if (key === undefined) throw new Error(`complexity gate: no identity for "${kind}" at line ${node.loc.start.line}`)
+  return key
 }

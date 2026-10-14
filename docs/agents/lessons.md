@@ -234,8 +234,16 @@ Both count the way ESLint's `complexity` rule does (NIST SP 500-235 4.1), so 15 
 same in both languages. In Python that includes each parameter default (owner ruling O21).
 
 **Keys.** A function is keyed by what it is, never by where it sits: `Class.method`,
-`outer.<arg 0 of items.map>`, `big` for `big = lambda ...`. Adding an unrelated function
-earlier in a file therefore cannot turn a baselined offender into `NEW OVER`. A function
+`outer.<arg 0 of items.map>`, `big` for `big = lambda ...`. A callback takes every name
+the code gives it: the name its call's result is bound to (`<arg 0 of tooltipLabel = React.useMemo>`),
+the title its call is given (`<arg 1 of test "renders">`), its JSX element and attribute
+(`<button onClick>`), its row's title in a list (`ROWS.<item 1 "role">`), or `<returned>`.
+A number is the fallback for what has no name at all: only functions in one file that share
+a whole path are numbered, `#2`, on the segment where their paths part. Two unbound
+`rows.map` callbacks in one JSX tree, or two `useEffect` callbacks in one component, are
+the usual case; a `handler` inside the second effect takes no number while its path is
+unique. So a number moves only when a function with that same path is added before
+it; a function added with any other path, anywhere in the file, moves no key. A function
 that moves into another function, or is renamed, is a new key and counts as new code.
 
 **Re-baselining.** There is no `--update`. A re-baseline is a reviewed diff: delete the
