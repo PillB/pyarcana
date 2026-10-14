@@ -11,10 +11,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SECTION = ROOT / "src/lib/course/sections/s06-collections.ts"
-SEED = ROOT / "prisma/seed.ts"
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+import exam_bank  # noqa: E402
 
 
 def quoted_fields(source: str, field: str) -> list[str]:
@@ -29,11 +29,8 @@ def word_count(value: str) -> int:
     return len(re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9]+", value))
 
 
-def s06_seed_block() -> str:
-    source = SEED.read_text(encoding="utf-8")
-    start = source.index("  collections: [")
-    end = source.index("\n  // S08 V3", start)
-    return source[start:end]
+def s06_bank() -> list[dict]:
+    return exam_bank.bank_for("collections")
 
 
 class TestS06TextFirstContract(unittest.TestCase):
@@ -147,15 +144,11 @@ class TestS06TextFirstContract(unittest.TestCase):
                 )
 
     def test_authenticated_bank_remains_specific_and_balanced(self) -> None:
-        block = s06_seed_block()
-        concepts = re.findall(r"concept:\s*'([^']+)'", block)
-        positions = [int(value) for value in re.findall(r"correctIndex:\s*(\d+)", block)]
-        questions = re.findall(
-            r"question:\s*(?:\n\s*)?'((?:\\.|[^'\\])*)'", block
-        )
-        explanations = re.findall(
-            r"explanation:\s*(?:\n\s*)?'((?:\\.|[^'\\])*)'", block
-        )
+        bank = s06_bank()
+        concepts = [q["concept"] for q in bank]
+        positions = [q["correctIndex"] for q in bank]
+        questions = [q["question"] for q in bank]
+        explanations = [q["explanation"] for q in bank]
 
         self.assertEqual(len(concepts), 24)
         self.assertEqual(len(questions), 24)

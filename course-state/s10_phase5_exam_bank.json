@@ -1,7 +1,7 @@
 {
   "version": "3.2",
   "section": "S10",
-  "section_id": "sklearn",
+  "section_id": "modules-packaging-cli",
   "phase": "PHASE_5",
   "lane": "LANE-N1-FINISH",
   "generated_at": "2026-07-20T18:00:00Z",
@@ -13,7 +13,7 @@
     "format": "MCQ-4",
     "language": "es-PE professional",
     "seed_path": "prisma/seed.ts",
-    "seed_key": "sklearn"
+    "seed_key": "modules-packaging-cli"
   },
   "retired_from_bank": [
     "pipeline-purpose",
