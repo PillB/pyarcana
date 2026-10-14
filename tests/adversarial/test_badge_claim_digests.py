@@ -54,11 +54,15 @@ A changed digest with an unchanged version is red: "claim changed without a vers
 digest with a new version is red until the digest is re-recorded, so the record never goes stale.
 
 LIMITATIONS, stated rather than absorbed:
-- The catalog floor and the per-badge copies of it are digested apart and not compared. The gate reads
-  provisional_floors.section_exam_pct and never the `required_score_pct` 85 that 26 badges state for
-  their section_exams component (self_check 85, you_do_projects 80 and integrator_project 85 repeat the
-  other floors the same way). A floor changed with a catalog version bump therefore leaves those
-  digested claims stating the old number until each badge is bumped as well. Not done.
+- The catalog floors and the badges' copies of them are digested apart, and compared by CatalogFloors
+  (test_badge_catalog_copies.py): the gate reads provisional_floors.section_exam_pct, 26 scored badges
+  state the same number as the required_score_pct of their section_exams (self_check, you_do_projects,
+  integrator_project and two scoring rules repeat the other floors the same way), and a floor changed in
+  one place and not the other is red. A floor change under a catalog version bump therefore costs an edit,
+  a version bump and a re-record of each of those badges, which is what changing 26 claims costs. The
+  comparison covers the catalog and its badges only. Two more copies of the floors stand outside it:
+  PROVISIONAL_FLOORS in src/lib/eligibility/types.ts (EligibilityEngine reads critical_competency_pct from
+  it) and the one in tests/adversarial/test_eligibility_engine.py. Not compared; not done.
 - A pure renumber leaves every digest alone only while no digested field outside the two tag lists names
   an S-number. Four do (test_the_only_digested_text_that_names_a_section_number_is_claim_prose), and a
   renumber must reword them, which is a claim change and takes a version bump.
