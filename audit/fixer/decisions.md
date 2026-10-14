@@ -745,11 +745,24 @@ never renamed, and no record reaches S09.
   natural label changes); Google AIP-122 (resource IDs are stable; display names are not); and
   Sadalage and Ambler, *Refactoring Databases* (a change that moves keys is a scripted,
   repeatable migration that runs once and is checked after, never a hand edit).
-- **Open, for the owner:** `audit/fixer/cycles/S03.json` closed 12 findings against
-  `s03-data-structures.ts` as it stood when the record was written on 14 Sept. The 16 Sept
-  rename did not change that file's content (R096, 37 lines). It grew from 2,511 to 4,330
-  lines afterwards: `03474115` (1 Oct, the GLM lane's rebuild) added 3,318 lines and removed
-  1,637, and eight smaller commits touched it between (`fb27fcd8`, `8f6fcd8b`, `07688cd1`,
-  `da66393b`, `37819cd9`, `504c10e3`, `7c20497e`, `bf5eb503`). The record maps to
-  `decisions-rules` through the rename map and is read as written. Whether those 12 closed
-  findings still count for the rewritten section is a decision for the owner, not the fixer.
+- **Decided by the owner (O25, 2026-10-13): the 12 S03 closures do not count.**
+  `audit/fixer/cycles/S03.json` closed 12 findings against `s03-data-structures.ts` as it stood
+  in September 2026. The file grew from 2,511 to 4,330 lines afterwards: `03474115` (1 Oct, the
+  GLM lane's rebuild) added 3,318 lines and removed 1,637, and eight smaller commits touched it
+  between (`fb27fcd8`, `8f6fcd8b`, `07688cd1`, `da66393b`, `37819cd9`, `504c10e3`, `7c20497e`,
+  `bf5eb503`). The owner ruled that nothing is awarded retroactively. The record is marked, not
+  edited by deletion: the 12 ids stay in `findings_closed`, which keeps what the record once
+  claimed, and are also listed in `findings_reopened`, with `reopened_by` naming O25. A reader
+  counts closed findings through `numbering.closed_findings` (and `open_findings`,
+  `reopened_findings`), which leave the reopened ones out and count them as open. The two
+  readers are `ledger.py` (S03 reads `0/17 (12 reopened)`, and its `findings` box stays
+  unticked) and `progress.py` (145 closed, not 157, with a "findings reopened: 12" line). A class
+  guard in `test_fixer_reopened_findings.py` fails when any other file under `tools/` or
+  `scripts/` names `findings_closed` or `findings_open`, so a new reader has to come through
+  `numbering.py` or be listed there with its reason. `numbering.py` refuses a mark on a finding
+  the record never closed, a mark that is not a list of ids, and a mark with no decision behind
+  it, and `check_epoch` runs that check. The brief for S03 still carries all 17 findings, since
+  it is built from the registry and not from the record, so the next round re-checks the 12
+  against the current file. The record that round writes replaces this one and says what that
+  round closed, so the marks go with it. Retire this paragraph when that has happened (O25's own
+  retire condition).

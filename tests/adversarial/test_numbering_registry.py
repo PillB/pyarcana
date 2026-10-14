@@ -21,8 +21,6 @@ Mutation proofs are in the commit message that adds this file.
 """
 from __future__ import annotations
 
-import contextlib
-import io
 import json
 import re
 import subprocess
@@ -30,7 +28,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
@@ -43,7 +40,8 @@ import numbering  # noqa: E402
 import progress  # noqa: E402
 import record_cycle  # noqa: E402
 from numbering import NumberingError  # noqa: E402
-from numbering_fixture import ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, write  # noqa: E402
+from numbering_fixture import (  # noqa: E402
+    ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, run_in, write)
 
 
 class RegistryIsStampedAndGuarded(NumberingFixture):
@@ -130,18 +128,6 @@ class TheCommittedRegistry(unittest.TestCase):
         committed = json.loads((ROOT / numbering.REGISTRY_FILE).read_text(encoding="utf-8"))
         self.assertEqual(emitted["numbering_epoch"], committed["text_numbering_epoch"])
         self.assertEqual(emitted["text_numbering_epoch"], committed["text_numbering_epoch"])
-
-
-def run_in(root: Path, module, argv: list[str], **patched) -> str:
-    """Run a fixer tool's main() against a temporary tree, as the shell wrappers run it, and return stdout."""
-    out = io.StringIO()
-    with contextlib.ExitStack() as stack:
-        for name, value in {"ROOT": root, **patched}.items():
-            stack.enter_context(mock.patch.object(module, name, value))
-        stack.enter_context(mock.patch.object(sys, "argv", ["tool", *argv]))
-        stack.enter_context(contextlib.redirect_stdout(out))
-        module.main()
-    return out.getvalue()
 
 
 class EachReaderGetsItsOwnSectionsFindings(NumberingFixture):

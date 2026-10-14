@@ -6,17 +6,32 @@ owns, so nothing here touches the real tree.
 """
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import shutil
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
 import numbering  # noqa: E402
+
+
+def run_in(root: Path, module, argv: list[str], **patched) -> str:
+    """Run a fixer tool's main() against a temporary tree, as the shell wrappers run it, and return stdout."""
+    out = io.StringIO()
+    with contextlib.ExitStack() as stack:
+        for name, value in {"ROOT": root, **patched}.items():
+            stack.enter_context(mock.patch.object(module, name, value))
+        stack.enter_context(mock.patch.object(sys, "argv", ["tool", *argv]))
+        stack.enter_context(contextlib.redirect_stdout(out))
+        module.main()
+    return out.getvalue()
 
 
 def roadmap_of_record_problems(root: Path) -> list[str]:

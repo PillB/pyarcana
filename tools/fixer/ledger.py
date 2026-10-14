@@ -87,7 +87,9 @@ def section_rows(epoch: numbering.Epoch, evidence: dict) -> tuple[list, dict[str
         tag = numbering.tag_of(number)
         cycle = cycles.get(slug)
         total = len({f["finding_id"] for f in registry[slug] if f["finding_id"]})
-        closed = len(cycle["findings_closed"]) if cycle else 0
+        # Through numbering, not the record's own closed list: a closure the owner reopened does not count (O25).
+        closed = len(numbering.closed_findings(cycle)) if cycle else 0
+        reopened = len(numbering.reopened_findings(cycle)) if cycle else 0
         # 2026-10-03: was `(ROOT / f".fixer/{tag}r.result.json").exists()`. `.fixer/` is gitignored,
         # so this column read 8/52 in the worktree holding those artefacts and 0/52 in CI, and
         # `--check` could never pass there. A ledger whose number depends on untracked state is the
@@ -106,7 +108,7 @@ def section_rows(epoch: numbering.Epoch, evidence: dict) -> tuple[list, dict[str
         }
         for k, v in state.items():
             done_counts[k] += bool(v)
-        rows.append((tag, slug, total, closed, evidence["figures"].get(slug, 0), p, state))
+        rows.append((tag, slug, total, closed, reopened, evidence["figures"].get(slug, 0), p, state))
     return rows, done_counts
 
 
@@ -125,9 +127,10 @@ def render(epoch: numbering.Epoch, rows: list, done_counts: dict[str, int]) -> s
     L += ["", "## Sections", "",
           "| sec | findings | figs | run-ons | " + " | ".join(k for k, _ in STEPS) + " |",
           "|---|---|---:|---:|" + "---|" * len(STEPS)]
-    for tag, slug, total, closed, figs, p, state in rows:
+    for tag, slug, total, closed, reopened, figs, p, state in rows:
+        shown = f"{closed}/{total}" + (f" ({reopened} reopened)" if reopened else "")
         L.append(
-            f"| **{tag}** {slug} | {closed}/{total} | {figs} | "
+            f"| **{tag}** {slug} | {shown} | {figs} | "
             f"{p.get('run_on_sentences', '-')} | "
             + " | ".join(box(state[k]) for k, _ in STEPS) + " |")
 

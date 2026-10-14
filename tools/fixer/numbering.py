@@ -288,13 +288,51 @@ def checked_cycle_slug(path: Path, record: dict, epoch: Epoch, root: Path) -> st
     return slug
 
 
+def reopened_findings(record: dict, where: str = "a cycle record") -> list[str]:
+    """The findings a cycle record closed and the owner has since reopened. Empty when it marks none.
+
+    A round closes findings against the section file as it stood. When that file is later replaced, the owner
+    can rule that the closures do not count (O25, for S03): the record then lists them under
+    `findings_reopened`, and `reopened_by` names the decision. The original `findings_closed` is kept, so
+    nothing is deleted, and the record says what it once claimed. Whoever counts closed findings counts
+    through closed_findings(), never from `findings_closed`, or the mark is ignored.
+
+    A mark that is not a list of ids, that reopens a finding the record never closed, or that has no decision
+    behind it is refused: an unexplained reopening is as unaccountable as an unexplained closure."""
+    reopened = record.get("findings_reopened", [])
+    if not isinstance(reopened, list) or not all(isinstance(f, str) for f in reopened):
+        raise NumberingError(f"{where}: findings_reopened must list finding ids")
+    stray = sorted(set(reopened) - set(record.get("findings_closed", [])))
+    if stray:
+        raise NumberingError(f"{where} reopens {stray}, which it never closed")
+    decision = record.get("reopened_by")
+    if reopened and not (isinstance(decision, dict) and decision.get("decision")):
+        raise NumberingError(f"{where} reopens findings without naming the decision that reopened them "
+                             f"(reopened_by.decision)")
+    return reopened
+
+
+def closed_findings(record: dict) -> list[str]:
+    """The findings a cycle record closed that still count: its closed list less the ones reopened."""
+    reopened = set(reopened_findings(record))
+    return [finding for finding in record["findings_closed"] if finding not in reopened]
+
+
+def open_findings(record: dict) -> list[str]:
+    """The findings a cycle record leaves open: its open list plus the ones reopened, sorted."""
+    return sorted(set(record["findings_open"]) | set(reopened_findings(record)))
+
+
 def cycle_records(root: Path = ROOT, epoch: Epoch | None = None) -> dict[str, dict]:
-    """Every cycle record, keyed by its slug. Any record that cannot be placed refuses the whole read."""
+    """Every cycle record, keyed by its slug. Any record that cannot be placed, or whose reopening mark is
+    malformed, refuses the whole read."""
     epoch = epoch or load_epoch(root)
     records: dict[str, dict] = {}
     for path in sorted((root / CYCLES_DIR).glob("S*.json")):
         record = json.loads(path.read_text(encoding="utf-8"))
-        records[checked_cycle_slug(path, record, epoch, root)] = record
+        slug = checked_cycle_slug(path, record, epoch, root)
+        reopened_findings(record, path.name)
+        records[slug] = record
     return records
 
 

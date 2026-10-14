@@ -22,13 +22,17 @@ def main() -> None:
     # Records in course order, each read through its slug; a record that cannot be placed refuses the read.
     records = numbering.cycle_records(ROOT, epoch)
     done = [records[slug] for slug in epoch.slugs if slug in records]
-    total_closed = sum(len(d["findings_closed"]) for d in done)
+    # Through numbering, not the record's own closed list: a closure the owner reopened does not count (O25).
+    total_closed = sum(len(numbering.closed_findings(d)) for d in done)
+    total_reopened = sum(len(numbering.reopened_findings(d)) for d in done)
     questions = sum(len(d["unresolved_questions"]) for d in done)
 
     remaining = sum(len(found) for slug, found in by_slug.items() if slug not in records)
 
     print(f"sections fixed : {len(done)}/{epoch.count}")
     print(f"findings closed: {total_closed}")
+    if total_reopened:
+        print(f"findings reopened: {total_reopened} (closed once; the owner ruled they do not count, so they are open)")
     print(f"findings left  : ~{remaining} across {epoch.count - len(done)} untouched sections")
     print(f"questions open : {questions}")
     _print_table(done)
@@ -46,8 +50,8 @@ def _print_table(done: list[dict]) -> None:
     print()
     print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
     for d in done:
-        print(f"{d['section']:5s} {len(d['findings_closed']):7d} "
-              f"{len(d['findings_open']):5d} {d['patches_rejected']:4d} "
+        print(f"{d['section']:5s} {len(numbering.closed_findings(d)):7d} "
+              f"{len(numbering.open_findings(d)):5d} {d['patches_rejected']:4d} "
               f"{len(d['unresolved_questions']):3d}")
 
 

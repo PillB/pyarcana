@@ -78,8 +78,8 @@ def main() -> int:
 
     print(json.dumps({
         "section": tag,
-        "closed": len(cycle["findings_closed"]),
-        "open": len(cycle["findings_open"]),
+        "closed": len(numbering.closed_findings(cycle)),
+        "open": len(numbering.open_findings(cycle)),
         "of": cycle["findings_total"],
         "questions": len(cycle["unresolved_questions"]),
         "rejected_patches": cycle["patches_rejected"],
