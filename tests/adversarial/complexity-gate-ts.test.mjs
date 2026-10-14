@@ -572,3 +572,69 @@ test("the gate's rule reports exactly the units and scores of ESLint's own compl
     rmSync(root, { recursive: true, force: true })
   }
 })
+
+/** An arrow function that scores 17, sixteen `if`s on its `x`, its closing brace indented by `indent`. */
+const offender = (indent = '') => `(x: number) => {\n${ifs(16, `${indent}  `)}\n${indent}  return -1\n${indent}}`
+
+/**
+ * One case per form a function, or an object or a list that holds one, takes. `code('')` is a file
+ * whose one offender, scoring 17, sits in that form under the name `key`; `code(extra)` adds an
+ * unrelated function before it, in the same function and the same kind of place, that differs from
+ * it in a name the code gives (a callee, a binding, a title, a property, an element). The offender
+ * must keep its key. Keyed by order alone, the two would differ only by order, and the offender
+ * would turn NEW OVER.
+ */
+const FORM_CASES = [
+  {
+    form: 'function in LogicalExpression.right',
+    key: 'send.doFetch',
+    extra: '  const other = options.other ?? ((x: number) => x)\n',
+    code: (extra) => `export function send(options: { fetch?: unknown; other?: unknown }) {\n${extra}  const doFetch = options.fetch ?? (${offender('  ')})\n  return doFetch\n}\n`,
+  },
+  {
+    form: 'object in ConditionalExpression.consequent',
+    key: 'outer.api.big',
+    extra: '  const other = flag ? { big: (x: number) => x } : null\n',
+    code: (extra) => `export function outer(flag: boolean) {\n${extra}  const api = flag ? { big: ${offender('  ')} } : null\n  return api\n}\n`,
+  },
+]
+
+const caseFile = (c, i) => `src/forms/f${String(i).padStart(2, '0')}.${c.jsx ? 'tsx' : 'ts'}`
+
+let formRun = null
+
+/** Every case in one tree: baselined as written, measured with its unrelated function, then baselined again. */
+function runFormCases() {
+  if (formRun) return formRun
+  const root = mkdtempSync(join(tmpdir(), 'ts-complexity-forms-'))
+  const offenders = () => (existsSync(join(root, BASELINE)) ? baseline(root).offenders : {})
+  const write = (withExtra) => FORM_CASES.forEach((c, i) => writeFileSync(join(root, caseFile(c, i)), c.code(withExtra ? c.extra : '')))
+  try {
+    mkdirSync(join(root, 'src', 'forms'), { recursive: true })
+    write(false)
+    const init = gate(root, '--init')
+    const before = offenders()
+    write(true)
+    const after = gate(root)
+    rmSync(join(root, BASELINE), { force: true })
+    const again = gate(root, '--init')
+    formRun = { init, before, after, again, reread: offenders() }
+    return formRun
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
+}
+
+/** The entries of `offenders` for one file. */
+const entriesOf = (offenders, file) => Object.fromEntries(Object.entries(offenders).filter(([key]) => key.startsWith(`${file}::`)))
+
+FORM_CASES.forEach((c, i) => test(`${c.form}: an unrelated function added before a baselined offender moves no key`, () => {
+  const { init, before, after, again, reread } = runFormCases()
+  const file = caseFile(c, i)
+  const key = `${file}::${c.key}`
+  assert.equal(init.status, 0, output(init))
+  assert.deepEqual(output(after).split('\n').filter((line) => line.includes(`${file}::`)), [], 'the ratchet still knows it')
+  assert.deepEqual(entriesOf(before, file), { [key]: 17 }, 'baselined under its name')
+  assert.equal(again.status, 0, output(again))
+  assert.deepEqual(entriesOf(reread, file), { [key]: 17 }, 'measured again under the same key')
+}))

@@ -83,10 +83,17 @@ function patternName(id) {
   return `{ ${id.properties.map((p) => patternName(p.type === 'RestElement' ? p : p.value)).join(', ')} }`
 }
 
-/** The node and its parent, looking through type-only wrappers. */
+/** True when `parent` hands `child` on as its own value: a type-only wrapper, `a ?? b`, `a || b`, `c ? a : b`. */
+const handsOn = (child, parent) =>
+  WRAPPERS.has(parent.type) || parent.type === 'LogicalExpression' || (parent.type === 'ConditionalExpression' && parent.test !== child)
+
+/**
+ * The node and its parent, looking through type-only wrappers and the branches of a logical or
+ * conditional expression: `const doFetch = options.fetch ?? (() => ...)` binds the arrow to `doFetch`.
+ */
 function boundTo(node) {
   let child = node
-  while (WRAPPERS.has(child.parent.type)) child = child.parent
+  while (handsOn(child, child.parent)) child = child.parent
   return { child, parent: child.parent }
 }
 
