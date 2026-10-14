@@ -6,6 +6,7 @@ keep the tests on the gate's real entry point, not on a copy of its functions.
 """
 from __future__ import annotations
 
+import ast
 import importlib.util
 import json
 import subprocess
@@ -603,9 +604,28 @@ class FormCase(NamedTuple):
     code: Callable[[str], str]
 
 
-#: One case per form a lambda, or a container holding one, takes. Keyed by order alone, the
-#: offender and its unrelated lambda would differ only by order, and the offender would turn NEW OVER.
+#: One case for each form a lambda, or a container holding one, takes in the tree (the guard below
+#: lists them from the tree and fails on one with no case here), and one for each form the gate names
+#: as the TypeScript gate does although no file holds it yet. Keyed by order alone, the offender and
+#: its unrelated lambda would differ only by order, and the offender would turn NEW OVER.
 FORM_CASES = [
+    FormCase("lambda in Tuple.elts", 'ROWS.<item 1 "role">', "    ('state', lambda x: x),\n",
+             lambda extra: f"ROWS = [\n{extra}    ('role', {OFFENDER}),\n]\n"),
+    FormCase("tuple in List.elts", 'routes.<arg 0 of dispatch>.<item 1 "role">', "        ('state', lambda x: x),\n",
+             lambda extra: f"def routes():\n    return dispatch([\n{extra}        ('role', {OFFENDER}),\n    ])\n"),
+    FormCase("list in Assign.value", 'ROWS.<item 1 "role">', "STATES = [('role', lambda x: x)]\n",
+             lambda extra: f"{extra}ROWS = [('role', {OFFENDER})]\n"),
+    FormCase("dict in Assign.value", "main.report[…].<kw key of top = sorted>",
+             "    summary['b'] = {'top': sorted(rows, key=lambda x: x)}\n",
+             lambda extra: f"def main(rows, report, summary):\n{extra}    report['a'] = {{'top': sorted(rows, key={OFFENDER})}}\n"),
+    FormCase("lambda in keyword.value", "build.<kw key of first = sorted>", "    rows.sort(key=lambda x: x)\n",
+             lambda extra: f"def build(rows):\n{extra}    first = sorted(rows, key={OFFENDER})\n    return first\n"),
+    FormCase("lambda in Call.args", 'run.<arg 1 of page.on "pageerror">', "    page.on('console', lambda x: x)\n",
+             lambda extra: f"def run(page):\n{extra}    page.on('pageerror', {OFFENDER})\n"),
+    FormCase("lambda in Assign.value", "outer.big", "    small = lambda x: x\n",
+             lambda extra: f"def outer():\n{extra}    big = {OFFENDER}\n    return big\n"),
+    FormCase("lambda in List.elts", "CHECKS.<item 1>", "OTHER = [lambda x: x, lambda x: -x]\n",
+             lambda extra: f"{extra}CHECKS = [lambda x: x, {OFFENDER}]\n"),
     FormCase("lambda in BoolOp.values", "send.fetch", "    other = options.get('other') or (lambda x: x)\n",
              lambda extra: f"def send(options):\n{extra}    fetch = options.get('fetch') or ({OFFENDER})\n    return fetch\n"),
     FormCase("lambda in IfExp.body", "pick.chosen", "    other = (lambda x: x) if flag else None\n",
@@ -619,6 +639,48 @@ FORM_CASES = [
     FormCase("dict in List.elts", 'MODALS.<item "auth">.open', "    {'id': 'glossary', 'open': lambda x: x},\n",
              lambda extra: f"MODALS = [\n{extra}    {{'id': 'auth', 'open': {OFFENDER}}},\n]\n"),
 ]
+
+CONTAINER_KIND = {ast.List: "list", ast.Tuple: "tuple", ast.Set: "set", ast.Dict: "dict"}
+
+
+def place_of(node: ast.AST, parent: ast.AST) -> str:
+    """How a node sits in its parent: `Call.args`, `keyword.value`, `Tuple.elts`."""
+    field = next(name for name, value in ast.iter_fields(parent)
+                 if value is node or (isinstance(value, list) and any(v is node for v in value)))
+    return f"{type(parent).__name__}.{field}"
+
+
+def forms_at(node: ast.Lambda, parents: dict) -> set[str]:
+    """The forms on a lambda's path: its own, and that of each container around it."""
+    forms = {f"lambda in {place_of(node, parents[node])}"}
+    up = parents.get(node)
+    while up is not None:
+        if type(up) in CONTAINER_KIND:
+            forms.add(f"{CONTAINER_KIND[type(up)]} in {place_of(up, parents[up])}")
+        up = parents.get(up)
+    return forms
+
+
+def lambdas_in(tree: ast.AST) -> list[tuple[ast.Lambda, set[str]]]:
+    """Every lambda in `tree`, with the forms on its path."""
+    parents = {child: node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
+    return [(node, forms_at(node, parents)) for node in ast.walk(tree) if isinstance(node, ast.Lambda)]
+
+
+def forms_in_tree() -> dict[str, str]:
+    """Every form in the Python gate's scope, with one file that holds it."""
+    listed = subprocess.run(["git", "ls-files", "-z", "--", *SCOPE_FILE_DATA["python"]["roots"]], cwd=ROOT,
+                            capture_output=True, check=True).stdout.decode("utf-8").split("\0")
+    found: dict[str, str] = {}
+    for rel in listed:
+        if rel.endswith(".py") and not GATE_MODULE.excluded(rel, SCOPE_FILE_DATA["GATE_EXCLUSIONS"]):
+            for _, forms in lambdas_in(ast.parse((ROOT / rel).read_text(encoding="utf-8"))):
+                for form in forms:
+                    found.setdefault(form, rel)
+    return found
+
+
+SCOPE_FILE_DATA = json.loads((ROOT / "audit/fixer/complexity_scope.json").read_text(encoding="utf-8"))
 
 
 class FormCases(unittest.TestCase):
@@ -662,6 +724,20 @@ class FormCases(unittest.TestCase):
         self.assertEqual(self.again.returncode, 0, self.again.stdout + self.again.stderr)
         self.assertEqual({k: v for k, v in self.reread.items() if k.startswith(f"{rel}::")}, {key: 17},
                          "measured again under the same key")
+
+    def test_every_form_a_lambda_or_a_container_holding_one_takes_in_the_tree_has_a_case(self):
+        """The audit as a guard: a form new to the tree fails here until a case shows that an
+        unrelated lambda added before an offender in that form moves no key."""
+        in_tree = forms_in_tree()
+        self.assertGreaterEqual(len(in_tree), 5, f"the walk found only {sorted(in_tree)}")
+        covered = {case.form for case in FORM_CASES}
+        self.assertEqual([f"{form} (as in {rel})" for form, rel in sorted(in_tree.items()) if form not in covered], [])
+
+    def test_each_case_puts_its_offender_in_the_form_it_names(self):
+        def offender_forms(case: FormCase) -> set[str]:
+            found = lambdas_in(ast.parse(case.code("")))
+            return max(found, key=lambda pair: GATE_MODULE.score_of(pair[0]))[1]
+        self.assertEqual([case.form for case in FORM_CASES if case.form not in offender_forms(case)], [])
 
 
 def form_test(index: int):
