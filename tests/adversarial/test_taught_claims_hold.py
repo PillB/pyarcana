@@ -136,7 +136,10 @@ class TaughtClaimsHold(unittest.TestCase):
 
     def test_a_circular_import_fails_only_when_a_name_is_used_too_early(self) -> None:
         """KFC-004. Two modules importing each other work when the names are used later, inside
-        functions; they fail when one takes a name from the other while it is still loading."""
+        functions, or when the name was defined before the cycle was entered. They fail only when
+        one takes a name the other has not defined yet: `from` raises ImportError, attribute
+        access raises AttributeError (the S10 round's review caught a lesson, and this registry,
+        saying ImportError for both)."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             _write(root, {
@@ -144,13 +147,25 @@ class TaughtClaimsHold(unittest.TestCase):
                 "b.py": "import a\n\ndef fb():\n    return 'ok'\n",
                 "c.py": "from d import fd\n\ndef fc():\n    return fd()\n",
                 "d.py": "from c import fc\n\ndef fd():\n    return 'ok'\n",
+                "e.py": "x = 1\nimport f\n",
+                "f.py": "from e import x\nprint('f sees', x)\n",
+                "g.py": "import h\nx = 1\n",
+                "h.py": "import g\ny = g.x\n",
             })
             works = _run(["-c", "import a; print(a.fa())"], root)
             self.assertEqual((works.returncode, works.stdout.strip()), (0, "ok"), works.stderr)
-            fails = _run(["-c", "import c"], root)
-            self.assertNotEqual(fails.returncode, 0)
-            self.assertIn("ImportError", fails.stderr)
-            self.assertIn("partially initialized module", fails.stderr)
+            defined_first = _run(["-c", "import e"], root)
+            self.assertEqual((defined_first.returncode, defined_first.stdout.strip()), (0, "f sees 1"),
+                             defined_first.stderr)
+            from_import = _run(["-c", "import c"], root)
+            self.assertNotEqual(from_import.returncode, 0)
+            self.assertIn("ImportError", from_import.stderr)
+            self.assertIn("partially initialized module", from_import.stderr)
+            attribute = _run(["-c", "import g"], root)
+            self.assertNotEqual(attribute.returncode, 0)
+            self.assertIn("AttributeError", attribute.stderr)
+            self.assertNotIn("ImportError", attribute.stderr)
+            self.assertIn("partially initialized module", attribute.stderr)
 
     def test_the_root_logger_defaults_to_warning(self) -> None:
         """KFC-005. Unconfigured, the root logger's level is WARNING (30): INFO is not shown."""
