@@ -385,10 +385,15 @@ describe('"PyArcana records no declaration of AI use and no defense"', () => {
  * of class B, C or D, and no other. The page once said AI tools are allowed "sujeto a declaración",
  * a permission no source gives. The stand-in paragraph that replaced it kept a second exclusion, "el
  * trabajo que no pueda explicar o adaptar", which the catalog does not make: it came from the old
- * paragraph's last sentence (found in review of #97's r4, 2026-10-14).
+ * paragraph's last sentence (found in review of #97's r4, 2026-10-14). The r5 draft opened with "Una
+ * credencial B, C o D afirma que el estudiante demostró la capacidad de manera independiente", a
+ * claim the catalog makes for classes B and D and not for class C (review of #97's r5). The section
+ * states the evidence rule and no claim.
  */
-const AI_RULE =
-  'El trabajo presentado como evidencia debe ser independiente, y el código generado por IA no es aceptable cuando nada muestra que el estudiante lo revisó.'
+const AI_RULE = [
+  'Para las credenciales B, C o D, el trabajo presentado como evidencia debe ser independiente.',
+  'El código generado por IA no es evidencia aceptable cuando nada muestra que el estudiante lo revisó.',
+]
 
 /** The sentences of the policy's "Política de IA" paragraph. */
 function aiPolicySentences(): string[] {
@@ -400,13 +405,56 @@ function aiPolicySentences(): string[] {
 interface CatalogBadge {
   badge_id: string
   credential_class: string
+  public_claim: string
   evidence_rules: { independent_work_required: boolean; unacceptable_evidence: string[] }
+}
+
+function catalogBadges(): CatalogBadge[] {
+  return (JSON.parse(source('src/lib/eligibility/badge_catalog.json')) as { badges: CatalogBadge[] }).badges
+}
+
+/**
+ * What a sentence of the policy says a class claims, in the words the policy would use, with the
+ * words the catalog's public_claim uses for the same fact. The catalog's class B and D claims say
+ * the learner "demostró independientemente" (the llmops_production_delivery badge states it in
+ * English, "has independently demonstrated"); its class C claim says "demostró transferencia
+ * integrada" and "revisión independiente", and nothing about demonstrating independently. The
+ * r5 draft credited class C with the class B claim (review of #97's r5, 2026-10-14).
+ */
+const CLAIMED_FACTS: ReadonlyArray<{ policy: RegExp; catalog: RegExp }> = [
+  {
+    policy: /de (?:manera|forma) independiente|independientemente/i,
+    catalog: /demostr\S* independientemente|independently demonstrated/i,
+  },
+  { policy: /transferencia integrada/i, catalog: /transferencia integrada/i },
+  { policy: /revisi[oó]n independiente/i, catalog: /revisi[oó]n independiente/i },
+]
+
+/**
+ * What is wrong with a sentence that says a class "afirma" something: no class named, a claim this
+ * test cannot tie to the catalog, or a class whose public_claim does not say it. An empty list for
+ * a sentence that claims nothing.
+ */
+function claimProblems(sentence: string, badges: CatalogBadge[]): string[] {
+  const claimed = /\bafirman?\b\s+(?:que\s+)?(.*)$/i.exec(sentence)?.[1]
+  if (claimed === undefined) return []
+  const named = /\b(?:credencial(?:es)?|clases?)\s+([BCD](?:(?:,\s*|\s+[oy]\s+)[BCD])*)\b/.exec(sentence)?.[1]
+  const letters = named?.match(/[BCD]/g) ?? []
+  if (letters.length === 0) return [`"${sentence}" says something is claimed but names no class`]
+  const facts = CLAIMED_FACTS.filter((fact) => fact.policy.test(claimed))
+  if (facts.length === 0) return [`"${sentence}" claims something this test cannot tie to the catalog`]
+  return letters.flatMap((letter) => {
+    const ofClass = badges.filter((badge) => badge.credential_class === letter)
+    return facts.flatMap((fact) => {
+      const lacking = ofClass.filter((badge) => !fact.catalog.test(badge.public_claim))
+      return lacking.length === 0 ? [] : [`class ${letter}: ${lacking.length} of ${ofClass.length} public_claims do not say what "${claimed}" says (${fact.catalog})`]
+    })
+  })
 }
 
 describe('"The AI policy states the catalog\'s evidence rule and no other"', () => {
   it('every class B, C and D badge of the catalog requires independent work and excludes AI-generated code without a review trail', () => {
-    const { badges } = JSON.parse(source('src/lib/eligibility/badge_catalog.json')) as { badges: CatalogBadge[] }
-    const classed = badges.filter((badge) => ['B', 'C', 'D'].includes(badge.credential_class))
+    const classed = catalogBadges().filter((badge) => ['B', 'C', 'D'].includes(badge.credential_class))
     assert.ok(classed.length >= 26, `only ${classed.length} class B, C and D badges found`)
     for (const badge of classed) {
       assert.equal(badge.evidence_rules.independent_work_required, true, `${badge.badge_id} no longer requires independent work; the AI policy says it does`)
@@ -419,9 +467,28 @@ describe('"The AI policy states the catalog\'s evidence rule and no other"', () 
 
   it('the policy states that rule word for word, and no other sentence of the section accepts, excludes, allows or forbids anything', () => {
     const sentences = aiPolicySentences()
-    assert.ok(sentences.includes(AI_RULE), `the AI policy no longer states the catalog's rule as "${AI_RULE}"; update this case with the new wording`)
-    const others = sentences.filter((sentence) => sentence !== AI_RULE && /acept|excluy|rechaz|admit|permit|prohib|prohíb/i.test(sentence))
+    for (const rule of AI_RULE) {
+      assert.ok(sentences.includes(rule), `the AI policy no longer states the catalog's rule as "${rule}"; update this case with the new wording`)
+    }
+    const others = sentences.filter((sentence) => !AI_RULE.includes(sentence) && /acept|excluy|rechaz|admit|permit|prohib|prohíb/i.test(sentence))
     assert.deepEqual(others, [], 'the AI policy states a rule the catalog does not make')
+  })
+
+  it('a sentence of the section that says a class "afirma" something says what that class\'s public_claim in the catalog says', () => {
+    const badges = catalogBadges()
+    const problems = aiPolicySentences().flatMap((sentence) => claimProblems(sentence, badges))
+    assert.deepEqual(problems, [], 'the AI policy credits a class with a claim the catalog does not make')
+  })
+
+  it('the check of those sentences flags a claim the catalog does not make and passes one it does', () => {
+    const badges = catalogBadges()
+    const claim = 'afirma que el estudiante demostró la capacidad de manera independiente.'
+    assert.deepEqual(claimProblems(`Una credencial B o D ${claim}`, badges), [], 'classes B and D claim independent demonstration')
+    const flagged = claimProblems(`Una credencial B, C o D ${claim}`, badges)
+    assert.equal(flagged.length, 1, flagged.join(' | '))
+    assert.match(flagged[0], /^class C: 5 of 5 public_claims/)
+    assert.deepEqual(claimProblems('Una credencial C afirma que el estudiante demostró transferencia integrada mediante un proyecto realista.', badges), [])
+    assert.equal(claimProblems('Una credencial B afirma que el estudiante es excelente.', badges).length, 1, 'a claim the test cannot tie to the catalog passes')
   })
 })
 

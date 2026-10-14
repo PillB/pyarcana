@@ -72,7 +72,7 @@ export default function CredentialPolicyPage() {
         <section>
           <h2 className="text-lg font-semibold">Política de IA</h2>
           <p>
-            Una credencial B, C o D afirma que el estudiante demostró la capacidad de manera independiente. El trabajo presentado como evidencia debe ser independiente, y el código generado por IA no es aceptable cuando nada muestra que el estudiante lo revisó. PyArcana no detecta ni limita el uso de herramientas de IA. PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita. Ninguna página solicita al estudiante una declaración sobre el uso de IA.
+            Para las credenciales B, C o D, el trabajo presentado como evidencia debe ser independiente. El código generado por IA no es evidencia aceptable cuando nada muestra que el estudiante lo revisó. PyArcana no detecta ni limita el uso de herramientas de IA. PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita. Ninguna página solicita al estudiante una declaración sobre el uso de IA.
           </p>
         </section>
 
