@@ -331,7 +331,7 @@ def registry_problems(registry: object, epoch: Epoch) -> list[str]:
                 f"number means nothing without the numbering it was written under"]
     if stamp != epoch.label:
         return [stale_stamp(REGISTRY_FILE, stamp, epoch)]
-    tags ={tag_of(n) for n in range(1, epoch.count + 1)}
+    tags = {tag_of(n) for n in range(1, epoch.count + 1)}
     stray = sorted({str(f.get("section")) for f in findings} - tags)
     if stray:
         return [f"{REGISTRY_FILE} files findings under {stray[:5]}, which the epoch does not number"]

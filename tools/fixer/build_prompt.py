@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
 from false_claims import brief_block as false_claims_block  # noqa: E402
-EVENTS =ROOT / ".fixer/events.json"
+EVENTS = ROOT / ".fixer/events.json"
 FIRST_USE = ROOT / "course-state/first_use_all_report.json"
 CONTRACTS = [
     ROOT / "ReviewerFixer/Solarized Website Content Comprehension Auditor & Rewriter.md",

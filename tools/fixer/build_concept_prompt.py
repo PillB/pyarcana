@@ -271,7 +271,7 @@ def main() -> int:
 
     todo.sort(key=lambda t: (not t["never_explained_anywhere"], not t["load_bearing"]))
     known = vocabulary_before(payload, epoch, num)
-    rules =(ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
+    rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
     decisions = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
     # The owner's answers to questions only they could settle. Separate from decisions.md because
     # these expire: each carries a scope and a "Retire when". Injected rather than remembered -
@@ -281,7 +281,7 @@ def main() -> int:
 
     wiki_contract = operating_contract()
     audit_findings = vocabulary_findings(numbering.registry_findings(ROOT, epoch)[slug])
-    text_note =numbering.text_epoch_note(ROOT, epoch)
+    text_note = numbering.text_epoch_note(ROOT, epoch)
     audit_note = f"{text_note}\n" if text_note else ""
 
     print(f"""You are teaching the concepts that PyArcana section {tag} ("{slug}") currently uses
