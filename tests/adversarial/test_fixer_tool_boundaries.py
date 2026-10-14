@@ -281,7 +281,10 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
     The real runner and the real builder run in a copy of the fixer tools, so their ROOT is the temporary
     course. Two stand-ins, both test-only: gate.py (it measures the whole course through npm and node, and
     is not what this tests) and run_codex.py (an external model). The codex stand-in leaves a marker file
-    and exits 1, so a run that got past the brief is told apart from one the brief stopped."""
+    and exits 1, so a run that got past the brief is told apart from one the brief stopped.
+
+    Owner decision O26 (audit/fixer/OWNER_DECISIONS.md): the run_codex.py stand-in stays (a); the gate.py
+    stand-in is replaced by the real gate (b)."""
 
     CODEX_MARKER = ".fixer/codex-was-called"
 
