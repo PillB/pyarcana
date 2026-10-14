@@ -120,6 +120,44 @@ export const REHOMED: readonly Teaching[] = [
   { resource: 'opentelemetry-docs', section: 'integrator-final', evidence: /opentelemetry|trace_id|spans?\b/gi, atLeast: 20 },
 ]
 
+/**
+ * One line per entry whose resource is tagged on a section that names the topic fewer times than the
+ * entry's floor. An entry whose resource is not tagged there holds, whatever the section says. The
+ * floor is how often the section must name the topic before the tag may come back.
+ */
+export function strayTagFailures(
+  resources: ReadonlyArray<{ readonly id: string; readonly sectionIds: readonly string[] }>,
+  entries: readonly Teaching[],
+  sectionOf: (slug: string) => { stem: string; text: string } | undefined,
+): string[] {
+  return entries.flatMap((t) => {
+    const resource = resources.find((r) => r.id === t.resource)
+    const section = sectionOf(t.section)
+    if (!resource) return [`${t.resource}: no such resource`]
+    if (!section) return [`${t.resource}: no section has the slug ${t.section}`]
+    if (!resource.sectionIds.includes(section.stem)) return []
+    const hits = (section.text.match(t.evidence) ?? []).length
+    return hits >= t.atLeast ? [] : [`${t.resource}: tagged ${section.stem}, which names its topic ${hits} times, needs ${t.atLeast}`]
+  })
+}
+
+/**
+ * Tags the owner removed because the section does not teach the resource's topic (O25). Each section
+ * is named by its slug. Reading the two sections (owner decision: a resource is tagged only to
+ * sections that teach its topic):
+ * - files-ingestion teaches csv, json, hashlib and decimal, and says pandas comes in the intermediate
+ *   block: pandas-docs and kaggle-learn (pandas) do not belong on it. It names pandas 4 times.
+ * - exceptions-logging teaches exceptions, debugging and logging, and names no plotting library:
+ *   matplotlib-tutorials and seaborn-datasets do not belong on it.
+ * The floors are those of REHOMED for the same topics.
+ */
+export const REMOVED_TAGS: readonly Teaching[] = [
+  { resource: 'pandas-docs', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
+  { resource: 'kaggle-learn', section: 'files-ingestion', evidence: /pandas|DataFrame/gi, atLeast: 50 },
+  { resource: 'matplotlib-tutorials', section: 'exceptions-logging', evidence: /matplotlib|plt\./gi, atLeast: 30 },
+  { resource: 'seaborn-datasets', section: 'exceptions-logging', evidence: /seaborn|sns\./gi, atLeast: 3 },
+]
+
 function realSection(slug: string): { stem: string; text: string } | undefined {
   const bound = readBindings(ROOT).find((b) => b.id === slug)
   return bound ? { stem: bound.stem, text: fs.readFileSync(path.join(ROOT, 'src/lib/course/sections', `${bound.stem}.ts`), 'utf-8') } : undefined
@@ -162,5 +200,46 @@ describe('a re-homed resource sits on a section that teaches its topic (O25)', (
     const t: Teaching = { resource: 'orm-docs', section: 'databases-orm', evidence: /sqlalchemy/gi, atLeast: 2 }
     const moved = (slug: string) => (slug === 'databases-orm' ? { stem: 's21-databases-orm', text: 'SQLAlchemy y sqlalchemy' } : undefined)
     assert.deepEqual(teachingFailures(resources, [t], moved), [])
+  })
+})
+
+describe('a resource stays off a section that does not teach its topic (O25)', () => {
+  it('the four tags the owner removed stay off: pandas and kaggle on files-ingestion, matplotlib and seaborn on exceptions-logging', () => {
+    assert.deepEqual(strayTagFailures(RESOURCES, REMOVED_TAGS, realSection), [])
+  })
+
+  it('every entry names a resource and a section that exist: the check cannot pass on nothing', () => {
+    assert.equal(REMOVED_TAGS.length, 4)
+    for (const t of REMOVED_TAGS) {
+      assert.ok(RESOURCES.some((r) => r.id === t.resource), `${t.resource} is not in the catalogue`)
+      assert.ok(realSection(t.section), `no section has the slug ${t.section}`)
+    }
+  })
+
+  describe('on fixtures', () => {
+    const files = (text: string) => (slug: string) => (slug === 'files' ? { stem: 's08-files', text } : undefined)
+    const entry: Teaching = { resource: 'pandas-docs', section: 'files', evidence: /pandas/gi, atLeast: 3 }
+    const tagged = [{ id: 'pandas-docs', sectionIds: ['s15-stdlib', 's08-files'] }]
+
+    it('a tag on a section that names the topic fewer times than the floor is named, with the count', () => {
+      assert.deepEqual(strayTagFailures(tagged, [entry], files('pandas y pandas')), [
+        'pandas-docs: tagged s08-files, which names its topic 2 times, needs 3',
+      ])
+    })
+
+    it('the tag may come back once the section teaches the topic: the floor decides, not the name', () => {
+      assert.deepEqual(strayTagFailures(tagged, [entry], files('pandas, Pandas y PANDAS')), [])
+    })
+
+    it('a resource that is not tagged on the section holds, whatever the section says', () => {
+      const untagged = [{ id: 'pandas-docs', sectionIds: ['s15-stdlib'] }]
+      assert.deepEqual(strayTagFailures(untagged, [entry], files('')), [])
+    })
+
+    it('a missing resource or section is named, not skipped', () => {
+      assert.deepEqual(strayTagFailures([], [entry], files('')), ['pandas-docs: no such resource'])
+      const nowhere: Teaching = { ...entry, section: 'no-such-slug' }
+      assert.deepEqual(strayTagFailures(tagged, [nowhere], files('')), ['pandas-docs: no section has the slug no-such-slug'])
+    })
   })
 })
