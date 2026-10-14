@@ -17,7 +17,7 @@ import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src/lib/course/sections/s07-text-unicode-regex.ts"
-SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 
@@ -103,10 +103,10 @@ class TestS07TextContract(unittest.TestCase):
         )
 
     def test_runtime_and_pdf_mappings_match_text_curriculum(self) -> None:
-        section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        start = section_view.index("    'text-unicode-regex': {")
-        end = section_view.index("\n    'apis-sql-geo': {", start)
-        mapping = section_view[start:end]
+        demos_source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
+        start = demos_source.index("    'text-unicode-regex': {")
+        end = demos_source.index("\n    'apis-sql-geo': {", start)
+        mapping = demos_source[start:end]
         self.assertIn("Practica Unicode, regex y evidencia", mapping)
         self.assertIn("def normalize_email", mapping)
         self.assertIn("def token_jaccard", mapping)
