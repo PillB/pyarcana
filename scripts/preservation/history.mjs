@@ -43,9 +43,15 @@ export function openHistory(cwd) {
       if (out === null) throw new Error(`git cannot list the files at ${rev}`)
       return out.split('\n').filter(Boolean)
     },
-    /** The last commit reachable from `rev` that touched `path`, or null when none did. Throws when unreadable. */
+    /**
+     * The last commit reachable from `rev` that touched `path`, or null when none did. Throws when
+     * unreadable. `--full-history` follows every parent of a merge: git's default simplification
+     * follows only the parent a merge matches, so a merge that drops `path` (the side branch had it,
+     * the merge result does not) leaves the file invisible and the guards would print DORMANT.
+     * Trade-off: a file added and removed on a side branch that was then merged also counts.
+     */
     lastCommitTouching(rev, path) {
-      const out = attempt(['log', '-n', '1', '--format=%H', rev, '--', path])
+      const out = attempt(['log', '-n', '1', '--full-history', '--format=%H', rev, '--', path])
       if (out === null) throw new Error(`git cannot read the history of ${path} at ${rev}`)
       return out.trim() || null
     },

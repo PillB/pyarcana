@@ -362,6 +362,31 @@ function findingsOf(run) {
   return JSON.parse(run.err.slice(run.err.indexOf('{'))).findings
 }
 
+/**
+ * A history in which a merge commit, and no other commit on the path HEAD follows, drops the state
+ * files. `side` adds `files` (path -> text), main moves on, then main merges `side` and the merge
+ * removes them. git's default history simplification follows only the parent the merge matches, so
+ * `git log -- path` from HEAD is empty here even though both files were committed and are now gone.
+ */
+function mergeDroppingState(files) {
+  const dir = newRepo()
+  writeTree(dir, preTree())
+  commitAll(dir, 'curriculum 52, pre-renumber')
+  git(dir, 'switch', '-q', '-c', 'side')
+  applyEdits(dir, files)
+  commitAll(dir, 'side adds the state files')
+  git(dir, 'switch', '-q', 'main')
+  applyEdits(dir, new Map([['docs/main-avanza.md', 'main sigue\n']]))
+  commitAll(dir, 'main moves on')
+  git(dir, 'merge', '-q', '--no-ff', '--no-commit', 'side')
+  applyEdits(dir, new Map([...files.keys()].map((path) => [path, null])))
+  commitAll(dir, 'merge that drops the state files')
+  const paths = [...files.keys()]
+  assert.equal(git(dir, 'log', '-n', '1', '--format=%H', 'HEAD', '--', ...paths), '', 'the default history must not see the files')
+  assert.notEqual(git(dir, 'log', '-n', '1', '--full-history', '--format=%H', 'HEAD', '--', ...paths), '', '--full-history must see them')
+  return dir
+}
+
 describe('renumber guard: the pure rules', () => {
   it('maps every section by f: 1..18 stay, 19..32 move +2, 33..52 move +3', async () => {
     const { mapSectionNumber } = await import('../../scripts/preservation/curriculum_snapshot.mjs')
@@ -459,6 +484,14 @@ describe('renumber guard: dormant until the epoch exists, and the epoch cannot d
     commitAll(dir, 'delete the epoch to switch the guard off')
     const run = runGuard(dir)
     assert.equal(run.status, 1)
+    assert.ok(withFindingCode(run, 'EPOCH_REMOVED'), run.err)
+    assert.doesNotMatch(run.out, /DORMANT/)
+  })
+
+  it('fails EPOCH_REMOVED, never DORMANT, when a merge commit is what drops the epoch', () => {
+    const dir = mergeDroppingState(new Map([[EPOCH, JSON.stringify(DEFAULT_EPOCH('0'.repeat(40)), null, 2) + '\n']]))
+    const run = runGuard(dir)
+    assert.equal(run.status, 1, run.out)
     assert.ok(withFindingCode(run, 'EPOCH_REMOVED'), run.err)
     assert.doesNotMatch(run.out, /DORMANT/)
   })
@@ -834,6 +867,14 @@ describe('freeze guard: dormant, and the window cannot disappear quietly', () =>
     const run = runFreeze(freezeScenario({ mainEdits: new Map([[WINDOW, null]]) }).dir)
     assert.equal(run.status, 1)
     assert.ok(withFindingCode(run, 'WINDOW_REMOVED'), run.err)
+  })
+
+  it('fails WINDOW_REMOVED, never DORMANT, when a merge commit is what drops the window', () => {
+    const dir = mergeDroppingState(new Map([[WINDOW, freezeWindow('0'.repeat(40))]]))
+    const run = runFreeze(dir)
+    assert.equal(run.status, 1, run.out)
+    assert.ok(withFindingCode(run, 'WINDOW_REMOVED'), run.err)
+    assert.doesNotMatch(run.out, /DORMANT/)
   })
 })
 
