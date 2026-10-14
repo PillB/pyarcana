@@ -429,7 +429,7 @@ export const RESOURCES: Resource[] = [
     canonicalUrl: 'https://seaborn.pydata.org/tutorial.html',
     resourceType: 'official_documentation',
     topics: ['seaborn', 'visualization', 'statistical'],
-    sectionIds: ['s09-exceptions-logging'],
+    sectionIds: ['s19-databases-orm'],
     level: 'independent',
     language: ['en'],
     access: 'free',
