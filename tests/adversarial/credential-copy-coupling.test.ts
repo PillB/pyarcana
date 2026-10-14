@@ -3,9 +3,10 @@
  *
  * The credential policy and the badge notice now say what PyArcana does today: it issues no
  * credential, nothing revokes or supersedes one, /verify can check an identifier only in the
- * dynamic LMS, and the server grades the exams. Those sentences are true because of code. When the
- * code changes (a credential store ships, a revocation route is added), a sentence nobody opens
- * stays on the page and is false, and no test fails: the defect this PR fixes, one step later.
+ * dynamic LMS (which is not deployed), and the server grades the exams. Those sentences are true
+ * because of code. When the code changes (a credential store ships, a revocation route is added),
+ * a sentence nobody opens stays on the page and is false, and no test fails: the defect this PR
+ * fixes, one step later.
  *
  * Each case below states the sentence it protects, finds the sentence on the page (so rewording it
  * cannot silently turn the case off), and asserts the code fact. A case fails when the code moves
@@ -115,7 +116,8 @@ describe('"No procedure revokes a credential or marks it as an older version"', 
 describe('"/verify checks an identifier only in the dynamic LMS"', () => {
   it('the policy names the LMS and the label the verify page shows', () => {
     const page = flat(POLICY)
-    assert.match(page, /En el LMS dinámico \([^)]+\), puedes comprobar una credencial verificada en \/verify/, 'the policy no longer names the LMS')
+    assert.match(page, /El LMS dinámico \([^)]+\) no está desplegado hoy\./, 'the policy no longer names the LMS and says it is not deployed')
+    assert.match(page, /En esa edición, \/verify comprueba un identificador/, 'the policy no longer says what /verify does in that edition')
     assert.ok(page.includes('«Capacidad demostrada»'))
   })
 
@@ -137,6 +139,48 @@ describe('"/verify checks an identifier only in the dynamic LMS"', () => {
     assert.ok(verify.includes('Capacidad demostrada:'))
     assert.ok(verify.includes('no está disponible en la edición pública'))
     assert.match(verify, /IS_STATIC_SITE/)
+  })
+})
+
+/**
+ * The policy said "En el LMS dinámico, puedes comprobar una credencial verificada en /verify" while
+ * the /verify page said, three times, that the LMS dinámico is not deployed and sent the visitor to
+ * "la URL del LMS dinámico", which does not exist (found in review of #97's r4, 2026-10-14). Both
+ * pages now say it is not deployed today and promise no URL, contact or procedure.
+ *
+ * What a test can see is the repository's own deploy paths: the Pages workflow builds the static
+ * export only, and the one Worker serves that export and its /api/v1 routes, none of which is a
+ * credential route. A server started by hand elsewhere is outside it. Live check, 2026-10-14:
+ * pyarcana.dev answered 404 {"ok":false,"reason":"not_found"} to /api/credentials/verify.
+ */
+describe('"The LMS dinámico is not deployed"', () => {
+  it('the policy and every /verify message that names the LMS dinámico say it is not deployed today', () => {
+    assert.match(flat(POLICY), /El LMS dinámico \([^)]+\) no está desplegado hoy\./)
+    const verify = flat('src/app/verify/page.tsx')
+    const mentions = [...verify.matchAll(/LMS dinámico/g)]
+    assert.ok(mentions.length >= 3, `the verify page names the LMS dinámico ${mentions.length} times; the three messages no longer do`)
+    for (const mention of mentions) {
+      const after = verify.slice(mention.index, mention.index + 70)
+      assert.ok(after.includes('no está desplegado hoy'), `a /verify message names the LMS dinámico without saying it is not deployed today: "${after}"`)
+    }
+  })
+
+  it('neither page sends the visitor to a URL, a contact or a procedure that does not exist', () => {
+    const pages = { policy: flat(POLICY), verify: flat('src/app/verify/page.tsx') }
+    for (const [name, text] of Object.entries(pages)) {
+      for (const promise of ['URL del LMS', 'contacta al', 'contacta a ', 'equipo de PyArcana', 'visita la URL', 'puedes comprobar una credencial']) {
+        assert.ok(!text.includes(promise), `the ${name} page says "${promise}"`)
+      }
+    }
+  })
+
+  it('the code agrees: the Pages workflow deploys the static export only, and the Worker has no credential route', () => {
+    const deploy = source('.github/workflows/deploy.yml')
+    assert.match(deploy, /run: bun run build:static/, 'the Pages workflow no longer builds the static export')
+    assert.doesNotMatch(deploy, /bun run build(?!:static)|next start|standalone/, 'the Pages workflow builds or starts a server edition; the policy and /verify say it is not deployed')
+    const router = source('workers/billing/src/router.mjs')
+    assert.doesNotMatch(router, /credential/i, 'the Worker has a credential route; the policy and /verify say the credential check is not deployed')
+    assert.match(source('workers/billing/wrangler.toml'), /directory = "\.\.\/\.\.\/out"/, 'the Worker no longer serves the static export alone')
   })
 })
 
