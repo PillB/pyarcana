@@ -57,7 +57,9 @@ const LEARNERS = 1000
 /** A strategy that passes more learners than this, within their attempts, passes the bank. */
 const PASSABLE = 0.05
 
-// Exact owed lists, measured 2026-10-12 on the bank in this commit. A bank that leaves a list was
+// Exact owed lists, measured 2026-10-12 on the bank in this commit. 2026-10-14: plan PR 9's real S12 and S13
+// banks leave all three lists (they were the only slug-passable banks).
+// A bank that leaves a list was
 // rewritten: strike it. A bank that joins one regressed. Neither may happen silently.
 //
 // Re-measured 2026-10-13, after #85's 110 rewrites (S05, S08-S11) landed beside this test, which
@@ -73,10 +75,10 @@ const PASSABLE = 0.05
 // Every bank: the key is the longest option in 1165 of 1248 questions, and every bank passes all
 // 1000 learners. The fix is distractors as long and as specific as the key, never a trimmed key.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
-  'advanced-models', 'ai-apis-advanced', 'ai-governance', 'apis-sql-geo',
+  'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'basics', 'career-strategy', 'collections',
   'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
-  'dbt-bigquery', 'decisions-rules', 'evidence-dashboard', 'exceptions-logging', 'fastapi',
+  'dbt-bigquery', 'decisions-rules', 'exceptions-logging', 'fastapi',
   'files-ingestion', 'functions-contracts', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
@@ -91,13 +93,13 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // re-measurement, not a regression, and the commit that updates the list should say so. The test
 // prints the banks near the line on every run.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
-  'advanced-models', 'apis-sql-geo', 'architecture-ddd-decisions', 'async-concurrency',
-  'collections', 'databases-orm', 'dbt-bigquery', 'decisions-rules', 'evidence-dashboard',
+  'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
+  'collections', 'databases-orm', 'dbt-bigquery', 'decisions-rules',
   'fastapi', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
   'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
 ]
 // Every key in these two banks contains its concept's slug.
-const BANKS_PASSABLE_BY_SLUG_OWED = ['apis-sql-geo', 'evidence-dashboard']
+const BANKS_PASSABLE_BY_SLUG_OWED: string[] = []
 
 // ---------------------------------------------------------------------------------------------
 // The learner
