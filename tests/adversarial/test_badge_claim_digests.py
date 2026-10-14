@@ -18,6 +18,20 @@ newbie_friendly_description and credential_type under an unchanged version witho
 list grew by one field at a time. The 13 fields test_badge_catalog_copies.py repeats into its contracts
 (SHARED) must stay digested.
 
+Every top-level field of the catalog but `badges` is digested too, with no exception, as one record under
+the catalog's own version (the `version` at the top of badge_catalog.json). They are not decoration. `provisional_floors`
+holds CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts: `provisional_floors.section_exam_pct`), which
+decides whether an exam score counts toward a credential, and the issue route prints it in the 403 a
+learner reads. `version` is the catalog version the eligibility engine stamps and checks
+(EligibilityEngine.catalogVersion). `design_constraints` states the policy and repeats the floors in
+prose. The rest (`badge_count`, `family_counts`, `generated_at`, `generated_by`, `specification`) is not
+read by a learner or a verifier, but nothing argues it internal and NOT_DIGESTED names badge fields
+only, so it is digested too; a regeneration of the catalog therefore takes a catalog version bump and a
+re-record. The industry copy
+(industry_alignment/badge_catalog.json) must equal the live one on every top-level field
+(test_badge_catalog_copies.py), so one record covers both. Before this, a floor changed from 85 to 50 in
+both copies, with no version bump, failed no test in the repository.
+
 required_sections and required_activities enter the digest as the manifest slugs their S-tags
 resolve to (`S08` as the slug, `S08-YOUDO` as `slug:YOUDO`), not as S-numbers. The renumber moves
 26 of the 31 badges' tags (every badge that cites a section past S18); a digest over the numbers
@@ -29,9 +43,11 @@ A changed digest with an unchanged version is red: "claim changed without a vers
 digest with a new version is red until the digest is re-recorded, so the record never goes stale.
 
 LIMITATIONS, stated rather than absorbed:
-- The digest covers the badges, not the catalog's own top-level fields (provisional_floors,
-  design_constraints, family_counts, the generator stamps). test_badge_catalog_copies.py compares those
-  between the live and the industry copy, but nothing ties a change to them to a version. Not done.
+- The catalog floor and the per-badge copies of it are digested apart and not compared. The gate reads
+  provisional_floors.section_exam_pct and never the `required_score_pct` 85 that 26 badges state for
+  their section_exams component (self_check 85, you_do_projects 80 and integrator_project 85 repeat the
+  other floors the same way). A floor changed with a catalog version bump therefore leaves those
+  digested claims stating the old number until each badge is bumped as well. Not done.
 - market_evidence_ids is the one field that can change freely. The requirement copies under
   industry_alignment/badge_requirements/ print it as "Market evidence pointers", for maintainers; if the
   owner reads it as one of "the labels", delete its line from NOT_DIGESTED and re-record.
@@ -159,23 +175,46 @@ def claim_payload(badge: dict, slugs: dict[int, str]) -> dict:
     return payload
 
 
-def claim_digest(badge: dict, slugs: dict[int, str]) -> str:
-    text = json.dumps(claim_payload(badge, slugs), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+def sha256_of(payload: dict) -> str:
+    text = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def claim_digest(badge: dict, slugs: dict[int, str]) -> str:
+    return sha256_of(claim_payload(badge, slugs))
+
+
+def catalog_fields(catalog: dict) -> list[str]:
+    """Every top-level field of the catalog but `badges`, which are digested one by one. None is internal:
+    NOT_DIGESTED names fields of a badge."""
+    return sorted(set(catalog) - {"badges"})
+
+
+def catalog_digest(catalog: dict) -> str:
+    """The digest of the catalog's own top-level fields: its version, floors, constraints and stamps."""
+    return sha256_of({field: catalog[field] for field in catalog_fields(catalog)})
+
+
+def drift(label: str, recorded: dict | None, version: str, digest: str) -> list[str]:
+    """Why one recorded digest (a badge's, or the catalog's) no longer matches the live one."""
+    if recorded is None:
+        return [f"{label}: has no recorded digest"]
+    if recorded["sha256"] == digest:
+        return []
+    if recorded["version"] == version:
+        return [f"{label}: claim changed without a version bump (version {version})"]
+    return [f"{label}: claim changed under version {version}; re-record the digest"]
+
+
+def catalog_violations(catalog: dict, recorded: dict | None) -> list[str]:
+    return drift("catalog", recorded, catalog["version"], catalog_digest(catalog))
 
 
 def digest_violations(catalog: dict, records: dict, slugs: dict[int, str]) -> list[str]:
     live = {b["badge_id"]: b for b in catalog["badges"]}
     problems = [f"{bid}: has a recorded digest but is not in the catalog" for bid in sorted(set(records) - set(live))]
     for badge_id, badge in live.items():
-        record = records.get(badge_id)
-        if record is None:
-            problems.append(f"{badge_id}: has no recorded digest")
-        elif record["sha256"] != claim_digest(badge, slugs):
-            if record["version"] == badge["version"]:
-                problems.append(f"{badge_id}: claim changed without a version bump (version {badge['version']})")
-            else:
-                problems.append(f"{badge_id}: claim changed under version {badge['version']}; re-record the digest")
+        problems += drift(badge_id, records.get(badge_id), badge["version"], claim_digest(badge, slugs))
     return problems
 
 
@@ -197,17 +236,14 @@ def version_key(version: object) -> tuple[int, int, int] | None:
     return tuple(int(part) for part in match.groups()) if match else None
 
 
-def _refusal(badge_id: str, badge: dict, was: dict | None, slugs: dict[int, str]) -> list[str]:
-    """Why one badge's recorded digest may not be replaced by its live one."""
-    if was is None or was["sha256"] == claim_digest(badge, slugs):
+def _refusal(label: str, version: str, digest: str, was: dict | None) -> list[str]:
+    """Why one recorded digest (a badge's, or the catalog's) may not be replaced by its live one."""
+    if was is None or was["sha256"] == digest:
         return []
-    now, then = version_key(badge["version"]), version_key(was["version"])
+    now, then = version_key(version), version_key(was["version"])
     if now is not None and then is not None and now > then:
         return []
-    return [
-        f"{badge_id}: claim changed and version {badge['version']} is not above the recorded "
-        f"{was['version']}; bump the version first"
-    ]
+    return [f"{label}: claim changed and version {version} is not above the recorded {was['version']}; bump the version first"]
 
 
 def refusals(catalog: dict, previous: dict, slugs: dict[int, str]) -> list[str]:
@@ -225,7 +261,13 @@ def refusals(catalog: dict, previous: dict, slugs: dict[int, str]) -> list[str]:
         f"{badge_id}: is recorded but gone from the catalog; retire it with status, do not remove it"
         for badge_id in sorted(set(old) - set(live))
     ]
-    return gone + [p for badge_id, badge in live.items() for p in _refusal(badge_id, badge, old.get(badge_id), slugs)]
+    changed = [
+        p
+        for badge_id, badge in live.items()
+        for p in _refusal(badge_id, badge["version"], claim_digest(badge, slugs), old.get(badge_id))
+    ]
+    kept = _refusal("catalog", catalog["version"], catalog_digest(catalog), previous.get("catalog"))
+    return gone + changed + kept
 
 
 def record(catalog: dict, slugs: dict[int, str]) -> dict:
@@ -235,10 +277,16 @@ def record(catalog: dict, slugs: dict[int, str]) -> dict:
             "sha256 of the UTF-8 JSON of {field: value} for every field of the badge except those in left_out, "
             "keys sorted, separators ',' and ':', ensure_ascii False; a field added to the catalog is digested "
             "by default; required_sections and required_activities enter as manifest slugs ('slug' and "
-            "'slug:KIND'), not as S-numbers"
+            "'slug:KIND'), not as S-numbers; every top-level field of the catalog but badges is digested the "
+            "same way as one record, under the catalog's own version, and none of them is left out"
         ),
         "fields": digested_fields(catalog),
         "left_out": sorted(NOT_DIGESTED),
+        "catalog": {
+            "fields": catalog_fields(catalog),
+            "version": catalog["version"],
+            "sha256": catalog_digest(catalog),
+        },
         "records": {
             b["badge_id"]: {"version": b["version"], "sha256": claim_digest(b, slugs)} for b in catalog["badges"]
         },
@@ -320,6 +368,8 @@ class ClaimDigests(unittest.TestCase):
         self.assertEqual(self.records["left_out"], sorted(NOT_DIGESTED), "re-record: the left-out fields changed")
         self.assertLessEqual(SHARED_FIELDS, set(digested_fields(self.catalog)), "the fields the contracts repeat stay digested")
         self.assertEqual(digest_violations(self.catalog, self.records["records"], self.slugs), [])
+        self.assertEqual(self.records["catalog"]["fields"], catalog_fields(self.catalog), "re-record: the catalog fields changed")
+        self.assertEqual(catalog_violations(self.catalog, self.records["catalog"]), [])
 
     def test_a_claim_change_without_a_version_bump_is_red(self) -> None:
         catalog = copy.deepcopy(self.catalog)
@@ -336,6 +386,67 @@ class ClaimDigests(unittest.TestCase):
         badge["version"] = "1.0.1"
         problems = digest_violations(catalog, self.records["records"], self.slugs)
         self.assertEqual(problems, ["progress_phase0_walked: claim changed under version 1.0.1; re-record the digest"])
+
+    def test_the_exam_floor_the_issuance_gate_reads_cannot_change_under_the_same_catalog_version(self) -> None:
+        """CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts) is provisional_floors.section_exam_pct. It
+        decides whether an exam score counts toward a credential, and the issue route prints it to the
+        learner. Changed from 85 to 50 in both copies of the catalog with no version bump, it failed no
+        test (the review of this branch measured it); it is the catalog record that fails now."""
+        catalog = copy.deepcopy(self.catalog)
+        catalog["provisional_floors"]["section_exam_pct"] = 50
+        self.assertEqual(digest_violations(catalog, self.records["records"], self.slugs), [], "no badge moved")
+        self.assertEqual(
+            catalog_violations(catalog, self.records["catalog"]),
+            ["catalog: claim changed without a version bump (version 1.0.0)"],
+        )
+
+    def test_every_other_top_level_field_of_the_catalog_is_a_claim_too(self) -> None:
+        edits = {
+            "provisional_floors": lambda c: c["provisional_floors"].update(critical_competency_pct=90),
+            "design_constraints": lambda c: c["design_constraints"].pop(),
+            "badge_count": lambda c: c.update(badge_count=30),
+            "family_counts": lambda c: c["family_counts"].update(applied_skill=15),
+            "generated_at": lambda c: c.update(generated_at="2026-10-14T00:00:00Z"),
+            "generated_by": lambda c: c.update(generated_by="another generator"),
+            "specification": lambda c: c.update(specification="Phase 7"),
+        }
+        for field, edit in edits.items():
+            with self.subTest(field=field):
+                catalog = copy.deepcopy(self.catalog)
+                edit(catalog)
+                self.assertEqual(
+                    catalog_violations(catalog, self.records["catalog"]),
+                    ["catalog: claim changed without a version bump (version 1.0.0)"],
+                )
+
+    def test_a_field_added_to_the_top_of_the_catalog_is_digested_by_default(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        catalog["issuance_floor_note"] = "x"
+        self.assertEqual(
+            catalog_violations(catalog, self.records["catalog"]),
+            ["catalog: claim changed without a version bump (version 1.0.0)"],
+        )
+        self.assertIn("issuance_floor_note", record(catalog, self.slugs)["catalog"]["fields"])
+
+    def test_a_catalog_claim_change_with_a_version_bump_is_red_until_recorded(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        catalog["provisional_floors"]["section_exam_pct"] = 50
+        catalog["version"] = "1.1.0"
+        self.assertEqual(
+            catalog_violations(catalog, self.records["catalog"]),
+            ["catalog: claim changed under version 1.1.0; re-record the digest"],
+        )
+        self.assertEqual(catalog_violations(catalog, record(catalog, self.slugs)["catalog"]), [])
+
+    def test_a_catalog_with_no_recorded_digest_is_red(self) -> None:
+        self.assertEqual(catalog_violations(self.catalog, None), ["catalog: has no recorded digest"])
+
+    def test_the_badges_are_not_part_of_the_catalog_record(self) -> None:
+        """Each badge has its own record under its own version; the catalog record must not move with them,
+        or every badge edit would also demand a catalog version bump."""
+        catalog = copy.deepcopy(self.catalog)
+        self._badge(catalog)["public_claim"] += " (changed)"
+        self.assertEqual(catalog_violations(catalog, self.records["catalog"]), [])
 
     def test_what_a_badge_claims_and_what_earns_it_are_claims(self) -> None:
         """The review's four fixtures, each of which returned [] with the 13 shared fields only."""
@@ -519,6 +630,40 @@ class RecordRefusal(unittest.TestCase):
                 problems = refusals(self._edited(version), self.previous, self.slugs)
                 self.assertEqual(len(problems), 1, problems)
                 self.assertIn("not above the recorded 1.0.0", problems[0])
+
+    def _floor_edited(self, version: str | None = None) -> dict:
+        catalog = copy.deepcopy(self.catalog)
+        catalog["provisional_floors"]["section_exam_pct"] = 50
+        if version is not None:
+            catalog["version"] = version
+        return catalog
+
+    def test_a_changed_floor_at_the_same_catalog_version_may_not_be_recorded(self) -> None:
+        self.assertEqual(
+            refusals(self._floor_edited(), self.previous, self.slugs),
+            ["catalog: claim changed and version 1.0.0 is not above the recorded 1.0.0; bump the version first"],
+        )
+
+    def test_a_changed_floor_under_a_higher_catalog_version_may_be_recorded(self) -> None:
+        self.assertEqual(refusals(self._floor_edited("1.1.0"), self.previous, self.slugs), [])
+        self.assertEqual(len(refusals(self._floor_edited("0.9.0"), self.previous, self.slugs)), 1)
+
+    def test_floor_edit_then_record_stays_red_and_writes_nothing(self) -> None:
+        """The same scenario as a badge edit, for the catalog: a floor edit, no bump, `--record`, re-run."""
+        edited = self._floor_edited()
+        self.assertNotEqual(catalog_violations(edited, self.previous["catalog"]), [], "red before --record")
+        code, untouched, after = self._run(edited)
+        self.assertNotEqual(code, 0)
+        self.assertTrue(untouched, "a refused --record leaves the records as they were")
+        self.assertNotEqual(catalog_violations(edited, after["catalog"]), [], "still red after --record")
+
+    def test_floor_edit_with_a_catalog_bump_then_record_ends_green(self) -> None:
+        edited = self._floor_edited("1.1.0")
+        code, untouched, after = self._run(edited)
+        self.assertEqual(code, 0)
+        self.assertFalse(untouched)
+        self.assertEqual(catalog_violations(edited, after["catalog"]), [])
+        self.assertEqual(after["catalog"]["version"], "1.1.0")
 
     def test_a_badge_that_left_the_catalog_may_not_be_forgotten(self) -> None:
         catalog = copy.deepcopy(self.catalog)
