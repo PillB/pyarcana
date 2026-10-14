@@ -411,6 +411,68 @@ Answered 2026-10-13:
 
 **Retire when:** the renumber has merged to main.
 
+### O25 — Four questions from the Phase 0b drafts
+**Scope:** the copy PR (plan PR 13), the number-guards PR (0b-8), the history-guards PR (0b-1),
+the fixer-state PR (0b-6). **Status:** live.
+
+Asked 2026-10-13. The owner answered the fourth; on the first three the owner had no preference, so
+the recommendation was taken, and each says so.
+- **"Tamper-evident", not "tamper-proof"** (no preference; recommendation taken). The badge catalog's
+  Spanish «a prueba de manipulación» reads as tamper-proof, while an HMAC signature only detects a
+  changed document. Codex rewrites the catalog phrase to state detection, and each credential whose
+  claim text changes gets a version bump.
+- **Run button on S10 and S11 demos** (no preference; recommendation taken). The demos that import
+  numpy or scikit-learn show a notice to run them locally instead of a Run button, because the
+  in-browser Python cannot load the course's pinned versions. *Correction, same day:* the question
+  overstated S11. Its demo imports numpy and never uses it, so its output cannot drift; it keeps
+  its Run button. Only S10's demo (scikit-learn) shows the notice, and the notice shows the
+  expected output so the learner can compare. *Superseded for S10 and S11 by the off-topic demos
+  decision below:* the demos live in the `demos` map of `src/components/course/SectionView.tsx`,
+  keyed by section id, and S10's is a scikit-learn model only because it is a leftover of the
+  pre-V3 section that slug used to name. Once it is an on-topic standard-library demo, nothing
+  needs the notice; the SIM-11 guard stays for any future demo that imports a pinned package.
+
+A fourth question, the same day, answered as recommended:
+- **Off-topic playground demos are replaced now, phase by phase.** The «Pruébalo tú mismo» demos
+  of S10 to S52 follow the pre-V3 topic of their slug, not the V3 section (S10 runs scikit-learn,
+  S14 «NumPy» demos hashing, S15 «Pandas» demos functools); S01 to S09 already match. Codex writes
+  an on-topic, standard-library demo per section, using only what that section and earlier ones
+  teach, so it runs in the browser and its printed output is pinned. S10 and S11 go first, then
+  one phase at a time; a guard checks every demo against its section, and the owner sees the
+  diffs. This replaces existing learner content, which is why it was asked.
+- **34 exercise-meaning changes accepted as history** (no preference; recommendation taken). The S01
+  to S03 exercise ids whose meaning changed since 35d19637 go into the exercise-meaning ledger as
+  historical rows decided by this entry. Every later change needs its own ledger row.
+- **The 12 S03 closures do not count** (answered). They were closed against s03-data-structures.ts,
+  which a later commit replaced. Nothing is awarded retroactively: S03's next round re-checks the 12
+  against the current file.
+
+Asked the same day, all four answered as recommended:
+- **Delete `progress.createAccountDesc`.** It is rendered nowhere and promises anti-plagiarism exams
+  the site does not run; removed from es-PE, es-ES and en (copy PR).
+- **Rewrite the credential policy's «Política de IA».** It promises a declaration and an oral defense
+  the server records neither of; Codex rewrites it to the current rule, and the owner sees the
+  diff before merge (copy PR).
+- **`agentic-architecture` goes into the rename map.** S40's pre-V3 slug maps to
+  `architecture-ddd-decisions` in `SECTION_ID_RENAMES`, with its database migration, so old
+  progress and links keep working (number-guards PR).
+- **The skill-term lexicon is checked by Codex.** Codex reviews each term in
+  `src/lib/eligibility/skill_node_terms.json` against the lessons and proposes changes; the owner
+  sees the final list in the PR diff before the ratchet becomes final (badge-manifest PR).
+
+A third batch, the same day, all four answered as recommended:
+- **The Python complexity gate goes into "Done means these pass".** One line under the TypeScript
+  gate in `AGENTS.md` and `CLAUDE.md` (b10 PR).
+- **Delete `auth.demoDesc` too.** Rendered nowhere; promises «rendir exámenes» (copy PR).
+- **Badge-claim debt held as a ratchet.** 92 (badge, skill) pairs over 21 badges, measured on
+  section titles and outcomes as the module documents, plus 5 prerequisite inversions, are owed
+  exactly; nothing may grow, and the Phase 1 re-key pays them down (badge-manifest PR).
+- **Rebound and removed exercise ids are ledgered.** The renumber tool writes a `renumbered` row
+  (old id -> new id, same fingerprint) for each rebound id; a removed id needs a `removed` row
+  naming the owner's decision. The renumber PR is not exempt (history-guards PR).
+
+**Retire when:** all thirteen changes have landed, every playground demo matches its section, and S03's round has re-checked the 12 findings.
+
 ---
 
 ## Archive
