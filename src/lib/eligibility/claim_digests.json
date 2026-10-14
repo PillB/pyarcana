@@ -1,6 +1,6 @@
 {
-  "schema": 5,
-  "method": "sha256 of the UTF-8 JSON of {field: value} for every field of the badge except those in left_out, keys sorted, separators ',' and ':', ensure_ascii False; a field added to the catalog is digested by default; required_sections and required_activities enter as manifest slugs ('slug' and 'slug:KIND'), not as S-numbers; every top-level field of the catalog but badges is digested the same way as one record, under the catalog's own version, and none of them is left out",
+  "schema": 6,
+  "method": "sha256 of the UTF-8 JSON of {field: value} for every field of the badge except those in left_out, keys sorted, separators ',' and ':', ensure_ascii False; a field added to the catalog is digested by default; required_sections and required_activities enter as manifest slugs ('slug' and 'slug:KIND'), not as S-numbers; every top-level field of the catalog but badges is digested the same way as one record, under the catalog's own version, except those in catalog.left_out",
   "fields": [
     "assessment_blueprint",
     "badge_id",
@@ -34,17 +34,19 @@
   "left_out": [],
   "catalog": {
     "fields": [
-      "badge_count",
       "design_constraints",
+      "provisional_floors",
+      "version"
+    ],
+    "left_out": [
+      "badge_count",
       "family_counts",
       "generated_at",
       "generated_by",
-      "provisional_floors",
-      "specification",
-      "version"
+      "specification"
     ],
     "version": "1.0.0",
-    "sha256": "17100bd2205ddd4882bd60d74ada4f2b2e6e2f993070ba7032c84d8b5ca42e55"
+    "sha256": "4a8083dcecd39308a477a779b4a6ee0c9977547722e06c23f9edef90214f3db0"
   },
   "records": {
     "progress_phase0_walked": {

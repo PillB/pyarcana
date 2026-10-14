@@ -7,35 +7,41 @@ assessment blueprint, the scoring rules, the retake, evidence, expiration, revoc
 legacy-progress policies, the issuer and the labels (roles, capability level, family). The digest is
 the sha256 of those fields, as sorted JSON, recorded per badge with the version it was recorded under.
 
-The rule is a DEFAULT, not a list of fields. NOT_DIGESTED is an allow-list of purely internal fields,
-each with a reason; it is EMPTY today. Its one entry, market_evidence_ids (pointers into the repository's
-own research files), was removed on the owner's answer to the review of r3: the maintainer copies under
-industry_alignment/badge_requirements/ print it as "Market evidence pointers", so the owner counts it
-among the labels. The list is kept, empty, because O25 asks for it: a field added to the catalog
+The rule is a DEFAULT, not a list of fields. Two allow-lists name the purely internal fields, each with
+a reason: NOT_DIGESTED for the fields of a badge, which is EMPTY, and CATALOG_NOT_DIGESTED for the
+top-level fields of the catalog, which holds five. A field added to a badge, or to the top of the catalog,
 tomorrow is digested without anyone deciding so, and leaves the digest only by an edit to this protected
-file that names it and argues for it. Two tests keep the list honest: a declaration for a field no badge
-has is stale, and no code under src/ may READ a field on the list (names_field: the whole word, outside a
-comment, and not as the bare type member of an interface, which declares a shape and reads nothing). While
-the list is empty both are vacuous over it; their mechanisms are tested on a declared field
-(mock.patch.dict), and each was seen to fail on one. The earlier versions listed the digested fields and let every other field change freely;
-the review of the first draft changed skill_nodes, non_claims, required_projects,
-newbie_friendly_description and credential_type under an unchanged version without a failure, and the
-list grew by one field at a time. The 13 fields test_badge_catalog_copies.py repeats into its contracts
-(SHARED) must stay digested.
+file that names it and argues for it. NOT_DIGESTED is empty since the owner's answer to the review of r3:
+its one entry, market_evidence_ids (pointers into the repository's own research files), is printed as
+"Market evidence pointers" by the maintainer copies under industry_alignment/badge_requirements/, so the
+owner counts it among the labels. The list is kept because O25 asks for the mechanism. Three tests keep
+the lists honest: a declaration for a field that does not exist is stale; no code under src/ may READ a
+field on a list (names_field: the whole word, outside a comment, and not as the bare type member of an
+interface, which declares a shape and reads nothing); and no field a claim contract publishes may be on
+one. The last two act on the five catalog entries. The badge list is empty, so the mechanisms behind it
+are tested on a declared field (mock.patch.dict). The earlier versions listed the digested fields and let
+every other field change freely; the review of the first draft changed skill_nodes, non_claims,
+required_projects, newbie_friendly_description and credential_type under an unchanged version without a
+failure, and the list grew by one field at a time. The 13 fields test_badge_catalog_copies.py repeats
+into its contracts (SHARED) must stay digested.
 
-Every top-level field of the catalog but `badges` is digested too, with no exception, as one record
-under the catalog's own version (the `version` at the top of badge_catalog.json). They are not
-decoration. `provisional_floors` holds CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts, from
-`provisional_floors.section_exam_pct`), which decides whether an exam score counts toward a credential,
-and the issue route prints it in the 403 a learner reads. `version` is the catalog version the
-eligibility engine stamps and checks (EligibilityEngine.catalogVersion). `design_constraints` states
-the policy and repeats the floors in prose. The rest (`badge_count`, `family_counts`, `generated_at`,
-`generated_by`, `specification`) is not read by a learner or a verifier, but nothing argues it internal
-and NOT_DIGESTED names badge fields only, so it is digested too; a regeneration of the catalog therefore
-takes a catalog version bump and a re-record. The industry copy (industry_alignment/badge_catalog.json)
-must equal the live one on every top-level field (test_badge_catalog_copies.py), so one record covers
-both. Before this, a floor changed from 85 to 50 in both copies, with no version bump, failed no test in
-the repository.
+The top-level fields of the catalog other than `badges` are digested too, as one record under the
+catalog's own version (the `version` at the top of badge_catalog.json), except the five on
+CATALOG_NOT_DIGESTED. What is digested is not decoration. `provisional_floors` holds
+CREDENTIAL_EXAM_FLOOR (src/lib/credential-gates.ts, from `provisional_floors.section_exam_pct`), which
+decides whether an exam score counts toward a credential, and the issue route prints it in the 403 a
+learner reads. `version` is the catalog version the eligibility engine stamps and checks
+(EligibilityEngine.catalogVersion). `design_constraints` states the policy and repeats the floors in
+prose. What is left out is the generator's stamps (`generated_at`, `generated_by`, `specification`) and
+its two tallies of the badges (`badge_count`, `family_counts`): none states a claim, no code under src/
+reads one (the guard below checks that), and each badge's own record already covers what the tallies
+count. Digested, they made a regeneration of the catalog (a new generated_at, no claim changed) take a
+catalog version bump and a re-record. `generated_at` is also printed as the Generated line of the 31
+maintainer copies under industry_alignment/badge_requirements/; test_badge_catalog_copies.py compares
+those with a render byte for byte, so a regeneration cannot leave them stale, digest or no digest. The
+industry copy (industry_alignment/badge_catalog.json) must equal the live one on every top-level field
+(same test file), so one record covers both. Before the catalog record existed, a floor changed from 85
+to 50 in both copies, with no version bump, failed no test in the repository.
 
 required_sections and required_activities enter the digest as the manifest slugs their S-tags
 resolve to (`S08` as the slug, `S08-YOUDO` as `slug:YOUDO`), not as S-numbers. The renumber moves
@@ -89,7 +95,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tests/adversarial"))
 
 from badge_sources import MANIFEST, TOKEN, load, section_slugs  # noqa: E402
-from test_badge_catalog_copies import SHARED  # noqa: E402
+from test_badge_catalog_copies import CONTRACTS, SHARED  # noqa: E402
 
 LIVE = ROOT / "src/lib/eligibility/badge_catalog.json"
 RECORDS = ROOT / "src/lib/eligibility/claim_digests.json"
@@ -109,6 +115,37 @@ SHARED_FIELDS = {path.split(".")[0] for _, path in SHARED}
 #: evidence pointers" in the maintainer copies under industry_alignment/badge_requirements/, so it is a
 #: label and is digested. The list stays, empty, so that O25's mechanism and its guards stay in place.
 NOT_DIGESTED: dict[str, str] = {}
+#: The purely internal top-level fields of the catalog, the only ones its record leaves out, each with its
+#: reason. Owner answer on r4 (2026-10-14): the generator's stamps belong here, because digesting them made
+#: a regeneration that changes no claim take a catalog version bump. Same rule as NOT_DIGESTED: a field is
+#: here only if it states no claim and no code under src/ reads it (the guards check the code side and the
+#: contracts' side), and every other top-level field is digested by default.
+CATALOG_NOT_DIGESTED: dict[str, str] = {
+    "generated_at": (
+        "The time the generator ran. It states no claim and no code under src/ reads it. It is printed as the "
+        "Generated line of the 31 maintainer copies under industry_alignment/badge_requirements/, which "
+        "test_badge_catalog_copies.py compares byte for byte with a render, so it cannot go stale there."
+    ),
+    "generated_by": (
+        "The name of the generator node that wrote the file. It states no claim, no code under src/ reads it, "
+        "and a regeneration by another tool changes nothing a credential says."
+    ),
+    "specification": (
+        "The name of the project phase whose specification the generator implemented. It is not a credential's "
+        "specification version (that is the badge version, repeated by each contract's specification_hash), "
+        "and no code under src/ reads it."
+    ),
+    "badge_count": (
+        "A tally of the badges. Each badge has a record of its own: a badge that joins the catalog has no "
+        "record, one that leaves it is reported gone, and no code under src/ reads the tally."
+    ),
+    "family_counts": (
+        "A tally of the badges per family. Family is a digested field of each badge, so a badge that changes "
+        "family moves its own digest, and no code under src/ reads the tally."
+    ),
+}
+#: Both allow-lists by the level they apply to, for the guards that must hold on each.
+INTERNAL_LISTS = {"badge": NOT_DIGESTED, "catalog": CATALOG_NOT_DIGESTED}
 #: Source files the internal-field check reads. The lesson files are lesson text, not application code.
 SOURCE_SUFFIXES = (".ts", ".tsx", ".mts", ".js", ".mjs")
 S_NUMBER = re.compile(r"\bS\d{2}\b")
@@ -131,9 +168,15 @@ def stale_declarations(catalog: dict) -> list[str]:
     return [f"{key}: declared internal but no badge has it" for key in sorted(set(NOT_DIGESTED) - present)]
 
 
+def contract_fields() -> set[str]:
+    """Every top-level key some claim contract publishes, read from the contract files themselves."""
+    return {key for path in CONTRACTS.glob("*.json") for key in json.loads(path.read_text(encoding="utf-8"))}
+
+
 def internal_fields_the_contracts_repeat(left_out: dict) -> list[str]:
-    """A field the contracts repeat is published, so it cannot be internal."""
-    return sorted(SHARED_FIELDS & set(left_out))
+    """A field the contracts publish is a claim, so it cannot be internal: either a catalog field they
+    repeat (SHARED) or a key they carry."""
+    return sorted((SHARED_FIELDS | contract_fields()) & set(left_out))
 
 
 def names_field(text: str, field: str) -> bool:
@@ -141,6 +184,8 @@ def names_field(text: str, field: str) -> bool:
     the bare type member (`field?: string`) of an interface, which states the shape of the JSON and reads
     nothing. Anything else counts, so an unusual spelling of a read is flagged rather than missed: a
     property access, a destructuring (a rename `field: alias` included), a string key, text a page shows."""
+    if field not in text:
+        return False
     name = re.escape(field)
     member = re.compile(rf"^\s*(?:readonly\s+)?{name}\??\s*:\s*{TYPE}(?:\s*\|\s*{TYPE})*\s*[;,]?\s*$")
     word = re.compile(rf"\b{name}\b")
@@ -202,13 +247,13 @@ def claim_digest(badge: dict, slugs: dict[int, str]) -> str:
 
 
 def catalog_fields(catalog: dict) -> list[str]:
-    """Every top-level field of the catalog but `badges`, which are digested one by one. None is internal:
-    NOT_DIGESTED names fields of a badge."""
-    return sorted(set(catalog) - {"badges"})
+    """Every top-level field of the catalog the catalog record covers: not `badges`, which are digested
+    one by one, and not the internal ones (CATALOG_NOT_DIGESTED)."""
+    return sorted(set(catalog) - {"badges"} - set(CATALOG_NOT_DIGESTED))
 
 
 def catalog_digest(catalog: dict) -> str:
-    """The digest of the catalog's own top-level fields: its version, floors, constraints and stamps."""
+    """The digest of the catalog's own claim fields: today its version, floors and design constraints."""
     return sha256_of({field: catalog[field] for field in catalog_fields(catalog)})
 
 
@@ -238,10 +283,12 @@ def digest_violations(catalog: dict, records: dict, slugs: dict[int, str]) -> li
 #: The version of the method that makes a digest. Digests of another schema are not comparable, so
 #: recording over them is a re-baseline (refusals() allows it). Raise it when the payload changes, which
 #: includes a change to NOT_DIGESTED; that edit is itself a visible change to a protected test file.
-#: Schema 5 digests market_evidence_ids with the rest of the badge (schema 4, O25's default-digested
-#: payload, left that one field out; schema 3 was a hand-written list of 18 paths). The versions of the
-#: badges did not move: no claim changed, the method did, so recording over schema 4 is a re-baseline.
-DIGEST_SCHEMA = 5
+#: Schema 6 leaves the catalog's generator stamps and tallies out of the catalog record
+#: (CATALOG_NOT_DIGESTED). Schema 5 digested market_evidence_ids with the rest of the badge (schema 4,
+#: O25's default-digested payload, left that one field out; schema 3 was a hand-written list of 18 paths).
+#: No badge payload changed between 5 and 6, so the 31 badge digests are the same bytes; the catalog's
+#: moved. No claim changed and no version moved: the method did, so recording over 5 is a re-baseline.
+DIGEST_SCHEMA = 6
 #: A SemVer 2.0.0 normal version (semver.org §2): three non-negative integers, no leading zeroes.
 #: Read whole with fullmatch, because `$` also matches before a trailing newline, and with [0-9],
 #: because `\d` matches every Unicode decimal digit (Python `re` docs).
@@ -296,12 +343,13 @@ def record(catalog: dict, slugs: dict[int, str]) -> dict:
             "keys sorted, separators ',' and ':', ensure_ascii False; a field added to the catalog is digested "
             "by default; required_sections and required_activities enter as manifest slugs ('slug' and "
             "'slug:KIND'), not as S-numbers; every top-level field of the catalog but badges is digested the "
-            "same way as one record, under the catalog's own version, and none of them is left out"
+            "same way as one record, under the catalog's own version, except those in catalog.left_out"
         ),
         "fields": digested_fields(catalog),
         "left_out": sorted(NOT_DIGESTED),
         "catalog": {
             "fields": catalog_fields(catalog),
+            "left_out": sorted(CATALOG_NOT_DIGESTED),
             "version": catalog["version"],
             "sha256": catalog_digest(catalog),
         },
@@ -387,6 +435,7 @@ class ClaimDigests(unittest.TestCase):
         self.assertLessEqual(SHARED_FIELDS, set(digested_fields(self.catalog)), "the fields the contracts repeat stay digested")
         self.assertEqual(digest_violations(self.catalog, self.records["records"], self.slugs), [])
         self.assertEqual(self.records["catalog"]["fields"], catalog_fields(self.catalog), "re-record: the catalog fields changed")
+        self.assertEqual(self.records["catalog"]["left_out"], sorted(CATALOG_NOT_DIGESTED), "re-record: the catalog left-out fields changed")
         self.assertEqual(catalog_violations(self.catalog, self.records["catalog"]), [])
 
     def test_a_claim_change_without_a_version_bump_is_red(self) -> None:
@@ -418,15 +467,10 @@ class ClaimDigests(unittest.TestCase):
             ["catalog: claim changed without a version bump (version 1.0.0)"],
         )
 
-    def test_every_other_top_level_field_of_the_catalog_is_a_claim_too(self) -> None:
+    def test_the_floors_and_the_policy_text_of_the_catalog_are_claims_too(self) -> None:
         edits = {
             "provisional_floors": lambda c: c["provisional_floors"].update(critical_competency_pct=90),
             "design_constraints": lambda c: c["design_constraints"].pop(),
-            "badge_count": lambda c: c.update(badge_count=30),
-            "family_counts": lambda c: c["family_counts"].update(applied_skill=15),
-            "generated_at": lambda c: c.update(generated_at="2026-10-14T00:00:00Z"),
-            "generated_by": lambda c: c.update(generated_by="another generator"),
-            "specification": lambda c: c.update(specification="Phase 7"),
         }
         for field, edit in edits.items():
             with self.subTest(field=field):
@@ -436,6 +480,28 @@ class ClaimDigests(unittest.TestCase):
                     catalog_violations(catalog, self.records["catalog"]),
                     ["catalog: claim changed without a version bump (version 1.0.0)"],
                 )
+
+    @staticmethod
+    def _otherwise(value: object) -> object:
+        """A value of the same kind that is not `value`."""
+        if isinstance(value, str):
+            return value + " (regenerated)"
+        if isinstance(value, int):
+            return value + 1
+        return {**value, "regenerated": 1}
+
+    def test_a_regeneration_may_change_the_catalog_stamps_without_a_catalog_version_bump(self) -> None:
+        """Regenerating the catalog writes a new generated_at and may relabel the rest of the generator's
+        output, with no claim changed. When the stamps were digested that took a catalog version bump and a
+        re-record of a record whose claim had not moved (owner answer on r4)."""
+        self.assertEqual(sorted(set(CATALOG_NOT_DIGESTED) - set(self.catalog)), [], "declared internal, but not in the catalog")
+        for field in CATALOG_NOT_DIGESTED:
+            with self.subTest(field=field):
+                catalog = copy.deepcopy(self.catalog)
+                catalog[field] = self._otherwise(catalog[field])
+                self.assertNotEqual(catalog[field], self.catalog[field], "the fixture must change the field")
+                self.assertEqual(catalog_violations(catalog, self.records["catalog"]), [])
+                self.assertEqual(digest_violations(catalog, self.records["records"], self.slugs), [])
 
     def test_a_field_added_to_the_top_of_the_catalog_is_digested_by_default(self) -> None:
         catalog = copy.deepcopy(self.catalog)
@@ -555,18 +621,27 @@ class ClaimDigests(unittest.TestCase):
             self._badge(catalog)["market_evidence_ids"].append("industry_reality_brief.md §99 (a new citation)")
             self.assertEqual(digest_violations(catalog, recorded["records"], self.slugs), [])
 
-    def test_the_internal_list_is_empty_and_an_entry_would_have_to_be_argued(self) -> None:
-        """The allow-list is the only way a field leaves the digest. It is empty (the owner counts
-        market_evidence_ids among the labels); a field joins it by an edit to this assertion, with a reason."""
-        for field, reason in NOT_DIGESTED.items():
-            with self.subTest(field=field):
-                self.assertGreaterEqual(len(reason.split()), 8, "a reason, not a label")
+    def test_the_internal_lists_are_pinned_and_every_entry_is_argued(self) -> None:
+        """The allow-lists are the only way a field leaves the digest. No badge field is internal (the owner
+        counts market_evidence_ids among the labels); five catalog fields are. A field joins a list by an
+        edit to these assertions, with a reason."""
+        for level, left_out in INTERNAL_LISTS.items():
+            for field, reason in left_out.items():
+                with self.subTest(level=level, field=field):
+                    self.assertGreaterEqual(len(reason.split()), 8, "a reason, not a label")
         self.assertEqual(sorted(NOT_DIGESTED), [])
+        self.assertEqual(
+            sorted(CATALOG_NOT_DIGESTED),
+            ["badge_count", "family_counts", "generated_at", "generated_by", "specification"],
+        )
+        self.assertEqual(catalog_fields(self.catalog), ["design_constraints", "provisional_floors", "version"])
 
     def test_a_field_on_the_internal_list_is_read_by_no_application_code(self) -> None:
-        """'Purely internal' is checkable from the code side: nothing under src/ names the field. The day a
+        """'Purely internal' is checkable from the code side: nothing under src/ reads the field. The day a
         page, a route or the engine reads it, a learner or a verifier can see it, and it must be digested."""
-        self.assertEqual(code_that_reads(NOT_DIGESTED), [])
+        for level, left_out in INTERNAL_LISTS.items():
+            with self.subTest(level=level):
+                self.assertEqual(code_that_reads(left_out), [])
 
     def test_code_that_reads_an_internal_field_is_found(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -611,10 +686,17 @@ class ClaimDigests(unittest.TestCase):
             )
 
     def test_no_field_the_contracts_repeat_is_internal(self) -> None:
-        self.assertEqual(sorted(SHARED_FIELDS & set(NOT_DIGESTED)), [])
+        """A claim contract is published. A field it repeats from the catalog, or carries as a key, is a
+        claim, so it cannot be left out of the digest; the day a contract carries `generated_at`, this fails."""
+        for level, left_out in INTERNAL_LISTS.items():
+            with self.subTest(level=level):
+                self.assertEqual(internal_fields_the_contracts_repeat(left_out), [])
         self.assertEqual(
-            internal_fields_the_contracts_repeat({**NOT_DIGESTED, "public_claim": "x", "scoring_rules": "y"}),
-            ["public_claim", "scoring_rules"],
+            internal_fields_the_contracts_repeat(
+                {**NOT_DIGESTED, "public_claim": "x", "scoring_rules": "y", "boundary": "z", "published_by_nobody": "w"}
+            ),
+            ["boundary", "public_claim", "scoring_rules"],
+            "SHARED names two of these, the contract files carry the third, and nobody publishes the fourth",
         )
 
     def test_the_only_digested_text_that_names_a_section_number_is_claim_prose(self) -> None:
