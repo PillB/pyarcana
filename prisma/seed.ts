@@ -2059,7 +2059,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'csv-dialects-headers',
       question:
-        'Con `csv` de la biblioteca estándar, ¿cómo llegan los campos y dónde se convierten?',
+        'Con las opciones predeterminadas de `csv.reader`, ¿cómo llegan los campos y dónde se convierten?',
       options: [
         'Como texto; el normalizador aplica después conversiones del contrato con `int` o `Decimal`',
         'Como bytes; `DictReader` los decodifica al leer cada registro con la codificación del contrato',
@@ -2068,7 +2068,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 0,
       explanation:
-        'Con el dialecto por defecto, `csv` entrega los campos como texto, ya decodificados por el archivo; el archivo se abre con el `encoding` del contrato. El normalizador aplica `int` o `Decimal`; el dialecto describe el formato del texto (separador, comillas, escape), no la conversión a esos tipos.',
+        'Con las opciones predeterminadas, `csv.reader` devuelve cada campo como `str`; el archivo ya se decodificó al abrirse con el `encoding` del contrato. El normalizador aplica `int` o `Decimal`; solo un modo configurado como `QUOTE_NONNUMERIC` convierte campos no entrecomillados a `float`.',
     },
     {
       concept: 'csv-dialects-headers',
