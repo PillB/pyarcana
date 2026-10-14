@@ -86,9 +86,14 @@ function codeownersRules(text) {
 }
 const { rules: RULES, skipped: SKIPPED } = codeownersRules(CODEOWNERS)
 
-/** The owners GitHub requests for a path: those of the last kept rule that matches it. */
+/** The rule GitHub applies to a path: the last kept rule that matches it. */
+function governingRule(path, rules = RULES) {
+  return rules.filter((rule) => rule.re.test(path)).at(-1)
+}
+
+/** The owners GitHub requests for a path: those of its governing rule. */
 function ownersOf(path, rules = RULES) {
-  const hit = rules.filter((rule) => rule.re.test(path)).at(-1)
+  const hit = governingRule(path, rules)
   return hit ? hit.owners : []
 }
 
@@ -179,8 +184,19 @@ describe('CODEOWNERS covers AGENTS.md protected paths', () => {
  * too. Each probe is a path the input may take; each must have an owner.
  */
 const GUARD_INPUTS = [
-  { token: 'src/lib/eligibility/', probes: ['src/lib/eligibility/engine.ts', 'src/lib/eligibility/section_manifest.json'] },
-  { token: 'section_manifest.json', probes: ['section_manifest.json', 'audit/renumber/section_manifest.json'] },
+  {
+    token: 'src/lib/eligibility/',
+    probes: [
+      'src/lib/eligibility/engine.ts',
+      'src/lib/eligibility/section_manifest.json',
+      'src/lib/eligibility/skill_node_terms.json',
+      'src/lib/eligibility/claim_digests.json',
+    ],
+  },
+  {
+    token: 'section_manifest.json',
+    probes: ['section_manifest.json', 'audit/renumber/section_manifest.json', 'src/lib/eligibility/section_manifest.json'],
+  },
   { token: 'curriculum55_window.json', probes: ['curriculum55_window.json', 'audit/renumber/curriculum55_window.json'] },
   { token: 'renumber_epoch.json', probes: ['renumber_epoch.json', 'audit/renumber/renumber_epoch.json'] },
   { token: 'renumber_edit_ledger.json', probes: ['renumber_edit_ledger.json', 'audit/renumber/renumber_edit_ledger.json'] },
@@ -195,6 +211,45 @@ describe('CODEOWNERS covers the renumber guard inputs', () => {
       }
     })
   }
+})
+
+/**
+ * The files the owner named by real path (answer of 2026-10-13, on top of O17: CODEOWNERS and an
+ * ask-first line cover the new state files). Each arrives with a sibling PR and is not on main
+ * yet, so on main today these are probes, as the B11 paths below are:
+ *   - audit/fixer/numbering_epoch.json: the fixer's numbering epoch (0b-6)
+ *   - src/lib/eligibility/section_manifest.json, skill_node_terms.json, claim_digests.json: the
+ *     badge manifest, the skill-term lexicon and the claim digests (0b-4)
+ *   - src/lib/credential-statement.ts: the signed statement template (the copy PR moved it there)
+ * The directory rule and the basename rule above already reach the three eligibility files, and
+ * a rule can be narrowed or removed in a diff nobody reads as an ownership change. So each file
+ * needs a line of its own, and GitHub applies the LAST matching line: the line must sit after
+ * the broader ones, or a later change to their owner would override it.
+ */
+const NAMED_PATHS = [
+  'audit/fixer/numbering_epoch.json',
+  'src/lib/eligibility/section_manifest.json',
+  'src/lib/eligibility/skill_node_terms.json',
+  'src/lib/eligibility/claim_digests.json',
+  'src/lib/credential-statement.ts',
+]
+
+describe('CODEOWNERS gives each file the owner named by path a line of its own', () => {
+  for (const path of NAMED_PATHS) {
+    it(`has a line for ${path}, after the broader rules, with an owner`, () => {
+      const rule = governingRule(path)
+      assert.ok(rule, `${path} matches no CODEOWNERS rule`)
+      assert.equal(rule.pattern, `/${path}`,
+        `${path} is governed by "${rule.pattern}" (line ${rule.number}), not by a line of its own; GitHub applies the last match`)
+      assert.ok(rule.owners.length > 0, `line ${rule.number} (${rule.pattern}) names no owner, which leaves the file unowned`)
+    })
+  }
+
+  it('reads the governing rule as the last match, so a broader line placed after an explicit one wins', () => {
+    const { rules } = codeownersRules('/src/a.ts @A\n/src/ @B\n')
+    assert.equal(governingRule('src/a.ts', rules).pattern, '/src/')
+    assert.deepEqual(ownersOf('src/a.ts', rules), ['@B'])
+  })
 })
 
 /**

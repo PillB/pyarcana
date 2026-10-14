@@ -52,3 +52,13 @@ curriculum55_window.json @PillB
 renumber_epoch.json @PillB
 renumber_edit_ledger.json @PillB
 authoring_pending.json @PillB
+
+# Files the owner named by real path (answer of 2026-10-13, on top of O17): the fixer's numbering
+# epoch (0b-6), the eligibility data (0b-4) and the signed credential statement. The directory and
+# basename rules above already reach the eligibility files; each file still gets a line of its own,
+# placed after them because GitHub applies the last matching line.
+/audit/fixer/numbering_epoch.json @PillB
+/src/lib/eligibility/section_manifest.json @PillB
+/src/lib/eligibility/skill_node_terms.json @PillB
+/src/lib/eligibility/claim_digests.json @PillB
+/src/lib/credential-statement.ts @PillB
