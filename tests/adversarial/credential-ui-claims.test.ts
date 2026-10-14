@@ -83,6 +83,11 @@ const FALSE_CLAIMS = [
   'a prueba de alteración',
   'tamper-proof',
   'tamper proof',
+  // An AI-use rule with a declaration and a defense the server records neither of (O25).
+  'se permite el uso de herramientas de ia',
+  'sujeto a declaración',
+  'explicación de decisiones importantes',
+  'defensa frente a requisitos modificados',
   // An evidence summary a recruiter can inspect: no route or page shows any credential evidence.
   'resumen conciso de evidencia',
   'reclutador puede inspeccionar',

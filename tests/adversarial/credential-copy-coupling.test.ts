@@ -183,6 +183,36 @@ describe('"A check of a verified credential shows the record and the signed stat
   })
 })
 
+/**
+ * The policy's "Política de IA" once said AI tools are allowed "sujeto a declaración, ejecución
+ * independiente, explicación de decisiones importantes y defensa frente a requisitos modificados".
+ * The server records no declaration of AI use and no defense, oral or written: the only evidence it
+ * holds is ExamAttempt rows (credential-verifiers.ts), and no page, route or table asks for either.
+ * The section now says so; this case keeps it true.
+ */
+describe('"PyArcana records no declaration of AI use and no defense"', () => {
+  it('the policy says so, and no longer promises a declaration, an explanation of decisions or a defense', () => {
+    const page = flat(POLICY)
+    assert.ok(page.includes('no registra ninguna declaración ni defensa'), 'the policy no longer says nothing records a declaration or a defense')
+    for (const promise of ['sujeto a declaración', 'explicación de decisiones importantes', 'defensa frente a requisitos modificados']) {
+      assert.ok(!page.includes(promise), `the credential policy promises "${promise}"`)
+    }
+  })
+
+  it('the server has a verifier for the exams and for nothing else, so it holds no defense or declaration', () => {
+    assert.deepEqual(Object.keys(SERVER_VERIFIERS), ['section_exams'], 'a verifier was added; the policy says no declaration or defense is recorded. Change it.')
+  })
+
+  it('no table, route or page of the app has a field or a path for a defense or an AI declaration', () => {
+    const schema = source('prisma/schema.prisma')
+    assert.doesNotMatch(schema, /defens[ae]|aiDeclaration|ai_declaration|declaration/i, 'the schema now has a defense or a declaration; the policy says none is recorded')
+    const routes = srcFiles('src/app/api').filter((file) => /defens|declaration|ai-use|aiuse/i.test(file))
+    assert.deepEqual(routes, [], 'a route for a defense or a declaration exists; the policy says none is recorded')
+    const asking = srcFiles('src/components').filter((file) => /Defens|AiDeclaration|AIDeclaration/.test(file))
+    assert.deepEqual(asking, [], 'a component for a defense or a declaration exists; the policy says no page asks for one')
+  })
+})
+
 describe('"The server grades each exam; the browser does not"', () => {
   it('the notice still says so, in the paragraph only the dynamic LMS shows', () => {
     assert.ok(flat('src/components/legal/ExamGradingNote.tsx').includes('el servidor califica cada examen de sección'))
