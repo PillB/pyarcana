@@ -8,6 +8,7 @@ import {
   QA_CATEGORY_DEFINITIONS,
   QA_CAUSE_DEFINITIONS,
   QA_SEVERITY_DEFINITIONS,
+  type QAExercise,
   type QATourStep,
 } from '@/lib/qa-tour-content'
 import { QA_CATEGORIES, QA_CAUSES, QA_SEVERITIES } from '@/lib/qa-session'
@@ -93,6 +94,113 @@ function Rich({ text }: { text: string }) {
   return <>{boldParts(text).map((p, i) => (p.bold ? <strong key={i} className="font-semibold text-foreground">{p.text}</strong> : p.text))}</>
 }
 
+/** The ring around the highlighted control. Its shadow dims the rest of the workspace and leaves a hole over the control. */
+function TourSpotlight({ spot }: { spot: TourBox }) {
+  return (
+    <div
+      aria-hidden="true"
+      data-testid="qa-tour-spotlight"
+      className="pointer-events-none absolute rounded-md"
+      style={{
+        top: spot.top - SPOT_PAD,
+        left: spot.left - SPOT_PAD,
+        width: spot.right - spot.left + 2 * SPOT_PAD,
+        height: spot.bottom - spot.top + 2 * SPOT_PAD,
+        boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
+      }}
+    />
+  )
+}
+
+/** One classification exercise: the symptom, an option per answer, and the feedback for the one picked. */
+function TourExercise({ ex, picked, onPick }: { ex: QAExercise; picked: string | null; onPick: (value: string) => void }) {
+  const chosen = picked ? ex.options.find((o) => o.value === picked) : undefined
+  const isRight = picked === ex.correct
+  return (
+    <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
+      <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
+      <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
+      </p>
+      <div className="mt-2 grid gap-2">
+        {ex.options.map((opt) => {
+          const isPicked = picked === opt.value
+          const showRight = isPicked && opt.value === ex.correct
+          const showWrong = isPicked && opt.value !== ex.correct
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onPick(opt.value)}
+              data-testid={`qa-tour-option-${opt.value}`}
+              className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
+                showRight ? 'border-primary bg-primary/10'
+                : showWrong ? 'border-destructive/60 bg-destructive/5'
+                : 'border-border hover:bg-muted'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
+                {opt.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+      {chosen && (
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          role="status"
+          data-testid="qa-tour-feedback"
+        >
+          {chosen.feedback}
+        </p>
+      )}
+      {isRight && (
+        <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
+          <span className="font-medium">Regla: </span>{ex.rule}
+        </p>
+      )}
+    </div>
+  )
+}
+
+/** Skip or close on the left; previous and next on the right. On the last step, next finishes. */
+function TourFooter({ index, isLast, go, finish }: { index: number; isLast: boolean; go: (delta: number) => void; finish: () => void }) {
+  return (
+    <div className="flex items-center justify-between gap-3 border-t border-border p-5 pt-4">
+      <button
+        type="button"
+        onClick={finish}
+        className="min-h-11 rounded-md px-3 text-sm text-muted-foreground hover:bg-muted"
+      >
+        {isLast ? 'Cerrar' : 'Saltar tutorial'}
+      </button>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          disabled={index === 0}
+          aria-label="Paso anterior"
+          data-testid="qa-tour-prev"
+          className="flex h-11 w-11 items-center justify-center rounded-md border border-border disabled:opacity-40 hover:bg-muted"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => (isLast ? finish() : go(1))}
+          data-testid="qa-tour-next"
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
+          {isLast ? 'Terminar' : 'Siguiente'}
+          {!isLast && <ChevronRight className="h-4 w-4" />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 /**
  * The QA tester tour. Deliberately independent of InteractiveTour.
  *
@@ -160,10 +268,6 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
 
   if (!open || !step) return null
 
-  const ex = step.exercise
-  const chosen = ex && picked ? ex.options.find((o) => o.value === picked) : undefined
-  const isRight = !!ex && picked === ex.correct
-
   return (
     <div
       // Absolute, not fixed, and not portalled: this renders inside the QA
@@ -181,20 +285,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
       data-testid="qa-tour"
       data-target={step.target}
     >
-      {geo && (
-        <div
-          aria-hidden="true"
-          data-testid="qa-tour-spotlight"
-          className="pointer-events-none absolute rounded-md"
-          style={{
-            top: geo.spot.top - SPOT_PAD,
-            left: geo.spot.left - SPOT_PAD,
-            width: geo.spot.right - geo.spot.left + 2 * SPOT_PAD,
-            height: geo.spot.bottom - geo.spot.top + 2 * SPOT_PAD,
-            boxShadow: '0 0 0 3px var(--primary), 0 0 0 9999px rgb(0 0 0 / 0.4)',
-          }}
-        />
-      )}
+      {geo && <TourSpotlight spot={geo.spot} />}
       <div className={slot ? 'absolute inset-x-0 flex justify-center px-3 sm:px-4' : 'contents'} style={slot}>
       <div
         ref={panelRef}
@@ -256,86 +347,11 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </dl>
         )}
 
-        {ex && (
-          <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
-            <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
-            <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
-            </p>
-            <div className="mt-2 grid gap-2">
-              {ex.options.map((opt) => {
-                const isPicked = picked === opt.value
-                const showRight = isPicked && opt.value === ex.correct
-                const showWrong = isPicked && opt.value !== ex.correct
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setPicked(opt.value)}
-                    data-testid={`qa-tour-option-${opt.value}`}
-                    className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
-                      showRight ? 'border-primary bg-primary/10'
-                      : showWrong ? 'border-destructive/60 bg-destructive/5'
-                      : 'border-border hover:bg-muted'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
-                      {opt.label}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            {chosen && (
-              <p
-                className="mt-3 text-sm leading-relaxed"
-                role="status"
-                data-testid="qa-tour-feedback"
-              >
-                {chosen.feedback}
-              </p>
-            )}
-            {isRight && (
-              <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
-                <span className="font-medium">Regla: </span>{ex.rule}
-              </p>
-            )}
-          </div>
-        )}
+        {step.exercise && <TourExercise ex={step.exercise} picked={picked} onPick={setPicked} />}
 
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-border p-5 pt-4">
-          <button
-            type="button"
-            onClick={finish}
-            className="min-h-11 rounded-md px-3 text-sm text-muted-foreground hover:bg-muted"
-          >
-            {isLast ? 'Cerrar' : 'Saltar tutorial'}
-          </button>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              disabled={index === 0}
-              aria-label="Paso anterior"
-              data-testid="qa-tour-prev"
-              className="flex h-11 w-11 items-center justify-center rounded-md border border-border disabled:opacity-40 hover:bg-muted"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => (isLast ? finish() : go(1))}
-              data-testid="qa-tour-next"
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90"
-            >
-              {isLast ? 'Terminar' : 'Siguiente'}
-              {!isLast && <ChevronRight className="h-4 w-4" />}
-            </button>
-          </div>
-        </div>
+        <TourFooter index={index} isLast={isLast} go={go} finish={finish} />
       </div>
       </div>
     </div>
