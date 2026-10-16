@@ -475,7 +475,7 @@ A third batch, the same day, all four answered as recommended:
 
 ## 2026-10-14 — test doubles, decided case by case
 
-`AGENTS.md` keeps no stub, stand-in or fake without the owner's decision. Codex's P2 on #100 found
+`AGENTS.md` keeps no stub, stand-in or fake without the owner's decision. Codex's P1 on #100 found
 two in one test file, and #87 holds a third. The owner decided each double on its own, because the
 right answer depends on what the double replaces.
 
