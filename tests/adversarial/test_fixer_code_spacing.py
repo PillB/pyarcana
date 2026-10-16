@@ -18,7 +18,8 @@ none of the checked files has one, and this is stricter than pycodestyle only th
 
 Both look at the code, not at the text, so a `=` inside a string, a comment or a keyword argument
 (`f(a=b)`, where neither side has a space) is not touched. Covered: every tools/fixer/*.py, and the tests
-written with the fixer-state work (numbering_fixture.py, test_numbering_*.py, test_fixer_*.py).
+written with the fixer-state work (numbering_fixture.py, fixer_gate_tree.py, test_numbering_*.py,
+test_fixer_*.py). fixer_gate_tree.py is named, not globbed: its name does not start with test_.
 tools/audit/report.py is left out on purpose: its aligned one-line style (`rej =collections...`) is older
 than this work.
 
@@ -120,7 +121,8 @@ def checked_files() -> list[Path]:
     fixer = sorted((ROOT / "tools/fixer").glob("*.py"))
     tests = sorted((ROOT / "tests/adversarial").glob("test_numbering_*.py"))
     tests += sorted((ROOT / "tests/adversarial").glob("test_fixer_*.py"))
-    return fixer + [ROOT / "tests/adversarial/numbering_fixture.py"] + tests
+    helpers = [ROOT / "tests/adversarial" / name for name in ("numbering_fixture.py", "fixer_gate_tree.py")]
+    return fixer + helpers + tests
 
 
 class TheScannerSeesTheSlip(unittest.TestCase):
