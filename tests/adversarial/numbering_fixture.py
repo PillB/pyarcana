@@ -55,27 +55,34 @@ def write(root: Path, rel: str, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def build(root: Path, slugs=("alpha", "beta", "gamma"), label=None, roadmap_numbers=None,
-          course_order=None, index_fields=None, renames=None, epoch_slugs=None, previous=None) -> None:
-    """A repository with one section file per slug, imported by index.ts in `course_order`.
-
-    Defaults are a consistent three-section course: epoch label 3, roadmap S1..S3, course order
-    equal to the epoch, and each section's `index` equal to its position. `epoch_slugs` writes an
-    epoch table that differs from the course (the state of a tree between a renumber and the restamp),
-    and `previous` is the epoch file's `previous_epochs`, {label: [slugs]}."""
+def write_epoch(root: Path, slugs, label, epoch_slugs, previous) -> None:
+    """The epoch file. Its table is `epoch_slugs` when given (a tree between a renumber and the restamp),
+    else the course's slugs; its label is `label`, or the length of the table."""
     table = list(epoch_slugs) if epoch_slugs is not None else list(slugs)
     epoch = {"numbering_epoch": len(table) if label is None else label, "roadmap": "roadmap.md",
              "sections": [{"number": i, "slug": s} for i, s in enumerate(table, 1)]}
     if previous:
         epoch["previous_epochs"] = {str(k): list(v) for k, v in previous.items()}
     write(root, "audit/fixer/numbering_epoch.json", json.dumps(epoch))
+
+
+def write_roadmap(root: Path, slugs, roadmap_numbers) -> None:
+    """The roadmap of record: one `### S<n>` heading per number in `roadmap_numbers`, else 1 to the course's count."""
     numbers = roadmap_numbers if roadmap_numbers is not None else range(1, len(slugs) + 1)
     write(root, "roadmap.md", "".join(f"### S{n} — Titulo {n}\n" for n in numbers))
+
+
+def write_section_files(root: Path, slugs, index_fields) -> None:
+    """One section file per slug, whose `index` is its position unless `index_fields` names another."""
     for i, slug in enumerate(slugs, 1):
         index_value = (index_fields or {}).get(slug, i)
         write(root, f"src/lib/course/sections/s{i:02d}-{slug}.ts",
               "export const section%d: CourseSection = {\n  id: '%s',\n  index: %s,\n  title: 'x',\n}\n"
               % (i, slug, index_value))
+
+
+def write_course_index(root: Path, slugs, course_order) -> None:
+    """index.ts imports each section and lists it, in `course_order` when given, else in the epoch's order."""
     order = course_order if course_order is not None else list(slugs)
     imports = "".join(
         f"import {{ section{slugs.index(s) + 1} }} from './sections/s{slugs.index(s) + 1:02d}-{s}'\n"
@@ -83,10 +90,30 @@ def build(root: Path, slugs=("alpha", "beta", "gamma"), label=None, roadmap_numb
     body = "".join(f"  section{slugs.index(s) + 1},\n" for s in order)
     write(root, "src/lib/course/index.ts",
           imports + "export const COURSE_SECTIONS: CourseSection[] = [\n" + body + "]\n")
+
+
+def write_migrations(root: Path, renames) -> None:
+    """The section-id migrations file: `renames` maps each old id to its new one."""
     pairs = renames or {}
     rows = "".join(f"  '{old}': '{new}',\n" for old, new in pairs.items())
     write(root, "src/lib/section-id-migrations.ts",
           "export const SECTION_ID_RENAMES: Readonly<Record<string, string>> = {\n" + rows + "}\n")
+
+
+def build(root: Path, slugs=("alpha", "beta", "gamma"), label=None, roadmap_numbers=None,
+          course_order=None, index_fields=None, renames=None, epoch_slugs=None, previous=None) -> None:
+    """A repository with one section file per slug, imported by index.ts in `course_order`.
+
+    Defaults are a consistent three-section course: epoch label 3, roadmap S1..S3, course order
+    equal to the epoch, and each section's `index` equal to its position. `epoch_slugs` writes an
+    epoch table that differs from the course (the state of a tree between a renumber and the restamp),
+    and `previous` is the epoch file's `previous_epochs`, {label: [slugs]}. Each file is written by the
+    helper named for it; the order of the writes is the order below."""
+    write_epoch(root, slugs, label, epoch_slugs, previous)
+    write_roadmap(root, slugs, roadmap_numbers)
+    write_section_files(root, slugs, index_fields)
+    write_course_index(root, slugs, course_order)
+    write_migrations(root, renames)
 
 
 def cycle(root: Path, tag: str, **fields) -> None:
