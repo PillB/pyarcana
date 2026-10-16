@@ -496,7 +496,11 @@ Answered 2026-10-14:
   the gate could measure; and the gate needs `node_modules`, the audit scripts, the glossary, a
   badge catalog, a capstone index and a Python 3.12 at `.venv-content/bin/python`. The test now
   builds all of that in its temporary course and runs `gate.py snapshot` for real, which takes
-  tens of seconds a run. Two things it does not cover, by design: `gate.py check` (tsc, `test:v3`, both
+  tens of seconds a run. The real `gate.py check` (through `test:adversarial:py`) and CI's
+  adversarial-unit job (through `test:adversarial`) now spend about 47 seconds more on these
+  real-gate tests: the six runner tests took a median of 47 s over three runs on this machine
+  (37 s to 75 s), against about 2 s under the stand-in. Two things it does not cover, by design:
+  `gate.py check` (tsc, `test:v3`, both
   suites, the snippet audit) never runs, because the Codex stand-in stops the run first; and the
   pinned packages of `requirements-content.txt` are not installed in the temporary course, which
   imports none (the pins are held by `test:python-content`).
