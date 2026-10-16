@@ -22,7 +22,9 @@
  * Strategies, each choosing among the options as shown, ties to the first shown:
  *   A, B, C, D   always the same position
  *   longest      the longest option
- *   clang        the option sharing the most content words with the stem (a "clang association",
+ *   shortest     the shortest option: the cue a bank gets when its keys are kept from being the
+ *                longest by keeping them the shortest instead
+ *   clang       the option sharing the most content words with the stem (a "clang association",
  *                one of the cues item-writing guides tell authors to avoid)
  *   slug         the option containing the concept's slug, else the first; a learner can learn the
  *                slugs, so the simulation grants them
@@ -30,7 +32,7 @@
  * The RNG is seeded per bank, so a run is repeatable and a bank's verdict does not depend on which
  * banks ran before it. Within a bank every strategy is scored on the same simulated learners'
  * attempts (common random numbers): a draw never depends on the answers, so this is the same
- * experiment as one run per strategy, seven times cheaper, and paired across strategies.
+ * experiment as one run per strategy, eight times cheaper, and paired across strategies.
  *
  * Run: node --import tsx --test tests/adversarial/exam-strategy-simulation.test.ts
  */
@@ -100,6 +102,10 @@ const BANKS_PASSABLE_BY_CLANG_OWED = [
 ]
 // Every key in these two banks contains its concept's slug.
 const BANKS_PASSABLE_BY_SLUG_OWED: string[] = []
+// Added 2026-10-15, when plan PR 9's S12 bank turned out passable by it: four review rounds had
+// kept each key from being the longest option, and in 14 of 24 questions it became the shortest.
+// Picking the shortest passed apis-sql-geo for 40.2% of learners, and no other bank in the course.
+const BANKS_PASSABLE_BY_SHORTEST_OWED: string[] = []
 
 // ---------------------------------------------------------------------------------------------
 // The learner
@@ -140,6 +146,7 @@ const STRATEGIES: Record<string, Strategy> = {
   C: () => 2,
   D: () => 3,
   longest: (q) => firstBest(q.options.map((o) => o.length)),
+  shortest: (q) => firstBest(q.options.map((o) => -o.length)),
   clang: (q) => {
     const stem = contentWords(q.question)
     return firstBest(q.options.map((o) => [...contentWords(o)].filter((w) => stem.has(w)).length))
@@ -270,6 +277,11 @@ describe('recreations: a bank with a cue is passable, and the simulation says so
   it('every key the longest option, shuffled: picking the longest still passes every learner', () => {
     assert.equal(passRate(keyLongest, 'longest', seeded('longest'), presentQuestion, 200), 1)
   })
+
+  it('every key the shortest option, shuffled: picking the shortest still passes every learner', () => {
+    const keyShortest = syntheticBank(2, (c, v, k) => (k === 2 ? `sí ${c}.${v}` : `una opción más larga, número ${k}`))
+    assert.equal(passRate(keyShortest, 'shortest', seeded('shortest'), presentQuestion, 200), 1)
+  })
 })
 
 // ---------------------------------------------------------------------------------------------
@@ -306,6 +318,7 @@ describe(`the real bank: ${LEARNERS} learners per bank and strategy, ${MAX_EXAM_
 
   const owed: Array<[string, string[]]> = [
     ['longest', BANKS_PASSABLE_BY_LONGEST_OWED],
+    ['shortest', BANKS_PASSABLE_BY_SHORTEST_OWED],
     ['clang', BANKS_PASSABLE_BY_CLANG_OWED],
     ['slug', BANKS_PASSABLE_BY_SLUG_OWED],
   ]
