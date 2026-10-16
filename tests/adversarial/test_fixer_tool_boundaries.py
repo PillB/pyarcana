@@ -324,7 +324,8 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
         strict = json.loads((self.root / ".fixer/S02.strict-output.json").read_text(encoding="utf-8"))
         self.assertEqual([(row["file"], row["verdict"]) for row in strict["rows"]],
                          [("src/lib/course/sections/s02-beta.ts", "match")],
-                         "the strict audit did not run the section's snippet under the pinned interpreter")
+                         "the strict audit did not run S02's snippet and report it as a match; "
+                         "this test does not check which interpreter ran it")
 
     def test_a_brief_the_builder_can_write_reaches_codex(self) -> None:
         """The control: with a sound tree the runner gets past the brief, so the refusals below are the brief's."""
