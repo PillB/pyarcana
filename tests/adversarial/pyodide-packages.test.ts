@@ -44,7 +44,7 @@ test('the detector still reads every import form the playground handled before t
 })
 
 test('every name on an import line is seen, not only the first', () => {
-  // Defect: S07's demo says `import csv, hashlib, io, json`. hashlib is the second name, so the package
+  // Defect: S08's demo (files-ingestion) says `import csv, hashlib, io, json`. hashlib is the second name, so the package
   // was not loaded, hashlib was imported without its OpenSSL part, and Python kept that broken module
   // in sys.modules, so S14's hashlib.pbkdf2_hmac failed for the rest of the page session.
   assert.deepEqual(detectRequiredPackages('import csv, hashlib, io, json\n'), ['hashlib'])

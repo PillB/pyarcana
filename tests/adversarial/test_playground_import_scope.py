@@ -62,9 +62,11 @@ def real_findings() -> tuple[dict[str, frozenset[str]], set[str], list[str]]:
 
 class ImportScopeRule(unittest.TestCase):
     def test_scikit_learn_is_refused_in_every_section(self) -> None:
-        # Defect: a demo imports scikit-learn, which no section teaches.
+        # Defect: a demo imports scikit-learn, which no section teaches, or the refusal does not name
+        # the section it was made in (the message says which S it is, so the learner's fix is findable).
         problems = problems_for(10, "from sklearn.linear_model import LogisticRegression\n")
         self.assertEqual([module for module, _ in problems], ["sklearn"])
+        self.assertIn("S10", problems[0][1])
 
     def test_numpy_is_refused_before_s14_and_allowed_from_s14(self) -> None:
         # Defect (boundary): numpy allowed one section early, at S13.
@@ -154,7 +156,7 @@ class RealDemos(unittest.TestCase):
     def test_the_browser_loads_every_package_the_guard_lets_a_demo_import(self) -> None:
         # Defect: the guard reads imports with an AST, but CodePlayground loads packages from a text
         # scan of the code. A demo can pass the guard and still import a module the browser never
-        # loaded (S07's `import csv, hashlib, io, json` missed hashlib, the second name on the line).
+        # loaded (S08's `import csv, hashlib, io, json` missed hashlib, the second name on the line).
         data = playground()
         missed: dict[str, list[str]] = {}
         for demo_id, demo in data["demos"].items():
