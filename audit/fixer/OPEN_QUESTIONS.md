@@ -580,3 +580,34 @@ They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 54` fails the audit 
 appears, and (in CI, on a full run) asks for the number to be lowered when one is paid. Paying
 them means declaring those packages in the learners' environment, or rewriting the snippets not
 to need them. The first changes what a learner installs, so it is the owner's call.
+
+## Q8 — S12-T3-B: the corrected index paragraph is true, and four style concerns came back twice (2026-10-15)
+
+Branch `claude/s12-unique-already-indexed` fixes S12-F15 (KFC-010): the lesson created a second
+index on a `UNIQUE` column. The facts are now right everywhere they appeared. `paragraphs[2]` of
+the theory block "Parámetros, transacciones, constraints e índices" is the Codex text that shipped
+(first version, `.fixer/S12idx.result.json`). The two demo sentences that followed it now form
+`paragraphs[3]`, unchanged, so the index paragraph has three sentences (rule D2).
+
+The review returned four concerns on that paragraph to Codex twice. Neither return resolved them
+without a new defect, so per AGENTS.md they come to a human:
+
+- **R2.** «En esta tabla» points at the `clients` table of `params_tx.py`, which the learner sees
+  only after the paragraph.
+- **R3.** The second sentence joins two unrelated facts with a semicolon: the automatic index's
+  name, and what `NOT NULL` does.
+- **R4.** «acelerar una columna»: lookups are what speeds up, not the column. «una columna buscada
+  o usada para unir tablas que aún no tenga índice» stacks modifiers (rule B5).
+- **R5.** The paragraph never says outright that the demo needs no second index on `document_id`.
+
+What the two returns produced (in gitignored `.fixer/`, so not in this tree):
+
+- **Second version** (`S12idxc1`): two sentences. The prose audit counted both as long (over 32
+  words), where the text before had none. Not applied.
+- **Third version** (`S12idxc2`): three sentences, measured worse than the first (Fernández-Huerta
+  54.2 against 55.1; 26.0 words per sentence against 23.7). It says the automatic index «evita que
+  el demo cree otro», which is false: SQLite accepts the duplicate, and the demo simply does not
+  need it. Not applied.
+
+Decide: keep the first version as is; give the passage a third Codex round with these four
+points; or take it into the S12 fixer round, where the redaction pass reads the whole section.
