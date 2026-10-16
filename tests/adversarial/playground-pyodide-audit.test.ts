@@ -6,18 +6,22 @@
  * This gate runs the demos on the real Pyodide. Each test below names the defect it guards; the
  * commit that adds it records the mutation that turns it red.
  *
- * Needs the `pyodide` devDependency (node_modules/pyodide), or PYARCANA_PYODIDE_DIR. Two tests
- * download a Pyodide package from cdn.jsdelivr.net (sqlite3, lzma, ssl are small); the rest run on
- * the core that the npm package carries.
+ * Needs the `pyodide` devDependency (node_modules/pyodide), or PYARCANA_PYODIDE_DIR. Some tests
+ * download a Pyodide package from cdn.jsdelivr.net (sqlite3, lzma and ssl are small); the missing-
+ * package test asks the CDN for a file it does not have, which fails with a 404 or with no network.
+ * Either way Pyodide reports the download as failed.
  *
- * STAND-IN, test only: `blockedRuntime` below answers loadPackage with a rejection, to reach the
- * "package would not download" branch, which no healthy network produces. It runs no Python.
+ * STAND-IN, test only: `blockedRuntime` below answers loadPackage the way Pyodide 0.26.2 answers a
+ * failed download (errorCallback, then a resolve with no packages), so the exit-3 branch is reached
+ * without a network. It runs no Python. The test "a package that will not download stops the gate"
+ * reaches the same branch on a real Pyodide with no stand-in; the stand-in is an owner question.
  */
 import test, { before, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import {
   PackageLoadBlocked,
   PyodideRefused,
@@ -43,15 +47,46 @@ const WARN = (message: string) => `import warnings\nwarnings.warn(${JSON.stringi
 
 let bare: PyodideLike // Pyodide core, no prelude: what loads before CodePlayground's prelude runs
 let ready: PyodideLike // core + PLAYGROUND_PRELUDE: what a learner's first run uses
+let missing: PyodideLike // core, whose sqlite3 package cannot be downloaded (see loadWithMissingPackage)
+
+/**
+ * A real Pyodide 0.26.2 whose sqlite3 entry names a file that is not published, so the download
+ * fails the way a dead CDN does. The failure is Pyodide's own: nothing here answers for it. The lock
+ * file is a temporary copy with that one entry changed; the pinned install is not touched.
+ */
+async function loadWithMissingPackage(): Promise<PyodideLike> {
+  const dir = locatePyodide(process.env)
+  const lock = JSON.parse(readFileSync(join(dir, 'pyodide-lock.json'), 'utf8'))
+  lock.packages.sqlite3.file_name = 'sqlite3-not-published-0.0.0.zip'
+  const folder = mkdtempSync(join(tmpdir(), 'pyarcana-lock-'))
+  try {
+    const lockFileURL = join(folder, 'pyodide-lock.json')
+    writeFileSync(lockFileURL, JSON.stringify(lock))
+    const { loadPyodide } = await import(pathToFileURL(join(dir, 'pyodide.mjs')).href)
+    return await loadPyodide({ indexURL: dir, lockFileURL })
+  } finally {
+    rmSync(folder, { recursive: true, force: true })
+  }
+}
 
 before(async () => {
-  ;[bare, ready] = await Promise.all([loadCore(), startRuntime()])
+  ;[bare, ready, missing] = await Promise.all([loadCore(), startRuntime(), loadWithMissingPackage()])
 })
 
+/**
+ * STAND-IN, test only: a runtime whose downloads all fail, answered the way Pyodide 0.26.2 answers a
+ * failed download (pyodide.asm.js, functions Ge and downloadAndInstall): the failure goes to
+ * errorCallback and loadPackage resolves with the packages it loaded, here none. It runs no Python.
+ */
 const blockedRuntime: PyodideLike = {
   runPythonAsync: async () => assert.fail('no Python should run when the package would not load'),
-  loadPackage: async () => {
-    throw new Error('fetch failed')
+  loadPackage: async (names, options) => {
+    options?.messageCallback?.(`Failed to load ${names.join(', ')}`)
+    for (const name of names) {
+      options?.errorCallback?.(`The following error occurred while loading ${name}:`)
+      options?.errorCallback?.(`Failed to load '${name}': request failed.`)
+    }
+    return []
   },
   setStdout: () => {},
   setStderr: () => {},
@@ -229,6 +264,20 @@ describe('main() decides the exit code the npm script returns', () => {
     assert.equal(await main(deps), 3)
     assert.deepEqual(out, [])
     assert.match(err.join('\n'), /BLOCKED.*numpy.*demo zz/s)
+  })
+
+  test('a package that will not download stops the gate with exit 3, on the real Pyodide', async () => {
+    // Defect: Pyodide 0.26.2 reports a failed download through errorCallback and then resolves, so a
+    // gate that only catches a rejection reads the demo as failed (exit 1) instead of blocked (exit 3).
+    // No stand-in: this runtime is Pyodide's own, with an unpublished sqlite3 entry.
+    const { deps, out, err } = capture({
+      start: async () => missing,
+      demos: { zz: demo('import sqlite3\nprint("hola")', 'hola') },
+    })
+    assert.equal(await main(deps), 3)
+    assert.deepEqual(out, [])
+    assert.match(err.join('\n'), /BLOCKED.*sqlite3.*demo zz/s)
+    assert.match(err.join('\n'), /The following error occurred while loading sqlite3/)
   })
 
   test('a package that will not download throws, naming the demo and the packages', async () => {

@@ -138,7 +138,14 @@ function withTimeout<T>(work: Promise<T>, ms: number, what: string): Promise<T> 
   return Promise.race([work, limit]).finally(() => clearTimeout(timer))
 }
 
-/** Load what the code needs the way CodePlayground does. A failure here is a stop, not a mismatch. */
+/**
+ * Load what the code needs the way CodePlayground does. A failure here is a stop, not a mismatch.
+ *
+ * Pyodide 0.26.2 does not reject when a package download fails. Its loadPackage sends the failure to
+ * errorCallback ("The following error occurred while loading X:", then the error text) and resolves
+ * with the packages it did load: pyodide.asm.js in the pyodide@0.26.2 package, function Ge (loadPackage)
+ * and downloadAndInstall. So the complaints are the only signal, and any complaint is a stop.
+ */
 async function loadPackagesFor(pyodide: PyodideLike, id: string, code: string): Promise<void> {
   const packages = detectRequiredPackages(code)
   if (packages.length === 0) return
@@ -152,6 +159,7 @@ async function loadPackagesFor(pyodide: PyodideLike, id: string, code: string): 
   } catch (error) {
     throw new PackageLoadBlocked(id, packages, (error as Error).message ?? String(error))
   }
+  if (complaints.length > 0) throw new PackageLoadBlocked(id, packages, complaints.join(' '))
 }
 
 /** A dict that behaves like the playground's `__main__`: `__name__` is "__main__", so warnings show as they do there. */
