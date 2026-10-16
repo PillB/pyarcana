@@ -313,7 +313,8 @@ print(seed_and_join())`,
       paragraphs: [
         "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa placeholders `?` (o `:name` con `Connection.row_factory`). **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a la inyección SQL (según OWASP, el proyecto abierto de seguridad web) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
         "`executemany` (ejecutar varios inserts de golpe) + `BEGIN`/`COMMIT` hacen batch **atómico** (todo o nada); un `UNIQUE` roto → `ROLLBACK` (deshacer) y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
-        "`UNIQUE`/`NOT NULL` (restricciones de SQL) e **índices** (estructuras que aceleran búsquedas) en `document_id` / `entity_id` aceleran lookups (búsquedas por clave) del caso y documentan el modelo. Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad; si ves count `2`, olvidaste el rollback."
+        "En esta tabla, `UNIQUE` y `PRIMARY KEY` protegen la integridad y SQLite crea sus índices: un **índice** es una estructura que acelera búsquedas. El de `document_id` se llama `sqlite_autoindex_clients_2`; `NOT NULL` solo impide valores nulos, no crea un índice ni acelera búsquedas. Usa `CREATE INDEX` para documentar y acelerar una columna buscada o usada para unir tablas que aún no tenga índice, como `evidence.entity_id`, o `document_id` sin `UNIQUE` en E3.",
+        "Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad; si ves count `2`, olvidaste el rollback."
       ],
       code: {
         language: 'python',
@@ -323,7 +324,6 @@ print(seed_and_join())`,
 def try_batch_unique_doc():
     con = sqlite3.connect(":memory:")
     con.execute("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
-    con.execute("CREATE INDEX idx_doc ON clients(document_id)")
     try:
         con.execute("BEGIN")
         con.executemany(
@@ -1596,7 +1596,7 @@ con.close()`,
         kind: "transfer",
         title: "Índice idx_document_id y PRAGMA",
         preamble:
-          "- **Contexto:** el lookup por documento del caso se acelera y se documenta con un índice explícito.\n- **Meta:** crear `idx_document_id` y listar índices con `PRAGMA index_list`.\n- **Éxito:** `['idx_document_id', 'sqlite_autoindex_clients_1']` (ordenados).\n- **Límites:** nombre exacto del índice; no borres el autoindex de la PK.",
+          "- **Contexto:** en la tabla inicial, `document_id` no es `UNIQUE`, así que SQLite no crea un índice para esa columna; la búsqueda se acelera y se documenta cuando creas `idx_document_id`.\n- **Meta:** crear `idx_document_id` y listar índices con `PRAGMA index_list`.\n- **Éxito:** `['idx_document_id', 'sqlite_autoindex_clients_1']` (ordenados).\n- **Límites:** nombre exacto del índice; no borres el autoindex de la PK.",
         instruction:
           "1. El starter lista índices sin crear el de document_id.\n2. Ejecuta `CREATE INDEX idx_document_id ON clients(document_id)`.\n3. Lee nombres con PRAGMA y haz `sorted`.\n4. Imprime la lista completa.",
         hint: "CREATE INDEX con el nombre exacto pedido, luego PRAGMA.",
@@ -2008,7 +2008,7 @@ def as_relationship_signal(km: float) -> dict:
 
 def build_db() -> sqlite3.Connection:
     con = sqlite3.connect(":memory:")
-    # DEFECT: falta CREATE clients / transactions / evidence + índice document_id
+    # DEFECT: falta CREATE clients / transactions / evidence + índice evidence(entity_id) para el join de case_join
     # CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT, document_id TEXT UNIQUE);
     # CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);
     # CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
