@@ -59,7 +59,9 @@
  * matter: the departure of an id's old exercise, the amendment of the one that arrived there and the
  * `added` row for a vacated id come in any order. Only one exercise's own chain is in sequence: its
  * renumbered row first, then its amendments.
- * The tool is not in this repository yet; this file is the format of record.
+ * The tool is not in this repository yet; this file is the format of record. PR-1's renumber tool must write
+ * this format, or the format changes here together with its tests (O27 101-S3). Only a removed row must cite
+ * an owner decision. A renumbered row needs only a non-empty decided_by.
  *
  *   node --import tsx scripts/exercise_meaning.mjs --check          # current tree against its anchors
  *   node scripts/exercise_meaning.mjs --ledger-base <sha>           # anchor and ledger changes since <sha>
