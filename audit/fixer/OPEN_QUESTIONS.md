@@ -580,3 +580,62 @@ They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 54` fails the audit 
 appears, and (in CI, on a full run) asks for the number to be lowered when one is paid. Paying
 them means declaring those packages in the learners' environment, or rewriting the snippets not
 to need them. The first changes what a learner installs, so it is the owner's call.
+
+## Q8 — S12-T3-B: the corrected index paragraph is true, and four style concerns came back twice (2026-10-15) — RESOLVED 2026-10-17
+
+**Resolved.** The owner chose a further Codex round on 2026-10-16, with `gpt-6-luna` at `medium`.
+They set the bar: no slip, written in their structure (a new idea said two ways, a reminder of
+earlier concepts, no staccato). They read all fifteen drafts and chose V15 on 2026-10-17. V15 is
+now two paragraphs:
+- The first teaches `PRIMARY KEY` and `UNIQUE` at their first use in prose. It says SQLite
+  creates one index for `id` and one for `document_id` to check those two constraints, and
+  defines **índice** in a sentence of its own. It ends with why the demo adds no second index.
+- The second contrasts `NOT NULL`, says when to write `CREATE INDEX`, and recalls T3-A's JOIN on
+  `entity_id`.
+
+How V15 resolves each of the four concerns raised below:
+- **R2.** It names the table and the file before the code: «En la tabla `clients` de
+  `params_tx.py`».
+- **R3.** No semicolon joins unrelated facts. `NOT NULL` has its own sentence, introduced by
+  «En cambio».
+- **R4.** «acelerar una columna» and the stacked modifiers are gone. The rule is now «Cuando buscas
+  o unes por una columna sin índice propio, escribes `CREATE INDEX`».
+- **R5.** It says outright that the demo needs no second index: «el demo no crea otro índice en esa
+  columna».
+
+Nothing in this question remains open. PR #108's description summarises the drafts. The full
+fifteen-draft page, with each diagnosis, is gitignored at
+`.fixer/S12-T3-B_index_paragraph_variants.md`.
+
+### History: the question as raised on 2026-10-15
+
+Branch `claude/s12-unique-already-indexed` fixed S12-F15 (KFC-010): the lesson created a second
+index on a `UNIQUE` column. The facts were then right everywhere they appeared. `paragraphs[2]` of
+the theory block "Parámetros, transacciones, constraints e índices" was the Codex text that first
+shipped (`.fixer/S12idx.result.json`). The two demo sentences that followed it had become
+`paragraphs[3]`, unchanged, so the index paragraph had three sentences (rule D2).
+
+The review returned four concerns on that paragraph to Codex twice. Neither return resolved them
+without a new defect, so per AGENTS.md they came to a human:
+
+- **R2.** «En esta tabla» points at the `clients` table of `params_tx.py`, which the learner sees
+  only after the paragraph.
+- **R3.** The second sentence joins two unrelated facts with a semicolon: the automatic index's
+  name, and what `NOT NULL` does.
+- **R4.** «acelerar una columna»: lookups are what speeds up, not the column. «una columna buscada
+  o usada para unir tablas que aún no tenga índice» stacks modifiers (rule B5).
+- **R5.** The paragraph never says outright that the demo needs no second index on `document_id`.
+
+What the two returns produced (in gitignored `.fixer/`, so not in this tree):
+
+- **Second version** (`S12idxc1`): two sentences. The prose audit counted both as long (over 32
+  words), where the text before had none. Not applied.
+- **Third version** (`S12idxc2`): three sentences, measured worse than the first (Fernández-Huerta
+  54.2 against 55.1; 26.0 words per sentence against 23.7). It says the automatic index «evita que
+  el demo cree otro», which is false: SQLite accepts the duplicate, and the demo simply does not
+  need it. Not applied.
+
+The question offered three routes: keep the first version; give the passage another Codex round;
+or take it into the S12 fixer round. **Decided 2026-10-16/17 by the owner: another Codex round**,
+run on `gpt-6-luna` at `medium` until a version had no slip. The owner chose V15, which shipped in
+PR #108.
