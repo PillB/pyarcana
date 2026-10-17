@@ -26,9 +26,12 @@
  *
  * To remove an exercise (owner decision O25, 2026-10-13): append a row of kind `removed` for its id, with
  * from_fp the anchor it held, to_fp null, and decided_by naming the owner decision (`owner: O<n> (date)`).
- * The row clears ANCHOR_REMOVED (ledgerFindings), EXERCISE_REMOVED (classify) and the preservation
- * sentinel's EXERCISE_IDS_REMOVED for that id (ledgeredRemovals), so the exercise can leave the course
- * source as well as the anchors. The decision is looked up in audit/fixer/OWNER_DECISIONS.md as the base
+ * The row clears ANCHOR_REMOVED (ledgerFindings) and the preservation sentinel's EXERCISE_IDS_REMOVED for
+ * that id (ledgeredRemovals), so the exercise can leave the course source as well as the anchors. It also
+ * clears EXERCISE_REMOVED in classify, but classify does not look the decision up: a removed row that cites
+ * an O-number the record lacks, or cites nobody, clears classify. ledgerFindings, which the sentinel and
+ * `--ledger-base` run, is the check that refuses such a row, and the sentinel is the check CI relies on
+ * (O27 101-Q5). The decision is looked up in audit/fixer/OWNER_DECISIONS.md as the base
  * commit holds it: a `### O<n>` heading, live or in the Archive (a retired decision moves there and keeps
  * its heading). An O-number no heading records, a mention in a sentence, an O-number only the PR's own
  * copy of the file adds, and a base with no such file all refuse the row. The base is the only copy of the
