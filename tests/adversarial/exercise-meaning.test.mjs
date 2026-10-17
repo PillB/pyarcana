@@ -42,7 +42,12 @@ const SHA_A = 'a'.repeat(64)
 const SHA_B = 'b'.repeat(64)
 const SHA_C = 'c'.repeat(64)
 
-/** The owner decisions the tests treat as recorded. A removed row names O25 (owner decision, 2026-10-13). */
+/**
+ * The owner decisions the rule tests treat as recorded (O27 101-S1). This is test input: the rule takes the
+ * set as an argument, and these tests do not read OWNER_DECISIONS.md. "reads the real record" parses that
+ * file, and the CLI and sentinel tests commit a decisions record into each throwaway repository. A removed
+ * row names O25 (owner decision, 2026-10-13).
+ */
 const RECORDED = new Set(['O25'])
 
 /** Two vocabularies that share almost nothing, so a swap is unmistakable. */
