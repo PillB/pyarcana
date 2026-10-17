@@ -321,9 +321,10 @@ export function ledgeredRemovals({ baseAnchors, baseRows = [], headRows = [], ow
  * and clears nothing. Each appended row also starts where its id stood (walkAppended), so the ledger
  * cannot cite a fingerprint the id never held, and a renumbered row must be true at both of its ids
  * (notVacatedFindings, targetFindings, occupiedFindings, reusedFindings). The renumber PR is not exempt.
- * A `removed` row also needs the owner decision it names to be one OWNER_DECISIONS.md records:
+ * A `removed` row the PR appends also needs the owner decision it names to be one OWNER_DECISIONS.md records:
  * `ownerDecisions` is the set of numbers (`O25`) that file holds at the base, or null when it could not
- * be read, and then no removed row passes.
+ * be read, and then no appended removed row passes. A row the base already holds is not looked up again
+ * (O27 101-Q3): it was judged when it was appended.
  */
 export function ledgerFindings({ baseAnchors, headAnchors, baseRows = [], headRows = [], ownerDecisions = null }) {
   const findings = appendOnlyFindings(baseRows, headRows, ownerDecisions)
