@@ -976,3 +976,27 @@ wrong.**
 ask whether the model decided anything at all — not a weak result to report. Second: when a lesson
 states a number and then explains a mechanism that implies a different number, the explanation is
 usually the surviving half. Read a paragraph against itself before reading it against the code.
+
+### Correct and clipped is not taught (2026-10-17, S12)
+
+S12-T3-B's index paragraph went through fifteen Codex drafts. The eighth was the first with no
+false or ambiguous claim, and the owner still rejected it. It had five short sentences, each fact
+said once, nothing re-taught and nothing recalled, so a learner got one wording to hold on to and
+no thread between the facts. The owner's standing structure, now writing rules **B7** (say a new
+idea two ways, recall what it rests on) and **D13** (no staccato), had never reached a brief. It
+lived in no repository file, so no round had been asked for it.
+
+Three things the later drafts taught:
+
+- **"Recall" presumes it was taught.** `PRIMARY KEY` and `UNIQUE` appear in S12's code from T3-A
+  on, yet no prose defined either before this paragraph. A keyword the learner has only seen in
+  code is a first use: gloss it there. Check the earlier section before calling anything a
+  reminder.
+- **A reminder must point backwards and be exact.** One draft "reminded" the learner of the
+  `D-100` batch, which the next paragraph introduces. It also credited `UNIQUE` with the rollback
+  that the demo's `except` block performs.
+- **Fixing slips one round at a time can trade one slip for another inside one paragraph.** Freeze
+  what is finished, verbatim. Give the rest a sentence-by-sentence content skeleton, with the
+  content fixed and the wording free. When two drafts each got half a sentence right, ask for the
+  join. A connective that claims a cause («Por eso», «Como») is where a false *why* hid, in four
+  of the drafts.

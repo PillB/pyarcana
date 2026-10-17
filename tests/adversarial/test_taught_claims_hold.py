@@ -13,6 +13,7 @@ from __future__ import annotations
 import math
 import os
 import random
+import sqlite3
 import statistics
 import subprocess
 import sys
@@ -193,6 +194,42 @@ class TaughtClaimsHold(unittest.TestCase):
         self.assertEqual(_auc(pos, neg), _auc(pos, rare))
         self.assertAlmostEqual(_average_precision(pos, neg), 0.7095, places=3)
         self.assertLess(_average_precision(pos, rare), 0.27)
+
+    def test_a_unique_column_already_has_an_index(self) -> None:
+        """KFC-010. A UNIQUE constraint creates its own index (PRAGMA index_list origin 'u'), and a
+        lookup on the column searches it. Only a column with no index is scanned, and there
+        CREATE INDEX (origin 'c') turns the scan into a search. The plan is read by its SCAN/SEARCH
+        prefix only: SQLite documents the rest of EXPLAIN QUERY PLAN's text as unstable."""
+        def indexes_and_plan(ddl: str, *extra: str) -> tuple[dict[str, str], str]:
+            con = sqlite3.connect(":memory:")
+            try:
+                con.execute(ddl)
+                for sql in extra:
+                    con.execute(sql)
+                on_column = {
+                    row[1]: row[3] for row in con.execute("PRAGMA index_list('clients')")
+                    if [c[2] for c in con.execute(f"PRAGMA index_info('{row[1]}')")] == ["document_id"]
+                }
+                plan = con.execute("EXPLAIN QUERY PLAN SELECT id FROM clients WHERE document_id = ?",
+                                   ("D-100",)).fetchone()[3]
+            finally:
+                con.close()
+            return on_column, plan
+
+        unique, plan = indexes_and_plan(
+            "CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
+        self.assertEqual(list(unique.values()), ["u"], f"UNIQUE made no index of its own: {unique}")
+        self.assertTrue(plan.startswith("SEARCH"), plan)
+        self.assertIn(next(iter(unique)), plan)
+
+        bare, plan = indexes_and_plan("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT)")
+        self.assertEqual(bare, {})
+        self.assertTrue(plan.startswith("SCAN"), plan)
+
+        indexed, plan = indexes_and_plan("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT)",
+                                         "CREATE INDEX idx_document_id ON clients(document_id)")
+        self.assertEqual(indexed, {"idx_document_id": "c"})
+        self.assertTrue(plan.startswith("SEARCH"), plan)
 
     def test_a_named_placeholder_takes_a_dict_and_row_factory_only_shapes_rows(self) -> None:
         """KFC-011. `:name` binds from a dict with row_factory still None. Setting row_factory
