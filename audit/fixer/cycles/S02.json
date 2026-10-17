@@ -1,5 +1,7 @@
 {
  "section": "S02",
+ "numbering_epoch": 52,
+ "slug": "basics",
  "recorded_at": "2026-09-14T15:21:43+00:00",
  "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s02-basics.ts",

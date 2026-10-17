@@ -19,7 +19,7 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 |---|---|---:|---:|---|---|---|---|---|---|---|
 | **S01** setup | 19/21 | 2 | 3 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S02** basics | 21/21 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S03** decisions-rules | 12/17 | 3 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
+| **S03** decisions-rules | 0/17 (12 reopened) | 3 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S04** iteration-summaries | 18/18 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S05** functions-contracts | 22/22 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S06** collections | 20/20 | 3 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |

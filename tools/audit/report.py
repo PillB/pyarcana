@@ -8,6 +8,14 @@ T=json.load(open(SP+"/audits/tests.json"))
 V=json.load(open(SP+"/audits/validation.json"))
 os.makedirs(OUT+"/sections",exist_ok=True)
 DATE="2026-09-10"
+# The audit sources numbered the course's sections S01-S52, whatever numbering the course has now. The
+# registry says so (tools/fixer/numbering.py reads these two stamps), so a renumber cannot make a finding
+# filed under "S20" read as if it were about the section that is S20 afterwards. Both stamps are the
+# SOURCES' epoch, a fact of the audits and not of today's course: `numbering_epoch` is the numbering of
+# each finding's `section`, which tools/fixer/restamp.py re-keys when the course is renumbered, and
+# `text_numbering_epoch` is the numbering of the section numbers and finding ids written inside the
+# findings' own text, which nothing re-keys (the briefs tell Codex how to read it).
+SOURCE_NUMBERING_EPOCH=52
 
 SEV=("P0","P1","P2","UNSPEC")
 bysec=collections.defaultdict(list)
@@ -19,6 +27,8 @@ tst =collections.Counter(t["section"] for t in T)
 # ---------- machine-readable ----------
 json.dump({"generated":DATE,
            "source":"ReviewerFixer/*.zip + origin/audit/lessons-only-adversarial-20260903",
+           "numbering_epoch":SOURCE_NUMBERING_EPOCH,
+           "text_numbering_epoch":SOURCE_NUMBERING_EPOCH,
            "total_findings":len(R),
            "severity_counts":{s:sum(1 for f in R if f["severity"]==s) for s in SEV},
            "findings":R},

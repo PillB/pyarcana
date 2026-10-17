@@ -1,6 +1,8 @@
 {
  "generated": "2026-09-10",
  "source": "ReviewerFixer/*.zip + origin/audit/lessons-only-adversarial-20260903",
+ "numbering_epoch": 52,
+ "text_numbering_epoch": 52,
  "total_findings": 2124,
  "severity_counts": {
   "P0": 81,

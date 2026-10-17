@@ -473,6 +473,44 @@ A third batch, the same day, all four answered as recommended:
 
 **Retire when:** all thirteen changes have landed, every playground demo matches its section, and S03's round has re-checked the 12 findings.
 
+## 2026-10-14 — test doubles, decided case by case
+
+`AGENTS.md` keeps no stub, stand-in or fake without the owner's decision. Codex's P2 on #100 found
+two in one test file, and #87 holds a third. The owner decided each double on its own, because the
+right answer depends on what the double replaces.
+
+### O26 — Three test doubles: one kept, one replaced, one kept until it can go
+**Scope:** `tests/adversarial/test_fixer_tool_boundaries.py` (the fixer-state PR, 0b-6) and
+`tests/adversarial/credential-blockers.test.ts` (#87). **Status:** live.
+
+Answered 2026-10-14:
+- **(a) The fake `tools/fixer/run_codex.py` stays.** It stands in for the external, paid Codex model.
+  It leaves a marker file and exits 1, so it hides everything the model would write; the test proves
+  only that a brief which cannot be written stops the run before any model call, and that a sound
+  brief reaches the call. That is the whole claim, and a real model call cannot make it.
+- **(b) The fake `tools/fixer/gate.py` is replaced by the real gate.** The fake was one line,
+  `raise SystemExit(0)`. It hid three things: the gate rewrites `.fixer/events.json` and
+  `course-state/concept_map.json`, which are the files the brief is built from, so the test's own
+  hand-written concept map would never survive a real run; the bare sections of the numbering
+  fixture (an id, an index, a title) stop the event extractor, so the temporary course was never one
+  the gate could measure; and the gate needs `node_modules`, the audit scripts, the glossary, a
+  badge catalog, a capstone index and a Python 3.12 at `.venv-content/bin/python`. The test now
+  builds all of that in its temporary course and runs `gate.py snapshot` for real, which takes
+  tens of seconds a run. Two things it does not cover, by design: `gate.py check` (tsc, `test:v3`, both
+  suites, the snippet audit) never runs, because the Codex stand-in stops the run first; and the
+  pinned packages of `requirements-content.txt` are not installed in the temporary course, which
+  imports none (the pins are held by `test:python-content`).
+- **(c) The fake verifiers in `credential-blockers.test.ts` stay.** They stand in for server
+  verifiers that do not exist yet: self-check, You Do, integrator project, defense and prerequisite
+  badges. They hide that production verifies exams only, so the state where the gate opens (K3)
+  exists nowhere but in this test.
+
+Each test file that keeps a double points here from its docstring.
+
+**Retire when:** (b) is done once the real-gate test is on main. (a) is never retired while Codex is
+an external model; it is not a debt. (c) retires, and its fakes go, when a real server verifier
+exists for each of the five requirements.
+
 ---
 
 ## Archive
