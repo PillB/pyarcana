@@ -62,7 +62,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Password (mín. 6 caracteres)',
     'auth.loginTab': 'Iniciar sesión',
     'auth.registerTab': 'Crear cuenta',
-    'auth.demoDesc': 'Inicia sesión para guardar tu progreso, rendir exámenes y ver tu dashboard',
     'auth.or': 'o',
     'auth.oauthDesc': 'OAuth está cableado en el código. Solo falta configurar credenciales reales en .env',
     'auth.oauthGoogle': 'Google',
@@ -99,7 +98,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'La Sesión 0 te guía paso a paso: terminal, Python, Git, GitHub y VS Code.',
     'setup.link.cta': 'Empezar por la Sesión 0',
     'progress.createAccount': 'Crear cuenta gratis',
-    'progress.createAccountDesc': 'Crea cuenta para guardar progreso, rendir exámenes con anti-plagio y ver tu dashboard',
 
     'course.curriculum': 'Currículum del curso',
     'course.method': 'Método I Do / We Do / You Do',
@@ -260,7 +258,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'No se pudo enviar. Intenta de nuevo.',
 
     'footer.tagline': 'PyArcana · Curso online autónomo de Python aplicado a datos, automatización e IA',
-    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Español peruano',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
@@ -315,7 +313,8 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'Método I Do / We Do / You Do',
     'tour.tabs.body': 'Cada sección tiene cuatro pestañas: Teoría (lectura), Yo hago (demo), Hacemos juntos (ejercicios guiados), Tú haces (proyecto individual). Abre cualquier sección para verlas.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. En la edición pública puedes reintentar; el examen formal con cuenta sí limita los intentos.',
+    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. Puedes repetir la autoevaluación cuantas veces quieras.',
+    'tour.autocheck.bodyExam': 'La quinta pestaña es el Autocheck: aquí rindes el examen de la sección. Necesitas 70% para aprobar y tienes 3 intentos. Tu mejor score es el que cuenta.',
     'tour.theme.title': 'Tema claro/oscuro',
     'tour.theme.body': 'Cambia entre tema claro y oscuro. Tu preferencia se guarda automáticamente.',
     'tour.language.title': 'Idioma de la interfaz',
@@ -1095,7 +1094,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Contraseña (mín. 6 caracteres)',
     'auth.loginTab': 'Iniciar sesión',
     'auth.registerTab': 'Crear cuenta',
-    'auth.demoDesc': 'Inicia sesión para guardar tu progreso, realizar exámenes y ver tu panel',
     'auth.or': 'o',
     'auth.oauthDesc': 'OAuth está configurado en el código. Solo falta añadir credenciales reales en .env',
     'auth.oauthGoogle': 'Google',
@@ -1132,7 +1130,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'La Sesión 0 te guía paso a paso: terminal, Python, Git, GitHub y VS Code.',
     'setup.link.cta': 'Empezar por la Sesión 0',
     'progress.createAccount': 'Crear cuenta gratis',
-    'progress.createAccountDesc': 'Crea una cuenta para guardar progreso, realizar exámenes con anti-plagio y ver tu panel',
 
     'course.curriculum': 'Plan de estudios del curso',
     'course.method': 'Método I Do / We Do / You Do',
@@ -1293,7 +1290,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'No se pudo enviar. Inténtalo de nuevo.',
 
     'footer.tagline': 'PyArcana · Curso online autónomo de Python aplicado a datos, automatización e IA',
-    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Español',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
@@ -1348,7 +1345,8 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'Método I Do / We Do / You Do',
     'tour.tabs.body': 'Cada sección tiene cuatro pestañas: Teoría (lectura), Yo hago (demo), Hacemos juntos (ejercicios guiados), Tú haces (proyecto individual). Abre cualquier sección para verlas.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. En la edición pública puedes reintentar; el examen formal con cuenta sí limita los intentos.',
+    'tour.autocheck.body': 'La quinta pestaña es el Autocheck: un quiz de autoevaluación. Necesitas 70% para aprobar. Puedes repetir la autoevaluación cuantas veces quieras.',
+    'tour.autocheck.bodyExam': 'La quinta pestaña es el Autocheck: aquí realizas el examen de la sección. Necesitas 70% para aprobar y tienes 3 intentos. Tu mejor puntuación es la que cuenta.',
     'tour.theme.title': 'Tema claro/oscuro',
     'tour.theme.body': 'Cambia entre tema claro y oscuro. Tu preferencia se guarda automáticamente.',
     'tour.language.title': 'Idioma de la interfaz',
@@ -2128,7 +2126,6 @@ const translations: Record<Language, Dict> = {
     'auth.passwordMin': 'Password (min. 6 characters)',
     'auth.loginTab': 'Sign in',
     'auth.registerTab': 'Create account',
-    'auth.demoDesc': 'Sign in to save your progress, take exams, and view your dashboard',
     'auth.or': 'or',
     'auth.oauthDesc': 'OAuth is wired in the code. Just add real credentials in .env',
     'auth.oauthGoogle': 'Google',
@@ -2165,7 +2162,6 @@ const translations: Record<Language, Dict> = {
     'setup.link.body': 'Session 0 walks you through it step by step: terminal, Python, Git, GitHub and VS Code. The steps are in Peruvian Spanish.',
     'setup.link.cta': 'Start with Session 0',
     'progress.createAccount': 'Create free account',
-    'progress.createAccountDesc': 'Create an account to save progress, take anti-plagiarism exams, and view your dashboard',
 
     'course.curriculum': 'Course curriculum',
     'course.method': 'I Do / We Do / You Do method',
@@ -2326,7 +2322,7 @@ const translations: Record<Language, Dict> = {
     'feedback.error': 'Could not send. Please try again.',
 
     'footer.tagline': 'PyArcana · Autonomous online Python course for data, automation and AI',
-    'footer.method': 'I Do / We Do / You Do method · 52 sections · Anti-plagiarism exams',
+    'footer.method': 'I Do / We Do / You Do method · 52 sections',
 
     'common.close': 'Close',
     'common.loading': 'Loading...',
@@ -2381,7 +2377,8 @@ const translations: Record<Language, Dict> = {
     'tour.tabs.title': 'I Do / We Do / You Do method',
     'tour.tabs.body': 'Each section has four tabs: Theory (reading), I Do (demo), We Do (guided exercises), You Do (individual project). Open any section to see them.',
     'tour.autocheck.title': 'Autocheck',
-    'tour.autocheck.body': 'The fifth tab is the Autocheck: a self-assessment quiz. You need 70% to pass. On the public edition you can retry; the signed-in formal exam does limit attempts.',
+    'tour.autocheck.body': 'The fifth tab is the Autocheck: a self-assessment quiz. You need 70% to pass. You may retry the self-assessment whenever you like.',
+    'tour.autocheck.bodyExam': 'The fifth tab is the Autocheck: this is where you take the section exam. You need 70% to pass and have 3 attempts. Your best score counts.',
     'tour.theme.title': 'Light/dark theme',
     'tour.theme.body': 'Switch between light and dark theme. Your preference is saved automatically.',
     'tour.language.title': 'Interface language',

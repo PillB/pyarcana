@@ -48,6 +48,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useSession } from 'next-auth/react'
+import { fifthTabFor } from '@/lib/cloud/ui-state'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
 import {
@@ -327,7 +328,7 @@ export function SectionView({
               <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
             </TabsContent>
             <TabsContent value="quiz" className="mt-0 focus-visible:outline-none">
-              {session?.user ? (
+              {fifthTabFor(session?.user) === 'exam' ? (
                 <ExamView
                   sectionId={section.id}
                   sectionTitle={section.title}
