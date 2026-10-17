@@ -3561,10 +3561,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: "auth-secrets-cache-provenance",
       question: '¿Qué debe hacer el adaptador si no encuentra `API_TOKEN` en su configuración externa?',
       options: [
-        'Fallar antes de cada pedido con un aviso claro, sin insertar un token de demostración dentro del código',
-        'Enviar el pedido sin autenticación y decidir según el código de estado si la credencial era necesaria para esa ruta',
+        'Fallar antes del pedido con un mensaje claro y no insertar un token de demostración dentro del código',
+        'Enviar el pedido sin autenticación y usar la respuesta 401 para decidir si el proveedor exigía la credencial',
         'Derivar una credencial temporal del identificador del caso y guardarla en caché durante la demostración local',
-        'Reintentar la autenticación con espera creciente, porque la ausencia del token puede ser transitoria en ese entorno',
+        'Reintentar la autenticación con espera creciente, porque el adaptador obtendrá el token tras varios intentos',
       ],
       correctIndex: 0,
       explanation: 'La ausencia del secreto invalida el pedido autenticado y debe fallar cerrado. Reintentar o fabricar una credencial esconde que la configuración externa está incompleta.',
@@ -3599,7 +3599,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Confirma que el proveedor mantiene la misma latencia, la misma cuota y el orden de campos en cada ejecución local',
         'Detecta si faltan o cambian claves obligatorias antes de que la respuesta llegue silenciosamente al mapa',
-        'Demuestra que las coordenadas recibidas corresponden a una dirección real y autorizada por su titular para el mapa',
+        'Demuestra que las coordenadas recibidas corresponden a una dirección real y que su titular autorizó la consulta',
         'Comprueba que el modo offline devuelve datos más recientes que la respuesta disponible en el proveedor o en la caché',
       ],
       correctIndex: 1,
@@ -3610,7 +3610,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'El proveedor falla durante una demostración, pero existen coordenadas locales precalculadas. ¿Qué salida conserva utilidad y trazabilidad?',
       options: [
         'Devolver las coordenadas locales con `mode=online`, porque coinciden con la última respuesta conocida',
-        'Suspender la salida hasta recuperar conexión, aunque las coordenadas locales respeten el contrato de claves',
+        'Suspender la salida hasta recuperar la conexión, aunque las coordenadas locales sigan el contrato de claves',
         'Usar las coordenadas locales y marcar `mode=offline_fallback` para que el revisor reconozca su origen local',
         'Generar coordenadas cercanas a la ciudad pedida y marcar `mode=estimated` hasta recuperar la conexión',
       ],
@@ -3651,7 +3651,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Unir las tablas por `entity_id` y ordenar por `c.id`, suponiendo que `C001` aparecerá primero en la ficha',
       ],
       correctIndex: 1,
-      explanation: 'La condición del `JOIN` establece la pertenencia y el `WHERE` limita la ficha solicitada. Leer la tabla completa o confiar en el orden de inserción mezcla entidades.',
+      explanation: 'La condición del `JOIN` establece la pertenencia y el `WHERE` limita la ficha solicitada. Ordenar por `c.id` no garantiza que `C001` aparezca primero y puede mezclar entidades.',
     },
     {
       concept: "schema-crud-joins",
@@ -3771,7 +3771,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El adaptador corrigió una coordenada inválida a 0,0 en vez de rechazar el par antes de calcular o pintar',
       ],
       correctIndex: 3,
-      explanation: 'Una latitud de 91 está fuera del rango válido: debe rechazarse, no convertirse en 0,0. Si se rechaza el par, el mapa no tiene nada que dibujar; 0,0 revela una sustitución, no una omisión.',
+      explanation: 'Una latitud de 91 está fuera del rango válido: debe rechazarse, no convertirse en 0,0. El par no llegó vacío: contenía 91; si se rechazara, el mapa no dibujaría nada, así que 0,0 revela una sustitución.',
     },
   ],
 
@@ -3782,8 +3782,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Qué hace el bloqueo antes de aplicar las reglas detalladas de resolución de identidad?',
       options: [
         'Reduce los pares candidatos mediante claves baratas, sin decidir por sí mismo si dos registros son la misma entidad',
-        'Asigna un veredicto de identidad a cada registro que comparta región y una parte semejante del nombre del lote evaluado',
-        'Fusiona las filas de cada bloque y conserva el documento que aparezca con mayor frecuencia dentro del bloque de esa carga',
+        'Asigna un veredicto de identidad a cada registro del lote que comparta región y una parte semejante del nombre normalizado',
+        'Fusiona las filas de cada grupo y conserva el documento que aparezca con mayor frecuencia, aunque pertenezca a otra persona',
         'Ordena todos los registros por puntaje de relación para comparar primero los posibles vínculos familiares del mismo lote',
       ],
       correctIndex: 0,
@@ -3841,10 +3841,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: "labeled-truth-precision-recall-clerical",
       question: 'Una regla obtiene precisión 1.0, pero el informe también registra dos falsos negativos. ¿Qué conclusión del analista es incorrecta?',
       options: [
-        'La regla no marcó ningún par distinto como igual entre los casos aceptados de ese conjunto etiquetado antes de la revisión',
+        'La regla no marcó como igual ningún par distinto entre los casos que aceptó al evaluar ese conjunto sintético etiquetado',
         'El recall puede ser menor que 1.0 porque algunos pares realmente iguales quedaron sin encontrar en el conjunto de prueba',
         'La regla encontró todos los pares verdaderos, porque una precisión perfecta elimina la necesidad de revisar omisiones',
-        'Los pares de puntaje intermedio de la regla pueden mantenerse en una cola humana aunque la precisión reportada sea alta al cierre',
+        'Los pares con puntaje intermedio pueden seguir en una cola humana aunque la precisión del conjunto etiquetado sea alta para la regla',
       ],
       correctIndex: 2,
       explanation: 'Precisión perfecta solo describe los positivos predichos; no dice que se recuperaron todos los positivos reales. Los falsos negativos reducen recall y siguen siendo una omisión.',
