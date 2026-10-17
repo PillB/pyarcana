@@ -31,11 +31,14 @@
  * source as well as the anchors. The decision is looked up in audit/fixer/OWNER_DECISIONS.md as the base
  * commit holds it: a `### O<n>` heading, live or in the Archive (a retired decision moves there and keeps
  * its heading). An O-number no heading records, a mention in a sentence, an O-number only the PR's own
- * copy of the file adds, and a base with no such file all refuse the row. The lookup proves the decision
- * exists, not that it covers this exercise: the owner reads that in the PR. The lookup runs once per row,
- * on the rows the PR appends. A row the base already holds was judged when it was appended, so a later
- * change to the record (a retired decision whose heading goes missing, say) cannot refuse it: the rows of
- * an append-only ledger cannot be repaired, so a later PR would fail whatever it touched (O27 101-Q3).
+ * copy of the file adds, and a base with no such file all refuse the row. The base is the only copy of the
+ * record the PR did not write, so a PR cites only the decisions its base already records: a decision the PR
+ * adds cannot be cited by that same PR. The decision lands on main first, and a PR that branched before it
+ * landed merges main first (O27 101-Q1). The lookup proves the decision exists, not that it covers this
+ * exercise: the owner reads that in the PR. The lookup runs once per row, on the rows the PR appends. A row
+ * the base already holds was judged when it was appended, so a later change to the record (a retired
+ * decision whose heading goes missing, say) cannot refuse it: the rows of an append-only ledger cannot be
+ * repaired, so a later PR would fail whatever it touched (O27 101-Q3).
  *
  * To rebind an exercise to a new id (the renumber, owner decision O25): one row of kind `renumbered` per
  * pair, written by the renumber tool: id the new id, from_id the old one, from_fp = to_fp the one
