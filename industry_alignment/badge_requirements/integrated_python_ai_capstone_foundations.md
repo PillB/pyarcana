@@ -5,20 +5,19 @@
 **Family:** capstone_credential  
 **Credential type:** `verified_credential`  
 **Capability level:** `foundation`  
-**Verification mode:** `server_verified`  
+**Verification mode:** `server_authoritative`  
 **Status:** `active`  
 **Issuer:** PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)  
 **Generated:** 2026-07-28T22:08:04Z
 
 ## Public claim
 
-> The learner has completed and defended the three Phase 0 capstones (CP-N1-A, CP-N1-B, CP-N1-C) at rubric performance above the provisional floor, with a synthesis writeup demonstrating foundational-level capability across Python, data, automation, and visualization.
+> El aprendiz demostró independientemente Python and AI Capstone — Foundations mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as any role at any seniority level.
-- Does not imply job-readiness; it certifies only that the Phase 0 capstone synthesis was independently produced and defended at the foundational level.
-- Foundational level means 'can apply with guidance'; it does NOT mean 'can apply independently in a production setting'.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
