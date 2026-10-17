@@ -841,6 +841,51 @@ describe('renumbered rows at the scale of the design\'s renumber (synthetic anch
   })
 })
 
+describe('renumbered rows at the scale of the design\'s renumber, on the committed anchors (O27 101-S2)', () => {
+  // The synthetic block above proves the renumber on made-up fingerprints (shaOf(id)). This block runs the
+  // same construction on the committed anchors: 1,248 real fingerprints, none shared. The made-up block stays
+  // as the unit fixture, and PR-1's renumber tool must write rows this block accepts. Only the new ids'
+  // fingerprints are made up, because no exercise exists for them yet.
+  const committed = JSON.parse(readFileSync(join(ROOT, ANCHORS_PATH), 'utf8')).exercises
+  const pad = (n) => String(n).padStart(2, '0')
+  const f = (n) => (n <= 18 ? n : n <= 32 ? n + 2 : n + 3)
+  const renameId = (id) => `S${pad(f(Number(id.slice(1, 3))))}${id.slice(3)}`
+  const shaOf = (key) => createHash('sha256').update(key).digest('hex')
+  const exercise = (sha256) => ({ section: 'S00', sha256, tokens: ['x'] })
+  const stamp = { reason: 'renumerado por f', decided_by: 'tool: renumber', date: '2026-10-13' }
+  const ids = Object.keys(committed)
+  const targets = new Set(ids.map(renameId))
+  const rebound = ids.filter((id) => renameId(id) !== id)
+  const newIds = ids.filter((id) => !targets.has(id))
+  const renumberedRows = rebound.map((from) => ({ id: renameId(from), kind: 'renumbered', from_id: from, from_fp: committed[from].sha256, to_fp: committed[from].sha256, ...stamp }))
+  const addedRows = newIds.map((id) => ({ id, kind: 'added', from_fp: null, to_fp: shaOf(`new ${id}`), ...stamp }))
+  const head = Object.fromEntries([
+    ...ids.map((id) => [renameId(id), exercise(committed[id].sha256)]),
+    ...newIds.map((id) => [id, exercise(shaOf(`new ${id}`))]),
+  ])
+  const run = (rows) => ledgerFindings({ baseAnchors: committed, headAnchors: head, baseRows: [], headRows: rows.map((row, i) => ({ row: i + 1, ...row })) })
+
+  it('is the same renumber as the synthetic block: 816 rebound ids and 72 added ids, from the committed anchors', () => {
+    assert.deepEqual([ids.length, rebound.length, addedRows.length], [1248, 816, 72])
+  })
+
+  it('passes with one renumbered row per rebound id followed by the added rows, on the committed fingerprints', () => {
+    assert.deepEqual(run([...renumberedRows, ...addedRows]), [])
+  })
+
+  it('reports exactly the two ids whose renumbered row was dropped, on the committed fingerprints', () => {
+    // S24 <- S22 is dropped, as in the synthetic block: S24 holds an anchor no row names, and S22 has lost its
+    // exercise with no row that starts from it.
+    const dropped = renumberedRows.find((row) => row.id === 'S24-T1-A-E1')
+    assert.equal(dropped.from_id, 'S22-T1-A-E1')
+    const findings = run([...renumberedRows.filter((row) => row !== dropped), ...addedRows])
+    assert.deepEqual(findings.map((x) => [x.code, x.id]), [
+      ['ANCHOR_CHANGED_UNLEDGERED', 'S24-T1-A-E1'],
+      ['LEDGER_RENUMBER_TARGET_OCCUPIED', 'S22-T1-A-E1'],
+    ])
+  })
+})
+
 describe('CODEOWNERS: the B11 guard and its state are the owner\'s files', () => {
   const owners = readFileSync(join(ROOT, '.github/CODEOWNERS'), 'utf8')
     .split('\n')
