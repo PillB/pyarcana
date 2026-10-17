@@ -60,3 +60,13 @@ subset as a modified version, which "would not normally allow the use of RFNs". 
 Google's unmodified subset files under the name Google serves them with. The deployed site
 already served exactly these bytes before this change, because `next/font/google` self-hosts
 what it downloads. What is new is the copy in this repository.
+
+These 20 files are the only font files in the repository and in the build. Each one also embeds
+its copyright notice and the OFL's URL. Every other font the app names is a system font, named
+and never shipped:
+
+- the fallback faces' `local("Arial")` and `local("Times New Roman")`;
+- Georgia, `-apple-system` and `ui-monospace` in the font stacks;
+- the generic `serif`, `sans-serif` and `monospace`.
+
+No page requests a font from another host (checked 2026-10-17 over the 20 pages and 52 sections).
