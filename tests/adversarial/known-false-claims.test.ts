@@ -50,13 +50,14 @@ const OWED: Record<string, number> = {
   'KFC-008': 0, // ENFORCED 2026-10-13. Was 1: glossary ROC-AUC - S18 round
   'KFC-009': 0, // ENFORCED 2026-10-13. Was 1: glossary StratifiedKFold - S18 round
   'KFC-010': 0, // ENFORCED 2026-10-16. Was 1: S12-T3-B params_tx.py :325-326, the CREATE INDEX on a UNIQUE column
+  'KFC-011': 1, // S12 :314 (S12-T3-B) - the Codex correction of that sentence lowers this to 0
 }
 
 const describe = (h: Hit) => `${h.file}:${h.line} | ${h.excerpt}`
 
 test('(e) no entry is removed, and every entry has an owed count', () => {
   const ids = ENTRIES.map((e) => e.id)
-  for (let n = 1; n <= 10; n++) {
+  for (let n = 1; n <= 11; n++) {
     const id = `KFC-${String(n).padStart(3, '0')}`
     assert.ok(ids.includes(id), `${id} was removed from the registry; fix the text instead`)
   }
