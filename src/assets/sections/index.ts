@@ -20,3 +20,20 @@ export const SECTION_SHOT_IMAGES: Record<string, StaticImageData> = {
   's23-trace-viewer': shot_s23_trace_viewer,
   's44-merge-blocked': shot_s44_merge_blocked,
 }
+
+/**
+ * The licence texts that must travel with two of the pictures (decision D23). MIT requires its
+ * copyright and permission notice in every copy; Apache-2.0 §4 requires a copy of the licence
+ * and the source's NOTICE. A link to the upstream file does not ship them, so verbatim copies
+ * are bundled next to the images (taken from each repository's main branch on 2026-10-17) and
+ * the credit links these copies.
+ */
+export const SECTION_SHOT_LICENCE_FILES: Record<string, { licence: string; notice?: string }> = {
+  's01-ruff-quickfix-f401': {
+    licence: new URL('./licences/ruff-vscode-LICENSE.txt', import.meta.url).href,
+  },
+  's23-trace-viewer': {
+    licence: new URL('./licences/playwright-LICENSE.txt', import.meta.url).href,
+    notice: new URL('./licences/playwright-NOTICE.txt', import.meta.url).href,
+  },
+}

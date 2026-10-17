@@ -700,5 +700,8 @@ decision.
   - alt text is non-empty and differs from the caption; the caption stands on its own (B3);
   - under each image, the Sesión 0 line pointing to the product's current guide, with
     descriptive link text (WCAG 2.4.4);
+  - MIT and Apache-2.0 travel with the copy: verbatim licence texts (and Playwright's NOTICE)
+    ship from `src/assets/sections/licences/`, and the credit links those copies, not upstream
+    (MIT's notice condition; Apache-2.0 §4(a) and §4(d));
   - the D4 cost is accepted, not denied: raster images have no dark variant and will drift
     as the products change. The dated credit and the guide link are the mitigation.

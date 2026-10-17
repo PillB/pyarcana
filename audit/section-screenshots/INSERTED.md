@@ -37,6 +37,9 @@ raw.githubusercontent.com instead.
 - `REUSE_LICENCES` gained `MIT` and `Apache-2.0`. A credit under either must link the source's
   own LICENSE file, because that file carries the copyright notice both licences require, and
   names the holder in `source`.
+- The site ships those notices itself (added 2026-10-17, after review): verbatim copies of
+  ruff-vscode's LICENSE and Playwright's LICENSE and NOTICE sit in `src/assets/sections/licences/`,
+  are emitted under `_next/static/media`, and the credit under each picture links them.
 
 ## Tests
 

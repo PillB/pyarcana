@@ -92,6 +92,15 @@ function Credit({ record }: { record: ShotRecord }) {
       <a href={c.licenceUrl ?? REUSE_LICENCES[c.licence]} className={link} target="_blank" rel="noopener noreferrer license">
         {c.licence}
       </a>
+      {c.noticeUrl && (
+        <>
+          {' '}(
+          <a href={c.noticeUrl} className={link} target="_blank" rel="noopener noreferrer">
+            NOTICE
+          </a>
+          )
+        </>
+      )}
       {c.changes ? `, ${c.changes}` : ''}. Consultada el {formatCheckedOn(record.checkedOn)}.
     </span>
   )

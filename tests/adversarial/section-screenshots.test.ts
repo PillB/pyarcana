@@ -150,6 +150,32 @@ test('licences: MIT and Apache-2.0 credits link the source licence file and name
   }
 })
 
+test('licences: an MIT or Apache-2.0 picture ships the licence text, and Apache its NOTICE', () => {
+  // A link to the upstream file is not a copy of it: MIT wants the notice in every copy, and
+  // Apache-2.0 §4 wants recipients to get the licence and the NOTICE attributions.
+  const index = fs.readFileSync(path.join(ASSETS, 'index.ts'), 'utf8')
+  const bundled = (id: string, key: 'licence' | 'notice') => {
+    const entry = index.match(new RegExp(`'${id}': \\{([^}]*)\\}`))?.[1] ?? ''
+    const file = entry.match(new RegExp(`${key}: new URL\\('\\./([^']+)'`))?.[1]
+    return file ? fs.readFileSync(path.join(ASSETS, file), 'utf8') : undefined
+  }
+  const notices = records.filter((x) => x.credit.licence === 'MIT' || x.credit.licence === 'Apache-2.0')
+  assert.ok(notices.length > 0, 'the check has pictures to check')
+  for (const r of notices) {
+    const holder = r.credit.source.split('©')[1].replace(/^\s*\d{4}\s*/, '').trim()
+    const licence = bundled(r.id, 'licence')
+    assert.ok(licence, `${r.id}: no bundled licence file`)
+    if (r.credit.licence === 'MIT') {
+      assert.match(licence, /^MIT License/, `${r.id}: not the MIT licence`)
+      assert.ok(licence.includes(`Copyright (c) `) && licence.includes(holder), `${r.id}: the notice does not name ${holder}`)
+    } else {
+      assert.match(licence, /Apache License\s+Version 2\.0/, `${r.id}: not the Apache-2.0 licence`)
+      const notice = bundled(r.id, 'notice')
+      assert.ok(notice?.includes(holder), `${r.id}: no bundled NOTICE naming ${holder}`)
+    }
+  }
+})
+
 // --- assets ---
 
 test('assets: each record has its PNG and an import, at the size the record claims', () => {

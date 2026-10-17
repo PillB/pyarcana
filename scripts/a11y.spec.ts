@@ -98,6 +98,14 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
       expect(r.credit, `${r.id} credit`).toBe(true)
       expect(r.guide, `${r.id} guide link text`).not.toMatch(/^\s*aquí\b/i)
     }
+    // MIT: the Ruff picture's credit links the licence copy shipped with the site, not upstream.
+    const licence = page.locator('[data-shot-id="s01-ruff-quickfix-f401"] a[rel~="license"]')
+    const licenceHref = (await licence.getAttribute('href')) ?? ''
+    expect(licenceHref, 'Ruff licence must ship with the site').toContain('/_next/static/media/')
+    if (BASE) expect(licenceHref.startsWith(`${BASE}/`), 'Ruff licence without the base path').toBe(true)
+    const licenceFile = await page.request.get(licenceHref)
+    expect(licenceFile.status(), `${licenceHref} did not load`).toBe(200)
+    expect(await licenceFile.text()).toContain('Copyright (c) 2022 Charles Marsh')
     let builder = new AxeBuilder({ page }).withTags(TAGS)
     for (const r of rendered) builder = builder.include(`[data-shot-id="${r.id}"]`)
     const { violations } = await builder.analyze()

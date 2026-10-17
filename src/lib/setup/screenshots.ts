@@ -60,7 +60,8 @@ export interface ShotSpec {
  * Both allow commercial reuse and modification. Both make the copy carry a notice: MIT its
  * copyright and permission notice, Apache-2.0 a copy of the licence, the NOTICE attributions
  * and a statement of changes (§4). So a credit under either must link the source's own licence
- * file (`licenceUrl`), which holds the copyright line, and name the holder in `source`.
+ * file (`licenceUrl`), which holds the copyright line, and name the holder in `source`. The page
+ * then links a bundled copy of that file (and any NOTICE) so the notice ships with the picture.
  * NonCommercial and NoDerivatives licences stay absent: Pro is paid, and a crop is a change.
  */
 export const REUSE_LICENCES = {
@@ -92,6 +93,8 @@ export interface ShotCredit {
    * Apache-2.0, whose copyright notice is in that file (NOTICE_IN_SOURCE).
    */
   licenceUrl?: string
+  /** The source's NOTICE file, which Apache-2.0 §4(d) makes travel with the copy. */
+  noticeUrl?: string
   /** What we changed, if anything, in Spanish: "recortada". CC BY requires saying so. */
   changes?: string
 }
