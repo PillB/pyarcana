@@ -11,7 +11,14 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/use-toast'
-import { useProgressStore } from '@/lib/progress-store'
+import { SUB_STEPS, useProgressStore } from '@/lib/progress-store'
+import {
+  MIN_SECTIONS_FOR_PROGRESS_RECORD,
+  countCompletedSections,
+  progressDocumentKind,
+  progressDocumentTitle,
+  type ProgressDocumentKind,
+} from '@/lib/progress-document'
 
 interface ProgressData {
   progress: Record<string, string[]>
@@ -51,7 +58,7 @@ interface PdfReportProps {
   onClose: () => void
 }
 
-const SECTION_NAMES: Record<string, string> = {
+export const SECTION_NAMES: Record<string, string> = {
   setup: '1. Entorno',
   basics: '2. Valores y tipos',
   "decisions-rules": '3. Reglas',
@@ -107,6 +114,15 @@ const SECTION_NAMES: Record<string, string> = {
 
 }
 
+/** The course's section ids, in order: what every completion figure in this file counts against. */
+const SECTION_IDS = Object.keys(SECTION_NAMES)
+const TOTAL_SECTIONS = SECTION_IDS.length
+
+/** Sections with all five sub-steps ticked, one rule for the modal, the report and the document. */
+function sectionsCompletedIn(progress: Record<string, string[]> | undefined): number {
+  return countCompletedSections(progress ?? {}, SECTION_IDS, SUB_STEPS)
+}
+
 export function PdfReport({ open, onClose }: PdfReportProps) {
   const { data: session } = useSession()
   const { toast } = useToast()
@@ -131,9 +147,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
 
     try {
       // Compute stats
-      const sectionsCompleted = Object.entries(data.progress).filter(
-        ([, steps]) => steps.length >= 5
-      ).length
+      const sectionsCompleted = sectionsCompletedIn(data.progress)
       const totalExams = Object.values(data.examAttempts).flat().length
       const avgScore = totalExams > 0
         ? Math.round(
@@ -151,7 +165,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
         userName: session.user.name || 'Estudiante',
         userEmail: session.user.email,
         sectionsCompleted,
-        totalSections: 52,
+        totalSections: TOTAL_SECTIONS,
         totalExams,
         avgScore,
         totalTimeSec: totalTime,
@@ -186,14 +200,12 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
     setGenerating(true)
 
     try {
-      const sectionsCompleted = Object.entries(data?.progress || {}).filter(
-        ([, steps]) => steps.length >= 5
-      ).length
+      const sectionsCompleted = sectionsCompletedIn(data?.progress)
 
-      if (sectionsCompleted < 8) {
+      if (!progressDocumentKind(sectionsCompleted, TOTAL_SECTIONS)) {
         toast({
-          title: 'Aún no puedes generar certificado',
-          description: `Completa al menos 8 secciones (tienes ${sectionsCompleted}/52)`,
+          title: 'Aún no puedes descargar la constancia',
+          description: `Completa al menos ${MIN_SECTIONS_FOR_PROGRESS_RECORD} secciones (tienes ${sectionsCompleted}/${TOTAL_SECTIONS})`,
           variant: 'destructive',
         })
         return
@@ -202,13 +214,13 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
       const html = generateCertificateHTML({
         userName: session.user.name || 'Estudiante',
         sectionsCompleted,
-        totalSections: 52,
+        totalSections: TOTAL_SECTIONS,
         date: new Date().toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' }),
       })
 
       const printWindow = window.open('', '_blank')
       if (!printWindow) {
-        toast({ title: 'Bloqueado popup', description: 'Permite popups para generar el certificado', variant: 'destructive' })
+        toast({ title: 'Bloqueado popup', description: 'Permite popups para generar el documento', variant: 'destructive' })
         return
       }
       printWindow.document.write(html)
@@ -217,9 +229,9 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
         printWindow.print()
       }, 500)
 
-      toast({ title: '✓ Certificado generado', description: 'Usa "Guardar como PDF" en el diálogo de impresión' })
+      toast({ title: '✓ Documento generado', description: 'Usa "Guardar como PDF" en el diálogo de impresión' })
     } catch (err) {
-      toast({ title: 'Error generando certificado', variant: 'destructive' })
+      toast({ title: 'Error generando el documento', variant: 'destructive' })
     } finally {
       setGenerating(false)
     }
@@ -250,9 +262,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
     )
   }
 
-  const sectionsCompleted = Object.entries(data?.progress || {}).filter(
-    ([, steps]) => steps.length >= 5
-  ).length
+  const sectionsCompleted = sectionsCompletedIn(data?.progress)
   const totalExams = Object.values(data?.examAttempts || {}).flat().length
   const avgScore = totalExams > 0
     ? Math.round(
@@ -261,7 +271,6 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
           .reduce((acc, e) => acc + e.score, 0) / totalExams
       )
     : 0
-  const canGetCertificate = sectionsCompleted >= 8
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
@@ -275,18 +284,18 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">Reportes y certificados</h2>
+              <h2 className="text-xl font-semibold">Reporte, constancia y certificado</h2>
             </div>
             <Button variant="ghost" size="sm" onClick={onClose}>Cerrar</Button>
           </div>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            Genera un PDF de tu progreso o un certificado de finalización del curso.
+            Genera un PDF de tu progreso o una constancia de progreso. Al completar las {TOTAL_SECTIONS} secciones, la constancia pasa a ser el certificado de finalización.
           </p>
 
           {/* Stats summary */}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/52`} color="text-emerald-600" />
+            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/${TOTAL_SECTIONS}`} color="text-emerald-600" />
             <StatBox icon={Trophy} label="Exámenes" value={String(totalExams)} color="text-amber-600" />
             <StatBox icon={TrendingUp} label="Score prom." value={`${avgScore}%`} color="text-violet-600" />
             <StatBox icon={Clock} label="Tiempo" value={`${Math.round((Object.values(data?.examAttempts || {}).flat().reduce((a, e) => a + e.timeSpentSec, 0)) / 60)}m`} color="text-sky-600" />
@@ -315,41 +324,67 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
               </div>
             </Card>
 
-            <Card className={canGetCertificate ? 'border-amber-500/30 bg-amber-500/5 p-4' : 'border-border p-4 opacity-60'}>
-              <div className="flex items-start gap-3">
-                <Award className={canGetCertificate ? 'mt-0.5 h-5 w-5 text-amber-600' : 'mt-0.5 h-5 w-5 text-muted-foreground'} />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold">Certificado de finalización</h3>
-                    {canGetCertificate && (
-                      <Badge className="gap-1 bg-amber-500 text-white">
-                        <Sparkles className="h-3 w-3" />
-                        Disponible
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {canGetCertificate
-                      ? '¡Felicidades! Has completado suficientes secciones para generar tu certificado.'
-                      : `Completa al menos 8 secciones (tienes ${sectionsCompleted}/52) para desbloquear el certificado.`}
-                  </p>
-                  <Button
-                    onClick={generateCertificate}
-                    disabled={generating || !canGetCertificate}
-                    className="mt-3 gap-2"
-                    size="sm"
-                    variant={canGetCertificate ? 'default' : 'outline'}
-                  >
-                    {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-                    Descargar certificado PDF
-                  </Button>
-                </div>
-              </div>
-            </Card>
+            <ProgressDocumentCard
+              sectionsCompleted={sectionsCompleted}
+              generating={generating}
+              onGenerate={generateCertificate}
+            />
           </div>
         </Card>
       </motion.div>
     </div>
+  )
+}
+
+/** What the document card says: why it is locked, or what the document records. */
+function progressDocumentCardText(kind: ProgressDocumentKind | null, sectionsCompleted: number): string {
+  if (!kind) {
+    return `Completa al menos ${MIN_SECTIONS_FOR_PROGRESS_RECORD} secciones (tienes ${sectionsCompleted}/${TOTAL_SECTIONS}) para descargar tu constancia de progreso.`
+  }
+  if (kind === 'constancia') {
+    return `Tu constancia indica que completaste ${sectionsCompleted} de ${TOTAL_SECTIONS} secciones. Cuando completes las ${TOTAL_SECTIONS}, podrás descargar el certificado de finalización.`
+  }
+  return `Completaste las ${TOTAL_SECTIONS} secciones del curso. Ya puedes descargar tu certificado de finalización.`
+}
+
+/** The progress document's card: locked, a constancia de progreso, or the certificado at the end. */
+function ProgressDocumentCard({ sectionsCompleted, generating, onGenerate }: {
+  sectionsCompleted: number
+  generating: boolean
+  onGenerate: () => void
+}) {
+  const kind = progressDocumentKind(sectionsCompleted, TOTAL_SECTIONS)
+  const available = kind !== null
+  return (
+    <Card className={available ? 'border-amber-500/30 bg-amber-500/5 p-4' : 'border-border p-4 opacity-60'}>
+      <div className="flex items-start gap-3">
+        <Award className={available ? 'mt-0.5 h-5 w-5 text-amber-600' : 'mt-0.5 h-5 w-5 text-muted-foreground'} />
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold">{progressDocumentTitle(kind ?? 'constancia')}</h3>
+            {available && (
+              <Badge className="gap-1 bg-amber-500 text-white">
+                <Sparkles className="h-3 w-3" />
+                Disponible
+              </Badge>
+            )}
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {progressDocumentCardText(kind, sectionsCompleted)}
+          </p>
+          <Button
+            onClick={onGenerate}
+            disabled={generating || !available}
+            className="mt-3 gap-2"
+            size="sm"
+            variant={available ? 'default' : 'outline'}
+          >
+            {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+            {kind === 'certificado' ? 'Descargar certificado PDF' : 'Descargar constancia PDF'}
+          </Button>
+        </div>
+      </div>
+    </Card>
   )
 }
 
@@ -364,6 +399,24 @@ function StatBox({ icon: Icon, label, value, color }: { icon: React.ElementType;
 }
 
 // === HTML generators for print-to-PDF ===
+
+/**
+ * Text the learner typed, made safe to write into the print window. That window shares the app's
+ * origin, so a name like `<img src=x onerror=…>` written raw would run as the app.
+ */
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+const PSF_NOTICE =
+  '«Python» y los logotipos de Python son marcas de la Python Software Foundation. ' +
+  'PyArcana no está afiliado a la Python Software Foundation ni cuenta con su respaldo.'
+
 function generateReportHTML(params: {
   userName: string
   userEmail: string
@@ -377,19 +430,22 @@ function generateReportHTML(params: {
   exerciseAttempts: any[]
   completedSubSteps: Record<string, string[]>
 }): string {
-  const { userName, userEmail, sectionsCompleted, totalSections, totalExams, avgScore, totalTimeSec, progress, examAttempts } = params
+  const { sectionsCompleted, totalSections, totalExams, avgScore, totalTimeSec, progress, examAttempts } = params
+  const userName = escapeHtml(params.userName)
+  const userEmail = escapeHtml(params.userEmail)
   const completionPct = Math.round((sectionsCompleted / totalSections) * 100)
   const totalMinutes = Math.round(totalTimeSec / 60)
 
   const sectionRows = Object.entries(SECTION_NAMES).map(([id, name]) => {
-    const steps = progress[id] || []
-    const completed = steps.length >= 5
+    const done = Array.isArray(progress[id]) ? progress[id] : []
+    const steps = SUB_STEPS.filter((step) => done.includes(step))
+    const completed = steps.length === SUB_STEPS.length
     const attempts = (examAttempts[id] || []).filter((a) => a.completedAt)
     const bestScore = attempts.length > 0 ? Math.max(...attempts.map((a) => a.score)) : null
     return `
       <tr>
         <td>${name}</td>
-        <td style="text-align: center">${steps.length}/5</td>
+        <td style="text-align: center">${steps.length}/${SUB_STEPS.length}</td>
         <td style="text-align: center">${completed ? '✓' : '—'}</td>
         <td style="text-align: center">${attempts.length}</td>
         <td style="text-align: center">${bestScore !== null ? bestScore + '%' : '—'}</td>
@@ -477,26 +533,46 @@ function generateReportHTML(params: {
 
   <div class="footer">
     Generado por PyArcana · Curso online autónomo de Python para Data Analyst/Scientist<br>
-    ${new Date().toISOString()}
+    ${new Date().toISOString()}<br>
+    ${PSF_NOTICE}
   </div>
 </body>
 </html>`
 }
 
-function generateCertificateHTML(params: {
+/**
+ * The learner's progress document, for print-to-PDF: a constancia de progreso below full
+ * completion, the certificado de finalización only once every section is complete
+ * (src/lib/progress-document.ts). Below the minimum it refuses rather than print either.
+ *
+ * Every figure on it is the learner's own. It used to print a fixed "1040h" and "13 proyectos
+ * integradores" beside the name: course totals, not the learner's, and the hours contradicted the
+ * course's own 491. The time the app records is exam time only, so the document shows no hours.
+ */
+export function generateCertificateHTML(params: {
   userName: string
   sectionsCompleted: number
   totalSections: number
   date: string
 }): string {
-  const { userName, sectionsCompleted, totalSections, date } = params
+  const { sectionsCompleted, totalSections, date } = params
+  const kind = progressDocumentKind(sectionsCompleted, totalSections)
+  if (!kind) {
+    throw new Error(`No progress document below ${MIN_SECTIONS_FOR_PROGRESS_RECORD} sections (got ${sectionsCompleted})`)
+  }
+  const title = progressDocumentTitle(kind)
+  const userName = escapeHtml(params.userName)
   const certId = `PYDS-${Date.now().toString(36).toUpperCase()}`
+  const isCertificate = kind === 'certificado'
+  const completed = isCertificate
+    ? `las ${totalSections} secciones`
+    : `${sectionsCompleted} de ${totalSections} secciones`
 
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Certificado - ${userName}</title>
+<title>${title} - ${userName}</title>
 <style>
   @page { size: A4 landscape; margin: 0; }
   body { font-family: 'Georgia', 'Inter', serif; margin: 0; padding: 0; }
@@ -528,6 +604,7 @@ function generateCertificateHTML(params: {
     color: white; font-size: 36px; font-weight: bold;
     margin-bottom: 20px;
     box-shadow: 0 4px 20px rgba(109, 40, 217, 0.3);
+    flex-shrink: 0;
   }
   h1 {
     color: #6d28d9;
@@ -539,7 +616,7 @@ function generateCertificateHTML(params: {
   .subtitle {
     color: #666;
     font-size: 16px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 3px;
   }
@@ -563,7 +640,7 @@ function generateCertificateHTML(params: {
   .stats-row {
     display: flex;
     gap: 40px;
-    margin: 25px 0;
+    margin: 16px 0;
   }
   .stat-item {
     text-align: center;
@@ -583,7 +660,7 @@ function generateCertificateHTML(params: {
     display: flex;
     justify-content: space-between;
     width: 80%;
-    margin-top: 30px;
+    margin-top: 22px;
     border-top: 1px solid #c4b5fd;
     padding-top: 15px;
   }
@@ -609,32 +686,31 @@ function generateCertificateHTML(params: {
     color: #999;
     font-family: monospace;
   }
+  .legal {
+    font-size: 9px;
+    color: #555;
+    text-align: center;
+    max-width: 80%;
+    margin-top: 12px;
+  }
 </style>
 </head>
 <body>
   <div class="cert">
     <div class="badge-top">Py</div>
-    <h1>Certificado de Finalización</h1>
+    <h1>${title}</h1>
     <div class="subtitle">PyArcana</div>
-    <div class="body-text">Se certifica que</div>
+    <div class="body-text">Se deja constancia de que</div>
     <div class="name">${userName}</div>
     <div class="body-text">
-      ha completado ${sectionsCompleted} de ${totalSections} secciones del curso <strong>PyArcana</strong> con método
-      pedagógico I Do / We Do / You Do. Este certificado es un registro de progreso, no una certificación profesional.
+      ha completado ${completed} del curso <strong>PyArcana</strong> con método
+      pedagógico I Do / We Do / You Do.
     </div>
 
     <div class="stats-row">
       <div class="stat-item">
         <div class="stat-value">${sectionsCompleted}/${totalSections}</div>
         <div class="stat-label">Secciones completadas</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">1040h</div>
-        <div class="stat-label">Contenido total</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">13</div>
-        <div class="stat-label">Proyectos integradores</div>
       </div>
     </div>
 
@@ -644,10 +720,12 @@ function generateCertificateHTML(params: {
         <div class="footer-value">${date}</div>
       </div>
       <div class="footer-item">
-        <div class="footer-label">Firma</div>
+        <div class="footer-label">Emite</div>
         <div class="footer-value">PyArcana</div>
       </div>
     </div>
+
+    <div class="legal">${PSF_NOTICE}</div>
 
     <div class="cert-id">ID: ${certId}</div>
   </div>

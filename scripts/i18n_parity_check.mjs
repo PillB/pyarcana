@@ -32,7 +32,10 @@ const report = {
     langs.map((l) => [l, [...all].filter((k) => !sets[l].has(k)).sort()])
   ),
 }
-report.ok = langs.every((l) => report.missing[l].length === 0)
+// Three empty key sets agree perfectly. A language block this parser stops finding (another
+// quote style, a split into files) used to read as parity.
+report.empty = langs.filter((l) => sets[l].size === 0)
+report.ok = report.empty.length === 0 && langs.every((l) => report.missing[l].length === 0)
 
 // Scan hardcoded Spanish chrome (heuristic) in course components
 const courseDir = path.join(root, 'src/components/course')
@@ -50,5 +53,5 @@ report.hardcoded_ok = hard.length === 0 // informational — many intentional co
 
 const out = path.join(root, 'course-state/i18n_parity_report.json')
 fs.writeFileSync(out, JSON.stringify(report, null, 2))
-console.log(JSON.stringify({ ok: report.ok, counts: report.counts, hard: hard.length }, null, 2))
+console.log(JSON.stringify({ ok: report.ok, counts: report.counts, empty: report.empty, hard: hard.length }, null, 2))
 process.exitCode = report.ok ? 0 : 1

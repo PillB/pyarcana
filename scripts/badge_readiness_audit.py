@@ -16,6 +16,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Writes a shared course-state report that gate.py now measures, so it must not run while a
+# gate is measuring.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import report_lock  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "src/lib/eligibility/badge_catalog.json"
 CAPSTONES = ROOT / "course-state/capstones/INDEX.json"
@@ -39,6 +44,7 @@ def load_events() -> dict:
 
 
 def main() -> int:
+    report_lock.refuse_if_busy(__file__)
     payload = load_events()
     slugs = payload["active_section_ids"]                 # display order
     snum = {slug: i + 1 for i, slug in enumerate(slugs)}  # slug -> 1..52

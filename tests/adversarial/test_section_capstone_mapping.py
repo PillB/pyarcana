@@ -21,6 +21,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+import unittest
+from script_case import assert_main_passes
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SECTION_MAP_PATH = os.path.join(
@@ -221,6 +223,13 @@ def main() -> int:
         "match ranges, 13 gates correct, contributing sections within level"
     )
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

@@ -31,7 +31,11 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
   // some stage actually needs the second line.
   const subLines = data.stages.map((s) => (s.sub ? wrapLines(s.sub, boxW - 8, 7.4).slice(0, 2) : []))
   const subRows = Math.max(1, ...subLines.map((l) => l.length))
-  const boxH = 62 + (subRows - 1) * 14
+  // 17, not 14: at the 14px label size two lines set 14px apart have touching boxes, and the
+  // render probe reads that as an overlap ("train, test," over "cross_split", S30). The box
+  // grows by the same step so the second line still sits inside it.
+  const subLead = 17
+  const boxH = 62 + (subRows - 1) * subLead
   const topY = 92 + headBlock
   const xOf = (i: number) => marginX + i * (boxW + gap)
 
@@ -78,7 +82,7 @@ export function FlowFigure({ title, data, idPrefix }: { title: string; data: Flo
                 <FigText
                   key={line}
                   x={xOf(i) + boxW / 2}
-                  y={topY + 44 + li * 14}
+                  y={topY + 44 + li * subLead}
                   size={FIG.microSize}
                   fill="var(--muted-foreground)"
                 >

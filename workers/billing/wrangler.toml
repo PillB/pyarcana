@@ -2,12 +2,14 @@ name = "pyarcana-billing"
 main = "src/index.mjs"
 compatibility_date = "2025-09-01"
 # One origin only (DESIGN-v3 §A): no *.workers.dev URL and no preview URLs, so the site, its
-# cookie and its CORS answer exist on pyarcana.dev alone. The deploy owns both custom domains.
+# cookie and its CORS answer exist on pyarcana.dev alone. Bind no other host: static files are
+# served before the worker runs, so www bound here served the whole course with accounts silently
+# off. www.pyarcana.dev and pyarcana.com are zone Redirect Rules instead (README, setup step 5),
+# which cost no worker request.
 workers_dev = false
 preview_urls = false
 routes = [
   { pattern = "pyarcana.dev", custom_domain = true },
-  { pattern = "www.pyarcana.dev", custom_domain = true },
 ]
 
 # --- One origin: the static site and the API from this worker (DESIGN-v3 §A) ----------

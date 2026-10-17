@@ -526,3 +526,116 @@ One measurement changed since Q3 was written: adding `except` and `try/except` a
 `Excepción` made the dependency visible for the first time — 11 occurrences in S02, 7 in S04, 14
 in S05, 9 in S06, 3 in S07 and 10 in S08, all before S09 teaches exception handling. Q3's original
 text understated this because no alias covered the keyword.
+
+## Q6 — The eligibility contract tests code production does not run (2026-10-03)
+
+Raised by the test-suite red team; the owner chose to record it and decide later. Nothing was
+changed.
+
+`tests/adversarial/test_eligibility_engine.py` (~1300 lines, ~60 tests) holds a Python "reference
+implementation" of `src/lib/eligibility/engine.ts`. Its docstring says the TypeScript engine "is
+verified against the same fixtures and must produce identical outputs". No test does that:
+
+- `engine.ts` (711 lines) is imported by no application code, and by one spec,
+  `tests/e2e_max/badge_eligibility.spec.ts`, which CI never runs.
+- Credentials are issued by `src/app/api/credentials/issue/route.ts`, with its own per-badge
+  checks. Its real handler is tested by `credential-issue-gates.test.ts`; that is the guard that
+  can fail when production breaks.
+- The Python file loads `industry_alignment/badge_catalog.json`; production imports
+  `src/lib/eligibility/badge_catalog.json`. They differ in 7 eligibility fields
+  (`verification_mode` on five capstones; `progress_phase3_walked`'s `required_sections` and
+  `required_activities`).
+- `:884` `cls.assertTrue(cls.specs, "Catalog failed to load")` inside a classmethod binds the
+  catalog to `self` and tests the message string, so it can never fail.
+
+Routes: wire `engine.ts` into the route with a differential test against the Python spec; point
+the spec at the route's own decision; or mark the engine and its mirror `INACTIVE_PRESERVED` and
+let `credential-issue-gates` be the contract. Each changes what a credential is checked against.
+
+## Q7 — 54 lesson snippets import packages the declared environment does not pin (2026-10-03)
+
+The content runtime audit used to count skips without reasons, and `ok` ignored them, so lesson
+code whose import failed read exactly like a shell snippet. Measured on 2026-10-03 where CI
+measures, with `requirements-content.txt` installed alone: of the skips, the not-Python and
+needs-argv ones are expected, but **54 are lesson code that never runs in CI**. By the first
+import that fails:
+
+| package | snippets | sections |
+|---|---:|---|
+| openpyxl | 25 | rag, stdlib-deep |
+| matplotlib | 9 | databases-orm |
+| jinja2 | 8 | fastapi |
+| python-docx | 5 | fastapi |
+| pymupdf (`fitz`) | 3 | fastapi |
+| pypdf, Pillow | 1 each | fastapi |
+| playwright | 1 | computer-vision |
+| fastapi | 1 | llm-finetuning |
+
+`requirements-content.txt` declares four packages: numpy, pandas, scikit-learn, scipy. The local
+`.venv-content` has most of the above installed without declaring them, so **a local run executes
+48 snippets CI skips** - the audit gives different verdicts on the two machines. The first
+ratchet value, 6, was measured locally and failed CI on arrival.
+
+They are now owed, not accepted: `MISSING_DEPENDENCY_OWED = 54` fails the audit if another
+appears, and (in CI, on a full run) asks for the number to be lowered when one is paid. Paying
+them means declaring those packages in the learners' environment, or rewriting the snippets not
+to need them. The first changes what a learner installs, so it is the owner's call.
+
+## Q8 — S12-T3-B: the corrected index paragraph is true, and four style concerns came back twice (2026-10-15) — RESOLVED 2026-10-17
+
+**Resolved.** The owner chose a further Codex round on 2026-10-16, with `gpt-6-luna` at `medium`.
+They set the bar: no slip, written in their structure (a new idea said two ways, a reminder of
+earlier concepts, no staccato). They read all fifteen drafts and chose V15 on 2026-10-17. V15 is
+now two paragraphs:
+- The first teaches `PRIMARY KEY` and `UNIQUE` at their first use in prose. It says SQLite
+  creates one index for `id` and one for `document_id` to check those two constraints, and
+  defines **índice** in a sentence of its own. It ends with why the demo adds no second index.
+- The second contrasts `NOT NULL`, says when to write `CREATE INDEX`, and recalls T3-A's JOIN on
+  `entity_id`.
+
+How V15 resolves each of the four concerns raised below:
+- **R2.** It names the table and the file before the code: «En la tabla `clients` de
+  `params_tx.py`».
+- **R3.** No semicolon joins unrelated facts. `NOT NULL` has its own sentence, introduced by
+  «En cambio».
+- **R4.** «acelerar una columna» and the stacked modifiers are gone. The rule is now «Cuando buscas
+  o unes por una columna sin índice propio, escribes `CREATE INDEX`».
+- **R5.** It says outright that the demo needs no second index: «el demo no crea otro índice en esa
+  columna».
+
+Nothing in this question remains open. PR #108's description summarises the drafts. The full
+fifteen-draft page, with each diagnosis, is gitignored at
+`.fixer/S12-T3-B_index_paragraph_variants.md`.
+
+### History: the question as raised on 2026-10-15
+
+Branch `claude/s12-unique-already-indexed` fixed S12-F15 (KFC-010): the lesson created a second
+index on a `UNIQUE` column. The facts were then right everywhere they appeared. `paragraphs[2]` of
+the theory block "Parámetros, transacciones, constraints e índices" was the Codex text that first
+shipped (`.fixer/S12idx.result.json`). The two demo sentences that followed it had become
+`paragraphs[3]`, unchanged, so the index paragraph had three sentences (rule D2).
+
+The review returned four concerns on that paragraph to Codex twice. Neither return resolved them
+without a new defect, so per AGENTS.md they came to a human:
+
+- **R2.** «En esta tabla» points at the `clients` table of `params_tx.py`, which the learner sees
+  only after the paragraph.
+- **R3.** The second sentence joins two unrelated facts with a semicolon: the automatic index's
+  name, and what `NOT NULL` does.
+- **R4.** «acelerar una columna»: lookups are what speeds up, not the column. «una columna buscada
+  o usada para unir tablas que aún no tenga índice» stacks modifiers (rule B5).
+- **R5.** The paragraph never says outright that the demo needs no second index on `document_id`.
+
+What the two returns produced (in gitignored `.fixer/`, so not in this tree):
+
+- **Second version** (`S12idxc1`): two sentences. The prose audit counted both as long (over 32
+  words), where the text before had none. Not applied.
+- **Third version** (`S12idxc2`): three sentences, measured worse than the first (Fernández-Huerta
+  54.2 against 55.1; 26.0 words per sentence against 23.7). It says the automatic index «evita que
+  el demo cree otro», which is false: SQLite accepts the duplicate, and the demo simply does not
+  need it. Not applied.
+
+The question offered three routes: keep the first version; give the passage another Codex round;
+or take it into the S12 fixer round. **Decided 2026-10-16/17 by the owner: another Codex round**,
+run on `gpt-6-luna` at `medium` until a version had no slip. The owner chose V15, which shipped in
+PR #108.

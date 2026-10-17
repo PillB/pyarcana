@@ -40,7 +40,7 @@ Python, or they are text, or they are the learner's own product. The reason for 
 
 ## Caveats the insertion must carry
 
-All seven were inserted on 2026-10-06 under owner decision D19 (`audit/fixer/decisions.md`). Where
+All seven were inserted on 2026-10-06 under owner decision D23 (`audit/fixer/decisions.md`). Where
 each one went, and the trade-offs, are in [`INSERTED.md`](INSERTED.md). The app copies are in
 `src/assets/sections/`; their captions in `shots.json` carry the caveats below, and
 `tests/adversarial/section-screenshots.test.ts` fails if one is dropped.

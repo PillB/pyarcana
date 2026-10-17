@@ -12,6 +12,7 @@
  * Run: npx playwright test scripts/regression.spec.ts
  */
 import { test, expect, type Page } from '@playwright/test'
+import { countTextOverlaps } from './lib/text_overlaps'
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
 
@@ -385,34 +386,12 @@ test.describe('Geometric integrity (no overlaps)', () => {
         return results
       })
 
-      // Overlap rules (see tests/adversarial/geometry_overlap.test.mjs):
-      // skip identical text, full containment, depth-adjacent, tiny area noise
-      let overlapCount = 0
-      const overlaps: string[] = []
-      const MIN_AREA = 24
-      for (let i = 0; i < data.length; i++) {
-        for (let j = i + 1; j < data.length; j++) {
-          const a = data[i]
-          const b = data[j]
-
-          if (a.text === b.text) continue
-
-          if (a.x <= b.x && a.x + a.w >= b.x + b.w && a.y <= b.y && a.y + a.h >= b.y + b.h) continue
-          if (b.x <= a.x && b.x + b.w >= a.x + a.w && b.y <= a.y && b.y + b.h >= a.y + a.h) continue
-
-          // Nested UI often differs by a few depth levels; use 3
-          if (Math.abs(a.depth - b.depth) <= 3) continue
-
-          const ix = Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x))
-          const iy = Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y))
-          const area = ix * iy
-          if (ix >= 3 && iy >= 3 && area >= MIN_AREA) {
-            overlapCount++
-            const msg = `OVERLAP: <${a.tag}>"${a.text}" vs <${b.tag}>"${b.text}" — area=${area}px²`
-            overlaps.push(msg)
-          }
-        }
-      }
+      // Overlap rules live in scripts/lib/text_overlaps.ts, shared with the unit test
+      // (tests/adversarial/geometry_overlap.test.mjs), which used to test its own copy.
+      const overlaps = countTextOverlaps(data).map(
+        ({ a, b, area }) => `OVERLAP: <${a.tag}>"${a.text}" vs <${b.tag}>"${b.text}" — area=${area}px²`,
+      )
+      const overlapCount = overlaps.length
 
       if (overlapCount > 0) {
         console.log(`${sectionId} overlaps:\n${overlaps.join('\n')}`)

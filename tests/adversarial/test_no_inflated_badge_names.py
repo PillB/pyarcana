@@ -18,7 +18,9 @@ Exits 0 on pass, non-zero on fail.
 from __future__ import annotations
 import json
 import sys
+import unittest
 from pathlib import Path
+from script_case import assert_main_passes
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 CATALOG = ROOT / "src" / "lib" / "eligibility" / "badge_catalog.json"
@@ -59,6 +61,13 @@ def main():
 
     print(f"PASS: test_no_inflated_badge_names — 0 inflated badge names in {len(badges)} badges")
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

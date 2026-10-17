@@ -9,8 +9,10 @@
  *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
- * Baseline: merge-base with origin/main when available, else HEAD~1, else
- * audit/safe-agent/preservation-manifest-before.json
+ * Baseline: --base, else PRESERVATION_BASE / GITHUB_BASE_SHA, else the merge-base with
+ * origin/main, else HEAD~1. With none of those, or a base git cannot diff against, it fails:
+ * it used to fall back to the before-manifest "for informational counts", compare nothing, and
+ * exit 0 - a sentinel that cannot compare has not passed.
  *
  * Usage:
  *   node scripts/preservation_sentinel.mjs
@@ -27,7 +29,6 @@ import {
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
-const BEFORE_PATH = join(ROOT, 'audit/safe-agent/preservation-manifest-before.json')
 const RESULT_PATH = join(ROOT, 'audit/safe-agent/preservation-sentinel-result.json')
 
 const PROGRESS_FIELDS = [
@@ -65,6 +66,11 @@ function loadAllowlist() {
 function resolveBase(cliBase) {
   if (cliBase) return cliBase
   const envBase = process.env.PRESERVATION_BASE || process.env.GITHUB_BASE_SHA
+  // A push that creates a branch has no `before`: GitHub sends forty zeros, which is not a commit,
+  // and the diff against it failed every new branch's first push. Compare against where the branch
+  // left main. Without origin/main there is no such point, and the answer is BASE_UNRESOLVED, never
+  // HEAD~1: that would check only the last commit of a branch that may have many.
+  if (envBase && /^0+$/.test(envBase)) return tryGit('git merge-base HEAD origin/main')
   if (envBase) return envBase
   // Prefer origin/main merge-base on PRs
   const mergeBase = tryGit('git merge-base HEAD origin/main')
@@ -74,9 +80,10 @@ function resolveBase(cliBase) {
   return null
 }
 
+/** null when git cannot diff against the base - never read as "nothing was deleted". */
 function deletedPaths(base) {
-  if (!base) return []
   const out = tryGit(`git diff --name-status --diff-filter=D ${base}...HEAD`)
+  if (out === null) return null
   if (!out) return []
   return out
     .split('\n')
@@ -180,6 +187,43 @@ function compareCurriculum(base, head, failures) {
   return curriculum
 }
 
+/**
+ * Run one comparison, turning a throw into a failure. A comparison that threw has not run, and a
+ * sentinel that could not compare has not passed. These were warnings until 2026-10-05, and that
+ * was a hole: moving src/lib/course/index.ts reads as a rename to `--diff-filter=D`, so nothing
+ * counted as deleted, the curriculum compare threw, and the sentinel exited 0 having compared no
+ * section and no exercise id.
+ */
+function attempt(code, failures, compare) {
+  try {
+    return compare()
+  } catch (e) {
+    failures.push({ code, message: `Cannot compare, so this check has not passed: ${String(e)}` })
+    return null
+  }
+}
+
+function compareTestsAndMigrations(base, head, allowlist, failures) {
+  const b = testsAndMigrations(base)
+  const a = testsAndMigrations(head)
+  for (const t of b.tests.filter((t) => !a.tests.includes(t) && !allowlist.has(t))) {
+    failures.push({ code: 'TEST_REMOVED', path: t, message: `Test removed: ${t}` })
+  }
+  for (const m of b.migrations.filter((m) => !a.migrations.includes(m) && !allowlist.has(m))) {
+    failures.push({ code: 'MIGRATION_REMOVED', path: m, message: `Migration removed: ${m}` })
+  }
+}
+
+function checkProgressFields(head, failures) {
+  for (const f of progressFieldsPresent(head).missing) {
+    failures.push({
+      code: 'PROGRESS_FIELD_REMOVED',
+      field: f,
+      message: `Progress field missing from progress contract sources: ${f}`,
+    })
+  }
+}
+
 function progressFieldsPresent(treeish) {
   // Prefer pure sanitizer module; fall back to progress-store for older commits.
   let text = null
@@ -222,10 +266,23 @@ function main() {
   const failures = []
   const warnings = []
 
+  // 0) A comparison that could not run is a failure. With no base, or a base git cannot read,
+  // this used to report no deletions, skip every comparison below and exit 0 - a sentinel that
+  // checked nothing, indistinguishable from one that found nothing.
+  if (!base) {
+    failures.push({
+      code: 'BASE_UNRESOLVED',
+      message: 'Cannot compare: no base commit resolved (pass --base, or set PRESERVATION_BASE)',
+    })
+  }
+
   // 1) Tracked file deletions
-  const deleted = deletedPaths(base)
+  const deleted = base ? deletedPaths(base) : []
+  if (deleted === null) {
+    failures.push({ code: 'BASE_UNREADABLE', message: `Cannot compare: git could not diff ${base}...HEAD` })
+  }
   const unauthorizedDeletes = []
-  for (const path of deleted) {
+  for (const path of deleted ?? []) {
     if (!allowlist.has(path)) {
       unauthorizedDeletes.push(path)
       failures.push({
@@ -243,51 +300,13 @@ function main() {
     }
   }
 
-  // 2) Curriculum ID preservation (when base available)
+  // 2) curriculum ids, 3) tests and migrations, 4) progress fields. Each one that cannot run fails.
   let curriculum = null
   if (base) {
-    try {
-      curriculum = compareCurriculum(base, head, failures)
-    } catch (e) {
-      warnings.push({ code: 'CURRICULUM_COMPARE_SKIPPED', message: String(e) })
-    }
-
-    // 3) Tests / migrations removed
-    try {
-      const b = testsAndMigrations(base)
-      const a = testsAndMigrations(head)
-      const removedTests = b.tests.filter((t) => !a.tests.includes(t) && !allowlist.has(t))
-      const removedMigrations = b.migrations.filter((m) => !a.migrations.includes(m) && !allowlist.has(m))
-      for (const t of removedTests) {
-        failures.push({ code: 'TEST_REMOVED', path: t, message: `Test removed: ${t}` })
-      }
-      for (const m of removedMigrations) {
-        failures.push({ code: 'MIGRATION_REMOVED', path: m, message: `Migration removed: ${m}` })
-      }
-    } catch (e) {
-      warnings.push({ code: 'TEST_MIG_COMPARE_SKIPPED', message: String(e) })
-    }
-
-    // 4) Progress fields
-    try {
-      const afterFields = progressFieldsPresent(head)
-      for (const f of afterFields.missing) {
-        failures.push({
-          code: 'PROGRESS_FIELD_REMOVED',
-          field: f,
-          message: `Progress field missing from progress contract sources: ${f}`,
-        })
-      }
-    } catch (e) {
-      warnings.push({ code: 'PROGRESS_FIELD_CHECK_SKIPPED', message: String(e) })
-    }
-  } else if (existsSync(BEFORE_PATH)) {
-    warnings.push({
-      code: 'NO_GIT_BASE',
-      message: 'No git base; using on-disk before manifest only for informational counts',
-    })
-  } else {
-    warnings.push({ code: 'NO_BASE', message: 'No comparison base available' })
+    curriculum = attempt('CURRICULUM_UNCOMPARABLE', failures, () => compareCurriculum(base, head, failures))
+    attempt('TESTS_MIGRATIONS_UNCOMPARABLE', failures,
+      () => compareTestsAndMigrations(base, head, allowlist, failures))
+    attempt('PROGRESS_FIELDS_UNCOMPARABLE', failures, () => checkProgressFields(head, failures))
   }
 
   const result = {

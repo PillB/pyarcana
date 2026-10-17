@@ -1,84 +1,90 @@
 {
-  "generated_at": "2026-08-23T00:25:40.617319Z",
-  "terms": 95,
+  "generated_at": "2026-10-03T18:43:58.772070Z",
+  "terms": 108,
   "sections": [
     {
       "sectionId": "setup",
-      "introCount": 26,
-      "found": 26,
+      "introCount": 21,
+      "found": 21,
       "missing": []
     },
     {
       "sectionId": "basics",
-      "introCount": 7,
-      "found": 7,
-      "missing": []
+      "introCount": 10,
+      "found": 9,
+      "missing": [
+        "args-y-kwargs"
+      ]
     },
     {
-      "sectionId": "data-structures",
-      "introCount": 2,
-      "found": 2,
-      "missing": []
-    },
-    {
-      "sectionId": "functions-modules",
-      "introCount": 3,
-      "found": 3,
-      "missing": []
-    },
-    {
-      "sectionId": "oop",
-      "introCount": 1,
-      "found": 1,
-      "missing": []
-    },
-    {
-      "sectionId": "numpy",
-      "introCount": 3,
-      "found": 3,
-      "missing": []
-    },
-    {
-      "sectionId": "data-acquisition",
-      "introCount": 1,
-      "found": 1,
-      "missing": []
-    },
-    {
-      "sectionId": "pandas",
-      "introCount": 2,
-      "found": 2,
-      "missing": []
-    },
-    {
-      "sectionId": "visualization",
-      "introCount": 1,
-      "found": 1,
-      "missing": []
-    },
-    {
-      "sectionId": "sklearn",
-      "introCount": 1,
-      "found": 1,
-      "missing": []
-    },
-    {
-      "sectionId": "testing",
-      "introCount": 0,
-      "found": 0,
-      "missing": []
-    },
-    {
-      "sectionId": "performance",
-      "introCount": 0,
-      "found": 0,
-      "missing": []
-    },
-    {
-      "sectionId": "rpa-automation",
-      "introCount": 5,
+      "sectionId": "decisions-rules",
+      "introCount": 6,
       "found": 5,
+      "missing": [
+        "apply"
+      ]
+    },
+    {
+      "sectionId": "iteration-summaries",
+      "introCount": 4,
+      "found": 4,
       "missing": []
+    },
+    {
+      "sectionId": "functions-contracts",
+      "introCount": 2,
+      "found": 2,
+      "missing": []
+    },
+    {
+      "sectionId": "collections",
+      "introCount": 4,
+      "found": 4,
+      "missing": []
+    },
+    {
+      "sectionId": "text-unicode-regex",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "files-ingestion",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "exceptions-logging",
+      "introCount": 2,
+      "found": 2,
+      "missing": []
+    },
+    {
+      "sectionId": "modules-packaging-cli",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "oop-domain",
+      "introCount": 2,
+      "found": 2,
+      "missing": []
+    },
+    {
+      "sectionId": "apis-sql-geo",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "evidence-dashboard",
+      "introCount": 5,
+      "found": 4,
+      "missing": [
+        "embedding"
+      ]
     },
     {
       "sectionId": "security",
@@ -88,44 +94,49 @@
     },
     {
       "sectionId": "stdlib-deep",
-      "introCount": 6,
-      "found": 6,
+      "introCount": 5,
+      "found": 5,
       "missing": []
     },
     {
       "sectionId": "wxpython-gui",
-      "introCount": 2,
-      "found": 2,
-      "missing": []
+      "introCount": 6,
+      "found": 5,
+      "missing": [
+        "eda"
+      ]
     },
     {
       "sectionId": "packaging",
-      "introCount": 3,
-      "found": 3,
+      "introCount": 4,
+      "found": 4,
       "missing": []
     },
     {
       "sectionId": "data-engineering",
-      "introCount": 7,
-      "found": 7,
-      "missing": []
+      "introCount": 6,
+      "found": 4,
+      "missing": [
+        "distribuci-n-normal",
+        "estimando"
+      ]
     },
     {
       "sectionId": "databases-orm",
-      "introCount": 1,
-      "found": 1,
+      "introCount": 0,
+      "found": 0,
       "missing": []
     },
     {
       "sectionId": "rag",
-      "introCount": 1,
-      "found": 1,
+      "introCount": 0,
+      "found": 0,
       "missing": []
     },
     {
       "sectionId": "fastapi",
-      "introCount": 1,
-      "found": 1,
+      "introCount": 0,
+      "found": 0,
       "missing": []
     },
     {
@@ -142,14 +153,14 @@
     },
     {
       "sectionId": "rpa-advanced",
-      "introCount": 1,
-      "found": 1,
+      "introCount": 0,
+      "found": 0,
       "missing": []
     },
     {
       "sectionId": "streamlit-dashboards",
-      "introCount": 1,
-      "found": 1,
+      "introCount": 2,
+      "found": 2,
       "missing": []
     },
     {
@@ -160,8 +171,8 @@
     },
     {
       "sectionId": "async-concurrency",
-      "introCount": 0,
-      "found": 0,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
@@ -190,20 +201,22 @@
     },
     {
       "sectionId": "microservices",
-      "introCount": 5,
-      "found": 5,
+      "introCount": 4,
+      "found": 4,
       "missing": []
     },
     {
       "sectionId": "advanced-models",
-      "introCount": 1,
+      "introCount": 2,
       "found": 1,
-      "missing": []
+      "missing": [
+        "shap"
+      ]
     },
     {
       "sectionId": "cv-ai-integration",
-      "introCount": 2,
-      "found": 2,
+      "introCount": 3,
+      "found": 3,
       "missing": []
     },
     {
@@ -215,13 +228,15 @@
     {
       "sectionId": "ai-apis-advanced",
       "introCount": 2,
-      "found": 2,
-      "missing": []
+      "found": 1,
+      "missing": [
+        "hyperparameter-tuning"
+      ]
     },
     {
       "sectionId": "dbt-bigquery",
-      "introCount": 0,
-      "found": 0,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
@@ -239,13 +254,15 @@
     {
       "sectionId": "architecture-ddd-decisions",
       "introCount": 1,
-      "found": 1,
-      "missing": []
+      "found": 0,
+      "missing": [
+        "namedtuple"
+      ]
     },
     {
       "sectionId": "llm-finetuning",
-      "introCount": 0,
-      "found": 0,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
@@ -280,14 +297,14 @@
     },
     {
       "sectionId": "opensource",
-      "introCount": 0,
-      "found": 0,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
       "sectionId": "ai-governance",
-      "introCount": 0,
-      "found": 0,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
@@ -315,8 +332,72 @@
       "missing": []
     }
   ],
-  "sections_with_intros": 27,
-  "p1_missing_prose": 0,
-  "issues": [],
-  "ok": true
+  "sections_with_intros": 29,
+  "p1_missing_prose": 9,
+  "issues": [
+    {
+      "sectionId": "basics",
+      "termId": "args-y-kwargs",
+      "term": "args y kwargs",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "decisions-rules",
+      "termId": "apply",
+      "term": "apply",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "evidence-dashboard",
+      "termId": "embedding",
+      "term": "Embedding",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "wxpython-gui",
+      "termId": "eda",
+      "term": "EDA",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-engineering",
+      "termId": "distribuci-n-normal",
+      "term": "Distribución normal",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-engineering",
+      "termId": "estimando",
+      "term": "Estimando",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "advanced-models",
+      "termId": "shap",
+      "term": "SHAP",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "ai-apis-advanced",
+      "termId": "hyperparameter-tuning",
+      "term": "Hyperparameter tuning",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "architecture-ddd-decisions",
+      "termId": "namedtuple",
+      "term": "namedtuple",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    }
+  ],
+  "ok": false
 }

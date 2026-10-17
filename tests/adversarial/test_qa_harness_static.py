@@ -7,6 +7,7 @@ from GitHub Pages, which is the exact regression this guard prevents.
 """
 from __future__ import annotations
 
+import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -22,7 +23,7 @@ def require(text: str, needle: str, where: str) -> None:
         raise AssertionError(f"QA harness contract missing {needle!r} in {where}")
 
 
-def main() -> int:
+def check_source() -> None:
     component = COMPONENT.read_text(encoding="utf-8")
     store = STORE.read_text(encoding="utf-8")
     bridge = BRIDGE.read_text(encoding="utf-8")
@@ -83,6 +84,8 @@ def main() -> int:
     if "/api/feedback" in component or "/api/feedback" in store:
         raise AssertionError("QA harness must not depend on /api/feedback")
 
+
+def check_static_export() -> None:
     if not OUT.exists():
         raise AssertionError("Static output directory 'out' is required for this guard")
 
@@ -98,8 +101,26 @@ def main() -> int:
     require(bundle, "qa-harness-open", "static export")
     require(bundle, "QA interna", "static export")
 
+
+def main() -> int:
+    check_source()
+    check_static_export()
     print("QA harness static contract: ok")
     return 0
+
+
+class QAHarnessStaticContract(unittest.TestCase):
+    """As a bare script this never ran in CI. The source half runs everywhere now; the export
+    half needs a static build, which only CI's static job makes."""
+
+    def test_the_source_keeps_the_contract(self) -> None:
+        check_source()
+
+    def test_the_static_export_ships_the_harness(self) -> None:
+        if not OUT.exists():
+            self.skipTest("out/ is produced by npm run build:static; CI's static job runs this "
+                          "file as __main__, where a missing out/ fails")
+        check_static_export()
 
 
 if __name__ == "__main__":

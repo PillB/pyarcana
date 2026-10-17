@@ -185,6 +185,26 @@ test("a re-sent issue (same clientIssueId) is stored once, even when sent five t
   assert.equal(await count(env, "FROM reports"), 2, "the anonymous copy is its own report");
 });
 
+test("a retry of a stored report gets its id back without spending the submission quota", async () => {
+  // The quota used to be spent before the duplicate was recognised: an anonymous network's sixth
+  // retry of one stored report was a 429, not the original id.
+  const { env } = await people();
+  const net = { headers: { "cf-connecting-ip": "192.0.2.77" } };
+  const body = report({ clientIssueId: "7d3a1c9e-5555-4b6c-8d7e-666677778888" });
+  const first = await submit(env, body, net);
+  assert.equal(first.status, 201);
+  for (let i = 0; i < 8; i += 1) {
+    const again = await submit(env, body, net);
+    assert.deepEqual([again.status, again.body.id, again.body.deduplicated], [200, first.body.id, true], `retry ${i + 1}`);
+  }
+  for (let i = 0; i < 4; i += 1) {
+    assert.equal((await submit(env, report(), net)).status, 201, `new report ${i + 2} of 5 this hour`);
+  }
+  assert.deepEqual((await submit(env, report(), net)).body.reason, "rate_limited", "the sixth new report is still refused");
+  const bad = await submit(env, report({ clientIssueId: "short" }), { headers: { "cf-connecting-ip": "192.0.2.78" } });
+  assert.deepEqual([bad.status, bad.body.reason], [400, "bad_client_issue_id"], "a malformed key is refused as before");
+});
+
 test("rate limits: anonymous 5/h per IP and 50/day overall; signed-in 60/h", async () => {
   const { env, learner } = await people();
   const ip = (n) => ({ headers: { "cf-connecting-ip": `192.0.2.${n}` } });

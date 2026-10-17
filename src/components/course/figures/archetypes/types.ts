@@ -157,7 +157,75 @@ export interface GraphData {
   note?: string
 }
 
+/** A value on a number line. Equal values stack, the way a dot plot draws them. */
+export interface NumberLinePoint {
+  at: number
+  /** Printed over the dot instead of the raw number. */
+  display?: string
+  tint?: 1 | 2 | 3 | 4 | 5
+}
+
+export interface NumberLineData {
+  kind: 'numberline'
+  headline: string
+  /**
+   * Axis domain. A point outside it is drawn past a break in the axis with its real
+   * number, not squeezed onto the scale: 5000 beside 10-13 would flatten every other dot.
+   */
+  from: number
+  to: number
+  axisLabel: string
+  points: NumberLinePoint[]
+  /** A span over the axis — for quartiles, the middle half from Q1 to Q3. */
+  band?: { from: number; to: number; label: string; fromLabel?: string; toLabel?: string; tint?: 1 | 2 | 3 | 4 | 5 }
+  /**
+   * Lines the points are judged against. A point beyond the outermost pair is ringed.
+   * A lone fence must say which side is out: see `outsideFences`.
+   */
+  fences?: { at: number; label: string; side?: 'lower' | 'upper' }[]
+  note?: string
+}
+
+/**
+ * Is this value outside the fences?
+ *
+ * With two or more fences the answer is "beyond the outermost pair". With ONE, taking the
+ * min and the max of a single number collapses them, and `at < lo || at > hi` is then true
+ * of every value that is not exactly on the fence — a one-fence figure came back with all
+ * six of its points ringed. A lone fence therefore has to declare its side, and without one
+ * nothing is marked: an unringed figure is a figure missing an annotation, while a fully
+ * ringed one asserts something false.
+ */
+export function outsideFences(at: number, fences?: { at: number; side?: 'lower' | 'upper' }[]): boolean {
+  if (!fences || fences.length === 0) return false
+  if (fences.length === 1) {
+    const [f] = fences
+    if (f.side === 'lower') return at < f.at
+    if (f.side === 'upper') return at > f.at
+    return false
+  }
+  return at < Math.min(...fences.map((f) => f.at)) || at > Math.max(...fences.map((f) => f.at))
+}
+
+/** What one group plays in one fold. `skip` is data the fold does not use (a later window). */
+export type FoldRole = 'train' | 'valid' | 'skip'
+
+export interface FoldsData {
+  kind: 'folds'
+  headline: string
+  /** Column labels: the groups (entities, or time windows) the data is split by. */
+  groups: string[]
+  /** One row per fold, one role per group, in `groups` order. */
+  rows: { label: string; roles: FoldRole[]; score?: string }[]
+  /** Heading over the score column, when rows carry scores. */
+  scoreLabel?: string
+  /** Under the grid, e.g. the mean and spread of the scores. */
+  summary?: string
+  note?: string
+}
+
 export type FigureData =
+  | FoldsData
   | FlowData
   | DecisionData
   | TimelineData
@@ -166,6 +234,7 @@ export type FigureData =
   | TableShapeData
   | SetData
   | GraphData
+  | NumberLineData
 
 /**
  * Contrast-safe roles, because the chart palette is not a text palette.

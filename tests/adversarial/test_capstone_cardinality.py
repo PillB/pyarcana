@@ -25,6 +25,8 @@ import json
 import os
 import re
 import sys
+import unittest
+from script_case import assert_main_passes
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CONTRACTS_DIR = os.path.join(REPO, "capstone_validation", "capstones")
@@ -253,6 +255,13 @@ def main() -> int:
         "FINAL integrates 12"
     )
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

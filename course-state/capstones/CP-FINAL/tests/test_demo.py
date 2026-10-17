@@ -76,7 +76,12 @@ def test_reproducible():
 
 
 def test_run_demo_exits_zero():
-    r = subprocess.run([sys.executable, os.path.join(PKG, "demo.py")], capture_output=True, text=True)
+    # The backup goes to a temporary directory: the one in evidence_backups/ is committed.
+    import tempfile
+    with tempfile.TemporaryDirectory() as backups:
+        env = dict(os.environ, CP_FINAL_BACKUP_DIR=backups)
+        r = subprocess.run([sys.executable, os.path.join(PKG, "demo.py")],
+                           capture_output=True, text=True, env=env)
     assert r.returncode == 0, f"demo exited {r.returncode}: {r.stderr}"
     assert "METRICS_JSON:" in r.stdout
     assert '"subsystem_count": 12' in r.stdout

@@ -10,6 +10,7 @@ Asserts:
 import re
 import json
 import os
+import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -33,7 +34,7 @@ FORBIDDEN_CLAIMS = [
     r'garantiz.*certification', r'equivalent.*certification',
 ]
 
-class TestDashboardCopy:
+class TestDashboardCopy(unittest.TestCase):
     DASHBOARD = REPO_ROOT / 'src' / 'components' / 'course' / 'Dashboard.tsx'
     
     def test_dashboard_exists(self):
@@ -51,7 +52,7 @@ class TestDashboardCopy:
             # Check only in JSX text content
             assert len(matches) < 3, f"Found forbidden meta '{pattern}' in Dashboard"
 
-class TestResourcesCopy:
+class TestResourcesCopy(unittest.TestCase):
     RESOURCES = REPO_ROOT / 'src' / 'components' / 'course' / 'ResourcesPage.tsx'
     
     def test_resources_exists(self):
@@ -79,7 +80,7 @@ class TestResourcesCopy:
         content = self.RESOURCES.read_text()
         assert 'filter' in content.lower() or 'Filter' in content, "Resources must have filters"
 
-class TestLegalPages:
+class TestLegalPages(unittest.TestCase):
     LEGAL_DIRS = ['privacy', 'terms', 'cookies', 'disclaimer', 'badge-notice', 
                   'external-resources', 'acceptable-use', 'data-rights', 'security']
     
@@ -94,7 +95,7 @@ class TestLegalPages:
             content = path.read_text()
             assert 'version' in content.lower() or 'Versión' in content, f"{d} missing version"
 
-class TestFirebaseConfig:
+class TestFirebaseConfig(unittest.TestCase):
     CLIENT = REPO_ROOT / 'src' / 'lib' / 'firebase' / 'client.ts'
     RULES = REPO_ROOT / 'firestore.rules'
     
@@ -114,5 +115,4 @@ class TestFirebaseConfig:
         assert '"firebase"' in pkg, "firebase client SDK not in package.json"
 
 if __name__ == '__main__':
-    import unittest
     unittest.main()

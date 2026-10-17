@@ -1,6 +1,6 @@
 # Section screenshots: what was inserted
 
-Done 2026-10-06 under owner decision **D19** (`audit/fixer/decisions.md`), which overrides D4 for
+Done 2026-10-06 under owner decision **D23** (`audit/fixer/decisions.md`), which overrides D4 for
 these seven images only. Branch `claude/section-screenshots`.
 
 ## Where each image went
@@ -102,7 +102,7 @@ Run on 2026-10-06. "Base" is `775a3a7` (this branch's start), "branch" is the te
   The order asked for "the line Sesión 0 uses", and that is how Sesión 0 prints it.
 - **No theme variant.** These are raster captures: the four GitHub screens and Trace Viewer are
   light, the two VS Code captures are dark, and none follows the site's theme. D4 named this
-  cost, and the owner accepted it in D19.
+  cost, and the owner accepted it in D23.
 - **No upscaling.** A picture is never wider than its own pixels (`maxWidth: width`). The
   732 px menu and the 520 px VS Code crop were stretched and blurred at full column width.
   The cost is that they now render narrower than the text column.

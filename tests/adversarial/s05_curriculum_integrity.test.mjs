@@ -2,8 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 
+import { readSeedQuestionBank } from '../../scripts/lib/learner_text.mts'
+
 const section = readFileSync('src/lib/course/sections/s05-functions-contracts.ts', 'utf8')
-const seed = readFileSync('prisma/seed.ts', 'utf8')
 const sectionView = readFileSync('src/components/course/SectionView.tsx', 'utf8')
 const pdfReport = readFileSync('src/components/course/PdfReport.tsx', 'utf8')
 
@@ -34,8 +35,12 @@ test('S05 You Do executes every promised boundary oracle', () => {
   assert.match(youDo, /is_idempotent\(normalize_email/)
   assert.match(youDo, /is_idempotent\(normalize_telefono/)
   assert.match(youDo, /is_idempotent\(normalize_direccion/)
-  assert.match(youDo, /normalize_email\("sin-arroba"\)/)
-  assert.match(youDo, /raise AssertionError\("normalize_email debe rechazar entradas sin @"\)/)
+  // The boundary oracle stays; its construct changed. It used to be try/except/else around
+  // `normalize_email("sin-arroba")`, which D10 keeps out of every section before S09, so the
+  // You Do now asks the same question through the section's own predicate. Pinning the check,
+  // not the catch: what must never disappear is that the starter verifies the rejection.
+  assert.match(youDo, /"sin-arroba"/)
+  assert.match(youDo, /assert not \w*email\w*\("sin-arroba"\)/)
   assert.match(youDo, /"direccion": "JR UNIÓN 1"/)
 })
 
@@ -52,13 +57,12 @@ test('stable S05 id no longer leaks an OOP playground or PDF label', () => {
 })
 
 test('authenticated S05 bank has 24 variants and balanced answer positions', () => {
-  const bank = between(seed, '// S05 V3', '// S06 V3')
-  const concepts = bank.match(/concept: '[^']+'/g) ?? []
-  const indices = [...bank.matchAll(/correctIndex:\s*(\d)/g)].map((match) =>
-    Number(match[1]),
-  )
+  const bank = readSeedQuestionBank('.').find((b) => b.slug === 'functions-contracts')
+  assert.ok(bank, 'the S05 bank (functions-contracts) is missing from the seed')
+  const questions = bank.questions
+  const indices = questions.map((q) => q.correctIndex)
 
-  assert.equal(concepts.length, 24)
+  assert.equal(questions.length, 24)
   assert.equal(indices.length, 24)
 
   const distribution = [0, 1, 2, 3].map(
@@ -67,9 +71,8 @@ test('authenticated S05 bank has 24 variants and balanced answer positions', () 
   assert.deepEqual(distribution, [6, 6, 6, 6])
 
   const byConcept = new Map()
-  for (const conceptLine of concepts) {
-    const concept = conceptLine.slice("concept: '".length, -1)
-    byConcept.set(concept, (byConcept.get(concept) ?? 0) + 1)
+  for (const q of questions) {
+    byConcept.set(q.concept, (byConcept.get(q.concept) ?? 0) + 1)
   }
   assert.equal(byConcept.size, 8)
   assert.deepEqual([...byConcept.values()], Array(8).fill(3))

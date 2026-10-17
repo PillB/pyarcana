@@ -71,7 +71,7 @@ export const section27: CourseSection = {
       },
       subtopicId: "S27-T1-A",
       paragraphs: [
-        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en el emparejamiento de entidades justifica más pruebas que un error tipográfico en el registro o un cambio de color en la interfaz de revisión. Si solo mides el número de pruebas, puedes hinchar la base con comprobaciones triviales y dejar sin contrato la rama que mueve la cola de revisión manual.",
+        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. pytest es la herramienta de terceros que encuentra y ejecuta esas pruebas por ti. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en el emparejamiento de entidades justifica más pruebas que un error tipográfico en el registro o un cambio de color en la interfaz de revisión. Si solo mides el número de pruebas, puedes hinchar la base con comprobaciones triviales y dejar sin contrato la rama que mueve la cola de revisión manual.",
         "Clasifica riesgo por **impacto** y **probabilidad**. Impacto: datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecho. Probabilidad: código tocado a menudo, reglas frágiles, historial de bugs. En entity resolution, normalización y comparadores son capa de alto riesgo. Si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas.",
         "No inviertas la pirámide: una batería de E2E lentas no sustituye contratos unitarios de `strip`/`casefold`. Heurística práctica: **score = impacto × probabilidad**; ordena áreas y reparte más casos a las de mayor score. Ejemplo sintético de este caso: `normalize_name` (5×4=20) > `exact_match` (5×3=15) > repo SQL > cola UI. Regla de bolsillo para el equipo: score ≥ 15 → ≥ 5 tests de contrato; 8–14 → 2–3; < 8 → smoke + un negativo. El score no es ciencia exacta: es una cola de prioridad honestable en la retro del sprint.",
       ],
@@ -144,6 +144,42 @@ phases arrange-act-assert`,
         title: "Oráculo ≠ impresión",
         content:
           "`print` no es una comprobación. El contrato debe fallar de forma visible si se rompe; una impresión amable en verde no protege la fusión ni la solicitud de fusión del colega.",
+      },
+    },
+    {
+      heading: "De llamar pruebas a mano a ejecutar pytest",
+      paragraphs: [
+        "En este laboratorio llamamos cada función de prueba a mano. Con dos casos parece suficiente, pero la práctica se rompe al crecer: tienes que recordar cada llamada nueva y el primer fallo impide que las siguientes se ejecuten.",
+        "pytest es un programa separado, no una parte de la biblioteca estándar de Python. Encuentra por sí mismo los archivos `test_*.py` y las funciones `test_*`, ejecuta todas las pruebas y reporta el resultado de cada una por separado.",
+        "Con la `.venv` de S01 activada, instálalo con `python -m pip install pytest`. Así queda en el entorno del proyecto, sin mezclarse con otros proyectos; registra su versión entre las dependencias para que viaje con el proyecto.",
+        "La corrida de abajo usa el `normalize_name` de la sección y dos pruebas. `test_normalize_spaces` comprueba que `normalize_name(\"  Ana  López \") == \"ana lópez\"` y pasa; `test_exact_match` espera `\"Ana\"`, pero recibe `\"ana\"` porque la función aplica `casefold`. El fallo está en esa expectativa recién escrita, no en la función: es un caso común cuando conviertes por primera vez un supuesto en contrato.",
+        "En la primera línea, cada carácter representa una prueba: `.` significa que pasó y `F`, que falló. La sección `FAILURES` muestra el código que falló y el diff del `assert`, sin que escribas un mensaje a mano. `test_normalize.py::test_exact_match` es el **node id** —archivo más nombre de la prueba— y puedes pasarlo a pytest para repetir solo ese caso: `python -m pytest test_normalize.py::test_exact_match -q`. En este navegador no está disponible el programa que ejecuta pytest, por eso los bloques de la sección llaman las pruebas a mano e imprimen resultados como sustituto explícito; en tu máquina, el mismo archivo se ejecuta con pytest.",
+      ],
+      code: {
+        language: 'bash',
+        title: "pytest -q",
+        code: `$ python -m pytest test_normalize.py -q`,
+        output: `.F                                                                       [100%]
+=================================== FAILURES ===================================
+_______________________________ test_exact_match _______________________________
+
+    def test_exact_match():
+>       assert normalize_name("ANA") == "Ana"
+E       AssertionError: assert 'ana' == 'Ana'
+E         
+E         - Ana
+E         + ana
+
+test_normalize.py:10: AssertionError
+=========================== short test summary info ============================
+FAILED test_normalize.py::test_exact_match - AssertionError: assert 'ana' == ...
+1 failed, 1 passed in 0.05s`,
+      },
+      callout: {
+        type: "tip",
+        title: "Deja que pytest descubra",
+        content:
+          "No llames pruebas una por una: deja que pytest ejecute la suite y usa el node id solo para aislar un fallo que ya viste en ella.",
       },
     },
     {

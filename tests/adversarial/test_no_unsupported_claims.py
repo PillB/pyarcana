@@ -12,7 +12,9 @@ Exits 0 on pass, non-zero on fail.
 from __future__ import annotations
 import os
 import sys
+import unittest
 from pathlib import Path
+from script_case import assert_main_passes
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 SKIP_DIRS = {'node_modules', '.next', 'out', '.git', 'dist', 'build', 'exemplars_private', 'capstone_validation'}
@@ -57,6 +59,13 @@ def main():
         return 1
     print(f"PASS: test_no_unsupported_claims — 0 unsupported employment/mastery claims")
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == '__main__':

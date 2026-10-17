@@ -508,6 +508,17 @@ Only the owner can do these; nothing here is deployed.
    root, `out/_headers`, `wrangler deploy`). Attach `pyarcana.dev` as a Workers Custom Domain; the
    zone must be on Cloudflare first (`docs/HOSTINGER_SETUP.md` has the pointer). `run_worker_first`
    as a list needs a recent wrangler 4.
+   - Redirect `www.pyarcana.dev` with a Cloudflare Redirect Rule, never by binding it to the worker.
+     Static files are served before the worker runs, so a bound `www` would show the whole course
+     with accounts silently off: the site turns them on only on `https://pyarcana.dev`, and
+     `ALLOWED_ORIGINS` names only that origin. A Redirect Rule also costs no worker request on
+     Workers Free.
+   - Zone `pyarcana.dev` → Rules → Redirect Rules → template "Redirect from WWW to root": a 301 to
+     `https://pyarcana.dev` that keeps the path and the query string.
+   - Add a proxied DNS record for `www` so the rule has traffic to act on, e.g. `AAAA www 100::`.
+   - Do the same in the `pyarcana.com` zone for `pyarcana.com` and `www.pyarcana.com`.
+   - Check: `curl -sI https://www.pyarcana.dev/empezar?x=1` answers 301 with
+     `location: https://pyarcana.dev/empezar?x=1`.
 6. Google Cloud console: an OAuth web client with the site origin as an authorized JavaScript origin.
 7. Microsoft Entra: an app registration ("Any Entra ID Tenant + Personal Microsoft accounts",
    authority `common`, D-USER-05), SPA platform, redirect URI `https://pyarcana.dev/cuenta`

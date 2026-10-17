@@ -40,7 +40,7 @@ import { riseIn } from '@/lib/entrance'
 // site it can never run: UserMenu renders nothing without Firebase settings, and every path that
 // opens AuthModal is server-only. The check is written as the literal env comparison, not
 // IS_STATIC_SITE, so webpack folds it at build time and the static build never bundles Firebase
-// (decision D16). In the server edition the require is synchronous: nothing changes there.
+// (decision D18). In the server edition the require is synchronous: nothing changes there.
 type FirebaseAuthUi = typeof import('@/components/course/AuthModal')
 const firebaseAuthUi: FirebaseAuthUi | null =
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -479,7 +479,7 @@ export default function Home() {
                 size="sm"
                 onClick={() => setPdfReportOpen(true)}
                 className="gap-1.5"
-                title="Reportes y certificados"
+                title={tr('reports.title')}
               >
                 <FileText className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">{tr('nav.reports')}</span>

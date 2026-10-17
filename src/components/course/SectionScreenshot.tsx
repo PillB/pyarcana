@@ -11,7 +11,7 @@ const RECORDS = new Map<string, SectionShotRecord>(
 )
 
 /**
- * One approved screenshot inside a section (decision D19): Sesión 0's picture, caption and
+ * One approved screenshot inside a section (decision D23): Sesión 0's picture, caption and
  * credit, then the same line Sesión 0 prints after a picture, pointing to the product's guide.
  *
  * A record that fails validation renders nothing, as in Sesión 0: the prose around it already

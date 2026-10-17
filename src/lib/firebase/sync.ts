@@ -115,7 +115,10 @@ export async function syncExamAttempt(row: {
   variantSeed?: string | null
 }): Promise<void> {
   const answers = typeof row.answers === 'string' ? redactStoredAnswers(row.answers) : row.answers
-  await upsertDoc(COLLECTIONS.examAttempts, row.id, { ...row, answers })
+  // The seed maps each drawn question to its concept, which names the key in some banks; the
+  // learner-owned mirror document gets neither it nor the key.
+  const { variantSeed: _seed, ...rest } = row
+  await upsertDoc(COLLECTIONS.examAttempts, row.id, { ...rest, answers })
 }
 
 export async function syncExerciseAttempt(row: {

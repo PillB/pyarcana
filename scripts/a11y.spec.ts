@@ -62,7 +62,7 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
   })
 
   test('section screenshots load, carry their alt and credit, and pass axe', async ({ page }) => {
-    // Decision D19: S01 holds five of the seven approved screenshots. Axe is scoped to the
+    // Decision D23: S01 holds five of the seven approved screenshots. Axe is scoped to the
     // pictures, their captions and guide lines: the rest of S01 is the section test above.
     await page.goto(`${BASE}/#setup`, { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('[data-testid="section-root"]', { timeout: 60000 })

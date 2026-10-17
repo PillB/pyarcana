@@ -33,7 +33,10 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     const cellW = Math.floor(206 / cols)
     return (
       <g>
-        <FigText x={x} y={68} anchor="start" size={FIG.microSize} weight={600} fill={INK.label}>
+        {/* Relative to `top`, not a fixed 68: a headline that wraps pushes the tables and the
+            verb above them down 20px, and a title left at 68 then sat on the verb
+            ("Conteo por clave" over "groupby + nunique", S16). */}
+        <FigText x={x} y={top - 16} anchor="start" size={FIG.microSize} weight={600} fill={INK.label}>
           {p.title}
         </FigText>
         {p.head.map((h, c) => (
@@ -81,9 +84,14 @@ export function TableShapeFigure({ title, data, idPrefix }: { title: string; dat
     <div>
     <FigSvg title={title} viewBox={`0 0 ${FIG.width} ${height}`}>
       <FigArrowDefs id={`${idPrefix}-arrow`} />
-      <FigText x={22} y={26} anchor="start" weight={600}>
-        {data.headline}
-      </FigText>
+      {/* Drawn as the wrapped lines the layout already reserves room for. One unwrapped line
+          made every headline past ~62 characters run toward the canvas edge while `top`
+          moved down as if it had wrapped. */}
+      {headLines.map((l, i) => (
+        <FigText key={l} x={22} y={26 + i * 20} anchor="start" weight={600}>
+          {l}
+        </FigText>
+      ))}
 
       {panel(leftX, data.left)}
       <motion.g initial={false} animate={{ opacity: isLast ? 1 : 0.18 }} transition={transition}>

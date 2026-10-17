@@ -55,7 +55,7 @@ export interface TheoryBlock {
   figure?: Figure
   /**
    * Real screenshots of an interface the learner will operate. Only the seven the owner
-   * approved exist (decision D19; D4 still rules out any other). Each sits right after the
+   * approved exist (decision D23; D4 still rules out any other). Each sits right after the
    * prose it illustrates; its credit, alt, caption and guide live in its record, not here.
    */
   screenshots?: SectionScreenshot[]

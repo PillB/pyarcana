@@ -63,14 +63,20 @@ class TestPacketIsolation(unittest.TestCase):
         # on its own terms, since this file backticks accept/reject/review 27 other times and
         # they are decision values the learner types. Assert the structure and the decision
         # words, and let the prose be rewritten.
+        # Re-pinned 2026-09-30 after D14's route-2 redesign (owner decision recorded in
+        # audit/fixer/decisions.md): S03's code corpus now uses only S01-S03 knowledge, and
+        # this exercise's planted invariant became the inclusive upper frontier. The
+        # empty-field teaching it used to pin survives section-wide (S03-T4-A's theory, the
+        # T4-B exercises and the You Do's monto-0 case all separate None from a valid value),
+        # verified before this pin moved.
         preamble = exercise["preamble"]
         self.assertIn("\n- **Meta:**", preamble, "preamble lost its bullets or its newlines")
         self.assertNotIn("\\n", preamble, "newlines arrived escaped instead of real")
         for decision in ("accept", "review", "reject"):
             self.assertIn(decision, preamble, f"the {decision} branch vanished from the preamble")
-        self.assertIn("vacíos", preamble, "the empty-field invariant vanished from the preamble")
-        self.assertEqual(exercise["edgeCases"], ["uno vacío"])
-        self.assertIn("\n2. Escribe", exercise["instruction"])
+        self.assertIn("frontera", preamble, "the inclusive-boundary invariant vanished from the preamble")
+        self.assertEqual(exercise["edgeCases"], ["frontera superior inclusiva"])
+        self.assertIn("\n2. Corrige", exercise["instruction"])
         self.assertNotIn("falta).n2.", exercise["instruction"])
 
     def test_unicode_escape_in_visible_starter_preserves_combining_mark(self) -> None:
@@ -87,12 +93,20 @@ class TestPacketIsolation(unittest.TestCase):
     def test_section1_has_no_solution_keys(self):
         pkt = build_packet(1, attempt_id="adv")
         blob = str(pkt)
-        # solutions stripped from exercises
-        for ex in (pkt["active"].get("weDo") or {}).get("exercises") or []:
+        # solutions stripped from exercises - and the lists must hold something, or a renamed
+        # key would empty both loops and the test would pass having checked nothing
+        exercises = (pkt["active"].get("weDo") or {}).get("exercises") or []
+        stems = pkt["active"].get("selfCheck_stems") or []
+        self.assertGreater(len(exercises), 0, "no weDo exercise reached the packet")
+        self.assertGreater(len(stems), 0, "no self-check stem reached the packet")
+        for ex in exercises:
             self.assertNotIn("solutionCode", ex)
-        for sc in pkt["active"].get("selfCheck_stems") or []:
+        for sc in stems:
             self.assertNotIn("correctIndex", sc)
             self.assertNotIn("explanation", sc)
+        # anywhere in the packet, not only where the loops look
+        for key in ("solutionCode", "correctIndex"):
+            self.assertNotIn(key, blob)
         self.assertIn("forbidden", pkt)
         self.assertGreater(len((pkt["active"].get("theory") or [])), 0)
 

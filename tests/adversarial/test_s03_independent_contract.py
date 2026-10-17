@@ -12,12 +12,12 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
-SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from newbie_packet_builder import active_manifest, parse_section_learner
+import exam_bank  # noqa: E402
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -145,13 +145,7 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertNotIn('"decisions-rules": \'3. Data Struct\'', pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
-        seed = SEED.read_text(encoding="utf-8")
-        bank = _between(seed, "  // S03 V3", "  // S04 V3")
-        entries = re.findall(
-            r"\{\s+concept: '([^']+)'.*?correctIndex:\s*([0-3]),",
-            bank,
-            re.DOTALL,
-        )
+        entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("decisions-rules")]
         self.assertEqual(len(entries), 24)
 
         by_concept: dict[str, list[int]] = defaultdict(list)
@@ -182,24 +176,38 @@ class Section03IndependentContractTests(unittest.TestCase):
 
         self.assertEqual(len(positions), 8)
         self.assertEqual(Counter(positions), Counter({0: 2, 1: 2, 2: 2, 3: 2}))
-        self.assertIn("comparar None con < lanza TypeError", self_check)
-        self.assertIn("mensajes de validación es accionable", self_check)
+        # Re-pinned 2026-09-30 after D14's route-2 redesign: the concepts survive with new
+        # wording - the None-comparison TypeError (S09 will teach handling) and the
+        # actionable-message reading ("obligan a adivinar la causa").
+        self.assertIn("lanza `TypeError`", self_check)
+        self.assertIn("obligan a adivinar la causa", self_check)
 
     def test_you_do_oracle_covers_schema_normal_boundary_and_error_paths(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
         you_do = _between(source, "  youDo: {", "  selfCheck: {")
 
+        # Re-pinned 2026-09-30 after D14's route-2 redesign (owner decision in
+        # audit/fixer/decisions.md): the record-schema oracle moved to the sections that
+        # teach dicts and exceptions (S05/S06/S09), owed in their own rounds. The S03-level
+        # oracle is the nine final asserts: three scalar results per rule (estado, codigo,
+        # mensaje) with a normal path (monto 0 -> accept), boundary cases (edad 17 vs 18,
+        # the unknown region) and error paths (None, out-of-range) - verified before this
+        # pin moved.
         self.assertNotIn("NotImplementedError", you_do)
-        self.assertIn(
-            'assert set(result) == {"status", "code", "message"}',
-            you_do,
-        )
-        self.assertIn('{"edad": "25", "region": None, "monto_ingreso": "100"}', you_do)
-        self.assertIn('{"edad": 18, "region": "Piura", "monto_ingreso": 50000}', you_do)
-        self.assertIn('{"edad": 121, "region": "Cusco", "monto_ingreso": 50001}', you_do)
+        for required in (
+            "assert edad_estado == \"review\"",
+            "assert edad_codigo == \"NEEDS_REVIEW\"",
+            "assert region_estado == \"review\"",
+            "assert region_codigo == \"NOT_IN_ALLOWLIST\"",
+            "assert monto_estado == \"accept\"",
+            "assert monto_codigo == \"OK\"",
+        ):
+            self.assertIn(required, you_do)
+        self.assertIn("edad_caso = 17", you_do)
+        self.assertIn('region_caso = "R-FUERA"', you_do)
+        self.assertIn("monto_caso = 0", you_do)
         for code in (
             "MISSING",
-            "BAD_TYPE",
             "OUT_OF_RANGE",
             "NOT_IN_ALLOWLIST",
             "NEEDS_REVIEW",

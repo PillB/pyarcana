@@ -189,7 +189,6 @@ class TestPdfReportCss(unittest.TestCase):
         quoted = re.findall(r'"[a-z-]+"\s*:', style)
         self.assertEqual(quoted, [], f"quoted CSS properties: {quoted}")
         self.assertIn("border-radius:", style)
-        self.assertIn("no una certificación profesional", pdf)
 
 
 if __name__ == "__main__":

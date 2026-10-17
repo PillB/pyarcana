@@ -93,6 +93,59 @@ function Rich({ text }: { text: string }) {
   return <>{boldParts(text).map((p, i) => (p.bold ? <strong key={i} className="font-semibold text-foreground">{p.text}</strong> : p.text))}</>
 }
 
+/** The step's classification exercise: the options, the feedback for the one picked, and the rule once it is right. */
+function TourExercise({ ex, picked, onPick }: { ex: NonNullable<QATourStep['exercise']>; picked: string | null; onPick: (value: string) => void }) {
+  const chosen = picked ? ex.options.find((o) => o.value === picked) : undefined
+  const isRight = picked === ex.correct
+  return (
+    <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
+      <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
+      <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
+      </p>
+      <div className="mt-2 grid gap-2">
+        {ex.options.map((opt) => {
+          const isPicked = picked === opt.value
+          const showRight = isPicked && opt.value === ex.correct
+          const showWrong = isPicked && opt.value !== ex.correct
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onPick(opt.value)}
+              data-testid={`qa-tour-option-${opt.value}`}
+              className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
+                showRight ? 'border-primary bg-primary/10'
+                : showWrong ? 'border-destructive/60 bg-destructive/5'
+                : 'border-border hover:bg-muted'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
+                {opt.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+      {chosen && (
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          role="status"
+          data-testid="qa-tour-feedback"
+        >
+          {chosen.feedback}
+        </p>
+      )}
+      {isRight && (
+        <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
+          <span className="font-medium">Regla: </span>{ex.rule}
+        </p>
+      )}
+    </div>
+  )
+}
+
 /**
  * The QA tester tour. Deliberately independent of InteractiveTour.
  *
@@ -161,8 +214,6 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
   if (!open || !step) return null
 
   const ex = step.exercise
-  const chosen = ex && picked ? ex.options.find((o) => o.value === picked) : undefined
-  const isRight = !!ex && picked === ex.correct
 
   return (
     <div
@@ -256,53 +307,7 @@ export function QATour({ open, onClose }: { open: boolean; onClose: () => void }
           </dl>
         )}
 
-        {ex && (
-          <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
-            <p className="text-sm"><span className="font-medium">Caso:</span> {ex.symptom}</p>
-            <p className="mt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              ¿Qué {ex.fieldLabel.toLowerCase()} corresponde?
-            </p>
-            <div className="mt-2 grid gap-2">
-              {ex.options.map((opt) => {
-                const isPicked = picked === opt.value
-                const showRight = isPicked && opt.value === ex.correct
-                const showWrong = isPicked && opt.value !== ex.correct
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setPicked(opt.value)}
-                    data-testid={`qa-tour-option-${opt.value}`}
-                    className={`min-h-11 rounded-md border px-3 py-2 text-left text-sm transition ${
-                      showRight ? 'border-primary bg-primary/10'
-                      : showWrong ? 'border-destructive/60 bg-destructive/5'
-                      : 'border-border hover:bg-muted'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      {showRight && <Check className="h-4 w-4 shrink-0 text-primary" />}
-                      {opt.label}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            {chosen && (
-              <p
-                className="mt-3 text-sm leading-relaxed"
-                role="status"
-                data-testid="qa-tour-feedback"
-              >
-                {chosen.feedback}
-              </p>
-            )}
-            {isRight && (
-              <p className="mt-3 rounded-md border border-border bg-background p-3 text-sm leading-relaxed">
-                <span className="font-medium">Regla: </span>{ex.rule}
-              </p>
-            )}
-          </div>
-        )}
+        {ex && <TourExercise ex={ex} picked={picked} onPick={setPicked} />}
 
         </div>
 

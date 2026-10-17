@@ -1,4 +1,4 @@
-// The seven section screenshots the owner approved (decision D19, audit/fixer/decisions.md).
+// The seven section screenshots the owner approved (decision D23, audit/fixer/decisions.md).
 // Imported from src/ so the build emits them under _next/static/media with the /pyarcana base
 // path, like src/assets/setup. Each one has a record in shots.json; the section-screenshots test
 // fails when a PNG, an import or a record is missing.

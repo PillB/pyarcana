@@ -14,7 +14,9 @@ Exits 0 on pass, non-zero on fail.
 from __future__ import annotations
 import json
 import sys
+import unittest
 from pathlib import Path
+from script_case import assert_main_passes
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 CONTRACTS_DIR = ROOT / "src" / "lib" / "eligibility" / "claim_evidence_contracts"
@@ -86,6 +88,13 @@ def main():
 
     print(f"PASS: test_claim_evidence_contracts — {len(contract_files)} contracts verified")
     return 0
+
+
+class MainPasses(unittest.TestCase):
+    """Discovery collects TestCases, so as a bare script this check never ran in CI."""
+
+    def test_main(self) -> None:
+        assert_main_passes(self, main)
 
 
 if __name__ == "__main__":

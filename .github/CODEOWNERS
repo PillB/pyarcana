@@ -8,6 +8,8 @@
 /scripts/preservation_sentinel.mjs @PillB
 /scripts/generate_preservation_manifest.mjs @PillB
 /scripts/preservation/ @PillB
+/scripts/exercise_meaning.mjs @PillB
+/scripts/exercise_fingerprints.mts @PillB
 
 # CI and deployment
 /.github/workflows/ @PillB
@@ -38,3 +40,26 @@
 /tests/ @PillB
 /scripts/static_public.spec.ts @PillB
 /scripts/regression.spec.ts @PillB
+/scripts/*regression* @PillB
+
+# Curriculum renumber state: the guard inputs the renumber's gates read (owner decision O17, Gate A
+# decision 3). The section manifest (the badge-identity file) lives at
+# src/lib/eligibility/section_manifest.json and keeps a basename rule too, so a copy placed
+# elsewhere stays owned. The window, epoch, ledger and pending files have no fixed path yet, so
+# each is a basename rule that holds wherever it is placed.
+/src/lib/eligibility/ @PillB
+section_manifest.json @PillB
+curriculum55_window.json @PillB
+renumber_epoch.json @PillB
+renumber_edit_ledger.json @PillB
+authoring_pending.json @PillB
+
+# Files the owner named by real path (answer of 2026-10-13, on top of O17): the fixer's numbering
+# epoch (0b-6), the eligibility data (0b-4) and the signed credential statement. The directory and
+# basename rules above already reach the eligibility files; each file still gets a line of its own,
+# placed after them because GitHub applies the last matching line.
+/audit/fixer/numbering_epoch.json @PillB
+/src/lib/eligibility/section_manifest.json @PillB
+/src/lib/eligibility/skill_node_terms.json @PillB
+/src/lib/eligibility/claim_digests.json @PillB
+/src/lib/credential-statement.ts @PillB

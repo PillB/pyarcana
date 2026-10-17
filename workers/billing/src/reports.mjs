@@ -403,6 +403,14 @@ async function storeReport(ctx, parsed) {
  * @returns {Promise<Object>} Result.
  */
 export async function handleSubmitReport(ctx) {
+  // A retry of a stored report gets its id back before any quota is spent: spending first made an
+  // anonymous network's sixth retry a 429. A malformed key skips this and is refused below, after
+  // the spend, like any invalid report; a concurrent first send is caught by storeReport's insert.
+  const key = requestIdValue(ctx.body.clientIssueId);
+  const earlier = typeof key === "string" ? await alreadySent(ctx, key) : null;
+  if (earlier) {
+    return { status: 200, body: { ok: true, id: earlier, deduplicated: true } };
+  }
   const limited = await spendReportLimits(ctx);
   if (limited) {
     return limited;
@@ -410,10 +418,6 @@ export async function handleSubmitReport(ctx) {
   const parsed = parseReport(ctx.body);
   if (parsed.error) {
     return parsed.error;
-  }
-  const earlier = await alreadySent(ctx, parsed.input.clientIssueId);
-  if (earlier) {
-    return { status: 200, body: { ok: true, id: earlier, deduplicated: true } };
   }
   return storeReport(ctx, parsed.input);
 }

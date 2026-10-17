@@ -278,7 +278,7 @@ acl True`,
       subtopicId: "S40-T3-B",
       paragraphs: [
         "Una **entity** se rastrea por **identidad** a lo largo del tiempo (`CASE-001` sigue siendo el mismo caso aunque cambie su estado). Un **value object (VO)** se compara por **valor** (150 PEN es igual a otro 150 PEN) y suele ser inmutable. Un **servicio de dominio** aloja una regla que no encaja naturalmente en una sola entidad (p. ej. fusionar scores sin guardar estado propio).",
-        "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. En el lab, `vo_frozen` es la **assert de invariante** sobre un dict sintético; en producción usarías un tipo inmutable (`NamedTuple` o dataclass congelada). El flag no congela el dict de Python por magia. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
+        "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. En el lab, `vo_frozen` es la **assert de invariante** sobre un dict sintético; en producción usarías un tipo que impida cambiar sus valores después de crearlo. El flag no congela el dict de Python por magia. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
         "En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN con invariante de inmutabilidad; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.",
       ],
       code: {
@@ -297,7 +297,7 @@ def merge_scores(a: float, b: float, w: float = 0.5) -> float:
 case_a, case_b = "CASE-001", "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
-# Lab: assert de invariante (en prod: NamedTuple / frozen dataclass)
+# Lab: assert de invariante (en prod: los valores no pueden cambiar)
 vo_frozen = True
 print("entity_same", same_entity(case_a, case_b))
 print("vo_equal", same_money(vo_a, vo_b))
@@ -562,7 +562,7 @@ def merge_scores(a: float, b: float, w: float = 0.5) -> float:
 entity = "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
-# Lab: assert de invariante (en prod: NamedTuple / frozen dataclass)
+# Lab: assert de invariante (en prod: los valores no pueden cambiar)
 vo_frozen = True
 print("entity", entity, "same", same_entity(entity, "CASE-001"))
 print("vo_equal", same_vo(vo_a, vo_b))
@@ -575,7 +575,7 @@ merged 0.7
 vo_frozen True
 service_stateless True`,
         },
-        why: "Identidad de entity ≠ atributos mutables; VO se compara por amount+currency (150 PEN = 150 PEN). El servicio de fusión no guarda sesión. `vo_frozen` es assert de lab — en producción usarías NamedTuple o dataclass congelada; el flag no congela el dict por magia. En We Do dejarás de mezclar currency con entity_id.",
+        why: "Identidad de entity ≠ atributos mutables; VO se compara por amount+currency (150 PEN = 150 PEN). El servicio de fusión no guarda sesión. `vo_frozen` es assert de lab — en producción usarías un tipo que impida cambiar sus valores después de crearlo; el flag no congela el dict por magia. En We Do dejarás de mezclar currency con entity_id.",
         retrospective:
           "Tres herramientas tácticas, tres invariantes. El error clásico es usar el id de la entity como «moneda» del VO. Pregunta: ¿por qué 150 PEN = 150 PEN aunque sean dos dicts distintos en memoria? We Do: checklist de identidad + PEN + merge 0.7.",
       },
@@ -1712,7 +1712,7 @@ print(*results)
         feedback:
           "CONTINUE con modelo táctico sano; breach → REJECT_DOMAIN_MODEL; bandera de servicio ausente → CLARIFY_INVARIANT. Incertidumbre de invariante no es modelo roto demostrado.",
         retrospective:
-          "Incertidumbre de invariante ≠ modelo roto demostrado: no inventes service_stateless=True para desbloquear el gate del dossier táctico. El error clásico es CONTINUE sin la bandera. Pregunta: ¿qué inmutabilizarías de verdad en producción (NamedTuple o dataclass congelada vs. flag de lab)?",
+          "Incertidumbre de invariante ≠ modelo roto demostrado: no inventes service_stateless=True para desbloquear el gate del dossier táctico. El error clásico es CONTINUE sin la bandera. Pregunta: ¿qué datos impedirías cambiar de verdad en producción, en vez de confiar en un flag de lab?",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e3.py",

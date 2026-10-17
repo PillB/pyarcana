@@ -1,5 +1,5 @@
 /**
- * Records for the screenshots inside course sections (decision D19).
+ * Records for the screenshots inside course sections (decision D23).
  *
  * A section screenshot is a reused picture, so it is a Sesión 0 ShotRecord with a credit, and
  * the same validator decides whether it may be shown. It adds the product's own guide: the
@@ -43,7 +43,7 @@ export function validSectionShotRecord(r: unknown): r is SectionShotRecord {
 
 /** A run of a block's prose, then the screenshots that follow it. */
 export interface ProseSegment {
-  /** Markdown for RichText: the heading (unless the block is optional) and paragraphs. */
+  /** Markdown for RichText: the block's paragraphs. The heading renders as its own <h3>. */
   text: string
   /** The same block's prose already rendered above, so glossary hints are not repeated. */
   before: string
@@ -53,14 +53,14 @@ export interface ProseSegment {
 /**
  * Splits a theory block's prose after each paragraph a screenshot follows, so the picture sits
  * next to the sentence it shows (spatial contiguity) instead of after the whole block. With no
- * paragraph screenshot it returns the block's text in one piece, exactly as before.
+ * paragraph screenshot it returns the block's paragraphs in one piece, exactly as before.
  */
 export function proseSegments(
-  block: { heading: string; paragraphs: string[]; optional?: boolean; screenshots?: { id: string; after: number | string }[] },
+  block: { paragraphs: string[]; screenshots?: { id: string; after: number | string }[] },
 ): ProseSegment[] {
   const segments: ProseSegment[] = []
   const shown: string[] = []
-  let current: string[] = block.optional ? [] : [block.heading]
+  let current: string[] = []
   block.paragraphs.forEach((p, i) => {
     current.push(p)
     const shots = (block.screenshots ?? []).filter((s) => s.after === i).map((s) => s.id)

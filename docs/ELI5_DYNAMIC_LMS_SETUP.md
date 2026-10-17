@@ -332,6 +332,32 @@ firebase deploy --only firestore:indexes
 
 ---
 
+## Check the exam bank in the database (read-only)
+
+Run it from the checkout that is deployed, so the bank it compares against is the one the app serves. `--db` takes the SQLite file that `DATABASE_URL` points at. It needs Node 22.13 or newer (for `node:sqlite`).
+
+```bash
+cd /var/www/pyarcana
+bun run db:bank-check --db /path/to/pyarcana.db
+```
+
+With npm, put `--` before the flag: `npm run db:bank-check -- --db /path/to/pyarcana.db`. The script `db:bank-check` in `package.json` runs `node --import tsx scripts/exam_bank_db_check.mts`.
+
+The command opens the file read-only and writes nothing. For each course section in the checkout it prints a status, the row counts, and two SHA-256 digests (the database's rows and the checkout's bank). It never prints question text.
+
+- `fresh`: the rows match the bank.
+- `stale`: the rows are well formed and of the right shape, but their content differs. Reseed.
+- `missing`: no rows under the section's id or any pre-rename id. Reseed.
+- `alias-only`: rows exist only under a pre-rename id, so the rename step has not reached them. Run `bun run db:push`, which applies it.
+- `malformed`: a row the exam cannot show (options that are not a list of two or more strings, or a key outside them).
+- `wrong-shape`: the concept, variant and option-count rows differ from the bank's.
+
+Exit codes: `0` when every section is fresh, `1` when any section is not, `2` when the check could not run (no `--db`, no such file, no `node:sqlite`, or not a PyArcana database).
+
+Reseeding (`bun run db:seed`) replaces the whole QuestionBank table, so run the check again afterwards.
+
+---
+
 ## Troubleshooting
 
 **Site doesn't load:**
@@ -358,6 +384,12 @@ firebase deploy --only firestore:indexes
 - A 403 today is expected: the server records exam attempts only, and a capstone credential
   also needs self-checks, You Do rubrics, the integrator project, the defense and prerequisite
   badges (`unverifiedRequirements` in the response). Exam scores alone never issue one.
+- `blockers` in the response lists every check that refused it, each with a `kind`: a requirement
+  with no server verifier (`unverified`), an eligibility-engine gate that failed (`unmet`) or that
+  the engine never reached (`not_evaluated`), and `CREDENTIAL_STORE_NOT_IMPLEMENTED` (`standing`),
+  which holds until issuance writes a `Credential` row (`src/lib/credential-blockers.ts`)
+- `specificationVersion` in the request must be the badge's own catalog `version`; the credential
+  is signed with that version, never the request's (`SPEC_VERSION_MISMATCH` otherwise)
 - `passedSections` / `requiredSections` count the exams of the badge's own `required_sections`
   (`src/lib/eligibility/badge_catalog.json`) with a best score of at least 85
   (`provisional_floors.section_exam_pct`, not the exam pass mark of 70)

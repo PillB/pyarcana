@@ -179,6 +179,31 @@ test('F5: the CSP ships as <meta http-equiv>, which browsers enforce, with the l
   assert.match(layout, /<head>\s*<CspMeta \/>/, 'first in <head>, before the inline guard script')
 })
 
+test('F5: `next dev` alone gets script-src unsafe-eval in the meta policy; builds and the header never do', () => {
+  // Without it the dev runtime's eval is refused, nothing hydrates, and /#section stays on the
+  // dashboard: the browser regression job (bun run dev) failed 19 tests that way.
+  const dev = metaCsp(CLOUD_CONFIG, { devServer: true }).split('; ')
+  const strict = metaCsp(CLOUD_CONFIG).split('; ')
+  assert.deepEqual(
+    dev.filter((d, i) => d !== strict[i]),
+    [`${strict.find((d) => d.startsWith('script-src '))} 'unsafe-eval'`],
+    'only script-src changes, by exactly one source',
+  )
+  const before = process.env.NODE_ENV
+  const env = process.env as Record<string, string | undefined>
+  const rendered = () => renderToStaticMarkup(h(CspMeta)).replace(/&#x27;/g, "'")
+  try {
+    env.NODE_ENV = 'development'
+    assert.match(rendered(), /script-src [^;]* 'unsafe-eval';/)
+    env.NODE_ENV = 'production'
+    assert.doesNotMatch(rendered(), / 'unsafe-eval'/)
+  } finally {
+    if (before === undefined) delete env.NODE_ENV
+    else env.NODE_ENV = before
+  }
+  assert.doesNotMatch(buildCsp(CLOUD_CONFIG), /'unsafe-eval'/, 'the header policy has no dev option')
+})
+
 // --- finding 6: no sale is described on a market without a payment rail ------------------------
 
 const view = (market: 'pe' | 'world', rails: { peru: 'mercadopago' | ''; international: 'creem' | '' }) =>

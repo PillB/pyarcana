@@ -1,5 +1,5 @@
 /**
- * The seven section screenshots the owner approved on 2026-10-06 (decision D19).
+ * The seven section screenshots the owner approved on 2026-10-06 (decision D23).
  *
  * What can go wrong, and which test catches it:
  * - a record loses its credit, licence or alt, or its alt is just the caption: records;
@@ -23,7 +23,7 @@ import type { TheoryBlock } from '../../src/lib/types.ts'
 const ASSETS = 'src/assets/sections'
 const SECTIONS = 'src/lib/course/sections'
 
-/** D19's scope. Adding an id here needs a new owner decision in audit/fixer/decisions.md. */
+/** D23's scope. Adding an id here needs a new owner decision in audit/fixer/decisions.md. */
 const APPROVED = [
   's01-compare-pr-banner',
   's01-new-repository-menu',
@@ -226,23 +226,23 @@ test('placement: in the rendered order, the anchor paragraph ends the prose righ
 
 test('proseSegments: with no paragraph screenshot the prose is one piece, as before', () => {
   const block = { heading: 'H', paragraphs: ['a', 'b'] }
-  assert.deepEqual(proseSegments(block), [{ text: 'H\n\na\n\nb', before: '', shots: [] }])
-  assert.deepEqual(proseSegments({ ...block, optional: true }), [{ text: 'a\n\nb', before: '', shots: [] }])
-  assert.deepEqual(proseSegments({ ...block, screenshots: [{ id: 'x', after: 'code' }] }), [{ text: 'H\n\na\n\nb', before: '', shots: [] }])
+  assert.deepEqual(proseSegments(block), [{ text: 'a\n\nb', before: '', shots: [] }])
+  assert.deepEqual(proseSegments({ ...block, screenshots: [{ id: 'x', after: 'code' }] }), [{ text: 'a\n\nb', before: '', shots: [] }])
 })
 
 test('proseSegments: a split loses and repeats no prose, and the second piece knows the first', () => {
   const block = { heading: 'H', paragraphs: ['a', 'b', 'c'], screenshots: [{ id: 'x', after: 0 }, { id: 'y', after: 2 }] }
   const segs = proseSegments(block)
   assert.deepEqual(segs.map((s) => s.shots), [['x'], ['y']])
-  assert.equal(segs.map((s) => s.text).join('\n\n'), 'H\n\na\n\nb\n\nc')
-  assert.equal(segs[1].before, 'H\n\na')
+  assert.equal(segs.map((s) => s.text).join('\n\n'), 'a\n\nb\n\nc')
+  assert.equal(segs[1].before, 'a')
 })
 
 test('proseSegments: every active block renders the same prose it did before the change', () => {
   for (const s of COURSE_SECTIONS) {
     for (const block of s.theory) {
-      const old = block.optional ? block.paragraphs.join('\n\n') : block.heading + '\n\n' + block.paragraphs.join('\n\n')
+      // The heading renders as its own <h3> since main split it out (WCAG 1.3.1).
+      const old = block.paragraphs.join('\n\n')
       const joined = proseSegments(block).map((seg) => seg.text).join('\n\n')
       assert.equal(joined.trim(), old.trim(), `${s.id} «${block.heading}»`)
     }

@@ -91,10 +91,10 @@ real_pii_ok False`,
       subtopicId: "S08-T1-A",
       paragraphs: [
         "`pathlib.Path` unifica rutas en Windows, macOS y Linux: `Path('data') / 'clients.csv'` evita armar strings con `\\` o `/` a mano. `Path.read_text(encoding='utf-8')` y `write_text` son convenientes.",
-        "Cuando una operación no puede continuar, Python lanza una **excepción**, una señal que interrumpe la ejecución en la línea que falló. Dentro de `try`, Python omite las líneas restantes si aparece esa señal y busca un `except` compatible; si lo encuentra, ejecuta su bloque indentado y después continúa. Si no lo encuentra, la excepción sale de la función y puede hacer fallar el proceso. `raise` permite lanzar esa señal de forma deliberada. S09 profundiza este mecanismo; en S08 basta este modelo para predecir dónde se detiene y dónde continúa el programa.",
+        "Cuando una línea no se puede leer o convertir, el programa se detiene allí y no ejecuta las líneas posteriores. Por eso, en S08 comprobamos primero todo lo que sí podemos reconocer: que exista la ruta, que estén las claves requeridas y que el texto tenga la forma esperada. S09 enseñará cómo responder a otros fallos y decidir si el programa continúa o termina.",
         "`with path.open(...) as f` abre el archivo y guarda en `f` el objeto con el que lo lees o escribes. Las líneas indentadas bajo `with` forman su **bloque**: el grupo de instrucciones que `with` controla. Cuando sales de ese bloque, Python cierra el archivo incluso si una operación lanza una excepción. En CP-N1-B no abres archivos por curiosidad. Necesitas un rastro auditable de cada entrada y salidas predecibles para el manifiesto.",
-        "Modos: `r` lee, `w` trunca, `a` añade y `x` crea un archivo nuevo; este último falla si el archivo ya existe. **Siempre** declara `encoding='utf-8'` al trabajar con texto. En Windows, el sistema puede usar por omisión otra codificación. Esa preferencia regional se llama *locale* y varía entre máquinas, por lo que no sirve como contrato entre equipos. En la ingesta principal, `errors='strict'` detiene la lectura ante bytes que UTF-8 no puede interpretar. `errors='replace'` sustituye caracteres y `errors='ignore'` los descarta. Úsalos solo en vistas diagnósticas que no produzcan `clean` ni reemplacen la evidencia cruda. En esta sección trabajarás únicamente con `pathlib`, `csv`, `json`, `hashlib`, `shutil`, `os` y `Decimal`, todos incluidos con Python. Necesitas `os` porque la escritura atómica de T1-B termina en `os.replace`.",
-        "`path.exists()` e `is_file()` permiten dar un mensaje claro antes de abrir un archivo. No garantizan que siga allí: entre la comprobación y la apertura puede desaparecer, cambiar o ser reemplazado. Esa carrera se conoce como **TOCTOU**, sigla de *time of check to time of use*: el tiempo entre comprobar y usar. Por eso el código robusto intenta abrir el archivo y captura `FileNotFoundError`. La comprobación previa mejora el mensaje; no reemplaza el manejo del error. Tampoco supongas cuál es el directorio de trabajo del entorno de desarrollo. Ancla las rutas con `Path(__file__).resolve().parent` o documenta rutas relativas como `data/` y `out/`. Si `read_text(encoding='utf-8')` lanza `UnicodeDecodeError`, aparta el **archivo** en cuarentena o vuelve a intentarlo con una codificación acordada. No arregles las tildes a ojo.",
+        "Modos: `r` lee, `w` trunca, `a` añade y `x` crea un archivo nuevo; este último falla si el archivo ya existe. **Siempre** declara `encoding='utf-8'` al trabajar con texto. En Windows, el sistema puede usar por omisión otra codificación. Esa preferencia regional se llama *locale* y varía entre máquinas, por lo que no sirve como contrato entre equipos. En la ingesta principal, `errors='strict'` detiene la lectura ante bytes que UTF-8 no puede interpretar. `errors='replace'` sustituye caracteres y `errors='ignore'` los descarta. Úsalos solo en vistas diagnósticas que no produzcan `clean` ni reemplacen la evidencia cruda. En esta sección trabajarás únicamente con `pathlib`, `csv`, `json`, `hashlib`, `shutil`, `os`, `uuid` y `Decimal`, todos incluidos con Python. El módulo `uuid` crea identificadores diseñados para distinguir una ejecución de otra. Necesitas `os` porque la escritura atómica de T1-B termina en `os.replace`.",
+        "`path.exists()` e `is_file()` permiten rechazar una ruta ausente con un mensaje claro antes de abrirla. No garantizan que el archivo siga allí: entre la comprobación y la apertura puede desaparecer, cambiar o ser reemplazado. Esa carrera se conoce como **TOCTOU**, sigla de *time of check to time of use*: el tiempo entre comprobar y usar. Si el archivo desaparece después de comprobarlo, el programa se detiene al abrirlo; S09 enseña qué decisión tomar en ese punto. Tampoco supongas cuál es el directorio de trabajo del entorno de desarrollo. Ancla las rutas con `Path(__file__).resolve().parent` o documenta rutas relativas como `data/` y `out/`. Si los bytes no cumplen el contrato UTF-8, no produzcas `clean`: conserva el archivo crudo y apártalo para revisarlo. No arregles las tildes a ojo.",
       ],
       code: {
         language: 'python',
@@ -126,7 +126,7 @@ print(demo_path_write())`,
       paragraphs: [
         "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al releer el clean.",
         "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribes el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad. Dos detalles del patrón que no son adorno: el temporal va en el **mismo** directorio porque `os.replace` solo es atómico dentro de un sistema de archivos, y el nombre del temporal debería ser **único por corrida** —`clean.csv.{run_id}.tmp`, o el que devuelve `tempfile.mkstemp` en ese directorio—. Con un `.tmp` fijo, dos ejecuciones simultáneas escriben sobre el mismo archivo y una publica el contenido a medias de la otra: el fallo que la escritura atómica venía a evitar, reintroducido por el nombre.",
-        "Si el lote cabe en memoria, `write_atomic` puede acumularlo y publicarlo una vez al final. Quien lea el destino verá la versión anterior completa o la nueva completa. Si el proceso se interrumpe antes de `os.replace`, seguirá viendo la anterior. Añadir JSONL línea por línea ofrece otra ventaja: muestra el progreso sin guardar todo el lote en memoria. El precio es que una interrupción puede dejar incompleta la última línea. La escritura atómica tampoco asegura por sí sola que los datos sobrevivan a un corte de energía. `flush` entrega al sistema operativo el texto pendiente y `fsync` le pide persistir los bytes. Según el sistema de archivos, también debes sincronizar el directorio. En el laboratorio publicamos la versión completa porque el lote cabe en memoria. Si no cupiera, convendría añadirlo poco a poco. En el código, `finally` es el bloque de limpieza que se ejecuta tanto si el intento termina bien como si falla.",
+        "Si el lote cabe en memoria, `write_atomic` puede acumularlo y publicarlo una vez al final. Quien lea el destino verá la versión anterior completa o la nueva completa. Si el proceso se interrumpe antes de `os.replace`, seguirá viendo la anterior y puede quedar un temporal que una tarea de mantenimiento deberá retirar. Añadir JSONL línea por línea muestra el progreso sin guardar todo el lote en memoria, pero una interrupción puede dejar incompleta la última línea. La escritura atómica tampoco asegura por sí sola que los datos sobrevivan a un corte de energía. `flush` entrega al sistema operativo el texto pendiente y `fsync` le pide persistir los bytes. Según el sistema de archivos, también debes sincronizar el directorio. En el laboratorio publicamos la versión completa porque el lote cabe en memoria; el bloque ejecutable muestra solo ese camino lineal.",
         "Detectar `\\r\\n` o `\\n` en los bytes de entrada permite registrar `newline_style='CRLF'`, `newline_style='LF'` o `newline_style='mixed'` como una propiedad observada del archivo. Ese dato no demuestra qué sistema operativo produjo el archivo. Tampoco lo arregla ni reescribe el crudo: solo deja evidencia útil para investigar exportaciones irregulares. El You Do reutilizará el mismo `write_atomic` para `clean`, `quarantine` y `manifest`.",
       ],
       code: {
@@ -144,12 +144,8 @@ def write_atomic(path: Path, text: str) -> None:
     fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")
     os.close(fd)
     tmp = Path(tmp_name)
-    try:
-        tmp.write_text(text, encoding="utf-8")
-        os.replace(tmp, path)
-    finally:
-        # Tras el replace ya no existe; si escribir o reemplazar fallo, se limpia.
-        tmp.unlink(missing_ok=True)
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
 
 write_atomic(dest, "hola\\n")
 print(dest.read_text(encoding="utf-8"), end="")
@@ -186,7 +182,20 @@ tiene CRLF True`,
         language: 'python',
         title: "csv_dict.py",
         code: `import csv, io
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
+
+def monto_usable(row):
+    required = ("id", "nombre", "monto")
+    missing = [key for key in required if key not in row or row[key] is None]
+    if missing:
+        return False, "missing_key"
+    value = row["monto"]
+    if not isinstance(value, str):
+        return False, "cast_monto"
+    digits = value.replace(".", "", 1)
+    if not value.isascii() or value.count(".") > 1 or not digits.isdecimal():
+        return False, "cast_monto"
+    return True, None
 
 def parse_monto_rows(raw, delimiter=","):
     reader = csv.DictReader(io.StringIO(raw, newline=""), delimiter=delimiter)
@@ -209,16 +218,17 @@ def parse_monto_rows(raw, delimiter=","):
                 "reason": "col_count",
             })
             continue
-        try:
+        usable, reason = monto_usable(parsed_row)
+        if usable:
             parsed_row["monto"] = str(
                 Decimal(parsed_row["monto"]).quantize(Decimal("0.01"))
             )
             clean.append(parsed_row)
-        except (InvalidOperation, KeyError, TypeError):
+        else:
             quarantine.append({
                 "parsed_row": parsed_row,
                 "record_number": record_number,
-                "reason": "cast_monto",
+                "reason": reason,
             })
     return clean, quarantine, None
 
@@ -239,7 +249,7 @@ utf-8-sig quita BOM: id`,
         type: "tip",
         title: "Cast controlado + dialecto Latam",
         content:
-          "InvalidOperation en monto → cuarentena con {raw, reason}. Export Excel en Latam suele usar delimiter=';' y a veces BOM: encoding='utf-8-sig'.",
+          "Monto que no cumple el formato decimal ASCII → cuarentena con `{parsed_row, reason}`. Un export de Excel en Latinoamérica suele usar `delimiter=';'` y a veces BOM: `encoding='utf-8-sig'`.",
       },
     },
     {
@@ -263,13 +273,10 @@ def quarantine_irregular(text):
     record_number = 0
     n_blank_ignored = 0
 
-    while True:
-        start = stream.tell()
-        try:
-            row = next(reader)
-        except StopIteration:
-            break
+    start = stream.tell()
+    for row in reader:
         raw_record = text[start:stream.tell()]
+        start = stream.tell()
         if not row and not raw_record.strip():
             n_blank_ignored += len(raw_record.splitlines())
             continue
@@ -421,21 +428,20 @@ print(obj)`,
       subtopicId: "S08-T4-A",
       paragraphs: [
         "`hashlib.sha256` calcula una huella del contenido crudo preservado. Los mismos bytes producen la misma huella; si cambia un byte —una coma, un BOM o un `\\r`— es abrumadoramente probable que la huella sea distinta. Esto permite detectar cambios y comparar reingestas, pero no prueba autoría ni autenticidad. Después de copiar la entrada al respaldo, calcula la huella sobre los bytes de ese respaldo: así el valor registrado identifica exactamente la evidencia conservada, aunque la ruta de entrada cambie después. No calcules esta huella sobre `clean`, porque `clean` es un producto transformado.",
-        "Crea la copia de respaldo con `shutil.copy2` **antes** de transformar los datos o escribir salidas. Dale un nombre que no se repita, como `backups/{run_id}/{nombre}` o uno que incluya el momento de la corrida. Un `input.bak` fijo pisa la copia anterior en la segunda ejecución. También puede chocar con otra fuente que traiga el mismo nombre. En ambos casos pierdes justo la evidencia que querías conservar. No modifiques el original ni normalices el contenido crudo sobre sí mismo. Para repetir la corrida necesitas conservar intacta la entrada.",
+        "Crea la copia de respaldo con `shutil.copy2` **antes** de transformar los datos o escribir salidas. Genera un `run_id` nuevo una sola vez al comenzar cada corrida y guarda todas sus copias en `backups/{run_id}/{nombre}`. Ese mismo `run_id` debe aparecer en el manifiesto: así enlaza el manifiesto con sus respaldos y dos corridas nunca comparten carpeta. El momento de la corrida puede registrarse como metadata —un dato que describe la ejecución—, pero no reemplaza su identidad. Un `input.bak` fijo pisa la copia anterior en la segunda ejecución. También puede chocar con otra fuente que traiga el mismo nombre. En ambos casos pierdes justo la evidencia que querías conservar. No modifiques el original ni normalices el contenido crudo sobre sí mismo. Para repetir la corrida necesitas conservar intacta la entrada.",
         "Provenance mínima por fuente: `{path, sha256, bytes}` (y opcionalmente `received_at` ISO). Con el fixture de laboratorio `id\\nC1\\n` el tamaño es **6** bytes y el digest es fijo (`b776a3a3…`); si cambias el fixture, **recalcula** el hash en demos y tests — no copies un hex de memoria.",
       ],
       code: {
         language: 'python',
         title: "hash_backup.py",
         code: `from pathlib import Path
-import hashlib, tempfile, shutil
+import hashlib, tempfile, shutil, uuid
 
-def provenance_backup(src_name="clients.csv", run_id="2026-08-26T12-00-00Z"):
+def provenance_backup(run_id, src_name="clients.csv"):
     td = Path(tempfile.mkdtemp())
     src = td / src_name
     src.write_text("id\\nC1\\n", encoding="utf-8")
-    # backups/{run_id}/{nombre}: un "clients.csv.bak" fijo pisa el respaldo de
-    # la corrida anterior, que es exactamente la evidencia que querias guardar.
+    # Todas las copias de esta corrida comparten la carpeta de su run_id.
     bak = td / "backups" / run_id / src_name
     bak.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, bak)
@@ -449,8 +455,14 @@ def provenance_backup(src_name="clients.csv", run_id="2026-08-26T12-00-00Z"):
         "bak_ok": evidence == src.read_bytes(),
     }
 
-print(provenance_backup())`,
-        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_rel': 'backups/2026-08-26T12-00-00Z/clients.csv', 'bak_ok': True}`,
+run_id = uuid.uuid4().hex
+info = provenance_backup(run_id)
+shown = dict(info)
+shown["bak_rel"] = shown["bak_rel"].replace(run_id, "{run_id}")
+print(shown)
+print(len(run_id), info["bak_rel"] == f"backups/{run_id}/clients.csv")`,
+        output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6, 'bak_rel': 'backups/{run_id}/clients.csv', 'bak_ok': True}
+32 True`,
       },
       callout: {
         type: "tip",
@@ -470,16 +482,17 @@ print(provenance_backup())`,
       },
       subtopicId: "S08-T4-B",
       paragraphs: [
-        "El **manifest** de la corrida es un JSON con `run_id` (opcional), una lista `sources` y totales **derivados**. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",
-        "La **reconciliación ocurre en dos niveles**. Primero, cada fuente cumple `n_in == n_clean + n_quarantine`. Después, los totales deben ser la suma exacta de todas las fuentes. Mirar solo el total puede ocultar un sobrante en el CSV que compensa un faltante en el JSON. Eso es lo que muestra `compensated_bad` en la práctica guiada. `build_manifest` comprueba las cuentas y lanza `ValueError` si no cierran. En el límite del proceso, `main` captura esa señal y devuelve `1`. `SystemExit` convierte ese valor en el estado de salida que ve la terminal. La corrida falla de verdad; no se limita a imprimir una etiqueta de error.",
+        "El **manifest** de la corrida es un JSON con `run_id` obligatorio, una lista `sources` y totales **derivados**. `run_id` identifica una sola ejecución: debe ser el mismo que nombra la carpeta de sus respaldos, y una corrida nueva debe crear uno nuevo. Así puedes enlazar cada manifiesto con la evidencia que preservó sin permitir que dos ejecuciones compartan carpeta. El momento de ejecución queda como metadata y nunca es la única identidad. Cada fuente lleva `name`, `sha256` del crudo y conteos `n_in`, `n_clean`, `n_quarantine` (más `reconcile_ok` calculado). Los totales se **suman** desde las fuentes; no se hardcodean ni se copian de un run anterior “porque se veía bien”.",
+        "La **reconciliación ocurre en dos niveles**. Primero, cada fuente cumple `n_in == n_clean + n_quarantine`. Después, los totales deben ser la suma exacta de todas las fuentes. Mirar solo el total puede ocultar un sobrante en el CSV que compensa un faltante en el JSON. Eso es lo que muestra `compensated_bad` en la práctica guiada. `build_manifest` comprueba las cuentas y lanza `ValueError` si no cierran. El bloque ejecuta solo la fuente válida y muestra como comentario la última línea que produciría la fuente rota. El punto fail-fast se conserva: si una fuente no reconcilia, no se publica un manifiesto como si la corrida hubiera terminado bien.",
         "Evidencia del gate CP-N1-B en tu portfolio: scripts + fixtures sintéticos + manifest de demo + al menos un test de reconcile fallido (exit 1) + README reproducible. Clean y quarantine deben ser **siempre** explicables desde el manifest: un revisor no debería necesitar adivinar dónde fueron las filas.",
       ],
       code: {
         language: 'python',
         title: "manifest.py",
-        code: `import json, sys
+        code: `import json
+import uuid
 
-def build_manifest(sources):
+def build_manifest(sources, run_id):
     names = [source["name"] for source in sources]
     if len(names) != len(set(names)):
         raise ValueError("nombre de fuente duplicado")
@@ -493,6 +506,7 @@ def build_manifest(sources):
             == source["n_clean"] + source["n_quarantine"]
         )
     manifest = {
+        "run_id": run_id,
         "sources": ordered_sources,
         "n_in": sum(source["n_in"] for source in ordered_sources),
         "n_clean": sum(source["n_clean"] for source in ordered_sources),
@@ -516,23 +530,21 @@ sources = [
     {"name": "clients.csv", "sha256": "abc", "n_in": 6, "n_clean": 5, "n_quarantine": 1},
     {"name": "transactions.json", "sha256": "def", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
 ]
-print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))
+run_id = uuid.uuid4().hex
+manifest = build_manifest(sources, run_id)
+shown = dict(manifest)
+shown["run_id"] = "{run_id}"
+print(len(run_id), manifest["run_id"] == run_id)
+print(json.dumps(shown, ensure_ascii=False, sort_keys=True))
 
-def main():
-    broken = [
-        {"name": "clients.csv", "sha256": "abc", "n_in": 6,
-         "n_clean": 4, "n_quarantine": 1}
-    ]
-    try:
-        build_manifest(broken)
-    except ValueError as error:
-        print(error, file=sys.stderr)
-        return 1
-    return 0
-
-raise SystemExit(main())`,
-        output: `{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}
-reconcile fallo en ['clients.csv']`,
+broken = [
+    {"name": "clients.csv", "sha256": "abc", "n_in": 6,
+     "n_clean": 4, "n_quarantine": 1}
+]
+# build_manifest(broken) terminaría con:
+# ValueError: reconcile fallo en ['clients.csv']`,
+        output: `32 True
+{"n_clean": 7, "n_in": 8, "n_quarantine": 1, "reconcile_ok": true, "run_id": "{run_id}", "sources": [{"n_clean": 5, "n_in": 6, "n_quarantine": 1, "name": "clients.csv", "reconcile_ok": true, "sha256": "abc"}, {"n_clean": 2, "n_in": 2, "n_quarantine": 0, "name": "transactions.json", "reconcile_ok": true, "sha256": "def"}]}`,
       },
       callout: {
         type: "success",
@@ -643,7 +655,7 @@ print(load_csv_monto(raw))`,
         },
         why: "DictReader + Decimal desde texto, quantize a 0.01 y serialización como string: el mismo contrato de dinero de S02, ahora sobre filas CSV. Un cast fallido iría a cuarentena (We Do E3). El dialecto por defecto es coma; el `;` típico en Latam se declara explícito en la teoría del subtema.",
         retrospective:
-          "Dinero en texto → Decimal → texto: mismo contrato de S02, ahora sobre filas CSV. No confíes en “parece número”. We Do: DictReader, DictWriter con header y reject por `InvalidOperation`.",
+          "Dinero en texto → `Decimal` → texto: el mismo contrato de S02, ahora sobre filas CSV. No confíes en “parece número”. En We Do usarás `DictReader`, `DictWriter` con encabezado y un predicado que rechaza montos fuera del formato acordado.",
       },
       {
         demoId: "S08-T2-B-DEMO",
@@ -781,9 +793,9 @@ print(hash_and_backup())`,
           title: "S08-T4-B-DEMO — manifest",
           code: `import json
 from pathlib import Path
-import tempfile
+import tempfile, uuid
 
-def write_manifest(sources, run_id="demo-001"):
+def write_manifest(sources, run_id):
     for s in sources:
         s["reconcile_ok"] = s["n_in"] == s["n_clean"] + s["n_quarantine"]
     manifest = {
@@ -803,8 +815,14 @@ sources = [
     {"name": "clients.csv", "sha256": "deadbeef", "n_in": 3, "n_clean": 2, "n_quarantine": 1},
     {"name": "transactions.json", "sha256": "cafebabe", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
 ]
-print(write_manifest(sources))`,
-          output: `{'run_id': 'demo-001', 'sources': [{'name': 'clients.csv', 'sha256': 'deadbeef', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1, 'reconcile_ok': True}, {'name': 'transactions.json', 'sha256': 'cafebabe', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0, 'reconcile_ok': True}], 'n_in': 5, 'n_clean': 4, 'n_quarantine': 1, 'reconcile_ok': True}`,
+run_id = uuid.uuid4().hex
+manifest = write_manifest(sources, run_id)
+shown = dict(manifest)
+shown["run_id"] = "{run_id}"
+print(len(run_id), manifest["run_id"] == run_id)
+print(shown)`,
+          output: `32 True
+{'run_id': '{run_id}', 'sources': [{'name': 'clients.csv', 'sha256': 'deadbeef', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1, 'reconcile_ok': True}, {'name': 'transactions.json', 'sha256': 'cafebabe', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0, 'reconcile_ok': True}], 'n_in': 5, 'n_clean': 4, 'n_quarantine': 1, 'reconcile_ok': True}`,
         },
         why: "El manifest prueba reconciliación por fuente y agregada; los totales se **derivan** con `sum`, no se hardcodean. Ninguna fuente puede esconder pérdidas detrás de otra. Es la pieza final antes de ensamblar el You Do (E3 T4-B es el `run()` fail-closed).",
         retrospective:
@@ -906,23 +924,23 @@ print(lines)`,
       {
         subtopicId: "S08-T1-A",
         kind: "transfer",
-        title: "Diagnosticar UTF-8 roto y cuarentenar",
+        title: "Leer bytes que no cumplen UTF-8",
         preamble:
-          "- **Contexto:** un export sintético llega con bytes que no son UTF-8; el gate no “arregla” tildes a ojo.\n- **Meta:** capturar `UnicodeDecodeError` y nombrar una acción fail-closed.\n- **Éxito:** primera línea `UnicodeDecodeError`; segunda, una acción (cuarentenar o reintentar con encoding documentado).\n- **Límites:** no uses `latin-1` para “hacer que funcione”; no inventes PII real.",
+          "- **Contexto:** un export sintético llega con bytes que no son UTF-8; el gate no “arregla” tildes a ojo.\n- **Meta:** leer los bytes crudos y reconocer por qué la lectura como UTF-8 se detendría.\n- **Éxito:** primera línea `b'\\xff\\xfe\\xfa'`; segunda, una acción (cuarentenar o reintentar con una codificación documentada).\n- **Límites:** no uses `latin-1` para “hacer que funcione”; no inventes datos personales reales.",
         id: "S08-T1-A-E3",
         instruction:
-          "1. El starter lee con `latin-1` y siempre “funciona”: es el defecto.\n2. Intenta `read_text(encoding='utf-8')` dentro de `try`.\n3. En `except UnicodeDecodeError`, imprime `type(e).__name__` y la acción.\n4. No silencies la excepción con otro encoding mágico.",
-        hint: "path.write_bytes(b'\\xff\\xfe\\xfa'); try/except UnicodeDecodeError",
+          "1. El starter lee con `latin-1` y siempre “funciona”: es el defecto.\n2. Lee el archivo con `read_bytes()` e imprime los bytes sin cambiarlos.\n3. Deja comentada la llamada a `read_text(encoding='utf-8')` y, debajo, la última línea exacta del fallo.\n4. Imprime la acción fail-closed; no pruebes una codificación al azar.",
+        hint: "`read_bytes()` conserva `b'\\xff\\xfe\\xfa'`; la lectura UTF-8 queda comentada",
         hints: [
-          "path.write_bytes(b'\\xff\\xfe\\xfa') — bytes inválidos en utf-8",
-          "try/except UnicodeDecodeError; type(e).__name__",
+          "`path.write_bytes(b'\\xff\\xfe\\xfa')` crea el fixture exacto.",
+          "La última línea es `# UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte`.",
         ],
         edgeCases: ["diagnóstico encoding"],
-        tests: "UnicodeDecodeError + acción de cuarentena",
+        tests: "bytes crudos + acción de cuarentena + línea final comentada",
         feedback:
-          "Encoding roto es fallo de **archivo**, no de una celda: cuarentena del input o reintento con encoding **documentado** (p. ej. `utf-8-sig` si hay BOM). Tragar con latin-1 oculta mojibake y contamina el hash del crudo.",
+          "Los bytes que no cumplen UTF-8 son un fallo de **archivo**, no de una celda: conserva el crudo y aparta el input, o usa otra codificación solo si el contrato de la fuente la documenta. Leer con `latin-1` para evitar el fallo oculta mojibake y cambia el significado del contenido.",
         retrospective:
-          "Fail-closed en disco: si no puedes leer el contrato UTF-8, no inventes clean. El nombre de la excepción es evidencia. En T1-B el foco pasa a newlines y escritura atómica del artefacto de salida.",
+          "Fail-closed en disco: si los bytes no cumplen el contrato UTF-8, no inventes `clean`. Los bytes crudos y la última línea documentada muestran qué ocurrió. En T1-B el foco pasa a los saltos de línea y la escritura atómica.",
         starterCode: {
           language: 'python',
           title: "diag_decode.py",
@@ -942,12 +960,11 @@ import tempfile
 td = Path(tempfile.mkdtemp())
 p = td / 'bad.txt'
 p.write_bytes(b'\\xff\\xfe\\xfa')
-try:
-    p.read_text(encoding='utf-8')
-except UnicodeDecodeError as e:
-    print(type(e).__name__)
-    print('acción: cuarentenar archivo o reintentar con encoding documentado')`,
-          output: `UnicodeDecodeError
+print(p.read_bytes())
+# p.read_text(encoding='utf-8') terminaría con:
+# UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+print('acción: cuarentenar archivo o reintentar con encoding documentado')`,
+          output: `b'\\xff\\xfe\\xfa'
 acción: cuarentenar archivo o reintentar con encoding documentado`,
         },
       },
@@ -1192,11 +1209,11 @@ print(rows[0])`,
         preamble:
           "- **Contexto:** montos sintéticos del intake deben cuantizarse a céntimos; un valor basura no entra a clean.\n- **Meta:** `Decimal` + quantize; fallos con motivo estable.\n- **Éxito:** `ok 10.00` / `reject x motivo=cast_monto` / `ok 3.50`.\n- **Límites:** sin `float()`; sin rellenar `0` silencioso.",
         instruction:
-          "1. El starter usa `float` y no imprime motivo: corrígelo.\n2. Para cada valor en `['10', 'x', '3.5']`, intenta Decimal quantize `0.01`.\n3. Si `InvalidOperation`, imprime `reject`, valor y `motivo=cast_monto`.\n4. Si ok, imprime `ok` y el monto quantizado.",
-        hint: "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
+          "1. El starter usa `float` y no imprime motivo: corrígelo.\n2. Crea un predicado que acepte solo texto ASCII con dígitos y, como máximo, un punto.\n3. Si el predicado rechaza el valor, imprime `reject`, el valor y `motivo=cast_monto`.\n4. Convierte con `Decimal` solo los valores aceptados e imprime el monto cuantizado.",
+        hint: "Comprueba `isascii()`, la cantidad de puntos y los dígitos antes de llamar a `Decimal`.",
         hints: [
-          "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
-          "No uses float ni 0 silencioso.",
+          "Después de retirar un solo punto, debe quedar al menos un dígito decimal ASCII.",
+          "No uses `float` ni un `0` silencioso.",
         ],
         edgeCases: ["cast fallido"],
         tests: "ok 10.00; reject x motivo=cast_monto; ok 3.50",
@@ -1207,28 +1224,34 @@ print(rows[0])`,
         starterCode: {
           language: 'python',
           title: "cast_reject.py",
-          code: `# DEFECT: float() traga y no rechaza 'x' con motivo cast_monto
-from decimal import Decimal, InvalidOperation
-
+          code: `# DEFECT: usa float y rechaza sin el motivo estable cast_monto
 vals = ['10', 'x', '3.5']
 for v in vals:
-    try:
+    digits = v.replace('.', '', 1)
+    if v.isascii() and v.count('.') <= 1 and digits.isdecimal():
         print('ok', float(v))
-    except ValueError:
+    else:
         print('reject', v)`,
         },
         solutionCode: {
           language: 'python',
           title: "cast_reject.py",
-          code: `from decimal import Decimal, InvalidOperation
+          code: `from decimal import Decimal
+
+def monto_usable(value):
+    digits = value.replace('.', '', 1)
+    if not value.isascii() or value.count('.') > 1 or not digits.isdecimal():
+        return False, 'cast_monto'
+    return True, None
 
 vals = ['10', 'x', '3.5']
 for v in vals:
-    try:
+    usable, reason = monto_usable(v)
+    if usable:
         m = Decimal(v).quantize(Decimal('0.01'))
         print('ok', m)
-    except InvalidOperation:
-        print('reject', v, 'motivo=cast_monto')`,
+    else:
+        print('reject', v, f'motivo={reason}')`,
           output: `ok 10.00
 reject x motivo=cast_monto
 ok 3.50`,
@@ -1441,16 +1464,16 @@ print(s)`,
         kind: "transfer",
         title: "Arreglar datetime no serializable en JSON",
         preamble:
-          "- **Contexto:** un timestamp de corrida o de tx no entra solo a `json.dumps`.\n- **Meta:** capturar `TypeError` y serializar con `.isoformat()`.\n- **Éxito:** línea `TypeError` y luego `{\"ts\": \"2026-01-15T10:00:00\"}`.\n- **Límites:** no uses `default=str` en la solución final; conversión explícita.",
+          "- **Contexto:** `obj['ts']` contiene un `datetime`, un tipo que `json.dumps` no convierte por sí solo.\n- **Meta:** convertir `ts` a texto con `.isoformat()` antes de llamar a `json.dumps`.\n- **Éxito:** imprime una sola línea: `{\"ts\": \"2026-01-15T10:00:00\"}`.\n- **Límites:** no uses `default=str`; la conversión debe mostrar qué campo y qué tipo corriges.",
         instruction:
-          "1. El starter oculta el fallo con `default=str`.\n2. Intenta `json.dumps(obj)` en `try` e imprime el nombre de `TypeError`.\n3. Arma un dict con `ts` en isoformat y haz dumps.\n4. Imprime ambos resultados en ese orden.",
+          "1. Identifica `default=str` como el defecto: convierte valores sin mostrar qué tipo causó el problema.\n2. Crea un nuevo diccionario con `ts` convertido mediante `obj['ts'].isoformat()`.\n3. Pasa ese diccionario a `json.dumps`.\n4. Imprime el JSON resultante; debe ser una sola línea.",
         hint: "datetime no serializable",
         hints: [
           "datetime no serializable",
           "convierte a .isoformat()",
         ],
-        edgeCases: ["TypeError datetime"],
-        tests: "TypeError\\n{\"ts\": \"2026-01-15T10:00:00\"}",
+        edgeCases: ["datetime convertido a texto antes de json.dumps"],
+        tests: "{\"ts\": \"2026-01-15T10:00:00\"}",
         feedback:
           "`default=str` es un parche opaco: esconde qué tipos no son JSON. Convertir a ISO es contrato legible y estable para el manifest o campos de tiempo documentados.",
         retrospective:
@@ -1470,14 +1493,11 @@ print(json.dumps(obj, default=str))`,
           code: `import json
 from datetime import datetime
 obj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}
-try:
-    json.dumps(obj)
-except TypeError as e:
-    print(type(e).__name__)
+# json.dumps(obj) terminaría con:
+# TypeError: Object of type datetime is not JSON serializable
 fixed = {'ts': obj['ts'].isoformat()}
 print(json.dumps(fixed))`,
-          output: `TypeError
-{"ts": "2026-01-15T10:00:00"}`,
+          output: `{"ts": "2026-01-15T10:00:00"}`,
         },
       },
       {
@@ -1746,9 +1766,9 @@ print(prov)`,
         kind: "guided",
         title: "Manifest multi-fuente con totales derivados",
         preamble:
-          "- **Contexto:** clients.csv + transactions.json deben aparecer juntos en un solo run_id.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas; calcula la igualdad por fuente.",
+          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
         instruction:
-          "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Arma el dict manifest con `run_id`, `sources` y totales sumados.\n3. `reconcile_ok` global = `all` por fuente.\n4. Imprime totales, lista (name, ok) y el booleano global.",
+          "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Antes de armar el manifiesto, crea una sola vez `run_id = uuid.uuid4().hex`.\n3. Arma el dict manifest con ese `run_id`, `sources` y totales sumados.\n4. `reconcile_ok` global = `all` por fuente.\n5. Imprime totales, lista (`name`, `ok`) y el booleano global.",
         hint: "Calcula reconcile_ok por fuente antes de sumar",
         hints: [
           "Calcula reconcile_ok por fuente antes de sumar",
@@ -1775,14 +1795,17 @@ for source in sources:
         solutionCode: {
           language: 'python',
           title: "manifest_min.py",
-          code: `sources = [
+          code: `import uuid
+
+run_id = uuid.uuid4().hex
+sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
     {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']
 manifest = {
-    'run_id': 'r1',
+    'run_id': run_id,
     'sources': sources,
     'n_in': sum(s['n_in'] for s in sources),
     'n_clean': sum(s['n_clean'] for s in sources),
@@ -1919,7 +1942,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. `sha256_file` + backup del crudo (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1929,6 +1952,8 @@ exit_code 1`,
     ],
     requirements: [
       "Entradas sintéticas clients.csv + transactions.json",
+      "Cada corrida genera una sola vez `uuid.uuid4().hex`; ese `run_id` obligatorio nombra la carpeta de todos sus backups y aparece sin cambios en el manifest",
+      "La marca de tiempo es metadata de la corrida, nunca su única identidad",
       "Salidas out/clean/, out/quarantine/, out/manifest.json",
       "Integrar normalizadores (S05–S07) y modelo en memoria (S06) donde aplique",
       "README + demo local-python reproducible",
@@ -1951,6 +1976,7 @@ import hashlib
 import json
 import os
 import shutil
+import uuid
 from decimal import Decimal, InvalidOperation
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1988,6 +2014,7 @@ def load_transactions_json(path: Path) -> tuple[list[dict], list[dict]]:
 
 def build_manifest(
     *,
+    run_id: str,
     sources: list[dict[str, Any]],
 ) -> dict[str, Any]:
     """Deriva totales y reconcile_ok desde cada fuente; no acepta totales agregados."""
@@ -1997,18 +2024,15 @@ def build_manifest(
 
 def run(data_dir: Path, out_dir: Path) -> int:
     """Retorna exit code 0/1."""
-    # Contrato: backup, load, write clean/quar, manifest; fail if not reconcile
+    run_id = uuid.uuid4().hex
+    # Contrato: usa este mismo run_id en cada backup y en build_manifest;
+    # luego load, write clean/quar y falla si no reconcilia.
     raise NotImplementedError
 
 
-def main() -> None:
-    root = Path(__file__).resolve().parent
-    code = run(root / "data", root / "out")
-    raise SystemExit(code)
-
-
-if __name__ == "__main__":
-    main()
+root = Path(__file__).resolve().parent
+code = run(root / "data", root / "out")
+raise SystemExit(code)
 `,
     portfolioNote:
       "Adjunta:\n\n1. Un manifest de demo con `reconcile_ok` por fuente\n2. Al menos 1 fila de cuarentena con `reason` estable\n3. Los hashes de ambos inputs crudos\n4. Un test o corrida de reconciliación fallida (exit 1)\n\nEsa carpeta es la evidencia del gate CP-N1-B ante un revisor o entrevista junior de data engineering.",

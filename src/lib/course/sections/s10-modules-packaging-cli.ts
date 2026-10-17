@@ -66,9 +66,11 @@ export const section10: CourseSection = {
       heading: "Imports, namespaces y __main__",
       subtopicId: "S10-T1-A",
       paragraphs: [
-        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script. Ejecutar `python -m familiarity_core` corre el paquete sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar). Para que funcione, el paquete necesita un archivo `__main__.py`: eso es lo que `-m` busca y ejecuta. Si falta, Python responde `No module named familiarity_core.__main__` — un error que se lee como si el paquete no existiera y en realidad dice que le falta esa puerta de entrada.",
-        "`if __name__ == '__main__':` protege el CLI/demo para que **no** corra al importar. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
-        "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido, usando *lazy import* — que es postergar el `import` hasta dentro de una función, cuando ya hace falta — o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script.",
+        "Ejecutar `python -m familiarity_core` busca el paquete por su nombre de importación en `sys.path` (la lista interna que decide de qué carpetas importar) y lo corre con contexto de paquete, por lo que funcionan sus imports relativos. Como el directorio actual encabeza `sys.path`, Python resuelve primero los imports desde la carpeta donde corres el comando. Para que funcione, el paquete necesita un archivo `__main__.py`: eso es lo que `-m` busca y ejecuta. Si falta, Python responde `No module named familiarity_core.__main__` — un error que se lee como si el paquete no existiera y en realidad dice que le falta esa puerta de entrada.",
+        "En S09, `audit_log.py` ejecutaba la demo y las comprobaciones cada vez que corría; eso estaba bien mientras nada lo importaba. Ahora, al importarlo, esas acciones también correrían: `if __name__ == '__main__':` separa «ejecutar el archivo» de «importar el archivo» y deja el CLI o la demo fuera del segundo camino. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
+        "Los módulos `a` y `b` pueden importarse mutuamente, y el ciclo falla solo si uno usa, mientras el otro se inicializa, un nombre que este aún no definió. Con `from b import x` en el nivel superior del módulo, Python lanza `ImportError`; con `b.x` en ese mismo lugar, lanza `AttributeError`. Ambos mensajes señalan un módulo parcialmente inicializado. Un nombre que el otro módulo definió antes de entrar al ciclo sí funciona; también funciona `import b` si `b.x` se usa después, dentro de una función.",
+        "Extrae primero el código compartido a un tercer módulo; si no basta, invierte la dependencia. Prefiere ese rediseño a esconder `import` dentro de funciones o métodos. Usa un *lazy import* —postergar el `import` hasta dentro de una función, cuando ya hace falta— solo como último recurso documentado.",
       ],
       code: {
         language: 'python',
@@ -95,7 +97,7 @@ ana perez`,
         type: "tip",
         title: "python -m",
         content:
-          "Ejecutar `python -m familiarity_core` usa el paquete como __main__ sin pelear con sys.path.",
+          "`python -m familiarity_core` busca el paquete por su nombre en `sys.path` y ejecuta su `__main__.py` con contexto de paquete; el directorio actual todavía influye en la búsqueda.",
       },
     },
     {
@@ -111,7 +113,7 @@ ana perez`,
       paragraphs: [
         "El prefijo `_` marca helpers **privados** (es una convención: el guion bajo le dice al lector «esto es detalle interno, no lo importes de afuera»). La fachada — el archivo `__init__.py` o `api.py` que el equipo ve como entrada al paquete — reexporta solo lo **estable**. Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperle el código.",
         "Una **API pública pequeña** (p. ej. 4 símbolos: normalize, compare, report…) reduce breaking changes. SemVer — *Semantic Versioning*, un esquema de versiones de tres números — en simple: **añadir** es minor; **renombrar/eliminar** es major. Fail-closed en contratos rotos.",
-        "El *lazy import* dentro de funciones evita ciclos y acelera el arranque del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue declarada en `__all__`, pero el módulo pesado se carga solo al primer uso.",
+        "El *lazy import* dentro de funciones evita que un ciclo falle al importar y acelera el arranque del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue declarada en `__all__`, pero el módulo pesado se carga solo al primer uso.",
       ],
       code: {
         language: 'python',
@@ -190,6 +192,15 @@ layout src/familiarity_core/__init__.py`,
         content:
           "En N1 el paquete puede no depender de terceros; declara deps solo cuando existan.",
       },
+    },
+    {
+      heading: "Qué hace `pytest` y por qué es una dependencia de desarrollo",
+      paragraphs: [
+        "`pytest` es una herramienta que ejecuta comprobaciones escritas en Python y muestra cuáles pasan o fallan. Existe para repetir esas comprobaciones con un solo comando después de cada cambio. Quien usa el paquete no la necesita para ejecutar el CLI; quien desarrolla el paquete sí la necesita para comprobarlo.",
+        "Supón que `normalize(' Ana ')` debe devolver `'ana'`. En un archivo llamado `test_normalize.py`, la función `test_normalize()` puede contener `assert normalize(' Ana ') == 'ana'`. `assert` compara ambos lados: si son distintos, `pytest` señala esa comprobación como fallida.",
+        "En un venv de práctica, instala la herramienta con `python -m pip install pytest`. Crea el archivo anterior y ejecuta `python -m pytest -q`. Lo correcto es ver una comprobación aprobada y una línea que contiene `1 passed`.",
+        "Ahora cambia temporalmente el valor esperado a `'otra'` y repite el comando. La comprobación debe fallar y mostrar `1 failed`; restaura `'ana'` y confirma que vuelve a pasar. Esa diferencia observable explica por qué `pytest` pertenece a las dependencias de desarrollo y no a las que necesita el CLI durante su uso normal.",
+      ],
     },
     {
       heading: "Versionado y compatibilidad",
@@ -321,12 +332,12 @@ stage=normalize event=done`,
       paragraphs: [
         "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Es decir, si el operador pasa `--log-level ERROR` en la terminal, ese gana; si no, se mira la variable de entorno; luego el archivo de config; y al final los defaults internos del paquete. Documenta la tabla en README — sin sorpresas en ops.",
         "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* — *environment*, las variables de entorno — con *nulls*.",
-        "Implementa un `merge_config` **puro y testeable**: dicts por capa, reduce de menor a mayor prioridad. Casos de borde: `None` en flags significa “no pasado” (no pisa env); una clave solo en defaults sobrevive si nadie la redefine.",
+        "Implementa `combinar_config` como una función **pura y comprobable**. Las capas de diccionarios se combinan desde la prioridad menor hasta la mayor. Casos de borde: `None` en flags significa «no pasado» y no pisa env; una clave solo en defaults sobrevive si nadie la redefine.",
       ],
       code: {
         language: 'python',
-        title: "config_merge.py",
-        code: `def merge_config(defaults, file_cfg, env_cfg, flags):
+        title: "combinar_config.py",
+        code: `def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = {}
     out.update(defaults)
     out.update({k: v for k, v in file_cfg.items() if v is not None})
@@ -334,7 +345,7 @@ stage=normalize event=done`,
     out.update({k: v for k, v in flags.items() if v is not None})
     return out
 
-cfg = merge_config(
+cfg = combinar_config(
     {"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG"},
@@ -354,7 +365,8 @@ print(cfg)`,
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
-        "Secretos **fuera del repo**: `.env` (el archivo de variables de entorno) va en `.gitignore` (la lista de archivos que git ignora), **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**. Defaults seguros (log level INFO, no debug con PII — *Personally Identifiable Information*, datos personales identificables).",
+        "Secretos **fuera del repo**: `.env` (el archivo de variables de entorno) va en `.gitignore` (la lista de archivos que git ignora), **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**.",
+        "Sin una configuración de `logging`, **`root`** —el logger situado en la cima de la jerarquía, al que los demás loggers propagan sus mensajes— muestra `WARNING` y niveles más graves. `INFO` es una elección del proyecto, y el nivel controla cuántos mensajes se registran, no la privacidad. El código debe enmascarar u omitir los datos personales identificables (PII, *Personally Identifiable Information*) en cualquier nivel, incluido `DEBUG`.",
         "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report. Fail-closed — no proceses a ciegas.",
         "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Mensaje de error: nombra la **clave** y el **subcomando** (`config: falta input_path para ingest`); jamás imprimas el valor de un token en el *traceback* — el volcado de errores que Python muestra — aunque el adaptador remoto lo tenga en memoria.",
       ],
@@ -642,7 +654,7 @@ default INFO`,
         },
         why: "Orden canónico completo: flags > env > file > defaults. Un flag ausente (`None`) no debe pisar env (lo practicarás en We Do). Precedencia documentada y testeable evita «en mi máquina es DEBUG».",
         retrospective:
-          "Flag ausente (`None`) no es lo mismo que flag `\"INFO\"`: si tratas ambos igual, pisas el env sin querer. Pregunta de auto-chequeo: en la demo, ¿quién gana con env=DEBUG y sin flag? We Do: traza de capas, merge multi-clave y razón del ganador.",
+          "Flag ausente (`None`) no es lo mismo que flag `\"INFO\"`: si tratas ambos igual, pisas el env sin querer. Pregunta de auto-chequeo: en la demo, ¿quién gana con env=DEBUG y sin flag? We Do: traza de capas, combinación de varias claves y razón del ganador.",
       },
       {
         demoId: "S10-T4-B-DEMO",
@@ -675,7 +687,7 @@ ingest ok`,
         },
         why: "Validar al arranque con mensaje accionable evita fallos a mitad de un batch. Fail-closed y contextual: solo lo que el comando necesita. No exijas tokens de APIs remotas en un ETL local.",
         retrospective:
-          "El error clásico es un validador global que exige `input_path` también a `normalize` o, al revés, no validar y fallar a mitad del batch. Pregunta: ¿por qué el mensaje debe nombrar la clave y el comando? We Do: qué va a `.gitignore`, validar claves y endurecer defaults inseguros.",
+          "El error clásico es un validador global que exige `input_path` también a `normalize` o, al revés, no validar y fallar a mitad del batch. Pregunta: ¿por qué el mensaje debe nombrar la clave y el comando? We Do: qué va a `.gitignore`, validar claves y aplicar políticas a los defaults.",
       },
     ],
   },
@@ -739,7 +751,7 @@ x`,
         kind: "independent",
         title: "Util compartido y sufijos `:a` / `:b`",
         preamble:
-          "- **Contexto:** si `module_a` y `module_b` se necesitan mutuamente, el import circular rompe el paquete al arrancar.\n- **Meta:** concentrar la normalización en `util_norm` y dejar que A/B solo orquesten.\n- **Éxito:** tres líneas `hola:a`, `hola:b`, `ok`.\n- **Límites:** no crees dependencia A↔B; no dejes el casefold fuera del util; quita `print('ok', True)` y usa `print(\"ok\")` final.",
+          "- **Contexto:** si `module_a` y `module_b` se importan mutuamente, el ciclo falla solo si uno usa un nombre que el otro aún no definió mientras se inicializa.\n- **Meta:** concentrar la normalización en `util_norm` y dejar que A/B solo orquesten.\n- **Éxito:** tres líneas `hola:a`, `hola:b`, `ok`.\n- **Límites:** no crees dependencia A↔B; no dejes el casefold fuera del util; quita `print('ok', True)` y usa `print(\"ok\")` final.",
         instruction:
           "1. Corrige `util_norm` para strip + casefold.\n2. Asigna el sufijo correcto: A → `:a`, B → `:b`.\n3. Imprime ambos procesos y un `ok` final de contrato.\n4. No hardcodees el texto «hola» fuera de la función.",
         hint: "La lógica compartida vive en util_norm; A y B solo orquestan.",
@@ -809,7 +821,7 @@ ok`,
         feedback:
           "Si `same_package` devuelve el estilo de plugin, el match por kind está invertido o caíste en el default genérico. Kind desconocido debe lanzar `ValueError` (fail-closed), no devolver `PYTHONPATH=.`.",
         retrospective:
-          "El label es solo UI; la política se decide por un kind tipificado. `python -m familiarity_core` evita pelear con `sys.path`. En T1-B el foco pasa de *cómo importar* a *qué exportar* en la fachada.",
+          "El label es solo UI; la política se decide por un kind tipificado. `python -m familiarity_core` localiza el paquete por `sys.path` y conserva su contexto para los imports relativos; el directorio actual sigue influyendo. En T1-B el foco pasa de *cómo importar* a *qué exportar* en la fachada.",
         starterCode: {
           language: 'python',
           title: "import_style.py",
@@ -1760,10 +1772,10 @@ stderr_only empezando | fin |`,
         kind: "guided",
         title: "Trazar capas de config y el ganador",
         preamble:
-          "- **Contexto:** al depurar «¿por qué el log_level es ERROR?», el operador necesita una traza de capas.\n- **Meta:** aplicar defaults → file → env → flags, saltando `None`, e imprimir el winner.\n- **Éxito:** tres `apply …` (sin file) y `winner=ERROR source=flags`.\n- **Límites:** no imprimas `apply file -> None`; flags es la prioridad más alta.",
+          "- **Contexto:** al depurar «¿por qué el log_level es ERROR?», el operador necesita una traza de capas.\n- **Meta:** usar defaults → file → env → flags, saltando `None`, e imprimir el winner.\n- **Éxito:** tres líneas con la etiqueta fija `apply` —aquí significa «usar esta capa»—, sin file, y `winner=ERROR source=flags`.\n- **Límites:** no imprimas `apply file -> None`; flags es la prioridad más alta.",
         instruction:
-          "1. Corrige el dict `PREC` (defaults=1 … flags=4).\n2. Al recorrer, `continue` si `val is None`.\n3. Actualiza winner/source y haz print de apply.\n4. Imprime la línea winner; quita `ok`.",
-        hint: "Ordena por PREC (defaults=1 … flags=4); recorre y solo aplica valores no-None; actualiza winner/source en cada apply.",
+          "1. Corrige el dict `PREC` (defaults=1 … flags=4).\n2. Al recorrer, `continue` si `val is None`.\n3. Actualiza winner/source e imprime una línea que registre la capa usada.\n4. Imprime la línea winner; quita `ok`.",
+        hint: "Ordena por PREC (defaults=1 … flags=4); recorre y usa solo valores que no sean `None`; actualiza winner/source en cada capa.",
         hints: [
           "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers.keys(), key=PREC.get).",
           "Si val is None: continue (sin print); si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
@@ -1773,7 +1785,7 @@ stderr_only empezando | fin |`,
         feedback:
           "Si aparece `apply file -> None` o winner=INFO, no filtras None o el orden PREC está invertido (flags debe ser el más alto). `None` = capa ausente, no el string `\"None\"`.",
         retrospective:
-          "None = «capa ausente», no el string `\"None\"`. La traza enseña el mismo orden que el README del paquete. Pregunta: si inviertes PREC, ¿qué source gana con este fixture? E2: merge de varias claves con el mismo filtro.",
+          "None = «capa ausente», no el string `\"None\"`. La traza enseña el mismo orden que el README del paquete. Pregunta: si inviertes PREC, ¿qué source gana con este fixture? E2: combinar varias claves con el mismo filtro.",
         starterCode: {
           language: 'python',
           title: "precedence_trace.py",
@@ -1834,34 +1846,34 @@ winner=ERROR source=flags`,
         id: "S10-T4-A-E2",
         subtopicId: "S10-T4-A",
         kind: "independent",
-        title: "Merge de config con precedencia",
+        title: "Combinación de configuración con precedencia",
         preamble:
           "- **Contexto:** el arranque del CLI fusiona defaults, archivo, entorno y flags en un solo dict.\n- **Meta:** que el flag gane en `log_level` y que `jobs: None` en env **no** borre el default.\n- **Éxito:** `{'log_level': 'ERROR', 'jobs': 1}`.\n- **Límites:** aplica de menor a mayor prioridad; ignora `None` en capas altas.",
         instruction:
-          "1. Parte de `dict(defaults)`.\n2. Superpone file → env → flags solo si `v is not None`.\n3. Imprime el merge del caso del starter.\n4. Quita prints extra.",
+          "1. Parte de `dict(defaults)`.\n2. Superpone file → env → flags solo si `v is not None`.\n3. Imprime el dict combinado del caso del starter.\n4. Quita prints extra.",
         hint: "Prueba con log_level en todas las capas.",
         hints: [
           "Aplica capas de menor a mayor prioridad: defaults → file → env → flags.",
           "Si v is None, no actualices esa clave (jobs queda 1).",
         ],
         edgeCases: ["jobs queda 1 porque env manda None"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        tests: "Contrato ejecutable: ejecuta `combinar_config` con el caso visible del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
           "Si `log_level` no es ERROR o `jobs` se pierde, el orden de capas o el filtro de `None` está al revés. Un `None` en env no es «apagar jobs»: es «esta capa no opina».",
         retrospective:
           "Un `None` en env no es «apagar jobs»: es «esta capa no opina». Ese detalle evita configs a medias cuando el operador no exportó la variable. Pregunta: ¿qué pasa si haces `out.update(env)` sin filtrar None? E3: devolver también la *razón* del valor final.",
         starterCode: {
           language: 'python',
-          title: "merge_config.py",
-          code: `# merge precedence
+          title: "combinar_config.py",
+          code: `# combinación por precedencia
 # DEFECT: flags no pisan; defaults ganan; quita print('ok', True)
-def merge(defaults, file_cfg, env_cfg, flags):
+def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = dict(flags)
     for layer in (env_cfg, file_cfg, defaults):
         out.update({k: v for k, v in layer.items() if v is not None})
     return out
 
-print(merge({"log_level": "INFO", "jobs": 1},
+print(combinar_config({"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG", "jobs": None},
     {"log_level": "ERROR"}))
@@ -1869,8 +1881,8 @@ print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "merge_config.py",
-          code: `def merge(defaults, file_cfg, env_cfg, flags):
+          title: "combinar_config.py",
+          code: `def combinar_config(defaults, file_cfg, env_cfg, flags):
     out = dict(defaults)
     for layer in (file_cfg, env_cfg, flags):
         for k, v in layer.items():
@@ -1878,7 +1890,7 @@ print('ok', True)`,
                 out[k] = v
     return out
 
-print(merge(
+print(combinar_config(
     {"log_level": "INFO", "jobs": 1},
     {"log_level": "WARNING"},
     {"log_level": "DEBUG", "jobs": None},
@@ -2009,7 +2021,7 @@ ignore: credentials.json`,
         feedback:
           "Si sale `passed_bad` o no aparece `data_dir` en el error, `validate_config` aún no exige ambas claves. El caso feliz imprime solo `ok`; el incompleto debe lanzar y capturarse — no dejes pasar el segundo `validate_config` en silencio.",
         retrospective:
-          "Mensajes con nombre de clave son documentación ejecutable para el operador. El mismo espíritu que `config: falta input_path para ingest` de la demo. Pregunta: ¿stacktrace crudo o `RuntimeError` con clave? E3: endurecer defaults inseguros (DEBUG, tokens).",
+          "Mensajes con nombre de clave son documentación ejecutable para el operador. El mismo espíritu que `config: falta input_path para ingest` de la demo. Pregunta: ¿stacktrace crudo o `RuntimeError` con clave? E3: aplicar políticas a los defaults (volumen de `DEBUG` y tokens).",
         starterCode: {
           language: 'python',
           title: "validate_cfg.py",
@@ -2050,12 +2062,12 @@ config: falta clave requerida 'data_dir'`,
         id: "S10-T4-B-E3",
         subtopicId: "S10-T4-B",
         kind: "transfer",
-        title: "Endurecer defaults inseguros",
+        title: "Aplicar políticas a los defaults",
         preamble:
-          "- **Contexto:** un default con token hardcodeado o DEBUG ruidoso es un pie de mina en el primer install.\n- **Meta:** transformar un dict inseguro en defaults seguros sin mutar a ciegas el original más de lo necesario.\n- **Éxito:** tres líneas `clave: old -> new` del contrato.\n- **Límites:** no dejes el token truthy; no hardcodees el dict final sin aplicar reglas.",
+          "- **Contexto:** un token hardcodeado es inseguro. `DEBUG` aumenta el volumen; cambiarlo a `INFO` no enmascara datos.\n- **Meta:** transformar una copia del dict según tres políticas explícitas, sin confundir volumen con privacidad.\n- **Éxito:** tres líneas `clave: valor anterior -> valor ajustado` del contrato.\n- **Límites:** no dejes un token con valor; no hardcodees el dict final sin aplicar políticas.",
         instruction:
-          "1. Copia `cfg` y aplica reglas por clave.\n2. DEBUG→INFO, echo_sql True→False, api_token truthy→None.\n3. Imprime old → new recorriendo las claves del inseguro.\n4. Quita `ok`.",
-        hint: "Copia cfg; aplica reglas por clave; no hardcodees un dict final sin transformar.",
+          "1. Copia `cfg` y aplica políticas por clave.\n2. DEBUG→INFO, echo_sql True→False, api_token truthy→None.\n3. Imprime anterior → ajustado recorriendo las claves de entrada.\n4. Quita `ok`.",
+        hint: "Copia cfg; aplica políticas por clave; no hardcodees un dict final sin transformar.",
         hints: [
           "out = dict(cfg); luego if out.get('log_level') == 'DEBUG': out['log_level'] = 'INFO'.",
           "Si api_token es truthy, fíjalo a None (sin secretos en defaults).",
@@ -2063,13 +2075,13 @@ config: falta clave requerida 'data_dir'`,
         edgeCases: ["token default None + validate al usar"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "Si el token o DEBUG sobreviven, `harden_defaults` no aplica las reglas: DEBUG→INFO, `echo_sql` True→False, `api_token` truthy→None. Copia el dict y transforma; no hardcodees el dict final sin recorrer claves.",
+          "Si el token, `DEBUG` o `echo_sql` sobreviven, `harden_defaults` no aplicó las tres políticas. El cambio de `DEBUG` a `INFO` reduce volumen; no sustituye el enmascarado de datos personales.",
         retrospective:
-          "Defaults seguros + validación al uso del token (si un adaptador remoto lo necesita) es el cierre de T4. En el You Do unes layout, CLI, precedencia y secretos en el paquete instalable del gate.",
+          "Aplicar políticas a los defaults y la validación al usar el token cierran T4. La privacidad no depende del nivel de registro. En el You Do unes layout, CLI, precedencia y secretos en el paquete instalable del gate.",
         starterCode: {
           language: 'python',
           title: "secure_defaults.py",
-          code: `# secure defaults
+          code: `# políticas a los defaults
 # DEFECT: harden_defaults no cambia nada; quita print('ok', True)
 def harden_defaults(cfg: dict) -> dict:
     return dict(cfg)

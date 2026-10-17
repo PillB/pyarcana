@@ -1,0 +1,480 @@
+# Owner decisions, live
+
+Decisions the owner took on questions only they could answer. Each one binds the rounds named in
+its **Scope** until its **Retire when** condition is met; then it moves to the archive at the
+bottom, with the date and what replaced it.
+
+This file is read at the start of every round (`LESSON_READINESS.md` step 2) and injected whole
+into every codex brief, beside `decisions.md`. `decisions.md` holds the standing rules of the
+campaign (D1–D14); this holds the owner's answers to specific questions, which expire.
+
+---
+
+## 2026-09-29 — the S03 route-2 questions
+
+Raised by the S03 red team (`rca/s03-redteam-findings.md`), answered by the owner the same day.
+
+### O1 — Money is `int` OR `Decimal`, never one alone
+**Scope:** S03 and every later section that validates an amount. **Status:** live.
+
+The type check is `not (isinstance(monto_ingreso, int) or isinstance(monto_ingreso, Decimal))
+or isinstance(monto_ingreso, bool)` → `BAD_TYPE`. It uses only S02's `isinstance` and S03's `or`.
+
+Why: S02 hands over `Decimal("150.50")` and S04's fixtures are plain `int`s, so either type alone
+rejects the other side's own data. Verified on 3.12: S02's Decimal accepts, the five S04 fixtures
+give `['OK','OK','OUT_OF_RANGE','OK','OK']`, `True` is rejected, and `Decimal("0.00")` keeps the
+falsy-zero trap the section is built on.
+
+**Retire when:** a later decision changes the money type for the whole S02→S04 chain.
+
+### O2 — S03 lands now; S04's You Do is rescoped in S04's own round
+**Scope:** this S03 round, and S04's route-2 round. **Status:** live, with an owed item.
+
+S03 does not wait for S04. The owner's condition: **it must be taken care of in S04 later.** So
+S04's route-2 round is bound to rescope `s04:1797-1880` and `s04:103`, which today say «reutiliza
+la validación tri-estado por campo (S03)», hand the learner
+`def validate_record(record: dict) -> dict` and call it inside a loop — none of which S03 will
+practise any more. S04 consumes S03's handoff instead: the case table, the per-field
+`*_status` / `*_code` / `*_message` names, and `registro_status`.
+
+**Retire when:** S04's route-2 round has landed that rescope. Until then it is a binding
+WORK_QUEUE item, not a suggestion.
+
+### O3 — S03's `contacto` invariant aligns to S02's value
+**Scope:** S03 theory T4-A, T4-A-DEMO, the exam bank (`seed.ts:907`, `:935`). **Status:** live.
+
+S03 requires 9 digits; S02 hands over `"0999000111"`, which is 10 characters, and S03's rule
+rejects it (verified). S03 moves to S02's value, not the other way round: S02's leading-zero
+lesson is the more load-bearing one, and the course's own data must pass its own rules.
+
+This changes pinned outputs and two exam items. The separate `seed.ts:907` «gate» wording fix is
+not part of this.
+
+**Retire when:** S03's invariant and S02's produced value agree in the shipped course.
+
+### O4 — `monto_ingreso`, and S02's raw line travels with every case
+**Scope:** S02→S03→S04 field names and the record schema. **Status:** live.
+Supersedes the reserved part of L1Q3-7 (`DECISIONS_2026-09-21.md:839-857`).
+
+`monto_ingreso` is the S03/S04 name for S02's `monto`. Each S03 case carries S02's raw line,
+because S04 expects `raw_line` and dropping it between sections is what forces the later
+mismatch. `region` is introduced in S03; S02 hands over no region.
+
+**Retire when:** the schema is written into the You Do's opening comment and the README, and
+S04's round consumes it.
+
+### O5 — No capstone file is touched in the S03 round
+**Scope:** `src/lib/capstones/`, `course-state/capstones/`, `src/lib/eligibility/`.
+**Status:** live.
+
+S03 removes only the learner-facing CP-N1-A **label** (`s03:52, 62, 1176, 2351, 2353, 2370, 2508`
+and `seed.ts:944`), following S02's precedent of zero mentions. The increment **framing** stays,
+as S02 kept it.
+
+The capstone's own defects are deferred to **S04's round**, where the gate lives, and re-raised
+there rather than fixed in passing: the gate at S04 with its S01–S04 dependencies; a brief that
+still calls S03 «estructuras de datos», says `amount=0 → warn` (S03 teaches zero is valid) and
+takes «una lista de registros (dicts)»; and a reference implementation that tests presence by
+truthiness (the defect S03 teaches learners to repair), accepts `True` as money and rejects every
+`Decimal`.
+
+**Retire when:** S04's round has re-raised the gate, the brief and `demo.py` with the owner.
+
+### O6 — S04-T3-B-E3 is fixed as a satellite of this round
+**Scope:** this S03 round. **Status:** live.
+
+Once S03 stops requiring `dict` in its practice text, the course's first dict requirement moves to
+`iteration-summaries.S04-T3-B-E3.instruction` — inside CP-N1-A's gate section — so the capstone
+goes 0 → 1 blocking gaps while the course-wide total falls 29 → 26 and hides it. That instruction
+and its hints are rewritten in this round rather than logged as a known-bad row.
+`badge_catalog.json` needs no change.
+
+**Retire when:** the round lands with CP-N1-A's row still at zero.
+
+### O7 — `theory[3]` stays in S03 this round, with a non-optional bridge
+**Scope:** S03 `theory[3]` («Una regla con nombre: `def`, llamada y `return`»). **Status:** live.
+
+It holds the course's first definitions of `parameter` and `return`, which S04 still uses, and it
+is the 42nd program against a floor of 41. Its bridge sentence becomes **non-optional**, so the
+section says plainly that naming a rule is S05's subject and that the repeated blocks ahead are
+the honest cost until then. A previous round that replaced this block exposed 58 uses and was
+discarded.
+
+**Retire when:** S04's route-2 round has removed S04's 8 `return` and 1 `parameter` uses; the
+block then moves to S05.
+
+### O8 — S03-T1-A-E3 is replaced, not kept
+**Scope:** S03-T1-A-E3. **Status:** live.
+
+It nearly duplicates S02-T2-B-E1, down to the file name `is_vs_eq.py`. It becomes S03-specific
+(`region` None vs `"R-OESTE"`: `in`, `== None`, `is None`). Its success contract changes, which
+D14 permits. A duplicate at this point teaches nothing new.
+
+**Retire when:** the replacement has landed.
+
+### O9 — `communication_audience_tuned` is accepted for now
+**Scope:** course-wide credential scoping. **Status:** live, owed.
+
+It is a critical competency of `integrated_python_ai_capstone_foundations` (S01–S13) and has no
+mapped practice before S26. `badge_readiness_audit.py` never reads `critical_competencies`, so no
+report shows it. Not caused by S03, and not fixed by it. S03 holds its three closest surfaces at
+least as strong as they were.
+
+**Retire when:** the competency is re-scoped, or practice for it lands before S13.
+
+### O10 — Relabel the inverted badges, and carry the capabilities forward
+**Scope:** `badge_catalog.json`, both copies. **Status:** live.
+
+Four `applied_skill` badges are relabelled to the level where their evidence actually completes
+(`independent_data_preparation`, `reliable_automation_development` → `independent_practitioner`;
+`applied_sql_query_development` → `advanced_applied`; `applied_mlops_pipeline_delivery` →
+`integrated_mastery`). The owner's condition: a capability removed from a level's claim **must be
+picked up by a later badge** — never dropped. So each stripped prerequisite moves one level forward.
+
+`capability_level` has zero code consumers, so the relabel is semantics; what clears the five audit
+failures is the prerequisite carry-forward, because the rule is
+`max(prereq.required_sections) > max(own.required_sections)`. Note there are **two** badge catalogs
+(`src/lib/eligibility/` is live, `industry_alignment/` is read by the only badge test that runs);
+`capability_level` agrees across all 31 in both today, so both must be edited.
+
+**Retire when:** `badge_readiness_audit.py` reports 0 failures and both catalogs agree.
+
+**2026-10-05, from the G0 adversarial gate:** the chain above was computed on section tokens that
+were chosen by **slug**, not by title. About 15 `applied_skill` and `integrated_*` badges cite
+sections whose titles teach something else (`applied_rag_llm_service_development` cites `rag`, which
+is the Excel section). Re-keyed to the sections whose titles teach each claim, 4 of the 5 inversions
+survive, but their endpoints move. So the relabel is **re-derived after the title re-key** (O17's
+manifest), not carried as written. The owner's pickup condition is unchanged.
+
+### O11 — Three new sections; proceed despite the migration cost
+**Scope:** course structure, 52 → 55 sections. **Status:** live.
+
+S19 *Inferencia*, S20 *Diseño experimental, estimandos y causalidad*, S35 *Regresión y
+regularización*. Inference in N2, regression at the head of the N3 ML block.
+
+The cost was re-presented with real numbers — ~1,360 stable id rewrites, 76 figure ids,
+`preservation_sentinel.mjs` failing on ~816 "removed" exercise ids, a protected roadmap file, and a
+level-hours assertion that hardcodes 13-section windows — and the owner reaffirmed. The sentinel is
+to be taught the renumber map rather than disabled, so the protection survives the migration.
+
+**Retire when:** all 55 sections render, gates are green, and the roadmap carries 55 headings.
+
+### O12 — `namedtuple` retired; `estimando` kept and delivered
+**Scope:** `src/lib/glossary/terms.ts`. **Status:** live.
+
+`namedtuple` is retired in favour of `dataclass`, which the course already teaches heavily (S11, 189
+occurrences) while `namedtuple` appears nowhere.
+
+`estimando` was challenged as a possible common Spanish word. It is not: it is the standard Spanish
+technical term for *estimand*, paired against *estimador*, following the gerundive pattern of
+*sumando*/*minuendo*/*sustraendo*. It **is** a homonym with the gerund of *estimar*, so it needs the
+same disambiguation as `correlación`/correlation-id. It is therefore **delivered in S20**, not
+retired.
+
+**Retire when:** `namedtuple` is gone, `dataclass` has an entry, and S20 teaches the estimand.
+
+### O13 — The N1 credential claim is narrowed to match its evidence
+**Scope:** `integrated_python_ai_capstone_foundations.public_claim`. **Status:** live, owed.
+
+Stripped of three prerequisites by O10, it retains only `progress_phase0_walked` and
+`python_data_foundations` (S01–S05), while still claiming the learner *"demostró independientemente"*
+the integrated foundations competency. The claim is narrowed to exactly what S01–S13 evidences.
+Codex drafts the Spanish; **the wording returns for sign-off before it lands.**
+
+**Retire when:** the narrowed claim is signed off and in both catalogs.
+
+### O14 — The tautological `assert` tier is its own ratcheted campaign
+**Scope:** 133 exercises across 17 sections. **Status:** live, owed.
+
+`assert <var> is True` over literal fixtures appears **133 times across 17 sections** — exactly 8 per
+section from S32 onward, i.e. the whole E1 tier of the course's back half. There is no input and the
+fixture never varies, so the assertion cannot fail; `AGENTS.md` names this failure directly
+(*"tautological tests are worse than no test"*). Every badge resting on those sections is partly
+evidenced by assertions that cannot fail.
+
+Handled as a tracked, two-sided ratchet so the count cannot rise, paid down per section round by
+giving each E1 a real input and a falsifiable assertion. Deliberately **not** folded into the
+statistics work, so it stays visible.
+
+**Retire when:** the ratchet reaches 0.
+
+### O15 — The undeclared teaching packages are declared, not designed around
+**Scope:** `requirements-content.txt`. **Status:** live.
+
+Eight packages were installed in `.venv-content` and never declared: matplotlib, openpyxl, jinja2,
+Pillow, pymupdf, pypdf, python-docx, playwright. The snippets importing them ran locally and
+**skipped in CI** — 6 missing-dependency skips measured locally against 54 in CI. A skipped snippet
+is an unverified `output:` promise, so the runtime audit was reporting a green it had not earned.
+
+The owner's call: declare them. The snippets are correct Python, `.venv-content` proves they run,
+and the manifest is what fell behind the content. Rewriting working lesson code to satisfy a stale
+manifest would be the measure driving the course.
+
+Each is imported by the section whose subject it is — matplotlib S19, openpyxl S20, jinja2/Pillow/
+pymupdf/pypdf/python-docx S21, playwright S23 — so none is optional. All pinned to the versions
+`.venv-content` is verified against, because a floating version can change a printed value.
+Transitive dependencies are deliberately left unpinned.
+
+**Discharged 2026-10-04.** CI's count fell **54 → 6** on the first run after the declaration and now
+matches the local count exactly; the runtime audit went green on the same run (3311 pass, 0 fail,
+p0 0, p1 0). `MISSING_DEPENDENCY_OWED` lowered 54 → 6 with a dated line.
+
+**Retire when:** the tail is closed. Six skips remain, the same kind of gap and in sections whose
+subject the package is: five in `fastapi` (S21, *"Documentos, plantillas y reportes trazables"*)
+import `reportlab`, and one in `llm-finetuning` (S41, *"APIs con FastAPI y contratos HTTP"*) imports
+`fastapi`. They are **owed, not accepted**. Declaring them needs a measured run proving their
+snippets *pass* rather than fail first — a snippet that starts an ASGI server turns an honest skip
+into a CI hang, which is worse.
+
+### O16 — The ruled placement stands after the adversarial gate
+**Scope:** course structure, 52 → 55 sections. **Status:** live.
+
+The owner required a red team, an anti-challenge and a VP-of-AI-and-pedagogy review before the
+renumber. Three verifiers checked 31 of their claims (18 true, 13 partly, 0 false), and four review
+rounds followed. The gate recommended placement G — inference S19, regression S34, design and
+causality S37 — chiefly because model-based IPW and CUPED need what old S33/S34 teach. The owner
+saw that recommendation with its reasons and **kept the ruling**: S19 *Inferencia* and S20 *Diseño
+experimental, estimandos y causalidad* in N2, S35 *Regresión y regularización* at the head of the
+N3 ML block. Old S19–S32 move +2; old S33–S52 move +3.
+
+What the gate changed inside the ruling: each new section teaches only the **delta** over what S18
+and old S33 already teach. S18 already teaches intervals, bootstrap, Cohen's d, reading a p-value,
+and randomisation against self-selection. Old S33 already teaches logistic regression, L2 and group
+cross-validation. At N2, S20 teaches CUPED through θ = cov(Y, X)/var(X) and IPW through stratum
+propensities; the model-based forms return as bridges after S35. Full record:
+`audit/fixer/renumber_g0/` (start with `SYNTHESIS.md`).
+
+**Retire when:** O11 retires.
+
+### O17 — Gate A: the guards and claims that precede the renumber
+**Scope:** protected paths and credential claims touched before any renumber. **Status:** live.
+
+Approved in full, each an ask-first item:
+- CI runs on a `curriculum/55` integration branch, because the renumber cannot be staged across
+  merges to `main`. Guards land **before** the renumber, each with a mutation proof. The
+  preservation sentinel learns two things: a branch's first push is not an unreadable base, and the
+  section count comes from the roadmap's headings instead of the literal 52. CODEOWNERS and an
+  `AGENTS.md` ask-first line cover the new state files.
+- Deploy runs only after tests pass on `main`, checks out the commit that was tested, and loses its
+  manual `workflow_dispatch` trigger.
+- Positional badges (phase, journey, level capstone) derive their spans from the level. Their
+  claims carry no counts, versioned 2.0.0. The stale `industry_alignment/` catalog is synced to the
+  live one. Codex writes the text; it returns as a diff before it lands. Nothing is awarded
+  retroactively — no learner holds a badge today.
+- S18 gains the word *estimando*; S18's "prefer bootstrap with heavy tails" line is softened,
+  because a coverage simulation showed the percentile bootstrap undercovers at small n; the glossary
+  p-value definition is rewritten in S18's own correct words (it omits "or more extreme" today).
+
+**Retire when:** every item has landed on `main`.
+
+### O18 — Untaught claimed capabilities are teaching debts, never dropped
+**Scope:** badge claims naming deep learning, fine-tuning and graph-RAG. **Status:** live, owed.
+
+No section title teaches these three, yet badges claim them. O10's rule forbids dropping a claimed
+capability. The owner's call: **keep the claims and teach them later**, scheduled after the
+statistics work. Until then a guard blocks issuing any badge whose claimed skill has no teaching
+home. No learner holds these badges, so nothing is withdrawn from anyone.
+
+**Retire when:** each of the three has a teaching home with practice and assessment, and the guard
+reports none owed.
+
+### O19 — Gate B: the renumber's design decisions
+**Scope:** the design of record, `audit/fixer/renumber_g0/design_ruled_final.md` §5. **Status:** live.
+
+Answered 2026-10-06, each the recommendation:
+- **Teaching-debt guard (decision 17).** A home is a section whose title or a learning outcome
+  names the skill, with at least one We Do or You Do practising it and one selfCheck,
+  topic-evaluation or exam item assessing it. The guard covers every credential that claims a
+  skill. **The 5 `local_achievement` progress markers are exempt**: their `non_claims` already say
+  they prove no competency, so they claim walking the sections, not a skill. (The design proposed
+  covering them too; the owner chose the narrower scope.)
+- **CP-N2-B (8a).** One gate at S23 for the six-section arc S18–S23, no sub-gate. It gains two
+  criteria: every claim from a sample cites n, a CI and an effect size, with tests only on
+  pre-declared comparisons and Holm across them; and the experiment readout passes
+  `validar_readout`. The capstone count stays 13.
+- **S19's title (12).** The ruled title stays. A guard requires the lesson text to say «contraste de
+  hipótesis»; the title is exempt.
+- **The rest, as a package:** a new badge `applied_statistical_inference` (S18–S20); skill-node
+  additions to the capstone and role badges, with Codex claim text returning at Gate C; the
+  declared statistics boundary (§2 of the design); S35's increment for CP-N3-B (8b); a pilot-plan
+  deliverable for CP-N3-C (8c); model-based IPW as a worked example in S38 (18); one S36 exercise
+  printing odds ratios (19); and the sense guard split into an alias rule and a body-prose rule (20).
+
+**Asked before the renumber PR, answered 2026-10-13 (see O22):** 4 (defer 2SLS and do-calculus), 9
+(which roadmap is authoritative), 10 (homonym list), 11 (one learner notice; the certificado
+threshold becomes 55/55, which touches the progress document's legal constraints), 13 (amending
+`AGENTS.md` and `course_requirements.json`), 15 (parallel work).
+
+**Retire when:** every item has landed or been superseded by a later decision.
+
+### O20 — Exam banks: adopt the GLM lane's rewrites, shuffle per attempt, trim teaching not precision
+**Scope:** `prisma/seed.ts` QUESTION_BANK, the exam start route, the length-cue ratchet.
+**Status:** live, partly paid. Evidence: `audit/fixer/glm_exam_bank_review/`. Landed 2026-10-13:
+the 110 rewrites (#85), the per-attempt shuffle (#91), D21. Owed: the 8 redos with the S10 lesson
+lines, the reseed, the S12 and S13 banks.
+
+Answered 2026-10-07, each the recommendation:
+- **Content.** Land 110 of the GLM lane's 118 rewritten questions (S05, S08–S11; 0 wrong keys, 0
+  reorder failures). Codex redoes the other 8 (S05#16, S08#7, S09#9, S09#20, S09#21, S09#22,
+  S10#23, S11#22), and in the same round fixes the S10 key and lesson lines on `python -m` and the
+  working directory (contradicted by the current Python docs) and on circular imports, so key and
+  lesson agree. This replaces existing items, which preservation-first sends to the owner.
+- **Answer positions.** Shuffle each question's options when an attempt starts, and store the
+  permuted key with the attempt (`ExamAttemptForm`). It fixes the 29 banks whose answers all sit at
+  B without editing any question, and it survives the 52 → 55 renumber. The static per-section
+  position cycle is superseded.
+- **Key length.** Follow the NBME Item-Writing Guide: remove teaching points and rationale from the
+  correct option, never the detail that makes it correct. The length-cue test's "never trim the
+  key" docstring is amended to say so.
+- **Decision record.** The GLM lane's D15 collides with main's D15 (ADR-7) and rests on a false root
+  cause: all 52 banks existed; five double-quoted keys were missed by single-quote parsers. It is
+  recorded on main as **D21** with that correction.
+- **Tooling.** Both GLM scripts are retired: the position rebalancer (superseded by the shuffle) and
+  the repair applier (cannot repair a bank's last question, no tests). Codex's question fixes go
+  through `tools/fixer/apply_patches.py`, which already edits any repo file by unique anchor.
+- **Reseed.** Once, after the 110 rewrites and the 8 redos are both merged; the owner runs it.
+  Attempts in progress keep their own questions and key.
+- **S12 and S13.** Their 48 templated questions are the real missing banks. Written next, beside
+  the Phase 0 guard work.
+
+**Retire when:** the 110 and the 8 are on main and reseeded, the shuffle is live, D21 is recorded,
+and S12 and S13 have real banks.
+
+---
+
+## 2026-10-12 and 13 — the A/B/C fix plan, Gate B's carry-overs, and how work lands
+
+Asked while planning the fixes for review findings A1–A7, B8–B11 and C12–C13 (plan of 2026-10-12),
+and while closing Gate B. Each answer is the recommendation unless it says otherwise.
+
+### O21 — The A/B/C fix plan: four rulings
+**Scope:** the complexity gate, the S18 round (design step 0b-7), the self-checks. **Status:** live.
+
+Answered 2026-10-12:
+- **The Python complexity script.** The owner's `scripts/complexity_gate_py.py` is committed as the
+  owner wrote it, in its own commit; the fixes go on top in later commits (fail closed, a
+  per-function baseline, no skipped files). The agent never rewrites it in place of the original.
+- **How Python counts.** Like the TypeScript gate (ESLint's `complexity` rule; NIST SP 500-235
+  §4.1): `and`/`or`, conditional expressions and comprehension `if`s each add 1, and a nested def
+  is scored on its own. So the ceiling of 15 means the same thing in both languages. (mccabe and
+  ruff C901 count fewer.)
+- **Four more glossary hovers in the S18 round.** Correlation, train/test split, ROC-AUC and
+  StratifiedKFold carry the same defect as the p-value hover, so the same round fixes them, each
+  with a registry entry (KFC-006 to KFC-009) and a fact test.
+- **Self-checks.** Options shuffle on every attempt. Below 70% the learner sees the score and the
+  subtopics to revisit, with no key, no explanation and no per-question mark; at 70% or more, the
+  full review. Learners below 70 lose item-level feedback until they pass; that is the accepted cost.
+
+Landed: the self-checks (#90), the registry (#88). **Retire when:** the Python gate is on main and
+the S18 round has merged.
+
+### O22 — Gate B carry-overs: all six as recommended
+**Scope:** the renumber PR and its window (design of record §5). **Status:** live.
+
+Answered 2026-10-13, closing O19's open list:
+- **4.** Two-stage least squares and do-calculus are deferred: this renumber does not teach them.
+- **9.** The V3 roadmap is authoritative for section titles and order.
+- **10.** The homonym list as proposed in the design.
+- **11.** One learner notice when the course becomes 55 sections. The certificado de finalización
+  needs 55 of 55 from then on. Nothing already issued or earned is changed retroactively.
+- **13.** `AGENTS.md` and `course_requirements.json` are amended in the renumber PR, with the
+  numbering they describe. In `AGENTS.md` that is the first bullet under "## Invariants", which
+  reads «52 active sections, unique stable IDs; exercise IDs `Sxx-Ty-Z-En` stay present.» (named
+  by its text, because line numbers drift).
+- **15.** Work runs in parallel where the design allows it.
+
+**Retire when:** the renumber has merged to main and the learner notice is published.
+
+### O23 — Placeholder scaffolds for S19, S20 and S35
+**Scope:** the `curriculum/55` branch only. **Status:** live.
+
+Answered 2026-10-13: the renumber may land placeholder sections for S19, S20 and S35 so the numbering
+is whole while they are written, on `curriculum/55` only and behind guard G-13, which blocks merge to
+main and deploy while any placeholder is unwritten. A placeholder never reaches a learner.
+
+**Retire when:** S19, S20 and S35 are written and G-13 passes.
+
+### O24 — How work lands: merging, the owner's files, and two sign-offs
+**Scope:** every PR of the A/B/C plan and the renumber. **Status:** live.
+
+Answered 2026-10-13:
+- **Merging.** The agent merges its own PRs when CI is green and every review finding (Codex's
+  P1/P2 included) is fixed. The branch rule asks for one approving review, which the
+  owner's account cannot give to its own PRs, so these merges use the admin override. The owner
+  still sees the diff first where a decision says so (the copy PR below).
+- **The owner's uncommitted files.** The agent brings them in on branches, unchanged in their own
+  commit: `scripts/complexity_gate_py.py`, the two-line `AGENTS.md` edit, and the roadmap diff.
+- **#82's claim text.** Signed off as written.
+- **Copy that promises what does not exist (plan PR 13).** All three items: the "anti-plagio" exam
+  copy, the credential UI's promises, and the signed statement's "independent review". Codex
+  rewrites each to state what is true; the owner sees the diff before merge.
+
+**Retire when:** the renumber has merged to main.
+
+### O25 — Four questions from the Phase 0b drafts
+**Scope:** the copy PR (plan PR 13), the number-guards PR (0b-8), the history-guards PR (0b-1),
+the fixer-state PR (0b-6). **Status:** live.
+
+Asked 2026-10-13. The owner answered the fourth; on the first three the owner had no preference, so
+the recommendation was taken, and each says so.
+- **"Tamper-evident", not "tamper-proof"** (no preference; recommendation taken). The badge catalog's
+  Spanish «a prueba de manipulación» reads as tamper-proof, while an HMAC signature only detects a
+  changed document. Codex rewrites the catalog phrase to state detection, and each credential whose
+  claim text changes gets a version bump.
+- **Run button on S10 and S11 demos** (no preference; recommendation taken). The demos that import
+  numpy or scikit-learn show a notice to run them locally instead of a Run button, because the
+  in-browser Python cannot load the course's pinned versions. *Correction, same day:* the question
+  overstated S11. Its demo imports numpy and never uses it, so its output cannot drift; it keeps
+  its Run button. Only S10's demo (scikit-learn) shows the notice, and the notice shows the
+  expected output so the learner can compare. *Superseded for S10 and S11 by the off-topic demos
+  decision below:* the demos live in the `demos` map of `src/components/course/SectionView.tsx`,
+  keyed by section id, and S10's is a scikit-learn model only because it is a leftover of the
+  pre-V3 section that slug used to name. Once it is an on-topic standard-library demo, nothing
+  needs the notice; the SIM-11 guard stays for any future demo that imports a pinned package.
+
+A fourth question, the same day, answered as recommended:
+- **Off-topic playground demos are replaced now, phase by phase.** The «Pruébalo tú mismo» demos
+  of S10 to S52 follow the pre-V3 topic of their slug, not the V3 section (S10 runs scikit-learn,
+  S14 «NumPy» demos hashing, S15 «Pandas» demos functools); S01 to S09 already match. Codex writes
+  an on-topic, standard-library demo per section, using only what that section and earlier ones
+  teach, so it runs in the browser and its printed output is pinned. S10 and S11 go first, then
+  one phase at a time; a guard checks every demo against its section, and the owner sees the
+  diffs. This replaces existing learner content, which is why it was asked.
+- **34 exercise-meaning changes accepted as history** (no preference; recommendation taken). The S01
+  to S03 exercise ids whose meaning changed since 35d19637 go into the exercise-meaning ledger as
+  historical rows decided by this entry. Every later change needs its own ledger row.
+- **The 12 S03 closures do not count** (answered). They were closed against s03-data-structures.ts,
+  which a later commit replaced. Nothing is awarded retroactively: S03's next round re-checks the 12
+  against the current file.
+
+Asked the same day, all four answered as recommended:
+- **Delete `progress.createAccountDesc`.** It is rendered nowhere and promises anti-plagiarism exams
+  the site does not run; removed from es-PE, es-ES and en (copy PR).
+- **Rewrite the credential policy's «Política de IA».** It promises a declaration and an oral defense
+  the server records neither of; Codex rewrites it to the current rule, and the owner sees the
+  diff before merge (copy PR).
+- **`agentic-architecture` goes into the rename map.** S40's pre-V3 slug maps to
+  `architecture-ddd-decisions` in `SECTION_ID_RENAMES`, with its database migration, so old
+  progress and links keep working (number-guards PR).
+- **The skill-term lexicon is checked by Codex.** Codex reviews each term in
+  `src/lib/eligibility/skill_node_terms.json` against the lessons and proposes changes; the owner
+  sees the final list in the PR diff before the ratchet becomes final (badge-manifest PR).
+
+A third batch, the same day, all four answered as recommended:
+- **The Python complexity gate goes into "Done means these pass".** One line under the TypeScript
+  gate in `AGENTS.md` and `CLAUDE.md` (b10 PR).
+- **Delete `auth.demoDesc` too.** Rendered nowhere; promises «rendir exámenes» (copy PR).
+- **Badge-claim debt held as a ratchet.** 92 (badge, skill) pairs over 21 badges, measured on
+  section titles and outcomes as the module documents, plus 5 prerequisite inversions, are owed
+  exactly; nothing may grow, and the Phase 1 re-key pays them down (badge-manifest PR).
+- **Rebound and removed exercise ids are ledgered.** The renumber tool writes a `renumbered` row
+  (old id -> new id, same fingerprint) for each rebound id; a removed id needs a `removed` row
+  naming the owner's decision. The renumber PR is not exempt (history-guards PR).
+
+**Retire when:** all thirteen changes have landed, every playground demo matches its section, and S03's round has re-checked the 12 findings.
+
+---
+
+## Archive
+
+*(empty — nothing retired yet)*

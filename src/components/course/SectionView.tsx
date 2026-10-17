@@ -50,6 +50,14 @@ import {
 import { useSession } from 'next-auth/react'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
+import {
+  SELF_CHECK_PASS_PCT,
+  authoredOrders,
+  gradeSelfCheck,
+  mathRandomInt,
+  optionOrders,
+  revealsKey,
+} from '@/lib/self-check'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
@@ -208,7 +216,7 @@ export function SectionView({
           {/* Job relevance — popover (was 100px card) */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')} data-testid="section-job-relevance">
                 <Briefcase className="h-4 w-4 text-primary" />
               </Button>
             </PopoverTrigger>
@@ -218,7 +226,7 @@ export function SectionView({
                   <Briefcase className="h-4 w-4 text-primary" />
                   {tr('section.jobRelevance')}
                 </div>
-                <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
+                <p className="text-sm text-foreground/80"><InlineText text={section.jobRelevance} /></p>
               </div>
             </PopoverContent>
           </Popover>
@@ -226,7 +234,7 @@ export function SectionView({
           {/* Learning outcomes — sheet (was 200-400px grid) */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje">
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje" data-testid="section-outcomes">
                 <ListChecks className="h-4 w-4 text-primary" />
               </Button>
             </SheetTrigger>
@@ -244,7 +252,7 @@ export function SectionView({
                     className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-2.5"
                   >
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span className="text-xs text-foreground/90">{lo.text}</span>
+                    <span className="text-xs text-foreground/90"><InlineText text={lo.text} /></span>
                   </div>
                 ))}
               </div>
@@ -420,7 +428,17 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
       {section.theory.map((block, i) => {
         const body = (
           <>
-            {/* A screenshot (D19) splits the prose right after the paragraph it shows. */}
+            {/* A real heading, not the first paragraph. The heading used to be joined onto
+                the paragraphs and handed to RichText, so every theory heading in the course
+                rendered as a 15px <p> indistinguishable from the prose under it, and a
+                screen reader had no heading to jump to (WCAG 1.3.1). An optional block's
+                heading lives in its collapsible trigger instead. */}
+            {!block.optional && (
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                <InlineText text={block.heading} />
+              </h3>
+            )}
+            {/* A screenshot (D23) splits the prose right after the paragraph it shows. */}
             {proseSegments(block).map((seg, k) => (
               <Fragment key={k}>
                 <RichText sectionId={section.id} content={seg.text} after={seg.before || undefined} />
@@ -844,8 +862,16 @@ function QuizTab({
   score: number
   onSubmitScore: (s: number) => void
 }) {
+  const questions = section.selfCheck.questions
+  // Answers hold AUTHORED option indexes; `orders` only decides where each option is drawn.
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [submitted, setSubmitted] = useState(false)
+  // Authored order on the first render, so the static HTML and hydration agree; shuffled after.
+  const [orders, setOrders] = useState<number[][]>(() => authoredOrders(questions))
+
+  useEffect(() => {
+    setOrders(optionOrders(questions, mathRandomInt))
+  }, [questions])
 
   const handleSelect = (qIdx: number, optIdx: number) => {
     if (submitted) return
@@ -853,15 +879,10 @@ function QuizTab({
   }
 
   const handleSubmit = () => {
-    const total = section.selfCheck.questions.length
-    const correct = section.selfCheck.questions.reduce(
-      (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
-      0
-    )
-    const pct = Math.round((correct / total) * 100)
+    const { pct } = gradeSelfCheck(questions, answers)
     onSubmitScore(pct)
     setSubmitted(true)
-    if (pct >= 70) {
+    if (pct >= SELF_CHECK_PASS_PCT) {
       onDone()
     }
   }
@@ -869,14 +890,12 @@ function QuizTab({
   const handleRetry = () => {
     setAnswers({})
     setSubmitted(false)
+    setOrders(optionOrders(questions, mathRandomInt))
   }
 
-  const total = section.selfCheck.questions.length
-  const correct = section.selfCheck.questions.reduce(
-    (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
-    0
-  )
-  const pct = total > 0 ? Math.round((correct / total) * 100) : 0
+  const { correct, total, pct } = gradeSelfCheck(questions, answers)
+  // Below the pass mark only the score shows: no key, no right/wrong marks, no explanations.
+  const reveal = submitted && revealsKey(pct)
 
   return (
     <div className="space-y-6">
@@ -885,10 +904,10 @@ function QuizTab({
         <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
       </div>
       <Callout type="info" title="¿Para qué este quiz?">
-        Active recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.
+        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más desbloqueas la siguiente sección y ves las respuestas correctas y sus explicaciones. Si no llegas, repasa y reintenta.
       </Callout>
 
-      {section.selfCheck.questions.map((q, qIdx) => {
+      {questions.map((q, qIdx) => {
         const userAnswer = answers[qIdx]
         const isCorrect = userAnswer === q.correctIndex
         return (
@@ -901,10 +920,11 @@ function QuizTab({
                 <p className="text-sm font-medium text-foreground"><InlineText text={q.question} /></p>
               </div>
               <div className="space-y-2">
-                {q.options.map((opt, oIdx) => {
+                {(orders[qIdx] ?? q.options.map((_, i) => i)).map((oIdx, shownAt) => {
+                  const opt = q.options[oIdx]
                   const isSelected = userAnswer === oIdx
-                  const showCorrect = submitted && oIdx === q.correctIndex
-                  const showWrong = submitted && isSelected && oIdx !== q.correctIndex
+                  const showCorrect = reveal && oIdx === q.correctIndex
+                  const showWrong = reveal && isSelected && oIdx !== q.correctIndex
                   return (
                     <button
                       key={oIdx}
@@ -940,7 +960,7 @@ function QuizTab({
                         ) : showWrong ? (
                           <X className="h-3.5 w-3.5" />
                         ) : (
-                          String.fromCharCode(65 + oIdx)
+                          String.fromCharCode(65 + shownAt)
                         )}
                       </span>
                       <span className="flex-1"><InlineText text={opt} /></span>
@@ -948,7 +968,7 @@ function QuizTab({
                   )
                 })}
               </div>
-              {submitted && (
+              {reveal && (
                 <div
                   className={cn(
                     'mt-3 rounded-lg p-3 text-xs',
@@ -977,7 +997,7 @@ function QuizTab({
         </Button>
       ) : (
         <Card
-          className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
+          className={cn('p-5 text-center', reveal ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
           data-testid="sc-result"
         >
           <div className="mb-2 flex justify-center">
@@ -986,16 +1006,21 @@ function QuizTab({
             </div>
           </div>
           <div className="text-lg font-bold">
-            {pct >= 70 ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
+            {reveal ? '¡Buenazo! Sección completada' : 'Casi, vuelve a intentarlo'}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
             {correct} de {total} correctas ({pct}%)
           </p>
+          {!reveal && (
+            <p className="mt-2 text-sm text-muted-foreground" data-testid="sc-below-pass">
+              Verás las respuestas correctas y sus explicaciones cuando alcances el 70%; ahora repasa la teoría y el I Do de esta sección y reintenta.
+            </p>
+          )}
           <div className="mt-4 flex justify-center gap-2">
             <Button variant="outline" onClick={handleRetry} className="gap-2">
               Reintentar
             </Button>
-            {pct >= 70 && (
+            {reveal && (
               <Button className="gap-2" onClick={onDone}>
                 <Award className="h-4 w-4" />
                 Marcar como completada
@@ -1050,10 +1075,13 @@ def safe_int(campo, valor):
     texto = raw.strip()
     if texto == "":
         return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
-    try:
-        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
-    except ValueError:
+    entero_usable = texto.isascii() and (
+        texto.isdecimal()
+        or (texto.startswith("-") and texto[1:].isdecimal())
+    )
+    if not entero_usable:
         return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
+    return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
 
 for edad_raw in [" 28 ", "  ", "abc"]:
     resultado = safe_int("edad", edad_raw)
@@ -1146,18 +1174,14 @@ def normalize_telefono(raw: str) -> str:
 print(normalize_nombre("  maría  josé "))
 print(normalize_email("  Ana@Example.COM "))
 print(normalize_telefono("(999) 000-111"))
-
-try:
-    normalize_email("sin-arroba")
-except ValueError as error:
-    print(error)
+# normalize_email("sin-arroba") terminaría con:
+# ValueError: email sin @
 
 nombre = normalize_nombre("  ANA ")
 print("idempotente", normalize_nombre(nombre) == nombre)`,
       expectedOutput: `María José
 ana@example.com
 999000111
-email sin @
 idempotente True`,
       hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
@@ -1204,20 +1228,34 @@ conflictos: 1
     'files-ingestion': {
       title: 'Practica ingesta con cuarentena y manifest',
       code: `import csv, hashlib, io, json
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
 clean = []
 quarantine = []
 
+def monto_usable(row):
+    required = ("id", "monto")
+    missing = [key for key in required if key not in row or row[key] is None]
+    if missing:
+        return False, "missing_key"
+    value = row["monto"]
+    if not isinstance(value, str):
+        return False, "cast_monto"
+    digits = value.replace(".", "", 1)
+    if not value.isascii() or value.count(".") > 1 or not digits.isdecimal():
+        return False, "cast_monto"
+    return True, None
+
 for row in csv.DictReader(io.StringIO(raw)):
-    try:
+    usable, reason = monto_usable(row)
+    if usable:
         clean.append({
             "id": row["id"],
             "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
         })
-    except InvalidOperation:
-        quarantine.append({"raw": row, "reason": "cast_monto"})
+    else:
+        quarantine.append({"raw": row, "reason": reason})
 
 manifest = {
     "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
@@ -1403,14 +1441,20 @@ def normalize_text(raw):
     nfc = unicodedata.normalize("NFC", raw)
     return " ".join(nfc.split()).casefold()
 
-def normalize_email(raw):
+def email_usable(raw):
     value = raw.strip().casefold()
     if value.count("@") != 1 or any(ch.isspace() for ch in value):
-        raise ValueError("email requiere un @ y cero espacios")
+        return False, "email requiere un @ y cero espacios"
     local, domain = value.split("@")
     if not local or not domain:
-        raise ValueError("email requiere local y dominio")
-    return value
+        return False, "email requiere local y dominio"
+    return True, None
+
+def normalize_email(raw):
+    usable, reason = email_usable(raw)
+    if not usable:
+        raise ValueError(reason)
+    return raw.strip().casefold()
 
 def token_jaccard(a, b):
     def tokens(value):
@@ -1428,10 +1472,8 @@ raw_b = "Jose\\u0301 Quispe"
 print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
 print("Email:", normalize_email(" Ana+demo@Example.COM "))
 
-try:
-    normalize_email("ana@@example.com")
-except ValueError:
-    print("Email inválido → review:", True)
+usable, reason = email_usable("ana@@example.com")
+print("Email inválido → review:", not usable)
 
 text = "DNI 12345678 PE"
 print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))

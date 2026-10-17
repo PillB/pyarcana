@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T20:17:50.577248+00:00",
+  "generated_at": "2026-10-04T22:16:01.672148+00:00",
   "sections": 52,
   "dependency_visibility": {
     "status": "ok",
@@ -38,161 +38,212 @@
       "numpy": "2.2.6",
       "pandas": "3.0.5",
       "scikit-learn": "1.6.1",
-      "scipy": "1.13.1"
+      "scipy": "1.13.1",
+      "matplotlib": "3.11.1",
+      "openpyxl": "3.1.5",
+      "jinja2": "3.1.6",
+      "pillow": "12.3.0",
+      "pymupdf": "1.28.2",
+      "pypdf": "6.16.2",
+      "python-docx": "1.2.0",
+      "playwright": "1.62.0"
     },
     "drift": [],
     "note": "The snippet interpreter matches the declared teaching environment."
   },
   "totals": {
-    "pass": 3293,
+    "pass": 3311,
     "fail": 0,
-    "skip": 69,
-    "artifacts": 3362
+    "skip": 72,
+    "artifacts": 3383
   },
   "fail_count": 0,
   "p0_count": 0,
   "p1_count": 0,
   "ok": true,
+  "skips": {
+    "status": "ok",
+    "problems": [],
+    "by_reason": {
+      "missing_dependency": 6,
+      "needs_cli_argv": 4,
+      "non_python:bash": 35,
+      "non_python:dotenv": 2,
+      "non_python:gitignore": 2,
+      "non_python:markdown": 20,
+      "non_python:toml": 3
+    },
+    "missing_dependency": [
+      "fastapi solutionCode-9:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi solutionCode-10:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi solutionCode-11:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi code-block-3:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "fastapi code-block-11:  reportlab.pdfgen import canvas\nModuleNotFoundError: No module named 'reportlab'",
+      "llm-finetuning code-block-4: m fastapi import Depends, FastAPI\nModuleNotFoundError: No module named 'fastapi'"
+    ]
+  },
   "sections_detail": [
     {
       "file": "src/lib/course/sections/s01-setup.ts",
       "section_id": "setup",
       "counts": {
-        "pass": 9,
+        "pass": 7,
         "fail": 0,
-        "skip": 60
+        "skip": 61
       },
-      "artifact_count": 69
+      "skip_reasons": {
+        "non_python:bash": 34,
+        "non_python:dotenv": 2,
+        "non_python:gitignore": 2,
+        "non_python:markdown": 20,
+        "non_python:toml": 3
+      },
+      "artifact_count": 68
     },
     {
       "file": "src/lib/course/sections/s02-basics.ts",
       "section_id": "basics",
       "counts": {
+        "pass": 69,
+        "fail": 0,
+        "skip": 0
+      },
+      "skip_reasons": {},
+      "artifact_count": 69
+    },
+    {
+      "file": "src/lib/course/sections/s03-decisions-rules.ts",
+      "section_id": "decisions-rules",
+      "counts": {
         "pass": 67,
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 67
     },
     {
-      "file": "src/lib/course/sections/s03-data-structures.ts",
-      "section_id": "data-structures",
+      "file": "src/lib/course/sections/s04-iteration-summaries.ts",
+      "section_id": "iteration-summaries",
       "counts": {
-        "pass": 65,
+        "pass": 67,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "skip_reasons": {},
+      "artifact_count": 67
     },
     {
-      "file": "src/lib/course/sections/s04-functions-modules.ts",
-      "section_id": "functions-modules",
-      "counts": {
-        "pass": 65,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 65
-    },
-    {
-      "file": "src/lib/course/sections/s05-oop.ts",
-      "section_id": "oop",
-      "counts": {
-        "pass": 65,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 65
-    },
-    {
-      "file": "src/lib/course/sections/s06-numpy.ts",
-      "section_id": "numpy",
-      "counts": {
-        "pass": 64,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 64
-    },
-    {
-      "file": "src/lib/course/sections/s07-data-acquisition.ts",
-      "section_id": "data-acquisition",
-      "counts": {
-        "pass": 64,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 64
-    },
-    {
-      "file": "src/lib/course/sections/s08-pandas.ts",
-      "section_id": "pandas",
+      "file": "src/lib/course/sections/s05-functions-contracts.ts",
+      "section_id": "functions-contracts",
       "counts": {
         "pass": 66,
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
-      "file": "src/lib/course/sections/s09-visualization.ts",
-      "section_id": "visualization",
+      "file": "src/lib/course/sections/s06-collections.ts",
+      "section_id": "collections",
+      "counts": {
+        "pass": 66,
+        "fail": 0,
+        "skip": 0
+      },
+      "skip_reasons": {},
+      "artifact_count": 66
+    },
+    {
+      "file": "src/lib/course/sections/s07-text-unicode-regex.ts",
+      "section_id": "text-unicode-regex",
       "counts": {
         "pass": 64,
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
-      "file": "src/lib/course/sections/s10-sklearn.ts",
-      "section_id": "sklearn",
+      "file": "src/lib/course/sections/s08-files-ingestion.ts",
+      "section_id": "files-ingestion",
+      "counts": {
+        "pass": 66,
+        "fail": 0,
+        "skip": 0
+      },
+      "skip_reasons": {},
+      "artifact_count": 66
+    },
+    {
+      "file": "src/lib/course/sections/s09-exceptions-logging.ts",
+      "section_id": "exceptions-logging",
+      "counts": {
+        "pass": 66,
+        "fail": 0,
+        "skip": 0
+      },
+      "skip_reasons": {},
+      "artifact_count": 66
+    },
+    {
+      "file": "src/lib/course/sections/s10-modules-packaging-cli.ts",
+      "section_id": "modules-packaging-cli",
       "counts": {
         "pass": 60,
         "fail": 0,
         "skip": 4
       },
+      "skip_reasons": {
+        "needs_cli_argv": 4
+      },
       "artifact_count": 64
     },
     {
-      "file": "src/lib/course/sections/s11-testing.ts",
-      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-oop-domain.ts",
+      "section_id": "oop-domain",
+      "counts": {
+        "pass": 65,
+        "fail": 0,
+        "skip": 0
+      },
+      "skip_reasons": {},
+      "artifact_count": 65
+    },
+    {
+      "file": "src/lib/course/sections/s12-apis-sql-geo.ts",
+      "section_id": "apis-sql-geo",
       "counts": {
         "pass": 64,
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
-      "file": "src/lib/course/sections/s12-performance.ts",
-      "section_id": "performance",
+      "file": "src/lib/course/sections/s13-evidence-dashboard.ts",
+      "section_id": "evidence-dashboard",
       "counts": {
         "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
-    },
-    {
-      "file": "src/lib/course/sections/s13-rpa-automation.ts",
-      "section_id": "rpa-automation",
-      "counts": {
-        "pass": 64,
-        "fail": 0,
-        "skip": 0
-      },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s14-security.ts",
       "section_id": "security",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "skip_reasons": {},
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",
@@ -202,17 +253,19 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s16-wxpython-gui.ts",
       "section_id": "wxpython-gui",
       "counts": {
-        "pass": 64,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "skip_reasons": {},
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s17-packaging.ts",
@@ -222,6 +275,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -232,6 +286,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 66
     },
     {
@@ -242,6 +297,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -252,6 +308,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -261,6 +318,9 @@
         "pass": 59,
         "fail": 0,
         "skip": 5
+      },
+      "skip_reasons": {
+        "missing_dependency": 5
       },
       "artifact_count": 64
     },
@@ -272,6 +332,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -282,6 +343,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -292,6 +354,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -302,6 +365,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -312,6 +376,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -320,9 +385,12 @@
       "counts": {
         "pass": 64,
         "fail": 0,
-        "skip": 0
+        "skip": 1
       },
-      "artifact_count": 64
+      "skip_reasons": {
+        "non_python:bash": 1
+      },
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s28-llm-agents.ts",
@@ -332,6 +400,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -342,17 +411,19 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s30-security-infra.ts",
       "section_id": "security-infra",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "skip_reasons": {},
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s31-streaming-data.ts",
@@ -362,6 +433,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -372,27 +444,30 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s33-advanced-models.ts",
       "section_id": "advanced-models",
       "counts": {
-        "pass": 64,
+        "pass": 65,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "skip_reasons": {},
+      "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
       "section_id": "cv-ai-integration",
       "counts": {
-        "pass": 64,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 64
+      "skip_reasons": {},
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s35-system-design.ts",
@@ -402,6 +477,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -412,17 +488,19 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
       "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
       "section_id": "dbt-bigquery",
       "counts": {
-        "pass": 65,
+        "pass": 66,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 65
+      "skip_reasons": {},
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s38-performance-extreme.ts",
@@ -432,6 +510,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -442,6 +521,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -452,6 +532,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -460,9 +541,12 @@
       "counts": {
         "pass": 65,
         "fail": 0,
-        "skip": 0
+        "skip": 1
       },
-      "artifact_count": 65
+      "skip_reasons": {
+        "missing_dependency": 1
+      },
+      "artifact_count": 66
     },
     {
       "file": "src/lib/course/sections/s42-graph-rag.ts",
@@ -472,6 +556,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -482,6 +567,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -492,6 +578,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -502,6 +589,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -512,6 +600,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -522,6 +611,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -532,6 +622,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -542,6 +633,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 64
     },
     {
@@ -552,6 +644,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -562,6 +655,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     },
     {
@@ -572,6 +666,7 @@
         "fail": 0,
         "skip": 0
       },
+      "skip_reasons": {},
       "artifact_count": 65
     }
   ],

@@ -315,7 +315,76 @@ evidence for it appears somewhere else in the course.
   learner saw them, with their key. A reseed or an edited question cannot change an attempt in
   progress. The form lives in its own table so no query returning attempts carries the key.
 
-## D13 — ADR-7: the static edition may run accounts and billing when configured (2026-09-29)
+## D13 — The self-answering pass of 2026-09-21, and what it settled
+
+*Recorded 2026-09-21.*
+
+158 questions that the red team and this campaign had left for the owner were decided by a
+thirteen-cluster pass: one decider per cluster, then an adversarial judge that re-read every cited
+ruling and source and tried to refute it. The owner's instruction was to answer them from the
+project's own heuristics, researched practice and prior art, and to surface only what that cannot
+settle.
+
+- **31 were already decided** by D1-D11 and the standing owner policy. They are not new rulings;
+  they are those rulings with their sites listed. The largest is D9: `def main()` and the
+  `__name__` guard come out of 20 sites in S02-S09 plus the two Level-1 capstone starters, S09's
+  tests move into `audit_log.py` (a separate test module would run the demo on import), and S10
+  teaches the guard with exactly that case.
+- **64 are self-answered** and need nothing reserved to implement.
+- **4 were refuted** by their judge and are not findings.
+- **59 remain with the owner**, grouped into ten questions in `OWNER_PACKET_2026-09-21.md`, each
+  with a recommendation. Every one of them changes a credential claim, relaxes a gate, restructures
+  a practice layer, or edits `learning_roadmap_52_V3.md`.
+
+The full record, with rationale, rulings, sources, implementation steps, the test that fails today
+and the judge's verdict for each, is `audit/fixer/DECISIONS_2026-09-21.md`. A decision recorded
+there is binding in the same way this file is: read it before reopening any of those questions.
+
+Two standing consequences of the pass itself:
+
+1. **A decision is not settled until its judge has read the sources.** Four decisions died on
+   their judge's reading, and 38 more were amended - most often because a quoted line had moved,
+   or because the fix would have broken a neighbouring block. Cite the file and line, and expect
+   it to be checked.
+2. **Classification is about what the change touches, not how sure you are.** A decision can be
+   certain on the merits and still belong to the owner, because implementing it would rewrite what
+   a badge claims or relax a threshold. That boundary is what kept the packet to ten questions.
+
+## D14 — A graded exercise may be re-engineered, never watered down (2026-09-25)
+
+**Context.** Route 2 moves CP-N1-A to S05–S09, and S02–S04 need a practice layer built from
+what those sections have actually taught. Codex found exercises whose *objectives* require a
+later construct — S02-T1-B-E2, S02-T1-B-E3, S02-T3-B-E3, S02-T4-B-E1, S02-T4-B-E3,
+S02-T4-B-DEMO need a branch, a `def`/`return`, or recovery from a failed conversion — and
+correctly refused to either fake them or quietly weaken them.
+
+**Decision.** An exercise's objective may change. What may not change is its worth.
+
+A round may re-engineer a graded exercise to teach something the section has actually taught,
+provided the replacement:
+
+1. uses **only** terms and constructs introduced at or before that section — no surprises, and
+   no "you will see this later" substituting for making the work legible now;
+2. keeps the exercise's **id** and the section's exercise count, because the manifests and the
+   adversarial tests assert both;
+3. is **not weaker**. Same pedagogical relevance, same usefulness, same standard of practice.
+   An exercise reduced to a print statement to satisfy a constraint has failed this decision
+   more completely than one that leaked a future construct;
+4. teaches a **relevant** technique for that section, not a filler task. If the honest answer
+   is that nothing at this level is worth practising here, that is evidence the slot belongs
+   to a later section — say so rather than inventing busywork.
+
+**Worked consequence.** S03 decides accept/reject/review and reports a code and a message.
+That result is a `dict` today, and dicts are S06. Three separate names — `status`, `code`,
+`message` — carry the same three facts with S02's vocabulary, and the learner still practises
+the decision, the exclusivity of the branches and the reporting. That is re-engineering. Making
+the exercise print only `accept` would be watering down.
+
+**Why this is the owner's and not a round's.** It changes what a graded exercise claims to
+teach. Granted 2026-09-25 as a standing standard, so every round inherits it rather than
+re-asking per section.
+
+## D15 — ADR-7: the static edition may run accounts and billing when configured (2026-09-29)
 *Decided by the repo owner (D-USER-02, D-USER-03), recorded 2026-09-29 during the client fix round.*
 
 Until now the contract was "the GitHub Pages edition is content-only; login, payments and admin
@@ -369,7 +438,7 @@ Client rules fixed in the same round, binding on later work (tests in
 - **A survey says "Gracias" only after the worker stored the answer.**
 - **Every "escríbenos" names the address** (`legal.supportEmail`).
 
-## D14 — Progress lives in the browser and in D1, not Firestore; the free tier is metered and guarded (2026-10-04)
+## D16 — Progress lives in the browser and in D1, not Firestore; the free tier is metered and guarded (2026-10-04)
 
 Owner request: progress must not rely on `localStorage` alone (kept as the offline fallback), the
 account copy must cost as little as possible, and the site must stay under the free limits.
@@ -396,7 +465,7 @@ account copy must cost as little as possible, and the site must stay under the f
   not metered, and the exact figure is Cloudflare's analytics (GraphQL needs an Analytics-Read
   token; not wired).
 
-## D15 — D4 audit: a true privacy notice before sign-up opens; sign-up waits for a named holder (2026-10-05)
+## D17 — D4 audit: a true privacy notice before sign-up opens; sign-up waits for a named holder (2026-10-05)
 
 The setup thread's signed-out audit of pyarcana.dev (3 Oct 2026; 95 pass, 3 fail, 3 warn) asked
 for the privacy notice, security.txt and retention to ship with the go-live redeploy.
@@ -426,7 +495,7 @@ for the privacy notice, security.txt and retention to ship with the go-live rede
   thread and DS 016-2024-JUS summaries. The lawyer check (task 13) covers them.
 - **CSP, extra headers and `/v1/health`** (P4–P6) wait for the deploy after go-live, as sequenced.
 
-## D16 — Firebase is left out of the static builds for real; no stand-ins (2026-10-05)
+## D18 — Firebase is left out of the static builds for real; no stand-ins (2026-10-05)
 
 The static builds (GitHub Pages and pyarcana.dev) shipped about 0.5 MB of minified Firebase that
 never ran. Every guard reads "not configured" in both builds, and the CSP blocks Firebase's hosts.
@@ -459,7 +528,7 @@ The owner asked to remove it only with proof that nothing changes.
 - **Narrowing, unchanged:** a static build can no longer turn Firebase on by configuration. The CSP
   already forbade it.
 
-## D17 — QA sessions are measured, and admin sees and downloads QA (2026-10-05)
+## D19 — QA sessions are measured, and admin sees and downloads QA (2026-10-05)
 
 The owner asked to see and download, in admin, what the QA tester dashboard knows. Before this,
 the dashboard recorded no session data, and admin had no aggregate and no download.
@@ -504,7 +573,7 @@ the dashboard recorded no session data, and admin had no aggregate and no downlo
     server's own answer says it is not.
   - The old button sent a GET and two PUTs per click and ignored the backoff; that is gone.
 
-## D18 — Google's script on /cuenta: decided by the page load, not the path (2026-10-05)
+## D20 — Google's script on /cuenta: decided by the page load, not the path (2026-10-05)
 
 /cuenta is the account page and the Microsoft redirect target. The rule "no Google script on
 /cuenta" kept GIS off the callback, but it also hid the Google button from every ordinary visit
@@ -524,7 +593,83 @@ the dashboard recorded no session data, and admin had no aggregate and no downlo
 - **Not chosen:** a separate callback route (/cuenta/microsoft/). It needs a new Entra redirect
   URI, and the load-time rule gives the same protection without one.
 
-## D19 — Owner override of D4 for seven section screenshots (2026-10-06)
+## D21 — Exam banks: the GLM lane's rewrites land, options shuffle per attempt, keys lose teaching but not precision (owner decision, 2026-10-07)
+
+A second agent lane (a glm-5.3-flash orchestrator routing Codex) rewrote the exam banks of S05 and
+S08–S11 and recorded the work as its own "D15" in an uncommitted copy of this file. That number is
+already D15 here (ADR-7), and its root cause was wrong, so the decision is recorded here as D21. The
+review that tested it is in `audit/fixer/glm_exam_bank_review/` (PR #80); the owner's rulings are
+O20 in `audit/fixer/OWNER_DECISIONS.md`.
+
+- **Root cause, corrected.** The lane's D15 said QUESTION_BANK covered 47 of 52 sections and that
+  S05, S08, S09, S10 and S11 had no questions. `prisma/seed.ts` has had 24 questions for each since
+  a492d8ea (2026-09-16). Their keys are double-quoted, and parsers that read only single-quoted keys
+  missed them. Whether the deployed database was reseeded after a492d8ea is undetermined; if it was
+  not, those exams did return 404, and the reseed below fixes that.
+- **What was wrong with those five banks.** Their questions existed but were weak: every answer in
+  S10 and S11 sat at position B, so always choosing B scored 100%, and the key was usually the
+  longest option.
+- **What lands.** 110 of the lane's 118 rewrites. A slot-by-slot review found 0 wrong keys and 0
+  reorder failures. Codex redoes the other 8 (S05#16, S08#7, S09#9, S09#20, S09#21, S09#22, S10#23,
+  S11#22) and, in the same round, the S10 lesson lines on `python -m` and the working directory
+  (the current Python docs say `-m` adds the current directory to `sys.path`) and on circular
+  imports, so key and lesson agree.
+- **Positions.** Options are shuffled when an attempt starts, and the permuted key is stored with
+  the attempt in `ExamAttemptForm`. This replaces the lane's static per-section position cycle: the
+  cycle was keyed to section numbers, which the 52 → 55 renumber shifts. Owed until the shuffle
+  ships: 29 banks still keep every answer at B in stored order.
+- **Length.** From the NBME Item-Writing Guide (6th ed.): make distractors as long and as specific
+  as the key, and remove teaching points and rationale from the key. Never remove the detail that
+  makes the key correct. `test_exam_length_cue.py` moves 1125 → 1081 with this change.
+- **Still binding from the lane's D15:** a bank question uses only what the section and earlier
+  sections teach, distractors included; variants are parallel in skill and demand, not cosmetic
+  rewordings; each question has one best answer; the writing rules apply to stems, options and
+  explanations; reseeding stored attempts stays ask-first.
+- **Tooling.** Both of the lane's scripts are retired. The position rebalancer is superseded by the
+  shuffle; the repair applier could not repair a bank's last question and had no tests. Codex's
+  question fixes go through `tools/fixer/apply_patches.py`.
+- **Reseed.** Once, after these 110 and the 8 redos are both on main. The owner runs it. Attempts
+  in progress keep their own questions and key in `ExamAttemptForm`.
+- **The real gap.** S12 and S13 hold 48 questions built from one template ("[S12/A] Sobre «…»,
+  ¿cuál es la práctica correcta…") with options repeated across variants. They are written next.
+- **Research closed.** The lane's D15 recorded its psychometric research as blocked. It is now
+  done: the NBME Item-Writing Guide (6th ed.) and Haladyna, Downing and Rodriguez (2002) both ask
+  for a varied key position and options of about equal length.
+
+## D22 — Credential issuance fails closed: every check blocks until the server shows it passed (2026-10-12)
+
+The 403 on every capstone credential is the owner's gate (EXAM-01, AV3-2, O17) and stays. What
+changes is how it is held shut. `unverifiedRequirements(spec)` listed what was known to be
+missing, so it would have opened once each listed item got a verifier, without the engine checks
+it never named: critical competencies at 100%, supplementary exercises, CP projects, required
+activities, the overall score (plan of 2026-10-12, C13).
+
+- **Rule now:** `issuanceBlockers()` (`src/lib/credential-blockers.ts`) is the switch. It is
+  empty only when every requirement has a registered server verifier that passes it
+  (`src/lib/credential-verifiers.ts`, which today registers `section_exams` alone), the real
+  eligibility engine awards on what those verifiers report and nothing else, the request names
+  the badge's own version, and no standing blocker remains.
+- **A gate the engine never reached blocks** (`not_evaluated`): the engine stops at its first
+  failing gate, so "not reported failed" is not "passed".
+- **Standing blocker:** `CREDENTIAL_STORE_NOT_IMPLEMENTED` until issuance writes a `Credential`
+  row. The route still writes a Notification.
+- **Signed version:** the catalog's `spec.version`, never the client's.
+- **Adding a verifier** is how a requirement opens. It never opens issuance by itself, and
+  `credential-blockers.test.ts` holds the production registry to exactly `['section_exams']`.
+- **Replaces** EXAM-01's "`unverifiedRequirements()` as the closed switch". The function stays
+  for the response's `unverifiedRequirements` field.
+- **Proof:** `tests/adversarial/credential-blockers.test.ts`. With all five listed requirements
+  verified, issuance is still refused. One case per engine gate. With everything verified by
+  test fakes and the store blocker lifted, it issues (201), so the refusals are not "always
+  403". The fakes are test-only stand-ins; no real verifier exists for them.
+- **Also:** the browser HMAC re-check on `/verify` and its `NEXT_PUBLIC_CREDENTIAL_VERIFY_KEY`
+  are removed (ADR 5: an HMAC key in the bundle is the signing key). A test now fails on any
+  `NEXT_PUBLIC_*` name containing KEY, SECRET, SIGN, TOKEN, PASSWORD or PRIVATE.
+
+## D23 — Owner override of D4 for seven section screenshots (2026-10-06)
+
+Recorded as D19 on its branch; renumbered when it merged, because main's D19 is the QA-sessions
+decision.
 
 - **Who:** Pablo, the owner, on 2026-10-06.
 - **Scope:** exactly the seven images surveyed and validated in

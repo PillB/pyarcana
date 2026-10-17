@@ -38,6 +38,19 @@ skimmed; a numbered rule you can hold a sentence against does not.
   produce el rechazo" → "el validador rechaza el registro". *(S §8J–K)*
 - **B6 — Orient before explaining.** Where am I, why does this exist, what does it
   address, how does it relate to what came before. *(H §2A)*
+- **B7 — Say a new idea two ways, and recall what it rests on.** Name a new term, then
+  restate it in everyday words: «X, es decir, Y», a colon, or an apposition. Where a later
+  sentence leans on it, say it again from a new angle, such as what it lets the code do or what
+  it checks, so a learner who missed the first wording still gets it. Recall an earlier lesson in
+  a clause where the passage depends on it («el JOIN de T3-A, que une `evidence` con `clients`»).
+  Never open with scaffolding such as «recuerda que». Two traps:
+  - A reminder must point backwards. Check that the earlier passage really taught the idea.
+  - A keyword the learner has seen only in code has not been taught. Gloss it at its first use in
+    prose; it is not a reminder.
+
+  Re-teaching is not the closing summary G2 bans: it adds an angle or a use, and never repeats a
+  sentence. It does not apply to exam options or one-line feedback. *(owner, 2026-10-16/17;
+  S12-T3-B: `PRIMARY KEY` and `UNIQUE` were used before any prose defined them)*
 
 ## C. Repair
 
@@ -71,6 +84,12 @@ skimmed; a numbered rule you can hold a sentence against does not.
 - **D11 — Check gender and number agreement** on determiner–noun pairs.
 - **D12 — No authoring residue.** No TODO, no meta commentary, no model voice: the
   register is a teacher speaking to a learner. *(also H §1)*
+- **D13 — No staccato.** Each sentence picks up the one before it, through a referent or a
+  connective («por eso», «así que», «en cambio», «es decir»), instead of starting cold. Never write
+  two sentences under about 15 words in a row, and vary the length up to D1's 32. A run of short,
+  unlinked sentences reads as a list and hides how one idea causes or limits the next. *(owner,
+  2026-10-16/17; H §3.5 "clipped fragments, telegraphic prose"; S12-T3-B: a draft of 14·19·16 |
+  12·27 words had no slip and was still rejected for this)*
 
 ## E. Readability targets *(G §A)*
 
@@ -106,3 +125,13 @@ ones to read a passage against by eye before returning it.
 - **G4 — A green gate is not evidence a passage survived.** Every gated measure is a section
   aggregate; the Orbiter damage was FH −24.7 at paragraph scale and 0.6 → 0.6 at section
   scale. Read the passage.
+
+## H. Local colour *(gated; S17 concepts round, 2026-09-22)*
+
+- **H1 — Peruvian place names are case flavour, never filler.** `tests/adversarial/
+  test_over_localized_language.py` caps them at **55 per section file**, counted over all
+  prose outside `CASO-` fixture lines, and a breach fails the round and restores the section.
+  Three rounds have now been thrown away on this, every one of them writing in the house
+  style with no way to know the cap existed. Sections near the cap are already saturated:
+  reach for a role (`region norte`, `sucursal B`, `la sede`) or an existing fixture id
+  instead of naming another city. The concepts prompt states the file's remaining headroom.

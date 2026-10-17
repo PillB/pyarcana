@@ -1,0 +1,308 @@
+{
+  "about": "Statements found false in learner-facing text, with their source and correct form. Scanned by tests/adversarial/known-false-claims.test.ts through scripts/lib/false_claims.mts; the owed counts and the floor of ids live in that test. Patterns run on normalized text: accents folded, lower case, quote marks and formatting removed, underscores turned into spaces. {Wn} is up to n characters within one sentence. Codex writes the Spanish that replaces a claim; correct_statement is what it must say.",
+  "entries": [
+    {
+      "id": "KFC-001",
+      "title": "A p-value defined without 'or more extreme', and the 0.05 cut-off taught as its meaning",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "probabilidad de (?:observar|obtener) (?:el|este|ese|un|tu) resultado (?:si|bajo|cuando) (?:la )?(?:hipotesis nula|h0)",
+        "<\\s*0[.,]05{W30}significativ"
+      ],
+      "correct_statement": "The p-value is the probability, computed under the null hypothesis and the model's assumptions, of a summary statistic at least as extreme as the one observed. It is not the probability that the null hypothesis is true, and no conclusion should rest on whether it crosses a threshold such as 0.05.",
+      "citation": {
+        "source": "Wasserstein & Lazar (2016), The ASA Statement on p-Values: Context, Process, and Purpose, The American Statistician 70(2), principles 2 and 3",
+        "url": "https://doi.org/10.1080/00031305.2016.1154108",
+        "quote": "the probability under a specified statistical model that a statistical summary of the data ... would be equal to or more extreme than its observed value"
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_a_point_probability_is_not_a_p_value",
+      "examples": {
+        "positive": [
+          "Probabilidad de observar el resultado si la hipótesis nula es cierta. <0.05 típicamente \"significativo\"."
+        ],
+        "negative": [
+          "El valor p es la probabilidad de observar una diferencia al menos tan grande como la tuya **si el tratamiento no tuviera ningún efecto**.",
+          "Probabilidad, si la hipótesis nula fuera cierta, de obtener un resultado al menos tan extremo como el observado. No es la probabilidad de que H0 sea cierta, y 0.05 es una convención, no su significado."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-11", "locations": ["src/lib/glossary/terms.ts:840 (glossary hover)"]},
+      "decision": "O17 (Gate A, design step 0b-7)"
+    },
+    {
+      "id": "KFC-002",
+      "title": "The bootstrap presented as the fix for small samples or heavy tails",
+      "scope": ["sections", "glossary", "exam-bank", "capstones"],
+      "patterns": [
+        "bootstrap{W30}\\b(?:si|con|cuando|para)\\b{W25}(?:colas?\\b|n (?:chico|pequeno)|muestras? (?:chicas?|pequenas?)|pocos datos)",
+        "(?:n (?:chico|pequeno)|colas? pesadas?|cola pesada|si hay colas){W90}\\b(?:considera|preferir|prefiere|usa|pide|documenta|recurre)\\w*{W25}bootstrap",
+        "bootstrap cuando{W20}\\bz\\b{W15}(?:dudos|tosc|falla)"
+      ],
+      "correct_statement": "The percentile bootstrap does not rescue a small sample: its intervals are too narrow when n is small (they cover less than the nominal level), and for skewed data it is less accurate than the t interval up to roughly n = 34. The bootstrap shows an estimator's spread and asymmetry without a formula; a small n is a limit that no interval removes.",
+      "citation": {
+        "source": "Hesterberg (2015), What Teachers Should Know About the Bootstrap, The American Statistician 69(4), section on narrowness bias",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4784504/",
+        "quote": "the bootstrap percentile interval ... is less accurate than the t interval for n <= 34"
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_the_percentile_bootstrap_undercovers_at_small_n",
+      "examples": {
+        "positive": [
+          "print(\"nota_ic\", \"z_approx; bootstrap si colas pesadas o n chico\")",
+          "print(\"nota_ic\", \"z_approx_en_lognormal_limitada; preferir_bootstrap_si_colas\")",
+          "Bootstrap ayuda con n chico o colas; d de Cohen comunica tamaño de efecto.",
+          "\"incertidumbre\": \"IC z aproximado; bootstrap si colas pesadas; muestra web-only\",",
+          "Con **n pequeño**, **colas pesadas** o montos lognormales (como tickets de T1), la aproximación z es tosca: reporta n, considera un **bootstrap simple**",
+          "- **Contexto:** con montos de cola pesada y n chico, 1.96·s/√n es tosco; el portafolio pide bootstrap documentado.",
+          "Luego (E3): bootstrap cuando z es dudoso.",
+          "Con colas pesadas, documenta bootstrap o límites de la aproximación z.",
+          "Si usas z sobre montos lognormales, declara el límite; si hay colas, documenta bootstrap"
+        ],
+        "negative": [
+          "Con colas pesadas y n chico debo ser cauteloso con la aproximación z",
+          "Pruebas o casos de borde documentados (cola, sesgo, z vs. bootstrap)",
+          "El bootstrap no arregla una muestra chica: con n = 5 sus intervalos cubren menos de lo que prometen."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-11", "locations": ["src/lib/course/sections/s18-data-engineering.ts:198, :229/:237, :243, :679, :778, :1285, :1309, :1890, :1945"]},
+      "decision": "O17 (Gate A, design step 0b-7)"
+    },
+    {
+      "id": "KFC-003",
+      "title": "`python -m` presented as avoiding sys.path or the working directory",
+      "scope": ["sections", "glossary", "exam-bank", "capstones"],
+      "patterns": [
+        "(?:sin|evita|evitar) pelear con sys\\.path",
+        "(?<![\\w-])-m\\b{W100}(?<!no )\\b(?:evita|reduce)\\w*{W40}\\bcwd\\b"
+      ],
+      "correct_statement": "`python -m pkg` finds the module by its import name on sys.path, the same way `import` does, and runs it as part of its package, so relative imports work. It adds the current directory to the start of sys.path, so it depends on the working directory more, not less; that is why the src layout matters.",
+      "citation": {
+        "source": "Python 3.12 documentation, Command line and environment, option -m",
+        "url": "https://docs.python.org/3.12/using/cmdline.html#cmdoption-m",
+        "quote": "As with the -c option, the current directory will be added to the start of sys.path."
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_python_m_puts_the_working_directory_first",
+      "examples": {
+        "positive": [
+          "Ejecutar `python -m familiarity_core` corre el paquete sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar).",
+          "Ejecutar `python -m familiarity_core` usa el paquete como __main__ sin pelear con sys.path.",
+          "El label es solo UI; la política se decide por un kind tipificado. `python -m familiarity_core` evita pelear con `sys.path`.",
+          "python -m usa el paquete instalado/namespace correcto; reduce imports frágiles por cwd",
+          "`python -m` usa la entrada del paquete y evita depender del `cwd`",
+          "`-m` ejecuta `__main__.py` desde el paquete y evita imports frágiles ligados al `cwd`."
+        ],
+        "negative": [
+          "Sin src, ejecutar desde la raíz importa la carpeta local y no el paquete instalado; el fallo aparece solo en otra máquina.",
+          "El paquete debe instalarse en el mismo intérprete que ejecuta el script. `python -m pip` dentro del `.venv` evita instalar en otro Python.",
+          "`python -m` no evita depender del cwd: lo pone primero en sys.path."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-11", "locations": ["src/lib/course/sections/s10-modules-packaging-cli.ts:69, :98, :821", "prisma/seed.ts S10 bank, imports-namespaces-main"]},
+      "decision": "O20 (the S10 redo round)"
+    },
+    {
+      "id": "KFC-004",
+      "title": "A circular import said to break the package unconditionally",
+      "scope": ["sections", "glossary", "exam-bank", "capstones"],
+      "patterns": [
+        "imports? circular(?:es)?{W60}\\b(?:rompe|falla|se enreda|revienta)\\w*(?![^.!?\\n]{0,60}\\b(?:si|cuando|mientras|solo)\\b)",
+        "\\b(?:falla|rompe)\\w* al arrancar{W25}\\bcircular",
+        "ciclo{W15}\\brompe el arranque"
+      ],
+      "correct_statement": "Two modules may import each other. It fails only when one uses, while the other is still being initialized, a name the other has not defined yet: a top-level `from b import x` then raises ImportError (cannot import name), and a top-level `b.x` raises AttributeError; both messages name a partially initialized module. A name the other module defined before the cycle was entered works, and so does a plain `import b` with the name used later, inside functions. Extracting the shared code to a third module is still the first remedy.",
+      "citation": {
+        "source": "Python 3.12 documentation, Programming FAQ, How can I have modules that mutually import each other?",
+        "url": "https://docs.python.org/3.12/faq/programming.html#how-can-i-have-modules-that-mutually-import-each-other",
+        "quote": "The problem is that the interpreter will perform the following steps"
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_a_circular_import_fails_only_when_a_name_is_used_too_early",
+      "examples": {
+        "positive": [
+          "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido",
+          "- **Contexto:** si `module_a` y `module_b` se necesitan mutuamente, el import circular rompe el paquete al arrancar.",
+          "El paquete falla al arrancar por el import circular",
+          "Un ciclo A↔B rompe el arranque; el primer recurso es extraer la lógica compartida a un tercer módulo."
+        ],
+        "negative": [
+          "Un import circular falla solo cuando un módulo usa un nombre del otro mientras ese otro aún se está cargando; con `import b` y el uso dentro de funciones, funciona."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-11", "locations": ["src/lib/course/sections/s10-modules-packaging-cli.ts:71, :751", "prisma/seed.ts S10 bank, public-api-dependencies"]},
+      "decision": "O20 (the S10 redo round)"
+    },
+    {
+      "id": "KFC-005",
+      "title": "INFO presented as a safe default log level",
+      "scope": ["sections", "glossary", "exam-bank", "capstones"],
+      "patterns": [
+        "defaults? segur\\w*{W25}\\binfo\\b"
+      ],
+      "correct_statement": "Unconfigured, Python's root logger shows WARNING and above; INFO is a level a project chooses. The level controls volume, not privacy: personal data is masked or left out of the message at every level, DEBUG included (in Spanish, \"enmascarar\" or \"omitir\"; \"redactar\" means to write).",
+      "citation": {
+        "source": "Python 3.12 documentation, Logging HOWTO, When to use logging",
+        "url": "https://docs.python.org/3.12/howto/logging.html#when-to-use-logging",
+        "quote": "The default level is WARNING, which means that only events of this severity and higher will be tracked"
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_the_root_logger_defaults_to_warning",
+      "examples": {
+        "positive": [
+          "Defaults seguros (log level INFO, no debug con PII — *Personally Identifiable Information*, datos personales identificables)."
+        ],
+        "negative": [
+          "def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str:",
+          "Si el flag no se pasó (None), gana env — no inventes un default INFO aquí.",
+          "INFO es el nivel que este proyecto elige; sin configurar, Python solo muestra WARNING y superiores."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-11", "locations": ["src/lib/course/sections/s10-modules-packaging-cli.ts:366"]},
+      "decision": "O20 (the S10 redo round)"
+    },
+    {
+      "id": "KFC-006",
+      "title": "Correlation defined without 'linear'",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "relacion entre dos variables\\. -1 a 1"
+      ],
+      "correct_statement": "Pearson's correlation coefficient measures linear association, from -1 to 1. A strong curved relationship can give a value near 0, and correlation does not imply causation.",
+      "citation": {
+        "source": "SciPy 1.13 documentation, scipy.stats.pearsonr",
+        "url": "https://docs.scipy.org/doc/scipy-1.13.1/reference/generated/scipy.stats.pearsonr.html",
+        "quote": "The Pearson correlation coefficient measures the linear relationship between two datasets."
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_pearson_r_misses_a_curved_relationship",
+      "examples": {
+        "positive": [
+          "Relación entre dos variables. -1 a 1. np.corrcoef, df.corr(). Cuidado: correlación no implica causalidad."
+        ],
+        "negative": [
+          "Mide la fuerza de la relación lineal entre dos variables, de -1 a 1. Una relación curva puede dar cerca de 0."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-12", "locations": ["src/lib/glossary/terms.ts:824"]},
+      "decision": "Owner ruling 2026-10-12: fixed in the S18 round"
+    },
+    {
+      "id": "KFC-007",
+      "title": "The 80/20 train/test split taught as the definition",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "dividir (?:los )?datos en entrenamiento \\(?80 ?%\\)? y prueba \\(?20 ?%\\)?"
+      ],
+      "correct_statement": "A train/test split holds out data the model never sees while fitting, to estimate performance on new data. The proportion is a choice, not part of the definition: scikit-learn's own default puts 25% in the test set.",
+      "citation": {
+        "source": "scikit-learn 1.6 documentation, sklearn.model_selection.train_test_split, parameter test_size",
+        "url": "https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.train_test_split.html",
+        "quote": "If None, the value is set to the complement of the train size. If train_size is also None, it will be set to 0.25."
+      },
+      "verified_by": "tests/content_facts/test_sklearn_claims.py::SklearnClaims::test_the_default_split_holds_out_a_quarter",
+      "examples": {
+        "positive": [
+          "Dividir datos en entrenamiento (80%) y prueba (20%). El modelo nunca \"ve\" el test durante training."
+        ],
+        "negative": [
+          "Separar los datos en entrenamiento y prueba antes de ajustar nada; la proporción (por ejemplo 80/20 o 75/25) se elige, no viene dada."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-12", "locations": ["src/lib/glossary/terms.ts:856"]},
+      "decision": "Owner ruling 2026-10-12: fixed in the S18 round"
+    },
+    {
+      "id": "KFC-008",
+      "title": "ROC-AUC called robust to class imbalance",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "robust[ao]s? (?:al? |frente al? |ante el )?desbalance"
+      ],
+      "correct_statement": "ROC-AUC does not change when the class proportions change. That is why it can stay high while the rare class is predicted badly; with imbalanced classes, read precision-recall (average precision) beside it.",
+      "citation": {
+        "source": "Fawcett (2006), An introduction to ROC analysis, Pattern Recognition Letters 27(8), section 9; Saito & Rehmsmeier (2015), PLOS ONE 10(3) e0118432",
+        "url": "https://doi.org/10.1371/journal.pone.0118432",
+        "quote": "one of the attractions of ROC graphs, namely that they are insensitive to class skew (Fawcett 2006)"
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_roc_auc_ignores_prevalence_while_average_precision_falls",
+      "examples": {
+        "positive": [
+          "Área bajo curva ROC. Métrica para clasificación binaria. 0.5 = azar, 1.0 = perfecto. Robusta a desbalance."
+        ],
+        "negative": [
+          "No cambia si cambia la proporción de clases; por eso puede verse alta aunque la clase rara se prediga mal. Con clases desbalanceadas, mira también la curva precisión-recall."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-12", "locations": ["src/lib/glossary/terms.ts:708"]},
+      "decision": "Owner ruling 2026-10-12: fixed in the S18 round"
+    },
+    {
+      "id": "KFC-009",
+      "title": "StratifiedKFold called obligatory for classification",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "obligatori[oa]s? para (?:la )?clasificacion"
+      ],
+      "correct_statement": "StratifiedKFold keeps the class proportions in each fold and is the usual choice for classification - scikit-learn already uses it when cv is an integer and the estimator is a classifier. It is the wrong choice for grouped or time-ordered data (GroupKFold, TimeSeriesSplit).",
+      "citation": {
+        "source": "scikit-learn 1.6 documentation, sklearn.model_selection.check_cv, parameter cv",
+        "url": "https://scikit-learn.org/1.6/modules/generated/sklearn.model_selection.check_cv.html",
+        "quote": "For integer/None inputs, if classifier is True and y is either binary or multiclass, StratifiedKFold is used."
+      },
+      "verified_by": "tests/content_facts/test_sklearn_claims.py::SklearnClaims::test_a_classifier_already_gets_stratified_folds",
+      "examples": {
+        "positive": [
+          "KFold que mantiene proporción de clases en cada fold. Obligatorio para clasificación desbalanceada."
+        ],
+        "negative": [
+          "KFold que mantiene la proporción de clases en cada fold. Es la opción habitual en clasificación; con grupos o datos en el tiempo se usa GroupKFold o TimeSeriesSplit."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-12", "locations": ["src/lib/glossary/terms.ts:776"]},
+      "decision": "Owner ruling 2026-10-12: fixed in the S18 round"
+    },
+    {
+      "id": "KFC-010",
+      "title": "A UNIQUE or PRIMARY KEY column given its own CREATE INDEX, as if the constraint left it unindexed",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "create table (?:if not exists )?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\((?:(?!create table)(?:[^.!?\\n]|[.!?](?=\\S))){0,300}?\\b((?:[a-z0-9]+ ){0,2}[a-z0-9]+) (?:[a-z]+(?:\\(\\d+\\))? )?(?:not null )?(?:unique|primary key)\\b{W300}create (?:unique )?index (?:if not exists )?[a-z0-9 ]+? on \\1 ?\\( ?\\2 ?\\)",
+        "create table (?:if not exists )?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\((?:(?!create table)(?:[^.!?\\n]|[.!?](?=\\S))){0,300}?\\b(?:unique|primary key) ?\\( ?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\){W300}create (?:unique )?index (?:if not exists )?[a-z0-9 ]+? on \\1 ?\\( ?\\2 ?\\)"
+      ],
+      "correct_statement": "In SQLite a UNIQUE or PRIMARY KEY constraint is implemented by a unique index the engine creates itself (sqlite_autoindex_<table>_N; an INTEGER PRIMARY KEY is the rowid), so a lookup on that column is already a search, not a full scan. A second CREATE INDEX on that one column gives queries nothing the automatic index does not, and every write must maintain both. CREATE INDEX helps a column with no index: a repeated foreign key such as evidence.entity_id, or document_id in a table that does not declare it UNIQUE (exercise S12-T3-B-E3). NOT NULL creates no index.",
+      "citation": {
+        "source": "SQLite documentation, CREATE TABLE, UNIQUE constraints",
+        "url": "https://www.sqlite.org/lang_createtable.html#uniqueconst",
+        "quote": "In most cases, UNIQUE and PRIMARY KEY constraints are implemented by creating a unique index in the database."
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_a_unique_column_already_has_an_index",
+      "examples": {
+        "positive": [
+          "con.execute(\"CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)\"); con.execute(\"CREATE INDEX idx_doc ON clients(document_id)\")",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT, UNIQUE(document_id)); CREATE INDEX IF NOT EXISTS idx_doc ON clients(document_id);",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT); CREATE INDEX idx_id ON clients(id)"
+        ],
+        "negative": [
+          "con.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\"); con.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")",
+          "con.execute(\"CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)\")",
+          "CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT UNIQUE); CREATE INDEX idx_entity ON evidence(entity_id)",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE, name TEXT); CREATE INDEX idx_doc_name ON clients(document_id, name)",
+          "`UNIQUE` ya crea un índice (`sqlite_autoindex_clients_2`), así que `CREATE INDEX` sobre `document_id` sobraría; en E3 la columna no es `UNIQUE` y ahí sí creas `idx_document_id`.",
+          "CREATE TABLE pairs(id TEXT PRIMARY KEY, block_key TEXT, score REAL); CREATE INDEX idx_pairs_block ON pairs(block_key);",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY); CREATE TABLE evidence(id TEXT); CREATE INDEX idx_evidence_id ON evidence(id)",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT); CREATE TABLE docs(document_id TEXT UNIQUE); CREATE INDEX idx_doc ON clients(document_id)"
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-14", "locations": [
+        "src/lib/course/sections/s12-apis-sql-geo.ts:325-326 (S12-T3-B params_tx.py: document_id UNIQUE NOT NULL, then CREATE INDEX idx_doc on it)",
+        "src/lib/course/sections/s12-apis-sql-geo.ts:316 (prose: UNIQUE/NOT NULL and indexes said to speed lookups, with no word that UNIQUE is already indexed; the patterns do not match prose)",
+        "src/lib/course/sections/s12-apis-sql-geo.ts:2011-2012 (CP-N1-C starter asks for an index on a document_id it declares UNIQUE; the patterns do not match it)"
+      ]},
+      "decision": "Found 2026-10-14 in the review of the S12 exam bank (plan PR 9); fixed by Codex on claude/s12-unique-already-indexed, ahead of the S12 fixer round"
+    }
+  ]
+}

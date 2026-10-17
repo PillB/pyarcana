@@ -1,0 +1,534 @@
+[
+ {
+  "lane": "diff-integrity",
+  "result": {
+   "summary": "Diff-integrity lane, read-only. I parsed QUESTION_BANK from `git show HEAD:prisma/seed.ts` (bank at lines 22-15538) and from the working `prisma/seed.ts` (lines 22-15447). Both copies were placed in /private/tmp/claude-501/-Users-pabloillescas-Documents-GitHub-pyarcana/7ce613dd-3e23-4ed3-b165-9bffbd388440/scratchpad/glm-bank/diff-integrity/ and evaluated with node (extract.mjs). Then classify.py compared them slot by slot.\n\nBoth banks have the same 52 keys in the same order, 24 questions per key, and the same concept at every slot. That is 1248 questions. The task's figure of 1250 'question:' occurrences also counts the type declaration at seed.ts:14 and the insert mapping at seed.ts:15464. Everything in seed.ts outside the bank is byte-identical (lines 1-21 plus the tail).\n\nOnly five sections changed: functions-contracts (S05), files-ingestion (S08), exceptions-logging (S09), modules-packaging-cli (S10) and oop-domain (S11). Of 1248 slots, 118 changed and 1130 are identical; the other 47 sections are untouched.\n\nIntegrity:\n- Seven questions keep the same set of options in a new order: S08 slots 3, 9, 12, 19, 20 and 23, and S11 slot 9.\n- In every one of them, the option at the new correctIndex is the same text as the option at the old correctIndex. There are 0 integrity failures.\n- I mutation-tested the checker. I moved a key onto a distractor in one slot and reordered options without updating correctIndex in another. It caught both.\n- In all five sections, correctIndex now follows the D15 §4 position cycle that `scripts/apply_bank_repairs.py` (SECTION_CYCLES) enforces. At HEAD, S10 and S11 had correctIndex=1 on all 24 questions.\n\nSubstantive rewrites:\n- S05, S09, S10 and S11 were rewritten in full: options edited on 23-24 slots, explanations edited on 23-24, stems edited on 23 (S09: 10).\n- S08 is partly rewritten (17 slots with option edits) and partly reordered.\n\nI read every edited question and checked the doubtful keys against the lesson files. All keys are consistent with what the lessons teach. One key contradicts the current Python documentation: S10 slot 1 on `python -m` and the cwd. A few rewrites drift away from their concept, duplicate another slot, or carry a grammatical cue that gives the key away.\n\nD15 (audit/fixer/decisions.md:389) begins: \"Exam banks: every active section gets one; per-section rounds; ratchet (owner decision, 2026-10-05)\". Its root cause says QUESTION_BANK \"covers 47 of 52 active slugs\" and that S05/S08/S09/S10/S11 have \"no authored questions\". HEAD 29f0af20 contradicts this: all five slugs already have 24 questions. The keys were introduced by commit a492d8ea on 2026-09-16. So the uncommitted work rewrites existing banks; it does not newly author them.\n\nThe constant LONGEST_IS_CORRECT_OWED does not exist anywhere in the tree (UNDETERMINED). By my own count, the key is the strictly longest option in 1156/1248 questions at HEAD, which matches \"1,156\" in audit/fixer/DECISIONS_2026-09-21.md:205. In the working tree the count is 1107/1248.",
+   "findings": [
+    {
+     "id": "DI-1",
+     "severity": "info",
+     "claim": "Zero reorder integrity failures: in all 7 reordered questions the key text is preserved.",
+     "evidence": "classify.py over bank_head.json vs bank_work.json printed 'INTEGRITY FAILS 0'. Reorders: files-ingestion slots 3 (ci 1->0), 9 (3->1), 12 (0->3), 19 (3->0), 20 (0->3, explanation also edited), 23 (1->0); oop-domain slot 9 (1->0). The check is: sorted(options) is unchanged and options[new_ci] == options[old_ci]. Mutation proof in scratchpad/glm-bank/diff-integrity/mut/: changing files-ingestion[3].correctIndex to 1 and swapping options 0 and 1 of oop-domain[9] without fixing ci produced 'INTEGRITY FAILS 2', naming both slots."
+    },
+    {
+     "id": "DI-2",
+     "severity": "info",
+     "claim": "Only S05, S08, S09, S10 and S11 changed; the other 47 banks and all non-bank code are byte-identical to HEAD.",
+     "evidence": "Per-section counts (changed / pure-reorder / option-text-edited / stem-edited / explanation-edited / correctIndex-changed): functions-contracts 24/0/24/23/24/16; files-ingestion 23/5/17/9/17/18 (slot 6 unchanged); exceptions-logging 24/0/24/10/24/18; modules-packaging-cli 23/0/23/23/23/18 (slot 20 unchanged); oop-domain 24/1/23/23/23/18. TOTAL 118 changed, 1130 unchanged. Slot moves between positions: 0. Option-count changes: 0. diff of seed.ts lines 1-21 plus the tail after the bank: identical. Same 52 keys in the same order; per-slot concept sequence identical."
+    },
+    {
+     "id": "DI-3",
+     "severity": "major",
+     "claim": "S10 modules-packaging-cli slot 1 keys the claim that `python -m` 'evita depender del cwd'. The current Python documentation says the opposite.",
+     "evidence": "Work key: '`python -m` usa la entrada del paquete y evita depender del `cwd`'. docs.python.org/3/using/cmdline.html, under -m: 'As with the -c option, the current directory will be added to the start of sys.path'; only -P / PYTHONSAFEPATH stops this. The HEAD key ('reduce imports frágiles por cwd') and the lesson (src/lib/course/sections/s10-modules-packaging-cli.ts:98 and :812, 'sin pelear con sys.path') carry the same simplification, so this is pre-existing and was kept in the rewrite."
+    },
+    {
+     "id": "DI-4",
+     "severity": "minor",
+     "claim": "S10 slot 3 now says a mutual import makes the package fail at startup; HEAD's key was more precise about partial initialization.",
+     "evidence": "Work key: 'El paquete falla al arrancar por el import circular'. HEAD key: 'ImportError/atributos a medio inicializar al importar'. The lesson makes the same claim (s10-modules-packaging-cli.ts:742), so the key is consistent with the lesson. In real Python a circular import fails only when a name is used before its module finishes initializing."
+    },
+    {
+     "id": "DI-5",
+     "severity": "minor",
+     "claim": "S11 slot 22 changed concept: the clock/uuid seam question became a repository-fake question that duplicates slots 17 and 20.",
+     "evidence": "HEAD stem: 'Dependencia de reloj/uuid en el dominio se maneja mejor'. Work stem: '¿Cómo se prueba un servicio sin depender de red ni base de datos?', key 'Inyectar un repositorio falso que implemente save y get'. This overlaps slot 20 ('Probar con un repositorio falso sin reescribir las reglas') and slot 17 (FakeStore in memory). grep for clock/uuid in s11-oop-domain.ts finds nothing, so the drift is consistent with D15 §2 (only taught content). But the domain-deps-tests family loses one distinct skill, which conflicts with D15 §3 parallelism."
+    },
+    {
+     "id": "DI-6",
+     "severity": "minor",
+     "claim": "S08 slot 7 (concept csv-dialects-headers) now tests the order of Decimal conversion, not CSV headers or dialects.",
+     "evidence": "Work stem: 'Antes de convertir un monto leído desde CSV, ¿qué orden sigue el pipeline?', key 'Valida que sea texto ASCII con formato decimal y luego usa Decimal'. The key is correct and grounded (s08-files-ingestion.ts:196 uses isascii and isdecimal). Siblings slot 6 (DictReader keys) and slot 8 (delimiter) stay on-concept, so the variants are no longer parallel."
+    },
+    {
+     "id": "DI-7",
+     "severity": "minor",
+     "claim": "In S09 slots 20, 21 and 22, only the key fits the stem grammatically, which gives the answer away; the slot 20 key is also a telegraphic fragment.",
+     "evidence": "Slot 20 stem: '¿Cuándo puede declararse éxito parcial...?' Key: 'Conteos, entradas críticas, política válida'. Distractors are actions ('Mentir el exit code 0...'). Slot 21 stem: '¿Cuándo es candidato un fallo a reintento...?' The only option starting 'Cuando...' is the key; the distractors are exception types. Slot 22 stem: '...debe ser preferentemente:' Key: 'El receptor verifica la clave y evita duplicados', which does not complete the sentence; distractors 0-2 do. All three keys are correct in substance (s09-exceptions-logging.ts:400 grounds the partial-success rule)."
+    },
+    {
+     "id": "DI-8",
+     "severity": "info",
+     "claim": "Edited keys whose meaning changed were checked against the lessons and are consistent.",
+     "evidence": "S10 slot 19: the key flipped from 'None puede significar limpiar' to 'Ambos conservan el valor previo', which matches merge_config skipping None (s10-modules-packaging-cli.ts:329-334). S10 slot 23: the stem changed from the --force default to the log_level default INFO (s10:338, :628). S10 slot 13: exit codes 0/1/2 (s10:581). S05 slot 10: parse_monto returning 'no es entero' (s05-functions-contracts.ts:1212-1215). S05 slot 19: make_prefixer (s05:443). S11 slot 10: entity_id identity with display_name compare=False (s11-oop-domain.ts:210-212). S11 slot 4: Transaction must be a positive Decimal and currency in {PEN, USD} (s11:1015). S11 slot 15: Protocol get/save (s11:304-306). S09 slot 13: extra/Formatter (s09 has 3 'extra=' and 7 'Formatter' hits)."
+    },
+    {
+     "id": "DI-9",
+     "severity": "info",
+     "claim": "The length-cue debt fell from 1156 to 1107, but S08 and S09 still have the key as strictly longest in 18 of 24 questions. The constant LONGEST_IS_CORRECT_OWED does not exist in the tree.",
+     "evidence": "Strictly-longest key per section, HEAD -> work: S05 21->9, S08 22->18, S09 23->18, S10 22->7, S11 22->9. Bank-wide: 1156->1107 strictly longest, 1165->1119 tied-or-longest. grep -rIi for LONGEST_IS_CORRECT outside node_modules/.git found nothing (UNDETERMINED which ratchet the task meant). The only length-tell check found is scripts/curriculum_editorial_audit.py:234-282 (LENGTH_TELL)."
+    },
+    {
+     "id": "DI-10",
+     "severity": "info",
+     "claim": "D15's root cause ('47 of 52', 'no authored questions' for the five sections) is contradicted by HEAD, where all five slugs already hold 24 questions.",
+     "evidence": "audit/fixer/decisions.md:389-395. At HEAD (29f0af20) bank_head.json has the keys functions-contracts, files-ingestion, exceptions-logging, modules-packaging-cli and oop-domain with 24 questions and 8 concepts each. Those keys were introduced by a492d8ea (2026-09-16, 'give S01-S13 ids...'). So course-state/exam_bank_coverage_floor.json covered_floor=52 is already met at HEAD, and the uncommitted work rewrites the banks. Also, the docstring of scripts/apply_bank_repairs.py says 'Written 2026-10-01' and cites D15 §4, which is dated 2026-10-05. Why the 47/52 measurement disagreed with HEAD is UNDETERMINED."
+    }
+   ],
+   "numbers": {
+    "sections_total": 52,
+    "questions_total": 1248,
+    "question_colon_occurrences": 1250,
+    "sections_changed": 5,
+    "questions_changed": 118,
+    "questions_unchanged": 1130,
+    "pure_reorder": 6,
+    "reorder_with_other_edits": 1,
+    "option_text_edited": 111,
+    "stem_edited": 88,
+    "explanation_edited": 111,
+    "correctIndex_changed": 88,
+    "integrity_failures": 0,
+    "mutants_caught": 2,
+    "slot_moves": 0,
+    "longest_strict_head": 1156,
+    "longest_strict_work": 1107,
+    "cycle_conformant_sections": 5,
+    "per_section": {
+     "functions-contracts": {
+      "changed": 24,
+      "reorder": 0,
+      "options_edited": 24,
+      "stem": 23,
+      "expl": 24,
+      "ci": 16
+     },
+     "files-ingestion": {
+      "changed": 23,
+      "reorder": 6,
+      "options_edited": 17,
+      "stem": 9,
+      "expl": 17,
+      "ci": 18
+     },
+     "exceptions-logging": {
+      "changed": 24,
+      "reorder": 0,
+      "options_edited": 24,
+      "stem": 10,
+      "expl": 24,
+      "ci": 18
+     },
+     "modules-packaging-cli": {
+      "changed": 23,
+      "reorder": 0,
+      "options_edited": 23,
+      "stem": 23,
+      "expl": 23,
+      "ci": 18
+     },
+     "oop-domain": {
+      "changed": 24,
+      "reorder": 1,
+      "options_edited": 23,
+      "stem": 23,
+      "expl": 23,
+      "ci": 18
+     }
+    }
+   }
+  }
+ },
+ {
+  "lane": "cue-measurement",
+  "result": null
+ },
+ {
+  "lane": "tooling-review",
+  "result": {
+   "summary": "Tooling review of the GLM exam-bank lane. I ran everything against copies in /private/tmp/claude-501/-Users-pabloillescas-Documents-GitHub-pyarcana/7ce613dd-3e23-4ed3-b165-9bffbd388440/scratchpad/glm-bank/tooling-review/ (base/, replay/, fa/, fr/, fau/, lc/). The owner's tree was only read.\n\nD15 is at audit/fixer/decisions.md:389-432 (uncommitted). Its §4 says: \"within a question the four options stay within a similar length band (the correct answer is not systematically the longest); across a family the three stimuli stay similar in length...; correctIndex follows the section's position cycle (the rebalancer's desiredCycle contract applied across the 24 questions in family × variant order).\" Its §6 says: \"every active section's slug must be present in QUESTION_BANK with ≥8 concepts and exactly 3 variants per concept, and the count of covered sections is a floor that can never worsen (47 today...)\".\n\nVerdict: not approvable as is. Provenance is good: the codex results are on disk in .fixer, and the working seed matches them exactly. The tooling itself is weak.\n- apply_bank_repairs.py can never repair slot 23 (its own balance gate catches it). It silently reverts a later repair when an earlier set is rerun. It lets 3- or 5-option questions and raw CR characters through, and a CR produces invalid TypeScript.\n- rebalance_exam_bank_positions.py only sees the 5 double-quoted bank keys. One valid TS formatting variant makes --write move 20 of 24 answers off the cycle while it still reports uniform_ok=true. It has no write gates.\n- The new audit checks never check correctIndex positions. Its cosmetic-rewording check catches only exact duplicates. \"Exactly 3 variants\" is report-only. Deleting the floor file lets coverage regress with exit 0.\n- Complexity over the ceiling of 15: apply main is 54, bracket_balance 28, rebalance main 21, bank_balance_issues 18, and audit main rose from 16 to 27.\n- No tests exist for any of these scripts.\n\nD15's premise that the base covered \"47 of 52\" is false at HEAD 29f0af20. The new ratchet code itself reports 52/52 on the HEAD seed. Whether production DBs really served 404s is UNDETERMINED.\n\nThe LONGEST_IS_CORRECT_OWED=1125 ratchet is not in HEAD. It lives only in .claude/worktrees/test-hardening (commit 5f36c888, branch claude/ci-done-gates). Its measure falls to 1079 on the working seed, so its equality test would fail until the constant is lowered. Its docstring rule \"never trim the key\" conflicts with the GLM S08bandfix prompt, which says \"Trim the correct option to the band\".\n\nResearch: Haladyna, Downing and Rodriguez (2002) support D15 §4. Their guidelines say to vary the key position and keep option lengths about equal (https://eric.ed.gov/?id=EJ660246, https://cmapspublic3.ihmc.us/rid=1P2XTLCSS-11K09T9-BD5/Haladyna_2002_-Appl_Meas_Educ.pdf). The TypeScript compiler API (ts.createSourceFile with parseDiagnostics) is the standard syntactic check (https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/). The repo already uses it in scripts/rebalance_selfcheck_positions.mjs, and the GLM scripts use regex instead.",
+   "findings": [
+    {
+     "id": "T1",
+     "severity": "blocker",
+     "claim": "apply_bank_repairs.py cannot repair the last slot (index 23) of any bank. The replacement drops the bank's closing ']'.",
+     "evidence": "block = original[km.end():i] includes the closing ']' (apply_bank_repairs.py:155-162). The last split part is replaced wholesale by np (lines 210-214), and np has no '\\n  ]'. Replaying S05bankaudit (which repairs slot 23) on the HEAD seed copy gave 'refusing to write: candidate is unbalanced (unbalanced } at char 572133)', exit 1. The same happened for S09/S10/S11. Isolated test r23.json, slot 23 only: same refusal (falsify case G9). The gate fires, but the tool cannot do what the codex repair sets require. So the working seed was NOT produced by this script version as written."
+    },
+    {
+     "id": "T2",
+     "severity": "major",
+     "claim": "The docstring promises 'refuses a repair whose slot is already repaired (no silent double-apply)'. In fact the script overwrites any slot whose text differs, so rerunning an older repair set silently reverts a newer one.",
+     "evidence": "Implementation: an exact-match idempotency skip only (apply_bank_repairs.py:191-204). There is no record of applied repairs. Test: on a copy of the working seed, `apply_bank_repairs.py .fixer/S08bankaudit.result.json --write` gave 'applied 1 repair(s)... integrity gates pass', exit 0. The diff reverted the S08bandfix slot 2 option from 'Path ofrece exists y read_text y unifica separadores entre sistemas' to the pre-bandfix 86-char key. Duplicate repair indexes are also collapsed silently by the dict at line 139: falsify case G1 kept the second entry, exit 0."
+    },
+    {
+     "id": "T3",
+     "severity": "major",
+     "claim": "apply_bank_repairs.py integrity gates miss schema and syntax defects: 3 or 5 options, empty strings, and raw CR all pass. A CR produces a seed that TypeScript cannot parse.",
+     "evidence": "Falsify harness fa/ on the S09 slot-0 repair, checked with the TypeScript parser (tscheck.cjs uses ts.createSourceFile parseDiagnostics):\n- G2 (3 options): exit 0, wrote.\n- G2b (5 options): exit 0, wrote.\n- G8 (all empty strings): exit 0, wrote.\n- G3 ('\\r' in question): exit 0, wrote, 'ts_parse_errors=9 first: Unterminated string literal'. tsv() at line 129-130 escapes only \\\\, ' and \\n.\n- Gates that do fire: G4 concept mismatch, G5 slot 24, G6 off-cycle correctIndex.\nThe repair schema is never validated by the script (no jsonschema use). Docstring claims not implemented: 'bank count identical' is not checked across the whole file; after writing, only bracket balance is rechecked (lines 262-266)."
+    },
+    {
+     "id": "T4",
+     "severity": "major",
+     "claim": "Bracket scanning in all three scripts is not string-aware. A legitimate '[0, 5)' in a repair or in the seed crashes apply_bank_repairs with an IndexError.",
+     "evidence": "Naive depth loops: apply_bank_repairs.py:155-161 and 232-238; rebalance_exam_bank_positions.py:66-72; audit parse_question_bank_sections. Falsify G7 (a repair question containing '[0, 5)') and G10 (the seed holding '[0, 5)' in an S09 explanation) both ended with 'IndexError: string index out of range', exit 1. They fail closed, but by crashing, and a valid half-open-interval text can never be applied. Today's seed has 0 strings with unbalanced brackets (scan of all literals), so it works by luck."
+    },
+    {
+     "id": "T5",
+     "severity": "major",
+     "claim": "rebalance_exam_bank_positions.py silently processes only the 5 double-quoted bank keys. One TS-valid formatting variant makes --write scramble the cycle while it reports uniform_ok=true. There are no write gates and the exit code is always 0.",
+     "evidence": "- Key regex rf\"\\n\\s*\\\"{slug}\\\":\\s*\\[\" (line 62) matches only double quotes. The seed has 44 single-quoted and 3 unquoted keys. A baseline dry-run reported banks=5.\n- An unmatched question is skipped without incrementing k (lines 80-86), so all later questions shift cycle position.\n- R1, double-quoted options in S08 slot 3: on-cycle 24/24 became 4/24, reordered=20, uniform_ok=True.\n- R2, single-line options array in slot 0: on-cycle 24/24 became 1/24, uniform_ok=False, but it still wrote, exit 0.\n- R3, single-quoted 'oop-domain' key: the bank vanished from the report (banks_reported=4).\n- uniform_ok is vacuous when nothing is reordered: before/after distributions stay {} (lines 100-127).\n- Dead code at lines 106-107 (a loop body of `pass`)."
+    },
+    {
+     "id": "T6",
+     "severity": "major",
+     "claim": "The D15 audit additions do not implement D15 §4's position cycle at all. §3 'not cosmetic rewording' and §6 'exactly 3 variants' are report-only and easy to defeat.",
+     "evidence": "Falsify harness fau/:\n- A5 (every correctIndex in S05 set to 1): ok=True, no issue.\n- A4 (variant B = '[B] ' + variant A's question): ok=True, no issue. Only exact duplicates are caught (A3 gives a P1 but ok=True, since ok = no P0, audit line 399).\n- A1 (one concept with 1 variant): P1 bank_concept_variants_ne_3, but ok=True and covered stays 52.\nReal data the checks miss:\n- S12 and S13 (seed.ts:3485ff) are tag-only placeholders: all 8 families have identical options, and the questions differ only by '[S12/A]', '[S12/B]', '[S12/C]'. These are stand-ins under the 5 Oct rule.\n- 29 of 52 banks have correctIndex==1 for all 24 questions.\n- The option-length band uses sorted(opts)[1] (the lower of the two middles) as 'median' and is P2 only: 264 hits with ok=True."
+    },
+    {
+     "id": "T7",
+     "severity": "major",
+     "claim": "The coverage-floor ratchet can be lowered silently by deleting course-state/exam_bank_coverage_floor.json. The audit also auto-writes the floor as a side effect.",
+     "evidence": "A missing floor file defaults to 0, and the audit rewrites the file whenever covered > floor (audit diff around new line 352). A9 (S05 bank cut to 6 concepts plus floor file deleted): exit=0, ok=True, the floor file was regenerated at 51, and only a P1 bank_concepts_lt_8 was raised. With the file present the same defect gives P0 (A2: ok=False). The floor value of 52 (generated_at 2026-10-05T14:18:02) was written by the audit itself, not by the owner. D15 says '47 today'."
+    },
+    {
+     "id": "T8",
+     "severity": "major",
+     "claim": "D15's root-cause premise does not match the base commit: HEAD 29f0af20 already has 24 authored questions for S05, S08, S09, S10 and S11 under their current slugs, and the new ratchet reports 52/52 on it.",
+     "evidence": "`git show HEAD:prisma/seed.ts` line 1339 is '\"functions-contracts\": [' with authored items, e.g. 'En un normalizador de intake, ¿qué devuelve una función Python si no hay `return` explícito?'. The keys were added in a492d8ea. Running the new audit on the HEAD seed copy (headrun/) gave bank_coverage {'covered': 52, 'of': 52, 'floor': 52}. Whether runtime DBs 404'd is UNDETERMINED: it depends on deployed seeding state, which I could not observe."
+    },
+    {
+     "id": "T9",
+     "severity": "major",
+     "claim": "Cyclomatic complexity: four functions are new or worse over the ceiling of 15. The repo's complexity gate does not scan Python, so nothing catches this.",
+     "evidence": "Radon-style AST counter (scratch cc.py):\n- apply_bank_repairs.py:133 main CC=54\n- apply_bank_repairs.py:47 bracket_balance CC=28\n- rebalance_exam_bank_positions.py:56 main CC=21\n- exam_selfcheck_pedagogy_audit.py:213 bank_balance_issues CC=18\n- exam_selfcheck_pedagogy_audit.py:315 main CC=27, up from 16 at HEAD\nUnder the ceiling: bank_of 12, parse_question_bank_sections 11. scripts/complexity_gate.mjs lints only src/**/*.ts(x)."
+    },
+    {
+     "id": "T10",
+     "severity": "major",
+     "claim": "There are no tests for apply_bank_repairs.py, rebalance_exam_bank_positions.py, the schemas or the D15 audit checks. This violates AGENTS.md's 'real test for every change'.",
+     "evidence": "`grep -rnE 'exam_selfcheck|apply_bank|rebalance_exam|QUESTION_BANK|exam_bank' tests` returned nothing. The only wiring is package.json:40 test:exam-pedagogy, which runs the audit. The audit exits 0 on all P1/P2 findings."
+    },
+    {
+     "id": "T11",
+     "severity": "minor",
+     "claim": "The position cycle is keyed to the mutable display number (`index:` field), and the cycle table is hardcoded in three places. A +2/+3 renumber after S18 would change the required cycle for every shifted bank, and no check would notice.",
+     "evidence": "SECTION_CYCLES is defined at apply_bank_repairs.py:29, rebalance_exam_bank_positions.py:30-35 and scripts/rebalance_selfcheck_positions.mjs:32-37. Mapping: SECTION_CYCLES[(index-1)%4]. A shift of 2 or 3 is nonzero mod 4, so all post-S18 banks change cycle. The 5 on-cycle banks (S05, S08-S11) are below S18 and unaffected. The post-S18 banks are on-cycle only 4-8 of 24 today, so the immediate impact is nil. After a renumber, apply_bank_repairs' all-slots cycle check (lines 256-257) would refuse repairs to any shifted bank that had been rebalanced. The audit has no cycle check (T6), so off-cycle drift would go unseen."
+    },
+    {
+     "id": "T12",
+     "severity": "minor",
+     "claim": "Leftover no-op code is present: a 5 Oct rule item to report.",
+     "evidence": "- apply_bank_repairs.py:164: `re.match(OBJ_SPLIT_RE[1:] if False else r\"...\", p)`. The dead branch would raise TypeError if ever reached.\n- Line 198: `[(\"\".join(o)) for o in r[\"options\"]]` is an identity.\n- The idempotency check compares TS-escaped seed text with raw JSON text, so any repair containing ' or \\\\ never registers as already applied.\n- rebalance_exam_bank_positions.py:106-107 is a `for ...: pass` loop.\nNo TODO, stub or placeholder markers were found in the tooling. The content stand-ins are S12 and S13 (T6)."
+    },
+    {
+     "id": "T13",
+     "severity": "info",
+     "claim": "Provenance is auditable and intact. The working seed equals the codex outputs for every repaired slot. The only post-hoc edit to the result files is section_id.",
+     "evidence": "In .fixer: S05bank, S05bankaudit, S08bankaudit, S08bandfix, S09bankaudit, S10bankaudit and S11bankaudit (.prompt.txt, .codex.log, .result.json). Comparing each result.json to the last JSON in its codex.log:\n- S05bankaudit and S05bank are identical.\n- S08, S09, S10, S11 and bandfix differ only in section_id ('S08' changed to 'files-ingestion', etc.). All five result files share mtime Oct 5 17:28:50, and the rewrite is not logged.\nA dry-run of each set on the working seed gives 0 pending, except S08bankaudit with 1 pending, which is slot 2 superseded by bandfix. Per-bank text changes vs HEAD (S05 24, S08 18, S09 24, S10 23, S11 23) match the repair counts. Codex: v0.159.1, model gpt-5.6-sol, read-only sandbox. Missing compared with other rounds: no .apply.json, .run.txt or .prompt.sha256 for the bank runs."
+    },
+    {
+     "id": "T14",
+     "severity": "info",
+     "claim": "LONGEST_IS_CORRECT_OWED is not in HEAD or in the owner's tree. It lives only in a worktree branch, its measure mis-attributes the five GLM banks, and its rule conflicts with the GLM bandfix method.",
+     "evidence": "rg found it only at .claude/worktrees/test-hardening/tests/adversarial/test_exam_length_cue.py:33 (=1125; commit 5f36c888 on claude/ci-done-gates; not an ancestor of HEAD). Its _BANK regex `^  '([a-z0-9-]+)': \\[` sees only single-quoted keys, so S05 and S08-S11 are counted inside 'iteration-summaries' and setup/basics are not measured. Under its measure: HEAD 1125/1200, working 1079/1200, so test_repairs_are_kept (an equality assertion) would fail until the constant is lowered to 1079. My full count over 1248 questions with the key tied-longest: HEAD 1165, working 1119. The test docstring says 'Writing distractors as long as the key is the fix, never trimming the key'. .fixer/S08bandfix.prompt.txt instructs 'Trim the correct option to the band'."
+    },
+    {
+     "id": "T15",
+     "severity": "info",
+     "claim": "Exam runtime does not shuffle options and draws one variant per concept. The cycle therefore reaches learners as authored. Reseeding deletes every QuestionBank row, which touches D15 §7.",
+     "evidence": "src/app/api/exam/start/route.ts:108 picks one random variant. Lines 117-121 shuffle question order only. Lines 140-145 return options as stored. prisma/seed.ts:15457ff begins with `prisma.questionBank.deleteMany({})`, and ExamAttempt.variantSeed stores questionId, so deploying the new banks needs a reseed that §7 leaves ask-first. Option shuffling at runtime would be an alternative to the static cycle; that trade-off is not recorded in D15."
+    }
+   ],
+   "numbers": {
+    "d15_location": "audit/fixer/decisions.md:389-432",
+    "apply_main_cc": 54,
+    "apply_bracket_balance_cc": 28,
+    "rebalance_main_cc": 21,
+    "audit_bank_balance_issues_cc": 18,
+    "audit_main_cc_head": 16,
+    "audit_main_cc_working": 27,
+    "apply_gates_tested": 13,
+    "apply_gates_fired": 6,
+    "apply_defects_passed": 7,
+    "rebalance_banks_seen": 5,
+    "bank_keys_total": 52,
+    "bank_keys_double_quoted": 5,
+    "rebalance_R1_on_cycle_after": "4/24",
+    "rebalance_R2_on_cycle_after": "1/24",
+    "audit_cases_tested": 10,
+    "audit_P2_option_band_hits": 264,
+    "audit_P2_stimulus_spread_hits": 36,
+    "banks_all_correctIndex_1": 29,
+    "placeholder_banks_tag_only": 2,
+    "coverage_head_new_audit": "52/52",
+    "seed_questions_parsed": 1248,
+    "question_occurrences": 1250,
+    "longest_correct_tied_head": 1165,
+    "longest_correct_tied_working": 1119,
+    "length_cue_test_measure_head": 1125,
+    "length_cue_test_measure_working": 1079,
+    "tests_for_glm_tooling": 0,
+    "codex_results_on_disk": 7
+   }
+  }
+ },
+ {
+  "lane": "item-quality",
+  "result": {
+   "summary": "Item-quality review of the glm-5.3/codex exam-bank work, which is uncommitted in the owner's tree (base 29f0af20). Everything ran on scratch copies under /private/tmp/claude-501/-Users-pabloillescas-Documents-GitHub-pyarcana/7ce613dd-3e23-4ed3-b165-9bffbd388440/scratchpad/glm-bank/item-quality/. The owner's tree was only read.\n\nScope of the change: I evaluated the QUESTION_BANK literal for HEAD and for the working tree (node, extract.mjs). Both have 52 keys and 1248 questions; the other 2 'question:' hits fall outside the bank. Only 118 questions changed, all of them in 5 sections: functions-contracts (S05) 24, files-ingestion (S08) 23, exceptions-logging (S09) 24, modules-packaging-cli (S10) 23, oop-domain (S11) 24. No other section was touched. Of the 118, 6 changed position only and 112 were rewritten. Nothing is left to spread across other sections, so I judged all 118 against their HEAD versions.\n\nResearch: I used the NBME Item-Writing Guide, 6th edition, current PDF. Its preface is dated August 2020, its copyright line reads '1996 ... 2020, 2024', and the PDF was modified 2024-11-04. Its 'Flaws that cue the testwise examinee' (pp. 21-24) and the summary table (p. 25) cover grammatical cues, collectively exhaustive options, absolute terms, 'Correct Option Stands Out', word repetition (clang clues), convergence and 'None of the above'. On length, p. 23 says the flaw arises because writers 'construct long correct answers that include additional instructional material'. The fix on p. 25 is 'Revise options to equal length. Remove language used for teaching points and rationales.' The same table lists 'Long, complex options -> Put common text in stem; parallel construction; shorten options'. I also used Haladyna, Downing and Rodriguez (2002), whose guideline is to keep options about equal in length. The course rules come from audit/fixer/writing_rules.md.\n\nVerdicts for the 118 items:\n- better: 92 (78%)\n- same: 20 (17%)\n- worse: 6 (5%)\n- wrong key: 0\n\nPer section (better/same/worse): S05 20/3/1, S08 11/11/1, S09 19/2/3, S10 19/3/1, S11 23/1/0.\n\nThe work fixes the length cue in S05, S10 and S11, and it fixes a real position cue in S10 and S11. It mostly does not fix the length cue in S08 and S09. It removes some cues by padding distractors that are still implausible. In 4 items it adds new grammatical or homogeneity cues.\n\nD15 is at audit/fixer/decisions.md:389-436. Its root-cause premise is contradicted by HEAD: the 5 banks it calls 'no authored questions' already exist in HEAD under double-quoted keys. So the work rewrites 118 existing items; it adds no new coverage.\n\nUNDETERMINED: the LONGEST_IS_CORRECT_OWED ratchet. grep over scripts, tools, tests, audit and course-state, plus `git log --all -S LONGEST_IS_CORRECT_OWED`, finds nothing. It may live in another agent's worktree. My own course-wide count of key-longest items is 1119 including ties (1107 strict) in the working tree, against 1165 (1156 strict) at HEAD.",
+   "findings": [
+    {
+     "id": "IQ-01",
+     "severity": "major",
+     "claim": "D15's root cause is false. HEAD already had 24 authored questions for each of S05, S08, S09, S10 and S11, so the lane rewrote existing items and added no coverage. The coverage floor of 52 was already met at HEAD.",
+     "evidence": "audit/fixer/decisions.md:389-394 says these sections have 'no authored questions' and their exams 404. Yet `git show HEAD:prisma/seed.ts` has \"functions-contracts\": [ at line 1339, \"files-ingestion\" at 2025, \"exceptions-logging\" at 2363, \"modules-packaging-cli\" at 2653 and \"oop-domain\" at 2943, each with 24 questions in bank_head.json. The keys are double-quoted; they were renamed in a492d8ea (2026-09-16). The likely cause is an older parser that matched only single-quoted keys; the new parse_question_bank_sections in scripts/exam_selfcheck_pedagogy_audit.py accepts double quotes. Under AGENTS.md 'preservation first', the owner should know that 118 existing items were replaced. They were not newly authored."
+    },
+    {
+     "id": "IQ-02",
+     "severity": "info",
+     "claim": "In the changed items the length cue drops sharply: the key is the unique longest option in 52% of them, down from 93%. The cue persists in S08 and S09.",
+     "evidence": "metrics.py over the 118 changed items. Key is the unique longest option: HEAD 110 (93%), WT 61 (52%); chance is 25%. Mean key length divided by mean distractor length: 2.26 -> 1.13 (median 2.23 -> 1.09). Items with that ratio above 1.3: 108 -> 23. Max/min option length above 2x: 94 -> 6. Key-longest per section in WT: S05 9/24, S10 7/23, S11 9/24, but S08 18/23 (78%) and S09 18/24 (75%). Course-wide the key is longest in 1119 of 1248 items (ties included), down from 1165. D15 §4's 'similar length band' is met in S05, S10 and S11 but not in S08 or S09."
+    },
+    {
+     "id": "IQ-03",
+     "severity": "info",
+     "claim": "A real position cue is removed. At HEAD every S10 and S11 item had correctIndex 1, and the app shows options in stored order.",
+     "evidence": "HEAD correctIndex for modules-packaging-cli and oop-domain was [1 x 24]. In WT they cycle [1,3,0,2] and [2,0,1,3]. src/app/api/exam/start/route.ts:117-121 shuffles only the order of questions; the options go out as stored (`options: JSON.parse(q.options)` in the response). A learner who always picked option B at HEAD scored 100% on S10 and S11. Family stimulus lengths are now balanced: families whose longest stem exceeds 1.6x the shortest fell from 17 to 0 across the 5 banks."
+    },
+    {
+     "id": "IQ-04",
+     "severity": "major",
+     "claim": "Six items got worse: S09#9, S09#20, S09#21, S10#23, S08#7 and S05#16.",
+     "evidence": "S09 exceptions-logging#9: the key 'Ejemplo autocontenido con solo lo necesario' drops the defining property ('still triggers the failure'). That property now sits in distractor 'La cadena más corta que todavía falla', so the key is ambiguous. The section teaches the contrast at s09-exceptions-logging.ts:232, but a code comment at :667 says '# minimal repro: la entrada más corta'. S09#20: the key became the telegraphic list 'Conteos, entradas críticas, política válida', which does not answer '¿Cuándo...?'. That breaks writing rules A2 and B5, and the distractors are still absurd ('Mentir el exit code 0 sin métricas', which is also ungrammatical). S09#21: the stem asks '¿Cuándo es candidato...?'. Only the key starts with 'Cuando'; the three distractors are exception classes. That is a grammatical and homogeneity cue under NBME p. 25, and the key no longer names transient failures. S10 modules-packaging-cli#23: the slot changed from a transferable safe default (`--force` False) to a course-specific fact, 'S10 fija INFO'. Calling INFO 'seguro' is debatable (Python's own default level is WARNING), and 2 of the 3 distractors are absurd. S08 files-ingestion#7: the csv-dialects-headers slot drifted from 'csv yields str' to a course procedure (isascii/isdecimal, then Decimal), and the key is still the longest (66 vs 59/49/46). S05 functions-contracts#16: the stem asks '¿qué igualdad...?' and only the key contains '=='; the three distractors are prose."
+    },
+    {
+     "id": "IQ-05",
+     "severity": "major",
+     "claim": "Much of the length balancing came from padding distractors that are still implausible. That removes the length cue but leaves non-functional distractors, against NBME Rule 4 ('homogeneous and plausible').",
+     "evidence": "pad.py: mean distractor length grew x1.68 (median x1.49), and 59 of 118 items had distractors grow more than 1.5x. Mean key length went x0.89, and 61 keys shrank below 0.8x. Padded absurd distractors include: S10#3 ('La versión SemVer aumenta durante cada importación', 'El paquete mejora su rendimiento durante el arranque'), S10#7 opt1 (78 chars, 'Reemplazar por completo los módulos...'), S10#17 opt0 (79), S10#18 opt2 (83, with both 'Solo' and 'siempre'), S10#22 opt1 (86), S11#13 opt3 (67, 'Convierte automáticamente cada objeto en una tabla...') and S10#0 ('diez veces más rápidos'). In S05#1 every option was padded with a 'porque ...' rationale, which is the teaching language NBME p. 25 says to remove. Untouched absurd distractors remain in S09#7 ('Compila el código a más rápido', which is also ungrammatical), S09#11 ('Solo un emoji en el chat') and S09#15 ('Cifrar el disco')."
+    },
+    {
+     "id": "IQ-06",
+     "severity": "minor",
+     "claim": "The absolute-term cue got slightly worse: items where at least 2 distractors carry an absolute term and the key carries none rose from 22 to 27.",
+     "evidence": "cues.py regex (siempre|nunca|jamás|solo|únicamente|todos|cualquier|ningún), with code spans excluded. Items where all 3 distractors are absolute and the key is not: 7 -> 7. Examples: S05#23 ('Solo...' x3 vs the key), S09#19 ('cualquier', 'Siempre', 'Nunca; siempre' vs the key), S08#17 (two distractors with 'siempre'). The full list is in pad.py output. NBME p. 22 and p. 25 say to eliminate absolute terms and use short homogeneous options."
+    },
+    {
+     "id": "IQ-07",
+     "severity": "minor",
+     "claim": "New or persisting grammatical and homogeneity cues where the key does not follow the lead-in the way the distractors do.",
+     "evidence": "S09#22: the stem ends 'debe ser preferentemente:'. Distractors are adjectives ('Repetible...', 'Segura...', 'Correcta...'), and the key is a full clause ('El receptor verifica la clave...'). S09#10 (persists from HEAD): after 'debe ser:', two distractors are infinitives ('Culpar siempre a la red', 'Cambiar diez cosas a la vez'). S05#18 (persists): '¿en qué orden indica LEGB...?' is answered by spelling out the acronym, so the stem is a clang clue for the key. S08#21: three distractors end in a 'sin ...' restriction and the key does not, which lets a test-taker spot the odd one out."
+    },
+    {
+     "id": "IQ-08",
+     "severity": "minor",
+     "claim": "More stems now ask the learner to recall the section's wording ('Según la sección', 'en S11', 'S05 ...') instead of applying a transferable concept.",
+     "evidence": "Stems matching S\\d\\d|sección|el curso|según: HEAD 17 -> WT 26 of the 118. The cause is D15 §2: items may use only what the section teaches. So S11#22 correctly dropped clock/uuid injection; s11-oop-domain.ts has 0 hits for clock, uuid and datetime.now at both HEAD and WT. But S11#22 now repeats S11#20 (inject a fake repository). S10#3's key ('falla al arrancar por el import circular') overgeneralises Python; it mirrors s10-modules-packaging-cli.ts:742 and is hedged only by 'Según la sección'."
+    },
+    {
+     "id": "IQ-09",
+     "severity": "info",
+     "claim": "Spanish quality improved under writing_rules.md, with one style inconsistency.",
+     "evidence": "Over the 118 items: English-dominant tokens outside code (D7 heuristic) 52 -> 24 (e.g. 'overridea', 'boilerplate', 'swap', 'fail-fast' were removed). D3 paired-mark violations: 0 -> 0. Double spaces: 0. No explanation sentence exceeds 32 words (D1). Inconsistency: all 96 S05 options end with a period, while 0 of 96 options end with one in each of S08, S09, S10 and S11. Ungrammatical HEAD distractors were left unchanged: 'clean + quarantine <= in siempre puede sobrar sin explicación' (S08#11), 'Mentir el exit code 0' (S09#20), 'Compila el código a más rápido' (S09#7)."
+    },
+    {
+     "id": "IQ-10",
+     "severity": "info",
+     "claim": "No item has a wrong key. Keys that now depend on section code were checked against the section source.",
+     "evidence": "merge_config skips None (s10-modules-packaging-cli.ts:329-336 and :2161-2164), so S10#19's key 'Ambos conservan el valor previo' holds. parse_monto and 'no es entero' appear in s05-functions-contracts.ts (7 and 3 hits; S05#10). Optional[str] has 4 hits (S05#11). isascii/isdecimal/uuid4/run_id/record_number appear in s08-files-ingestion.ts (4/3/8/35/10; S08#7, #10, #21). PEN/USD and compare=False appear in s11-oop-domain.ts (24/14; S11#4, #10). Caveat: the section files are themselves modified in the working tree (git diff --stat over sections: 7 files, +3797/-1890), and I verified against those modified versions."
+    },
+    {
+     "id": "IQ-11",
+     "severity": "info",
+     "claim": "UNDETERMINED: the LONGEST_IS_CORRECT_OWED ratchet value. No file in this checkout defines it.",
+     "evidence": "`grep -rIn LONGEST_IS_CORRECT` (excluding node_modules and .git) finds nothing, and `git log --all -S LONGEST_IS_CORRECT_OWED` finds nothing. The closest existing check is scripts/curriculum_editorial_audit.py:234-282 (LENGTH_TELL). Measured instead: the key is the longest option (ties included) in 1119 of 1248 items in WT, 1165 at HEAD."
+    }
+   ],
+   "numbers": {
+    "bank_keys_head": 52,
+    "bank_keys_wt": 52,
+    "bank_questions_head": 1248,
+    "bank_questions_wt": 1248,
+    "question_colon_occurrences": 1250,
+    "changed_questions": 118,
+    "changed_by_section": {
+     "functions-contracts": 24,
+     "files-ingestion": 23,
+     "exceptions-logging": 24,
+     "modules-packaging-cli": 23,
+     "oop-domain": 24
+    },
+    "changed_outside_S05_S08_S11": 0,
+    "position_only_changes": 6,
+    "sampled_and_judged": 118,
+    "verdict_better": 92,
+    "verdict_same": 20,
+    "verdict_worse": 6,
+    "verdict_wrong_key": 0,
+    "rate_better_pct": 78,
+    "rate_same_pct": 17,
+    "rate_worse_pct": 5,
+    "rate_wrong_key_pct": 0,
+    "per_section_better_same_worse": {
+     "S05": [
+      20,
+      3,
+      1
+     ],
+     "S08": [
+      11,
+      11,
+      1
+     ],
+     "S09": [
+      19,
+      2,
+      3
+     ],
+     "S10": [
+      19,
+      3,
+      1
+     ],
+     "S11": [
+      23,
+      1,
+      0
+     ]
+    },
+    "worse_items": [
+     "exceptions-logging#9",
+     "exceptions-logging#20",
+     "exceptions-logging#21",
+     "modules-packaging-cli#23",
+     "files-ingestion#7",
+     "functions-contracts#16"
+    ],
+    "changed_key_unique_longest_head": 110,
+    "changed_key_unique_longest_wt": 61,
+    "changed_key_longest_wt_by_section": {
+     "S05": 9,
+     "S08": 18,
+     "S09": 18,
+     "S10": 7,
+     "S11": 9
+    },
+    "mean_key_to_distractor_len_ratio_head": 2.26,
+    "mean_key_to_distractor_len_ratio_wt": 1.13,
+    "ratio_gt_1_3_head": 108,
+    "ratio_gt_1_3_wt": 23,
+    "spread_gt_2x_head": 94,
+    "spread_gt_2x_wt": 6,
+    "distractor_length_growth_mean": 1.68,
+    "items_distractors_grew_gt_1_5x": 59,
+    "abs_cue_ge2_distractors_head": 22,
+    "abs_cue_ge2_distractors_wt": 27,
+    "english_tokens_head": 52,
+    "english_tokens_wt": 24,
+    "course_recall_stems_head": 17,
+    "course_recall_stems_wt": 26,
+    "family_stimulus_spread_gt_1_6_head": 17,
+    "family_stimulus_spread_gt_1_6_wt": 0,
+    "coursewide_key_longest_incl_ties_head": 1165,
+    "coursewide_key_longest_incl_ties_wt": 1119,
+    "coursewide_key_longest_strict_head": 1156,
+    "coursewide_key_longest_strict_wt": 1107,
+    "LONGEST_IS_CORRECT_OWED": "UNDETERMINED (not defined in checkout or git history)",
+    "sources": [
+     "https://www.nbme.org/sites/default/files/2021-02/NBME_Item%20Writing%20Guide_R_6.pdf (301 -> https://info.nbme.org/rs/552-QHC-046/images/NBME_Item-Writing-Guide.pdf; 6th ed., pp.13,19,21-25)",
+     "https://eric.ed.gov/?id=EJ660246 (Haladyna, Downing & Rodriguez 2002)"
+    ],
+    "scratch_dir": "/private/tmp/claude-501/-Users-pabloillescas-Documents-GitHub-pyarcana/7ce613dd-3e23-4ed3-b165-9bffbd388440/scratchpad/glm-bank/item-quality"
+   }
+  }
+ },
+ {
+  "lane": "docs-check",
+  "result": {
+   "summary": "Docs-check lane. I read PR #81's files with git show and wrote nothing in the owner's tree. Every doc I fetched went to scratchpad/glm-bank/docs-check/ (GitHub docs raw-article API, the GitHub REST OpenAPI description, actions/* READMEs and sources, and the scipy 1.13.1 HTML docs plus the v1.13.1 source).\n\n(1) deploy.yml on origin/claude/renumber-phase0-sentinel. Every claim it relies on is CONFIRMED by the current GitHub docs:\n- Under workflow_run, GITHUB_SHA is \"Last commit on default branch\".\n- head_sha, head_branch, event and conclusion exist, and 'success' and 'push' are valid values.\n- The branches filter applies to the branch the triggering workflow ran on.\n- The workflow file must exist on the default branch.\n- Pages deploys need pages: write and id-token: write. No doc restricts the triggering event.\n\nTwo NUANCED points:\n- The security caveat applies only weakly. This workflow checks out and builds head_sha, which is safe only because of the event=='push' && head_branch=='main' guard.\n- The workflow-level `concurrency: cancel-in-progress: true` runs before the job-level `if`. So a deploy run that later skips can still cancel a real deploy that is in progress. GitHub's own Pages starter uses cancel-in-progress: false.\n\nTwo version notes, both also true on main: upload-pages-artifact@v3 and deploy-pages@v4 are not the latest (v5.0.0 and v5.0.1), and both declare node20. GitHub forced node20 actions onto Node 24 from 16 June 2026 and removed Node 20 on 23 September 2026.\n\n(2) scipy is pinned at requirements-content.txt:20 (scipy==1.13.1). Every assumed API is CONFIRMED in the 1.13.1 docs:\n- BinomTestResult.proportion_ci accepts method='wilson'. The default is 'exact'.\n- chi2_contingency has correction=True.\n- ttest_ind has equal_var=True; False gives Welch's test.\n- f_oneway(*samples, ...) and chisquare(f_obs, f_exp=None, ddof=0, axis=0) exist.\n- t.ppf(q, df) and norm.ppf(q) exist.\n\nI also ran each call in .venv-content (Python 3.12.12, scipy 1.13.1) with -B and PYTHONDONTWRITEBYTECODE=1, from the scratchpad. All of them work. I could not find the statistics design document in the repo or the session scratchpad. The signatures it 'assumed' are therefore UNDETERMINED. I can only report the signatures that exist.\n\n(3) The forty-zeros `before` on a push that creates a branch is NUANCED. GitHub's push webhook schema (docs and OpenAPI) describes `before` only as \"The SHA of the most recent commit on ref before the push\" and never mentions zeros. A WebFetch summary claimed it did; the raw text shows it does not. The zeros are documented officially only for the receive side, in the GHES pre-receive hook doc and in git's githooks(5). Community reports confirm github.event.before is forty zeros in Actions. The sentinel test /^0+$/ is robust to the length. Its fallback (merge-base with origin/main) works because checkout with fetch-depth: 0 fetches all branches.\n\nD15 is quoted from audit/fixer/decisions.md:389-431.",
+   "findings": [
+    {
+     "id": "DC1",
+     "severity": "info",
+     "claim": "CONFIRMED: under workflow_run, github.sha / GITHUB_SHA is the default branch's last commit, not the commit of the triggering run. The deploy.yml comment (lines 7-9) and its use of workflow_run.head_sha are correct.",
+     "evidence": "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run: table row for workflow_run reads `GITHUB_SHA` = 'Last commit on default branch', `GITHUB_REF` = 'Default branch' (raw article line 1239). Nuance: this is the tip when the run is created, not when a step executes. deploy.yml re-checks the tip with `git fetch origin main` (lines 45-52), which closes that gap. The actions/deploy-pages@v4 source labels the deployment with process.env.GITHUB_SHA (src/internal/context.js:8, `buildVersion: process.env.GITHUB_SHA`). That label can differ from head_sha only if main went backwards, so it is harmless."
+    },
+    {
+     "id": "DC2",
+     "severity": "info",
+     "claim": "CONFIRMED: github.event.workflow_run has head_sha, head_branch, event and conclusion, and 'success' and 'push' are documented values.",
+     "evidence": "GitHub REST OpenAPI description (https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json), schema webhook-workflow-run-completed.workflow_run: head_branch {string, nullable}, head_sha {string}, event {string} (the workflow-run schema shows example 'push'), conclusion enum [action_required, cancelled, failure, neutral, skipped, stale, success, timed_out, startup_failure]. The events doc gives the `github.event.workflow_run.conclusion == 'success'` pattern verbatim (raw article line 1274)."
+    },
+    {
+     "id": "DC3",
+     "severity": "info",
+     "claim": "CONFIRMED with a nuance: `branches: [main]` filters on the branch the triggering workflow ran on, which is workflow_run.head_branch. For a fork PR, head_branch is the fork's branch name, so a fork PR from a branch named 'main' passes the filter. deploy.yml's job-level `event == 'push'` guard covers this case.",
+     "evidence": "events-that-trigger-workflows raw line 1297: 'You can use the `branches` or `branches-ignore` filter to specify what branches the triggering workflow must run on in order to trigger your workflow.' The fork-PR nuance is an inference from head_branch being 'the ref that triggered' the run. The docs do not state it explicitly."
+    },
+    {
+     "id": "DC4",
+     "severity": "minor",
+     "claim": "CONFIRMED: the workflow file must exist on the default branch. Until PR #81 merges, the trigger is inert, and main's current push/workflow_dispatch deploy.yml keeps deploying in parallel with Tests. The PR cannot be exercised end-to-end in CI before the merge.",
+     "evidence": "events-that-trigger-workflows, workflow_run note (raw line 1244): 'This event will only trigger a workflow run if the workflow file exists on the default branch.' `git show origin/main:.github/workflows/deploy.yml` still has `push:` (line 4) and `workflow_dispatch:` (line 6)."
+    },
+    {
+     "id": "DC5",
+     "severity": "minor",
+     "claim": "NUANCED: the workflow-level `concurrency: {group: pages, cancel-in-progress: true}` is evaluated when the run is queued, before the job `if`. Any deploy run that later skips can therefore cancel a real deploy that is in progress. Example: Tests completes for a fork PR whose head branch is 'main' (Tests runs on pull_request into main). GitHub's own Pages starter workflow sets cancel-in-progress: false and explains why. main's deploy.yml already had cancel-in-progress: true, so PR #81 does not introduce this.",
+     "evidence": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency (raw line 13): 'To also cancel any currently running job or workflow in the same concurrency group, specify `cancel-in-progress: true`.' https://raw.githubusercontent.com/actions/starter-workflows/main/pages/static.yml: '# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.' followed by `cancel-in-progress: false`. deploy.yml lines 21-23."
+    },
+    {
+     "id": "DC6",
+     "severity": "info",
+     "claim": "CONFIRMED: the permissions and Pages actions work from a workflow_run trigger. deploy-pages requires only pages: write and id-token: write on the job and the github-pages environment, with no restriction on the triggering event. A workflow_run run also gets write tokens even when the triggering workflow did not. Environment protection rules see GITHUB_REF = the default branch (main), so a 'main only' deployment-branch policy passes.",
+     "evidence": "https://github.com/actions/deploy-pages/blob/v4/README.md lines 76-80: 'The job that executes the deployment must at minimum have the following permissions: pages: write, id-token: write'; 'The deployment should target the github-pages environment'. Events doc raw line 1247: 'The workflow started by the `workflow_run` event is able to access secrets and write tokens, even if the previous workflow was not.' deploy.yml lines 16-19 and 87-88 match. The artifact is uploaded and deployed within the same run, so there is no cross-workflow artifact trust issue."
+    },
+    {
+     "id": "DC7",
+     "severity": "minor",
+     "claim": "NUANCED: GitHub's documented workflow_run security caveat applies weakly here. The run is privileged (pages: write, id-token: write) and runs `bun install` and a build on the checked-out head_sha. That is safe only because the job condition limits it to push events on main, whose code only maintainers can push. As defense in depth, a `github.event.workflow_run.head_repository.full_name == github.repository` check is not present.",
+     "evidence": "Events doc raw line 1250: 'Running untrusted code on the `workflow_run` trigger may lead to security vulnerabilities. These vulnerabilities include cache poisoning and granting unintended access to write privileges or secrets.' https://docs.github.com/en/actions/reference/security/secure-use#mitigating-the-risks-of-untrusted-code-checkout (raw line 100): 'Workflows that use these triggers must not explicitly check out untrusted code, including from pull request forks...' deploy.yml lines 27-30 and 35-38."
+    },
+    {
+     "id": "DC8",
+     "severity": "minor",
+     "claim": "Version drift, already present on main: upload-pages-artifact@v3 and deploy-pages@v4 both declare `using: node20`. Newer majors exist: upload-pages-artifact v5.0.0 (2026-04-10, built on upload-artifact v7) and deploy-pages v5.0.1 (2026-09-01; v5.0.0 moved to Node 24). Node 20 was removed from GitHub Actions on 2026-09-23. A move to v4+ of upload-pages-artifact drops dotfiles from the artifact.",
+     "evidence": "https://raw.githubusercontent.com/actions/deploy-pages/v4/action.yml line 5 `using: 'node20'`. GitHub releases API for actions/upload-pages-artifact and actions/deploy-pages. https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/ and https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ (Node 24 default from 2026-06-16; the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION opt-out is gone). The upload-pages-artifact v4.0.0 release notes say hidden files are no longer included. I did not determine whether the actions fail or run forced on Node 24 after removal: UNDETERMINED from the changelog text."
+    },
+    {
+     "id": "DC9",
+     "severity": "info",
+     "claim": "CONFIRMED for scipy==1.13.1 (requirements-content.txt:20): binomtest(k, n, p=0.5, alternative='two-sided').proportion_ci(confidence_level=0.95, method='exact') accepts method in {'exact', 'wilson', 'wilsoncc'}.",
+     "evidence": "https://docs.scipy.org/doc/scipy-1.13.1/reference/generated/scipy.stats._result_classes.BinomTestResult.proportion_ci.html: \"method{'exact', 'wilson', 'wilsoncc'}, optional ... 'wilson': Wilson's method, without continuity correction\". Source https://raw.githubusercontent.com/scipy/scipy/v1.13.1/scipy/stats/_binomtest.py lines 49, 58 and 98-100. Ran in .venv-content (3.12.12, scipy 1.13.1) with -B from the scratchpad: binomtest(7, n=20, p=0.5).proportion_ci(method='wilson') returned ConfidenceInterval(low=0.18119..., high=0.56714...)."
+    },
+    {
+     "id": "DC10",
+     "severity": "info",
+     "claim": "CONFIRMED in 1.13.1: chi2_contingency(observed, correction=True, lambda_=None); ttest_ind(a, b, axis=0, equal_var=True, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0, *, keepdims=False); f_oneway(*samples, axis=0, nan_policy='propagate', keepdims=False); chisquare(f_obs, f_exp=None, ddof=0, axis=0); t.ppf(q, df, loc=0, scale=1); norm.ppf(q, loc=0, scale=1).",
+     "evidence": "https://docs.scipy.org/doc/scipy-1.13.1/reference/generated/scipy.stats.{chi2_contingency,ttest_ind,f_oneway,chisquare,t,norm}.html: correction applies Yates only when dof == 1; equal_var=False is Welch's test. Runtime: chi2_contingency(..., correction=False) returns a Chi2ContingencyResult(statistic, pvalue, dof, expected_freq); t.ppf(0.975, 10) = 2.2281388519649385; norm.ppf(0.975) = 1.959963984540054. Two caveats for pinned outputs: under numpy 2.2.6 (requirements-content.txt:17), results print as np.float64(...). chisquare raises ValueError when sum(f_obs) and sum(f_exp) differ beyond a relative 1e-8. The statistics design itself was not found in the repo or the session scratchpad, so whether its assumed signatures match is UNDETERMINED."
+    },
+    {
+     "id": "DC11",
+     "severity": "minor",
+     "claim": "NUANCED: the claim 'GitHub sends forty zeros as before on a push that creates a branch' is true in practice, but GitHub's push webhook/Actions docs do not state it. They only document `created: true`. The forty zeros are documented officially only on the receive side (GHES pre-receive hooks, git githooks). The tests.yml comment calls it a 'null `before`', which is inaccurate wording. The sentinel's /^0+$/ test (scripts/preservation_sentinel.mjs:73 on the branch) also covers 64-zero SHA-256 object names. Its merge-base fallback works because checkout fetch-depth: 0 fetches all branches. A stronger signal is github.event.created, which is documented.",
+     "evidence": "Push webhook schema (https://docs.github.com/en/webhooks/webhook-events-and-payloads#push, raw line 1354, and the OpenAPI webhook-push.before): 'The SHA of the most recent commit on `ref` before the push.' No mention of zeros. A WebFetch summary falsely claimed it did; the raw text refutes that. `created`: 'Whether this push created the `ref`.' GHES https://docs.github.com/en/enterprise-server@latest/admin/enforcing-policies/enforcing-policy-with-pre-receive-hooks/creating-a-pre-receive-hook-script line 23: '<old-value> ... When you create a new ref, the value is 40 zeroes.' https://git-scm.com/docs/githooks: the remote object name 'will be the all-zeroes object name'. Empirical: https://github.com/pmd/pmd-github-action/issues/128 and https://github.com/tj-actions/changed-files/issues/387. actions/checkout v4 README line 7: 'Set `fetch-depth: 0` to fetch all history for all branches and tags.' tests.yml line 33 on the branch passes github.event.before as PRESERVATION_BASE."
+    },
+    {
+     "id": "DC12",
+     "severity": "info",
+     "claim": "D15 found and quoted. Its ratchet text still says the floor is 47, while the untracked course-state/exam_bank_coverage_floor.json says 52. That is consistent only if the five missing banks (S05, S08, S09, S10, S11) were authored. D15 also records that its item-writing research was blocked, so that research is still owed.",
+     "evidence": "audit/fixer/decisions.md:389 '## D15 — Exam banks: every active section gets one; per-section rounds; ratchet (owner decision, 2026-10-05)'. :391 'prisma/seed.ts covers 47 of 52 active slugs'. :413 '4. **Balanced by construction:** ... correctIndex follows the section's position cycle'. :421 '6. **Ratchet.** ... the count of covered sections is a floor that can never worsen (47 today...)'. :429 '**Blocked research (2026-10-05, labeled weaker):** web search was unavailable for competitor-course assessment design and psychometric item-writing literature.' course-state/exam_bank_coverage_floor.json: {\"covered_floor\": 52, \"generated_at\": \"2026-10-05T14:18:02...\"}."
+    }
+   ],
+   "numbers": {
+    "github_claims_checked": 8,
+    "github_confirmed": 5,
+    "github_nuanced": 3,
+    "github_wrong": 0,
+    "scipy_claims_checked": 6,
+    "scipy_confirmed": 6,
+    "scipy_pinned_version": "1.13.1",
+    "numpy_pinned_version": "2.2.6",
+    "venv_content_python": "3.12.12",
+    "sentinel_zero_before_verdict": "NUANCED",
+    "deploy_pages_latest": "v5.0.1",
+    "upload_pages_artifact_latest": "v5.0.0",
+    "node20_removed_date": "2026-09-23",
+    "d15_decisions_md_lines": "389-431",
+    "d15_text_floor": 47,
+    "coverage_floor_json": 52,
+    "owner_tree_writes": 0
+   }
+  }
+ }
+]

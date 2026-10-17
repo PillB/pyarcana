@@ -1,6 +1,6 @@
 # Section screenshots
 
-Seven real screenshots inside course sections, approved by the owner on 2026-10-06 (decision D19
+Seven real screenshots inside course sections, approved by the owner on 2026-10-06 (decision D23
 in `audit/fixer/decisions.md`). Everywhere else D4 still applies, and a section gets no
 screenshot. An eighth needs a new owner decision, and `tests/adversarial/section-screenshots.test.ts`
 pins the set.

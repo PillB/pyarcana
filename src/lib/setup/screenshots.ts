@@ -54,7 +54,7 @@ export interface ShotSpec {
  * not reach (Creative Commons FAQ, "adaptations"); a crop or an overlay could make it an
  * adaptation. Owner decision D6 in audit/session-0/PLAN.md.
  *
- * MIT and Apache-2.0 (added 6 Oct 2026, decision D19 in audit/fixer/decisions.md): some tools
+ * MIT and Apache-2.0 (added 6 Oct 2026, decision D23 in audit/fixer/decisions.md): some tools
  * publish their documentation pictures inside a code repository under its software licence,
  * not under Creative Commons (the Ruff extension's README, MIT; Playwright's docs, Apache-2.0).
  * Both allow commercial reuse and modification. Both make the copy carry a notice: MIT its

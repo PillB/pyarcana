@@ -34,8 +34,10 @@ def main() -> int:
     scenario = shared_scenario.shared_scenario_v1
     bundle = platform_module.integrate(scenario)
 
-    # Take a backup so the integration is reproducible/auditable.
-    backup_dir = os.path.join(_HERE, "evidence_backups")
+    # Take a backup so the integration is reproducible/auditable. Next to this file by default;
+    # tests set CP_FINAL_BACKUP_DIR to a temporary directory, because the backup written here is
+    # committed and every test run silently re-baselined it.
+    backup_dir = os.environ.get("CP_FINAL_BACKUP_DIR") or os.path.join(_HERE, "evidence_backups")
     backup_path = backup_restore.backup(bundle, backup_dir)
     bundle = dataclasses.replace(bundle, backup_path=backup_path)
 

@@ -8,6 +8,8 @@ import { StackFigure } from './StackFigure'
 import { BarsFigure } from './BarsFigure'
 import { TableShapeFigure } from './TableShapeFigure'
 import { SetFigure } from './SetFigure'
+import { NumberLineFigure } from './NumberLineFigure'
+import { FoldsFigure } from './FoldsFigure'
 import type { FigureData } from './types'
 
 /**
@@ -50,5 +52,9 @@ export function ArchetypeFigure({ title, data, id }: { title: string; data: Figu
       return <SetFigure title={title} data={data} />
     case 'graph':
       return <GraphFigure title={title} data={data} />
+    case 'numberline':
+      return <NumberLineFigure title={title} data={data} />
+    case 'folds':
+      return <FoldsFigure title={title} data={data} />
   }
 }

@@ -13,7 +13,9 @@ measurement was missing. These pin `fresh_report` in every direction that matter
 from __future__ import annotations
 
 import json
+import shutil
 import sys
+import tempfile
 import time
 import unittest
 from pathlib import Path
@@ -26,16 +28,15 @@ import gate  # noqa: E402
 
 class FreshReportTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.dir = ROOT / ".fixer" / "test-gate-measurements"
-        self.dir.mkdir(parents=True, exist_ok=True)
+        # Unique per test, and inside the repo because fresh_report names a failed report
+        # relative to it. One fixed directory let two concurrent runs delete each other's
+        # fixtures in tearDown; .fixer/ is gitignored, so nothing lands in the tree.
+        (ROOT / ".fixer").mkdir(exist_ok=True)
+        self.dir = Path(tempfile.mkdtemp(prefix="test-gate-measurements-", dir=ROOT / ".fixer"))
+        self.addCleanup(shutil.rmtree, self.dir, True)
         self.report = self.dir / "report.json"
         self.report.write_text(json.dumps({"from": "last round"}), encoding="utf-8")
         time.sleep(0.01)  # a rewrite must be distinguishable from the file already there
-
-    def tearDown(self) -> None:
-        for p in self.dir.glob("*"):
-            p.unlink()
-        self.dir.rmdir()
 
     def run_audit(self, body: str) -> list[str]:
         script = self.dir / "audit.py"

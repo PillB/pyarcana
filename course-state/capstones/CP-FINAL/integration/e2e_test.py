@@ -161,12 +161,16 @@ class E2ETest(unittest.TestCase):
                             f"{stem} imports another subsystem: {n.name}",
                         )
                 elif isinstance(node, ast.ImportFrom):
+                    # `from .er import x` names the subsystem in `module`; `from . import er`
+                    # names it among the imported names, where this check never looked - and
+                    # the second is how every module here imports.
                     mod = node.module or ""
-                    base = mod.split(".")[-1]
-                    self.assertFalse(
-                        base in subsystem_names and base != stem,
-                        f"{stem} imports another subsystem: {mod}",
-                    )
+                    targets = [mod.split(".")[-1]] if mod else [a.name for a in node.names]
+                    for target in targets:
+                        self.assertFalse(
+                            target in subsystem_names and target != stem,
+                            f"{stem} imports another subsystem: {target}",
+                        )
 
 
 if __name__ == "__main__":

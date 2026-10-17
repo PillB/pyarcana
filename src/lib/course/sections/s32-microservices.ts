@@ -129,7 +129,7 @@ catalog_ok True unknown []`,
       subtopicId: "S32-T1-B",
       paragraphs: [
         "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio es **silent fill**, y las dos formas habituales fallan de manera distinta. Con la mediana del set completo sí hay fuga: esa mediana vio el test y entra en la transformación. Con 0 no la hay —el test no interviene— pero escondes la ausencia y desplazas la distribución, que es un problema propio. Ninguna de las dos es aceptable sin indicador; solo la primera contamina. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",
-        "Contrato: entrada serie con `None`, fill/μ/σ aprendidos en train; salida indicator, serie rellena y z sobre la serie rellena. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**. Encoding one-hot con columna `unknown` sigue la misma idea: vocab de train, no del batch de serve.",
+        "Contrato: entrada serie con `None`, fill/μ/σ aprendidos en train; salida indicator, serie rellena y z sobre la serie rellena. Error: calcular mediana con filas de test o re-fit en serve; criterio: **stats congeladas en fit**. El **one-hot** convierte una columna categórica en una columna por categoría: marca con 1 la categoría de cada fila y con 0 las demás. Con una columna `unknown`, sigue la misma idea: usa el vocab de train y envía las categorías nuevas a `unknown`, en vez de aprenderlas del batch de serve.",
         "Aplicación al caso sintético Red Andina: `[1, None, 3]` → indicator + fill con la mediana **de train** (2) → z aplicando los μ=0 y σ=2 **congelados en el fit de train**, no recalculados sobre esta serie. Si los recalcularas aquí obtendrías μ=2, y esa diferencia es exactamente la fuga que la sección persigue. `silent_fill` debe quedar en False porque el indicator viaja junto al valor.",
       ],
       code: {
@@ -303,7 +303,7 @@ fitted True`,
       heading: "Fit, transform y persistencia del estado",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**. Y conviene llamarlo por su nombre, porque no es leakage: reestimar en inferencia no contamina el entrenamiento con nada, aplica una transformación distinta de la que el modelo aprendió. El síntoma también es distinto — la fuga infla tus métricas offline, el skew las deja intactas y degrada en producción. En producción, joblib o pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
+        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**. Y conviene llamarlo por su nombre, porque no es leakage: reestimar en inferencia no contamina el entrenamiento con nada, aplica una transformación distinta de la que el modelo aprendió. El síntoma también es distinto — la fuga infla tus métricas offline, el skew las deja intactas y degrada en producción. **joblib** almacena objetos de Python en un archivo binario y, en producción, cumple el rol de este JSON; **pickle** almacena esos objetos del mismo modo. Aquí inspeccionas el contrato a ojo, no un binario opaco.",
         "Contrato: entrada state dict con `median` y `version`; salida round-trip JSON idéntico y apply de mediana al batch de serve. Error: servir **sin version** o con version vacía. Criterio: `fs-vN` en artefactos, schema congelado y misma función de apply en train e inferencia. Un serve sin `version` es `REJECT_UNVERSIONED`; sin JSON de state es `REQUEST_STATE_JSON`.",
         "Aplicación al caso sintético Red Andina: state `median=2`, `version=fs-v1` sobrevive al round-trip; al batch de serve `[None, 4]` se aplica → `[2, 4]`. Si mañana el vocab de `canal` crece, subes a `fs-v2` y el baseline S33 debe citar el id nuevo — no reutilizar el viejo en silencio. Este artefacto JSON es el **contrato de entrada** del baseline de S33.",
       ],
@@ -2583,9 +2583,9 @@ if __name__ == "__main__":
         note: "Serializar transformers",
       },
       {
-        label: "Time-series cross-validation (sklearn)",
+        label: "Separación temporal de datos (sklearn)",
         url: "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
-        note: "Splits temporales",
+        note: "Cómo separar los datos por tiempo para que la validación no meta filas futuras en el conjunto que representa el pasado.",
       },
       {
         label: "Common ML pitfalls — leakage",
