@@ -217,7 +217,7 @@ test('placement: in the rendered order, the anchor paragraph ends the prose righ
     }
     const seg = proseSegments(block).find((s) => s.shots.includes(id))
     assert.ok(seg, `${id}: not rendered after any prose`)
-    const lastParagraph = seg.text.split('\n\n').at(-1)!
+    const lastParagraph = seg.markdown.split('\n\n').at(-1)!
     assert.ok(lastParagraph.includes(shot.anchor_quote), `${id}: the paragraph right above it is not the anchor`)
   }
 })
@@ -226,15 +226,15 @@ test('placement: in the rendered order, the anchor paragraph ends the prose righ
 
 test('proseSegments: with no paragraph screenshot the prose is one piece, as before', () => {
   const block = { heading: 'H', paragraphs: ['a', 'b'] }
-  assert.deepEqual(proseSegments(block), [{ text: 'a\n\nb', before: '', shots: [] }])
-  assert.deepEqual(proseSegments({ ...block, screenshots: [{ id: 'x', after: 'code' }] }), [{ text: 'a\n\nb', before: '', shots: [] }])
+  assert.deepEqual(proseSegments(block), [{ markdown: 'a\n\nb', before: '', shots: [] }])
+  assert.deepEqual(proseSegments({ ...block, screenshots: [{ id: 'x', after: 'code' }] }), [{ markdown: 'a\n\nb', before: '', shots: [] }])
 })
 
 test('proseSegments: a split loses and repeats no prose, and the second piece knows the first', () => {
   const block = { heading: 'H', paragraphs: ['a', 'b', 'c'], screenshots: [{ id: 'x', after: 0 }, { id: 'y', after: 2 }] }
   const segs = proseSegments(block)
   assert.deepEqual(segs.map((s) => s.shots), [['x'], ['y']])
-  assert.equal(segs.map((s) => s.text).join('\n\n'), 'a\n\nb\n\nc')
+  assert.equal(segs.map((s) => s.markdown).join('\n\n'), 'a\n\nb\n\nc')
   assert.equal(segs[1].before, 'a')
 })
 
@@ -243,7 +243,7 @@ test('proseSegments: every active block renders the same prose it did before the
     for (const block of s.theory) {
       // The heading renders as its own <h3> since main split it out (WCAG 1.3.1).
       const old = block.paragraphs.join('\n\n')
-      const joined = proseSegments(block).map((seg) => seg.text).join('\n\n')
+      const joined = proseSegments(block).map((seg) => seg.markdown).join('\n\n')
       assert.equal(joined.trim(), old.trim(), `${s.id} «${block.heading}»`)
     }
   }

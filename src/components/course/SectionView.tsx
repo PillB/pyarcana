@@ -441,7 +441,7 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
             {/* A screenshot (D23) splits the prose right after the paragraph it shows. */}
             {proseSegments(block).map((seg, k) => (
               <Fragment key={k}>
-                <RichText sectionId={section.id} content={seg.text} after={seg.before || undefined} />
+                <RichText sectionId={section.id} content={seg.markdown} after={seg.before || undefined} />
                 {seg.shots.map((id) => <SectionScreenshot key={id} id={id} />)}
               </Fragment>
             ))}

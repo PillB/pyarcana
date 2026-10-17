@@ -44,7 +44,7 @@ export function validSectionShotRecord(r: unknown): r is SectionShotRecord {
 /** A run of a block's prose, then the screenshots that follow it. */
 export interface ProseSegment {
   /** Markdown for RichText: the block's paragraphs. The heading renders as its own <h3>. */
-  text: string
+  markdown: string
   /** The same block's prose already rendered above, so glossary hints are not repeated. */
   before: string
   shots: string[]
@@ -65,11 +65,11 @@ export function proseSegments(
     current.push(p)
     const shots = (block.screenshots ?? []).filter((s) => s.after === i).map((s) => s.id)
     if (shots.length === 0) return
-    segments.push({ text: current.join('\n\n'), before: shown.join('\n\n'), shots })
+    segments.push({ markdown: current.join('\n\n'), before: shown.join('\n\n'), shots })
     shown.push(...current)
     current = []
   })
-  if (current.length > 0) segments.push({ text: current.join('\n\n'), before: shown.join('\n\n'), shots: [] })
+  if (current.length > 0) segments.push({ markdown: current.join('\n\n'), before: shown.join('\n\n'), shots: [] })
   return segments
 }
 
