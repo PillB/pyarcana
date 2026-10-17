@@ -593,17 +593,30 @@ now two paragraphs:
 - The second contrasts `NOT NULL`, says when to write `CREATE INDEX`, and recalls T3-A's JOIN on
   `entity_id`.
 
-The drafts and their diagnoses are in the PR #108 thread. The four concerns below are all
-resolved in V15.
+How V15 resolves each of the four concerns raised below:
+- **R2.** It names the table and the file before the code: «En la tabla `clients` de
+  `params_tx.py`».
+- **R3.** No semicolon joins unrelated facts. `NOT NULL` has its own sentence, introduced by
+  «En cambio».
+- **R4.** «acelerar una columna» and the stacked modifiers are gone. The rule is now «Cuando buscas
+  o unes por una columna sin índice propio, escribes `CREATE INDEX`».
+- **R5.** It says outright that the demo needs no second index: «el demo no crea otro índice en esa
+  columna».
 
-Branch `claude/s12-unique-already-indexed` fixes S12-F15 (KFC-010): the lesson created a second
-index on a `UNIQUE` column. The facts are now right everywhere they appeared. `paragraphs[2]` of
-the theory block "Parámetros, transacciones, constraints e índices" is the Codex text that shipped
-(first version, `.fixer/S12idx.result.json`). The two demo sentences that followed it now form
-`paragraphs[3]`, unchanged, so the index paragraph has three sentences (rule D2).
+Nothing in this question remains open. PR #108's description summarises the drafts. The full
+fifteen-draft page, with each diagnosis, is gitignored at
+`.fixer/S12-T3-B_index_paragraph_variants.md`.
+
+### History: the question as raised on 2026-10-15
+
+Branch `claude/s12-unique-already-indexed` fixed S12-F15 (KFC-010): the lesson created a second
+index on a `UNIQUE` column. The facts were then right everywhere they appeared. `paragraphs[2]` of
+the theory block "Parámetros, transacciones, constraints e índices" was the Codex text that first
+shipped (`.fixer/S12idx.result.json`). The two demo sentences that followed it had become
+`paragraphs[3]`, unchanged, so the index paragraph had three sentences (rule D2).
 
 The review returned four concerns on that paragraph to Codex twice. Neither return resolved them
-without a new defect, so per AGENTS.md they come to a human:
+without a new defect, so per AGENTS.md they came to a human:
 
 - **R2.** «En esta tabla» points at the `clients` table of `params_tx.py`, which the learner sees
   only after the paragraph.
@@ -622,5 +635,7 @@ What the two returns produced (in gitignored `.fixer/`, so not in this tree):
   el demo cree otro», which is false: SQLite accepts the duplicate, and the demo simply does not
   need it. Not applied.
 
-Decide: keep the first version as is; give the passage a third Codex round with these four
-points; or take it into the S12 fixer round, where the redaction pass reads the whole section.
+The question offered three routes: keep the first version; give the passage another Codex round;
+or take it into the S12 fixer round. **Decided 2026-10-16/17 by the owner: another Codex round**,
+run on `gpt-6-luna` at `medium` until a version had no slip. The owner chose V15, which shipped in
+PR #108.
