@@ -412,6 +412,14 @@ describe('removed rows: an exercise leaves the course only by an owner decision 
     }
   })
 
+  it('keeps a removed row the base already holds when its decision later leaves the record (O27 101-Q3)', () => {
+    // The row merged while O25 was recorded. A later PR's base has no O25 (a retired heading gone missing,
+    // say), and the merged row must still pass: an append-only row is looked up once, when it is appended.
+    const merged = removed({ row: 1 })
+    const afterwards = { [OTHER]: exercise(SHA_B) }
+    assert.deepEqual(ledgerFindings({ baseAnchors: afterwards, headAnchors: afterwards, baseRows: [merged], headRows: [merged], ownerDecisions: new Set() }), [])
+  })
+
   it('refuses a removed row that holds a to_fp, or has no from_fp to point at', () => {
     for (const over of [{ to_fp: SHA_B }, { from_fp: null }, { from_fp: 'no-hash-here' }]) {
       const findings = findingsFor([removed(over)])

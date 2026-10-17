@@ -32,7 +32,10 @@
  * commit holds it: a `### O<n>` heading, live or in the Archive (a retired decision moves there and keeps
  * its heading). An O-number no heading records, a mention in a sentence, an O-number only the PR's own
  * copy of the file adds, and a base with no such file all refuse the row. The lookup proves the decision
- * exists, not that it covers this exercise: the owner reads that in the PR.
+ * exists, not that it covers this exercise: the owner reads that in the PR. The lookup runs once per row,
+ * on the rows the PR appends. A row the base already holds was judged when it was appended, so a later
+ * change to the record (a retired decision whose heading goes missing, say) cannot refuse it: the rows of
+ * an append-only ledger cannot be repaired, so a later PR would fail whatever it touched (O27 101-Q3).
  *
  * To rebind an exercise to a new id (the renumber, owner decision O25): one row of kind `renumbered` per
  * pair, written by the renumber tool: id the new id, from_id the old one, from_fp = to_fp the one
@@ -241,20 +244,35 @@ function decisionProblems(row, ownerDecisions) {
   return ownerDecisions.has(named) ? [] : [`decided_by names ${named}, which ${OWNER_DECISIONS_PATH} does not record (live or archived)`]
 }
 
-/** Problems with the evidence a row carries: its fingerprints, its reason, its decider and its date. */
-function evidenceProblems(row, ownerDecisions) {
+/**
+ * Problems with the form of a row's evidence: its fingerprints, its reason, its decider and its date. The
+ * owner decision a row names is checked apart (decisionProblems), and only on a row the PR appends.
+ */
+function formProblems(row) {
   const problems = [...fingerprintProblems(row), ...renumberedProblems(row)]
   for (const key of ['reason', 'decided_by']) if (isBlank(row?.[key])) problems.push(`${key} must be non-empty`)
-  problems.push(...decisionProblems(row, ownerDecisions))
   if (typeof row?.date !== 'string' || !ISO_DATE.test(row.date)) problems.push('date must be YYYY-MM-DD')
   return problems
 }
 
+/** Problems with a row the PR appends: its place, its form, then the owner decision it names. */
 function rowProblems(row, index, ownerDecisions) {
-  return [...placementProblems(row, index), ...evidenceProblems(row, ownerDecisions)]
+  return [...placementProblems(row, index), ...formProblems(row), ...decisionProblems(row, ownerDecisions)]
 }
 
-/** The append-only rule: base rows are a prefix of head rows, unchanged. Rows are well formed and numbered. */
+/**
+ * Problems with a row the base already holds: its place and its form, not its owner decision. That decision
+ * was looked up when the row was appended. Looking it up again would refuse the row on every later PR once
+ * the record changes, and nothing can repair an append-only row (O27 101-Q3).
+ */
+function baseRowProblems(row, index) {
+  return [...placementProblems(row, index), ...formProblems(row)]
+}
+
+/**
+ * The append-only rule: base rows are a prefix of head rows, unchanged. Every head row keeps its form and
+ * numbering; only an appended row is looked up in the owner decision record (O27 101-Q3).
+ */
 function appendOnlyFindings(baseRows, headRows, ownerDecisions) {
   const findings = []
   if (headRows.length < baseRows.length) findings.push({ code: 'LEDGER_ROW_REMOVED', count: baseRows.length - headRows.length })
@@ -262,7 +280,7 @@ function appendOnlyFindings(baseRows, headRows, ownerDecisions) {
     if (JSON.stringify(headRows[index]) !== JSON.stringify(row)) findings.push({ code: 'LEDGER_ROW_EDITED', row: index + 1 })
   })
   headRows.forEach((row, index) => {
-    const problems = rowProblems(row, index, ownerDecisions)
+    const problems = index < baseRows.length ? baseRowProblems(row, index) : rowProblems(row, index, ownerDecisions)
     if (problems.length > 0) findings.push({ code: 'LEDGER_ROW_INVALID', row: index + 1, problems })
   })
   return findings
