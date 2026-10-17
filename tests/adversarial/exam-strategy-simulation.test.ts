@@ -24,7 +24,10 @@
  *   longest      the longest option
  *   shortest     the shortest option: the cue a bank gets when its keys are kept from being the
  *                longest by keeping them the shortest instead
- *   clang       the option sharing the most content words with the stem (a "clang association",
+ *   second-shortest, second-longest
+ *                the option at that place when the options are sorted by length; with longest
+ *                and shortest, every length rank is tried, as A to D try every position
+ *   clang        the option sharing the most content words with the stem (a "clang association",
  *                one of the cues item-writing guides tell authors to avoid)
  *   slug         the option containing the concept's slug, else the first; a learner can learn the
  *                slugs, so the simulation grants them
@@ -106,6 +109,12 @@ const BANKS_PASSABLE_BY_SLUG_OWED: string[] = []
 // kept each key from being the longest option, and in 14 of 24 questions it became the shortest.
 // Picking the shortest passed apis-sql-geo for 40.2% of learners, and no other bank in the course.
 const BANKS_PASSABLE_BY_SHORTEST_OWED: string[] = []
+// The two middle ranks, added the same day: rebalancing S12 away from "shortest" left too many
+// keys just below the longest option, and "second-longest" passed evidence-dashboard (13.0%) and
+// apis-sql-geo (6.1%) until four keys moved. modules-packaging-cli (S10) passes it at 5.5%, from
+// the S10 round's rebalancing; it is owed here, not fixed in plan PR 9.
+const BANKS_PASSABLE_BY_SECOND_SHORTEST_OWED: string[] = []
+const BANKS_PASSABLE_BY_SECOND_LONGEST_OWED = ['modules-packaging-cli']
 
 // ---------------------------------------------------------------------------------------------
 // The learner
@@ -116,6 +125,10 @@ type Strategy = (q: Shown, concept: string) => number
 
 /** The first position holding the highest score. */
 const firstBest = (scores: number[]) => scores.reduce((best, s, i) => (s > scores[best]! ? i : best), 0)
+
+/** The position at `place` (0 = shortest) when the options are sorted by length, ties as shown. */
+const byLength = (options: string[], place: number) =>
+  options.map((o, i) => [o.length, i] as const).sort((a, b) => a[0] - b[0])[place]![1]
 
 /** Spanish and English function words that carry no content, normalised as contentWords does. */
 const STOP = new Set(
@@ -147,6 +160,8 @@ const STRATEGIES: Record<string, Strategy> = {
   D: () => 3,
   longest: (q) => firstBest(q.options.map((o) => o.length)),
   shortest: (q) => firstBest(q.options.map((o) => -o.length)),
+  'second-shortest': (q) => byLength(q.options, 1),
+  'second-longest': (q) => byLength(q.options, 2),
   clang: (q) => {
     const stem = contentWords(q.question)
     return firstBest(q.options.map((o) => [...contentWords(o)].filter((w) => stem.has(w)).length))
@@ -282,6 +297,17 @@ describe('recreations: a bank with a cue is passable, and the simulation says so
     const keyShortest = syntheticBank(2, (c, v, k) => (k === 2 ? `sí ${c}.${v}` : `una opción más larga, número ${k}`))
     assert.equal(passRate(keyShortest, 'shortest', seeded('shortest'), presentQuestion, 200), 1)
   })
+
+  for (const [name, place] of [['second-shortest', 1], ['second-longest', 2]] as const) {
+    it(`every key at the ${name} place, shuffled: picking it still passes every learner`, () => {
+      // The key (option 2) takes the length at `place`; the other three take the remaining lengths.
+      const lengths = [8, 16, 24, 32]
+      const others = lengths.filter((_, i) => i !== place)
+      const bank = syntheticBank(2, (c, v, k) =>
+        `${c}.${v}:${k}:`.padEnd(k === 2 ? lengths[place]! : others[k < 2 ? k : k - 1]!, 'x'))
+      assert.equal(passRate(bank, name, seeded(name), presentQuestion, 200), 1)
+    })
+  }
 })
 
 // ---------------------------------------------------------------------------------------------
@@ -319,6 +345,8 @@ describe(`the real bank: ${LEARNERS} learners per bank and strategy, ${MAX_EXAM_
   const owed: Array<[string, string[]]> = [
     ['longest', BANKS_PASSABLE_BY_LONGEST_OWED],
     ['shortest', BANKS_PASSABLE_BY_SHORTEST_OWED],
+    ['second-shortest', BANKS_PASSABLE_BY_SECOND_SHORTEST_OWED],
+    ['second-longest', BANKS_PASSABLE_BY_SECOND_LONGEST_OWED],
     ['clang', BANKS_PASSABLE_BY_CLANG_OWED],
     ['slug', BANKS_PASSABLE_BY_SLUG_OWED],
   ]
