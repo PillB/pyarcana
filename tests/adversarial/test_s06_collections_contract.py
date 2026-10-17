@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import exam_bank  # noqa: E402
 
 SECTION = ROOT / "src/lib/course/sections/s06-collections.ts"
-SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 
@@ -78,10 +78,10 @@ class TestS06CollectionsContract(unittest.TestCase):
         self.assertIn("¿qué entrega demuestra mejor", text)
 
     def test_s06_runtime_and_pdf_mappings_match_collections(self) -> None:
-        section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        start = section_view.index("    'collections': {")
-        end = section_view.index("\n    'files-ingestion': {", start)
-        mapping = section_view[start:end]
+        demos_source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
+        start = demos_source.index("    'collections': {")
+        end = demos_source.index("\n    'files-ingestion': {", start)
+        mapping = demos_source[start:end]
         self.assertIn("Practica colecciones y conflictos", mapping)
         self.assertIn("def dedup_report", mapping)
         self.assertNotIn("import numpy", mapping)

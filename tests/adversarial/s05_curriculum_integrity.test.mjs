@@ -5,7 +5,7 @@ import test from 'node:test'
 import { readSeedQuestionBank } from '../../scripts/lib/learner_text.mts'
 
 const section = readFileSync('src/lib/course/sections/s05-functions-contracts.ts', 'utf8')
-const sectionView = readFileSync('src/components/course/SectionView.tsx', 'utf8')
+const playgroundDemos = readFileSync('src/lib/course/playground-demos.ts', 'utf8')
 const pdfReport = readFileSync('src/components/course/PdfReport.tsx', 'utf8')
 
 function between(text, start, end) {
@@ -45,7 +45,7 @@ test('S05 You Do executes every promised boundary oracle', () => {
 })
 
 test('stable S05 id no longer leaks an OOP playground or PDF label', () => {
-  const playground = between(sectionView, "    'functions-contracts': {", "    'collections': {")
+  const playground = between(playgroundDemos, "    'functions-contracts': {", "    'collections': {")
 
   assert.match(playground, /Practica funciones con contrato/)
   assert.match(playground, /normalize_nombre/)

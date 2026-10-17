@@ -18,7 +18,7 @@ import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s02-basics.ts"
-SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
 
@@ -97,7 +97,7 @@ class TestSection02IndependentContract(unittest.TestCase):
                 self.assertEqual(result.stdout.rstrip(), expected_output.rstrip())
 
     def test_playground_executes_the_s02_raw_clean_contract(self) -> None:
-        source = SECTION_VIEW.read_text(encoding="utf-8")
+        source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
         block = _between(source, "    'basics': {", "    'decisions-rules': {")
 
         self.assertIn("Practica el contrato raw/clean", block)
