@@ -88,8 +88,8 @@ class TestS06CollectionsContract(unittest.TestCase):
         self.assertNotIn("np.array", mapping)
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn("collections: '6. Colecciones'", pdf)
-        self.assertNotIn("collections: '6. NumPy'", pdf)
+        self.assertIn("collections: 'Colecciones'", pdf)
+        self.assertNotIn("collections: 'NumPy'", pdf)
 
 
 if __name__ == "__main__":

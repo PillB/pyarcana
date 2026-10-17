@@ -141,8 +141,8 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertEqual(run.stdout.rstrip(), match.group("output").rstrip())
 
         pdf = PDF_REPORT.read_text(encoding="utf-8")
-        self.assertIn('"decisions-rules": \'3. Reglas\'', pdf)
-        self.assertNotIn('"decisions-rules": \'3. Data Struct\'', pdf)
+        self.assertIn('"decisions-rules": \'Reglas\'', pdf)
+        self.assertNotIn('"decisions-rules": \'Data Struct\'', pdf)
 
     def test_authenticated_bank_is_balanced_by_concept_and_attempt(self) -> None:
         entries = [(q["concept"], q["correctIndex"]) for q in exam_bank.bank_for("decisions-rules")]

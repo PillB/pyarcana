@@ -68,6 +68,7 @@ import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
 import { t, useI18n } from '@/lib/i18n'
+import { playgroundMode, LOCAL_PYTHON_NOTE, LOCAL_RUN_COMMAND, type PlaygroundEnvironment } from '@/lib/playground-environment'
 import { popIn, riseIn } from '@/lib/entrance'
 
 interface SectionViewProps {
@@ -1039,10 +1040,22 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 }
 
 // === Interactive Playground Demo ===
-// Per-section code examples that students can run in the browser
-function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
-  const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
+// Per-section code examples that students can run in the browser. Exported so a test renders the
+// block a learner sees (SIM-11): an example declared local-python shows no Run button.
+// PlaygroundDemoBlock is the block for one demo, so a test can render a fixture demo and does not
+// depend on the demos that happen to be in the table below.
+export interface PlaygroundDemo {
+  code: string
+  expectedOutput?: string
+  hint?: string
+  title: string
+  environment: PlaygroundEnvironment
+}
+
+export function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
+  const demos: Record<string, PlaygroundDemo> = {
     'setup': {
+      environment: 'browser-pyodide',
       title: 'Practica el intérprete y tu primer script',
       code: `# Primer script reproducible (usa un nombre sintético)
 import sys
@@ -1058,6 +1071,7 @@ Script ejecutado de arriba abajo`,
       hint: 'Mantén un nombre sintético. Cambia el nombre y vuelve a ejecutar: Python lee las instrucciones en orden, de arriba abajo.',
     },
     'basics': {
+      environment: 'browser-pyodide',
       title: 'Practica el contrato raw/clean',
       code: `# Convierte texto de intake sin perder el valor original
 def safe_int(campo, valor):
@@ -1087,6 +1101,7 @@ for edad_raw in [" 28 ", "  ", "abc"]:
       hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
     },
     'decisions-rules': {
+      environment: 'browser-pyodide',
       title: 'Practica decisiones y reglas',
       code: `# Valida campos sintéticos sin confundir ausencia con cero
 ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
@@ -1120,6 +1135,7 @@ C {'status': 'reject', 'code': 'OUT_OF_RANGE'} {'status': 'accept', 'code': 'OK'
       hint: 'Cambia un monto a 0, None, negativo o texto y predice status y code antes de ejecutar.',
     },
     'iteration-summaries': {
+      environment: 'browser-pyodide',
       title: 'Practica un resumen por lotes',
       code: `# Resume un lote sintético en un solo pase O(n)
 statuses = ["accept", "reject", "review", "accept", "reject"]
@@ -1147,6 +1163,7 @@ tasa_lote_vacio None`,
     },
     // `oop` is the stable S05 compatibility id; its learner content is Functions.
     'functions-contracts': {
+      environment: 'browser-pyodide',
       title: 'Practica funciones con contrato',
       code: `# Datos sintéticos: practica el núcleo puro de CP-N1-B
 def normalize_nombre(raw: str) -> str:
@@ -1176,6 +1193,7 @@ idempotente True`,
       hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
     'collections': {
+      environment: 'browser-pyodide',
       title: 'Practica colecciones y conflictos',
       code: `# Modelo tabular en memoria: solo biblioteca estándar
 import json
@@ -1216,6 +1234,7 @@ conflictos: 1
       hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
     'files-ingestion': {
+      environment: 'browser-pyodide',
       title: 'Practica ingesta con cuarentena y manifest',
       code: `import csv, hashlib, io, json
 from decimal import Decimal
@@ -1266,6 +1285,7 @@ manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha
       hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },
     'exceptions-logging': {
+      environment: 'browser-pyodide',
       title: 'Practica un lote observable y sin PII',
       code: `# Excepciones, cuarentena y logging seguro — solo datos sintéticos
 import io
@@ -1334,8 +1354,9 @@ fatal: required_fields vacío`,
       hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
     },
     'modules-packaging-cli': {
+      environment: 'local-python',
       title: 'Practica scikit-learn',
-      code: `# Practica scikit-learn (se carga automaticamente)
+      code: `# Práctica: entrena un clasificador de regresión logística con scikit-learn sobre datos sintéticos y muestra la exactitud y la validación cruzada.
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import accuracy_score
@@ -1369,8 +1390,9 @@ CV Accuracy: 96.00% ± 3.74%`,
       hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
     },
     'oop-domain': {
+      environment: 'browser-pyodide',
       title: 'Practica testing con asserts',
-      code: `# Practica testing con asserts (simulando pytest)
+      code: `# Práctica de pruebas con assert y try/except.
 import numpy as np
 
 # Funcion a testear
@@ -1422,6 +1444,7 @@ print("\\n✅ Todos los tests pasaron!")`,
       hint: 'Agrega un test para verificar que funciona con notas negativas',
     },
     'text-unicode-regex': {
+      environment: 'browser-pyodide',
       title: 'Practica Unicode, regex y evidencia',
       code: `# Laboratorio de texto latinoamericano con datos sintéticos
 import re
@@ -1480,6 +1503,7 @@ Decisión: review`,
       hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
     },
     'apis-sql-geo': {
+      environment: 'browser-pyodide',
       title: 'Practica multiprocessing y logging',
       code: `# Practica performance y logging (simulado en Pyodide)
 import time
@@ -1528,6 +1552,7 @@ logger.info("✓ Ambos enfoques producen el mismo resultado")`,
       hint: 'Cambia n a 1000000 y observa como cambia el speedup',
     },
     'evidence-dashboard': {
+      environment: 'browser-pyodide',
       title: 'Practica automatización con tenacity y argparse',
       code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
 import time
@@ -1606,6 +1631,7 @@ Resultado: {'status': 'ok', 'data': [1, 2, 3]}
     },
     // === Phase 1 demos (S14-S26) — Pyodide-compatible (stdlib only) ===
     'security': {
+      environment: 'browser-pyodide',
       title: 'Practica seguridad: hashing y cifrado',
       code: `# Practica seguridad con biblioteca estandar
 import hashlib
@@ -1643,6 +1669,7 @@ Password incorrecto: False`,
       hint: 'Cambia el numero de iteraciones de PBKDF2 y observa como cambia el hash',
     },
     'stdlib-deep': {
+      environment: 'browser-pyodide',
       title: 'Practica functools y itertools',
       code: `# Practica functools y itertools (biblioteca estandar)
 import functools
@@ -1700,6 +1727,7 @@ cubo(3) = 27`,
       hint: 'Cambia maxsize de lru_cache a 1 y observa como cambia el cache_info',
     },
     'wxpython-gui': {
+      environment: 'browser-pyodide',
       title: 'Practica eventos y callbacks (simulado)',
       code: `# Simulacion de eventos GUI (sin wxPython en Pyodide)
 # Concepto: como funcionan los callbacks de eventos
@@ -1752,6 +1780,7 @@ Simulando clics:
       hint: 'Anade un tercer boton con su propio callback y haz clic en el',
     },
     'packaging': {
+      environment: 'browser-pyodide',
       title: 'Practica semver y dependencias',
       code: `# Practica Semantic Versioning y gestion de dependencias
 import re
@@ -1803,6 +1832,7 @@ print(f"1.4.2 -> 2.0.0 compatible: {is_backward_compatible('1.4.2', '2.0.0')}")`
       hint: 'Implementa una funcion que determine si un bump es breaking change',
     },
     'data-engineering': {
+      environment: 'browser-pyodide',
       title: 'Practica idempotencia y ETL',
       code: `# Practica conceptos de Data Engineering (sin dependencias externas)
 import json
@@ -1895,6 +1925,7 @@ Total output: 3 registros`,
       hint: 'Que pasa si corres el pipeline 3 veces? El output debe ser el mismo que 1 vez',
     },
     'databases-orm': {
+      environment: 'browser-pyodide',
       title: 'Practica SQL y modelos (simulado)',
       code: `# Simulacion de ORM y queries SQL (sin DB real)
 import sqlite3
@@ -1960,6 +1991,7 @@ Total clientes: 4`,
       hint: 'Anade un cliente mas y re-ejecuta las queries',
     },
     'rag': {
+      environment: 'browser-pyodide',
       title: 'Practica retrieval y similitud (simulado)',
       code: `# Simulacion de RAG: retrieval por similitud de texto
 # (Sin embeddings reales - usamos Jaccard similarity)
@@ -2012,6 +2044,7 @@ Contexto para LLM: 'Pandas es una libreria de Python para analisis de datos NumP
       hint: 'Cambia el query a "que es machine learning" y observa como cambian los resultados',
     },
     'fastapi': {
+      environment: 'browser-pyodide',
       title: 'Practica validacion con pydantic (simulado)',
       code: `# Simulacion de validacion de API (estilo FastAPI + Pydantic)
 # Sin dependencias externas - usa dataclasses y validacion manual
@@ -2081,6 +2114,7 @@ Errors: ['email debe contener @', 'name debe tener al menos 2 caracteres', 'age 
       hint: 'Intenta crear un usuario con role "superadmin" - que error da?',
     },
     'rapidfuzz-entity': {
+      environment: 'browser-pyodide',
       title: 'Practica fuzzy matching (simulado)',
       code: `# Simulacion de entity resolution con fuzzy matching
 # Sin RapidFuzz - implementamos Levenshtein distance manualmente
@@ -2151,6 +2185,7 @@ Posibles duplicados (similitud > 85%):
       hint: 'Cambia el umbral de 85% a 70% y observa cuantos mas duplicados aparecen',
     },
     'computer-vision': {
+      environment: 'browser-pyodide',
       title: 'Practica procesamiento de imagenes (simulado)',
       code: `# Simulacion de conceptos de vision por computadora
 # Sin OpenCV - implementamos operaciones con listas 2D
@@ -2225,6 +2260,7 @@ Pixeles blancos: 13/25 (52%)`,
       hint: 'Cambia el threshold a 35 y observa como cambian los pixeles blancos',
     },
     'rpa-advanced': {
+      environment: 'browser-pyodide',
       title: 'Practica orquestacion y retries',
       code: `# Practica orquestacion de RPA (simulado)
 import time
@@ -2301,6 +2337,7 @@ Ejecutando: Cerrar sesion
       hint: 'Cambia la probabilidad de fallo a 0.9 y observa cuantos intentos necesita',
     },
     'streamlit-dashboards': {
+      environment: 'browser-pyodide',
       title: 'Practica estado y caching (simulado)',
       code: `# Simulacion de Streamlit: estado y caching
 # Sin Streamlit real - simulamos los conceptos
@@ -2378,6 +2415,7 @@ print(f"  Clicks despues de 2: {st.session('clicks')}")`,
       hint: 'Llama cargar_datos(100) una tercera vez - debe ser cache hit',
     },
     'integrator-phase1': {
+      environment: 'browser-pyodide',
       title: 'Practica arquitectura de plataforma',
       code: `# Simulacion de arquitectura de plataforma de IA
 # Combina API + ML + Logging en un sistema cohesivo
@@ -2441,6 +2479,7 @@ print(f"  Response: {json.dumps(resp)}")`,
     },
     // === Phase 2 demos (S27-S39) ===
     'async-concurrency': {
+      environment: 'browser-pyodide',
       title: 'Practica concurrencia con asyncio',
       code: `# Practica conceptos de concurrencia (simulado)
 # Sin asyncio real - simulamos con generators
@@ -2492,6 +2531,7 @@ print("  En asyncio real, las pausas durante I/O permiten intercalado real")`,
       hint: 'Que pasa si max_concurrent=1? Es lo mismo que secuencial',
     },
     'llm-agents': {
+      environment: 'browser-pyodide',
       title: 'Practica razonamiento de agentes (simulado)',
       code: `# Simulacion de agente LLM con razonamiento ReAct
 # Sin LLM real - simulamos el patron Thought/Action/Observation
@@ -2563,6 +2603,7 @@ Respuesta final: Python es un lenguaje de programacion interpretado, creado en 1
       hint: 'Cambia la pregunta a "que es Pandas" y observa el resultado',
     },
     'mlops': {
+      environment: 'browser-pyodide',
       title: 'Practica model registry y drift (simulado)',
       code: `# Simulacion de MLOps: model registry y drift detection
 import json
@@ -2626,6 +2667,7 @@ print(f"  Drift score: {drift:.3f} ({'ALTO' if drift > 0.3 else 'OK'})")`,
     },
     // === Phase 2 demos (S30-S39) ===
     'security-infra': {
+      environment: 'browser-pyodide',
       title: 'Practica blocking y candidate recall',
       code: `from collections import defaultdict
 
@@ -2652,6 +2694,7 @@ candidate_pairs 1`,
       hint: 'Sin plegar acentos, López y Lopez caen en bloques distintos y el candidate recall baja a 0',
     },
     'streaming-data': {
+      environment: 'browser-pyodide',
       title: 'Practica windowing y backpressure',
       code: `# Simulacion de streaming: windowing y backpressure
 import time
@@ -2732,6 +2775,7 @@ for i in range(5):
       hint: 'Cambia window_size a 5 y observa como cambian los resultados',
     },
     'microservices': {
+      environment: 'browser-pyodide',
       title: 'Practica health checks y circuit breaker',
       code: `# Simulacion de microservicios: health checks y circuit breaker
 import time
@@ -2819,6 +2863,7 @@ Llamada 8:
       hint: 'Cambia threshold a 1 y observa como se abre mas rapido',
     },
     'advanced-models': {
+      environment: 'browser-pyodide',
       title: 'Practica Optuna y SHAP (simulado)',
       code: `# Simulacion de hyperparameter tuning y interpretabilidad
 import random
@@ -2875,6 +2920,7 @@ for f, s in sorted(zip(features, shap_values), key=lambda x: abs(x[1]), reverse=
       hint: 'Cambia n_trials a 30 y observa si mejora el AUC',
     },
     'cv-ai-integration': {
+      environment: 'browser-pyodide',
       title: 'Practica deteccion y OCR (simulado)',
       code: `# Simulacion de deteccion de objetos y OCR
 # Sin OpenCV/YOLO - simulamos con listas
@@ -2936,6 +2982,7 @@ Texto extraido: 'Holoa'`,
       hint: 'Anade mas pixeles a texto_como_pixeles y observa el resultado',
     },
     'system-design': {
+      environment: 'browser-pyodide',
       title: 'Practica la ficha de caso CP-N3-C',
       code: `# Ficha de caso CP-N3-C sobre CASO-LIM-035 (sintetico)
 # Construye las 4 capas: evidencia | modelo | incertidumbre | humano
@@ -3008,6 +3055,7 @@ portfolio_ready: True`,
       hint: 'Cambia means_fraud a True o by a "" y observa como portfolio_ready pasa a False',
     },
     'ai-apis-advanced': {
+      environment: 'browser-pyodide',
       title: 'Practica function calling (simulado)',
       code: `# Simulacion de function calling con LLM
 # Sin API real - simulamos el patron
@@ -3070,6 +3118,7 @@ Usuario: que hora es
       hint: 'Anade una nueva tool "send_email" y haz que el LLM la use',
     },
     'dbt-bigquery': {
+      environment: 'browser-pyodide',
       title: 'Practica dbt concepts (simulado)',
       code: `# Simulacion de conceptos dbt
 # Sin dbt real - simulamos models, tests, y lineage
@@ -3138,6 +3187,7 @@ test_not_null(metrics, "date")`,
       hint: 'Anade una transaccion duplicada y observa si test_unique falla',
     },
     'performance-extreme': {
+      environment: 'browser-pyodide',
       title: 'Practica backpressure, timeout e idempotencia',
       code: `# CASO-LIM-038 · contratos de operación (stdlib only)
 from queue import Queue
@@ -3188,6 +3238,7 @@ print("pii_raw", False)
       hint: 'Sube maxsize a 3 y observa cómo desaparece el backpressure del tercer caso.',
     },
     'integrator-phase2': {
+      environment: 'browser-pyodide',
       title: 'Practica CI/CD y monitoreo',
       code: `# Simulacion de CI/CD pipeline y monitoreo
 import time
@@ -3242,6 +3293,7 @@ for metric, value in metrics.items():
     },
     // === Phase 3 demos (S40-S52) ===
     'architecture-ddd-decisions': {
+      environment: 'browser-pyodide',
       title: 'Practica multi-agent (simulado)',
       code: `# Simulacion de sistema multi-agente
 # Cada agente tiene un rol especifico
@@ -3306,6 +3358,7 @@ Reporte final: Writer_result
       hint: 'Anade un cuarto agente "Reviewer" que valide el reporte',
     },
     'llm-finetuning': {
+      environment: 'browser-pyodide',
       title: 'Practica QLoRA concepts (simulado)',
       code: `# Simulacion de conceptos de fine-tuning
 # Sin transformers real - simulamos la matematica
@@ -3364,6 +3417,7 @@ GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4`,
       hint: 'Calcula la VRAM necesaria para un modelo de 70B en INT4',
     },
     'graph-rag': {
+      environment: 'browser-pyodide',
       title: 'Practica el policy_engine fail-closed (simulado)',
       code: `# Simulacion del policy_engine fail-closed de S42
 # Caso sintetico CASO-CUS-042 (mesa de soporte de Cusco)
@@ -3430,6 +3484,7 @@ REJECT_UNTRUSTED_INPUT`,
       hint: 'Cambia user_path a "subdir/a.txt" y observa CONTINUE; prueba sin cases:read en scopes',
     },
     'llmops': {
+      environment: 'browser-pyodide',
       title: 'Practica tracing y eval (simulado)',
       code: `# Simulacion de LLMOps: tracing y evaluacion
 import time
@@ -3496,6 +3551,7 @@ print(f"  Costo: ${'{cost:.4f}'}")`,
       hint: 'Cambia faithfulness a 0.5 y observa como cambia el status',
     },
     'multimodal': {
+      environment: 'browser-pyodide',
       title: 'Practica CLIP y Whisper (simulado)',
       code: `# Simulacion de conceptos multi-modales
 # Sin transformers - simulamos con conceptos
@@ -3566,6 +3622,7 @@ Texto completo: 'Hola, bienvenidos al curso de Python para Data Science vamos a 
       hint: 'Cambia el query a "un auto" y observa cual imagen tiene mayor similitud',
     },
     'iac': {
+      environment: 'browser-pyodide',
       title: 'Practica Terraform concepts',
       code: `# Simulacion de conceptos de IaC
 # Sin Terraform real - simulamos el modelo declarativo
@@ -3663,6 +3720,7 @@ print(f"  State: {list(tf.state.keys())}")`,
       hint: 'Anade un nuevo recurso "grafana" al estado deseado y aplica',
     },
     'gpu-computing': {
+      environment: 'browser-pyodide',
       title: 'Practica conceptos de GPU (simulado)',
       code: `# Simulacion de conceptos de GPU computing
 import time
@@ -3720,6 +3778,7 @@ print("  3-5x mas rapido que HuggingFace transformers")`,
       hint: 'Cambia n a 200 y observa como aumenta el tiempo cuadraticamente',
     },
     'opensource': {
+      environment: 'browser-pyodide',
       title: 'Practica empaquetado y CI',
       code: `# Simulacion de conceptos de open source
 import json
@@ -3797,6 +3856,7 @@ print(f"  Steps: checkout -> setup-python -> pip install -> ruff -> pytest")`,
       hint: 'Que pasa si cambio la version a 2.0.0? Es compatible con 1.x?',
     },
     'ai-governance': {
+      environment: 'browser-pyodide',
       title: 'Practica bias y fairness',
       code: `# Simulacion de bias detection y fairness
 import random
@@ -3869,6 +3929,7 @@ for key, value in model_card.items():
       hint: 'Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece',
     },
     'data-contracts': {
+      environment: 'browser-pyodide',
       title: 'Practica agentes y tools',
       code: `# Mini-lab de agente acotado (stdlib) con tool registry, idempotencia y gate HITL
 # CASO-AYA-049 (entidad ficticia en Ayacucho) — sin PII real, sin red, sin secretos.
@@ -3920,6 +3981,7 @@ print(call_tool("prod_send", "k3", human_ok=True))       # scope fuera del grant
       hint: 'Cambia human_ok de False a True en la segunda llamada y observa que la cuarta linea es idempotente: mismo efecto, sin duplicar el side effect.',
     },
     'tech-leadership': {
+      environment: 'browser-pyodide',
       title: 'Practica design doc y postmortem',
       code: `# Generador de templates de liderazgo tecnico
 
@@ -4016,6 +4078,7 @@ Redis cache + collaborative filtering + fallback a populares
       hint: 'Escribe un design doc para tu propio proyecto',
     },
     'integrator-final': {
+      environment: 'browser-pyodide',
       title: 'Practica arquitectura agenticaca',
       code: `# Simulacion de plataforma agéntica completa
 from typing import TypedDict
@@ -4094,6 +4157,7 @@ Analisis: Insights: Analisis de churn Q2 2026 tiene 3 patrones clave
       hint: 'Anade un cuarto agente "Reviewer" que valide el reporte antes de entregarlo',
     },
     'career-strategy': {
+      environment: 'browser-pyodide',
       title: 'Practica portfolio y CV',
       code: `# Generador de portfolio y CV tips
 
@@ -4181,23 +4245,47 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
   }
   const demo = demos[sectionId]
   if (!demo) return null
+  return <PlaygroundDemoBlock sectionId={sectionId} demo={demo} />
+}
 
+/** The block one playground demo renders as; `sectionId` only names its test ids. */
+export function PlaygroundDemoBlock({ sectionId, demo }: { sectionId: string; demo: PlaygroundDemo }) {
+  // SIM-11: the declared environment decides whether the browser runs the example at all.
+  const mode = playgroundMode(demo.environment)
   return (
     <div className="space-y-3" data-testid={`demo-playground-${sectionId}`}>
       <div className="flex items-center gap-2 border-t border-border pt-6">
         <Sparkles className="h-5 w-5 text-gold" />
         <h3 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-subdisplay)' }}>Pruébalo tú mismo</h3>
       </div>
-      <Callout type="tip" title="Editor interactivo en tu navegador">
-        Este editor corre Python de verdad en tu browser (con Pyodide). Modifica el código, presiona <strong>Run</strong>, y experimenta. No necesitas instalar nada.
-      </Callout>
-      <CodePlayground
-        initialCode={demo.code}
-        expectedOutput={demo.expectedOutput}
-        hint={demo.hint}
-        title={demo.title}
-        testId={`demo-run-${sectionId}`}
-      />
+      {mode === 'run-in-browser' ? (
+        <>
+          <Callout type="tip" title="Editor interactivo en tu navegador">
+            Este editor corre Python de verdad en tu browser (con Pyodide). Modifica el código, presiona <strong>Run</strong>, y experimenta. No necesitas instalar nada.
+          </Callout>
+          <CodePlayground
+            initialCode={demo.code}
+            expectedOutput={demo.expectedOutput}
+            hint={demo.hint}
+            title={demo.title}
+            testId={`demo-run-${sectionId}`}
+          />
+        </>
+      ) : (
+        <>
+          <Callout type="info" title={LOCAL_PYTHON_NOTE.title}>
+            {LOCAL_PYTHON_NOTE.body}
+          </Callout>
+          <CodeBlock code={demo.code} language="python" title={demo.title} output={demo.expectedOutput} />
+          <CodeBlock code={LOCAL_RUN_COMMAND} language="bash" />
+          {demo.hint && (
+            <details className="rounded-lg border border-border/60 bg-violet-500/5 px-4 py-2" data-testid={`demo-hint-${sectionId}`}>
+              <summary className="cursor-pointer text-xs font-medium text-violet-600">Ver pista</summary>
+              <p className="mt-1 text-xs text-foreground/70">{demo.hint}</p>
+            </details>
+          )}
+        </>
+      )}
     </div>
   )
 }

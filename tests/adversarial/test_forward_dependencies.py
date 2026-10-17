@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -45,6 +46,53 @@ def index_of(section_id: str) -> int:
         if sid == section_id:
             return idx
     raise AssertionError(f"no active section has id {section_id!r}")
+
+
+_BINDING_RE = re.compile(r"import \{ (section\d\d) \} from '\./sections/(s\d\d)-([^']+)'")
+_ARRAY_RE = re.compile(r"COURSE_SECTIONS: CourseSection\[\] = \[(.*?)\n\]", re.S)
+
+
+def binding_mismatches(root: Path) -> list[str]:
+    """Each way a section's number can disagree with itself, one named string per defect.
+
+    A section's number lives in four places: its import binding (`sectionNN`), its file name
+    (`sNN-slug.ts`), its `index:`, and its slot in COURSE_SECTIONS. A renumber that moves some of
+    them and not others is the defect G-2 exists for. The array must also list the bindings in
+    import order, so a section cannot be orphaned from the course.
+    """
+    index_ts = (root / "src/lib/course/index.ts").read_text(encoding="utf-8")
+    bindings = _BINDING_RE.findall(index_ts)
+    array = _ARRAY_RE.search(index_ts)
+    if array is None:
+        return ["src/lib/course/index.ts: COURSE_SECTIONS array not found"]
+    slots = re.findall(r"section\d\d", array.group(1))
+    out = []
+    if slots != [name for name, _, _ in bindings]:
+        out.append(f"COURSE_SECTIONS lists {slots}, which does not follow the import bindings")
+    for position, (name, prefix, slug) in enumerate(bindings, start=1):
+        out.extend(_number_defects(root, position, name, prefix, slug))
+    return out
+
+
+def _number_defects(root: Path, position: int, name: str, prefix: str, slug: str) -> list[str]:
+    where = f"{name} (slot {position})"
+    path = root / "src/lib/course/sections" / f"{prefix}-{slug}.ts"
+    if not path.exists():
+        return [f"{where}: imports ./sections/{prefix}-{slug}, which does not exist"]
+    declared = _declared_index(path.read_text(encoding="utf-8"))
+    defects = []
+    if int(name[-2:]) != position:
+        defects.append(f"{where}: the binding is numbered {int(name[-2:])}")
+    if int(prefix[1:]) != position:
+        defects.append(f"{where}: {path.name} is numbered {int(prefix[1:])}")
+    if declared != position:
+        defects.append(f"{where}: index: is {declared} in {path.name}")
+    return defects
+
+
+def _declared_index(src: str) -> int | None:
+    found = re.search(r"^\s*index:\s*(\d+)", src, re.M)
+    return int(found.group(1)) if found else None
 
 
 PLAYGROUNDS = ROOT / "src/components/course/SectionView.tsx"
@@ -189,6 +237,55 @@ class ForwardDependencyTests(unittest.TestCase):
                          for p in (gate.parent / "STARTER").glob("*.py"))
         self.assertGreater(len(on_disk), 0, "no capstone STARTER files found to scan")
         self.assertEqual(sorted(p for _, p, _ in capstone_starters()), on_disk)
+
+    def test_each_section_number_agrees_across_its_binding(self) -> None:
+        """G-2: the import binding, the file name, `index:` and the array slot agree.
+
+        `active_sections()` sorts by `index:`, so a binding renumbered without its `index:` moves
+        every D9 and D10 boundary silently. The real tree must agree, and every disagreement must
+        be reported by name.
+        """
+        self.assertEqual(binding_mismatches(ROOT), [])
+
+    def test_a_renumber_that_leaves_index_behind_is_reported(self) -> None:
+        """G-2 recreation on a fixture: each defect a renumber can leave must be named."""
+        cases = {
+            "stale index:": {"index": {"s02-b": 7}},
+            "file renamed alone": {"file": {"s02-b": "s07-b"}},
+            "file and import renamed, number kept": {"moved": {"s02-b": "s07-b"}},
+            "binding renamed alone": {"binding": {"section02": "section07"}},
+        }
+        for label, mutation in cases.items():
+            with self.subTest(defect=label), tempfile.TemporaryDirectory() as tmp:
+                root = write_course_fixture(Path(tmp), **mutation)
+                found = binding_mismatches(root)
+                self.assertTrue(found, f"a fixture with a {label} defect passed the guard")
+
+
+def write_course_fixture(root: Path, index=None, file=None, binding=None, moved=None) -> Path:
+    """A two-section course tree. Each keyword plants one renumber defect in it.
+
+    `file` renames a section file and leaves its import behind; `moved` renames the file and its
+    import together; `index` and `binding` set `index:` and the binding name directly.
+    """
+    index, file, binding, moved = index or {}, file or {}, binding or {}, moved or {}
+    sections = root / "src/lib/course/sections"
+    sections.mkdir(parents=True)
+    names = {"s01-a": 1, "s02-b": 2}
+    for slug, number in names.items():
+        stem = file.get(slug, moved.get(slug, slug))
+        body = f"export const x = {{\n  id: 'sec-{slug}',\n  index: {index.get(slug, number)},\n}}\n"
+        (sections / f"{stem}.ts").write_text(body, encoding="utf-8")
+    imports = "".join(
+        f"import {{ {binding.get(f'section{n:02d}', f'section{n:02d}')} }} from './sections/{moved.get(slug, slug)}'\n"
+        for slug, n in names.items()
+    )
+    array = ", ".join(binding.get(f"section{n:02d}", f"section{n:02d}") for n in (1, 2))
+    (root / "src/lib/course/index.ts").write_text(
+        imports + f"export const COURSE_SECTIONS: CourseSection[] = [\n  {array},\n]\n",
+        encoding="utf-8",
+    )
+    return root
 
 
 if __name__ == "__main__":

@@ -39,8 +39,8 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
         self.assertIn("id: 'setup'", lesson)
         self.assertIn("index: 1", lesson)
         self.assertIn("title: 'Entorno reproducible y trabajo seguro'", lesson)
-        self.assertIn("setup: '1. Entorno'", pdf)
-        self.assertNotIn("setup: '1. Setup'", pdf)
+        self.assertIn("setup: 'Entorno'", pdf)
+        self.assertNotIn("setup: 'Setup'", pdf)
 
     def test_all_eight_subtopics_have_model_and_three_practices(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")
