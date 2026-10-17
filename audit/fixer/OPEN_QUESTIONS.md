@@ -581,7 +581,20 @@ appears, and (in CI, on a full run) asks for the number to be lowered when one i
 them means declaring those packages in the learners' environment, or rewriting the snippets not
 to need them. The first changes what a learner installs, so it is the owner's call.
 
-## Q8 — S12-T3-B: the corrected index paragraph is true, and four style concerns came back twice (2026-10-15)
+## Q8 — S12-T3-B: the corrected index paragraph is true, and four style concerns came back twice (2026-10-15) — RESOLVED 2026-10-17
+
+**Resolved.** The owner chose a further Codex round on 2026-10-16, with `gpt-6-luna` at `medium`.
+They set the bar: no slip, written in their structure (a new idea said two ways, a reminder of
+earlier concepts, no staccato). They read all fifteen drafts and chose V15 on 2026-10-17. V15 is
+now two paragraphs:
+- The first teaches `PRIMARY KEY` and `UNIQUE` at their first use in prose. It says SQLite
+  creates one index for `id` and one for `document_id` to check those two constraints, and
+  defines **índice** in a sentence of its own. It ends with why the demo adds no second index.
+- The second contrasts `NOT NULL`, says when to write `CREATE INDEX`, and recalls T3-A's JOIN on
+  `entity_id`.
+
+The drafts and their diagnoses are in the PR #108 thread. The four concerns below are all
+resolved in V15.
 
 Branch `claude/s12-unique-already-indexed` fixes S12-F15 (KFC-010): the lesson created a second
 index on a `UNIQUE` column. The facts are now right everywhere they appeared. `paragraphs[2]` of
