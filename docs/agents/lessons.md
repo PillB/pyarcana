@@ -206,32 +206,80 @@ Changes to this policy require independent human or verifier review
 
 ## chore(lint): cyclomatic complexity ceiling
 
-**Ceiling: 15.** Enforced by `node scripts/complexity_gate.mjs`.
-
-McCabe's original guidance puts 10 at the edge of what one reader holds in mind at
-once; most TypeScript/React codebases settle at 15. This repository's worst function
-scores 90, so a hard ceiling applied today would block every change and be switched
-off within a week — which is how complexity limits usually die.
-
-So the ceiling is real and the enforcement is directional. The number of functions
-above 15, and the worst score, may fall and may not rise:
+**Ceiling: 15**, per function, in both languages. Two ratchets enforce it with one
+policy and one scope file, `audit/fixer/complexity_scope.json`, which also lists every
+exclusion with its reason:
 
 ```bash
-node scripts/complexity_gate.mjs            # fails if complexity grew
-node scripts/complexity_gate.mjs --update   # re-baseline after reducing debt
+node scripts/complexity_gate.mjs            # TypeScript, JavaScript, tests, workers/billing
+python3.12 scripts/complexity_gate_py.py    # Python; npm run lint:complexity:py picks .venv-content
 ```
 
-Baseline lives in `audit/fixer/complexity_baseline.json`. At the time of writing: 34
-functions above the ceiling, worst 90 (`components/course/Dashboard.tsx`).
+McCabe's original guidance puts 10 at the edge of what one reader holds in mind at
+once; most TypeScript/React codebases settle at 15. This repository carries debt far
+above it (the worst TypeScript function scores 78, the worst Python one 236), so a hard
+ceiling applied today would block every change and be switched off within a week —
+which is how complexity limits usually die.
+
+So the ceiling is real and the enforcement is directional, and it is kept per function:
+
+- A function new to the codebase scores 15 or less.
+- A baselined function (`audit/fixer/complexity_baseline.json`, `complexity_baseline_py.json`)
+  may fall and may not rise. A function that falls to 15 leaves the baseline, and the gate
+  rewrites the baseline when debt falls; commit it, or the lint job fails.
+- Nothing passes unmeasured: a file the gate cannot parse, a scope that measures no
+  function, and a missing baseline all fail.
+
+Both count the way ESLint's `complexity` rule does (NIST SP 500-235 4.1), so 15 means the
+same in both languages. In Python that includes each parameter default (owner ruling O21).
+
+**Keys.** A function is keyed by what it is, never by where it sits: `Class.method`,
+`outer.<arg 0 of items.map>`, `big` for `big = lambda ...`. A callback takes every name
+the code gives it: the name its call's result is bound to (`<arg 0 of tooltipLabel = React.useMemo>`),
+the title its call is given (`<arg 1 of test "renders">`), its JSX element and attribute
+(`<button onClick>`), its row's title in a list (`ROWS.<item 1 "role">`), or `<returned>`;
+`const doFetch = options.fetch ?? (() => ...)` is `doFetch`. An object or a list around a
+function is named the same way (`<arg 0 of m = configure>.onLoad`, `<returned>.onLoad`), and an
+object in a list by its first string value (`MODALS.<item "auth">.open`).
+A Python lambda is named the same way: `<kw key of first = sorted>`,
+`<kw type of parser.add_argument "--size">`.
+A number is the fallback for what has no name at all: only functions in one file that share
+a whole path are numbered, `#2`, on the segment where their paths part. Two unbound
+`rows.map` callbacks in one JSX tree, two `useEffect` callbacks in one component, or two
+`<Button onClick>` handlers in one tree are the usual case; a `handler` inside the second
+effect takes no number while its path is unique. The gate does not read arguments after a
+function, arguments inside its callee, an identifier argument, a JSX element's other attributes
+or text, or the function's body, so functions that differ only there are numbered. So a number
+moves only when a function with that same path is added before it, and a list item with no
+title (`CHECKS.<item 1>`) when an item is added before it in its list; a function added with any
+other path, anywhere in the file, moves no key. A function that moves into another function, or
+is renamed, is a new key and counts as new code. Each gate's test file holds one case per form a
+function takes in the tree and fails on a new form until it has one: that is the audit, kept.
+
+**Re-baselining.** There is no `--update`. A re-baseline is a reviewed diff: delete the
+baseline, run the gate with `--init` (it refuses to overwrite one), and name every function
+that moved in the commit message:
+
+```bash
+rm audit/fixer/complexity_baseline.json    && node scripts/complexity_gate.mjs --init
+rm audit/fixer/complexity_baseline_py.json && python3.12 scripts/complexity_gate_py.py --init
+```
+
+Do it only when the counting rule or the scope changed by decision (counting defaults
+raised eight Python scores and added two functions), never to absorb growth.
+
+**A branch in a baselined function.** One more `if` in a baselined function fails the gate
+(`GREW 43 -> 44`), where the old aggregate gate allowed it. Extract first. The renumber's
+`teaching_debt` gate goes inside `EligibilityEngine.evaluate`, baselined at 43, so that
+change must reduce `evaluate` before it adds the gate.
 
 **New code meets 15.** A function that would exceed it gets split before it lands —
-not silenced with a disable comment. When a change pushes the count up, the fix is to
-split the new function or reduce debt elsewhere first, and the gate says which
-functions are worst so the choice is informed.
+not silenced with a disable comment. When a change pushes a score up, the fix is to
+split the new function or reduce debt elsewhere first, and the gate names the function.
 
 **The trade-off, stated:** a ratchet tolerates existing debt indefinitely if nobody
-touches it. It buys enforceability at the cost of never forcing the 90 down. Reducing
-`Dashboard.tsx` is real work that this gate schedules but does not do.
+touches it. It buys enforceability at the cost of never forcing the worst offenders
+down. Reducing `Dashboard.tsx` is real work that this gate schedules but does not do.
 
 ## Traps of the Claude Code cloud sandbox, and how to avoid them (Sesión 0, 5–6 Oct 2026)
 
