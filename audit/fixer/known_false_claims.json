@@ -309,8 +309,8 @@
       "title": "`Connection.row_factory` presented as what makes `:name` placeholders work",
       "scope": ["sections", "glossary", "exam-bank", "capstones"],
       "patterns": [
-        "(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))\\)?{W15}(?<!\\bno )(?<!\\bsin )\\b(?:con|usando|via|mediante|junto a|requiere\\w*|necesita\\w*|activando|configurando) (?:(?:el|la|un|una|tu|activar|configurar|definir|atributo) )*(?:\\w+\\.)?row factory",
-        "row factory{W40}\\b(?:permite|habilita|activa|soporta|admite)\\w*{W30}(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))"
+        "(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))\\)?{W15}(?<!\\bno )(?<!\\bni )(?<!\\bnunca )(?<!\\bsin )\\b(?:con|usando|via|mediante|junto a|requiere\\w*|necesita\\w*|activando|configurando) (?:(?:el|la|un|una|tu|activar|configurar|definir|atributo) )*(?:\\w+\\.)?row factory",
+        "row factory{W40}(?<!\\bno )(?<!\\bni )(?<!\\bnunca )\\b(?:permite|habilita|activa|soporta|admite)\\w*{W30}(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))"
       ],
       "correct_statement": "A named placeholder (`:name`) takes its values from a dict whose keys name every placeholder; a `?` placeholder takes them from a sequence such as a tuple, by position. `Connection.row_factory` plays no part in binding: it decides the shape of the rows a query returns (a tuple by default, `sqlite3.Row` to read columns by name). A sequence passed to named placeholders emits DeprecationWarning in Python 3.12 and raises ProgrammingError from 3.14.",
       "citation": {
@@ -329,7 +329,9 @@
           "Usa placeholders `?` con una tupla, o `:name` con un dict de parámetros.",
           "Los placeholders `:name` toman un dict; `row_factory` no interviene: solo decide la forma de las filas que salen de la consulta.",
           "`:name` no necesita `row_factory`; toma un dict.",
-          "Con `con.row_factory = sqlite3.Row` cada fila permite leer columnas con nombre, como `fila[\"document_id\"]`."
+          "Con `con.row_factory = sqlite3.Row` cada fila permite leer columnas con nombre, como `fila[\"document_id\"]`.",
+          "`row_factory` no habilita los placeholders `:name`; solo cambia la forma de las filas devueltas.",
+          "`:name` nunca necesita `row_factory`: toma un dict."
         ]
       },
       "allow": [],
