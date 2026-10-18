@@ -16,9 +16,10 @@ its one entry, market_evidence_ids (pointers into the repository's own research 
 "Market evidence pointers" by the maintainer copies under industry_alignment/badge_requirements/, so the
 owner counts it among the labels. The list is kept because O25 asks for the mechanism. Three tests keep
 the lists honest: a declaration for a field that does not exist is stale; no code under src/ may READ a
-field on a list (names_field: the whole word, outside a comment, and not as the bare type member of an
-interface, which declares a shape and reads nothing); and no field a claim contract publishes may be on
-one. The last two act on the five catalog entries. The badge list is empty, so the mechanisms behind it
+field on a list (field_read_guard.mjs, on the TypeScript compiler's syntax tree: a read is the whole word
+as code, as a string or as JSX text, and a comment never counts; a member that an interface or a type
+literal declares reads nothing); and no field a claim contract publishes may be on one. The last two act
+on the five catalog entries. The badge list is empty, so the mechanisms behind it
 are tested on a declared field (mock.patch.dict). The earlier versions listed the digested fields and let
 every other field change freely; the review of the first draft changed skill_nodes, non_claims,
 required_projects, newbie_friendly_description and credential_type under an unchanged version without a
@@ -89,6 +90,7 @@ import hashlib
 import io
 import json
 import re
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -153,12 +155,9 @@ INTERNAL_LISTS = {"badge": NOT_DIGESTED, "catalog": CATALOG_NOT_DIGESTED}
 #: Source files the internal-field check reads. The lesson files are lesson text, not application code.
 SOURCE_SUFFIXES = (".ts", ".tsx", ".mts", ".js", ".mjs")
 S_NUMBER = re.compile(r"\bS\d{2}\b")
-#: A comment is prose, and prose cannot read a field: `/* ... */`, and `//` to the end of the line. Both
-#: must open the line or follow a space, so that the `//` of `https://` and the `/*` of a route pattern
-#: (`'/api/*'`) stay code and cannot swallow the code after them.
-COMMENT = re.compile(r"(?:^|(?<=\s))(?:/\*.*?\*/|//[^\n]*)", re.S | re.M)
-#: A TypeScript type: a primitive or a PascalCase name, optionally an array.
-TYPE = r"(?:string|number|boolean|unknown|null|undefined|never|any|[A-Z]\w*)(?:\[\])?"
+#: The reader of a field's use in code (owner decision O27 102-S1): a Node program on the TypeScript
+#: compiler API. The text pattern it replaces could not tell a comment, or a `//` inside a string, from code.
+FIELD_READ_GUARD = ROOT / "tests/adversarial/field_read_guard.mjs"
 
 
 def digested_fields(catalog: dict) -> list[str]:
@@ -183,28 +182,28 @@ def internal_fields_the_contracts_repeat(left_out: dict) -> list[str]:
     return sorted((SHARED_FIELDS | contract_fields()) & set(left_out))
 
 
-def names_field(text: str, field: str) -> bool:
-    """Whether the code in `text` can read `field`: it names the whole word outside a comment, and not as
-    the bare type member (`field?: string`) of an interface, which states the shape of the JSON and reads
-    nothing. Anything else counts, so an unusual spelling of a read is flagged rather than missed: a
-    property access, a destructuring (a rename `field: alias` included), a string key, text a page shows."""
-    if field not in text:
-        return False
-    name = re.escape(field)
-    member = re.compile(rf"^\s*(?:readonly\s+)?{name}\??\s*:\s*{TYPE}(?:\s*\|\s*{TYPE})*\s*[;,]?\s*$")
-    word = re.compile(rf"\b{name}\b")
-    return any(word.search(line) and not member.match(line) for line in COMMENT.sub("", text).splitlines())
+def reads_by_job(jobs: list[dict]) -> dict[str, list[str]]:
+    """For each job (`name`, `file`, `text`, `fields`), the fields its code reads, by the TypeScript compiler
+    API in field_read_guard.mjs. One Node process reads every job: a process per file would take minutes."""
+    run = subprocess.run(
+        ["node", str(FIELD_READ_GUARD)],
+        input=json.dumps(jobs), capture_output=True, text=True, cwd=ROOT, check=False,
+    )
+    if run.returncode != 0:
+        raise RuntimeError(f"field_read_guard.mjs failed: {run.stderr.strip()}")
+    return json.loads(run.stdout)
 
 
 def code_that_reads(fields: dict, root: Path = ROOT / "src") -> list[tuple[str, str]]:
     """(file, field) for each application source file under `root` that reads one of `fields`."""
-    found = []
-    for path in sorted(root.rglob("*")):
-        if path.suffix not in SOURCE_SUFFIXES or "course/sections" in path.as_posix():
-            continue
-        text = path.read_text(encoding="utf-8", errors="replace")
-        found += [(str(path), field) for field in sorted(fields) if names_field(text, field)]
-    return found
+    jobs = [
+        {"name": str(path), "file": path.name, "text": path.read_text(encoding="utf-8", errors="replace"),
+         "fields": sorted(fields)}
+        for path in sorted(root.rglob("*"))
+        if path.suffix in SOURCE_SUFFIXES and "course/sections" not in path.as_posix()
+    ]
+    reads = reads_by_job(jobs)
+    return [(name, field) for name, found in reads.items() for field in sorted(fields) if field in found]
 
 
 def section_numbers_in_prose(catalog: dict) -> list[tuple[str, str]]:
@@ -658,7 +657,9 @@ class ClaimDigests(unittest.TestCase):
         """The guard asks whether code READS a field. Asked of every mention, it refused `specification`
         (it is in comments and in `specificationVersion`) and `generated_at` (the BadgeCatalog interface
         declares it), so a field no code reads could not be declared internal. Each non-read below is
-        a mention the guard used to flag; each read is a spelling it must keep flagging."""
+        a mention the guard must not flag; each read is a spelling it must keep flagging. The last two
+        reads are spellings the text pattern before O27 102-S1 missed: a destructuring renamed to an
+        upper-case alias, and a comment marker inside a string that hid the read after it."""
         cases = [
             ("a line comment", "specification", "// the executable specification\nconst a = 1\n", False),
             ("a block comment", "specification", "const a = 1 /* the specification */\n", False),
@@ -673,10 +674,16 @@ class ClaimDigests(unittest.TestCase):
             ("text a page shows", "specification", "<p>The specification</p>\n", True),
             ("code after a url", "specification", "const u = 'https://x.y'; const s = c.specification\n", True),
             ("code after a route pattern", "specification", "const m = '/api/*'\nconst s = c.specification\n/* end */\n", True),
+            ("an upper-case alias of a destructuring", "generated_at", "const {\n  generated_at: GENERATED_AT,\n} = badgeCatalog\n", True),
+            ("comment markers inside strings before a read", "generated_at",
+             "const note = 'see //x'\nconst block = 'a /*'\nconst s = catalog.generated_at\nconst h = '*/'\n", True),
         ]
-        for label, field, text, reads in cases:
+        reads = reads_by_job([
+            {"name": label, "file": "case.tsx", "text": text, "fields": [field]} for label, field, text, _ in cases
+        ])
+        for label, field, _, expected in cases:
             with self.subTest(label):
-                self.assertEqual(names_field(text, field), reads)
+                self.assertEqual(field in reads[label], expected)
 
     def test_a_declared_internal_field_that_is_not_in_the_catalog_is_stale(self) -> None:
         with mock.patch.dict(NOT_DIGESTED, self.DECLARED):
