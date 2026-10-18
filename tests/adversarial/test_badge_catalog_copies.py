@@ -79,7 +79,9 @@ RULE_FLOORS = {
 }
 CRITICAL_FLOOR = "critical_competency_pct"
 #: Progress badges are walk-through markers; their own blueprint says they "do NOT use the provisional
-#: floors" (they state 0), so they are the one family the comparison leaves out.
+#: floors" (they state 0), so they are the one family the comparison leaves out. The exemption is kept
+#: (O27 102-S2), and progress_floor_violations() holds the condition it rests on: every floor a progress
+#: badge states is 0.
 FLOORLESS_FAMILIES = {"progress_achievement"}
 #: The catalog held 26 scored badges when this test was written. A floor, like MIN_BADGES: relabelling
 #: scored badges as progress badges would otherwise empty the comparison and pass it.
@@ -116,6 +118,18 @@ def floor_mismatches(catalog: dict) -> list[str]:
         for badge in scored_badges(catalog)
         for floor, where, stated in floor_statements(badge)
         if stated != floors.get(floor)
+    ]
+
+
+def progress_floor_violations(catalog: dict) -> list[str]:
+    """Every floor a progress badge states as anything but 0. The family exemption in floor_mismatches
+    rests on this: a progress badge that states 85 is a scored badge under another family name
+    (owner decision O27 102-S2)."""
+    return [
+        f"{badge['badge_id']}: {where} is {stated}, not 0"
+        for badge in catalog["badges"] if badge["family"] in FLOORLESS_FAMILIES
+        for _, where, stated in floor_statements(badge)
+        if stated != 0
     ]
 
 
@@ -211,6 +225,25 @@ class CatalogFloors(unittest.TestCase):
                     floor_mismatches(catalog),
                     [f"python_data_foundations: component section_exams is {stated}, provisional_floors.section_exam_pct is 85"],
                 )
+
+    def test_every_progress_badge_states_zero_wherever_it_states_a_floor(self) -> None:
+        """The family exemption leaves progress badges out of the comparison, so they must state 0 for
+        every floor they state; this is what the exemption rests on (O27 102-S2)."""
+        self.assertEqual(progress_floor_violations(self.catalog), [])
+
+    def test_a_scored_badge_relabelled_as_progress_is_named_even_when_a_scored_badge_is_added(self) -> None:
+        """The relabel alone is caught by the count of scored badges. Adding a scored badge in the same
+        change keeps that count at 26, and only this check then names the relabelled badge's 85s."""
+        catalog = copy.deepcopy(self.catalog)
+        relabelled = next(b for b in catalog["badges"] if b["badge_id"] == "python_data_foundations")
+        relabelled["family"] = "progress_achievement"
+        twin = {**copy.deepcopy(relabelled), "badge_id": "python_data_foundations_twin", "family": "applied_skill"}
+        catalog["badges"].append(twin)
+        self.assertEqual(len(scored_badges(catalog)), len(scored_badges(self.catalog)), "the count still passes")
+        self.assertEqual(floor_mismatches(catalog), [], "the comparison still passes, because the badge left it")
+        problems = progress_floor_violations(catalog)
+        self.assertIn("python_data_foundations: component section_exams is 85, not 0", problems)
+        self.assertTrue(all(p.startswith("python_data_foundations: ") for p in problems), problems)
 
 
 if __name__ == "__main__":
