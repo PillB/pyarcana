@@ -200,6 +200,17 @@ jobs:
       - name: Install dependencies
         run: bash scripts/ci_bun_install.sh
 
+      # The fonts are self-hosted (src/app/fonts). With Google Fonts unreachable, a build that
+      # fetches fonts again fails here on every run instead of about 1 run in 60
+      # (vercel/next.js#99114). The curl proves the block took effect.
+      - name: Make Google Fonts unreachable for the build
+        run: |
+          printf '0.0.0.0 fonts.googleapis.com fonts.gstatic.com\n:: fonts.googleapis.com fonts.gstatic.com\n' | sudo tee -a /etc/hosts
+          if curl -sS --max-time 10 -o /dev/null 'https://fonts.googleapis.com/css2?family=Inter'; then
+            echo 'fonts.googleapis.com is still reachable; the block did not take effect' >&2
+            exit 1
+          fi
+
       - name: Generate Prisma client
         if: matrix.mode == 'dynamic'
         run: bun run db:generate
