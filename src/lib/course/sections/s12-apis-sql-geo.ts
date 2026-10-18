@@ -311,7 +311,7 @@ print(seed_and_join())`,
       heading: "Parámetros, transacciones, constraints e índices",
       subtopicId: "S12-T3-B",
       paragraphs: [
-        "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa placeholders `?` (o `:name` con `Connection.row_factory`). **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a la inyección SQL (según OWASP, el proyecto abierto de seguridad web) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
+        "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa marcadores `?` con una tupla de parámetros, o `:name` con un `dict` cuyas claves coincidan con los nombres que siguen a `:`. **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a la inyección SQL (según OWASP, el proyecto abierto de seguridad web) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
         "`executemany` (ejecutar varios inserts de golpe) + `BEGIN`/`COMMIT` hacen batch **atómico** (todo o nada); un `UNIQUE` roto → `ROLLBACK` (deshacer) y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
         "En la tabla `clients` de `params_tx.py`, `PRIMARY KEY` marca la columna que identifica cada fila y `UNIQUE` no deja repetir valores; ambas restricciones protegen la integridad. Para comprobar que `id` identifica cada fila y `document_id` no repite valores, SQLite crea por sí solo dos índices: uno para `id` y otro para `document_id`. Un **índice** es una estructura que permite a SQLite ir directo a la fila coincidente sin leer toda la tabla. Por eso, el índice que SQLite creó para `document_id` al aplicar `UNIQUE`, `sqlite_autoindex_clients_2`, ya sirve para buscar por `document_id`, así que el demo no crea otro índice en esa columna.",
         "En cambio, `NOT NULL` solo rechaza valores nulos; no crea un índice ni ayuda a SQLite a encontrar filas más rápido. Cuando buscas o unes por una columna sin índice propio, escribes `CREATE INDEX`, por ejemplo para `evidence.entity_id`, clave del JOIN que une `evidence` con `clients` en T3-A. Ese es el caso de `document_id` en E3, cuya tabla no declara `UNIQUE`.",
@@ -347,7 +347,7 @@ print(try_batch_unique_doc())`,
         type: "danger",
         title: "f-string SQL = vulnerabilidad",
         content:
-          "Nunca interpoles input en SQL. Usa siempre marcador positional y tupla de params.",
+          "Nunca interpoles input en SQL. Usa siempre marcador posicional y tupla de params.",
       },
     },
     {
