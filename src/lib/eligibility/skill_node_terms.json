@@ -46,9 +46,9 @@
     "sql_window_ctes": ["row_number", "ctes", "funciones de ventana", "common table"],
     "stakeholder_translation": ["stakeholder", "partes interesadas"],
     "system_design": ["diseno de sistemas", "system design", "bounded context", "arquitectura", "colas/eventos", "esquema sqlite", "modelado relacional", "performance budgets"],
-    "testing_discipline": ["pruebas", "piramide unit", "tests de regresion", "tests del adaptador", "tests estructurales", "assert", "probar"],
+    "testing_discipline": ["pruebas", "piramide unit", "tests de regresion", "tests del adaptador", "tests estructurales", "assert"],
     "tradeoff_articulation": ["trade-off", "comparar alternativas", "tradeoff", "compensacion"],
     "uncertainty_quantification": ["incertidumbre", "abstencion", "abstenerse", "human_rescan", "reportar intervalos", "conformal", "bootstrap"],
-    "written_communication": ["comunicacion", "narrativa", "caption", "model card", "post mortem", "adrs", "mensajes accionables", "notas de version"]
+    "written_communication": ["comunicacion", "narrativa", "caption", "model card", "post mortem", "adrs", "notas de version"]
   }
 }

@@ -60,8 +60,10 @@ lessons use. A second Codex pass red-teamed the first for homes it lost (a secti
 skill) and for terms that copy one outcome word for word and stop matching when an editor rewords it. The
 pinned number moved from 92 pairs over 21 badges, measured with the drafted terms, to 108 over 20 after the
 first pass and to the pinned number after the second: a skill dropped from a section that does not teach
-it also stops covering the claims that leaned on that section. The final list is in the pull request diff
-for the owner, who decides whether the ratchet is final.
+it also stops covering the claims that leaned on that section. The owner approved the final list (O27
+102-Q2): `probar` (testing_discipline) and `mensajes accionables` (written_communication) were struck, and
+the three other terms the review named as weak (packaging_reproducibility, uncertainty_quantification,
+system_design) were kept.
 Sensitivity, measured 2026-10-13 with the reviewed lexicon and NOT pinned: title only gives 84 pairs over
 20 badges; B alone 49 over 15 and C alone 53 over 5; node-name words as terms give 27 over 15 on titles
 and 68 over 21 with outcomes; counting (badge, required section) pairs in which the section teaches none
