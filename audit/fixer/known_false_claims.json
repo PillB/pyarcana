@@ -263,6 +263,46 @@
       "allow": [],
       "found": {"date": "2026-10-12", "locations": ["src/lib/glossary/terms.ts:776"]},
       "decision": "Owner ruling 2026-10-12: fixed in the S18 round"
+    },
+    {
+      "id": "KFC-010",
+      "title": "A UNIQUE or PRIMARY KEY column given its own CREATE INDEX, as if the constraint left it unindexed",
+      "scope": ["glossary", "sections", "exam-bank", "capstones"],
+      "patterns": [
+        "create table (?:if not exists )?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\((?:(?!create table)(?:[^.!?\\n]|[.!?](?=\\S))){0,300}?\\b((?:[a-z0-9]+ ){0,2}[a-z0-9]+) (?:[a-z]+(?:\\(\\d+\\))? )?(?:not null )?(?:unique|primary key)\\b{W300}create (?:unique )?index (?:if not exists )?[a-z0-9 ]+? on \\1 ?\\( ?\\2 ?\\)",
+        "create table (?:if not exists )?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\((?:(?!create table)(?:[^.!?\\n]|[.!?](?=\\S))){0,300}?\\b(?:unique|primary key) ?\\( ?((?:[a-z0-9]+ ){0,2}[a-z0-9]+) ?\\){W300}create (?:unique )?index (?:if not exists )?[a-z0-9 ]+? on \\1 ?\\( ?\\2 ?\\)"
+      ],
+      "correct_statement": "In SQLite a UNIQUE or PRIMARY KEY constraint is implemented by a unique index the engine creates itself (sqlite_autoindex_<table>_N; an INTEGER PRIMARY KEY is the rowid), so a lookup on that column is already a search, not a full scan. A second CREATE INDEX on that one column gives queries nothing the automatic index does not, and every write must maintain both. CREATE INDEX helps a column with no index: a repeated foreign key such as evidence.entity_id, or document_id in a table that does not declare it UNIQUE (exercise S12-T3-B-E3). NOT NULL creates no index.",
+      "citation": {
+        "source": "SQLite documentation, CREATE TABLE, UNIQUE constraints",
+        "url": "https://www.sqlite.org/lang_createtable.html#uniqueconst",
+        "quote": "In most cases, UNIQUE and PRIMARY KEY constraints are implemented by creating a unique index in the database."
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_a_unique_column_already_has_an_index",
+      "examples": {
+        "positive": [
+          "con.execute(\"CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)\"); con.execute(\"CREATE INDEX idx_doc ON clients(document_id)\")",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT, UNIQUE(document_id)); CREATE INDEX IF NOT EXISTS idx_doc ON clients(document_id);",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT); CREATE INDEX idx_id ON clients(id)"
+        ],
+        "negative": [
+          "con.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\"); con.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")",
+          "con.execute(\"CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)\")",
+          "CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT UNIQUE); CREATE INDEX idx_entity ON evidence(entity_id)",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE, name TEXT); CREATE INDEX idx_doc_name ON clients(document_id, name)",
+          "`UNIQUE` ya crea un índice (`sqlite_autoindex_clients_2`), así que `CREATE INDEX` sobre `document_id` sobraría; en E3 la columna no es `UNIQUE` y ahí sí creas `idx_document_id`.",
+          "CREATE TABLE pairs(id TEXT PRIMARY KEY, block_key TEXT, score REAL); CREATE INDEX idx_pairs_block ON pairs(block_key);",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY); CREATE TABLE evidence(id TEXT); CREATE INDEX idx_evidence_id ON evidence(id)",
+          "CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT); CREATE TABLE docs(document_id TEXT UNIQUE); CREATE INDEX idx_doc ON clients(document_id)"
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-14", "locations": [
+        "src/lib/course/sections/s12-apis-sql-geo.ts:325-326 (S12-T3-B params_tx.py: document_id UNIQUE NOT NULL, then CREATE INDEX idx_doc on it)",
+        "src/lib/course/sections/s12-apis-sql-geo.ts:316 (prose: UNIQUE/NOT NULL and indexes said to speed lookups, with no word that UNIQUE is already indexed; the patterns do not match prose)",
+        "src/lib/course/sections/s12-apis-sql-geo.ts:2011-2012 (CP-N1-C starter asks for an index on a document_id it declares UNIQUE; the patterns do not match it)"
+      ]},
+      "decision": "Found 2026-10-14 in the review of the S12 exam bank (plan PR 9); fixed by Codex on claude/s12-unique-already-indexed, ahead of the S12 fixer round"
     }
   ]
 }
