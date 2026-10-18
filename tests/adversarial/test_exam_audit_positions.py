@@ -38,9 +38,9 @@ import exam_selfcheck_pedagogy_audit as audit  # noqa: E402
 #: 2026-10-13. A record of the stored banks, not a learner-facing defect (see key_position_issues).
 #: Lower this as banks are re-keyed; it may not grow without a new decision.
 KEY_POSITION_IMBALANCED_BANKS_OWED = frozenset({
-    "advanced-models", "ai-apis-advanced", "ai-governance", "apis-sql-geo", "async-concurrency",
+    "advanced-models", "ai-apis-advanced", "ai-governance", "async-concurrency",
     "career-strategy", "computer-vision", "cv-ai-integration", "data-engineering", "databases-orm",
-    "dbt-bigquery", "evidence-dashboard", "fastapi", "gpu-computing", "graph-rag", "iac",
+    "dbt-bigquery", "fastapi", "gpu-computing", "graph-rag", "iac",
     "integrator-final", "integrator-phase1", "integrator-phase2", "llm-agents", "llm-finetuning",
     "llmops", "microservices", "mlops", "multimodal", "opensource", "packaging",
     "performance-extreme", "rag", "rapidfuzz-entity", "rpa-advanced", "security", "security-infra",
