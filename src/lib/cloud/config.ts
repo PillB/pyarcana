@@ -105,6 +105,21 @@ export function buildStage(committed: LaunchStage, basePathEnv: string | undefin
   return basePathEnv === '' ? committed : 'off'
 }
 
+/**
+ * The data bank's holder, from the deploy (round of 19 Oct 2026, item 3; S7). deploy.sh reads
+ * ~/.config/pyarcana/holder on the owner's computer and passes it to the build only: the repository
+ * is public, and a name or address committed once stays in its history. All-or-nothing on name and
+ * address, as the notice names a holder only with an address (DS 016-2024-JUS art. 6.1.1); the
+ * Worker opens sign-up exactly when deploy.sh also passes CONTROLLER_NAME. NEXT_PUBLIC_ because
+ * client components read CLOUD_CONFIG and re-render the controller after hydration.
+ */
+export function holderLegal(name: string | undefined, address: string | undefined, ruc: string | undefined): Pick<LegalIdentity, 'sellerName' | 'address' | 'ruc'> {
+  const n = (name ?? '').trim()
+  const a = (address ?? '').trim()
+  if (!n || !a) return { sellerName: '', address: '', ruc: '' }
+  return { sellerName: n, address: a, ruc: (ruc ?? '').trim() }
+}
+
 export const CLOUD_CONFIG: CloudConfig = {
   launchStage: buildStage(COMMITTED_LAUNCH_STAGE, process.env.NEXT_PUBLIC_BASE_PATH),
   // DESIGN-v3 §K/§L prefill. Inert while launchStage is 'off' (effectiveStage) and movedToCanonical
@@ -125,7 +140,13 @@ export const CLOUD_CONFIG: CloudConfig = {
   },
   gate: { freeSections: FREE_PLAN_SECTIONS ?? 0, since: '', packaging: 'A' },
   rails: { peru: '', international: '' },
-  legal: { sellerName: '', ruc: '', address: '', complaintsBookUrl: '', supportEmail: 'soporte@pyarcana.dev', rnpd: '' },
+  legal: {
+    // Literal process.env.NEXT_PUBLIC_* reads: Next inlines only these at build time.
+    ...holderLegal(process.env.NEXT_PUBLIC_HOLDER_NAME, process.env.NEXT_PUBLIC_HOLDER_ADDRESS, process.env.NEXT_PUBLIC_HOLDER_RUC),
+    complaintsBookUrl: '',
+    supportEmail: 'soporte@pyarcana.dev',
+    rnpd: '',
+  },
   providerPortals: { mercadopago: 'https://www.mercadopago.com.pe/subscriptions', creem: '' },
   ads: { provider: 'house', adsenseClient: '', adsenseSlots: {}, ethicaladsPublisher: '' },
   consent: { mode: 'everywhere' },

@@ -84,6 +84,19 @@ try {
   record('cuenta suite', false, `threw: ${e.message.split('\n')[0]}`)
 }
 
+// Round of 19 Oct 2026, item 3 (S7): run.sh builds with the test holder (as deploy.sh does from
+// ~/.config/pyarcana/holder) and opens the Worker with the same CONTROLLER_NAME. The prerendered
+// notice must name the holder and the address and no longer say sign-up is closed.
+try {
+  const r = await fetch(`${BASE}/privacy`)
+  const html = await r.text()
+  const t = html.replace(/<!-- -->/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
+  record('/privacy names the holder and the address, prerendered', /El responsable de tus datos es Titular de prueba , con domicilio en Av\. Ejemplo 123, Lima\./.test(t), t.slice(t.indexOf('responsable de tus datos') - 3, t.indexOf('responsable de tus datos') + 120))
+  record('/privacy says the holder is interim, and no longer that sign-up is closed', /Lo es de forma provisional/.test(t) && !/no abrimos cuentas nuevas/.test(t))
+} catch (e) {
+  record('/privacy holder', false, `threw: ${e.message.split('\n')[0]}`)
+}
+
 await browser.close()
 const failed = results.filter((r) => !r.ok)
 const skipped = results.filter((r) => r.skipped).length

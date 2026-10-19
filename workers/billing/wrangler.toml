@@ -47,9 +47,11 @@ CANONICAL_ORIGIN = "https://pyarcana.dev"
 SITE_PATH = ""
 # Version string of the Terms the sign-in panel shows; sign-in must echo it exactly.
 TERMS_VERSION = "2026-10-05"
-# The named holder of the personal-data bank (Ley 29733 art. 18): the legal entity being formed.
-# Empty = sign-up closed: only ADMIN_EMAILS may create an account; existing accounts sign in as
-# usual. Must equal the site's CLOUD_CONFIG.legal.sellerName (pinned by a test).
+# The named holder of the personal-data bank (Ley 29733 art. 18). Empty here, always: the name
+# lives in ~/.config/pyarcana/holder on the owner's computer (the repository is public) and
+# deploy.sh passes it with --var CONTROLLER_NAME:<name> for that deploy, together with the same
+# holder for the site's build (NEXT_PUBLIC_HOLDER_*). Empty = sign-up closed: only ADMIN_EMAILS may
+# create an account; existing accounts sign in as usual.
 CONTROLLER_NAME = ""
 # Trial length (days), grace after a failed renewal (days), absolute session cap (days).
 TRIAL_DAYS = "7"

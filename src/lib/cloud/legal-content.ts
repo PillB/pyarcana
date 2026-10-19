@@ -114,6 +114,15 @@ export interface Controller {
 
 const filled = (v: string): string | null => (v.trim() === '' ? null : v.trim())
 
+/**
+ * Whether the holder is a company: a Peruvian RUC starting with 20 belongs to a persona jurídica
+ * (10 is a persona natural). Without one, the holder is the owner as a natural person, the interim
+ * holder until the company exists (owner's decision, 19 Oct 2026), and the notices say so.
+ */
+export function holderIsCompany(c: Controller): boolean {
+  return /^20\d{9}$/.test(c.ruc ?? '')
+}
+
 /** The data controller from legal.*, or null until the owner fills sellerName. */
 export function controllerOf(cfg: CloudConfig): Controller | null {
   const name = filled(cfg.legal.sellerName)

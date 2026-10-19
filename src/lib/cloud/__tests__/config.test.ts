@@ -2,7 +2,8 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { CLOUD_CONFIG, effectiveStage, normalizeOrigin, currentStage, type CloudConfig } from '@/lib/cloud/config'
+import { CLOUD_CONFIG, effectiveStage, holderLegal, normalizeOrigin, currentStage, type CloudConfig } from '@/lib/cloud/config'
+import { execFileSync } from 'node:child_process'
 import { getPlanByCode } from '@/lib/subscription-plans'
 
 const CANON = 'https://pyarcana.example'
@@ -135,4 +136,30 @@ test('the committed stage reaches only the root build (deploy.sh); GitHub Pages,
   assert.equal(buildStage('paid', '/pyarcana'), 'off')
   // This test process has no base path, so the shipped CLOUD_CONFIG is the GitHub Pages one: off.
   assert.equal(CLOUD_CONFIG.launchStage, 'off')
+})
+
+// Round of 19 Oct 2026, item 3 (S7): the data bank's holder comes from the deploy, never the repo.
+test('holderLegal: name and address together, or nothing; RUC optional; blanks are nothing', () => {
+  const none = { sellerName: '', address: '', ruc: '' }
+  assert.deepEqual(holderLegal(undefined, undefined, undefined), none)
+  assert.deepEqual(holderLegal('Titular de prueba', undefined, '10123456789'), none, 'a name without an address names nobody')
+  assert.deepEqual(holderLegal(undefined, 'Av. Ejemplo 123, Lima', undefined), none)
+  assert.deepEqual(holderLegal('  ', 'Av. Ejemplo 123, Lima', undefined), none)
+  assert.deepEqual(holderLegal(' Titular de prueba ', ' Av. Ejemplo 123, Lima ', undefined), { sellerName: 'Titular de prueba', address: 'Av. Ejemplo 123, Lima', ruc: '' })
+  assert.deepEqual(holderLegal('Empresa de prueba S.A.C.', 'Av. Ejemplo 123, Lima', '20123456789'), { sellerName: 'Empresa de prueba S.A.C.', address: 'Av. Ejemplo 123, Lima', ruc: '20123456789' })
+})
+
+test('shipped legal is empty: with no NEXT_PUBLIC_HOLDER_* the site names no holder and sign-up stays closed', () => {
+  const env = { ...process.env }
+  for (const k of Object.keys(env)) if (k.startsWith('NEXT_PUBLIC_HOLDER_')) delete env[k]
+  const out = execFileSync(process.execPath, ['--import', 'tsx', '-e',
+    "import('./src/lib/cloud/config.ts').then((m) => { const c = m.CLOUD_CONFIG ?? m.default.CLOUD_CONFIG; console.log(JSON.stringify(c.legal)) })"],
+    { env, encoding: 'utf8' })
+  const legal = JSON.parse(out.trim())
+  assert.deepEqual([legal.sellerName, legal.address, legal.ruc], ['', '', ''])
+  // And the build passes them through: the same import with the variables set names the holder.
+  const named = execFileSync(process.execPath, ['--import', 'tsx', '-e',
+    "import('./src/lib/cloud/config.ts').then((m) => { const c = m.CLOUD_CONFIG ?? m.default.CLOUD_CONFIG; console.log(JSON.stringify(c.legal)) })"],
+    { env: { ...env, NEXT_PUBLIC_HOLDER_NAME: 'Titular de prueba', NEXT_PUBLIC_HOLDER_ADDRESS: 'Av. Ejemplo 123, Lima' }, encoding: 'utf8' })
+  assert.equal(JSON.parse(named.trim()).sellerName, 'Titular de prueba')
 })

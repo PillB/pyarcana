@@ -184,9 +184,12 @@ test("one origin: no workers.dev or preview URL, the worker binds only the canon
   assert.equal(unquote(section(TOML, "vars").TERMS_VERSION), site[1], "sign-in must echo the exact terms version the site shows");
 });
 
-test("CONTROLLER_NAME equals the site's legal.sellerName: the notice names the holder exactly when sign-up opens", () => {
+test("config.ts holds no holder literal and reads only NEXT_PUBLIC_HOLDER_*; CONTROLLER_NAME stays empty in wrangler.toml", () => {
+  // Round of 19 Oct 2026, item 3 (S7): the holder's name and address come from the owner's
+  // ~/.config/pyarcana/holder at deploy (deploy.sh: NEXT_PUBLIC_HOLDER_* for the build, --var
+  // CONTROLLER_NAME for the Worker), never from the public repository.
+  assert.equal(unquote(section(TOML, "vars").CONTROLLER_NAME), "");
   const config = readFileSync(fileURLToPath(new URL("../../src/lib/cloud/config.ts", ROOT)), "utf8");
-  const site = /legal: \{ sellerName: '([^']*)'/.exec(config);
-  assert.ok(site, "CLOUD_CONFIG.legal.sellerName is set");
-  assert.equal(unquote(section(TOML, "vars").CONTROLLER_NAME), site[1]);
+  assert.match(config, /\.\.\.holderLegal\(process\.env\.NEXT_PUBLIC_HOLDER_NAME, process\.env\.NEXT_PUBLIC_HOLDER_ADDRESS, process\.env\.NEXT_PUBLIC_HOLDER_RUC\)/);
+  assert.doesNotMatch(config, /sellerName: '[^']+'|address: '[^']+'|ruc: '[^']+'/, "no literal holder value");
 });

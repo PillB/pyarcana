@@ -13,6 +13,18 @@
 #   3. `node scripts/cloud-headers.mjs out` when that script exists (out/_headers, out/ads.txt);
 #   4. `wrangler deploy` from workers/billing/.
 #
+# Sign-up and the data bank's holder (round of 19 Oct 2026, item 3): the holder's NAME, ADDRESS
+# and optional RUC live in a file on this computer, never in the repository (it is public):
+#   ${PYARCANA_HOLDER_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/pyarcana/holder}
+#     NAME=...
+#     ADDRESS=...
+#     RUC=...            (optional, 11 digits)
+# With the file: the build gets NEXT_PUBLIC_HOLDER_* (the notice names the holder), the built
+# privacy page is checked for the name and the address, and the Worker is deployed with
+# --var CONTROLLER_NAME:<name>, which opens sign-up. A --var lasts for this deploy only.
+# Without it: both stay closed together (the notice says "being formed", only ADMIN_EMAILS may
+# create accounts). A half-filled file stops the deploy.
+#
 # The deploy is never piped: wrangler is interactive only when stdin AND stdout are terminals, and
 # a piped deploy answers its own questions with fallbacks (a first deploy then refuses the
 # workers.dev subdomain). Credentials: CLOUDFLARE_API_TOKEN (+ CLOUDFLARE_ACCOUNT_ID) in the
@@ -35,6 +47,19 @@ Run workers/billing/scripts/setup.sh first: it writes this account's ids into yo
 fi
 
 cd "$ROOT"
+# The holder: from the file only. Inherited NEXT_PUBLIC_HOLDER_* would open the page without the
+# Worker (or the other way round), so they are cleared first.
+unset NEXT_PUBLIC_HOLDER_NAME NEXT_PUBLIC_HOLDER_ADDRESS NEXT_PUBLIC_HOLDER_RUC
+HOLDER_FILE="${PYARCANA_HOLDER_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/pyarcana/holder}"
+holder() { node "$HERE/ops.mjs" holder "$HOLDER_FILE" "$1"; }
+mode=$(holder mode) || die "The holder file $HOLDER_FILE is not usable (above). Fix it, or move it away to deploy with sign-up closed. Nothing was deployed."
+if [ "$mode" = open ]; then
+  say "Sign-up: OPEN. Holder named in the notice: $(holder name) (from $HOLDER_FILE)"
+  export NEXT_PUBLIC_HOLDER_NAME="$(holder name)" NEXT_PUBLIC_HOLDER_ADDRESS="$(holder address)" NEXT_PUBLIC_HOLDER_RUC="$(holder ruc)"
+else
+  say "Sign-up: CLOSED (no $HOLDER_FILE). The notice says the holder is being formed; only ADMIN_EMAILS may create accounts."
+fi
+
 say "Static build at the root (NEXT_PUBLIC_BASE_PATH empty)"
 # node, not `bun run build:static` (the same script): `bun run` opens every folder above this one
 # and stops with CouldntReadCurrentDirectory when macOS has not let the terminal open one of them,
@@ -59,6 +84,10 @@ would point at $base/... on pyarcana.dev. scripts/build_static_export.mjs must t
 NEXT_PUBLIC_BASE_PATH as the root (a '|| \"/pyarcana\"' fallback does not). Nothing was deployed."
 fi
 
+# The page the learner reads must match what the Worker will do.
+node "$HERE/ops.mjs" holder-html out/privacy.html "$HOLDER_FILE" \
+  || die "out/privacy.html does not match sign-up $mode (above). Nothing was deployed."
+
 if [ -f scripts/cloud-headers.mjs ]; then
   say "Security headers and ads.txt"
   node scripts/cloud-headers.mjs out || die "scripts/cloud-headers.mjs failed. Nothing was deployed."
@@ -69,6 +98,10 @@ fi
 
 cd "$BILLING"
 say "Deploying the Worker (static assets + API)"
-wr deploy
+if [ "$mode" = open ]; then
+  wr deploy --var "CONTROLLER_NAME:$NEXT_PUBLIC_HOLDER_NAME"
+else
+  wr deploy
+fi
 say "Deployed"
 echo "Check: https://pyarcana.dev/api/v1/health ({ok, db}), https://pyarcana.dev/api/v1/auth/methods and https://pyarcana.dev/api/v1/jwks; the full configuration is on /admin, tab Uso"

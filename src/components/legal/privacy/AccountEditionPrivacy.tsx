@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { LegalSection, LegalParagraph, LegalList, LegalCallout } from '@/components/legal/LegalAtoms'
 import { ThirdPartyClaim } from '@/components/account/ThirdPartyClaim'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
-import { controllerOf } from '@/lib/cloud/legal-content'
+import { controllerOf, holderIsCompany } from '@/lib/cloud/legal-content'
 import { ARCO_DAYS, BREACH_AUTHORITY_HOURS, BREACH_PEOPLE_HOURS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
 
 const LINK = 'font-medium underline-offset-2 hover:underline'
@@ -21,7 +21,9 @@ function Controller({ cfg }: { cfg: CloudConfig }) {
       <LegalParagraph>
         El responsable de tus datos es <strong>{holder.name}</strong>, con domicilio en {holder.address}
         {holder.ruc ? ` y Registro Único de Contribuyentes (RUC) ${holder.ruc}` : ''}. Decide para qué
-        se usan y cómo se protegen. Puedes escribirle a <Mail />.
+        se usan y cómo se protegen.
+        {holderIsCompany(holder) ? '' : ' Lo es de forma provisional: cuando exista la empresa que operará PyArcana, ella asumirá este papel y lo anunciaremos aquí.'}{' '}
+        Puedes escribirle a <Mail />.
       </LegalParagraph>
     )
   }

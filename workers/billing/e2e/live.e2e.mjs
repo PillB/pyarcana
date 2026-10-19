@@ -208,6 +208,18 @@ async function checkRedirect(ctx, host, url, pathAndQuery) {
   record(`${host} redirects (301) to pyarcana.dev with path and query`, !r.error && r.status() === 301 && loc === `${BASE}${pathAndQuery}`, detail)
 }
 
+/**
+ * Round of 19 Oct 2026, item 3 (S7): the notice is in exactly one mode. Open: it names a holder
+ * with an address and no longer says sign-up is closed. Closed: it says so and names nobody. The
+ * mode is printed, so the run shows which one is live (this deploy should be "open").
+ */
+async function checkHolderMode(page) {
+  const t = (await page.locator('main').innerText().catch(() => '')).replace(/\s+/g, ' ')
+  const named = /El responsable de tus datos es .+, con domicilio en /.test(t)
+  const closed = /no abrimos cuentas nuevas/.test(t)
+  record('/privacy is in exactly one sign-up mode (open names the holder and address; closed says so)', named !== closed, `mode=${named ? 'open' : closed ? 'closed' : 'neither'}${named && closed ? ' and closed at once' : ''}`)
+}
+
 if (ANON) await flow('domain', async () => {
   const robots = await api.get('/robots.txt')
   const text = robots.ok() ? await robots.text() : ''
@@ -270,6 +282,7 @@ if (ANON) await flow('anonymous pages', async () => {
     const before = errors.length
     const page = await open(ctx, path, 'anon')
     record(`anonymous ${path} renders cleanly`, errors.length === before, errors.slice(before).join(' | '))
+    if (path === '/privacy') await checkHolderMode(page)
     if (path === '/#setup') {
       const adapter = await page.locator('[data-testid="ad-slot"][data-placement="section_end"]').first().getAttribute('data-adapter').catch(() => null)
       // In sync there is no Pro to promote, so no house box; in beta or paid the trial promo shows.

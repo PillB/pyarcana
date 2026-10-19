@@ -125,8 +125,9 @@ export function termsVersion(env) {
 }
 
 /**
- * The named holder of the personal-data bank (Ley 29733 art. 18), or "" while it is being formed.
- * Must equal the site's CLOUD_CONFIG.legal.sellerName (pinned by a test).
+ * The named holder of the personal-data bank (Ley 29733 art. 18), or "" while sign-up is closed.
+ * deploy.sh sets it with --var from the owner's holder file, the same file that names the holder
+ * in the site's build (round of 19 Oct 2026, item 3); wrangler.toml keeps it "".
  * @param {Object} env Worker env.
  * @returns {string} Name.
  */

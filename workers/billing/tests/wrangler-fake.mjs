@@ -164,12 +164,20 @@ async function secretPut(state, key) {
  * @param {Object} state State.
  * @returns {void}
  */
-function deploy(state) {
+function deploy(state, argv = []) {
   process.stdout.write(BANNER);
   const toml = readFileSync("wrangler.toml", "utf8");
   const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
   const assets = path.resolve("../../out/index.html");
-  state.deploys.push({ interactive, placeholder: /^[^#]*TODO_/m.test(toml), assets: existsSync(assets), secrets: Object.keys(state.secrets).sort() });
+  // vars: the --var NAME:value pairs (round of 19 Oct 2026: CONTROLLER_NAME comes from the holder file).
+  const vars = {};
+  argv.forEach((a, i) => {
+    if (a === "--var" && argv[i + 1]) {
+      const pair = argv[i + 1];
+      vars[pair.slice(0, pair.indexOf(":"))] = pair.slice(pair.indexOf(":") + 1);
+    }
+  });
+  state.deploys.push({ interactive, placeholder: /^[^#]*TODO_/m.test(toml), assets: existsSync(assets), secrets: Object.keys(state.secrets).sort(), vars });
   save(state);
   if (!interactive && !state.hasSubdomain) {
     process.stdout.write("? Would you like to register a workers.dev subdomain now?\n🤖 Using fallback value in non-interactive context: no\n");
@@ -209,7 +217,7 @@ async function main(argv) {
     return secretPut(state, argv[2]);
   }
   if (argv[0] === "deploy") {
-    return deploy(state);
+    return deploy(state, argv.slice(1));
   }
   return fail(`fake wrangler: unsupported command ${argv.join(" ")}`);
 }

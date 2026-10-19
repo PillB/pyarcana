@@ -50,6 +50,14 @@ const base = process.env.FAKE_BUILD_MODE === "current" ? (env || "/pyarcana") : 
 mkdirSync("out", { recursive: true });
 writeFileSync("out/index.html", "<html></html>");
 writeFileSync("out/deployment.json", JSON.stringify({ schema_version: 1, base_path: base }, null, 2) + "\\n");
+// The privacy page as AccountEditionPrivacy renders it from NEXT_PUBLIC_HOLDER_* (React escapes text;
+// FAKE_DROP_NAME stands for a build that lost the name).
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+const name = process.env.FAKE_DROP_NAME === "1" ? "" : process.env.NEXT_PUBLIC_HOLDER_NAME || "";
+const address = process.env.NEXT_PUBLIC_HOLDER_ADDRESS || "";
+writeFileSync("out/privacy.html", process.env.NEXT_PUBLIC_HOLDER_NAME
+  ? "<p>El responsable de tus datos es <strong>" + esc(name) + "</strong>, con domicilio en <!-- -->" + esc(address) + ".</p>"
+  : "<p>Hasta entonces, no abrimos cuentas nuevas al público.</p>");
 `;
 
 // bun on PATH is a tripwire: the build must not need it. On 7 Oct 2026 \`bun run\` died on the
@@ -222,7 +230,7 @@ test("setup.sh first run: creates D1, writes its id locally, pipes three secrets
   }
   const deploy = r.state.calls.find((c) => c.argv[0] === "deploy");
   assert.deepEqual([deploy.stdinTTY, deploy.stdoutTTY], [true, true], "deploy is never piped");
-  assert.deepEqual(r.state.deploys, [{ interactive: true, placeholder: false, assets: true, secrets: ["ADMIN_EMAILS", "LICENSE_PRIVATE_KEY_PKCS8_B64", "SERVER_PEPPER"] }]);
+  assert.deepEqual(r.state.deploys, [{ interactive: true, placeholder: false, assets: true, secrets: ["ADMIN_EMAILS", "LICENSE_PRIVATE_KEY_PKCS8_B64", "SERVER_PEPPER"], vars: {} }]);
   assert.equal(r.state.interactiveSecretPrompts, undefined);
   const jwks = printedJwks(r.out);
   assert.equal(jwks.length, 1, "the public JWK is printed once for src/lib/cloud/config.ts");
@@ -399,9 +407,60 @@ test("deploy.sh: root static build, then cloud-headers, then an interactive wran
   const r = run(t, "deploy.sh");
   assert.equal(r.status, 0, r.out);
   assert.deepEqual(r.log.trim().split("\n"), ["static-build base=", "cloud-headers out", "wrangler deploy"]);
-  assert.deepEqual(r.state.deploys, [{ interactive: true, placeholder: false, assets: true, secrets: [] }]);
+  assert.deepEqual(r.state.deploys, [{ interactive: true, placeholder: false, assets: true, secrets: [], vars: {} }]);
   assert.ok(existsSync(path.join(t.root, "out", "_headers")));
   rmSync(t.root, { recursive: true, force: true });
+});
+
+// Round of 19 Oct 2026, item 3 (S7): the holder file opens sign-up, the page and the Worker together.
+const deployable = () => tree({ dbs: [{ uuid: UUID, name: "pyarcana-accounts" }], workerExists: true }, { toml: (s) => s.replace("TODO_REPLACE_WITH_D1_DATABASE_ID", UUID) });
+const holderFile = (t, text) => {
+  const f = path.join(t.root, ".config", "pyarcana", "holder");
+  mkdirSync(path.dirname(f), { recursive: true });
+  writeFileSync(f, text);
+};
+
+test("deploy.sh with the holder file: says OPEN, builds with NEXT_PUBLIC_HOLDER_*, checks the page, deploys --var CONTROLLER_NAME", () => {
+  const t = deployable();
+  holderFile(t, "# interim holder\nNAME=Titular de prueba & Cía\nADDRESS=\"Av. Ejemplo 123, Lima\"\n");
+  const r = run(t, "deploy.sh", { env: { NEXT_PUBLIC_HOLDER_NAME: "Inherited Name", NEXT_PUBLIC_HOLDER_ADDRESS: "Inherited Address" } });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Sign-up: OPEN\. Holder named in the notice: Titular de prueba & Cía/);
+  const page = readFileSync(path.join(t.root, "out", "privacy.html"), "utf8");
+  assert.match(page, /Titular de prueba &amp; Cía/, "the build got the file's name, escaped as React writes it");
+  assert.doesNotMatch(page, /Inherited/, "inherited NEXT_PUBLIC_HOLDER_* are cleared, the file wins");
+  assert.deepEqual(r.state.deploys.map((d) => d.vars), [{ CONTROLLER_NAME: "Titular de prueba & Cía" }]);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("deploy.sh without the holder file: says CLOSED, the page keeps the closed notice, a plain deploy (CONTROLLER_NAME stays \"\")", () => {
+  const t = deployable();
+  const r = run(t, "deploy.sh", { env: { NEXT_PUBLIC_HOLDER_NAME: "Inherited Name", NEXT_PUBLIC_HOLDER_ADDRESS: "Inherited Address" } });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Sign-up: CLOSED/);
+  assert.match(readFileSync(path.join(t.root, "out", "privacy.html"), "utf8"), /no abrimos cuentas nuevas/);
+  assert.deepEqual(r.state.deploys.map((d) => d.vars), [{}]);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("deploy.sh refuses a half-filled holder file before building, and a page that lost the name before deploying", () => {
+  const half = deployable();
+  holderFile(half, "NAME=Titular de prueba\n");
+  const h = run(half, "deploy.sh");
+  assert.notEqual(h.status, 0);
+  assert.match(h.out, /half-filled: NAME and ADDRESS are both required/);
+  assert.equal(h.log, "", "nothing was built");
+  assert.deepEqual(h.state.deploys, []);
+  rmSync(half.root, { recursive: true, force: true });
+
+  const lost = deployable();
+  holderFile(lost, "NAME=Titular de prueba\nADDRESS=Av. Ejemplo 123, Lima\n");
+  const l = run(lost, "deploy.sh", { env: { FAKE_DROP_NAME: "1" } });
+  assert.notEqual(l.status, 0);
+  assert.match(l.out, /the holder's name is not in the page/);
+  assert.match(l.out, /does not match sign-up open/);
+  assert.deepEqual(l.state.deploys, [], "never deployed with sign-up open and the holder unnamed");
+  rmSync(lost.root, { recursive: true, force: true });
 });
 
 test("deploy.sh refuses a placeholder, a failed build, and a build that came out under /pyarcana", () => {

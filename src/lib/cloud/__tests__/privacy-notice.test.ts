@@ -5,6 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { AccountEditionPrivacy } from '@/components/legal/privacy/AccountEditionPrivacy'
 import { PagesEditionPrivacy } from '@/components/legal/privacy/PagesEditionPrivacy'
+import { CloudLegalContent } from '@/components/account/CloudLegalSection'
 import { ARCO_DAYS, BREACH_PEOPLE_HOURS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
 import { readFileSync } from 'node:fs'
 import * as sweep from '../../../../workers/billing/src/retention.mjs'
@@ -15,7 +16,9 @@ import * as sessions from '../../../../workers/billing/src/sessions.mjs'
 // to the US, retention per kind of data, ARCO deadlines, minors and breach notice.
 
 const text = (el: ReturnType<typeof h>) => renderToStaticMarkup(el).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
-const SYNC: CloudConfig = { ...structuredClone(CLOUD_CONFIG), launchStage: 'sync' }
+// legal set explicitly: NEXT_PUBLIC_HOLDER_* in the shell running the tests would otherwise name a
+// holder in CLOUD_CONFIG and flip the closed-mode assertions below.
+const SYNC: CloudConfig = { ...structuredClone(CLOUD_CONFIG), launchStage: 'sync', legal: { ...CLOUD_CONFIG.legal, sellerName: '', address: '', ruc: '', rnpd: '' } }
 
 test('the printed retention periods are the ones the worker enforces', () => {
   assert.equal(RETENTION_DAYS.signinRecords, sweep.SIGNIN_RECORD_DAYS)
@@ -50,6 +53,17 @@ test('account edition: holder being formed (no personal data) and sign-up closed
   assert.match(done, /PyArcana E\.I\.R\.L\..*Av\. Ejemplo 123, Lima.*Registro Único de Contribuyentes \(RUC\) 20123456789/)
   assert.match(done, /Número de inscripción: RNPD-PJP-123/)
   assert.doesNotMatch(done, /constituyendo|en trámite|no abrimos cuentas/)
+  assert.doesNotMatch(done, /de forma provisional/, 'a company (RUC 20…) is not the interim holder')
+})
+
+test('account edition: the owner as interim holder, a natural person without RUC (19 Oct 2026, S7)', () => {
+  const interim: CloudConfig = { ...SYNC, legal: { ...SYNC.legal, sellerName: 'Titular de prueba', address: 'Av. Ejemplo 123, Lima' } }
+  const t = text(h(AccountEditionPrivacy, { cfg: interim }))
+  assert.match(t, /El responsable de tus datos es Titular de prueba , con domicilio en Av\. Ejemplo 123, Lima\./)
+  assert.doesNotMatch(t, /RUC|—/, 'no RUC and no placeholder dash')
+  assert.match(t, /Lo es de forma provisional: cuando exista la empresa que operará PyArcana, ella asumirá este papel y lo anunciaremos aquí\./)
+  assert.match(t, /inscripción en trámite/, 'the RNPD filing is still pending')
+  assert.doesNotMatch(t, /no abrimos cuentas nuevas|constituyendo/, 'sign-up is open')
 })
 
 test('account edition: retention per kind of data, ARCO deadlines, minors and breach notice', () => {
@@ -102,4 +116,16 @@ test('every copy of the deadlines says the same: the account panel text in all t
   assert.match(rights, /ARCO_DAYS\.information\} días hábiles, sin prórroga/)
   const privacy = readFileSync('src/app/privacy/page.tsx', 'utf8')
   assert.match(privacy, /\$\{ARCO_DAYS\.information\} business days, with no extension/)
+})
+
+test('the account panel\'s controller line: no "RUC —" for a holder without RUC, and the interim sentence (19 Oct 2026, S7)', () => {
+  const interim: CloudConfig = { ...SYNC, legal: { ...SYNC.legal, sellerName: 'Titular de prueba', address: 'Av. Ejemplo 123, Lima' } }
+  const t = text(h(CloudLegalContent, { kind: 'privacy', cfg: interim, stage: 'sync' }))
+  assert.match(t, /Titular de prueba, con domicilio en Av\. Ejemplo 123, Lima, es responsable del tratamiento/)
+  assert.doesNotMatch(t, /RUC|Registro Único de Contribuyentes, —/)
+  assert.match(t, /Lo es de forma provisional/)
+  const company: CloudConfig = { ...SYNC, legal: { ...SYNC.legal, sellerName: 'Empresa de prueba S.A.C.', address: 'Av. Ejemplo 123, Lima', ruc: '20123456789' } }
+  const c = text(h(CloudLegalContent, { kind: 'privacy', cfg: company, stage: 'sync' }))
+  assert.match(c, /Empresa de prueba S\.A\.C\. \(RUC, Registro Único de Contribuyentes, 20123456789\)/)
+  assert.doesNotMatch(c, /de forma provisional/)
 })

@@ -25,7 +25,7 @@
  */
 
 import { randomBytes } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
 import { generateLicenceKeys } from "./generate-keys.mjs";
@@ -216,6 +216,121 @@ export function parseAdminEmails(input) {
   return unique.join(",");
 }
 
+// --- the interim holder of the data bank (round of 19 Oct 2026, item 3; S7) --------------------
+// The holder's identity lives in a file on the owner's computer, never in the repository: the repo
+// is public, and a name or address committed once stays in history, forks and code search.
+// File: KEY=VALUE lines, NAME and ADDRESS required together, RUC optional (11 digits); # comments.
+const HOLDER_KEYS = new Set(["NAME", "ADDRESS", "RUC"]);
+const RUC_RE = /^(10|15|17|20)\d{9}$/;
+/** In the account notice only while sign-up is closed (AccountEditionPrivacy.tsx). */
+export const CLOSED_PHRASE = "no abrimos cuentas nuevas";
+
+/**
+ * Parse the holder file.
+ * @param {string} text File contents.
+ * @returns {{name: string, address: string, ruc: string}|null} The holder, or null when empty.
+ */
+export function parseHolder(text) {
+  const values = {};
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eq = line.indexOf("=");
+    const key = eq > 0 ? line.slice(0, eq).trim().toUpperCase() : "";
+    if (!HOLDER_KEYS.has(key)) throw new Error(`holder file: unknown line "${line.slice(0, 40)}" (keys: NAME, ADDRESS, RUC)`);
+    values[key] = line.slice(eq + 1).trim().replace(/^"(.*)"$/, "$1").trim();
+  }
+  return holderFrom(values);
+}
+
+/**
+ * All-or-nothing on NAME and ADDRESS: the notice names a holder only with its address (art. 6.1.1).
+ * @param {{NAME?: string, ADDRESS?: string, RUC?: string}} v Parsed values.
+ * @returns {{name: string, address: string, ruc: string}|null} Holder or null.
+ */
+function holderFrom(v) {
+  const name = v.NAME || "";
+  const address = v.ADDRESS || "";
+  const ruc = v.RUC || "";
+  if (!name && !address && !ruc) return null;
+  if (!name || !address) throw new Error("holder file is half-filled: NAME and ADDRESS are both required (RUC is optional)");
+  if (ruc && !RUC_RE.test(ruc)) throw new Error("holder file: RUC must be 11 digits");
+  if (/[\u0000-\u001f]/.test(name + address)) throw new Error("holder file: control characters are not allowed");
+  return { name, address, ruc };
+}
+
+/**
+ * Read the holder file; a missing file is "closed", not an error.
+ * @param {string} file Path.
+ * @returns {{name: string, address: string, ruc: string}|null} Holder or null.
+ */
+export function readHolder(file) {
+  return existsSync(file) ? parseHolder(readFileSync(file, "utf8")) : null;
+}
+
+/**
+ * How React writes text into HTML (react-dom escapeTextForBrowser).
+ * @param {string} s Text.
+ * @returns {string} Escaped.
+ */
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+}
+
+/**
+ * What is wrong with the built privacy page for this holder (empty when it matches the mode).
+ * Name and address are matched separately: React may insert comment nodes between text nodes.
+ * @param {string} html out/privacy.html.
+ * @param {{name: string, address: string}|null} holder Holder, or null for closed mode.
+ * @returns {string[]} Problems.
+ */
+export function privacyHtmlProblems(html, holder) {
+  const closed = html.includes(CLOSED_PHRASE);
+  if (!holder) return closed ? [] : [`the closed-mode notice is missing ("${CLOSED_PHRASE}")`];
+  const problems = [];
+  if (!html.includes(escapeHtml(holder.name))) problems.push("the holder's name is not in the page");
+  if (!html.includes(escapeHtml(holder.address))) problems.push("the holder's address is not in the page");
+  if (closed) problems.push(`the page still says "${CLOSED_PHRASE}"`);
+  return problems;
+}
+
+/**
+ * ops holder <file> <mode|name|address|ruc>: one field, "open"/"closed" for mode; exit 1 when the
+ * file is half-filled or malformed.
+ * @param {string} file Path.
+ * @param {string} field Field.
+ * @returns {number} Exit code.
+ */
+function cmdHolder(file, field) {
+  try {
+    const holder = readHolder(file);
+    if (field === "mode") process.stdout.write(holder ? "open" : "closed");
+    else if (["name", "address", "ruc"].includes(field)) process.stdout.write(holder ? holder[field] : "");
+    else throw new Error(`holder: unknown field ${field}`);
+    return 0;
+  } catch (error) {
+    console.error(error.message);
+    return 1;
+  }
+}
+
+/**
+ * ops holder-html <privacy.html> <file>: exit 1, printing each problem, when the built page does
+ * not match the holder file's mode.
+ * @param {string} htmlFile Path.
+ * @param {string} file Holder file.
+ * @returns {number} Exit code.
+ */
+function cmdHolderHtml(htmlFile, file) {
+  if (!existsSync(htmlFile)) {
+    console.error(`${htmlFile} is missing`);
+    return 1;
+  }
+  const problems = privacyHtmlProblems(readFileSync(htmlFile, "utf8"), readHolder(file));
+  problems.forEach((p) => console.error(p));
+  return problems.length ? 1 : 0;
+}
+
 /**
  * Read stdin to EOF.
  * @returns {string} Text.
@@ -354,7 +469,9 @@ const COMMANDS = {
   "kid-ok": ([kid]) => (KID_RE.test(String(kid || "")) ? 0 : 1),
   pepper: () => (process.stdout.write(randomBytes(32).toString("base64")), 0),
   "licence-key": ([kid, jwkFile]) => cmdLicenceKey(kid, jwkFile),
-  "token-check": () => cmdTokenCheck()
+  "token-check": () => cmdTokenCheck(),
+  holder: ([file, field]) => cmdHolder(file, field),
+  "holder-html": ([htmlFile, file]) => cmdHolderHtml(htmlFile, file)
 };
 
 /**
