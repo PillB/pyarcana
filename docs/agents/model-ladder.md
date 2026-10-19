@@ -89,9 +89,24 @@ confirmer, as an auditor and as a drafter: 54 runs between 13 and 17 October, no
 - Make worktrees only with `.claude/hooks/small_worktree.sh`, keep at most two alive at once under
   the 1 GB budget, and archive `.fixer/` before releasing a worktree, because `--remove` deletes it.
 
-The reusable implementation is a workflow script, `model-ladder.js`. It takes the task, its class,
-the verifier's checks, the review focus and the starting model from the ledger. Four recreation
-tests hold its decisions. Two must hand up: an agent call whose output cannot satisfy its schema,
-and an agent that reports done without doing the work (the verifier answers `empty_diff`). Two must
-stop after one attempt, with no hand-up: an agent call that fails on a usage limit, and a harness
-that returns nothing.
+## The implementation, its recreation tests and its ledger
+
+All three live beside this page, in [`model-ladder/`](model-ladder/), so that a fresh checkout can
+run and reproduce them:
+
+- **`model-ladder/model-ladder.js`** is the reusable workflow script. A session runs it with the
+  Workflow tool, `Workflow({ scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args })`,
+  where `args` holds the task, its class, the verifier's checks, the review focus, an evidence
+  directory and the starting model the ledger gives that class. It is a workflow-runtime script,
+  not application code, which is why it sits under `docs/` (outside ESLint and `tsc`) and is not
+  run by CI.
+- **`model-ladder/recreation-tests.json`** holds the four recreation tests as `args` objects, each
+  with its expected outcome. Two must hand up: an agent call whose output cannot satisfy its schema
+  (`schemaThrowOn`), and an agent that reports done without doing the work, which the verifier
+  answers with `empty_diff` (`skipWorkOn`). Two must stop after one attempt, with no hand-up: an
+  agent call that fails on a usage limit (`throwOn`), and a harness that returns nothing
+  (`nullOn`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
+  returned `outcome` and `attempts` with `expect`. The last two call no agent, so they cost nothing.
+- **`model-ladder/ledger.jsonl`** is the ledger, one line per attempt. A session appends its lines
+  and commits them with the pull request whose work they record; the promotions table above is
+  read from it.

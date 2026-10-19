@@ -1,0 +1,127 @@
+{
+ "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind) with expect. Last run 2026-10-19: all four as expected (A as A2, B as B3).",
+ "tests": [
+  {
+   "name": "A - an unsatisfiable schema hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testA",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "test": {
+     "schemaThrowOn": [
+      "haiku"
+     ]
+    },
+    "task": "Write exactly the text `ladder test A` (no newline needed) to the file <EVIDENCE_DIR>/ladder-testA.txt using the Write tool. Touch nothing else.",
+    "verify": "Read <EVIDENCE_DIR>/ladder-testA.txt. ok=true only if it exists and its content is exactly `ladder test A` (a trailing newline is fine); if it does not exist, the work was not done."
+   }
+  },
+  {
+   "name": "B - an agent that reports done with nothing done hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testB",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "test": {
+     "skipWorkOn": [
+      "haiku"
+     ]
+    },
+    "task": "Write exactly the text `ladder test B` (no newline needed) to the file <EVIDENCE_DIR>/ladder-testB.txt using the Write tool. Touch nothing else.",
+    "verify": "Read <EVIDENCE_DIR>/ladder-testB.txt. ok=true only if it exists and its content is exactly `ladder test B` (a trailing newline is fine); if the file does not exist, the work was not done."
+   }
+  },
+  {
+   "name": "C - a harness that returns nothing stops after one attempt",
+   "expect": {
+    "outcome": "null",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "null"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testC",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "task": "unused: this rung is simulated",
+    "verify": "unused",
+    "test": {
+     "nullOn": [
+      "haiku",
+      "sonnet",
+      "opus"
+     ]
+    }
+   }
+  },
+  {
+   "name": "D - a usage limit stops after one attempt, as blocked",
+   "expect": {
+    "outcome": "blocked",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "blocked"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testD",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "task": "unused: this rung is simulated",
+    "verify": "unused",
+    "test": {
+     "throwOn": {
+      "haiku": "You've hit your weekly limit",
+      "sonnet": "You've hit your weekly limit",
+      "opus": "You've hit your weekly limit"
+     }
+    }
+   }
+  }
+ ]
+}
