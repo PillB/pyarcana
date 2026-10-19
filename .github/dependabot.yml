@@ -1,0 +1,18 @@
+# Dependency updates (round of 19 Oct 2026, item 6; S16). Pull requests only: nothing merges by
+# itself, and every update goes through the Tests workflow (scripts/ci_bun_install.sh keeps
+# `bun install --frozen-lockfile`, so CI installs exactly the lockfile a PR changes).
+# - bun: Dependabot reads the text bun.lock (supported since February 2025).
+# - github-actions: third-party Actions are pinned to full commit SHAs with the tag in a comment
+#   (tags can be moved: tj-actions/changed-files, March 2025, CVE-2025-30066); Dependabot bumps the
+#   SHA and the comment together.
+version: 2
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

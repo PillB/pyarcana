@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import unittest
 
 
@@ -16,8 +17,15 @@ class CiDependencyInstallContractTests(unittest.TestCase):
             ".github/workflows/deploy.yml",
         ):
             workflow = (ROOT / relative_path).read_text(encoding="utf-8")
-            setup_count = workflow.count("uses: oven-sh/setup-bun@v2")
+            # Round of 19 Oct 2026 (S16): third-party Actions are pinned to a full commit SHA with
+            # the tag in a comment (tags can be moved: tj-actions/changed-files, CVE-2025-30066).
+            setup_count = workflow.count("uses: oven-sh/setup-bun@")
             self.assertGreater(setup_count, 0)
+            self.assertEqual(
+                setup_count,
+                len(re.findall(r"uses: oven-sh/setup-bun@[0-9a-f]{40} # v\d+\.\d+\.\d+\n", workflow)),
+                "every setup-bun is pinned to a full commit SHA with its release tag in a comment",
+            )
             self.assertEqual(setup_count, workflow.count("bun-version: '1.3.4'"))
             self.assertNotIn("run: bun install --frozen-lockfile", workflow)
             self.assertEqual(
