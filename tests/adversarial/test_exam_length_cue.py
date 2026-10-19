@@ -64,12 +64,19 @@ import exam_bank  # noqa: E402
 #: 2026-10-13, the S10 round (O20) on top: Codex redid the 8 questions the GLM lane got wrong and
 #: rewrote six S08 items and three S10 keys so the key is no longer the unique longest option.
 #: Same AST measure. 1121 -> 1109 (the old single-quote measure moved 1081 -> 1069: the same 12).
-LONGEST_IS_CORRECT_OWED = 1109
+#: 2026-10-14: 1109 -> 1068. Plan PR 9: the real S12 and S13 banks put the key at the longest option
+#: (a tie counts, as in is_longest) in 5 and 2 of 24 questions, where the 48 stand-ins put it there
+#: in all 48. An earlier commit on that branch had 0 and 2 (1063): every S12 key had been kept from
+#: the longest place, and picking the shortest option then passed S12 for 40.2% of learners.
+#: Below chance, one key in four, a lower count is not better: the length cue is gone when no
+#: length rank gives the key away, which exam-strategy-simulation.test.ts measures for every rank.
+LONGEST_IS_CORRECT_OWED = 1068
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
+#: 2026-10-14: nine. Plan PR 9 repaired apis-sql-geo and evidence-dashboard.
 PERFECT_CUE_BANKS_OWED = frozenset({
-    "apis-sql-geo", "architecture-ddd-decisions", "career-strategy", "evidence-dashboard",
+    "architecture-ddd-decisions", "career-strategy",
     "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security", "security-infra",
     "wxpython-gui",
 })
