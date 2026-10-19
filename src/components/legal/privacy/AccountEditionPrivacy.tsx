@@ -3,7 +3,7 @@ import { LegalSection, LegalParagraph, LegalList, LegalCallout } from '@/compone
 import { ThirdPartyClaim } from '@/components/account/ThirdPartyClaim'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { controllerOf } from '@/lib/cloud/legal-content'
-import { ARCO_DAYS, BREACH_AUTHORITY_HOURS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
+import { ARCO_DAYS, BREACH_AUTHORITY_HOURS, BREACH_PEOPLE_HOURS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
 
 const LINK = 'font-medium underline-offset-2 hover:underline'
 const PRIVACY_EMAIL = 'privacy@pyarcana.dev'
@@ -136,7 +136,7 @@ export function AccountEditionPrivacy({ cfg = CLOUD_CONFIG }: { cfg?: CloudConfi
           items={[
             <><strong>Desde tu cuenta:</strong> en <Link href="/data-rights" className={LINK}>Derechos sobre tus datos</Link> puedes descargar todos tus datos y eliminar tu cuenta, sin escribirnos.</>,
             <><strong>Por correo:</strong> escribe a <Mail /> y di qué derecho quieres usar.</>,
-            <><strong>Plazos:</strong> respondemos una solicitud de acceso en un máximo de {ARCO_DAYS.access} días hábiles, y las demás en un máximo de {ARCO_DAYS.other} días hábiles.</>,
+            <><strong>Plazos:</strong> si nos pides información sobre cómo tratamos tus datos (para qué, con quién y por cuánto tiempo), respondemos en un máximo de {ARCO_DAYS.information} días hábiles, sin prórroga. Una solicitud de acceso la respondemos en un máximo de {ARCO_DAYS.access} días hábiles, y las demás en un máximo de {ARCO_DAYS.other} días hábiles.</>,
           ]}
         />
         <LegalParagraph>
@@ -164,8 +164,9 @@ export function AccountEditionPrivacy({ cfg = CLOUD_CONFIG }: { cfg?: CloudConfi
         </LegalParagraph>
         <LegalParagraph>
           Si una brecha de seguridad afecta tus datos personales, avisaremos a la ANPD dentro de las{' '}
-          {BREACH_AUTHORITY_HOURS} horas desde que la conozcamos. A las personas afectadas les
-          avisaremos sin demora indebida. Si encuentras una vulnerabilidad, lee el{' '}
+          {BREACH_AUTHORITY_HOURS} horas desde que la conozcamos. Si además puede afectar tus derechos,
+          te avisaremos a ti dentro de las {BREACH_PEOPLE_HOURS} horas, en palabras simples y con las
+          medidas que tomamos. Si tardamos más, te explicaremos por qué. Si encuentras una vulnerabilidad, lee el{' '}
           <Link href="/security" className={LINK}>Aviso de Seguridad</Link>.
         </LegalParagraph>
       </LegalSection>

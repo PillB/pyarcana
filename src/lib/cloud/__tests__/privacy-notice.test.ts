@@ -5,7 +5,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { AccountEditionPrivacy } from '@/components/legal/privacy/AccountEditionPrivacy'
 import { PagesEditionPrivacy } from '@/components/legal/privacy/PagesEditionPrivacy'
-import { ARCO_DAYS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
+import { ARCO_DAYS, BREACH_PEOPLE_HOURS, RETENTION_DAYS, SESSION_IDLE_DAYS, SESSION_MAX_DAYS } from '@/lib/legal/retention-facts'
+import { readFileSync } from 'node:fs'
 import * as sweep from '../../../../workers/billing/src/retention.mjs'
 import * as sessions from '../../../../workers/billing/src/sessions.mjs'
 
@@ -61,11 +62,13 @@ test('account edition: retention per kind of data, ARCO deadlines, minors and br
   assert.match(t, /Podemos eliminar las cuentas sin inicios de sesión durante 2 años/)
   assert.match(t, /no guardamos datos de pago/)
   assert.match(t, /Cloudflare.*dirección IP y los datos de cada petición.*estadísticas de tráfico agregadas.*según sus propios plazos/, 'Cloudflare\'s own traffic data (handback 5 Oct 2026, item 5)')
-  assert.match(t, new RegExp(`${ARCO_DAYS.access} días hábiles.*${ARCO_DAYS.other} días hábiles`))
+  assert.match(t, new RegExp(`información sobre cómo tratamos tus datos.*${ARCO_DAYS.information} días hábiles, sin prórroga.*acceso.*${ARCO_DAYS.access} días hábiles.*${ARCO_DAYS.other} días hábiles`))
   assert.match(t, /14 años o más/)
   assert.match(t, /Desde los 14 años puedes aceptar este aviso tú mismo/)
   assert.match(t, /avisaremos a la ANPD dentro de las 48 horas/)
-  assert.match(t, /sin demora indebida/)
+  // DS 016-2024-JUS art. 34.3 (19 Oct 2026): affected people within 48 hours, with the measures taken.
+  assert.match(t, new RegExp(`te avisaremos a ti dentro de las ${BREACH_PEOPLE_HOURS} horas.*medidas que tomamos.*Si tardamos más, te explicaremos por qué`))
+  assert.doesNotMatch(t, /sin demora indebida/, 'the open-ended promise is replaced by the 48-hour one')
   assert.match(t, /privacy@pyarcana\.dev/)
   assert.match(t, /Resumen rápido/)
 })
@@ -77,4 +80,26 @@ test('GitHub Pages edition: no accounts, progress only in the browser, the hosts
   assert.match(t, /jsDelivr/)
   assert.match(t, /Resumen rápido/)
   for (const gone of [/Firebase/, /PostgreSQL/i, /Cloudflare/, /RNPD/]) assert.doesNotMatch(t, gone)
+})
+
+test('the deadlines in law (19 Oct 2026): information 8 business days and not extendable, people told of a breach within 48 h', () => {
+  assert.equal(ARCO_DAYS.information, 8, 'DS 016-2024-JUS art. 69.1 (art. 71.1: no extension)')
+  assert.equal(ARCO_DAYS.access, 20)
+  assert.equal(ARCO_DAYS.other, 10)
+  assert.equal(BREACH_PEOPLE_HOURS, 48, 'art. 34.3')
+})
+
+test('every copy of the deadlines says the same: the account panel text in all three dictionaries, /data-rights and the English summary', () => {
+  const i18n = readFileSync('src/lib/i18n.ts', 'utf8')
+  const bodies = [...i18n.matchAll(/'legalc\.arcoDeadlines\.body': '([^']+)'/g)].map((m) => m[1])
+  assert.equal(bodies.length, 3, 'es-PE, es-ES and en')
+  for (const b of bodies) {
+    const days = [...b.matchAll(/\b(\d+) (?:días hábiles|business days)/g)].map((m) => Number(m[1]))
+    assert.deepEqual(days, [ARCO_DAYS.information, ARCO_DAYS.access, ARCO_DAYS.other], b)
+    assert.match(b, /sin prórroga|with no extension/)
+  }
+  const rights = readFileSync('src/app/data-rights/page.tsx', 'utf8')
+  assert.match(rights, /ARCO_DAYS\.information\} días hábiles, sin prórroga/)
+  const privacy = readFileSync('src/app/privacy/page.tsx', 'utf8')
+  assert.match(privacy, /\$\{ARCO_DAYS\.information\} business days, with no extension/)
 })

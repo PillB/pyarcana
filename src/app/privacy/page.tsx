@@ -7,6 +7,7 @@ import { PagesEditionPrivacy } from '@/components/legal/privacy/PagesEditionPriv
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { adSharingClaimHolds } from '@/lib/cloud/legal-content'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { ARCO_DAYS } from '@/lib/legal/retention-facts'
 
 export const metadata: Metadata = {
   title: 'Aviso de Privacidad · PyArcana',
@@ -21,13 +22,13 @@ const META = {
   title: 'Aviso de Privacidad',
   subtitle:
     'Qué datos guardamos, dónde viven y quién puede verlos. En lenguaje claro, sin jerga legal sin explicar.',
-  version: IS_STATIC_SITE ? '2.0.0' : '1.0.0',
-  effectiveDate: IS_STATIC_SITE ? '2026-10-05' : '2025-07-29',
+  version: IS_STATIC_SITE ? '2.1.0' : '1.0.0',
+  effectiveDate: IS_STATIC_SITE ? '2026-10-19' : '2025-07-29',
   englishSummary: !IS_STATIC_SITE
     ? // "or share" holds only while no ad network is enabled (legal-content.ts adSharingClaimHolds).
       `We store only the data needed to operate the course: progress, quiz scores, and (when you sign in) the email used to identify your account. ${adSharingClaimHolds(CLOUD_CONFIG) ? 'We do not sell or share your data.' : 'We do not sell your data.'} You can delete it at any time.`
     : ACCOUNTS
-      ? `Without an account your progress stays in your browser. With an account (Google or Microsoft sign-in) we keep your email, name and a copy of your progress on Cloudflare, in the United States. ${adSharingClaimHolds(CLOUD_CONFIG) ? 'We do not sell or share your data.' : 'We do not sell your data.'} You can download or delete it from your account; write to privacy@pyarcana.dev for anything else. Access requests are answered within 20 business days, other requests within 10.`
+      ? `Without an account your progress stays in your browser. With an account (Google or Microsoft sign-in) we keep your email, name and a copy of your progress on Cloudflare, in the United States. ${adSharingClaimHolds(CLOUD_CONFIG) ? 'We do not sell or share your data.' : 'We do not sell your data.'} You can download or delete it from your account; write to privacy@pyarcana.dev for anything else. Requests for information about how we process your data are answered within ${ARCO_DAYS.information} business days, with no extension; access requests within ${ARCO_DAYS.access}, other requests within ${ARCO_DAYS.other}.`
       : 'This edition has no accounts: your progress stays only in your browser and reaches no server of ours. GitHub Pages and jsDelivr receive your IP address when they deliver the pages and the Python runtime.',
 }
 
