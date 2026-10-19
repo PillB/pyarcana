@@ -107,6 +107,9 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   `src/lib/eligibility/claim_digests.json`,
   `audit/fixer/numbering_epoch.json`, `curriculum55_window.json`, `renumber_epoch.json`,
   `renumber_edit_ledger.json` or `authoring_pending.json`.
+- Changing `audit/fixer/OWNER_DECISIONS.md`, the owner's decision record, which the exercise-meaning
+  guard reads at the base. Recording an answer the owner has just given in chat, in the owner's own
+  words, does not need asking first, because agents record those answers as a normal step (O27 101-Q2).
 
 ## Never
 

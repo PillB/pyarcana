@@ -34,6 +34,14 @@ jobs:
           PRESERVATION_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
         run: node scripts/preservation_sentinel.mjs
 
+      # The renumber guards read history, so they run only here, where the checkout has every commit.
+      # Each is dormant while its state file is absent, and never skips once that file exists.
+      - name: Renumber meaning guard (G-11, G-15)
+        run: node scripts/preservation/renumber_meaning_guard.mjs
+
+      - name: Curriculum/55 freeze guard (G-14)
+        run: node scripts/preservation/curriculum55_freeze_guard.mjs
+
       - name: Upload sentinel result
         if: always()
         uses: actions/upload-artifact@v4
