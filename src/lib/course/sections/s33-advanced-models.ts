@@ -247,7 +247,7 @@ scaled True`,
         "Este bloque es **opcional para el resto del curso**: ninguna sección posterior a S33 depende de él. Dentro de S33 sí conviene leerlo, porque el bloque de PyTorch y TensorFlow que cierra la sección da por sentado el ciclo —forward, pérdida, gradiente, actualizar— que aquí construyes a mano. Está aquí porque la regresión logística que acabas de ajustar ya contiene, en miniatura, todo lo que hace una red neuronal, y verlo una vez desmitifica la palabra para siempre.",
         "Repasa lo que hace la logística: multiplica cada feature por un peso, suma un sesgo y pasa el resultado por una sigmoide para obtener algo que se lee como probabilidad. Una red neuronal repite ese mismo gesto **por capas**. Los valores intermedios se llaman **activaciones**: representaciones que el modelo calcula por su cuenta, en vez de columnas que tú nombraste en el catálogo de features. Lo importante no es la palabra “neuronal”. Lo importante es que definiste cuatro cosas: parámetros, un cálculo hacia adelante, una **pérdida** que mide qué tan mal va, y un procedimiento para mover los parámetros de modo que esa pérdida baje.",
         "Ese procedimiento se apoya en el **gradiente**: cuánto cambiaría la pérdida si movieras un peso un poquito. Si subir el peso empeora la pérdida, el gradiente apunta en una dirección; el paso de entrenamiento va en la contraria. **Backpropagation** no es más que aplicar la regla de la cadena hacia atrás por las capas para obtener todos esos gradientes de una sola pasada. Los frameworks lo hacen por ti con **diferenciación automática**, y esa comodidad recién es útil cuando ya tienes el ciclo en la cabeza: adelante calcula, la pérdida juzga, el gradiente indica hacia dónde, el paso corrige.",
-        "La pieza que convierte capas apiladas en algo más expresivo que una logística es la **función de activación** — aquí `tanh`. Sin ella, componer dos capas lineales da otra transformación lineal, y apilar no compra nada. El caso de abajo lo mide en vez de afirmarlo: sobre XOR —cuatro puntos que ninguna recta separa— la red con `tanh` acierta **4 de 4** con pérdida 0.001; la misma red sin activación acierta **2 de 4** y se queda en una pérdida de **0.6931**, que es exactamente ln 2. Ese número no sale de «predecir siempre lo mismo», sino de predecir siempre **0.5**: si un modelo constante apuesta 0.9 para todo, su pérdida es peor, no ln 2. Por eso ln 2 es la vara concreta de «no aprendí nada» en un problema balanceado — el valor de quien se declara indiferente entre las dos clases.",
+        "La pieza que convierte capas apiladas en algo más expresivo que una logística es la **función de activación** — aquí `tanh`. Sin ella, componer dos capas lineales da otra transformación lineal, y apilar no compra nada. El caso de abajo lo mide en vez de afirmarlo: sobre XOR —cuatro puntos que ninguna recta separa— la red con `tanh` acierta **4 de 4** con pérdida 0.001; la misma red sin activación no decide entre las clases: llega a **p = 0.5** en los cuatro puntos y su pérdida se queda en **0.6931**, la pérdida de un modelo que no aprendió nada. Ese número no sale de «predecir siempre lo mismo», sino de predecir siempre **0.5**: si un modelo constante apuesta 0.9 para todo, su pérdida es peor, no ln 2. Por eso ln 2 es la vara concreta de «no aprendí nada» en un problema balanceado — el valor de quien se declara indiferente entre las dos clases.",
         "Dos límites honestos antes de cerrar. Primero, esta red tiene cuatro ejemplos y ninguna validación: es una demostración de mecánica, no un resultado. Con datos reales seguirías necesitando todo lo de esta sección —baseline, folds sin leakage, análisis de errores— y una red pequeña casi nunca gana a una logística bien hecha sobre datos tabulares. Segundo, nada de esto se instala en el curso: es NumPy, el mismo que ya usas. Si algún día pasas a PyTorch, lo que llevas contigo es este ciclo; lo que cambia es quién calcula los gradientes.",
       ],
       code: {
@@ -277,23 +277,23 @@ scaled True`,
             dW1 = X.T @ dz1; db1 = dz1.sum(0, keepdims=True)
             W1 -= lr * dW1; b1 -= lr * db1                  # un paso cuesta abajo
             W2 -= lr * dW2; b2 -= lr * db2
-        return float(perdida), (p > 0.5).astype(int).ravel()
+        return float(perdida), (p > 0.5).astype(int).ravel(), p
 
-    perd_con, pred_con = entrena(True)
-    perd_sin, pred_sin = entrena(False)
+    perd_con, pred_con, _ = entrena(True)
+    perd_sin, _, p_sin = entrena(False)
     objetivo = y.ravel().astype(int)
     print("objetivo      ", objetivo.tolist())
     print("con_tanh pred ", pred_con.tolist(), "perdida", round(perd_con, 4))
-    print("sin_tanh pred ", pred_sin.tolist(), "perdida", round(perd_sin, 4))
+    print("sin_tanh prob ", [round(float(v), 3) for v in p_sin.ravel()], "perdida", round(perd_sin, 4))
     print("aciertos_con  ", int((pred_con == objetivo).sum()), "de 4")
-    print("aciertos_sin  ", int((pred_sin == objetivo).sum()), "de 4")
+    print("sin_tanh       no hay frontera que separe las clases")
 
 s33_th_red_neuronal()`,
         output: `objetivo       [0, 1, 1, 0]
 con_tanh pred  [0, 1, 1, 0] perdida 0.001
-sin_tanh pred  [0, 0, 0, 0] perdida 0.6931
+sin_tanh prob  [0.5, 0.5, 0.5, 0.5] perdida 0.6931
 aciertos_con   4 de 4
-aciertos_sin   2 de 4`,
+sin_tanh       no hay frontera que separe las clases`,
       },
       callout: {
         type: "info",

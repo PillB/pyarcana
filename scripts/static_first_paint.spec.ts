@@ -1,5 +1,7 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
+import { COURSE_SECTIONS } from '../src/lib/course'
+
 // First paint of the public edition. framer-motion writes `initial` into the
 // server HTML, so until 2026-09 the prerendered landing shipped at opacity 0:
 // blank without JavaScript, blank until hydration plus an animation frame, and
@@ -107,28 +109,34 @@ async function seedReturningLearner(
 // Four finished sections: the sidebar reads 8% (4 of 52, rounded).
 const FOUR_SECTIONS = ['iteration-summaries', 'functions-contracts', 'collections', 'pandas']
 
-// Passes the open section's quiz on screen, without its answer key. Each
-// attempt answers the questions not yet solved with the next option; a submit
-// marks each question "✓ Correcto." or not. The attempt that scores 70% or
-// more completes the step, and with the other four steps done, the section.
-async function passSectionQuiz(page: Page) {
-  const total = await page.locator('[data-testid^="sc-q-"][data-testid$="-opt-0"]').count()
-  expect(total).toBeGreaterThan(0)
-  const solved = new Map<number, number>()
-  for (let option = 0; option < 6; option += 1) {
-    for (let q = 0; q < total; q += 1) {
-      await page.getByTestId(`sc-q-${q}-opt-${solved.get(q) ?? option}`).click()
-    }
-    await page.getByTestId('sc-submit').click()
-    if (await page.getByTestId('sc-result').getByText('Sección completada').count()) return
-    for (let q = 0; q < total; q += 1) {
-      if (!solved.has(q) && (await page.getByTestId(`sc-q-${q}`).getByText('✓ Correcto.').count())) {
-        solved.set(q, option)
-      }
-    }
-    await page.getByTestId('sc-result').getByRole('button', { name: 'Reintentar' }).click()
+// Passes the open section's quiz with its answer key, read from the real course.
+// This helper used to pass it on screen by elimination - answer, read which
+// questions the submit marked "✓ Correcto.", try the next option on the rest -
+// which is exactly how a learner could pass without learning. Since the owner's
+// ruling of 2026-10-12 a submit below 70% shows only the score, so it checks
+// that first: a failing attempt marks nothing and explains nothing. Then it
+// answers by key (option test ids keep the authored index, whatever the shuffled
+// order on screen), and the passing attempt shows the review. The attempt that
+// scores 70% or more completes the step, and with the other four steps done, the
+// section.
+async function passSectionQuiz(page: Page, sectionId: string) {
+  const questions = COURSE_SECTIONS.find((s) => s.id === sectionId)?.selfCheck.questions ?? []
+  expect(questions.length).toBeGreaterThan(0)
+  for (const [i, q] of questions.entries()) {
+    await page.getByTestId(`sc-q-${i}-opt-${q.correctIndex === 0 ? 1 : 0}`).click()
   }
-  throw new Error('the quiz was not passed after trying six options per question')
+  await page.getByTestId('sc-submit').click()
+  await expect(page.getByTestId('sc-result')).toContainText('Casi, vuelve a intentarlo')
+  await expect(page.getByTestId('sc-below-pass')).toBeVisible()
+  await expect(page.getByText('✓ Correcto.')).toHaveCount(0)
+  await expect(page.getByText('✗ Incorrecto.')).toHaveCount(0)
+  await page.getByTestId('sc-result').getByRole('button', { name: 'Reintentar' }).click()
+  for (const [i, q] of questions.entries()) {
+    await page.getByTestId(`sc-q-${i}-opt-${q.correctIndex}`).click()
+  }
+  await page.getByTestId('sc-submit').click()
+  await expect(page.getByTestId('sc-result').getByText('Sección completada')).toBeVisible()
+  await expect(page.getByText('✓ Correcto.').first()).toBeVisible()
 }
 
 // A background tab, a hidden preview pane or an embedded webview can run no
@@ -294,7 +302,7 @@ test.describe('PyArcana public edition: first paint', () => {
       })
     })
     await page.getByRole('tab', { name: 'Autocheck' }).click()
-    await passSectionQuiz(page)
+    await passSectionQuiz(page, COURSE_SECTIONS[0].id)
     await expect(progress.getByText('10%', { exact: true })).toBeVisible()
     await expect.poll(() => fill.evaluate((el) => (el as HTMLElement).style.width)).toBe('10%')
     const widths = await page.evaluate(() => (window as unknown as { __fillWidths: string[] }).__fillWidths)

@@ -53,21 +53,90 @@ class ExtractorInputs(unittest.TestCase):
 
 
 class CacheInvalidation(unittest.TestCase):
-    def test_editing_only_the_detector_makes_the_cache_stale(self):
+    """The cache is stale when its inputs are not what built it.
+
+    #78 asserted this with mtime arithmetic: set every source older than the cache, bump the
+    detector, watch the verdict flip. That tested the mechanism, and the mechanism was wrong in both
+    directions -- a restore or a `touch` of the cache re-blinds it, and a source arriving with an
+    OLDER mtime (`cp -p`, `rsync -t`, `tar -xp`, clock skew, an older checkout) is invisible. The
+    comparison is now a digest of the inputs' paths and contents, so these assert the property --
+    did the inputs change? -- rather than the arithmetic. The import-graph half of the question,
+    which is what #78 was really defending, is unchanged and still covered: `concept_detector.mts`
+    is reached only because the graph is followed.
+    """
+
+    @staticmethod
+    def _seed(root: Path) -> list[Path]:
+        files = [
+            write(root, "scripts/course_event_extractor.mts",
+                  "import { d } from './concept_detector.mts'\n"),
+            write(root, "scripts/concept_detector.mts", "export const d = 1\n"),
+        ]
+        write(root, ".fixer/events.json", "{}")
+        return files
+
+    def test_editing_only_the_detector_makes_the_cache_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp).resolve()
-            files = [write(root, "scripts/course_event_extractor.mts", "import { d } from './concept_detector.mts'\n"),
-                     write(root, "scripts/concept_detector.mts", "export const d = 1\n")]
-            cache = write(root, ".fixer/events.json", "{}")
-            moment = 1_700_000_000
-            for path in files:
-                os.utime(path, (moment, moment))
-            os.utime(cache, (moment + 10, moment + 10))
-            with mock.patch.object(concept_map, "ROOT", root), mock.patch.object(concept_map, "EVENTS", cache):
+            files = self._seed(root)
+            cache = root / ".fixer/events.json"
+            digest = root / ".fixer/events.inputs.sha256"
+            with mock.patch.object(concept_map, "ROOT", root), \
+                 mock.patch.object(concept_map, "EVENTS", cache), \
+                 mock.patch.object(concept_map, "EVENTS_INPUTS", digest):
+                digest.write_text(concept_map.inputs_digest() + "\n", encoding="utf-8")
                 self.assertFalse(concept_map.sources_newer_than_cache())
-                os.utime(files[1], (moment + 20, moment + 20))
-                self.assertTrue(concept_map.sources_newer_than_cache(),
-                                "the detector changed after the cache was written")
+
+                files[1].write_text("export const d = 2\n", encoding="utf-8")
+                self.assertTrue(
+                    concept_map.sources_newer_than_cache(),
+                    "the detector changed after the cache was written",
+                )
+
+    def test_an_edit_arriving_with_an_older_mtime_is_still_seen(self) -> None:
+        """The case mtime could never catch: `cp -p`, `rsync -t`, or an older checkout.
+
+        EVERY input is backdated, not just the edited one. A first version of this test backdated
+        only the file it changed and left the entry module at its current mtime -- so an mtime
+        comparison answered "stale" because of the untouched entry, and the test passed against the
+        very implementation it was written to rule out. It passed for the wrong reason, which is the
+        same defect it exists to catch, one level up.
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            files = self._seed(root)
+            cache = root / ".fixer/events.json"
+            digest = root / ".fixer/events.inputs.sha256"
+            with mock.patch.object(concept_map, "ROOT", root), \
+                 mock.patch.object(concept_map, "EVENTS", cache), \
+                 mock.patch.object(concept_map, "EVENTS_INPUTS", digest):
+                digest.write_text(concept_map.inputs_digest() + "\n", encoding="utf-8")
+                files[1].write_text("export const d = 3\n", encoding="utf-8")
+                for path in files:
+                    os.utime(path, (0, 0))    # the whole tree arrives older than the cache
+                os.utime(cache, (1_700_000_000, 1_700_000_000))
+                self.assertTrue(
+                    concept_map.sources_newer_than_cache(),
+                    "an edit older than the cache is still an edit the cache does not describe",
+                )
+
+    def test_touching_the_cache_does_not_make_a_changed_tree_look_current(self) -> None:
+        """The exploit: `run_concepts.sh` restores events.json, handing it the newest mtime."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            files = self._seed(root)
+            cache = root / ".fixer/events.json"
+            digest = root / ".fixer/events.inputs.sha256"
+            with mock.patch.object(concept_map, "ROOT", root), \
+                 mock.patch.object(concept_map, "EVENTS", cache), \
+                 mock.patch.object(concept_map, "EVENTS_INPUTS", digest):
+                digest.write_text(concept_map.inputs_digest() + "\n", encoding="utf-8")
+                files[1].write_text("export const d = 4\n", encoding="utf-8")
+                os.utime(cache, None)             # the restore, giving the cache the newest mtime
+                self.assertTrue(
+                    concept_map.sources_newer_than_cache(),
+                    "touching the cache must not bury a real change",
+                )
 
 
 if __name__ == "__main__":

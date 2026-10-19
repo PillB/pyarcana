@@ -1,10 +1,15 @@
 name: Tests
 
 on:
+  # curriculum/55 carries the 52 -> 55 renumber until all three new sections are written, because a
+  # renumber cannot be staged across merges to main (owner decision O17). It needs CI on its own
+  # pushes and on the PRs that target it. Its first push creates the branch (`github.event.created`
+  # is true) and sends forty zeros as `before`, which the sentinel resolves to where the branch
+  # left main.
   push:
-    branches: [main, develop]
+    branches: [main, develop, curriculum/55]
   pull_request:
-    branches: [main]
+    branches: [main, curriculum/55]
 
 concurrency:
   group: tests-${{ github.workflow }}-${{ github.ref }}
@@ -195,6 +200,17 @@ jobs:
       - name: Install dependencies
         run: bash scripts/ci_bun_install.sh
 
+      # The fonts are self-hosted (src/app/fonts). With Google Fonts unreachable, a build that
+      # fetches fonts again fails here on every run instead of about 1 run in 60
+      # (vercel/next.js#99114). The curl proves the block took effect.
+      - name: Make Google Fonts unreachable for the build
+        run: |
+          printf '0.0.0.0 fonts.googleapis.com fonts.gstatic.com\n:: fonts.googleapis.com fonts.gstatic.com\n' | sudo tee -a /etc/hosts
+          if curl -sS --max-time 10 -o /dev/null 'https://fonts.googleapis.com/css2?family=Inter'; then
+            echo 'fonts.googleapis.com is still reachable; the block did not take effect' >&2
+            exit 1
+          fi
+
       - name: Generate Prisma client
         if: matrix.mode == 'dynamic'
         run: bun run db:generate
@@ -373,6 +389,11 @@ jobs:
         run: npm run test:python-strict
         env:
           PYARCANA_SNIPPET_TIMEOUT: '30'
+
+      # The facts behind audit/fixer/known_false_claims.json that need scikit-learn. The rest
+      # (stdlib only) run in adversarial-unit as tests/adversarial/test_taught_claims_hold.py.
+      - name: Facts behind the known-false-claims registry (scikit-learn)
+        run: python3 -m unittest discover -s tests/content_facts -p 'test_*.py' -v
 
       - name: Upload audit reports
         if: always()

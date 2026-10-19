@@ -10,13 +10,17 @@ import {
   requiredSectionIds,
   unverifiedRequirements,
 } from '@/lib/credential-gates'
+import { issuanceBlockers } from '@/lib/credential-blockers'
+import { SERVER_VERIFIERS } from '@/lib/credential-verifiers'
+import { EDITION_DYNAMIC } from '@/lib/eligibility/types'
 import { GRADED_AS_EVIDENCE } from '@/lib/exam-scoring'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { createHmac, randomUUID } from 'crypto'
 
 // ── Server-authoritative credential issuance ──
 // This endpoint is the ONLY way to issue a verified credential (Class D).
-// It never trusts client-submitted eligibility totals.
+// It never trusts client-submitted eligibility totals, and signs the badge's own catalog
+// version, never the one the request names.
 
 interface CredentialIssuanceRequest {
   badgeId: string
@@ -119,23 +123,32 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // Each required section needs a completed attempt whose best score meets the credential
-    // floor, and counts once however many attempts it has. Requirements this server does not
-    // record (self-checks, You Do, integrator, defense, prerequisites) keep issuance closed:
-    // exam scores alone never earn a credential.
+    // Fail closed: every requirement, every eligibility-engine gate and every standing blocker
+    // refuses the credential until this server shows it passed (credential-blockers.ts). Each
+    // required section needs a completed attempt whose best score meets the credential floor, and
+    // counts once however many attempts it has; requirements this server does not record
+    // (self-checks, You Do, integrator, defense, prerequisites) keep issuance closed, so exam
+    // scores alone never earn a credential.
     const requiredSections = requiredSectionIds(spec).length
     const passedSections = countPassedSections(spec, examAttempts)
-    const unverified = unverifiedRequirements(spec)
-    if (passedSections < requiredSections || unverified.length > 0) {
+    const unverified = unverifiedRequirements(spec, Object.keys(SERVER_VERIFIERS))
+    const blockers = issuanceBlockers(spec, {
+      examAttempts,
+      edition: EDITION_DYNAMIC,
+      requestedSpecVersion: specificationVersion,
+    })
+    if (blockers.length > 0) {
       return NextResponse.json(
         {
           error:
-            `Eligibility not met. ${passedSections} of ${requiredSections} required exams passed ` +
-            `with a score of at least ${CREDENTIAL_EXAM_FLOOR}; not yet verifiable on this server: ` +
+            `Credential not issued: ${blockers.map((b) => b.code).join(', ')}. ` +
+            `${passedSections} of ${requiredSections} required exams passed with a score of at ` +
+            `least ${CREDENTIAL_EXAM_FLOOR}; not yet verifiable on this server: ` +
             `${unverified.join(', ') || 'none'}.`,
           passedSections,
           requiredSections,
           unverifiedRequirements: unverified,
+          blockers,
         },
         { status: 403 }
       )
@@ -150,9 +163,9 @@ export async function POST(req: NextRequest) {
       verificationId,
       badgeId,
       badgeName: badgeId.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
-      specificationVersion,
+      specificationVersion: spec.version,
       credentialClass: 'D',
-      capabilityStatement: `The holder independently demonstrated ${badgeId} by completing the capstone assessment under PyArcana Assessment Specification ${specificationVersion}, including critical evidence, hidden validation, and independent review.`,
+      capabilityStatement: `The holder independently demonstrated ${badgeId} by completing the capstone assessment under PyArcana Assessment Specification ${spec.version}, including critical evidence, hidden validation, and independent review.`,
       issuedAt,
       expiresAt: null,
       revocationStatus: 'active',

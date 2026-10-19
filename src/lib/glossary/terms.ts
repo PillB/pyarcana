@@ -174,7 +174,15 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     definition: 'Termina la ejecución de una función y entrega un valor a quien la llamó. Si falta, Python entrega `None`.',
     example: 'def doble(numero):\\n    return numero * 2\\n\\ndoble(4)  # 8',
     related: ['Función', 'Excepción'],
-    firstSectionId: 'functions-contracts',
+    // 2026-10-03: was 'functions-contracts' (S05). The learner meets `return` in S03, and S03
+    // teaches it: theory[11] is headed «Una regla con nombre: `def`, llamada y `return`» and p3
+    // reads «`return` entrega un valor al código que hizo la llamada y termina la función justo en
+    // esa línea». S03 says outright that «S05 te enseñará a escribir funciones», so it introduces
+    // the named rule on purpose and defers the full treatment. The hover has to be available where
+    // the learner first meets the word, which is S03 -- this is a metadata correction, not a
+    // repoint to buy a green: the concept map already scores `return` L3 with 625 examples and 0
+    // surprising uses, so the teaching was never the thing that was missing.
+    firstSectionId: 'decisions-rules',
   },
   {
     id: 'context-manager',
@@ -697,7 +705,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'ROC-AUC',
     aliases: ['ROC-AUC', 'ROC', 'curva ROC'],
     category: 'ML',
-    definition: 'Área bajo curva ROC. Métrica para clasificación binaria. 0.5 = azar, 1.0 = perfecto. Robusta a desbalance.',
+    definition: 'Área bajo la curva ROC: resume qué tan bien el score de un clasificador binario ordena los positivos por encima de los negativos; un orden al azar da 0.5 y uno perfecto, 1.0. El ROC-AUC no cambia cuando cambian las proporciones de clases; por eso puede seguir alto aunque la clase rara se prediga mal y, con clases desbalanceadas, debes leerlo junto con la curva precision-recall.',
     firstSectionId: 'cv-ai-integration',
   },
   {
@@ -765,7 +773,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'StratifiedKFold',
     aliases: ["StratifiedKFold", 'split estratificado', 'stratified split'],
     category: 'ML',
-    definition: 'KFold que mantiene proporción de clases en cada fold. Obligatorio para clasificación desbalanceada.',
+    definition: 'StratifiedKFold mantiene en cada fold la misma proporción de clases que en el conjunto completo; es la opción habitual en clasificación. Con un clasificador, la validación cruzada de scikit-learn ya lo usa si solo indicas cuántos folds quieres o no indicas nada; si varias filas pertenecen a una misma entidad, usa GroupKFold para dejarlas en el mismo fold, y si importa el orden temporal, usa TimeSeriesSplit para entrenar con datos anteriores a los que valida.',
     firstSectionId: 'cv-ai-integration',
   },
   {
@@ -813,7 +821,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Correlación',
     aliases: ["Correlación"],
     category: 'Data Science',
-    definition: 'Relación entre dos variables. -1 a 1. np.corrcoef, df.corr(). Cuidado: correlación no implica causalidad.',
+    definition: 'El coeficiente de correlación de Pearson mide la asociación lineal entre dos variables, de -1 a 1; una relación curva fuerte puede dar un valor cercano a 0. Se calcula con np.corrcoef o df.corr(); correlación no implica causalidad.',
     firstSectionId: 'exceptions-logging',
   },
   {
@@ -829,7 +837,8 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'p-value',
     aliases: ["p-value", "valor p"],
     category: 'Data Science',
-    definition: 'Probabilidad de observar el resultado si la hipótesis nula es cierta. <0.05 típicamente "significativo".',
+    definition: 'El valor p es la probabilidad, calculada suponiendo la hipótesis nula (sin efecto) y los supuestos del cálculo, de obtener un resultado al menos tan extremo como el observado. No es la probabilidad de que la hipótesis nula sea verdadera, y ninguna conclusión debe apoyarse solo en que el valor p quede por debajo de un umbral fijo.',
+    definitionEn: 'The probability, computed assuming the null hypothesis (no effect) and the assumptions of the calculation, of a result at least as extreme as the one observed. It is not the probability that the null hypothesis is true, and no conclusion should rest only on the p-value falling below a fixed threshold.',
     firstSectionId: 'data-engineering',
   },
   {
@@ -845,16 +854,35 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Train/test split',
     aliases: ['Train/test split', 'train/test', 'conjunto de entrenamiento', 'conjunto de prueba', 'train y test'],
     category: 'ML',
-    definition: 'Dividir datos en entrenamiento (80%) y prueba (20%). El modelo nunca "ve" el test durante training.',
+    definition: 'Divide los datos en dos partes: con el conjunto de entrenamiento ajustas el modelo; con el conjunto de prueba, que no usas para ajustar ni para elegir entre versiones, estimas cómo rinde con datos nuevos. Tú eliges la proporción, por ejemplo 80/20 o 75/25.',
     firstSectionId: 'security-infra',
   },
   {
     id: 'data-leakage',
     term: 'Data leakage',
-    aliases: ['Data leakage', 'fuga de datos'],
+    // 2026-10-02: `leakage` added. The course never writes "Data leakage" or "fuga de datos" --
+    // it writes the word bare, 215 times across 8 sections: "Eso es **leakage**", "leakage
+    // temporal", "leakage de identidad", "anti-leakage", "scan de leakage". So the concept map
+    // recorded 5 uses in 4 sections with 0 examples and 0 exercises, while S32 ("Feature
+    // engineering y pipelines sin leakage") teaches all five leakage modes across theory, iDo,
+    // weDo, youDo and selfCheck. The measure was blind to its own best-taught concept.
+    // 2026-10-03: `leakage temporal` added because the course names the compound -- S17 teaches
+    // it as its own thing, in an analytics context with no model. Declaration order does NOT
+    // matter: the extractor sorts each term's aliases longest-first before building the
+    // alternation (course_event_extractor.mts:270), so the compound already wins over the bare
+    // word wherever it appears. An earlier version of this comment claimed the order was
+    // load-bearing; that was wrong, and it was wrong because the probe behind it rebuilt the
+    // alternation in declaration order instead of importing the extractor's own -- the
+    // copy-instead-of-the-code trap. S17's real blocker is POST_CUE, which has no `es` +
+    // infinitive, and that shape occurs exactly once in the course, so the prose moves.
+    aliases: ['Data leakage', 'fuga de datos', 'leakage temporal', 'leakage'],
     category: 'ML',
-    definition: 'Cuando info del test set "contamina" el entrenamiento. Pipeline lo previene aplicando fit solo en train.',
-    firstSectionId: 'databases-orm',
+    definition: 'El leakage ocurre cuando información que aún no podías conocer entra en el análisis. Aparece por fechas posteriores al cutoff o, en modelos, por mezclar train y test dentro de un pipeline.',
+    // Re-pointed the same day, and for the same reason: with `leakage` visible, the first use and
+    // the first definition are both S17 (`packaging`, really "Joins, reshape, groupby y cierre
+    // analítico"), which uses the word 29 times. It was declared at S19 only because the narrow
+    // alias list could not see S17. The hover belongs where the learner first meets the word.
+    firstSectionId: 'packaging',
   },
   {
     id: 'pyodide',
@@ -926,7 +954,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Asignación aleatoria', 'asignación aleatoria'],
     category: 'Data Science',
     definition: 'Repartir las unidades entre tratamiento y control por sorteo. Como el sorteo ignora las características de cada unidad, las reparte de forma pareja en promedio — incluidas las que nadie midió — y por eso la diferencia entre grupos puede leerse como efecto.',
-    definitionEn: 'Random assignment',
+    definitionEn: 'Assigning units to treatment and control by chance. Because the random draw ignores each unit’s characteristics, it balances them on average—including unmeasured ones—so the difference between groups can be interpreted as an effect.',
     example: 'trata = rng.random(n) < 0.5',
     related: ['Autoselección', 'Estimando'],
     firstSectionId: 'data-engineering',
@@ -936,8 +964,8 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Estimando',
     aliases: ['Estimando', 'estimand'],
     category: 'Data Science',
-    definition: 'La cantidad exacta que quieres estimar, escrita en una frase: qué diferencia, entre qué grupos, en qué población y durante qué período. Si no puedes escribirla, todavía no tienes una pregunta.',
-    definitionEn: 'Estimand',
+    definition: 'La cantidad exacta que quieres estimar: qué resultado mides, en qué población, durante qué período y, si comparas grupos, qué diferencia y entre cuáles. Si no puedes escribirla en una frase, todavía no tienes una pregunta.',
+    definitionEn: 'The exact quantity you want to estimate: what outcome you measure, in which population, over what period and, if you compare groups, which difference between which groups. If you cannot write it in one sentence, you do not have a question yet.',
     related: ['Asignación aleatoria'],
     firstSectionId: 'data-engineering',
   },
@@ -947,7 +975,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     aliases: ['Autoselección', 'autoselección'],
     category: 'Data Science',
     definition: 'Cuando las unidades eligen por su cuenta si reciben el tratamiento. Los grupos quedan distintos desde antes, así que la diferencia observada mezcla el efecto con lo que ya los separaba.',
-    definitionEn: 'Self-selection',
+    definitionEn: 'When units choose for themselves whether to receive the treatment. The groups differ before treatment, so the observed difference mixes the effect with the pre-existing differences between them.',
     related: ['Asignación aleatoria'],
     firstSectionId: 'data-engineering',
   },
