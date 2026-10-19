@@ -16,6 +16,12 @@
  * - the name of a member declared in an interface or a type literal (`field?: string`) is not a read,
  *   because it states the shape of the data and reads nothing.
  *
+ * Seen: a renamed destructuring, an upper-case alias of one, a parameter destructuring
+ * (`function f({ generated_at })`), and a `//` or `/*` inside a string that comes before a read.
+ * Not seen: a use that names no field, such as a spread `{ ...catalog }` or Object.entries(catalog),
+ * which copies every field without naming one, and a key built at run time (`'generated' + '_at'`).
+ * The guard sees the files it is given; the test gives it src/ only.
+ *
  * Expert standard: the TypeScript compiler API, the reference parser for TypeScript (typescript@5 is a
  * dev dependency of this repository), applied the way a linter applies a parser to a rule.
  */
