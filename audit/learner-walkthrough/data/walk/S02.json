@@ -1,0 +1,139 @@
+{
+ "section": "S02",
+ "id": "basics",
+ "title": "Valores, tipos, operadores e I/O",
+ "at": "2026-10-05T02:31:07.237Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Valores, tipos, operadores e I/O",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 10,
+  "termHints": 9,
+  "optional": 1,
+  "words": 4575
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica el contrato raw/clean",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "' 28 ' -> 28 None\n'  ' -> None valor vacío\n'abc' -> None entero inválido",
+  "hint": "Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None",
+  "afterEdit": {
+   "edited": "\"campo\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 1284,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 5
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Cuál es el tipo de None en Python?\n\nA\nn",
+  "questions": 11,
+  "attempt1": {
+   "result": "91%\n¡Buenazo! Sección completada\n\n10 de 11 correctas (91%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Cuál es el tipo de None en Python?\n\nA\nnull\nNoneType\nvoid\nD\nstr vacío\n✗ Incorrecto. None es la única instancia de `NoneType`; `null` y `void` pertenecen a otros lenguajes, y `\"\"` sigue siendo un `str` presente aunque esté vacío. Para comprobar este objeto único de ausencia se usa `is None`."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 91
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 91
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 91
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 29135
+}

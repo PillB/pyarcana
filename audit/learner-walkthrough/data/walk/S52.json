@@ -1,0 +1,159 @@
+{
+ "section": "S52",
+ "id": "career-strategy",
+ "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+ "at": "2026-10-05T03:18:30.298Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 4,
+  "optional": 1,
+  "words": 2724
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica portfolio y CV",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "=== Portfolio Site ===\n  Churn Prediction Pipeline\n    Tech: Python, XGBoost, FastAPI, Docker\n    Impacto: Redujo churn 15%, salvando S/2M anuales\n    Metrics: {'auc': 0.87, 'qps': 12500, 'latency_ms': 87}\n  Familiarity Score Dashboard\n    Tech: Python, RapidFuzz, Leaflet, Next.js\n    Impacto: Detecto 500+ duplicados en base de 50K clientes\n    Metrics: {'accuracy': 0.95, 'records': 50000, 'duplicates': 500}\n  Invoice Digitizer Bot\n    Tech: Python, Playwright, Ollama, Tesseract\n    Impacto: Automatizo 200h/mes de trabajo manual\n    Metrics: {'hours_saved': 200, 'accuracy': 0.89, 'cost': '$0'}\n=== CV: Logros Cuantificables ===\n  1. ✓ Construi pipeline de churn con XGBoost, reduciendo churn 15% y salvando S/2M anuales\n  2. ✓ Procese 50M transacciones/dia con Kafka + Spark, reduciendo latencia 80%\n  3. ✓ Automatice 200h/mes de trabajo manual con Python + Playwright, 99.5% uptime\n  4. ✓ Implemente entity resolution con RapidFuzz, detectando 500+ duplicados en 50K registros\n=== ATS Keyword Check ===\n  Job desc keywords: Python pandas scikit-learn AWS Docker Kubernetes FastAPI\n  CV keywords: Python XGBoost FastAPI Docker pandas numpy\n  Overlap: 4/7 (57%)",
+  "hint": "Anade mas keywords de la job desc a tu CV para aumentar el overlap",
+  "afterEdit": {
+   "edited": "\"title\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 1173,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar la revali",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar la revalidación CF-1 (stakeholders, jobs y métricas) en CASO-PER-052?\n\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\nC\ndatos personales reales para que parezca auténtico\nmatriz stakeholder/job/métrica con evidencia y baseline congelado\n✗ Incorrecto. S52-T1-A exige matriz viva + baseline_frozen; evidencia decorativa o PII no satisface el contrato (REOPEN_CF1 / INTERVIEW_STAKEHOLDER)."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 30957
+}

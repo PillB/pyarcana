@@ -1,0 +1,139 @@
+{
+ "section": "S34",
+ "id": "cv-ai-integration",
+ "title": "Métricas, desbalance, calibración y umbrales",
+ "at": "2026-10-05T03:04:29.849Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Métricas, desbalance, calibración y umbrales",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 19,
+  "optional": 1,
+  "words": 3481
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica deteccion y OCR (simulado)",
+  "readyMs": 2,
+  "verdict": "match",
+  "output": "=== Deteccion de Objetos ===\nObjetos detectados: 5\n  person (conf: 99%) bbox: [2, 1, 3, 2]\n  object (conf: 90%) bbox: [1, 2, 2, 3]\n  person (conf: 99%) bbox: [2, 2, 3, 3]\n  object (conf: 90%) bbox: [3, 2, 4, 3]\n  person (conf: 99%) bbox: [2, 3, 3, 4]\n=== OCR ===\nImagen: [1, 2, 3, 2, 4]\nTexto extraido: 'Holoa'",
+  "hint": "Anade mas pixeles a texto_como_pixeles y observa el resultado",
+  "afterEdit": {
+   "edited": "\"Simula YOLOv8: detecta objetos en imagen.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 1043,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nCon desbalance fuerte en una cola de rev",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nCon desbalance fuerte en una cola de revisión, conviene priorizar:\n\nA\nAccuracy, ponderada por el peso de cada clase\nPrecision/recall o PR-AUC (familia PR) de la cola\nROC-AUC, que es invariante al desbalance de clases\nD\nLa matriz de confusión sin umbral, para ver todo a la vez\n✗ Incorrecto. Accuracy engaña con prevalencia baja; P/R y la familia PR describen mejor la cola de revisión."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 30981
+}

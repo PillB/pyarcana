@@ -1,0 +1,13 @@
+{
+ "200 pyodide.js": 14,
+ "200 python_stdlib.zip": 14,
+ "200 pyodide.asm.wasm": 14,
+ "200 pyodide-lock.json": 14,
+ "200 pyodide.asm.js": 14,
+ "200 numpy-1.26.4-cp312-cp312-pyodide_2024_0_wasm32.whl": 2,
+ "200 scikit_learn-1.4.2-cp312-cp312-pyodide_2024_0_wasm32.whl": 1,
+ "200 scipy-1.12.0-cp312-cp312-pyodide_2024_0_wasm32.whl": 1,
+ "200 openblas-0.3.26.zip": 1,
+ "200 joblib-1.4.0-py3-none-any.whl": 1,
+ "200 threadpoolctl-3.4.0-py3-none-any.whl": 1
+}

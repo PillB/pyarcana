@@ -1,0 +1,139 @@
+{
+ "section": "S05",
+ "id": "functions-contracts",
+ "title": "Funciones, contratos y descomposición",
+ "at": "2026-10-05T02:32:31.579Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Funciones, contratos y descomposición",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 18,
+  "optional": 1,
+  "words": 4050
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica funciones con contrato",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "María José\nana@example.com\n999000111\nemail sin @\nidempotente True",
+  "hint": "Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)",
+  "afterEdit": {
+   "edited": "\"email sin @\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 803,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nSi una función no tiene return, ¿qué dev",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nSi una función no tiene return, ¿qué devuelve la llamada?\n\nNone\n0\nC\nFalse\nD\nError siempre\n✗ Incorrecto. Python devuelve `None` de forma implícita. `0` y `False` son valores explícitos distintos, y no aparece un error automático. Por eso una función que solo imprime puede parecer útil en consola mientras entrega `None` al pipeline."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 27300
+}

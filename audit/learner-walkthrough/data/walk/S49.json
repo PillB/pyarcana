@@ -1,0 +1,159 @@
+{
+ "section": "S49",
+ "id": "data-contracts",
+ "title": "Agentes, herramientas y context engineering",
+ "at": "2026-10-05T03:16:51.359Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Agentes, herramientas y context engineering",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 5,
+  "optional": 1,
+  "words": 2941
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica agentes y tools",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "{'ok': True, 'name': 'get_case', 'effect': 0}\n{'error': 'needs_approval', 'kind': 'terminal'}\n{'ok': True, 'name': 'prepare_report', 'effect': 1}\n{'ok': True, 'name': 'prepare_report', 'effect': 1}\n{'error': 'forbidden', 'kind': 'terminal'}",
+  "hint": "Cambia human_ok de False a True en la segunda llamada y observa que la cuarta linea es idempotente: mismo efecto, sin duplicar el side effect.",
+  "afterEdit": {
+   "edited": "\"get_case\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 794,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar workflow ",
+  "questions": 7,
+  "attempt1": {
+   "result": "86%\n¡Buenazo! Sección completada\n\n6 de 7 correctas (86%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar workflow vs. agente en CASO-AYA-049?\n\nADR workflow/agente con baseline\nun print sin assert ni versión\nC\nuna captura de pantalla sin fuente\nD\ndatos personales reales para que parezca auténtico\n✗ Incorrecto. La teoría exige ADR workflow/agente con baseline; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 86
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 86
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 86
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 32481
+}

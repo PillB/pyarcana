@@ -1,0 +1,366 @@
+{
+ "setup": {
+  "title": "Practica el intérprete y tu primer script",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "basics": {
+  "title": "Practica el contrato raw/clean",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "decisions-rules": {
+  "title": "Practica decisiones y reglas",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "iteration-summaries": {
+  "title": "Practica un resumen por lotes",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "functions-contracts": {
+  "title": "Practica funciones con contrato",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "collections": {
+  "title": "Practica colecciones y conflictos",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "files-ingestion": {
+  "title": "Practica ingesta con cuarentena y manifest",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "exceptions-logging": {
+  "title": "Practica un lote observable y sin PII",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "modules-packaging-cli": {
+  "title": "Practica scikit-learn",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "oop-domain": {
+  "title": "Practica testing con asserts",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "text-unicode-regex": {
+  "title": "Practica Unicode, regex y evidencia",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "apis-sql-geo": {
+  "title": "Practica multiprocessing y logging",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "evidence-dashboard": {
+  "title": "Practica automatización con tenacity y argparse",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "security": {
+  "title": "Practica seguridad: hashing y cifrado",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "stdlib-deep": {
+  "title": "Practica functools y itertools",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "wxpython-gui": {
+  "title": "Practica eventos y callbacks (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "packaging": {
+  "title": "Practica semver y dependencias",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "data-engineering": {
+  "title": "Practica idempotencia y ETL",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "databases-orm": {
+  "title": "Practica SQL y modelos (simulado)",
+  "returncode": 1,
+  "error": "SyntaxError: unterminated string literal (detected at line 31)",
+  "has_expected": true,
+  "matches_expected": false
+ },
+ "rag": {
+  "title": "Practica retrieval y similitud (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "fastapi": {
+  "title": "Practica validacion con pydantic (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "rapidfuzz-entity": {
+  "title": "Practica fuzzy matching (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "computer-vision": {
+  "title": "Practica procesamiento de imagenes (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "rpa-advanced": {
+  "title": "Practica orquestacion y retries",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "streamlit-dashboards": {
+  "title": "Practica estado y caching (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "integrator-phase1": {
+  "title": "Practica arquitectura de plataforma",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "async-concurrency": {
+  "title": "Practica concurrencia con asyncio",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "llm-agents": {
+  "title": "Practica razonamiento de agentes (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "mlops": {
+  "title": "Practica model registry y drift (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "security-infra": {
+  "title": "Practica blocking y candidate recall",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "streaming-data": {
+  "title": "Practica windowing y backpressure",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "microservices": {
+  "title": "Practica health checks y circuit breaker",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "advanced-models": {
+  "title": "Practica Optuna y SHAP (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "cv-ai-integration": {
+  "title": "Practica deteccion y OCR (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "system-design": {
+  "title": "Practica la ficha de caso CP-N3-C",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "ai-apis-advanced": {
+  "title": "Practica function calling (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "dbt-bigquery": {
+  "title": "Practica dbt concepts (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "performance-extreme": {
+  "title": "Practica backpressure, timeout e idempotencia",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "integrator-phase2": {
+  "title": "Practica CI/CD y monitoreo",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "architecture-ddd-decisions": {
+  "title": "Practica multi-agent (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "llm-finetuning": {
+  "title": "Practica QLoRA concepts (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "graph-rag": {
+  "title": "Practica el policy_engine fail-closed (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "llmops": {
+  "title": "Practica tracing y eval (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "multimodal": {
+  "title": "Practica CLIP y Whisper (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "iac": {
+  "title": "Practica Terraform concepts",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "gpu-computing": {
+  "title": "Practica conceptos de GPU (simulado)",
+  "returncode": 0,
+  "error": null,
+  "has_expected": false,
+  "matches_expected": null
+ },
+ "opensource": {
+  "title": "Practica empaquetado y CI",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "ai-governance": {
+  "title": "Practica bias y fairness",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "data-contracts": {
+  "title": "Practica agentes y tools",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "tech-leadership": {
+  "title": "Practica design doc y postmortem",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "integrator-final": {
+  "title": "Practica arquitectura agenticaca",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ },
+ "career-strategy": {
+  "title": "Practica portfolio y CV",
+  "returncode": 0,
+  "error": null,
+  "has_expected": true,
+  "matches_expected": true
+ }
+}

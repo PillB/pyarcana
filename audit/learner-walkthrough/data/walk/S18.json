@@ -1,0 +1,142 @@
+{
+ "section": "S18",
+ "id": "data-engineering",
+ "title": "EDA, estadística descriptiva e incertidumbre",
+ "at": "2026-10-05T02:51:40.504Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "EDA, estadística descriptiva e incertidumbre",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 10,
+  "termHints": 20,
+  "optional": 1,
+  "words": 4131
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica idempotencia y ETL",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "Run 1: 3 registros procesados\nOutput: [\n  {\n    \"id\": 1,\n    \"cantidad\": 10,\n    \"precio\": 5.0,\n    \"total\": 50.0,\n    \"moneda\": \"PEN\"\n  },\n  {\n    \"id\": 2,\n    \"cantidad\": 5,\n    \"precio\": 12.0,\n    \"total\": 60.0,\n    \"moneda\": \"PEN\"\n  },\n  {\n    \"id\": 3,\n    \"cantidad\": 8,\n    \"precio\": 3.5,\n    \"total\": 28.0,\n    \"moneda\": \"PEN\"\n  }\n]\nRun 2: 0 registros procesados (idempotente!)\nTotal output: 3 registros",
+  "hint": "Que pasa si corres el pipeline 3 veces? El output debe ser el mismo que 1 vez",
+  "afterEdit": {
+   "edited": "\"Pipeline ETL idempotente: correr N veces = mismo resultado.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 873,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué comunica mejor un ticket “típico” c",
+  "questions": 10,
+  "attempt1": {
+   "result": "90%\n¡Buenazo! Sección completada\n\n9 de 10 correctas (90%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué comunica mejor un ticket “típico” con outliers fuertes?\n\nA\nLa media, porque usa todos los datos y no descarta ninguno\nMediana (y opcionalmente IQR)\nLa media recortada al 10 %, que ya elimina los extremos\nD\nEl máximo, para dimensionar el peor caso del negocio\n✗ Incorrecto. La mediana es robusta a colas pesadas; la media se infla con outliers."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 90
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 90
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 90
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 30550
+}

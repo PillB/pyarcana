@@ -1,0 +1,180 @@
+{
+ "section": "S40",
+ "id": "architecture-ddd-decisions",
+ "title": "Arquitectura, DDD y decisiones técnicas",
+ "at": "2026-10-05T03:09:44.827Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/badge-notice net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/credential-policy net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/disclaimer net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/security net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/data-rights net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/acceptable-use net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/external-resources net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/cookies net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/terms net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "HEAD http://localhost:8787/privacy net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "onboardingTourSteps": 16,
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Arquitectura, DDD y decisiones técnicas",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 3,
+  "optional": 1,
+  "words": 2945
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica multi-agent (simulado)",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "=== Multi-Agent: Analisis de churn Q2 2026 ===\n  [Researcher] Ejecutando: Buscar: Analisis de churn Q2 2026\n  [Analyst] Ejecutando: Analizar: Researcher_result\n  [Writer] Ejecutando: Escribir reporte basado en: Analyst_result\nReporte final: Writer_result\n=== Shared State ===\n  State inicial: {'query': 'Top 3 causas de churn', 'research': '', 'analysis': '', 'report': ''}\n  State final: {'query': 'Top 3 causas de churn', 'research': '1. Precio alto 2. Mal servicio 3. Competencia', 'analysis': 'Precio: 45%, Servicio: 30%, Competencia: 25%', 'report': 'El churn se debe principalmente a precio (45%)'}",
+  "hint": "Anade un cuarto agente \"Reviewer\" que valide el reporte",
+  "afterEdit": {
+   "edited": "\"Agente con rol y herramientas.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 891,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar un qualit",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar un quality-attribute scenario en CASO-LIM-040?\n\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\nC\ndatos personales reales para que parezca auténtico\nescenario QA completo con umbral y dueño\n✗ Incorrecto. La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 46387
+}

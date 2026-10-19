@@ -1,0 +1,142 @@
+{
+ "section": "S23",
+ "id": "computer-vision",
+ "title": "Browser RPA con Playwright",
+ "at": "2026-10-05T02:54:07.807Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Browser RPA con Playwright",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 7,
+  "optional": 1,
+  "words": 2755
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica procesamiento de imagenes (simulado)",
+  "readyMs": 2,
+  "verdict": "match",
+  "output": "Original (5x5):\n   10  20  30  20  10\n   20  30  40  30  20\n   30  40  50  40  30\n   20  30  40  30  20\n   10  20  30  20  10\nThreshold(25) (5x5):\n    0   0 255   0   0\n    0 255 255 255   0\n  255 255 255 255 255\n    0 255 255 255   0\n    0   0 255   0   0\nEstadisticas: min=10, max=50, mean=26.0\nPixeles blancos: 13/25 (52%)",
+  "hint": "Cambia el threshold a 35 y observa como cambian los pixeles blancos",
+  "afterEdit": {
+   "edited": "\"grayscale\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 723,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Por qué preferir get_by_role a CSS nth-",
+  "questions": 9,
+  "attempt1": {
+   "result": "89%\n¡Buenazo! Sección completada\n\n8 de 9 correctas (89%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Por qué preferir get_by_role a CSS nth-child?\n\nA\nSe ejecuta antes porque no recorre el árbol del DOM\nB\nFunciona igual aunque la página cambie de idioma\nRefleja la UI accesible y suele ser más estable ante cambios de layout\nEspera automáticamente y el selector CSS no lo hace\n✗ Incorrecto. Roles y nombres accesibles cambian menos que la jerarquía CSS y alinean robot y usabilidad (a11y = estabilidad)."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 89
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 89
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 89
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 28182
+}

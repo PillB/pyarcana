@@ -1,0 +1,152 @@
+{
+ "section": "S47",
+ "id": "opensource",
+ "title": "MLOps: experimentos, registro y serving",
+ "at": "2026-10-05T03:15:47.282Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "MLOps: experimentos, registro y serving",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 7,
+  "optional": 1,
+  "words": 2794
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica empaquetado y CI",
+  "readyMs": 2,
+  "verdict": "match",
+  "output": "=== pyproject.toml ===\n  Nombre: pytools-cli\n  Version: 1.0.0\n  Entry point: pytools\n  Deps: ['click>=8.0', 'pandas>=2.0']\n  Extras: ['dev', 'ml']\n=== Semantic Versioning ===\n  1.0.0 -> 1.0.1: COMPATIBLE (patch bump - bugfix)\n  1.0.0 -> 1.1.0: COMPATIBLE (minor bump - new features)\n  1.0.0 -> 2.0.0: BREAKING (major bump)\n=== CI Matrix (simulado) ===\n  OS: ['ubuntu', 'macos', 'windows']\n  Python: ['3.10', '3.11', '3.12']\n  Total jobs: 9 (paralelo)\n  Steps: checkout -> setup-python -> pip install -> ruff -> pytest",
+  "hint": "Que pasa si cambio la version a 2.0.0? Es compatible con 1.x?",
+  "afterEdit": {
+   "edited": "\"build-system\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 704,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar tracking ",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar tracking y reproducibilidad en CASO-TAC-047?\n\nA\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\nseed presente, params no vacíos y |metric−rerun| ≤ tolerancia\ndatos personales reales para que parezca auténtico\n✗ Incorrecto. La teoría exige seed presente, params y rerun dentro de tolerancia; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 31284
+}

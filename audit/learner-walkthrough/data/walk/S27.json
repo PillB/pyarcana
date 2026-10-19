@@ -1,0 +1,128 @@
+{
+ "section": "S27",
+ "id": "async-concurrency",
+ "title": "Estrategia de pruebas con pytest",
+ "at": "2026-10-05T02:57:36.528Z",
+ "events": [],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Estrategia de pruebas con pytest",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 26,
+  "optional": 1,
+  "words": 3367
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica concurrencia con asyncio",
+  "readyMs": 4,
+  "verdict": "no-verdict",
+  "output": "=== Secuencial ===\n  [A] iniciando (0.1s)...\n  [A] completado\n  [B] iniciando (0.1s)...\n  [B] completado\n  [C] iniciando (0.1s)...\n  [C] completado\n  Tiempo total: 0.30s\n=== Concurrente (simulado) ===\n  Tiempo secuencial: 0.30s\n  Tiempo concurrente: 0.10s\n  Speedup: 3.0x\n  Semaphore(3): 7 tareas, max 3 concurrentes\n    Batch 1: ['A', 'B', 'C']\n    Batch 2: ['D', 'E', 'F']\n    Batch 3: ['G']\n  En asyncio real, las pausas durante I/O permiten intercalado real",
+  "hint": "Que pasa si max_concurrent=1? Es lo mismo que secuencial",
+  "afterEdit": {
+   "edited": "\"Simula una tarea asincrona con un generator.\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 703,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEn la pirámide de pruebas, la base más a",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nEn la pirámide de pruebas, la base más ancha suele ser:\n\nA\nE2E UI\nB\nSolo manual\nPruebas unitarias\nLoad tests en prod\n✗ Incorrecto. La base ancha son muchas unitarias baratas; arriba, pocas E2E caras. El riesgo reordena el tiempo (más casos en normalize/match), no invierte la pirámide con solo UI."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 91376
+}
