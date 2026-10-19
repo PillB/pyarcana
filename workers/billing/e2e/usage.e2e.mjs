@@ -199,6 +199,28 @@ await flow('security.txt and privacy notice', async () => {
 // reason, never PASS; `node live.e2e.mjs` runs the same check against the live site on a normal
 // machine. The CSP refusal checks below need no Pyodide and always run.
 const PYO_CDN = process.env.E2E_PYODIDE_CDN
+// P4 and S1: eval, a jsDelivr file outside Pyodide, a Firebase host and an injected inline script
+// are each refused on a page served under the per-page hashed CSP.
+async function checkRefusals(page) {
+  const refused = await page.evaluate(async () => {
+    const before = window.__csp.length
+    // From a page task, as above: inside the evaluate call itself the eval would be allowed. Not
+    // from an injected inline script: since the per-page hashes (19 Oct 2026, S1) that script is
+    // itself refused, so its eval would never run (checked below as its own line).
+    setTimeout(() => { try { eval('1 + 1') } catch {} }, 0)
+    const inline = document.createElement('script')
+    inline.textContent = 'window.__injected = true'
+    document.head.appendChild(inline)
+    await new Promise((ok) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js'; s.onerror = ok; s.onload = ok; document.head.appendChild(s) })
+    try { await fetch('https://firestore.googleapis.com/') } catch {}
+    await new Promise((ok) => setTimeout(ok, 300))
+    return window.__csp.slice(before)
+  })
+  record('P4: eval, a jsDelivr file outside Pyodide and a Firebase host are each refused by the CSP', refused.some((v) => v.startsWith('script-src') && /eval/.test(v)) && refused.some((v) => v.includes('left-pad')) && refused.some((v) => v.includes('firestore')), refused.join(' | '))
+  const injected = await page.evaluate(() => window.__injected === true)
+  record('P4/S1: an injected inline script is refused by the hashed policy', !injected && refused.some((v) => v === 'script-src-elem inline'), `ran=${injected} | ${refused.join(' | ')}`)
+}
+
 await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files and Firebase are refused', async () => {
   if (!PYO_CDN || !process.env.E2E_PYODIDE_SRI) return record('Pyodide under the real CSP', false, 'E2E_PYODIDE_CDN or E2E_PYODIDE_SRI missing')
   const ctx = await contextFor(null)
@@ -231,23 +253,7 @@ await flow('CSP: Pyodide runs with wasm-unsafe-eval; eval, other jsDelivr files 
   } else {
     record('P4c: Pyodide from the real jsDelivr loads and runs Python under wasm-unsafe-eval, no CSP violation', run === '{"fact": 120, "sum": 45}' && violations.length === 0, `${run} | ${violations.join(', ')}`)
   }
-  const refused = await page.evaluate(async () => {
-    const before = window.__csp.length
-    // From a page task, as above: inside the evaluate call itself the eval would be allowed. Not
-    // from an injected inline script: since the per-page hashes (19 Oct 2026, S1) that script is
-    // itself refused, so its eval would never run (checked below as its own line).
-    setTimeout(() => { try { eval('1 + 1') } catch {} }, 0)
-    const inline = document.createElement('script')
-    inline.textContent = 'window.__injected = true'
-    document.head.appendChild(inline)
-    await new Promise((ok) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js'; s.onerror = ok; s.onload = ok; document.head.appendChild(s) })
-    try { await fetch('https://firestore.googleapis.com/') } catch {}
-    await new Promise((ok) => setTimeout(ok, 300))
-    return window.__csp.slice(before)
-  })
-  record('P4: eval, a jsDelivr file outside Pyodide and a Firebase host are each refused by the CSP', refused.some((v) => v.startsWith('script-src') && /eval/.test(v)) && refused.some((v) => v.includes('left-pad')) && refused.some((v) => v.includes('firestore')), refused.join(' | '))
-  const injected = await page.evaluate(() => window.__injected === true)
-  record('P4/S1: an injected inline script is refused by the hashed policy', !injected && refused.some((v) => v === 'script-src-elem inline'), `ran=${injected} | ${refused.join(' | ')}`)
+  await checkRefusals(page)
   const health = await page.evaluate(async () => (await fetch('/api/v1/health')).json())
   record('P6: /api/v1/health is {ok, db} only', JSON.stringify(health) === '{"ok":true,"db":true}', JSON.stringify(health))
   await ctx.close()
