@@ -433,6 +433,58 @@ only real Google and Microsoft tokens. Real Google and Microsoft sign-in is ther
 here. Setup: `cd e2e && npm install --prefix . --no-save wrangler@4 playwright@1.63.0` (`--prefix` keeps npm out of `workers/billing/package.json`), then `./run.sh`; Chromium comes from
 `CHROMIUM` (default `/opt/pw-browsers/chromium`).
 
+## Backup and restore (D1)
+
+Round of 19 Oct 2026, S18. Two layers, both Cloudflare's own:
+
+1. **Time Travel** (on by default, nothing to set up): D1 can return the database to any minute of
+   the last 7 days on Workers Free, 30 on Paid. This is the first choice after a bad migration or
+   a mass deletion, because it is exact and needs no file.
+
+   ```bash
+   npx wrangler d1 time-travel info pyarcana-accounts
+   npx wrangler d1 time-travel restore pyarcana-accounts --timestamp=2026-10-19T12:00:00Z
+   ```
+
+   The restore replaces the whole database. `info` prints the bookmark to return to if the
+   restore itself was the mistake.
+
+2. **A monthly export**, for anything older than Time Travel and for the case where the Cloudflare
+   account itself is lost. Run it from `workers/billing` with the deploy token loaded, as for
+   `redeploy.sh`:
+
+   ```bash
+   npx wrangler d1 export pyarcana-accounts --remote --output="$HOME/pyarcana-backups/d1-$(date -u +%Y-%m-%d).sql"
+   chmod 600 "$HOME/pyarcana-backups/"d1-*.sql
+   ```
+
+   The file holds personal data (email addresses, progress, reports). Keep it outside the
+   repository, on an encrypted disk, and delete files older than 3 months. Cloudflare warns that
+   an export blocks other requests to the database while it runs, so run it at night (Lima).
+
+**Restore drill** (once after the first export, then every few months): load the file into a
+local D1, never the live one, and count the rows.
+
+```bash
+mkdir -p /tmp/d1-drill && cp wrangler.toml /tmp/d1-drill/
+cd /tmp/d1-drill
+npx wrangler d1 execute pyarcana-accounts --local --file="$HOME/pyarcana-backups/d1-2026-10-19.sql" --yes
+npx wrangler d1 execute pyarcana-accounts --local --command "SELECT count(*) FROM accounts"
+```
+
+To restore the live database from a file, run the same `execute --file` with `--remote` into a
+new, empty database (`npx wrangler d1 create`), point `database_id` at it and redeploy. Never
+load an export over the live database: its `CREATE TABLE` statements fail on existing tables.
+
+Checked on 19 Oct 2026 with wrangler 4.145.0: a local export and its load into an empty local D1
+gave back the same rows. The `--remote` commands were not run (no deploy token here).
+
+Not built (stated, not absorbed): an account deleted after an export comes back if that export
+is restored. Before reopening a restored database, list the deletions made since the export in
+the old database (`SELECT target_account_id, created_at FROM audit_log WHERE action =
+'account.delete'`) and repeat them. There is no script for this yet. The privacy page does not
+mention backups; it should before the first export is kept.
+
 ## Not built yet
 
 Named undone work; nothing below exists in the code today.
