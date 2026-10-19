@@ -303,6 +303,40 @@
         "src/lib/course/sections/s12-apis-sql-geo.ts:2011-2012 (CP-N1-C starter asks for an index on a document_id it declares UNIQUE; the patterns do not match it)"
       ]},
       "decision": "Found 2026-10-14 in the review of the S12 exam bank (plan PR 9); fixed by Codex on claude/s12-unique-already-indexed, ahead of the S12 fixer round"
+    },
+    {
+      "id": "KFC-011",
+      "title": "`Connection.row_factory` presented as what makes `:name` placeholders work",
+      "scope": ["sections", "glossary", "exam-bank", "capstones"],
+      "patterns": [
+        "(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))\\)?{W15}(?<!\\bno )(?<!\\bni )(?<!\\bnunca )(?<!\\bsin )\\b(?:con|usando|via|mediante|junto a|requiere\\w*|necesita\\w*|activando|configurando) (?:(?:el|la|un|una|tu|activar|configurar|definir|atributo) )*(?:\\w+\\.)?row factory",
+        "row factory{W40}(?<!\\bno )(?<!\\bni )(?<!\\bnunca )\\b(?:permite|habilita|activa|soporta|admite)\\w*{W30}(?::\\w+\\b|(?:placeholders?|marcador\\w*|parametros?) (?:con nombre|nombrad\\w*|named))"
+      ],
+      "correct_statement": "A named placeholder (`:name`) takes its values from a dict whose keys name every placeholder; a `?` placeholder takes them from a sequence such as a tuple, by position. `Connection.row_factory` plays no part in binding: it decides the shape of the rows a query returns (a tuple by default, `sqlite3.Row` to read columns by name). A sequence passed to named placeholders emits DeprecationWarning in Python 3.12 and raises ProgrammingError from 3.14.",
+      "citation": {
+        "source": "Python 3.12 documentation, sqlite3, How to use placeholders to bind values in SQL queries; Connection.row_factory; Cursor.execute",
+        "url": "https://docs.python.org/3.12/library/sqlite3.html#sqlite3-placeholders",
+        "quote": "For the named style, parameters must be an instance of a dict (or a subclass), which must contain keys for all named parameters; any extra items are ignored."
+      },
+      "verified_by": "tests/adversarial/test_taught_claims_hold.py::TaughtClaimsHold::test_a_named_placeholder_takes_a_dict_and_row_factory_only_shapes_rows",
+      "examples": {
+        "positive": [
+          "Usa placeholders `?` (o `:name` con `Connection.row_factory`).",
+          "Para parámetros con nombre (`:cid`) necesitas configurar `con.row_factory`.",
+          "`row_factory` habilita los placeholders `:name` en la consulta."
+        ],
+        "negative": [
+          "Usa placeholders `?` con una tupla, o `:name` con un dict de parámetros.",
+          "Los placeholders `:name` toman un dict; `row_factory` no interviene: solo decide la forma de las filas que salen de la consulta.",
+          "`:name` no necesita `row_factory`; toma un dict.",
+          "Con `con.row_factory = sqlite3.Row` cada fila permite leer columnas con nombre, como `fila[\"document_id\"]`.",
+          "`row_factory` no habilita los placeholders `:name`; solo cambia la forma de las filas devueltas.",
+          "`:name` nunca necesita `row_factory`: toma un dict."
+        ]
+      },
+      "allow": [],
+      "found": {"date": "2026-10-16", "locations": ["src/lib/course/sections/s12-apis-sql-geo.ts:314 (S12-T3-B, paragraphs[0])"]},
+      "decision": "Owner request 2026-10-16: the S12-T3-B correction; the Codex fix lowers OWED to 0"
     }
   ]
 }
