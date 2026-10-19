@@ -231,6 +231,32 @@ class TaughtClaimsHold(unittest.TestCase):
         self.assertEqual(indexed, {"idx_document_id": "c"})
         self.assertTrue(plan.startswith("SEARCH"), plan)
 
+    def test_a_named_placeholder_takes_a_dict_and_row_factory_only_shapes_rows(self) -> None:
+        """KFC-011. `:name` binds from a dict with row_factory still None. Setting row_factory
+        changes the rows a query returns and nothing about binding: a sequence for `:name` still
+        warns under 3.12 and 3.13, and raises from 3.14."""
+        import sqlite3
+        con = sqlite3.connect(":memory:")
+        con.execute("CREATE TABLE clients (id TEXT, document_id TEXT)")
+        con.execute("INSERT INTO clients VALUES ('C001', 'D-100')")
+        query = "SELECT document_id FROM clients WHERE id = :cid"
+        self.assertIsNone(con.row_factory)
+        self.assertEqual(con.execute(query, {"cid": "C001"}).fetchall(), [("D-100",)])
+        with self.assertRaisesRegex(sqlite3.ProgrammingError, ":cid"):
+            con.execute(query, {"client": "C001"})
+
+        con.row_factory = sqlite3.Row
+        row = con.execute(query, {"cid": "C001"}).fetchone()
+        self.assertIsInstance(row, sqlite3.Row)
+        self.assertEqual(row["document_id"], "D-100")
+        if sys.version_info >= (3, 14):
+            with self.assertRaises(sqlite3.ProgrammingError):
+                con.execute(query, ("C001",))
+        else:
+            with self.assertWarnsRegex(DeprecationWarning, "named parameter"):
+                con.execute(query, ("C001",))
+        con.close()
+
 
 if __name__ == "__main__":
     unittest.main()
