@@ -90,6 +90,8 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   the owner's decision. Find the root cause first: a stand-in is never the fix for an
   environment problem that can be solved for real (owner rule, 5 Oct 2026).
 - Record a decision that binds later rounds in `audit/fixer/decisions.md`.
+- When delegating to Claude subagents, follow [`docs/agents/model-ladder.md`](docs/agents/model-ladder.md):
+  Haiku first; only verified failure hands up; limits, aborts and empty results stop; verify one level up.
 
 ## Ask first
 
