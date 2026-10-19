@@ -658,9 +658,10 @@ class ClaimDigests(unittest.TestCase):
         """The guard asks whether code READS a field. Asked of every mention, it refused `specification`
         (it is in comments and in `specificationVersion`) and `generated_at` (the BadgeCatalog interface
         declares it), so a field no code reads could not be declared internal. Each non-read below is
-        a mention the guard must not flag; each read is a spelling it must keep flagging. The last two
+        a mention the guard must not flag; each read is a spelling it must keep flagging. The last three
         reads are spellings the text pattern before O27 102-S1 missed: a destructuring renamed to an
-        upper-case alias, and a comment marker inside a string that hid the read after it."""
+        upper-case alias, a `/*` inside a string that hid the read after it, and a `//` inside a string
+        on the read's own line."""
         cases = [
             ("a line comment", "specification", "// the executable specification\nconst a = 1\n", False),
             ("a block comment", "specification", "const a = 1 /* the specification */\n", False),
@@ -678,6 +679,8 @@ class ClaimDigests(unittest.TestCase):
             ("an upper-case alias of a destructuring", "generated_at", "const {\n  generated_at: GENERATED_AT,\n} = badgeCatalog\n", True),
             ("comment markers inside strings before a read", "generated_at",
              "const note = 'see //x'\nconst block = 'a /*'\nconst s = catalog.generated_at\nconst h = '*/'\n", True),
+            ("a line comment marker in a string, on the read's own line", "generated_at",
+             "const note = 'see //x'; const s = catalog.generated_at\n", True),
         ]
         reads = reads_by_job([
             {"name": label, "file": "case.tsx", "text": text, "fields": [field]} for label, field, text, _ in cases
