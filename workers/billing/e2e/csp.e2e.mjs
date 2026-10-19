@@ -6,7 +6,8 @@
 //      script-src, base-uri 'none', and no fonts.googleapis.com;
 //   2. the page loads in Chromium with no CSP violation (securitypolicyviolation events and console),
 //      signed out, and /admin and /qa signed in as the seeded admin (they render user text);
-//   3. a missing path gets the 404 page under the /* policy, also without violations.
+//   3. a missing path gets the 404 page under the /* policy, also without violations;
+//   4. the icons, the manifest, sitemap.xml and the robots Sitemap line are served (S21).
 import { chromium } from 'playwright'
 import { launchOptions } from './sandbox-trust.mjs'
 import { readFileSync, readdirSync } from 'node:fs'
@@ -40,6 +41,25 @@ record(`every page path answers one hashed policy (${pages.length} pages, with a
 const missing = await fetch(`${BASE}/no-such-page-${Date.now()}`)
 const nfCsp = missing.headers.get('content-security-policy') ?? ''
 record('a missing path: 404 with the /* policy (404.html\'s hashes), one header', missing.status === 404 && /'sha256-/.test(nfCsp) && !nfCsp.includes(', '), `status=${missing.status}`)
+
+// 1b. The files browsers and crawlers ask for on their own (S21): served, not the 404 page.
+const ICON_SIZES = { '/favicon.ico': null, '/apple-touch-icon.png': 180, '/apple-touch-icon-precomposed.png': 180, '/icon-192.png': 192, '/icon-512.png': 512, '/icon-maskable-512.png': 512 }
+const { default: sharp } = await import('sharp')
+for (const [path, size] of Object.entries(ICON_SIZES)) {
+  const r = await fetch(`${BASE}${path}`)
+  const body = Buffer.from(await r.arrayBuffer())
+  const dims = size ? await sharp(body).metadata().then((m) => `${m.width}x${m.height}`, () => 'unreadable') : `${body[6]}x${body[7]}`
+  const want = size ? `${size}x${size}` : '32x32'
+  record(`${path}: 200, ${want}`, r.status === 200 && dims === want, `status=${r.status} ${r.headers.get('content-type')} ${dims}`)
+}
+const manifest = await fetch(`${BASE}/manifest.webmanifest`)
+const mj = await manifest.json().catch(() => null)
+record('/manifest.webmanifest: 200, three icons that are served', manifest.status === 200 && mj?.icons?.length === 3, `status=${manifest.status}`)
+const sitemap = await fetch(`${BASE}/sitemap.xml`)
+const sx = await sitemap.text()
+record('/sitemap.xml: 200, public pages only', sitemap.status === 200 && /<loc>http:\/\/localhost:8787\/privacy<\/loc>/.test(sx) && !/\/admin<|\/cuenta<|\/qa<|\/verify</.test(sx), `status=${sitemap.status}`)
+const robots = await (await fetch(`${BASE}/robots.txt`)).text()
+record('/robots.txt ends with our Sitemap line', /\nSitemap: http:\/\/localhost:8787\/sitemap\.xml\n$/.test(robots))
 
 // 2. Chromium: no violation anywhere.
 const browser = await chromium.launch(launchOptions())

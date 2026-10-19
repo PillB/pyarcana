@@ -15,11 +15,22 @@ export const metadata: Metadata = {
   description: "PyArcana — curso online de Python para Data Analysis y Data Science. En español peruano, con método I Do / We Do / You Do, ejercicios prácticos y proyectos de portafolio.",
   keywords: ["PyArcana", "Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú", "Art Nouveau"],
   authors: [{ name: "PyArcana" }],
+  // Round of 19 Oct 2026 (S21): the ICO and PNGs are rasterized from favicon.svg at build
+  // (scripts/site_icons.mjs, out/ only: public/ is protected). Google Search takes ICO or PNG, not
+  // SVG; Apple requires a PNG. No `shortcut`: it is not a link relation. The /logo.svg apple entry
+  // stays second only because a protected test (test_static_export_guard.py) requires /logo.svg in
+  // this file; iOS takes the first PNG whose size matches. It goes once that test may change.
   icons: {
-    icon: [{ url: `${SITE_BASE_PATH}/favicon.svg`, type: "image/svg+xml" }],
-    shortcut: `${SITE_BASE_PATH}/favicon.svg`,
-    apple: `${SITE_BASE_PATH}/logo.svg`,
+    icon: [
+      { url: `${SITE_BASE_PATH}/favicon.svg`, type: "image/svg+xml" },
+      { url: `${SITE_BASE_PATH}/favicon.ico`, sizes: "32x32" },
+    ],
+    apple: [
+      { url: `${SITE_BASE_PATH}/apple-touch-icon.png`, sizes: "180x180", type: "image/png" },
+      { url: `${SITE_BASE_PATH}/logo.svg` },
+    ],
   },
+  manifest: `${SITE_BASE_PATH}/manifest.webmanifest`,
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",
     description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",

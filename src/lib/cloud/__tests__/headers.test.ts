@@ -16,7 +16,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
-import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, checkHeaderLine, hashedCsp, inlineScriptHashes, pagePaths, parseHeadersFile, SECURITY_TXT_DAYS, type BuiltPage } from '@/lib/cloud/headers'
+import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, checkHeaderLine, hashedCsp, robotsWithSitemap, inlineScriptHashes, pagePaths, parseHeadersFile, SECURITY_TXT_DAYS, type BuiltPage } from '@/lib/cloud/headers'
 import { createHash } from 'node:crypto'
 
 const ON: CloudConfig = {
@@ -202,4 +202,21 @@ test('_headers refuses more than 100 rules and lines over 2000 characters instea
   assert.throws(() => buildHeadersFile(ON, [nf, ...many]), /101 rules/)
   const crowded = { file: 'x.html', html: Array.from({ length: 30 }, (_, i) => `<script>s${i}()</script>`).join('') }
   assert.throws(() => buildHeadersFile(ON, [nf, crowded]), /_headers line refused/)
+})
+
+// --- sitemap.xml and robots.txt (round of 19 Oct 2026, S21) ----------------------------------------
+
+test('sitemap.xml: public pages at the canonical origin; never admin, account, QA, verify or capstones; none at stage off', () => {
+  const pages = ['index.html', 'privacy.html', 'admin.html', 'cuenta.html', 'qa.html', 'verify.html', '404.html', '_not-found.html', 'capstones/x.html', 'empezar.html'].map((file) => ({ file, html: '' }))
+  const xml = buildSitemap(ON, pages)!
+  assert.deepEqual([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]), ['https://pyarcana.dev/', 'https://pyarcana.dev/empezar', 'https://pyarcana.dev/privacy'])
+  assert.match(xml, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/)
+  assert.equal(buildSitemap({ ...ON, launchStage: 'off' }, pages), null)
+})
+
+test('robots.txt gains exactly one Sitemap line, after our rules; none at stage off', () => {
+  const once = robotsWithSitemap(ON, 'User-agent: *\nAllow: /\n')!
+  assert.equal(once, 'User-agent: *\nAllow: /\n\nSitemap: https://pyarcana.dev/sitemap.xml\n')
+  assert.equal(robotsWithSitemap(ON, once), once, 'running the deploy step twice adds no second line')
+  assert.equal(robotsWithSitemap({ ...ON, launchStage: 'off' }, 'x'), null)
 })

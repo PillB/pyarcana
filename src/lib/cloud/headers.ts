@@ -175,3 +175,31 @@ export function buildSecurityTxt(cfg: CloudConfig, nowMs: number): string | null
     '',
   ].join('\n')
 }
+
+/** Paths never listed in the sitemap: sign-in, admin, testers, credential lookups, capstone briefs. */
+export const SITEMAP_EXCLUDED = ['/admin', '/cuenta', '/qa', '/verify', '/capstones']
+
+/**
+ * sitemap.xml for the account edition (round of 19 Oct 2026, S21): every built public page, at the
+ * canonical origin. Google: a sitemap helps a site that "is new and has few external links". Null
+ * at stage off (the GitHub Pages edition keeps its own robots.txt and no sitemap).
+ */
+export function buildSitemap(cfg: CloudConfig, pages: BuiltPage[]): string | null {
+  if (cfg.launchStage === 'off') return null
+  const origin = cfg.canonicalOrigin.replace(/\/+$/, '')
+  const paths = pages
+    .filter((p) => p.file !== '404.html' && !p.file.startsWith('_'))
+    .map((p) => pagePaths(p.file)[0])
+    .filter((path) => !SITEMAP_EXCLUDED.some((x) => path === x || path.startsWith(`${x}/`)))
+    .sort()
+  const urls = paths.map((path) => `  <url><loc>${origin}${path === '/' ? '/' : path}</loc></url>`)
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...urls, '</urlset>', ''].join('\n')
+}
+
+/** robots.txt with the Sitemap line appended once (Cloudflare prepends its managed block; ours follows). */
+export function robotsWithSitemap(cfg: CloudConfig, robots: string): string | null {
+  if (cfg.launchStage === 'off') return null
+  const line = `Sitemap: ${cfg.canonicalOrigin.replace(/\/+$/, '')}/sitemap.xml`
+  const body = robots.split('\n').filter((l) => !/^Sitemap:/i.test(l.trim())).join('\n').replace(/\n*$/, '\n')
+  return `${body}\n${line}\n`
+}
