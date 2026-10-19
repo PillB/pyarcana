@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   BookOpen,
@@ -63,6 +63,8 @@ import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
 import { FigureFrame } from './Figure'
+import { SectionScreenshot } from './SectionScreenshot'
+import { proseSegments, shotsAfter } from '@/lib/course/section-shots'
 import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
@@ -438,7 +440,13 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
                 <InlineText text={block.heading} />
               </h3>
             )}
-            <RichText sectionId={section.id} content={block.paragraphs.join('\n\n')} />
+            {/* A screenshot (D23) splits the prose right after the paragraph it shows. */}
+            {proseSegments(block).map((seg, k) => (
+              <Fragment key={k}>
+                <RichText sectionId={section.id} content={seg.markdown} after={seg.before || undefined} />
+                {seg.shots.map((id) => <SectionScreenshot key={id} id={id} />)}
+              </Fragment>
+            ))}
             {/* Spatial contiguity: the figure sits between the prose it
                 explains and the code that follows, never in a gallery. */}
             {block.figure && <FigureFrame figure={block.figure} />}
@@ -450,11 +458,13 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
                 output={block.code.output}
               />
             )}
+            {shotsAfter(block, 'code').map((id) => <SectionScreenshot key={id} id={id} />)}
             {block.callout && (
               <Callout type={block.callout.type} title={block.callout.title && <InlineText text={block.callout.title} />}>
                 <InlineText text={block.callout.content} />
               </Callout>
             )}
+            {shotsAfter(block, 'callout').map((id) => <SectionScreenshot key={id} id={id} />)}
           </>
         )
 

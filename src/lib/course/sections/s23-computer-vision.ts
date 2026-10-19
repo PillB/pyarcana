@@ -272,6 +272,9 @@ auth authenticated`,
         "Filtra console logs por marcadores como `ERR`; el ruido de `info`/`nav ok` no debe ocultar el timeout del botón. Si `ok=False`, adjunta el path determinista `traces/{step}.zip` al paquete del step. En Playwright real activas tracing alrededor del flujo crítico y abres el zip en Trace Viewer; en el lab modelamos las mismas keys.",
         "Caso: step `download_report` / `s1` falla → paquete con `trace` + `screenshot` + `error`. Política de disco: traces en **falla** siempre; en éxito, sample rate bajo o desactivado para no saturar el runner. Fixtures sintéticos de operaciones (Lima, America/Lima); **nunca** PII real de clientes en screenshots ni en logs del ticket.",
       ],
+      screenshots: [
+        { id: "s23-trace-viewer", after: 1 },
+      ],
       code: {
         language: 'python',
         title: "trace_fail.py",
