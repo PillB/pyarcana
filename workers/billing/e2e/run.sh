@@ -11,7 +11,7 @@
 #   npm install --prefix . --no-save wrangler@4 playwright@1.63.0   (not repo deps; --prefix keeps
 #   npm from writing them into workers/billing/package.json, the nearest package.json above)
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, progress, tour, setup)
+#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, progress, tour, setup, csp)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -85,4 +85,6 @@ start
 (cd "$HERE" && node tour.e2e.mjs) || STATUS=1
 # Sesión 0 (/empezar): tracks, keyboard switch, ticks and storage, at desktop and phone sizes.
 (cd "$HERE" && node setup.e2e.mjs) || STATUS=1
+# The per-page CSP from out/_headers, as Cloudflare's asset worker applies it (round of 19 Oct 2026).
+(cd "$HERE" && E2E_OUT="$WORK/site/out" node csp.e2e.mjs) || STATUS=1
 exit $STATUS

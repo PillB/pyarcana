@@ -44,20 +44,22 @@ export default function RootLayout({
         <CspMeta />
         {/* Content-Security-Policy as <meta http-equiv> (src/components/CspMeta.tsx). GitHub Pages
             cannot send headers, so this meta is the policy there; it must be http-equiv, since a
-            name= meta (what metadata.other renders) is ignored by browsers. Next's static export
-            hydrates with inline scripts, so script-src keeps 'unsafe-inline' (their hashes change on
-            every build and differ per page; replacing it is its own round), and Pyodide needs
-            'wasm-unsafe-eval' to compile WebAssembly. Under `next dev` alone script-src also gets
-            'unsafe-eval', which the dev runtime needs to hydrate (metaCsp); builds never do.
-            What the policy gives: object-src 'none',
-            base-uri 'self', form-action 'self', script-src and connect-src self + the Pyodide
-            folder on jsDelivr only (src/lib/pyodide.ts), style-src self + fonts.googleapis.com.
+            name= meta (what metadata.other renders) is ignored by browsers. A meta policy cannot
+            list the page's own inline-script hashes (it is written before they are final), so its
+            script-src keeps 'unsafe-inline'. On pyarcana.dev the Cloudflare build also sends, per
+            page, a header policy whose script-src lists that page's sha256 hashes and no
+            'unsafe-inline' (scripts/cloud-headers.mjs, src/lib/cloud/headers.ts; round of 19 Oct
+            2026). Both are enforced and a script must pass both, so there the hashes rule. Pyodide
+            needs 'wasm-unsafe-eval' to compile WebAssembly. Under `next dev` alone script-src also
+            gets 'unsafe-eval', which the dev runtime needs to hydrate (metaCsp); builds never do.
+            What the policy gives: object-src 'none', base-uri 'none', form-action 'self',
+            script-src and connect-src self + the Pyodide folder on jsDelivr only
+            (src/lib/pyodide.ts), style-src self only (the fonts are self-hosted, next/font/local).
             No Firebase hosts: the static builds never configure Firebase (D4 audit, P4).
             frame-ancestors is IGNORED in a meta policy (CSP3), so metaCsp leaves it out; the
-            Cloudflare build sends it as a header through _headers (src/lib/cloud/headers.ts, plus X-Frame-Options DENY). Built
-            from the public cloud config (src/lib/cloud/csp.ts): the shipped config (stage off)
-            yields LEGACY_CSP byte for byte (minus frame-ancestors here), which tests pin. When the dynamic LMS ships,
-            replace unsafe-inline with nonces/hashes. */}
+            Cloudflare build sends it as a header (plus X-Frame-Options DENY). Built from the public
+            cloud config (src/lib/cloud/csp.ts): the shipped config (stage off) yields LEGACY_CSP
+            byte for byte (minus frame-ancestors here), which tests pin. */}
         {/* ChunkLoadError guard — inlined directly in <head> so it runs BEFORE
             any Next.js bundle. On a static export, next/script's
             "beforeInteractive" strategy loads via the Next.js runtime, which

@@ -16,7 +16,8 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
-import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, checkHeaderLine, parseHeadersFile, SECURITY_TXT_DAYS } from '@/lib/cloud/headers'
+import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, checkHeaderLine, hashedCsp, inlineScriptHashes, pagePaths, parseHeadersFile, SECURITY_TXT_DAYS, type BuiltPage } from '@/lib/cloud/headers'
+import { createHash } from 'node:crypto'
 
 const ON: CloudConfig = {
   ...structuredClone(CLOUD_CONFIG),
@@ -88,14 +89,17 @@ test('ads.txt: a malformed or injected publisher id is refused, never published'
 // --- the CLI --------------------------------------------------------------------------------------
 
 const SCRIPT = join(process.cwd(), 'scripts/cloud-headers.mjs')
+const INDEX = '<!doctype html><script>self.__next_f.push([1,"a"])</script>'
+const NOT_FOUND = '<!doctype html><script>console.log(404)</script>'
 const run = (dir: string) => spawnSync(process.execPath, [SCRIPT, dir], { encoding: 'utf8' })
 
 test('CLI: writes _headers from the committed config into a built out/ and no ads.txt by default', () => {
   const dir = mkdtempSync(join(tmpdir(), 'pa-out-'))
-  writeFileSync(join(dir, 'index.html'), '<!doctype html>')
+  writeFileSync(join(dir, 'index.html'), INDEX)
+  writeFileSync(join(dir, '404.html'), NOT_FOUND)
   const r = run(dir)
   assert.equal(r.status, 0, r.stderr)
-  assert.equal(readFileSync(join(dir, '_headers'), 'utf8'), buildHeadersFile(CLOUD_CONFIG))
+  assert.equal(readFileSync(join(dir, '_headers'), 'utf8'), buildHeadersFile(CLOUD_CONFIG, [{ file: '404.html', html: NOT_FOUND }, { file: 'index.html', html: INDEX }]))
   assert.equal(existsSync(join(dir, 'ads.txt')), false)
 })
 
@@ -108,7 +112,8 @@ test('CLI: refuses a directory that is not a built export, and writes nothing th
 
 test('CLI: a stale ads.txt with no AdSense id configured stops the deploy', () => {
   const dir = mkdtempSync(join(tmpdir(), 'pa-stale-'))
-  writeFileSync(join(dir, 'index.html'), '<!doctype html>')
+  writeFileSync(join(dir, 'index.html'), INDEX)
+  writeFileSync(join(dir, '404.html'), NOT_FOUND)
   writeFileSync(join(dir, 'ads.txt'), 'google.com, pub-6666666666666666, DIRECT, f08c47fec0942fa0\n')
   const r = run(dir)
   assert.notEqual(r.status, 0)
@@ -135,9 +140,66 @@ test('security.txt: contact, an Expires under a year renewed per build, language
 
 test('CLI: a root build (base path "") also gets /.well-known/security.txt', () => {
   const dir = mkdtempSync(join(tmpdir(), 'pa-root-'))
-  writeFileSync(join(dir, 'index.html'), '<!doctype html>')
+  writeFileSync(join(dir, 'index.html'), INDEX)
+  writeFileSync(join(dir, '404.html'), NOT_FOUND)
   writeFileSync(join(dir, 'deployment.json'), JSON.stringify({ base_path: '' }))
   const r = run(dir)
   assert.equal(r.status, 0, r.stderr)
   assert.match(readFileSync(join(dir, '.well-known', 'security.txt'), 'utf8'), /^Contact: mailto:security@pyarcana\.dev\n/)
+})
+
+// --- per-page CSP hashes (round of 19 Oct 2026, S1) -----------------------------------------------
+
+const sha = (text: string) => `'sha256-${createHash('sha256').update(text, 'utf8').digest('base64')}'`
+const script = (cspOf: string) => cspOf.split('; ').find((d) => d.startsWith('script-src ')) ?? ''
+
+test('inlineScriptHashes: every inline script a browser runs, hashed as written; never src= or JSON data blocks', () => {
+  const guard = "(function(){window.__g=1})()"
+  const push = 'self.__next_f.push([1,"<x>&amp;"])'
+  const html = `<head><script>${guard}</script><script src="/_next/a.js" async=""></script><script type="application/ld+json">{"a":1}</script>` +
+    `<script id="__NEXT_DATA__" type="application/json">{}</script></head><body><script>${push}</script><script>${guard}</script></body>`
+  assert.deepEqual(inlineScriptHashes(html), [sha(guard), sha(push)], 'one hash per distinct inline script, in page order')
+  assert.equal(sha('alert(1)'), "'sha256-bhHHL3z2vDgxUt0W3dWQOrprscmda2Y5pLsLg4GF+pI='", 'the CSP sha256 form (base64 of the SHA-256 of the text)')
+})
+
+test('hashedCsp: script-src drops \'unsafe-inline\' for the hashes; nothing else changes', () => {
+  const strict = hashedCsp(ON, [sha('a'), sha('b')])
+  assert.doesNotMatch(script(strict), /'unsafe-inline'/)
+  assert.ok(script(strict).endsWith(`${sha('a')} ${sha('b')}`))
+  assert.equal(strict.replace(` ${sha('a')} ${sha('b')}`, '').replace(script(strict).replace(` ${sha('a')} ${sha('b')}`, ''), script(buildCsp(ON))), buildCsp(ON))
+  assert.match(strict, /style-src 'self' 'unsafe-inline'/, 'styles are out of scope (Observatory scores script-src)')
+})
+
+test('pagePaths: the paths a built page answers, with and without the trailing slash', () => {
+  assert.deepEqual(pagePaths('index.html'), ['/'])
+  assert.deepEqual(pagePaths('privacy.html'), ['/privacy', '/privacy/'])
+  assert.deepEqual(pagePaths('docs/index.html'), ['/docs', '/docs/'])
+  assert.deepEqual(pagePaths('docs/a.html'), ['/docs/a', '/docs/a/'])
+})
+
+test('_headers with pages: /* first with 404.html\'s hashes, then per path a detach line and that page\'s own policy', () => {
+  const pages: BuiltPage[] = [
+    { file: '404.html', html: '<script>nf()</script>' },
+    { file: 'index.html', html: '<script>home()</script>' },
+    { file: 'privacy.html', html: '<script>priv()</script>' },
+  ]
+  const text = buildHeadersFile(ON, pages)
+  assert.deepEqual(text.split('\n').filter((l) => l && !/^\s/.test(l)), ['/*', '/', '/privacy', '/privacy/'], 'file order: Cloudflare applies matching rules in it')
+  const rules = parseHeadersFile(text)
+  assert.equal(rules['/*']['Content-Security-Policy'], hashedCsp(ON, [sha('nf()')]))
+  assert.equal(rules['/*']['X-Frame-Options'], 'DENY', 'the security headers stay on every path')
+  for (const [path, body] of [['/', 'home()'], ['/privacy', 'priv()'], ['/privacy/', 'priv()']]) {
+    assert.ok('! Content-Security-Policy' in rules[path], `${path} detaches the /* policy, or the two would be comma-joined into two`)
+    assert.equal(rules[path]['Content-Security-Policy'], hashedCsp(ON, [sha(body)]))
+  }
+  assert.throws(() => buildHeadersFile(ON, pages.slice(1)), /404\.html/)
+})
+
+test('_headers refuses more than 100 rules and lines over 2000 characters instead of writing them', () => {
+  const nf = { file: '404.html', html: '' }
+  const many = Array.from({ length: 50 }, (_, i) => ({ file: `p${i}.html`, html: '' }))
+  assert.doesNotThrow(() => buildHeadersFile(ON, [nf, ...many.slice(0, 49)]), '99 rules fit')
+  assert.throws(() => buildHeadersFile(ON, [nf, ...many]), /101 rules/)
+  const crowded = { file: 'x.html', html: Array.from({ length: 30 }, (_, i) => `<script>s${i}()</script>`).join('') }
+  assert.throws(() => buildHeadersFile(ON, [nf, crowded]), /_headers line refused/)
 })

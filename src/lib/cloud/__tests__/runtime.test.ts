@@ -249,6 +249,13 @@ test('the shipped config produces exactly the CSP the site ships today', () => {
     assert.ok(directive(policy, 'script-src').includes(` ${PYODIDE_CDN}`), 'the loader and its SRI script come from that folder')
   }
   assert.equal(buildCsp(cfg({ googleClientId: 'x.apps.googleusercontent.com' })), LEGACY_CSP, 'stage off adds nothing')
+  // Round of 19 Oct 2026: the whole policy as a literal, so a change to LEGACY_CSP cannot pass by
+  // changing buildCsp with it. base-uri 'none' (S2, ASVS 5.0 3.4.3); no fonts.googleapis.com (S3).
+  assert.equal(LEGACY_CSP, `default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PYODIDE_CDN}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ${PYODIDE_CDN}; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests`)
+  for (const policy of [LEGACY_CSP, buildCsp(cfg({ launchStage: 'sync', googleClientId: 'x.apps.googleusercontent.com' }))]) {
+    assert.doesNotMatch(policy, /fonts\.googleapis\.com|fonts\.gstatic\.com/, 'the fonts are self-hosted')
+    assert.match(policy, /base-uri 'none'/)
+  }
 })
 
 test('with accounts on, each configured provider adds only its own hosts', () => {

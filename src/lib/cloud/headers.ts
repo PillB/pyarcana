@@ -16,11 +16,14 @@
  * written into the root build at deploy time (public/ is a protected path), with Expires 300 days
  * after the build: always under the RFC's one-year advice, renewed by every deploy.
  */
+import { createHash } from 'node:crypto'
 import type { CloudConfig } from '@/lib/cloud/config'
 import { buildCsp } from '@/lib/cloud/csp'
 
 /** Cloudflare's per-line limit for a _headers file. */
 export const HEADERS_LINE_MAX = 2000
+/** Cloudflare's limit on header rules in a _headers file (workers/static-assets/headers). */
+export const HEADERS_RULES_MAX = 100
 
 /**
  * - nosniff: a response is only ever read as the type it declares.
@@ -46,11 +49,68 @@ export const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
   ['Cross-Origin-Resource-Policy', 'same-origin'],
 ]
 
-/** The _headers file: one rule for every asset path. */
-export function buildHeadersFile(cfg: CloudConfig): string {
-  const headers: Array<readonly [string, string]> = [['Content-Security-Policy', buildCsp(cfg)], ...SECURITY_HEADERS]
-  const lines = ['/*', ...headers.map(([name, value]) => `  ${name}: ${value}`)]
-  return `${lines.map(checkHeaderLine).join('\n')}\n`
+/** A built page: its path inside out/ (e.g. "privacy.html") and its HTML. */
+export interface BuiltPage {
+  file: string
+  html: string
+}
+
+const SCRIPT_TAG = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi
+const NON_JS_TYPE = /\btype\s*=\s*["']?(application\/(ld\+)?json|text\/plain)/i
+
+/**
+ * The CSP hash source of every inline script a browser would run in this page: <script> without
+ * src, and not a JSON data block (which never runs, so CSP does not apply to it). The hash covers
+ * the element's text exactly as written, which is what the browser hashes.
+ */
+export function inlineScriptHashes(html: string): string[] {
+  const hashes = new Set<string>()
+  for (const m of html.matchAll(SCRIPT_TAG)) {
+    if (/\bsrc\s*=/i.test(m[1]) || NON_JS_TYPE.test(m[1])) continue
+    hashes.add(`'sha256-${createHash('sha256').update(m[2], 'utf8').digest('base64')}'`)
+  }
+  return [...hashes]
+}
+
+/**
+ * The page's header policy (round of 19 Oct 2026, S1): buildCsp with script-src listing the page's
+ * inline-script hashes instead of 'unsafe-inline'. Nothing else changes, so it is never looser than
+ * the meta copy the page carries.
+ */
+export function hashedCsp(cfg: CloudConfig, hashes: string[]): string {
+  return buildCsp(cfg)
+    .split('; ')
+    .map((d) => (d.startsWith('script-src ') ? [...d.split(' ').filter((v) => v !== "'unsafe-inline'"), ...hashes].join(' ') : d))
+    .join('; ')
+}
+
+/** The request paths a page answers: /privacy and /privacy/ for privacy.html, / for index.html. */
+export function pagePaths(file: string): string[] {
+  const path = `/${file.replace(/\\/g, '/')}`.replace(/(\/index)?\.html$/, '')
+  return path === '' ? ['/'] : [path, `${path}/`]
+}
+
+/**
+ * The _headers file. Every path gets the security headers from one /* rule, whose CSP is 404.html's
+ * (missing paths are answered with the 404 page: wrangler.toml not_found_handling). Then one rule
+ * per page path detaches that CSP ("! Content-Security-Policy") and sets the page's own. Without
+ * the detach line overlapping rules would merge into one comma-joined header, i.e. two enforced
+ * policies. Cloudflare's asset worker applies matching rules in file order and, within a rule,
+ * removes before it sets (workers-shared asset-worker headers.ts attachCustomHeaders), so /* must
+ * come first. With no pages (a unit test, or before a build) the one /* rule carries buildCsp.
+ */
+export function buildHeadersFile(cfg: CloudConfig, pages: BuiltPage[] = []): string {
+  const notFound = pages.find((p) => p.file === '404.html')
+  if (pages.length && !notFound) throw new Error('_headers: the build has no 404.html, so missing paths would get no page policy')
+  const fallback = notFound ? hashedCsp(cfg, inlineScriptHashes(notFound.html)) : buildCsp(cfg)
+  const rules: string[][] = [['/*', `  Content-Security-Policy: ${fallback}`, ...SECURITY_HEADERS.map(([n, v]) => `  ${n}: ${v}`)]]
+  for (const page of pages) {
+    if (page.file === '404.html') continue
+    const csp = hashedCsp(cfg, inlineScriptHashes(page.html))
+    for (const path of pagePaths(page.file)) rules.push([path, '  ! Content-Security-Policy', `  Content-Security-Policy: ${csp}`])
+  }
+  if (rules.length > HEADERS_RULES_MAX) throw new Error(`_headers: ${rules.length} rules, Cloudflare takes at most ${HEADERS_RULES_MAX}`)
+  return `${rules.flat().map(checkHeaderLine).join('\n')}\n`
 }
 
 /** A line Cloudflare would reject (too long) or that would split into two (a line break) throws. */
@@ -68,6 +128,10 @@ export function parseHeadersFile(text: string): Record<string, Record<string, st
     if (!/^\s/.test(line)) {
       current = {}
       rules[line.trim()] = current
+      continue
+    }
+    if (current && /^\s*! /.test(line)) {
+      current[line.trim()] = ''
       continue
     }
     const colon = line.indexOf(':')
