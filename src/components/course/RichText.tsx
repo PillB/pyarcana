@@ -22,6 +22,11 @@ interface RichTextProps {
   content: string
   /** When set, only terms introduced in this or prior sections get hover hints */
   sectionId?: string
+  /**
+   * Prose of the same block already rendered above this one, when a block is split around a
+   * screenshot. Its terms count as seen, so a hint is not repeated after the picture.
+   */
+  after?: string
 }
 
 /**
@@ -47,7 +52,7 @@ export function InlineText({ text }: { text: string }) {
   )
 }
 
-export function RichText({ content, sectionId }: RichTextProps) {
+export function RichText({ content, sectionId, after }: RichTextProps) {
   const blocks = parseBlocks(content)
   const available = useMemo(() => {
     try {
@@ -70,6 +75,9 @@ export function RichText({ content, sectionId }: RichTextProps) {
   // Annotate plain markdown first (so **bold** does not hide terms), then render HTML
   const annotate = (text: string) =>
     annotateRegional(renderInline(annotateGlossaryTermsPlain(text, available, seen)), region, seen)
+  // Fills `seen` from the prose above; the output is discarded. Recomputed each render, so it
+  // stays as pure as the fresh set it fills.
+  if (after) annotate(after)
 
   return (
     <div

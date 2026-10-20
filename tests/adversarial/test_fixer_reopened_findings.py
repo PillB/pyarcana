@@ -210,9 +210,9 @@ class TheRecordTheOwnerRuledOnCarriesTheMark(unittest.TestCase):
 
     def test_the_decision_is_recorded_where_the_next_round_reads_it(self) -> None:
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
-        record_d23 = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        record_d24 = text.split("## D24", 1)[1].split("\n## D", 1)[0]
         for needed in ("O25", "findings_reopened", "numbering.closed_findings"):
-            self.assertIn(needed, record_d23)
+            self.assertIn(needed, record_d24)
 
 
 if __name__ == "__main__":

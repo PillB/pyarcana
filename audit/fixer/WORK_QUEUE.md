@@ -296,6 +296,22 @@ Decisions L1Q3-1 (already decided by D9) and L1Q3-5 carry the detail.
   and `repr` are now indexed. Each further entry needs codex's Spanish definition, and an early
   hover must use only early vocabulary.
 
+- **S12-T3-B, left by the KFC-011 correction (PR #107, 2026-10-17).** That fix changed two
+  sentences only (writing rule C1), and a review of it found three things the S12 round owns,
+  all in Codex's Spanish:
+  1. The callout «f-string SQL = vulnerabilidad» (`S12-T3-B` callout) contradicts the paragraph
+     above it, as it did before the fix. «Usa siempre marcador posicional y tupla de params»
+     rules out what paragraphs[0] teaches as the alternative, `:name` with a dict, which binds
+     values just as safely as `?`. Read alone (B3), the callout tells the learner `:name` is
+     wrong. Its two sentences (5 and 8 words, unlinked) are also the staccato D13 forbids; one
+     linked sentence covering both forms would settle both.
+  2. The hint of `S12-T3-B-E1` still says «Marcador positional» (English, D7). The exercise asks
+     for `?` and a tuple, so only the spelling is wrong; fix it with the callout.
+  3. A5: the section defines «marcadores de posición» in its opening theory block («El primer
+     dato que no controlas», the `?` "que deja el hueco") and says «marcadores» through T3;
+     «placeholders» survives in `jobRelevance` («joins con placeholders») and in the
+     `retrospective` of `S12-T3-B-DEMO` («placeholders contra inyección»).
+
 ## Deferred, with a decision attached
 
 21. **Q3 route** (S02-S04 practice layer, CP-N1-A) — 12 rows wait on it; interacts with D10.

@@ -61,6 +61,57 @@ test.describe('Accessibility (axe, WCAG 2.2 AA rules)', () => {
     expect(summarise(violations as Violation[])).toBe('')
   })
 
+  test('section screenshots load, carry their alt and credit, and pass axe', async ({ page }) => {
+    // Decision D23: S01 holds five of the seven approved screenshots. Axe is scoped to the
+    // pictures, their captions and guide lines: the rest of S01 is the section test above.
+    await page.goto(`${BASE}/#setup`, { waitUntil: 'domcontentloaded' })
+    await page.waitForSelector('[data-testid="section-root"]', { timeout: 60000 })
+    const shots = page.getByTestId('section-shot')
+    await expect(shots).toHaveCount(5)
+    await shots.first().scrollIntoViewIfNeeded()
+    const rendered = await shots.evaluateAll(async (els) =>
+      Promise.all(
+        els.map(async (el) => {
+          const img = el.querySelector('img')!
+          img.loading = 'eager'
+          await img.decode().catch(() => undefined)
+          return {
+            id: el.getAttribute('data-shot-id'),
+            src: img.getAttribute('src') ?? '',
+            alt: img.getAttribute('alt') ?? '',
+            caption: el.querySelector('figcaption')?.textContent ?? '',
+            loaded: img.complete && img.naturalWidth > 0,
+            upscaled: img.getBoundingClientRect().width > img.naturalWidth + 1,
+            credit: Boolean(el.querySelector('[data-testid="setup-shot-credit"]')),
+            guide: el.querySelector('[data-testid="setup-guide-link"]')?.textContent ?? '',
+          }
+        }),
+      ),
+    )
+    for (const r of rendered) {
+      expect(r.loaded, `${r.id} did not load from ${r.src}`).toBe(true)
+      expect(r.upscaled, `${r.id} is stretched past its own width`).toBe(false)
+      expect(r.src, `${r.id} must come from the bundler, not public/`).toContain('/_next/static/media/')
+      if (BASE) expect(r.src.startsWith(`${BASE}/`), `${r.id} without the base path`).toBe(true)
+      expect(r.alt.length, `${r.id} alt`).toBeGreaterThan(40)
+      expect(r.caption.startsWith(r.alt), `${r.id} caption repeats the alt`).toBe(false)
+      expect(r.credit, `${r.id} credit`).toBe(true)
+      expect(r.guide, `${r.id} guide link text`).not.toMatch(/^\s*aquí\b/i)
+    }
+    // MIT: the Ruff picture's credit links the licence copy shipped with the site, not upstream.
+    const licence = page.locator('[data-shot-id="s01-ruff-quickfix-f401"] a[rel~="license"]')
+    const licenceHref = (await licence.getAttribute('href')) ?? ''
+    expect(licenceHref, 'Ruff licence must ship with the site').toContain('/_next/static/media/')
+    if (BASE) expect(licenceHref.startsWith(`${BASE}/`), 'Ruff licence without the base path').toBe(true)
+    const licenceFile = await page.request.get(licenceHref)
+    expect(licenceFile.status(), `${licenceHref} did not load`).toBe(200)
+    expect(await licenceFile.text()).toContain('Copyright (c) 2022 Charles Marsh')
+    let builder = new AxeBuilder({ page }).withTags(TAGS)
+    for (const r of rendered) builder = builder.include(`[data-shot-id="${r.id}"]`)
+    const { violations } = await builder.analyze()
+    expect(summarise(violations as Violation[])).toBe('')
+  })
+
   test('the QA workspace has no machine-detectable violations', async ({ page }) => {
     await page.goto(`${BASE}/#setup`, { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('[data-testid="section-root"]', { timeout: 60000 })

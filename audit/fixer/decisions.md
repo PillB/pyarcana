@@ -666,7 +666,49 @@ activities, the overall score (plan of 2026-10-12, C13).
   are removed (ADR 5: an HMAC key in the bundle is the signing key). A test now fails on any
   `NEXT_PUBLIC_*` name containing KEY, SECRET, SIGN, TOKEN, PASSWORD or PRIVATE.
 
-## D23 — Fixer state is keyed by slug; a section number is read from the numbering epoch, and a renumber carries the state with one command (2026-10-13)
+## D23 — Owner override of D4 for seven section screenshots (2026-10-06)
+
+Recorded as D19 on its branch; renumbered when it merged, because main's D19 is the QA-sessions
+decision.
+
+- **Who:** Pablo, the owner, on 2026-10-06.
+- **Scope:** exactly the seven images surveyed and validated in
+  `audit/section-screenshots/manifest.json`, and nothing else:
+  - S01: `s01-compare-pr-banner`, `s01-pr-files-changed-tab`, `s01-new-repository-menu`,
+    `s01-vscode-extensions-python`, `s01-ruff-quickfix-f401`;
+  - S23: `s23-trace-viewer`;
+  - S44: `s44-merge-blocked`.
+  D4 ("screenshots are not") still binds every other section and every other image. A new
+  screenshot needs its own owner decision; the test `tests/adversarial/section-screenshots.test.ts`
+  pins the set to these seven ids so it cannot widen silently.
+- **Why:** at these seven points the learner must recognise a real interface they will
+  operate themselves (a GitHub button, a VS Code panel, the Trace Viewer layout, a blocked
+  merge box). An SVG archetype explains a concept; it cannot show what the real screen looks
+  like, which is the thing the learner has to find.
+- **Authorises edits to protected paths** `src/lib/course/sections/` (the seven `screenshots`
+  entries and the D4 note in its `AGENTS.md`) and `tests/` (the new tests), for this work only.
+- **Conditions, each enforced by a test or by the renderer:**
+  - one source of truth for credit and licence: `src/assets/sections/shots.json`, validated by
+    the same `validShotRecord` Sesión 0 uses; the page prints source, licence, changes and the
+    date consulted (2026-10-06);
+  - only licences in `REUSE_LICENCES` (now with MIT and Apache-2.0); NonCommercial and
+    NoDerivatives licences stay rejected;
+  - images ship from `src/assets/sections/` through the bundler (`_next/static/media`), never
+    from `public/`;
+  - each image sits directly after the paragraph, code block or callout that contains its
+    manifest anchor sentence, verbatim;
+  - alt text is non-empty and differs from the caption; the caption stands on its own (B3);
+  - under each image, the Sesión 0 line pointing to the product's current guide, with
+    descriptive link text (WCAG 2.4.4);
+  - MIT and Apache-2.0 travel with the copy: verbatim licence texts (and Playwright's NOTICE)
+    ship from `src/assets/sections/licences/`, and the credit links those copies, not upstream
+    (MIT's notice condition; Apache-2.0 §4(a) and §4(d));
+  - the D4 cost is accepted, not denied: raster images have no dark variant and will drift
+    as the products change. The dated credit and the guide link are the mitigation.
+
+## D24 — Fixer state is keyed by slug; a section number is read from the numbering epoch, and a renumber carries the state with one command (2026-10-13)
+
+Recorded as D23 on its branch; renumbered when it merged, because main's D23 is the section-screenshots decision.
 
 A section's number belongs to a numbering epoch, not to the section. The fixer kept its state
 under numbers: cycle records as `SXX.json`, the redaction list as tags, and the 2,124 findings

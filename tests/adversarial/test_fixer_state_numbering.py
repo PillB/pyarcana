@@ -134,7 +134,7 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
 
     def test_the_fixer_state_decision_names_the_files_and_the_command_it_depends_on(self) -> None:
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
-        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        record = text.split("## D24", 1)[1].split("\n## D", 1)[0]
         for needed in ("numbering_epoch.json", "renumber_epoch.json", "restamp.py advance", "previous_epochs",
                        "text_numbering_epoch", "roadmap_of_record_problems", "ROADMAP_PATH",
                        "test_fixer_tool_boundaries.py", "test_fixer_reopened_findings.py",
@@ -149,7 +149,7 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
         record says: the status letter, the corrected claim, and that its line counts add up to the 37.
         Mutations: put "pure rename" back, or change 22 or 11, and this fails."""
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
-        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        record = text.split("## D24", 1)[1].split("\n## D", 1)[0]
         self.assertIn("R096", record)
         self.assertIn("not a pure rename", record)
         for false_claim in ("It was a pure rename", "did not change that file's content"):
@@ -166,9 +166,9 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
         roadmap diff (an in-place edit) does not need, and which a test then rejected. Plain `advance` keeps
         the name. Mutation: put the old sentence back and this fails."""
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
-        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        record = text.split("## D24", 1)[1].split("\n## D", 1)[0]
         self.assertEqual(record.count("--roadmap <the new roadmap>"), 0,
-                         "D23 tells the operator to pass --roadmap <the new roadmap> on every flip")
+                         "D24 tells the operator to pass --roadmap <the new roadmap> on every flip")
         self.assertIn("python3 tools/fixer/restamp.py advance`", record)
 
     def test_the_record_says_the_ledger_counts_the_new_epoch_only_after_a_gate_run_and_ledger_py(self) -> None:
@@ -178,13 +178,13 @@ class TheDecisionIsRecordedUnderItsOwnNumber(unittest.TestCase):
         be built from reports the gate has not yet rebuilt. Mutations: drop the paragraph, drop the gate or
         `ledger.py` from it, put the ledger first, or put the old sentence back, and this fails."""
         text = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
-        record = text.split("## D23", 1)[1].split("\n## D", 1)[0]
+        record = text.split("## D24", 1)[1].split("\n## D", 1)[0]
         heading = "- **The epoch flip is three steps"
-        self.assertTrue(heading in record, f"D23 has no paragraph starting {heading!r}")
+        self.assertTrue(heading in record, f"D24 has no paragraph starting {heading!r}")
         steps = record.split(heading, 1)[1].split("\n- **", 1)[0]
         for needed in ("tools/fixer/restamp.py advance", "tools/fixer/gate.py", "tools/fixer/ledger.py",
                        "LEDGER.md"):
-            self.assertTrue(needed in steps, f"the epoch-flip paragraph of D23 does not name {needed}")
+            self.assertTrue(needed in steps, f"the epoch-flip paragraph of D24 does not name {needed}")
         self.assertLess(steps.index("restamp.py advance"), steps.index("gate.py"), "advance comes first")
         self.assertLess(steps.index("gate.py"), steps.index("ledger.py"), "the gate runs before the ledger")
         self.assertNotIn("`ledger.py` and the gate after it", record)

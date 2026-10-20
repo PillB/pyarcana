@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/google";
+// Inter, JetBrains Mono, Cormorant Garamond and Marcellus, the files Google Fonts served,
+// committed and loaded with next/font/local: no build fetches fonts (src/app/fonts/README.md).
+import { inter, jetbrainsMono, cormorant, marcellus } from "./fonts";
 import "./globals.css";
 import "./qa.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -7,32 +9,6 @@ import { Providers } from "@/components/Providers";
 import { QAFooterBridge } from "@/components/course/QAFooterBridge";
 import { SITE_BASE_PATH } from "@/lib/runtime-mode";
 import { CspMeta } from "@/components/CspMeta";
-
-const inter = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const marcellus = Marcellus({
-  weight: ["400"],
-  variable: "--font-subdisplay",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "PyArcana · De cero a Data Scientist",
