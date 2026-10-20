@@ -1,0 +1,515 @@
+/**
+ * Adversarial guard: each "today" sentence of the credential copy is tied to the code that makes it true.
+ *
+ * The credential policy and the badge notice now say what PyArcana does today: it issues no
+ * credential, nothing revokes or supersedes one, /verify can check an identifier only in the
+ * dynamic LMS (which is not deployed), and the server grades the exams. Those sentences are true
+ * because of code. When the code changes (a credential store ships, a revocation route is added),
+ * a sentence nobody opens stays on the page and is false, and no test fails: the defect this PR
+ * fixes, one step later.
+ *
+ * Each case below states the sentence it protects, finds the sentence on the page (so rewording it
+ * cannot silently turn the case off), and asserts the code fact. A case fails when the code moves
+ * and the sentence still stands; the failure says which page to change.
+ *
+ * Run: node --experimental-test-module-mocks --import tsx --test tests/adversarial/credential-copy-coupling.test.ts
+ */
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { join, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { COURSE_SECTIONS } from '../../src/lib/course/index.ts'
+import { issuanceBlockers } from '../../src/lib/credential-blockers.ts'
+import { credentialSpec } from '../../src/lib/credential-gates.ts'
+import { SERVER_VERIFIERS } from '../../src/lib/credential-verifiers.ts'
+import { loadBadgeSpecs } from '../../src/lib/eligibility/badge-specs.ts'
+import { EDITION_DYNAMIC } from '../../src/lib/eligibility/types.ts'
+import { examSubmitSchema } from '../../src/lib/exam-scoring.ts'
+
+const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..')
+const POLICY = 'src/app/credential-policy/page.tsx'
+const NOTICE = 'src/app/badge-notice/page.tsx'
+
+function source(file: string): string {
+  return readFileSync(join(ROOT, file), 'utf8')
+}
+
+function flat(file: string): string {
+  return source(file).replace(/\s+/g, ' ')
+}
+
+/** Every .ts and .tsx file under `dir`, relative to the repository, tests and course content left out. */
+function srcFiles(dir = 'src'): string[] {
+  return readdirSync(join(ROOT, dir)).flatMap((name) => {
+    const path = join(dir, name)
+    if (path === 'src/lib/course' || /__tests__/.test(path)) return []
+    if (statSync(join(ROOT, path)).isDirectory()) return srcFiles(path)
+    return /\.tsx?$/.test(name) && !/\.test\./.test(name) ? [relative(ROOT, join(ROOT, path))] : []
+  })
+}
+
+/** Every file under `dir` whose path matches `keep`, relative to the repository, tests left out. */
+function filesUnder(dir: string, keep: RegExp): string[] {
+  return readdirSync(join(ROOT, dir)).flatMap((name) => {
+    const path = join(dir, name)
+    if (statSync(join(ROOT, path)).isDirectory()) return filesUnder(path, keep)
+    return keep.test(path) && !/\.test\./.test(path) ? [path] : []
+  })
+}
+
+/**
+ * What a learner reads: the section files, the components, the interface strings and the pages of
+ * the app. The credential policy is left out because its sentences are the claims under test.
+ */
+function learnerPages(): string[] {
+  return [
+    ...filesUnder('src/lib/course/sections', /\.ts$/),
+    ...filesUnder('src/components', /\.tsx?$/),
+    'src/lib/i18n.ts',
+    ...filesUnder('src/app', /\/page\.tsx$/).filter((file) => file !== POLICY),
+  ]
+}
+
+const VERIFIED = [...loadBadgeSpecs().specs.values()].filter((spec) => spec.credential_type === 'verified_credential')
+
+describe('"PyArcana issues no credential today"', () => {
+  it('the policy still says so for classes B, C and D (so this case still guards a sentence)', () => {
+    const page = flat(POLICY)
+    for (const sentence of [
+      'Hoy, PyArcana no emite insignias de competencia de clase B.',
+      'Hoy, PyArcana no emite insignias integradas de clase C.',
+      'Hoy, PyArcana no emite ninguna credencial verificada de clase D.',
+    ]) {
+      assert.ok(page.includes(sentence), `the credential policy no longer says "${sentence}"; update this case with the new wording`)
+    }
+  })
+
+  it('class D: the code refuses every verified credential, even to a learner who passed every exam', () => {
+    const evidence = {
+      examAttempts: COURSE_SECTIONS.map((s) => ({ sectionId: s.id, score: 100, completedAt: new Date('2026-09-01T12:00:00Z') })),
+      edition: EDITION_DYNAMIC,
+    }
+    assert.ok(VERIFIED.length >= 5, `only ${VERIFIED.length} verified credentials found`)
+    for (const spec of VERIFIED) {
+      const blockers = issuanceBlockers(spec, evidence, SERVER_VERIFIERS)
+      assert.ok(
+        blockers.length > 0,
+        `${spec.badge_id} can be issued now: the credential policy and the badge notice still say PyArcana issues none. Change both pages.`
+      )
+    }
+  })
+
+  it('classes B and C: no route can issue a competency or integrated badge', () => {
+    const others = [...loadBadgeSpecs().specs.values()].filter((spec) => spec.credential_type !== 'verified_credential')
+    assert.ok(others.length >= 20, `only ${others.length} other badges found`)
+    for (const spec of others) assert.equal(credentialSpec(spec.badge_id), undefined, `${spec.badge_id} is issuable`)
+    const routes = srcFiles('src/app/api').filter((file) => /\/(?:credentials|badges?|awards?)\//.test(file))
+    assert.deepEqual(routes, ['src/app/api/credentials/issue/route.ts', 'src/app/api/credentials/verify/route.ts'])
+  })
+})
+
+describe('"No procedure revokes a credential or marks it as an older version"', () => {
+  it('both pages still say so', () => {
+    assert.ok(flat(POLICY).includes('No existe un procedimiento que revoque una credencial emitida'), 'the policy no longer says it')
+    assert.ok(flat(POLICY).includes('No existe un procedimiento que marque una credencial emitida como perteneciente a una versión anterior'))
+    assert.ok(flat(NOTICE).includes('No existe un procedimiento que revoque una credencial emitida'), 'the notice no longer says it')
+    assert.ok(flat(NOTICE).includes('No existe un procedimiento que marque una credencial emitida como perteneciente a una versión anterior'))
+  })
+
+  it('no code in src/ sets a credential to any status but "active", or sets a superseding version', () => {
+    const writers = srcFiles()
+      .filter((file) => /\brevocationStatus\s*[:=]\s*['"`](?!active\b)|\bsupersedingVersion\s*[:=]/.test(source(file)))
+    assert.deepEqual(writers, [], 'a revocation or supersession is now written; the policy and notice say none exists. Change both pages.')
+  })
+
+  it('the issue route records every credential as active, and the credential API has no other routes', () => {
+    assert.match(source('src/app/api/credentials/issue/route.ts'), /revocationStatus: 'active'/)
+    const dirs = readdirSync(join(ROOT, 'src/app/api/credentials')).sort()
+    assert.deepEqual(dirs, ['issue', 'verify'])
+  })
+
+  it('the catalog carries version numbers like the 1.0.0 and 1.1.0 the pages cite', () => {
+    const versions = new Set([...loadBadgeSpecs().specs.values()].map((spec) => spec.version))
+    assert.ok(versions.has('1.0.0') && versions.has('1.1.0'), [...versions].join(', '))
+  })
+})
+
+describe('"/verify checks an identifier only in the dynamic LMS"', () => {
+  it('the policy names the LMS and the label the verify page shows', () => {
+    const page = flat(POLICY)
+    assert.match(page, /El LMS dinámico \([^)]+\) no está desplegado hoy\./, 'the policy no longer names the LMS and says it is not deployed')
+    assert.match(page, /En esa edición, \/verify comprueba un identificador/, 'the policy no longer says what /verify does in that edition')
+    assert.ok(page.includes('«Capacidad demostrada»'))
+  })
+
+  it('the policy says what "LMS dinámico" is: the edition that runs on PyArcana\'s own server', () => {
+    const inside = /LMS dinámico \(([^)]+)\)/.exec(flat(POLICY))?.[1]
+    assert.ok(inside, 'the policy no longer explains "LMS dinámico" in a parenthesis')
+    assert.match(inside, /sistema de gestión del aprendizaje/, 'the parenthesis no longer expands LMS')
+    assert.match(inside, /servidor propio de PyArcana/, 'the parenthesis no longer says the edition runs on PyArcana\'s own server')
+  })
+
+  it('the code agrees: the static builds answer 503 on the verify and issue routes, so only the server edition checks', () => {
+    for (const route of ['src/app/api/credentials/verify/route.ts', 'src/app/api/credentials/issue/route.ts']) {
+      assert.match(source(route), /if \(IS_STATIC_SITE\)\s*\{[\s\S]{0,200}status: 503/, `${route} no longer refuses a static build with 503`)
+    }
+  })
+
+  it('the verify page shows that label, and tells a static build that verification is unavailable', () => {
+    const verify = flat('src/app/verify/page.tsx')
+    assert.ok(verify.includes('Capacidad demostrada:'))
+    assert.ok(verify.includes('no está disponible en la edición pública'))
+    assert.match(verify, /IS_STATIC_SITE/)
+  })
+})
+
+/**
+ * The policy said "En el LMS dinámico, puedes comprobar una credencial verificada en /verify" while
+ * the /verify page said, three times, that the LMS dinámico is not deployed and sent the visitor to
+ * "la URL del LMS dinámico", which does not exist (found in review of #97's r4, 2026-10-14). Both
+ * pages now say it is not deployed today and promise no URL, contact or procedure.
+ *
+ * What a test can see is the repository's own deploy paths: the Pages workflow builds the static
+ * export only, and the one Worker serves that export and its /api/v1 routes, none of which is a
+ * credential route. A server started by hand elsewhere is outside it. Live check, 2026-10-14:
+ * pyarcana.dev answered 404 {"ok":false,"reason":"not_found"} to /api/credentials/verify.
+ */
+describe('"The LMS dinámico is not deployed"', () => {
+  it('the policy and every /verify message that names the LMS dinámico say it is not deployed today', () => {
+    assert.match(flat(POLICY), /El LMS dinámico \([^)]+\) no está desplegado hoy\./)
+    const verify = flat('src/app/verify/page.tsx')
+    const mentions = [...verify.matchAll(/LMS dinámico/g)]
+    assert.ok(mentions.length >= 3, `the verify page names the LMS dinámico ${mentions.length} times; the three messages no longer do`)
+    for (const mention of mentions) {
+      const after = verify.slice(mention.index, mention.index + 70)
+      assert.ok(after.includes('no está desplegado hoy'), `a /verify message names the LMS dinámico without saying it is not deployed today: "${after}"`)
+    }
+  })
+
+  it('neither page sends the visitor to a URL, a contact or a procedure that does not exist', () => {
+    const pages = { policy: flat(POLICY), verify: flat('src/app/verify/page.tsx') }
+    for (const [name, text] of Object.entries(pages)) {
+      for (const promise of ['URL del LMS', 'contacta al', 'equipo de PyArcana', 'visita la URL', 'puedes comprobar una credencial', 'registro público']) {
+        assert.ok(!text.includes(promise), `the ${name} page says "${promise}"`)
+      }
+    }
+  })
+
+  it('the policy links to /verify as the page that checks one identifier, and says in the same sentence that the check is not available today', () => {
+    assert.match(
+      flat(POLICY),
+      /por su identificador de verificación, consulta la\{' '\} <Link href="\/verify"[^>]*> página de verificación <\/Link> ; la comprobación no está disponible hoy\./,
+      'the policy no longer says, where it links to /verify, that the check is not available today'
+    )
+  })
+
+  it('the code agrees: the Pages workflow deploys the static export only, and the Worker has no credential route', () => {
+    const deploy = source('.github/workflows/deploy.yml')
+    assert.match(deploy, /run: bun run build:static/, 'the Pages workflow no longer builds the static export')
+    assert.doesNotMatch(deploy, /bun run build(?!:static)|next start|standalone/, 'the Pages workflow builds or starts a server edition; the policy and /verify say it is not deployed')
+    const router = source('workers/billing/src/router.mjs')
+    assert.doesNotMatch(router, /credential/i, 'the Worker has a credential route; the policy and /verify say the credential check is not deployed')
+    assert.match(source('workers/billing/wrangler.toml'), /directory = "\.\.\/\.\.\/out"/, 'the Worker no longer serves the static export alone')
+  })
+})
+
+/**
+ * What a check of a verified credential shows: each fact the policy lists, with the field the verify
+ * route returns for it and the label the verify page prints. The policy once said a recruiter "can
+ * inspect a concise evidence summary"; no route or page shows any evidence, so a learner or a
+ * recruiter was promised a view that does not exist (review of #97, minor 2).
+ */
+const SHOWN_BY_A_CHECK: ReadonlyArray<{ policy: string; field: string; label: string }> = [
+  { policy: 'clase', field: 'credentialClass', label: 'Clase {result.credentialClass}' },
+  { policy: 'nombre de la insignia', field: 'badgeName', label: 'Insignia:' },
+  { policy: 'especificación', field: 'specificationVersion', label: 'Especificación:' },
+  { policy: 'emisor', field: 'issuer', label: 'Emisor:' },
+  { policy: 'fecha de emisión', field: 'issuedAt', label: 'Emitida:' },
+  { policy: 'estado', field: 'revocationStatus', label: 'Estado:' },
+  { policy: 'referencia al titular', field: 'holderReference', label: 'Titular:' },
+  { policy: 'declaración firmada', field: 'capabilityStatement', label: 'Capacidad demostrada:' },
+]
+
+/** The sentence of the policy that lists what a check shows. */
+function checkSentence(): string {
+  const found = flat(POLICY).match(/Comprobar una credencial verificada muestra [^.]*\./)
+  assert.ok(found, 'the credential policy no longer has the sentence that lists what a check shows; update this case with the new wording')
+  return found[0]
+}
+
+describe('"A check of a verified credential shows the record and the signed statement, and no evidence"', () => {
+  it('the policy lists what a check shows, and promises no evidence summary and no recruiter view', () => {
+    const page = flat(POLICY).toLowerCase()
+    for (const promise of ['resumen conciso de evidencia', 'reclutador puede inspeccionar', 'con qué evidencia']) {
+      assert.ok(!page.includes(promise), `the credential policy promises "${promise}"`)
+    }
+    const sentence = checkSentence()
+    for (const { policy } of SHOWN_BY_A_CHECK.filter((fact) => fact.policy !== 'declaración firmada')) {
+      assert.ok(sentence.includes(policy), `the sentence no longer lists "${policy}"`)
+    }
+    assert.ok(flat(POLICY).includes('La declaración firmada nombra'), 'the policy no longer describes the signed statement')
+  })
+
+  it('the verify route returns each listed fact, and the verify page prints its label', () => {
+    const route = source('src/app/api/credentials/verify/route.ts')
+    const page = flat('src/app/verify/page.tsx')
+    for (const { policy, field, label } of SHOWN_BY_A_CHECK) {
+      assert.match(route, new RegExp(`\\b${field}: credential\\.${field}`), `the verify route no longer returns ${field}, which the policy lists as "${policy}"`)
+      assert.ok(page.includes(label), `the verify page no longer prints "${label}", which the policy lists as "${policy}"`)
+    }
+  })
+
+  it('no route, page or module in src/ shows or reads credential evidence, so the policy has none to promise', () => {
+    const route = source('src/app/api/credentials/verify/route.ts')
+    const page = source('src/app/verify/page.tsx')
+    assert.doesNotMatch(route, /evidence/i, 'the verify route now returns evidence; the policy must say so')
+    assert.doesNotMatch(page, /evidenc/i, 'the verify page now shows evidence; the policy must say so')
+    const readers = srcFiles().filter((file) => /credentialEvidence|evidenceSummary/.test(source(file)))
+    assert.deepEqual(readers, [], 'something reads the credential evidence table; the policy must say what it shows')
+  })
+})
+
+const AI_TERM = String.raw`(?:\bIA\b|\bAI\b|inteligencia artificial|artificial intelligence|\bLLMs?\b)`
+
+/**
+ * A request, in a page, for a declaration about AI use. The scan reads the phrasings a course
+ * author would write in Spanish and in English; it cannot prove that no page asks, and a request
+ * worded some other way passes it. "Declarar" alone is Python and is not flagged.
+ */
+const AI_DECLARATION_REQUEST = new RegExp(
+  [
+    String.raw`declaraci[oó]n[^.]{0,40}${AI_TERM}`,
+    String.raw`${AI_TERM}[^.]{0,25}declaraci[oó]n`,
+    String.raw`declar\w*[^.]{0,50}\b(?:uso|usaste|usado|usas)\b[^.]{0,40}(?:${AI_TERM}|asistentes?|herramientas?)`,
+    String.raw`declar\w*[^.]{0,40}(?:herramientas?|asistentes?) de ${AI_TERM}`,
+    String.raw`${AI_TERM}[- ](?:use |usage )?(?:declaration|disclosure|statement)`,
+    String.raw`(?:declar|disclos|acknowledg|report)\w*[^.]{0,40}\b(?:use|usage) of ${AI_TERM}`,
+    String.raw`(?:declar|disclos|acknowledg|report)\w*[^.]{0,40}${AI_TERM} (?:tools?|assistants?|use)`,
+  ].join('|'),
+  'i'
+)
+
+/** A page that asks the learner to defend work: the oral defense of S25 and S52, and the callout that closes every project. */
+const DEFENSE_REQUEST = /defensa oral|consolida y defiende/i
+
+/** A sentence that says no page asks, requires or requests something. */
+const NO_PAGE_ASKS = /ninguna (?:p[aá]gina|lecci[oó]n)|solicit|\bpid[eo]n?\b|exig|requier/i
+
+/**
+ * The policy's "Política de IA" once said AI tools are allowed "sujeto a declaración, ejecución
+ * independiente, explicación de decisiones importantes y defensa frente a requisitos modificados".
+ * The server records no declaration of AI use and no defense, oral or written: the only evidence it
+ * holds is ExamAttempt rows (credential-verifiers.ts), and no table or route holds either. No page
+ * asks the learner for a declaration about AI use. A page does ask for a defense (S52's CP-FINAL
+ * project asks for an oral one), so the section says nothing about whether a page asks for one.
+ * The section says what is true; these cases keep it true.
+ */
+describe('"PyArcana records no declaration of AI use and no defense"', () => {
+  it('the policy says so, and no longer promises a declaration, an explanation of decisions or a defense', () => {
+    const page = flat(POLICY)
+    for (const sentence of [
+      'PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita.',
+      'Ninguna página solicita al estudiante una declaración sobre el uso de IA.',
+    ]) {
+      assert.ok(page.includes(sentence), `the policy no longer says "${sentence}"`)
+    }
+    for (const promise of ['sujeto a declaración', 'explicación de decisiones importantes', 'defensa frente a requisitos modificados']) {
+      assert.ok(!page.includes(promise), `the credential policy promises "${promise}"`)
+    }
+  })
+
+  it('the server has a verifier for the exams and for nothing else, so it holds no defense or declaration', () => {
+    assert.deepEqual(Object.keys(SERVER_VERIFIERS), ['section_exams'], 'a verifier was added; the policy says no declaration or defense is recorded. Change it.')
+  })
+
+  it('no table, route or page of the app has a field or a path for a defense or an AI declaration', () => {
+    const schema = source('prisma/schema.prisma')
+    assert.doesNotMatch(schema, /defens[ae]|aiDeclaration|ai_declaration|declaration/i, 'the schema now has a defense or a declaration; the policy says none is recorded')
+    const routes = srcFiles('src/app/api').filter((file) => /defens|declaration|ai-use|aiuse/i.test(file))
+    assert.deepEqual(routes, [], 'a route for a defense or a declaration exists; the policy says none is recorded')
+    const asking = srcFiles('src/components').filter((file) => /Defens|AiDeclaration|AIDeclaration/.test(file))
+    assert.deepEqual(asking, [], 'a component for a defense or a declaration exists; the policy says no page asks for one')
+  })
+
+  it('no section, component, interface string or page asks the learner for a declaration about AI use', () => {
+    const files = learnerPages()
+    const sections = files.filter((file) => file.startsWith('src/lib/course/sections/s'))
+    assert.ok(sections.length >= 52, `only ${sections.length} section files scanned; the scan no longer reads the course`)
+    assert.ok(files.length >= sections.length + 50, `only ${files.length} files scanned; the scan no longer reads the components and pages`)
+    const asking = files.flatMap((file) => {
+      const found = AI_DECLARATION_REQUEST.exec(flat(file))
+      return found ? [`${file}: "${found[0]}"`] : []
+    })
+    assert.deepEqual(asking, [], 'a page now asks the learner for a declaration about AI use; the policy says no page does. Change the policy.')
+  })
+
+  it('the scan sees the phrasings of a request for a declaration about AI use, and passes the ordinary uses of "declarar"', () => {
+    for (const request of [
+      'Declara el uso de IA que hiciste en tu README.',
+      'Añade una declaración sobre las herramientas de IA que usaste.',
+      'Declara qué herramientas de IA usaste.',
+      'Disclose your use of AI tools in the README.',
+      'Add an AI-use declaration to your project.',
+    ]) {
+      assert.ok(AI_DECLARATION_REQUEST.test(request), `the scan misses "${request}"`)
+    }
+    for (const ordinary of [
+      'Declara la variable antes de usarla.',
+      'La declaración de tipos en Python no es obligatoria.',
+      'Las vistas parciales de lab lo declaran cuando omiten AI o email.',
+    ]) {
+      assert.ok(!AI_DECLARATION_REQUEST.test(ordinary), `the scan flags "${ordinary}"`)
+    }
+  })
+
+  /**
+   * The r5 draft of the section said "Ninguna página solicita al estudiante una declaración ni una
+   * defensa". S52's CP-FINAL project asks for an "oral defense" (starter code: "defensa oral
+   * (trade-offs + contribución personal)"), and S25's portfolio note asks for one in 30 seconds, so
+   * the sentence was false (review of #97's r5, 2026-10-14). What the pages ask for is true of the
+   * course whatever the policy says; the policy may claim that no page asks only if none does.
+   */
+  it('the policy does not say that no page asks for a defense while a page does', () => {
+    const askingForDefense = learnerPages().filter((file) => DEFENSE_REQUEST.test(flat(file)))
+    const claimsNoPageAsks = aiPolicySentences().filter((sentence) => /defensa/i.test(sentence) && NO_PAGE_ASKS.test(sentence))
+    assert.ok(
+      claimsNoPageAsks.length === 0 || askingForDefense.length === 0,
+      `the policy says no page asks for a defense ("${claimsNoPageAsks.join(' ')}"), but ${askingForDefense.join(', ')} ask for one`
+    )
+  })
+})
+
+/**
+ * The "Política de IA" states the rule the badge catalog sets for the evidence behind a credential
+ * of class B, C or D, and no other. The page once said AI tools are allowed "sujeto a declaración",
+ * a permission no source gives. The stand-in paragraph that replaced it kept a second exclusion, "el
+ * trabajo que no pueda explicar o adaptar", which the catalog does not make: it came from the old
+ * paragraph's last sentence (found in review of #97's r4, 2026-10-14). The r5 draft opened with "Una
+ * credencial B, C o D afirma que el estudiante demostró la capacidad de manera independiente", a
+ * claim the catalog makes for classes B and D and not for class C (review of #97's r5). The section
+ * states the evidence rule and no claim.
+ */
+const AI_RULE = [
+  'Para las credenciales B, C o D, el trabajo presentado como evidencia debe ser independiente.',
+  'El código generado por IA no es evidencia aceptable cuando nada muestra que el estudiante lo revisó.',
+]
+
+/** The sentences of the policy's "Política de IA" paragraph. */
+function aiPolicySentences(): string[] {
+  const body = /Política de IA<\/h2>\s*<p>\s*([\s\S]*?)\s*<\/p>/.exec(source(POLICY))?.[1]
+  assert.ok(body, 'the credential policy has no "Política de IA" paragraph; update this case with the new markup')
+  return body.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/)
+}
+
+interface CatalogBadge {
+  badge_id: string
+  credential_class: string
+  public_claim: string
+  evidence_rules: { independent_work_required: boolean; unacceptable_evidence: string[] }
+}
+
+function catalogBadges(): CatalogBadge[] {
+  return (JSON.parse(source('src/lib/eligibility/badge_catalog.json')) as { badges: CatalogBadge[] }).badges
+}
+
+/**
+ * What a sentence of the policy says a class claims, in the words the policy would use, with the
+ * words the catalog's public_claim uses for the same fact. The catalog's class B and D claims say
+ * the learner "demostró independientemente" (the llmops_production_delivery badge states it in
+ * English, "has independently demonstrated"); its class C claim says "demostró transferencia
+ * integrada" and "revisión independiente", and nothing about demonstrating independently. The
+ * r5 draft credited class C with the class B claim (review of #97's r5, 2026-10-14).
+ */
+const CLAIMED_FACTS: ReadonlyArray<{ policy: RegExp; catalog: RegExp }> = [
+  {
+    policy: /de (?:manera|forma) independiente|independientemente/i,
+    catalog: /demostr\S* independientemente|independently demonstrated/i,
+  },
+  { policy: /transferencia integrada/i, catalog: /transferencia integrada/i },
+  { policy: /revisi[oó]n independiente/i, catalog: /revisi[oó]n independiente/i },
+]
+
+/**
+ * What is wrong with a sentence that says a class "afirma" something: no class named, a claim this
+ * test cannot tie to the catalog, or a class whose public_claim does not say it. An empty list for
+ * a sentence that claims nothing.
+ */
+function claimProblems(sentence: string, badges: CatalogBadge[]): string[] {
+  const claimed = /\bafirman?\b\s+(?:que\s+)?(.*)$/i.exec(sentence)?.[1]
+  if (claimed === undefined) return []
+  const named = /\b(?:credencial(?:es)?|clases?)\s+([BCD](?:(?:,\s*|\s+[oy]\s+)[BCD])*)\b/.exec(sentence)?.[1]
+  const letters = named?.match(/[BCD]/g) ?? []
+  if (letters.length === 0) return [`"${sentence}" says something is claimed but names no class`]
+  const facts = CLAIMED_FACTS.filter((fact) => fact.policy.test(claimed))
+  if (facts.length === 0) return [`"${sentence}" claims something this test cannot tie to the catalog`]
+  return letters.flatMap((letter) => {
+    const ofClass = badges.filter((badge) => badge.credential_class === letter)
+    return facts.flatMap((fact) => {
+      const lacking = ofClass.filter((badge) => !fact.catalog.test(badge.public_claim))
+      return lacking.length === 0 ? [] : [`class ${letter}: ${lacking.length} of ${ofClass.length} public_claims do not say what "${claimed}" says (${fact.catalog})`]
+    })
+  })
+}
+
+describe('"The AI policy states the catalog\'s evidence rule and no other"', () => {
+  it('every class B, C and D badge of the catalog requires independent work and excludes AI-generated code without a review trail', () => {
+    const classed = catalogBadges().filter((badge) => ['B', 'C', 'D'].includes(badge.credential_class))
+    assert.ok(classed.length >= 26, `only ${classed.length} class B, C and D badges found`)
+    for (const badge of classed) {
+      assert.equal(badge.evidence_rules.independent_work_required, true, `${badge.badge_id} no longer requires independent work; the AI policy says it does`)
+      assert.ok(
+        badge.evidence_rules.unacceptable_evidence.some((item) => item.startsWith('AI-generated code without review trail')),
+        `${badge.badge_id} no longer excludes AI-generated code without a review trail; the AI policy says it does`
+      )
+    }
+  })
+
+  it('the policy states that rule word for word, and no other sentence of the section accepts, excludes, allows or forbids anything', () => {
+    const sentences = aiPolicySentences()
+    for (const rule of AI_RULE) {
+      assert.ok(sentences.includes(rule), `the AI policy no longer states the catalog's rule as "${rule}"; update this case with the new wording`)
+    }
+    const others = sentences.filter((sentence) => !AI_RULE.includes(sentence) && /acept|excluy|rechaz|admit|permit|prohib|prohíb/i.test(sentence))
+    assert.deepEqual(others, [], 'the AI policy states a rule the catalog does not make')
+  })
+
+  it('a sentence of the section that says a class "afirma" something says what that class\'s public_claim in the catalog says', () => {
+    const badges = catalogBadges()
+    const problems = aiPolicySentences().flatMap((sentence) => claimProblems(sentence, badges))
+    assert.deepEqual(problems, [], 'the AI policy credits a class with a claim the catalog does not make')
+  })
+
+  it('the check of those sentences flags a claim the catalog does not make and passes one it does', () => {
+    const badges = catalogBadges()
+    const claim = 'afirma que el estudiante demostró la capacidad de manera independiente.'
+    assert.deepEqual(claimProblems(`Una credencial B o D ${claim}`, badges), [], 'classes B and D claim independent demonstration')
+    const flagged = claimProblems(`Una credencial B, C o D ${claim}`, badges)
+    assert.equal(flagged.length, 1, flagged.join(' | '))
+    assert.match(flagged[0], /^class C: 5 of 5 public_claims/)
+    assert.deepEqual(claimProblems('Una credencial C afirma que el estudiante demostró transferencia integrada mediante un proyecto realista.', badges), [])
+    assert.equal(claimProblems('Una credencial B afirma que el estudiante es excelente.', badges).length, 1, 'a claim the test cannot tie to the catalog passes')
+  })
+})
+
+describe('"The server grades each exam; the browser does not"', () => {
+  it('the notice still says so, in the paragraph only the dynamic LMS shows', () => {
+    assert.ok(flat('src/components/legal/ExamGradingNote.tsx').includes('el servidor califica cada examen de sección'))
+    assert.ok(source(NOTICE).includes('<ExamGradingNote />'))
+  })
+
+  it('the submit route grades from the stored key, and the request has no field that carries a score', () => {
+    const route = source('src/app/api/exam/submit/route.ts')
+    assert.match(route, /gradeExamAnswers\(/)
+    const parsed = examSubmitSchema.safeParse({
+      attemptId: 'a',
+      answers: [{ questionId: 'q', selectedIndex: 0, correct: true, isCorrect: true }],
+      timeSpentSec: 1,
+      score: 100,
+      passed: true,
+    })
+    assert.ok(parsed.success)
+    assert.deepEqual(Object.keys(parsed.data).sort(), ['answers', 'attemptId', 'timeSpentSec'])
+    assert.deepEqual(Object.keys(parsed.data.answers[0]).sort(), ['questionId', 'selectedIndex'])
+  })
+})

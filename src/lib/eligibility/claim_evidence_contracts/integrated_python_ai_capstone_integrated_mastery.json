@@ -1,11 +1,11 @@
 {
   "credential_id": "integrated_python_ai_capstone_integrated_mastery",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "status": "active",
   "credential_class": "D",
   "credential_class_name": "Verified PyArcana Credential",
   "public_name": "Integrated Python and AI Capstone — Synthesis",
-  "capability_statement": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
+  "capability_statement": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, registro firmado de credencial cuya alteración queda revelada y verificación pública, bajo la especificación PyArcana 1.1.1.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -65,5 +65,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_authoritative",
-  "specification_hash": "sha256:integrated_python_ai_capstone_integrated_mastery:1.1.0"
+  "specification_hash": "sha256:integrated_python_ai_capstone_integrated_mastery:1.1.1"
 }
