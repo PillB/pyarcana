@@ -568,6 +568,10 @@ Three answers wait on the owner: 105-Q2 (the owner states the rule on AI-tool us
 - **106-S3** The Pyodide gate runs Pyodide inside Node, not in the learner's browser page. — **Decision:** Keep the Node gate, and add a small Playwright check that runs a few demos on the real page.
 - **106-S4** The prelude tests use a copied pandas warning, not the warning real pandas prints in Pyodide. — **Decision:** Make the Pyodide test import the real pandas, and keep the copied text in the CPython test.
 
+**Addendum, 2026-10-19: Codex's two P1 findings on #101 (review of 1133c7a7).** Codex reviewed #101 at 1133c7a7 and left two P1 findings. The owner decided both on 2026-10-19; each answer is recorded as chosen, under its own id, so a later round can cite it.
+
+- **101-C1** (2026-10-19) Codex P1 on `scripts/exercise_meaning.mjs:97`: `tokensOf()` drops every operator, so a solution whose `>` becomes `<` (or `+` becomes `-`, or `==` becomes `!=`) keeps its sha256, and the guard accepts a changed answer unseen. — **Decision:** Keep the operators in the hash. The hashed sequence keeps the semantics-bearing operators (comparison, arithmetic, assignment, augmented assignment, `**`, `//`, `->`, bitwise). The token set used for Jaccard stays word-based, so the MEANING_CHANGED and CONTENT_MOVED thresholds keep their calibration. Test: flipping one operator in a real solution changes its anchor; under the old tokenizer that test is red.
+
 **Retire when:** every item above is done or superseded by a later decision; each follow-up PR names the ids it closes.
 
 ## Archive

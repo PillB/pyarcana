@@ -6,6 +6,10 @@
  * fingerprint of its title, tests, solution code and solution output. The fingerprint is the sha256 of
  * the token sequence, and the token set is kept for comparison. Tokens are [a-z_][a-z0-9_]* or \d+
  * after NFKD, mark removal and case folding, so an accent or whitespace edit changes nothing.
+ * The hashed sequence also keeps the semantics-bearing operators (comparison, arithmetic, assignment,
+ * augmented assignment, `**`, `//`, `->`, bitwise), so flipping `>` to `<` changes the anchor (O27 101-C1,
+ * decided 2026-10-19; the decision is in audit/fixer/OWNER_DECISIONS.md). The token set does not: Jaccard,
+ * and with it the MEANING_CHANGED and CONTENT_MOVED thresholds, stays word-based.
  *
  * Classification of an exercise against its anchor (classify):
  *   - equal fingerprints: ok;
@@ -88,19 +92,40 @@ const text = (value) => (value == null ? '' : typeof value === 'string' ? value 
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
 
 /**
- * The tokens of a text: NFKD, marks stripped, case folded, then [a-z_][a-z0-9_]* and digit runs.
- * JavaScript has no casefold(). Upper then lower folds the cases the course uses: ß becomes ss,
- * as casefold() gives, where lower() alone would drop it (s07 teaches casefold with "straße").
+ * NFKD, marks stripped, case folded. JavaScript has no casefold(). Upper then lower folds the cases the course
+ * uses: ß becomes ss, as casefold() gives, where lower() alone would drop it (s07 teaches casefold with "straße").
  */
-export function tokensOf(value) {
-  const folded = value.normalize('NFKD').replace(/\p{M}/gu, '').toUpperCase().toLowerCase()
-  return folded.match(/[a-z_][a-z0-9_]*|\d+/g) ?? []
+function foldedText(value) {
+  return value.normalize('NFKD').replace(/\p{M}/gu, '').toUpperCase().toLowerCase()
 }
 
-/** The anchor of one exercise: the sha256 of its token sequence, and its sorted token set. */
+/** The word tokens: [a-z_][a-z0-9_]* and digit runs. The token set, and so Jaccard, is built from these alone. */
+const WORD = /[a-z_][a-z0-9_]*|\d+/g
+
+/**
+ * The words and the semantics-bearing operators, in text order (O27 101-C1): comparison, arithmetic, assignment,
+ * augmented assignment, `**`, `//`, `->`, bitwise, walrus and matmul. Longest first, so `**=` is one token and `**`
+ * is not two `*`; a single operator character takes an `=` that follows it (`+=`, `<=`, `==`).
+ */
+const WORD_OR_OPERATOR = /\*\*=|\/\/=|>>=|<<=|\*\*|\/\/|>>|<<|==|!=|<=|>=|->|:=|[+\-*/%=<>&|^~@]=?|[a-z_][a-z0-9_]*|\d+/g
+
+/** The word tokens of a text, as the token set reads them. Operators are dropped (the set stays as it was). */
+export function tokensOf(value) {
+  return foldedText(value).match(WORD) ?? []
+}
+
+/** The hashed sequence of a text: its words and its operators, in order. `>` and `<` are different tokens here. */
+export function sequenceOf(value) {
+  return foldedText(value).match(WORD_OR_OPERATOR) ?? []
+}
+
+/**
+ * The anchor of one exercise: the sha256 of its hashed sequence (words and operators), and its sorted token set
+ * (words only, as before O27 101-C1).
+ */
 export function fingerprint({ section, title, tests, code, output }) {
-  const sequence = tokensOf([title, tests, code, output].map(text).join('\n'))
-  return { section, sha256: sha256(sequence.join(' ')), tokens: [...new Set(sequence)].sort() }
+  const measured = [title, tests, code, output].map(text).join('\n')
+  return { section, sha256: sha256(sequenceOf(measured).join(' ')), tokens: [...new Set(tokensOf(measured))].sort() }
 }
 
 /** Jaccard similarity of two token lists. Two empty lists are identical. */

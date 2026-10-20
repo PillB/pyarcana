@@ -27,6 +27,7 @@ import {
   tokensOf,
 } from '../../scripts/exercise_meaning.mjs'
 import { currentAnchors } from '../../scripts/exercise_fingerprints.mts'
+import { COURSE_SECTIONS } from '../../src/lib/course/index.ts'
 import { ROADMAP_PATH, roadmapSectionCount } from '../../scripts/preservation/roadmap_section_count.mjs'
 import { PROGRESS_FIELDS } from '../../src/lib/progress-sanitize.ts'
 
@@ -81,6 +82,21 @@ describe('tokens and fingerprints', () => {
   it('measures similarity as Jaccard on token sets, with two empty sets identical', () => {
     assert.equal(jaccard(['a', 'b'], ['b', 'c']), 1 / 3)
     assert.equal(jaccard([], []), 1)
+  })
+
+  it('keeps each semantics-bearing operator in the hash, and keeps the token set word-based (O27 101-C1)', () => {
+    // Each pair differs only in one operator (or in the arrow). The old tokenizer dropped every operator, so
+    // each pair hashed alike. The words are the same in each pair, so the token set cannot tell them apart.
+    const pairs = [
+      ['x > 1', 'x < 1'], ['x == 1', 'x != 1'], ['x <= 1', 'x >= 1'], ['x + 1', 'x - 1'], ['x = 1', 'x += 1'],
+      ['x * 2', 'x ** 2'], ['x / 2', 'x // 2'], ['def f(a) -> a', 'def f(a): a'], ['x & 1', 'x | 1'],
+    ]
+    for (const [left, right] of pairs) {
+      const first = anchor('S05', { title: 'Operador', tests: 'coincide', code: left, output: '' })
+      const second = anchor('S05', { title: 'Operador', tests: 'coincide', code: right, output: '' })
+      assert.notEqual(first.sha256, second.sha256, `${left} and ${right} hash alike`)
+      assert.deepEqual(first.tokens, second.tokens, `${left} and ${right}: the token set must stay word-based`)
+    }
   })
 })
 
@@ -222,6 +238,55 @@ describe('the real course against its committed anchors', () => {
       assert.deepEqual(ledgerAnchorFindings(state.anchors, state.rows), [])
       assert.deepEqual(ledgerFindings({ baseAnchors: committed, headAnchors: state.anchors, baseRows: ledger, headRows: state.rows }), [])
     }
+  })
+})
+
+describe('operators in the hash, on a real exercise (O27 101-C1)', () => {
+  const committed = JSON.parse(readFileSync(join(ROOT, ANCHORS_PATH), 'utf8')).exercises
+  const ledger = JSON.parse(readFileSync(join(ROOT, LEDGER_PATH), 'utf8')).rows
+  const current = currentAnchors()
+  /** A comparison in a solution. A `->` arrow is not one, so its `>` is skipped. */
+  const COMPARISON = /(?<!-)(==|!=|<=|>=|<|>)/
+  const OPPOSITE = { '==': '!=', '!=': '==', '<=': '>=', '>=': '<=', '<': '>', '>': '<' }
+  const flipFirstComparison = (code) => code.replace(COMPARISON, (op) => OPPOSITE[op])
+  /** Every exercise object of the real course, by id, read once through COURSE_SECTIONS. */
+  const exercisesById = new Map()
+  const seen = new Set()
+  const index = (node) => {
+    if (node === null || typeof node !== 'object' || seen.has(node)) return
+    seen.add(node)
+    if (!Array.isArray(node) && typeof node.id === 'string' && EXERCISE_ID.test(node.id) && node.solutionCode) exercisesById.set(node.id, node)
+    for (const value of Object.values(node)) index(value)
+  }
+  index(COURSE_SECTIONS)
+
+  it('changes the anchor when one comparison in a real solution flips, and leaves the token set alone', () => {
+    const id = Object.keys(committed).sort().find((candidate) => COMPARISON.test(exercisesById.get(candidate).solutionCode.code))
+    assert.ok(id, 'no real solution has a comparison to flip')
+    const original = exercisesById.get(id)
+    const flipped = structuredClone(original)
+    flipped.solutionCode.code = flipFirstComparison(original.solutionCode.code)
+    assert.notEqual(flipped.solutionCode.code, original.solutionCode.code)
+    const before = currentAnchors([original])[id]
+    const after = currentAnchors([flipped])[id]
+    assert.notEqual(after.sha256, before.sha256, `flipping one comparison in ${id} left its anchor unchanged`)
+    assert.deepEqual(after.tokens, before.tokens, 'the token set (what Jaccard reads) is word-based and does not see the operator')
+    assert.equal(before.sha256, committed[id].sha256, 'the real solution matches its committed anchor')
+  })
+
+  it('makes the flipped exercise a stale anchor and an unledgered change, so the guard reports it', () => {
+    const id = Object.keys(committed).sort().find((candidate) => COMPARISON.test(exercisesById.get(candidate).solutionCode.code))
+    const original = exercisesById.get(id)
+    const flipped = structuredClone(original)
+    flipped.solutionCode.code = flipFirstComparison(original.solutionCode.code)
+    const before = currentAnchors([original])[id]
+    const after = currentAnchors([flipped])[id]
+    assert.notEqual(after.sha256, committed[id].sha256, 'the flipped solution no longer matches its committed anchor')
+    // The base holds the anchor this code gives the exercise before the flip, so only the flip can make the change.
+    const findings = ledgerFindings({ baseAnchors: { ...committed, [id]: before }, headAnchors: { ...committed, [id]: after }, baseRows: ledger, headRows: ledger })
+    assert.ok(findings.some((f) => f.code === 'ANCHOR_CHANGED_UNLEDGERED' && f.id === id), JSON.stringify(findings))
+    // classify is a Jaccard classifier: an operator-only change is a wording edit to it, by the word-based token set.
+    assert.deepEqual(classify(committed, { ...current, [id]: after }, ledger), [])
   })
 })
 
