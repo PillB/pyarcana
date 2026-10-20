@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated data preparation competency — descriptive statistics, pandas/NumPy manipulation, data cleaning, schema validation — through You Do projects and section exams above the provisional floor, plus an integrator exercise on a real (messy) dataset.
+> El aprendiz demostró independientemente Independent Data Preparation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Data Analyst or Data Scientist.
-- Does not include SQL, BI dashboards, or statistical inference.
-- Does not include leakage prevention or causal inference.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

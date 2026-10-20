@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated applied MLOps pipeline delivery — model deployment, drift monitoring, retraining triggers, and pipeline observability — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente MLOps Pipeline Delivery mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as an AI/ML Engineer.
-- Does not include deep-learning model architecture design or fine-tuning at this level.
-- Does not by itself satisfy the Responsible ML Evaluation badge's leakage-prevention requirement (which remains at 'pilot' status).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

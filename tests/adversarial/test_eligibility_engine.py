@@ -1341,5 +1341,18 @@ class TestEligibilityEngine(unittest.TestCase):
                         f"state={report2.state}; reasons={report2.blocking_reasons}")
 
 
+class ReferenceFloors(unittest.TestCase):
+    """The reference copy of the provisional floors equals the catalog's (owner decision O27 102-Q1).
+
+    The TypeScript copy in src/lib/eligibility/types.ts is checked by
+    tests/adversarial/eligibility-provisional-floors.test.ts. The catalog is the record a badge
+    version is stated under, so a floor changed there must change here too, or this test fails.
+    """
+
+    def test_the_reference_floors_are_the_catalog_floors(self):
+        catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(PROVISIONAL_FLOORS, catalog["provisional_floors"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated production Python hardening — security mindset, observability, cloud-platform deployment, async service design, and performance tuning — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente Production Python Hardening mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Senior Production Python Engineer.
-- Does NOT include static type-safety evidence (pilot badge until Phase 4 closes the gap).
-- Does not include Kubernetes operation at this level (separate, later badge).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
