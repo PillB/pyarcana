@@ -19,7 +19,7 @@ import exam_bank  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 INDEX = ROOT / "src" / "lib" / "course" / "index.ts"
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s01-setup.ts"
-SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
 
@@ -113,7 +113,7 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
             self.assertEqual(branch.stdout.strip(), "main")
 
     def test_playground_executes_the_section_one_entrypoint_contract(self) -> None:
-        source = SECTION_VIEW.read_text(encoding="utf-8")
+        source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
         block = _between(source, "    'setup': {", "    'basics': {")
         match = re.search(
             r"code: `(?P<code>.*?)`,\n\s+expectedOutput: `(?P<output>.*?)`,",

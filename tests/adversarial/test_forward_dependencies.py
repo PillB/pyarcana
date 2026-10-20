@@ -47,7 +47,7 @@ def index_of(section_id: str) -> int:
     raise AssertionError(f"no active section has id {section_id!r}")
 
 
-PLAYGROUNDS = ROOT / "src/components/course/SectionView.tsx"
+PLAYGROUNDS = ROOT / "src/lib/course/playground-demos.ts"
 CAPSTONES = ROOT / "course-state/capstones"
 
 
@@ -176,6 +176,18 @@ class ForwardDependencyTests(unittest.TestCase):
         s01 = [x for x in offenders(re.compile(r"if __name__\s*==|def main\s*\(|\btry\s*:|\bexcept\b"),
                                     index_of("basics")) if x.startswith("S01")]
         self.assertEqual(s01, [], "S01 must not carry the entrypoint idiom or exception handling")
+
+    def test_the_scan_reads_one_playground_per_section(self) -> None:
+        """The Theory-tab playgrounds are scanned, one per section.
+
+        They moved out of SectionView.tsx into src/lib/course/playground-demos.ts. A scan that
+        still read the old file found none, so the playground part of every ratchet and the
+        S01 check above passed on nothing, and no test reported it.
+        """
+        self.assertEqual(
+            len(playground_sources()), len(active_sections()),
+            "the playground scan reads fewer playgrounds than there are sections",
+        )
 
     def test_the_teaching_sections_still_teach_them(self) -> None:
         """The boundary is only meaningful if the construct is taught on the other side of it."""

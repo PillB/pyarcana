@@ -12,7 +12,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 SECTION = ROOT / "src/lib/course/sections/s03-decisions-rules.ts"
-SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -112,9 +112,9 @@ class Section03IndependentContractTests(unittest.TestCase):
                 self.assertEqual(run.stdout.rstrip(), expected.rstrip())
 
     def test_playground_and_pdf_match_the_rules_scope(self) -> None:
-        section_view = SECTION_VIEW.read_text(encoding="utf-8")
+        demos_source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
         playground = _between(
-            section_view,
+            demos_source,
             "    'decisions-rules': {",
             "    'iteration-summaries': {",
         )

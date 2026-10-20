@@ -18,7 +18,7 @@ import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s08-files-ingestion.ts"
-SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 
 
@@ -121,8 +121,8 @@ class TestS08IngestionContract(unittest.TestCase):
         self.assertIn("col_count", learner_bank)
 
     def test_runtime_playground_is_on_topic_and_executable(self) -> None:
-        section_view = SECTION_VIEW.read_text(encoding="utf-8")
-        block = _between(section_view, "    'files-ingestion': {", "    'exceptions-logging': {")
+        demos_source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
+        block = _between(demos_source, "    'files-ingestion': {", "    'exceptions-logging': {")
 
         self.assertIn("Practica ingesta con cuarentena y manifest", block)
         self.assertIn('reason": "cast_monto"', block)

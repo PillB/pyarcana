@@ -18,7 +18,7 @@ import exam_bank  # noqa: E402
 
 
 SECTION = ROOT / "src/lib/course/sections/s09-exceptions-logging.ts"
-SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
 
 
@@ -71,7 +71,7 @@ class TestS09ObservabilityContract(unittest.TestCase):
         self.assertNotRegex(we_do, r"""print\((?:'|")ok(?:'|"), True\)""")
 
     def test_playground_is_observability_owned_and_executable(self) -> None:
-        source = SECTION_VIEW.read_text(encoding="utf-8")
+        source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
         block = _between(source, "    'exceptions-logging': {", "    'modules-packaging-cli': {")
 
         self.assertIn("Practica un lote observable y sin PII", block)

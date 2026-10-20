@@ -21,29 +21,41 @@ const BASE = process.env.PAGES_BASE ? '/pyarcana' : ''
 /** WCAG 2.0/2.1/2.2 A and AA — the level this course claims to meet. */
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
+type ViolationNode = { target: unknown[]; html?: string; failureSummary?: string }
+
 type Violation = {
   id: string
   impact?: string | null
-  nodes: { target: unknown[]; failureSummary?: string }[]
+  nodes: ViolationNode[]
   help: string
 }
 
 /**
  * Name the nodes, not just the rule. "nested-interactive 52x" tells you a
  * number; the first three selectors tell you where to look, which is the
- * difference between a finding and a chore.
+ * difference between a finding and a chore. Each of those three nodes also
+ * prints axe's own account of it (failureSummary: for colour-contrast the
+ * foreground colour, the background colour and the ratio) and its html, so the
+ * log shows the control's markup (for example a disabled attribute) as well as
+ * its colours.
  */
 function summarise(violations: Violation[]) {
   return violations
     .map((v) => {
-      const where = v.nodes
-        .slice(0, 3)
-        .map((n) => String(n.target?.[0] ?? '?'))
-        .join(', ')
+      const shown = v.nodes.slice(0, 3)
+      const where = shown.map((n) => String(n.target?.[0] ?? '?')).join(', ')
       const more = v.nodes.length > 3 ? ` (+${v.nodes.length - 3} more)` : ''
-      return `${v.id} (${v.impact ?? 'n/a'}, ${v.nodes.length}x): ${v.help}\n    at ${where}${more}`
+      const detail = shown.map(nodeDetail).join('\n')
+      return `${v.id} (${v.impact ?? 'n/a'}, ${v.nodes.length}x): ${v.help}\n    at ${where}${more}\n${detail}`
     })
     .join('\n')
+}
+
+/** axe's own account of one node: its html, then its failureSummary, line by line. */
+function nodeDetail(node: ViolationNode): string {
+  const html = (node.html ?? '').replace(/\s+/g, ' ').slice(0, 200)
+  const summary = (node.failureSummary ?? 'no failureSummary').split('\n').map((line) => `      ${line.trim()}`)
+  return [`    html: ${html}`, ...summary].join('\n')
 }
 
 test.beforeEach(async ({ page }) => {

@@ -202,13 +202,13 @@ test.describe('Capstone integrity', () => {
 })
 
 // ═══════════════════════════════════════════════════════════
-// TEST 5: CodePlayground demos exist in SectionView source
+// TEST 5: CodePlayground demos exist in the demo map (src/lib/course/playground-demos.ts)
 // ═══════════════════════════════════════════════════════════
 test.describe('CodePlayground demo integrity', () => {
-  test('SectionView has 52 demo entries (one per section)', async () => {
+  test('the demo map has 52 demo entries (one per section)', async () => {
     const fs = await import('fs/promises')
     const content = await fs.readFile(
-      'src/components/course/SectionView.tsx',
+      'src/lib/course/playground-demos.ts',
       'utf-8'
     )
 
@@ -233,7 +233,7 @@ test.describe('CodePlayground demo integrity', () => {
   test('each active section has a demo entry', async () => {
     const fs = await import('fs/promises')
     const content = await fs.readFile(
-      'src/components/course/SectionView.tsx',
+      'src/lib/course/playground-demos.ts',
       'utf-8'
     )
 
@@ -242,7 +242,7 @@ test.describe('CodePlayground demo integrity', () => {
       const pattern = new RegExp(`^    '${sectionId}': \\{`, 'm')
       expect(
         pattern.test(content),
-        `Demo entry for section "${sectionId}" not found in SectionView.tsx`
+        `Demo entry for section "${sectionId}" not found in playground-demos.ts`
       ).toBe(true)
     }
   })

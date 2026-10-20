@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import exam_bank  # noqa: E402
-SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
+PLAYGROUND_DEMOS = ROOT / "src" / "lib" / "course" / "playground-demos.ts"
 PDF_REPORT = ROOT / "src" / "components" / "course" / "PdfReport.tsx"
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s04-iteration-summaries.ts"
 
@@ -35,7 +35,7 @@ class Section04IndependentContractTests(unittest.TestCase):
         self.assertNotIn('"iteration-summaries": \'4. Functions\'', pdf)
 
     def test_playground_is_section_owned_and_output_is_executable(self) -> None:
-        source = SECTION_VIEW.read_text(encoding="utf-8")
+        source = PLAYGROUND_DEMOS.read_text(encoding="utf-8")
         block = _between(source, "    'iteration-summaries': {", "    'functions-contracts': {")
 
         self.assertIn("Practica un resumen por lotes", block)
