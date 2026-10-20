@@ -57,6 +57,20 @@ const AXIS = { title: 'Eje recortado', tests: 'ylim cero', code: 'ylim0 = 0.0\np
 
 const anchor = (section, content) => fingerprint({ section, ...content })
 
+/** Every exercise object of the real course, by id, read once through COURSE_SECTIONS. */
+function realExercisesById() {
+  const byId = new Map()
+  const seen = new Set()
+  const index = (node) => {
+    if (node === null || typeof node !== 'object' || seen.has(node)) return
+    seen.add(node)
+    if (!Array.isArray(node) && typeof node.id === 'string' && EXERCISE_ID.test(node.id) && node.solutionCode) byId.set(node.id, node)
+    for (const value of Object.values(node)) index(value)
+  }
+  index(COURSE_SECTIONS)
+  return byId
+}
+
 describe('tokens and fingerprints', () => {
   it('reads letters without accents and digits as tokens, with the NFKD marks removed', () => {
     assert.deepEqual(tokensOf('según mis cálculos: n=96 Ñandú'), ['segun', 'mis', 'calculos', 'n', '96', 'nandu'])
@@ -249,16 +263,7 @@ describe('operators in the hash, on a real exercise (O27 101-C1)', () => {
   const COMPARISON = /(?<!-)(==|!=|<=|>=|<|>)/
   const OPPOSITE = { '==': '!=', '!=': '==', '<=': '>=', '>=': '<=', '<': '>', '>': '<' }
   const flipFirstComparison = (code) => code.replace(COMPARISON, (op) => OPPOSITE[op])
-  /** Every exercise object of the real course, by id, read once through COURSE_SECTIONS. */
-  const exercisesById = new Map()
-  const seen = new Set()
-  const index = (node) => {
-    if (node === null || typeof node !== 'object' || seen.has(node)) return
-    seen.add(node)
-    if (!Array.isArray(node) && typeof node.id === 'string' && EXERCISE_ID.test(node.id) && node.solutionCode) exercisesById.set(node.id, node)
-    for (const value of Object.values(node)) index(value)
-  }
-  index(COURSE_SECTIONS)
+  const exercisesById = realExercisesById()
 
   it('changes the anchor when one comparison in a real solution flips, and leaves the token set alone', () => {
     const id = Object.keys(committed).sort().find((candidate) => COMPARISON.test(exercisesById.get(candidate).solutionCode.code))
@@ -287,6 +292,45 @@ describe('operators in the hash, on a real exercise (O27 101-C1)', () => {
     assert.ok(findings.some((f) => f.code === 'ANCHOR_CHANGED_UNLEDGERED' && f.id === id), JSON.stringify(findings))
     // classify is a Jaccard classifier: an operator-only change is a wording edit to it, by the word-based token set.
     assert.deepEqual(classify(committed, { ...current, [id]: after }, ledger), [])
+  })
+})
+
+describe('the fields the hash covers, on a real exercise (O27 101-C2)', () => {
+  const committed = JSON.parse(readFileSync(join(ROOT, ANCHORS_PATH), 'utf8')).exercises
+  const exercisesById = realExercisesById()
+  const ID = 'S01-T1-A-E1'
+  const original = exercisesById.get(ID)
+  const before = currentAnchors([original])[ID]
+  /** The anchor of the real exercise after one change to a copy of it. The course itself is not touched. */
+  const anchorAfter = (change) => {
+    const changed = structuredClone(original)
+    change(changed)
+    return currentAnchors([changed])[ID]
+  }
+
+  it('changes the anchor when the starter code changes, and leaves the token set alone', () => {
+    const after = anchorAfter((exercise) => { exercise.starterCode.code += '\nlista = []' })
+    assert.notEqual(after.sha256, before.sha256, `a starter-code change left ${ID}'s anchor unchanged`)
+    assert.deepEqual(after.tokens, before.tokens, 'the token set (what Jaccard reads) is unchanged by a starter-code edit')
+    assert.equal(before.sha256, committed[ID].sha256, 'the real exercise matches its committed anchor')
+  })
+
+  it('changes the anchor when the kind changes', () => {
+    const after = anchorAfter((exercise) => { exercise.kind = exercise.kind === 'transfer' ? 'guided' : 'transfer' })
+    assert.notEqual(after.sha256, before.sha256, `a kind change left ${ID}'s anchor unchanged`)
+  })
+
+  it('changes the anchor when the edge cases change', () => {
+    const after = anchorAfter((exercise) => { exercise.edgeCases = [...exercise.edgeCases, 'una lista vacía'] })
+    assert.notEqual(after.sha256, before.sha256, `an edge-case change left ${ID}'s anchor unchanged`)
+  })
+
+  it('leaves the anchor alone when only prose changes: instruction, preamble, hint, hints, feedback', () => {
+    // Redaction rounds rewrite prose on purpose, so prose stays out of the hash (O27 101-C2).
+    for (const field of ['instruction', 'preamble', 'hint', 'hints', 'feedback']) {
+      const after = anchorAfter((exercise) => { exercise[field] = Array.isArray(exercise[field]) ? ['texto nuevo'] : 'texto nuevo' })
+      assert.equal(after.sha256, before.sha256, `${field} changed ${ID}'s anchor: prose must stay out of the hash`)
+    }
   })
 })
 

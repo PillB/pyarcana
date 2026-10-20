@@ -3,8 +3,10 @@
  * B11: an exercise id must not silently change meaning.
  *
  * Each exercise id (Sxx-Ty-Z-En) has an anchor in audit/safe-agent/exercise-meaning-anchors.json: a
- * fingerprint of its title, tests, solution code and solution output. The fingerprint is the sha256 of
- * the token sequence, and the token set is kept for comparison. Tokens are [a-z_][a-z0-9_]* or \d+
+ * fingerprint of its title, tests, solution code and solution output, its starter code, kind and edge cases
+ * (O27 101-C2, decided 2026-10-19: prose is left out, and the decision is in audit/fixer/OWNER_DECISIONS.md).
+ * The fingerprint is the sha256 of the token sequence, and the token set is kept for comparison. Tokens are
+ * [a-z_][a-z0-9_]* or \d+
  * after NFKD, mark removal and case folding, so an accent or whitespace edit changes nothing.
  * The hashed sequence also keeps the semantics-bearing operators (comparison, arithmetic, assignment,
  * augmented assignment, `**`, `//`, `->`, bitwise), so flipping `>` to `<` changes the anchor (O27 101-C1,
@@ -120,12 +122,15 @@ export function sequenceOf(value) {
 }
 
 /**
- * The anchor of one exercise: the sha256 of its hashed sequence (words and operators), and its sorted token set
- * (words only, as before O27 101-C1).
+ * The anchor of one exercise: the sha256 of its hashed sequence, and its sorted token set. The hash covers the
+ * code-like fields (O27 101-C2): title, tests, solution code and output, the starter code, the kind and the edge
+ * cases. The token set, which Jaccard reads, covers the first four only, as before, so the thresholds keep their
+ * calibration. Prose (instruction, preamble, hints, feedback) is in neither: redaction rounds rewrite it on purpose.
  */
-export function fingerprint({ section, title, tests, code, output }) {
+export function fingerprint({ section, title, tests, code, output, starterCode, kind, edgeCases }) {
   const measured = [title, tests, code, output].map(text).join('\n')
-  return { section, sha256: sha256(sequenceOf(measured).join(' ')), tokens: [...new Set(tokensOf(measured))].sort() }
+  const hashed = [measured, starterCode, kind, edgeCases].map(text).join('\n')
+  return { section, sha256: sha256(sequenceOf(hashed).join(' ')), tokens: [...new Set(tokensOf(measured))].sort() }
 }
 
 /** Jaccard similarity of two token lists. Two empty lists are identical. */

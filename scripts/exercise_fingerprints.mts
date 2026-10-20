@@ -6,6 +6,11 @@
  *
  * An exercise is any object whose id has the Sxx-Ty-Z-En form and that carries a solutionCode. A
  * duplicate id, anywhere in the course, is an error: two exercises must never share an anchor.
+ *
+ * The fields the anchor covers are read here and hashed by fingerprint() in exercise_meaning.mjs: the title,
+ * tests, solution code and output, then the starter code, the kind and the edge cases (O27 101-C2). Operators
+ * in those fields are hashed too (O27 101-C1). Prose (instruction, preamble, hints, feedback) is not read, on
+ * purpose: redaction rounds rewrite it, and the decisions are in audit/fixer/OWNER_DECISIONS.md.
  */
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -20,6 +25,9 @@ export interface Exercise {
   tests: unknown
   code: unknown
   output: unknown
+  starterCode: unknown
+  kind: unknown
+  edgeCases: unknown
 }
 
 interface Anchor {
@@ -46,6 +54,7 @@ export function collectExercises(sections: unknown[]): Exercise[] {
     visit(section, (object) => {
       const solution = object.solutionCode as Record<string, unknown> | undefined
       if (typeof object.id !== 'string' || !EXERCISE_ID.test(object.id) || !solution || typeof solution !== 'object') return
+      const starter = object.starterCode as Record<string, unknown> | undefined
       exercises.push({
         id: object.id,
         section: object.id.slice(0, 3),
@@ -53,6 +62,9 @@ export function collectExercises(sections: unknown[]): Exercise[] {
         tests: object.tests,
         code: solution.code,
         output: solution.output,
+        starterCode: starter?.code,
+        kind: object.kind,
+        edgeCases: object.edgeCases,
       })
     }, new Set())
   }
