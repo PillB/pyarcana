@@ -41,7 +41,7 @@ import ledger  # noqa: E402
 import numbering  # noqa: E402
 import preflight  # noqa: E402
 from numbering import NumberingError  # noqa: E402
-from fixer_gate_tree import UNEXPLAINED, gate_ready_course, write_sections  # noqa: E402
+from fixer_gate_tree import UNEXPLAINED, gate_ready_course, interpreter_calls, write_sections  # noqa: E402
 from numbering_fixture import ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, write  # noqa: E402
 
 
@@ -287,7 +287,10 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
     one the brief stopped.
 
     Owner decision O26 (audit/fixer/OWNER_DECISIONS.md): the run_codex.py stand-in stays (a); the gate.py
-    stand-in this class used to hold was replaced by the real gate (b)."""
+    stand-in this class used to hold was replaced by the real gate (b). Owner decision O27 100-Q1: the
+    course's `.venv-content/bin/python` is a recorder around the real 3.12, not a stand-in. It logs each call
+    and runs it for real, so the first test can say which interpreter the strict audit ran under, which a
+    plain link to the same Python (as PATH's `python3` is, below) could not."""
 
     CODEX_MARKER = ".fixer/codex-was-called"
 
@@ -324,8 +327,11 @@ class TheConceptsRunnerTellsARefusalFromNothingToTeach(NumberingFixture):
         strict = json.loads((self.root / ".fixer/S02.strict-output.json").read_text(encoding="utf-8"))
         self.assertEqual([(row["file"], row["verdict"]) for row in strict["rows"]],
                          [("src/lib/course/sections/s02-beta.ts", "match")],
-                         "the strict audit did not run S02's snippet and report it as a match; "
-                         "this test does not check which interpreter ran it")
+                         "the strict audit did not run S02's snippet and report it as a match")
+        audits = [call for call in interpreter_calls(self.root) if "python_content_strict_output_audit.py" in call]
+        self.assertEqual(len(audits), 1, "the strict audit did not run under the pinned .venv-content/bin/python "
+                         f"(calls it recorded: {interpreter_calls(self.root)})")
+        self.assertIn("--only s02-beta", audits[0])
 
     def test_a_brief_the_builder_can_write_reaches_codex(self) -> None:
         """The control: with a sound tree the runner gets past the brief, so the refusals below are the brief's."""

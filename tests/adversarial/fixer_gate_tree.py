@@ -13,9 +13,10 @@ that. The owner's decision O26 (b) is to run the real gate instead, so this modu
     the repository's own, so their ROOT is the temporary course and nothing they write reaches the repository;
   * node_modules is the repository's, linked in, because tsx is not installed anywhere else;
   * `.venv-content/bin/python`, which gate.py runs the strict-output audit under, is the interpreter running
-    the suite. scripts/run_adversarial_py.py already refuses any interpreter but 3.12, and the audit refuses
-    any other itself. The packages requirements-content.txt pins are not installed here: the temporary
-    course imports none, so those pins stay with `npm run test:python-content`;
+    the suite, behind a recorder that logs each call and then runs it for real (content_interpreter; owner
+    decision O27 100-Q1). scripts/run_adversarial_py.py already refuses any interpreter but 3.12, and the
+    audit refuses any other itself. The packages requirements-content.txt pins are not installed here: the
+    temporary course imports none, so those pins stay with `npm run test:python-content`;
   * the badge catalog and the capstone index are one badge and one capstone over these three sections,
     so the readiness audit has the files it reads and nothing to report.
 
@@ -24,6 +25,7 @@ It is not a test file (the runner collects `test_*.py` only).
 from __future__ import annotations
 
 import json
+import shlex
 import shutil
 import sys
 from pathlib import Path
@@ -34,6 +36,9 @@ sys.path.insert(0, str(ROOT / "tests/adversarial"))
 from numbering_fixture import ROUND_FILED, build, registry, standing_documents, write  # noqa: E402
 
 SLUGS = ("alpha", "beta", "gamma")
+
+#: The recorder's log, next to the interpreter it records (see content_interpreter).
+INTERPRETER_CALLS = ".venv-content/bin/python.calls"
 
 #: A sentence that uses no term of the glossary, so a section holding it has nothing unexplained.
 NEUTRAL = "Nothing technical is mentioned here."
@@ -112,9 +117,34 @@ def install_tooling(root: Path) -> None:
         raise RuntimeError(f"{packages} has no tsx: install the dependencies; the real gate cannot run without them")
     (root / "node_modules").symlink_to(packages, target_is_directory=True)
 
+    content_interpreter(root)
+
+
+def content_interpreter(root: Path) -> Path:
+    """`.venv-content/bin/python` of a temporary course: the suite's own Python 3.12, behind a recorder.
+
+    Owner decision O27 100-Q1: a recorder around a real call is not a test double. The script appends its
+    arguments to INTERPRETER_CALLS and then `exec`s the real interpreter with them, so the audit that runs
+    under it is the real audit on the real 3.12 and nothing is faked. What the recorder adds is evidence of
+    which interpreter a caller chose. A plain link to the same Python could not tell `.venv-content/bin/python`
+    from PATH's `python3` (both reach one 3.12), so a gate that ran its strict audit under `python3` kept
+    every test green; in the real repository that is whatever `python3` is, 3.9 in older sessions, where the
+    audit refuses, the measure is empty, and the gate prints "not measurable" instead of failing.
+    """
     interpreter = root / ".venv-content/bin/python"
     interpreter.parent.mkdir(parents=True)
-    interpreter.symlink_to(sys.executable)
+    interpreter.write_text(
+        "#!/bin/sh\n"
+        "printf '%s\\n' \"$*\" >> \"$0.calls\"\n"
+        f"exec {shlex.quote(sys.executable)} \"$@\"\n", encoding="utf-8")
+    interpreter.chmod(0o755)
+    return interpreter
+
+
+def interpreter_calls(root: Path) -> list[str]:
+    """The arguments of every call made to the course's `.venv-content/bin/python`, one string per call."""
+    log = root / INTERPRETER_CALLS
+    return log.read_text(encoding="utf-8").splitlines() if log.exists() else []
 
 
 def gate_ready_course(root: Path, paragraphs: dict[int, str] | None = None) -> None:
