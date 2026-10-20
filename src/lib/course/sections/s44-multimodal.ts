@@ -330,6 +330,9 @@ rollback`,
         "Contrato de versión trazable. Entrada: rama protegida, número de revisiones requeridas, comprobaciones obligatorias y campos de las notas de versión. Salida: `protected_branch`, `required_reviews ≥ 1`, `required_checks` activo y `{change, risk, migration, rollback} ⊆ release_notes`. Incumplimiento (integración sin protección o notas incompletas) → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta el mapa `release_notes` → `COMPLETE_RELEASE_NOTES`.",
         "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 revisiones y comprobaciones de CI. Las notas de la versión del API de tareas enumeran cambio, riesgo, migración y rollback con lenguaje operable (“revertir al digest previo en ≤120 s”). La integración directa en `main` sin protección, o las notas que solo contienen el campo `change`, se bloquean: no hay una versión “rápida” sin trazabilidad.",
       ],
+      screenshots: [
+        { id: "s44-merge-blocked", after: 0 },
+      ],
       code: {
         language: 'python',
         title: "branch_review_release_notes.py",
