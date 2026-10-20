@@ -42,7 +42,8 @@ import numbering  # noqa: E402
 import preflight  # noqa: E402
 from numbering import NumberingError  # noqa: E402
 from fixer_gate_tree import (  # noqa: E402
-    UNEXPLAINED, content_interpreter, gate_ready_course, interpreter_calls, write_sections)
+    NEUTRAL, UNEXPLAINED, content_interpreter, gate_ready_course, interpreter_calls, section_source,
+    write_sections)
 from numbering_fixture import ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, write  # noqa: E402
 
 
@@ -193,18 +194,6 @@ class GateFindsASectionByItsFile(NumberingFixture):
         with self.assertRaises(NumberingError):
             gate.section_stem("S04")
 
-    def test_the_strict_audit_is_asked_for_that_stem_and_no_other(self) -> None:
-        asked = []
-
-        def fake_sh(cmd, timeout=1800):
-            asked.append(cmd)
-            return CompletedProcess(cmd, 1, "", "")
-
-        with mock.patch.object(gate, "sh", fake_sh):
-            self.assertIsNone(gate.strict_mismatches("S02"))
-        command = asked[0]
-        self.assertEqual(command[command.index("--only") + 1], "s02-beta")
-
     def test_identifier_values_are_counted_in_the_sections_own_file_only(self) -> None:
         """"s02-" also prefixes the inactive s02-legacy.ts; the measure follows the file the course imports."""
         ids = {"findings": [{"file": "src/lib/course/sections/s02-beta.ts"},
@@ -214,6 +203,59 @@ class GateFindsASectionByItsFile(NumberingFixture):
             with self.subTest(tag=tag):
                 measured = gate.assemble_measures(tag, ids=ids, **self.REPORTS)
                 self.assertEqual(measured["identifier_values_in_section"], expected)
+
+
+class TheStrictAuditMeasuresOnlyTheSectionItIsAskedFor(NumberingFixture):
+    """gate.strict_mismatches runs the real strict-output audit, under the course's own interpreter, on a
+    temporary course the gate can measure (fixer_gate_tree.gate_ready_course).
+
+    Owner decision O27 100-S2: this was a test that put a fake in place of `gate.sh`, which wrote down the
+    command it was given and reported failure without running anything. It proved the gate asks for the right
+    file name and that a failed command reads as "could not measure"; it could not prove that the audit ran
+    that section and skipped the others, nor that the number it returns is the audit's own. The real call
+    costs a few seconds, a full gate run tens of them, and it fails here, at gate.strict_mismatches, not
+    somewhere in a two-minute runner test.
+
+    The course holds three sections and one inactive file, s02-legacy.ts, which index.ts does not import. Its
+    first lines name s02-beta, so the audit's `--only s02-beta` filter matches it, and only the audit's own
+    rule that it reads the sections the course imports keeps it out of the rows."""
+
+    SECTIONS = "src/lib/course/sections"
+
+    def setUp(self) -> None:
+        super().setUp()
+        gate_ready_course(self.root)
+        (self.root / ".fixer").mkdir()                       # gate.measure makes it before any audit runs
+        write(self.root, f"{self.SECTIONS}/s02-legacy.ts",
+              "// Replaced by s02-beta.ts; index.ts no longer imports this file.\n"
+              + section_source(2, "legacy", NEUTRAL))
+        for name, value in (("ROOT", self.root), ("COURSE_ROOT", self.root),
+                            ("CONTENT_PY", self.root / ".venv-content/bin/python")):
+            patcher = mock.patch.object(gate, name, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def audited_files(self, tag: str) -> list[tuple[str, str]]:
+        """The (file, verdict) of every snippet the audit judged on the last call for `tag`."""
+        report = json.loads((self.root / f".fixer/{tag}.strict-output.json").read_text(encoding="utf-8"))
+        return [(row["file"], row["verdict"]) for row in report["rows"]]
+
+    def test_the_audit_judges_that_section_and_no_other(self) -> None:
+        self.assertEqual(gate.strict_mismatches("S02"), 0)
+        self.assertEqual(self.audited_files("S02"), [(f"{self.SECTIONS}/s02-beta.ts", "match")])
+
+    def test_a_declared_output_the_code_does_not_print_is_counted_in_its_own_section_only(self) -> None:
+        wrong = section_source(3, "gamma", NEUTRAL).replace("output: `hello 3`", "output: `goodbye 3`")
+        write(self.root, f"{self.SECTIONS}/s03-gamma.ts", wrong)
+        self.assertEqual(gate.strict_mismatches("S03"), 1)
+        self.assertEqual(self.audited_files("S03"), [(f"{self.SECTIONS}/s03-gamma.ts", "mismatch")])
+        self.assertEqual(gate.strict_mismatches("S02"), 0, "S03's wrong output must not count against S02")
+
+    def test_an_audit_that_cannot_run_is_not_measurable_rather_than_zero(self) -> None:
+        """The gate's contract is None for "could not run", which `regression_verdict` prints as unmeasurable.
+        A zero would read as a clean section."""
+        (self.root / "scripts/python_content_strict_output_audit.py").unlink()
+        self.assertIsNone(gate.strict_mismatches("S02"))
 
 
 class LedgerMapsIdentifierFindingsToSectionsInOnePass(NumberingFixture):
