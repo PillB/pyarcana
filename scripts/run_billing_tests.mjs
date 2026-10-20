@@ -161,6 +161,7 @@ const CLIENT_SUITES = [
   ["qa-report", 21],
   ["qa-session-stats", 4],
   ["qa-tour-layout", 6],
+  ["section-completion", 4],
   ["remote-apply", 4],
   ["review-r3", 11],
   ["review-r4", 12],
