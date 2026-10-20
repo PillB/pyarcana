@@ -20,8 +20,23 @@ ROOT = Path(__file__).resolve().parents[1]
 SECTIONS_DIR = ROOT / "src/lib/course/sections"
 LEDGER = ROOT / "course-state/section_ledger.json"
 
+def declared_section_count(root: Path = ROOT) -> int:
+    """The sections index.ts binds into COURSE_SECTIONS: the count every other count is checked
+    against. Derived from the bindings, never pinned (design G-9)."""
+    index_ts = (root / "src/lib/course/index.ts").read_text(encoding="utf-8")
+    return len(re.findall(r"import \{ section\d+ \} from", index_ts))
+
+
+def ledger_row_failures(ledger_path: Path, expected: int) -> list[str]:
+    """section_ledger.json must hold one row per bound section; a stale count is named."""
+    if not ledger_path.exists():
+        return []
+    rows = len(json.loads(ledger_path.read_text(encoding="utf-8")).get("sections", []))
+    return [] if rows == expected else [f"section_ledger rows={rows} want {expected}"]
+
+
 CANONICAL = {
-    "sections": 52,
+    "sections": declared_section_count(),
     "topics_per_section": 4,
     "subtopics_per_topic": 2,
     "subtopics_per_section": 8,
@@ -104,12 +119,8 @@ def main() -> int:
         if setup["subtopics"] < 8:
             failures.append(f"setup subtopics={setup['subtopics']} want >=8")
 
-    # Ledger row count
-    if LEDGER.exists():
-        ledger = json.loads(LEDGER.read_text())
-        n = len(ledger.get("sections", []))
-        if n != 52:
-            failures.append(f"section_ledger rows={n} want 52")
+    # Ledger row count, derived from the section bindings (G-9)
+    failures.extend(ledger_row_failures(LEDGER, CANONICAL["sections"]))
 
     out = {
         "canonical": CANONICAL,

@@ -6,13 +6,16 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   PASS_THRESHOLD,
+  bandForPhase,
   buildAnalyticsPayload,
   buildStudentMetrics,
   phaseForSectionIndex,
+  phaseOfIndex,
   type ExamRow,
   type ProgressRow,
   type UserRow,
 } from '../../src/lib/admin-analytics.ts'
+import { COURSE_SECTIONS, PHASES } from '../../src/lib/course/index.ts'
 
 const NOW = new Date('2026-07-21T12:00:00.000Z')
 
@@ -29,16 +32,87 @@ function user(partial: Partial<UserRow> & { id: string }): UserRow {
   }
 }
 
-describe('phaseForSectionIndex', () => {
-  it('boundaries at 13/26/39', () => {
-    assert.equal(phaseForSectionIndex(1), 1)
-    assert.equal(phaseForSectionIndex(13), 1)
-    assert.equal(phaseForSectionIndex(14), 1)
-    assert.equal(phaseForSectionIndex(26), 1)
-    assert.equal(phaseForSectionIndex(27), 2)
-    assert.equal(phaseForSectionIndex(39), 2)
-    assert.equal(phaseForSectionIndex(40), 3)
-    assert.equal(phaseForSectionIndex(52), 3)
+/** One line per section whose declared phase is not the phase the table's range gives its index. */
+function staleRanges(
+  sections: ReadonlyArray<{ readonly id: string; readonly index: number; readonly phase?: 0 | 1 | 2 | 3 }>,
+  phases: Parameters<typeof phaseOfIndex>[1]
+): string[] {
+  return sections.flatMap((s) => {
+    const ranged = phaseOfIndex(s.index, phases)
+    if (s.phase === undefined || ranged === s.phase) return []
+    return [`${s.id} (index ${s.index}) declares phase ${s.phase}, but the PHASES range puts it in ${ranged === null ? 'no phase' : `phase ${ranged}`}`]
+  })
+}
+
+describe('phase bands come from phase, never from fixed index thresholds (design G-4)', () => {
+  it('every course section declares its phase, and the PHASES table puts its index in that phase', () => {
+    assert.deepEqual(
+      COURSE_SECTIONS.filter((s) => s.phase === undefined).map((s) => s.id),
+      [],
+      'a section with no phase is banded by the table alone, so the table cannot be checked against it'
+    )
+    assert.deepEqual(staleRanges(COURSE_SECTIONS, PHASES), [])
+  })
+
+  it('a PHASES range left at the old bounds is named, with the section it mis-bands', () => {
+    // Fixture: two sections inserted into phase 1, so phase 2 starts at 28; the table still ends
+    // phase 1 at 26. Section 27 declares phase 1, and the stale table would band it as phase 2.
+    const sections = [
+      { id: 'inserted-a', index: 26, phase: 1 as const },
+      { id: 'inserted-b', index: 27, phase: 1 as const },
+      { id: 'first-of-phase-2', index: 28, phase: 2 as const },
+    ]
+    const stale = [
+      { id: 1, sections: '14-26' },
+      { id: 2, sections: '27-39' },
+    ] as const
+    assert.deepEqual(staleRanges(sections, stale), [
+      'inserted-b (index 27) declares phase 1, but the PHASES range puts it in phase 2',
+    ])
+    assert.deepEqual(staleRanges(sections, [{ id: 1, sections: '14-27' }, { id: 2, sections: '28-39' }]), [])
+  })
+
+  it('a learner who finished a section is banded by that section\'s own phase, not by a range', () => {
+    // Recreation: a section declares phase 3 while the table, read by index, would call it phase 0.
+    // The admin view must follow the section, so a table left stale after a renumber cannot move it.
+    const section = COURSE_SECTIONS.find((s) => s.id === 'basics')!
+    const declared = section.phase
+    assert.equal(declared, 0, 'the recreation needs basics to be a phase 0 section')
+    const u = user({ id: 'u-band', createdAt: NOW.toISOString() })
+    const progress: ProgressRow[] = [
+      { userId: 'u-band', sectionId: 'basics', subStep: 'theory', completed: true, completedAt: NOW.toISOString() },
+    ]
+    try {
+      section.phase = 3
+      const [m] = buildStudentMetrics([u], progress, [], {}, NOW)
+      assert.equal(m!.phaseMax, 3)
+    } finally {
+      section.phase = declared
+    }
+    const [back] = buildStudentMetrics([u], progress, [], {}, NOW)
+    assert.equal(back!.phaseMax, bandForPhase(declared!), 'the section phase was restored')
+  })
+
+  it('phase 0 is shown as band 1; phases 1 to 3 keep their own band', () => {
+    assert.deepEqual([0, 1, 2, 3].map((p) => bandForPhase(p as 0 | 1 | 2 | 3)), [1, 1, 2, 3])
+  })
+
+  it('a renumber moves the band boundary with the phase table', () => {
+    // Phase 2 starts at 29 after two sections are inserted before it. Fixed thresholds at 26 and
+    // 39 would band index 27 as 2 and miss the move; the phase table bands it as 1.
+    const renumbered = [
+      { id: 0, sections: '1-13' },
+      { id: 1, sections: '14-28' },
+      { id: 2, sections: '29-42' },
+      { id: 3, sections: '43-55' },
+    ] as const
+    assert.equal(phaseForSectionIndex(27, renumbered), 1)
+    assert.equal(phaseForSectionIndex(29, renumbered), 2)
+  })
+
+  it('an index that no phase range holds has no band, rather than an invented one', () => {
+    assert.equal(phaseForSectionIndex(0), null)
+    assert.equal(phaseForSectionIndex(99), null)
   })
 })
 
@@ -219,5 +293,18 @@ describe('buildAnalyticsPayload', () => {
     const last = payload.scoreHistogram[payload.scoreHistogram.length - 1]!
     assert.equal(last.bucket, '90-100')
     assert.equal(last.count, 1)
+  })
+
+  it('the phase breakdown files a phase 0 section under band 1', () => {
+    // `basics` is phase 0. Before the fix the breakdown matched raw phases 1 to 3 only, so a
+    // learner who finished a phase 0 section counted in no band at all.
+    const u = user({ id: 'u10', createdAt: NOW.toISOString() })
+    const progress: ProgressRow[] = [
+      { userId: 'u10', sectionId: 'basics', subStep: 'theory', completed: true, completedAt: NOW.toISOString() },
+    ]
+    const students = buildStudentMetrics([u], progress, [], {}, NOW)
+    const payload = buildAnalyticsPayload(students, progress, [], [u], { now: NOW })
+    const band1 = payload.phaseBreakdown.find((b) => b.phase === 1)
+    assert.equal(band1?.started, 1)
   })
 })

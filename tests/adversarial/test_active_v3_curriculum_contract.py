@@ -12,13 +12,29 @@ INDEX = ROOT / "src/lib/course/index.ts"
 ROADMAP = ROOT / "learning_roadmap_52_V3.md"
 
 
-def active_sections() -> dict[int, Path]:
-    text = INDEX.read_text(encoding="utf-8")
+def active_sections(root: Path = ROOT) -> dict[int, Path]:
+    text = (root / "src/lib/course/index.ts").read_text(encoding="utf-8")
     imports = re.findall(
         r"import\s+\{\s*section(\d{2})\s*\}\s+from\s+['\"]\./sections/([^'\"]+)['\"]",
         text,
     )
-    return {int(number): ROOT / "src/lib/course/sections" / f"{stem}.ts" for number, stem in imports}
+    return {int(number): root / "src/lib/course/sections" / f"{stem}.ts" for number, stem in imports}
+
+
+def section_ids(root: Path = ROOT) -> dict[str, tuple[int, Path]]:
+    """Slug -> (number, file), where the slug is the section's `id:`.
+
+    A renumber moves a section's number and its exercise ids, and never its slug. A test that
+    names a lesson by number reads the wrong lesson the day the renumber lands; a test that names
+    it by slug finds the lesson wherever the number now is (design G-4).
+    """
+    out: dict[str, tuple[int, Path]] = {}
+    for number, path in active_sections(root).items():
+        found = re.search(r"^\s*id:\s*['\"]([^'\"]+)", path.read_text(encoding="utf-8"), re.M)
+        if found is None:
+            raise AssertionError(f"{path.name}: no section id")
+        out[found.group(1)] = (number, path)
+    return out
 
 
 def roadmap_titles() -> dict[int, str]:

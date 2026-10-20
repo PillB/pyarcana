@@ -12,6 +12,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/use-toast'
 import { SUB_STEPS, useProgressStore } from '@/lib/progress-store'
+import { COURSE_SECTIONS } from '@/lib/course'
 import {
   MIN_SECTIONS_FOR_PROGRESS_RECORD,
   countCompletedSections,
@@ -58,61 +59,77 @@ interface PdfReportProps {
   onClose: () => void
 }
 
-export const SECTION_NAMES: Record<string, string> = {
-  setup: '1. Entorno',
-  basics: '2. Valores y tipos',
-  "decisions-rules": '3. Reglas',
-  "iteration-summaries": '4. Iteración',
-  "functions-contracts": '5. Funciones',
-  collections: '6. Colecciones',
-  "text-unicode-regex": '7. Texto & Unicode',
-  "files-ingestion": '8. Archivos & ETL',
-  "exceptions-logging": '9. Excepciones',
-  "modules-packaging-cli": '10. Módulos & CLI',
-  "oop-domain": '11. OOP dominio',
-  "apis-sql-geo": '12. APIs · SQL · Geo',
-  "evidence-dashboard": '13. RPA',
-  security: '14. Security',
-  "stdlib-deep": '15. stdlib',
-  "wxpython-gui": '16. GUI',
-  packaging: '17. Packaging',
-  "data-engineering": '18. Data Eng',
-  "databases-orm": '19. DB/ORM',
-  rag: '20. RAG',
-  fastapi: '21. FastAPI',
-  "rapidfuzz-entity": '22. RapidFuzz',
-  "computer-vision": '23. CV',
-  "rpa-advanced": '24. RPA+',
-  "streamlit-dashboards": '25. Streamlit',
-  "integrator-phase1": '26. Capstone P1',
-  "async-concurrency": '27. Async',
-  "llm-agents": '28. LLM Agents',
-  mlops: '29. MLOps',
-  "security-infra": '30. ER probabilístico',
-  "streaming-data": '31. Streaming',
-  microservices: '32. Microsvc',
-  "advanced-models": '33. ML+',
-  "cv-ai-integration": '34. CV+AI',
-  "system-design": '35. SysDesign',
-  "ai-apis-advanced": '36. AI APIs',
-  "dbt-bigquery": '37. dbt/BQ',
-  "performance-extreme": '38. Concurrencia',
-  "integrator-phase2": '39. Capstone P2',
-  "architecture-ddd-decisions": '40. Arq/DDD',
-  "llm-finetuning": '41. API FastAPI',
-  "graph-rag": '42. Schemas y seguridad',
-  llmops: '43. LLMOps',
-  multimodal: '44. Multi-Modal',
-  iac: '45. IaC',
-  "gpu-computing": '46. GPU',
-  opensource: '47. OSS',
-  "ai-governance": '48. Governance',
-  "data-contracts": '49. Agents',
-  "tech-leadership": '50. Leadership',
-  "integrator-final": '51. Capstone F',
-  "career-strategy": '52. Career',
+const SECTION_LABELS: Record<string, string> = {
+  setup: 'Entorno',
+  basics: 'Valores y tipos',
+  "decisions-rules": 'Reglas',
+  "iteration-summaries": 'Iteración',
+  "functions-contracts": 'Funciones',
+  collections: 'Colecciones',
+  "text-unicode-regex": 'Texto & Unicode',
+  "files-ingestion": 'Archivos & ETL',
+  "exceptions-logging": 'Excepciones',
+  "modules-packaging-cli": 'Módulos & CLI',
+  "oop-domain": 'OOP dominio',
+  "apis-sql-geo": 'APIs · SQL · Geo',
+  "evidence-dashboard": 'RPA',
+  security: 'Security',
+  "stdlib-deep": 'stdlib',
+  "wxpython-gui": 'GUI',
+  packaging: 'Packaging',
+  "data-engineering": 'Data Eng',
+  "databases-orm": 'DB/ORM',
+  rag: 'RAG',
+  fastapi: 'FastAPI',
+  "rapidfuzz-entity": 'RapidFuzz',
+  "computer-vision": 'CV',
+  "rpa-advanced": 'RPA+',
+  "streamlit-dashboards": 'Streamlit',
+  "integrator-phase1": 'Capstone P1',
+  "async-concurrency": 'Async',
+  "llm-agents": 'LLM Agents',
+  mlops: 'MLOps',
+  "security-infra": 'ER probabilístico',
+  "streaming-data": 'Streaming',
+  microservices: 'Microsvc',
+  "advanced-models": 'ML+',
+  "cv-ai-integration": 'CV+AI',
+  "system-design": 'SysDesign',
+  "ai-apis-advanced": 'AI APIs',
+  "dbt-bigquery": 'dbt/BQ',
+  "performance-extreme": 'Concurrencia',
+  "integrator-phase2": 'Capstone P2',
+  "architecture-ddd-decisions": 'Arq/DDD',
+  "llm-finetuning": 'API FastAPI',
+  "graph-rag": 'Schemas y seguridad',
+  llmops: 'LLMOps',
+  multimodal: 'Multi-Modal',
+  iac: 'IaC',
+  "gpu-computing": 'GPU',
+  opensource: 'OSS',
+  "ai-governance": 'Governance',
+  "data-contracts": 'Agents',
+  "tech-leadership": 'Leadership',
+  "integrator-final": 'Capstone F',
+  "career-strategy": 'Career',
 
 }
+
+/** Each section's label in the report, with its number taken from the section's index (G-5). */
+export function sectionNamesFor(
+  sections: ReadonlyArray<{ readonly id: string; readonly index: number }>,
+  labels: Record<string, string>,
+): Record<string, string> {
+  return Object.fromEntries(
+    sections.map((s) => {
+      const label = labels[s.id]
+      if (label === undefined) throw new Error(`PDF label missing for section ${s.id}`)
+      return [s.id, `${s.index}. ${label}`]
+    }),
+  )
+}
+
+export const SECTION_NAMES: Record<string, string> = sectionNamesFor(COURSE_SECTIONS, SECTION_LABELS)
 
 /** The course's section ids, in order: what every completion figure in this file counts against. */
 const SECTION_IDS = Object.keys(SECTION_NAMES)

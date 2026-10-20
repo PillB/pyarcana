@@ -3,17 +3,41 @@
 from __future__ import annotations
 
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
+from tests.adversarial.test_active_v3_curriculum_contract import section_ids
+
 
 ROOT = Path(__file__).resolve().parents[2]
-SECTIONS = ROOT / "src" / "lib" / "course" / "sections"
-MASTER_FILES = sorted(
-    path
-    for path in SECTIONS.glob("s*.ts")
-    if path.name[1:3].isdigit() and 40 <= int(path.name[1:3]) <= 52
+
+# Slugs, not a range of file-name numbers (design G-4). A renumber renames these files, so a
+# scan by file name keeps the old range and quietly stops covering the master tier.
+MASTER_SLUGS = (
+    "architecture-ddd-decisions",
+    "llm-finetuning",
+    "graph-rag",
+    "llmops",
+    "multimodal",
+    "iac",
+    "gpu-computing",
+    "opensource",
+    "ai-governance",
+    "data-contracts",
+    "tech-leadership",
+    "integrator-final",
+    "career-strategy",
 )
+
+
+def files_for_slugs(slugs, root: Path = ROOT) -> list[Path]:
+    """The lesson file each slug is bound to, sorted by path."""
+    ids = section_ids(root)
+    return sorted(ids[slug][1] for slug in slugs)
+
+
+MASTER_FILES = files_for_slugs(MASTER_SLUGS)
 
 REJECTED_AUTHORING_LANGUAGE = (
     "Practica con código ejecutable",
@@ -106,6 +130,31 @@ class TestMasterCurriculumSpecificity(unittest.TestCase):
             callouts.update(section_callouts)
         self.assertEqual(len(intros), 13)
         self.assertEqual(len(callouts), 104)
+
+
+class MasterSetFollowsSlugs(unittest.TestCase):
+    def test_every_master_slug_is_bound_on_the_real_tree(self):
+        self.assertEqual(len(MASTER_FILES), len(MASTER_SLUGS))
+        for path in MASTER_FILES:
+            self.assertTrue(path.is_file(), path)
+
+    def test_a_master_lesson_renumbered_past_52_is_still_found(self):
+        """Recreation: career-strategy renumbered to 55 with its file is still in the set.
+
+        The old scan kept file names 40..52, so the final lesson at 55 would drop out of every
+        master check without any test failing.
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src/lib/course/sections").mkdir(parents=True)
+            (root / "src/lib/course/index.ts").write_text(
+                "import { section55 } from './sections/s55-career-strategy'\n", encoding="utf-8"
+            )
+            (root / "src/lib/course/sections/s55-career-strategy.ts").write_text(
+                "export const s = {\n  id: 'career-strategy',\n}\n", encoding="utf-8"
+            )
+            found = files_for_slugs(("career-strategy",), root)
+            self.assertEqual(found, [root / "src/lib/course/sections/s55-career-strategy.ts"])
 
 
 if __name__ == "__main__":
