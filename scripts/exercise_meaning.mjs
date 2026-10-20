@@ -11,7 +11,8 @@
  * The hashed sequence also keeps the semantics-bearing operators (comparison, arithmetic, assignment,
  * augmented assignment, `**`, `//`, `->`, bitwise), so flipping `>` to `<` changes the anchor (O27 101-C1,
  * decided 2026-10-19; the decision is in audit/fixer/OWNER_DECISIONS.md). The token set does not: Jaccard,
- * and with it the MEANING_CHANGED and CONTENT_MOVED thresholds, stays word-based.
+ * and with it the MEANING_CHANGED and CONTENT_MOVED thresholds, stays word-based. The signs ≠ ≤ ≥ × ÷ − → are
+ * read as their ASCII operators before normalisation, in the hashed sequence only (O27 101-C4).
  *
  * Classification of an exercise against its anchor (classify):
  *   - equal fingerprints: ok;
@@ -119,9 +120,18 @@ export function tokensOf(value) {
   return foldedText(value).match(WORD) ?? []
 }
 
+/**
+ * The signs the hashed sequence reads as their ASCII operators (O27 101-C4): ≠ ≤ ≥ × ÷ − →. They are translated
+ * before NFKD, because NFKD turns ≠ into `=` and a stripped mark, and it leaves ≤ ≥ × ÷ − → where the operator
+ * set cannot read them, so a flip among them went unseen. The token set is not affected: WORD reads letters and
+ * digits only, so it never saw these signs.
+ */
+const SIGNS_AS_OPERATORS = { '≠': '!=', '≤': '<=', '≥': '>=', '×': '*', '÷': '/', '−': '-', '→': '->' }
+const SIGN = new RegExp(`[${Object.keys(SIGNS_AS_OPERATORS).join('')}]`, 'gu')
+
 /** The hashed sequence of a text: its words and its operators, in order. `>` and `<` are different tokens here. */
 export function sequenceOf(value) {
-  return foldedText(value).match(WORD_OR_OPERATOR) ?? []
+  return foldedText(value.replace(SIGN, (sign) => SIGNS_AS_OPERATORS[sign])).match(WORD_OR_OPERATOR) ?? []
 }
 
 /**

@@ -9,7 +9,8 @@
  *
  * The fields the anchor covers are read here and hashed by fingerprint() in exercise_meaning.mjs: the title,
  * tests, solution code and output, then the starter code, the kind and the edge cases (O27 101-C2). Operators
- * in those fields are hashed too (O27 101-C1). Prose (instruction, preamble, hints, feedback) is not read, on
+ * in those fields are hashed too (O27 101-C1), and so are the signs ≠ ≤ ≥ × ÷ − → (O27 101-C4). Prose
+ * (instruction, preamble, hints, feedback) is not read, on
  * purpose: redaction rounds rewrite it, and the decisions are in audit/fixer/OWNER_DECISIONS.md.
  */
 import { writeFileSync } from 'node:fs'

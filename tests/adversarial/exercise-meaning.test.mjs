@@ -1401,3 +1401,30 @@ describe('--check: an edited solution needs its anchor regenerated and a ledger 
     assert.match(run.stdout, /EXERCISE MEANING OK/)
   })
 })
+
+describe('the signs ≠ ≤ ≥ × ÷ − → in the hashed sequence (O27 101-C4)', () => {
+  // Before 101-C4, NFKD turned ≠ into `=` and a stripped mark, and ≤ ≥ × ÷ − → were dropped, since the operator
+  // set has no Unicode form for them. The token set never read them (it keeps letters and digits only).
+  const hashed = (code) => anchor('S05', { title: 'Signo', tests: 'coincide', code, output: '' })
+
+  it('changes the anchor when ≤ flips to ≥ in a hashed field, and the token set does not see it', () => {
+    const before = hashed('x ≤ 1')
+    const after = hashed('x ≥ 1')
+    assert.notEqual(after.sha256, before.sha256, 'a ≤-to-≥ flip left the anchor unchanged')
+    assert.deepEqual(after.tokens, before.tokens)
+  })
+
+  it('keeps ≠ apart from =, so x ≠ 1 and x = 1 hash differently', () => {
+    assert.notEqual(hashed('x ≠ 1').sha256, hashed('x = 1').sha256, 'x ≠ 1 hashed as x = 1')
+  })
+
+  it('keeps × ÷ − apart from one another, so a flip among the three arithmetic signs is seen', () => {
+    for (const [left, right] of [['x × 1', 'x ÷ 1'], ['x − 1', 'x × 1'], ['x − 1', 'x ÷ 1']]) {
+      assert.notEqual(hashed(left).sha256, hashed(right).sha256, `${left} and ${right} hash alike`)
+    }
+  })
+
+  it('keeps the arrow →, so def f(a) → a and def f(a): a hash differently', () => {
+    assert.notEqual(hashed('def f(a) → a').sha256, hashed('def f(a): a').sha256, 'the arrow was dropped from the hash')
+  })
+})
