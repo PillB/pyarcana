@@ -41,7 +41,8 @@ import ledger  # noqa: E402
 import numbering  # noqa: E402
 import preflight  # noqa: E402
 from numbering import NumberingError  # noqa: E402
-from fixer_gate_tree import UNEXPLAINED, gate_ready_course, interpreter_calls, write_sections  # noqa: E402
+from fixer_gate_tree import (  # noqa: E402
+    UNEXPLAINED, content_interpreter, gate_ready_course, interpreter_calls, write_sections)
 from numbering_fixture import ROUND_FILED, NumberingFixture, build, cycle, registry, round_tree, write  # noqa: E402
 
 
@@ -93,19 +94,32 @@ class SectionPathNamesTheRightSection(NumberingFixture):
 
 
 class PreflightRefusesADisagreeingTree(NumberingFixture):
-    """preflight.main runs every check by name; only the numbering and registry checks are real here, so a
-    refusal can only come from them."""
+    """preflight.main runs all six of its checks for real against the temporary course.
 
-    OTHERS = ("check_interpreter", "check_pins", "snapshot_dirty")
+    Owner decision O27 100-S1: this class used to switch off three of them (check_interpreter, check_pins and
+    snapshot_dirty), and no other test runs them, because preflight starts only from tools/fixer/run_chain.sh.
+    Two paths were fixed to the real repository when preflight loaded, CONTENT_PY and BASELINE, which is why
+    they could not simply run: check_interpreter would have tested the real `.venv-content`, and snapshot_dirty
+    would have overwritten the real audit/fixer/dirty_baseline.json. They are pointed into the temporary course
+    here, as ROOT is: its `.venv-content/bin/python` is the suite's own 3.12 (a recorder around it, see
+    fixer_gate_tree.content_interpreter) and `git init` gives snapshot_dirty a repository of its own to read.
+    check_pins needs nothing, since the course holds no runtime report and the check passes with a note.
+
+    What this does not show: that each of the three refuses its own bad state (a wrong interpreter, a stale
+    runtime report, a staged change). A sound course shows only that all three pass."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        content_interpreter(self.root)
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
 
     def run_preflight(self) -> tuple[int, str, list[str]]:
         out = io.StringIO()
         with contextlib.ExitStack() as stack:
-            stack.enter_context(mock.patch.object(preflight, "ROOT", self.root))
-            stack.enter_context(mock.patch.object(preflight, "problems", []))
-            stack.enter_context(mock.patch.object(preflight, "notes", []))
-            for name in self.OTHERS:
-                stack.enter_context(mock.patch.object(preflight, name, lambda: None))
+            for name, value in (("ROOT", self.root), ("CONTENT_PY", self.root / ".venv-content/bin/python"),
+                                ("BASELINE", self.root / "audit/fixer/dirty_baseline.json"),
+                                ("problems", []), ("notes", [])):
+                stack.enter_context(mock.patch.object(preflight, name, value))
             stack.enter_context(contextlib.redirect_stdout(out))
             code = preflight.main()
             return code, out.getvalue(), list(preflight.problems)
@@ -116,6 +130,17 @@ class PreflightRefusesADisagreeingTree(NumberingFixture):
         self.assertEqual((code, problems), (0, []), text)
         self.assertIn("all 3 sections resolve", text)
         self.assertIn(f"registry holds {sum(ROUND_FILED.values())} findings", text)
+
+    def test_the_three_checks_that_were_switched_off_each_run(self) -> None:
+        """Each leaves a mark in a sound course: the interpreter's version in the notes, the missing runtime
+        report in the notes, and the baseline of modified files written into the course."""
+        round_tree(self.root)
+        code, text, problems = self.run_preflight()
+        self.assertEqual((code, problems), (0, []), text)
+        self.assertRegex(text, r"ok   interpreter Python 3\.12\.\d+")
+        self.assertIn("no runtime report yet (first run)", text)
+        baseline = self.root / "audit/fixer/dirty_baseline.json"
+        self.assertEqual(json.loads(baseline.read_text(encoding="utf-8")), {"dirty_before_chain": []})
 
     def test_a_stale_cycle_record_stops_the_chain(self) -> None:
         round_tree(self.root)
