@@ -6,7 +6,10 @@
  * - deletes tracked files not on the deletion allowlist
  * - removes protected active curriculum section IDs / exercise IDs
  *   (a section id renamed through SECTION_ID_RENAMES to an id still active is preserved:
- *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs)
+ *   `migrateSectionIds` carries learner progress across it; see scripts/section_id_renames.mjs.
+ *   An exercise id may leave only with a `removed` row appended to the exercise-meaning ledger that names
+ *   an owner decision the base's OWNER_DECISIONS.md records and cites the anchor the base held for it;
+ *   see scripts/exercise_meaning.mjs)
  * - removes tests, migrations, or progress fields from the progress sanitizer contract
  *
  * Baseline: --base, else PRESERVATION_BASE / GITHUB_BASE_SHA, else the merge-base with
@@ -26,6 +29,8 @@ import {
   classifyMissingSectionIds,
   parseSectionIdRenames,
 } from './section_id_renames.mjs'
+import { ROADMAP_PATH, roadmapSectionCount } from './preservation/roadmap_section_count.mjs'
+import { ANCHORS_PATH, ledgerFindings, ledgeredRemovals, readAnchorState, readOwnerDecisions } from './exercise_meaning.mjs'
 
 const ROOT = process.cwd()
 const ALLOWLIST_PATH = join(ROOT, 'audit/safe-agent/deletion-allowlist.json')
@@ -136,9 +141,54 @@ function readSectionIdRenames(treeish) {
   }
 }
 
+/**
+ * The section count the roadmap at `treeish` declares, or null after recording why it could not be
+ * read. A count the sentinel cannot read is a failure, never a guess at 52 or at the tree's own count.
+ */
+function roadmapCountAt(treeish, failures) {
+  const source = tryGit(`git show ${treeish}:${ROADMAP_PATH}`)
+  if (source === null) {
+    failures.push({
+      code: 'ROADMAP_UNREADABLE',
+      path: ROADMAP_PATH,
+      message: `Cannot read ${ROADMAP_PATH}, so the section count cannot be checked`,
+    })
+    return null
+  }
+  try {
+    return roadmapSectionCount(source)
+  } catch (e) {
+    failures.push({ code: 'ROADMAP_MALFORMED', path: ROADMAP_PATH, message: e.message })
+    return null
+  }
+}
+
+/**
+ * The exercise ids an appended `removed` ledger row lets leave the course (an owner decision that
+ * OWNER_DECISIONS.md records at the base, see scripts/exercise_meaning.mjs). A ledger or a decision record
+ * that cannot be read excuses nothing: the removal stays a failure, and compareExerciseMeaning says why.
+ */
+function ledgeredRemovalIds(base, head) {
+  try {
+    const was = readAnchorState(ROOT, base)
+    const now = readAnchorState(ROOT, head)
+    return ledgeredRemovals({ baseAnchors: was.anchors, baseRows: was.rows, headRows: now.rows, ownerDecisions: readOwnerDecisions(ROOT, base) })
+  } catch {
+    return new Set()
+  }
+}
+
+/** The exercise ids that left the course source, split into those the ledger lets leave and those nothing excuses. */
+function splitRemovedExerciseIds(base, head, before, after) {
+  const gone = [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id))
+  const excused = gone.length > 0 ? ledgeredRemovalIds(base, head) : new Set()
+  return { removed: gone.filter((id) => !excused.has(id)), ledgered: gone.filter((id) => excused.has(id)) }
+}
+
 function compareCurriculum(base, head, failures) {
   const before = extractActiveCurriculum(base)
   const after = extractActiveCurriculum(head)
+  const exercises = splitRemovedExerciseIds(base, head, before, after)
   const { renames, error } = readSectionIdRenames(head)
   if (error) {
     failures.push({
@@ -148,12 +198,15 @@ function compareCurriculum(base, head, failures) {
     })
   }
   const sectionIds = classifyMissingSectionIds(before.sections, after.sections, renames)
+  const expectedCount = roadmapCountAt(head, failures)
   const curriculum = {
     before_count: before.activeCount,
     after_count: after.activeCount,
+    expected_count: expectedCount,
     removed_section_ids: sectionIds.removed.map(({ id }) => id),
     renamed_section_ids: sectionIds.renamed,
-    removed_exercise_ids: [...before.exerciseIds].filter((id) => !after.exerciseIds.has(id)),
+    removed_exercise_ids: exercises.removed,
+    ledgered_removed_exercise_ids: exercises.ledgered,
   }
   if (after.activeCount < before.activeCount) {
     failures.push({
@@ -161,10 +214,12 @@ function compareCurriculum(base, head, failures) {
       message: `Active sections decreased ${before.activeCount} → ${after.activeCount}`,
     })
   }
-  if (after.activeCount !== 52) {
+  if (expectedCount !== null && after.activeCount !== expectedCount) {
     failures.push({
-      code: 'ACTIVE_SECTION_COUNT_NOT_52',
-      message: `Active imported sections must be 52, found ${after.activeCount}`,
+      code: 'ACTIVE_SECTION_COUNT_NOT_ROADMAP',
+      expected: expectedCount,
+      found: after.activeCount,
+      message: `Active imported sections must match the ${expectedCount} headings in ${ROADMAP_PATH}, found ${after.activeCount}`,
     })
   }
   for (const { id, reason } of sectionIds.removed) {
@@ -256,6 +311,34 @@ function testsAndMigrations(treeish) {
   }
 }
 
+/**
+ * B11: every exercise anchor that changes between base and head needs a ledger row added after the
+ * base's rows, and an old row is never edited (scripts/exercise_meaning.mjs). A base without anchors
+ * is the commit that introduces them, which has nothing to compare with. Before the anchors exist
+ * the check is dormant, like the renumber guards; once the base had them, their absence at HEAD is a
+ * deletion, which fails.
+ */
+function compareExerciseMeaning(base, head, failures) {
+  const before = readAnchorState(ROOT, base)
+  const after = readAnchorState(ROOT, head)
+  if (after.anchors === null) {
+    if (before.anchors !== null) {
+      failures.push({ code: 'EXERCISE_ANCHORS_REMOVED', path: ANCHORS_PATH, message: `${ANCHORS_PATH} existed at the base and is gone at HEAD` })
+    }
+    return
+  }
+  const findings = ledgerFindings({
+    baseAnchors: before.anchors,
+    headAnchors: after.anchors,
+    baseRows: before.rows,
+    headRows: after.rows,
+    ownerDecisions: readOwnerDecisions(ROOT, base),
+  })
+  for (const finding of findings) {
+    failures.push({ ...finding, code: 'EXERCISE_MEANING_LEDGER', rule: finding.code })
+  }
+}
+
 function main() {
   const args = process.argv.slice(2)
   const baseIdx = args.indexOf('--base')
@@ -307,6 +390,7 @@ function main() {
     attempt('TESTS_MIGRATIONS_UNCOMPARABLE', failures,
       () => compareTestsAndMigrations(base, head, allowlist, failures))
     attempt('PROGRESS_FIELDS_UNCOMPARABLE', failures, () => checkProgressFields(head, failures))
+    attempt('EXERCISE_MEANING_UNCOMPARABLE', failures, () => compareExerciseMeaning(base, head, failures))
   }
 
   const result = {

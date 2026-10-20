@@ -2,7 +2,9 @@
 
 Decisions the owner took on questions only they could answer. Each one binds the rounds named in
 its **Scope** until its **Retire when** condition is met; then it moves to the archive at the
-bottom, with the date and what replaced it.
+bottom, with the date and what replaced it. A retired decision keeps its `### O<n>` heading when it
+moves there. The exercise-meaning guard finds the decision a removed row cites by that heading, so a
+retirement that dropped the heading would make every new row citing it fail. The heading stays (O27 101-Q4).
 
 This file is read at the start of every round (`LESSON_READINESS.md` step 2) and injected whole
 into every codex brief, beside `decisions.md`. `decisions.md` holds the standing rules of the
@@ -565,6 +567,11 @@ Three answers wait on the owner: 105-Q2 (the owner states the rule on AI-tool us
 - **106-S2** The CPython demo audit's main() tests use stand-ins for the demo list, the owed list and the interpreter check. — **Decision:** Accept the stand-ins, and point the test file's docstring at your decision.
 - **106-S3** The Pyodide gate runs Pyodide inside Node, not in the learner's browser page. — **Decision:** Keep the Node gate, and add a small Playwright check that runs a few demos on the real page.
 - **106-S4** The prelude tests use a copied pandas warning, not the warning real pandas prints in Pyodide. — **Decision:** Make the Pyodide test import the real pandas, and keep the copied text in the CPython test.
+
+**Addendum, 2026-10-19: Codex's two P1 findings on #101 (review of 1133c7a7).** Codex reviewed #101 at 1133c7a7 and left two P1 findings. The owner decided both on 2026-10-19; each answer is recorded as chosen, under its own id, so a later round can cite it.
+
+- **101-C1** (2026-10-19) Codex P1 on `scripts/exercise_meaning.mjs:97`: `tokensOf()` drops every operator, so a solution whose `>` becomes `<` (or `+` becomes `-`, or `==` becomes `!=`) keeps its sha256, and the guard accepts a changed answer unseen. — **Decision:** Keep the operators in the hash. The hashed sequence keeps the semantics-bearing operators (comparison, arithmetic, assignment, augmented assignment, `**`, `//`, `->`, bitwise). The token set used for Jaccard stays word-based, so the MEANING_CHANGED and CONTENT_MOVED thresholds keep their calibration. Test: flipping one operator in a real solution changes its anchor; under the old tokenizer that test is red.
+- **101-C2** (2026-10-19) Codex P1 on `scripts/exercise_fingerprints.mts:55`: the collector fingerprints only the title, tests, solution code and output, so a change to the starter code, the kind or the edge cases leaves the anchor where it was. — **Decision:** Add the code-like task fields to the fingerprint: the starter code, the exercise kind and the edge cases. Keep the prose fields (instruction, preamble, hints, feedback) out, because redaction rounds rewrite prose on purpose and the approved B11 design excludes it. Tests: a starter-code-only change and a kind-only change each change the anchor (under the old field set, red); an instruction-only change does not (with instruction added to the fields, red).
 
 **Retire when:** every item above is done or superseded by a later decision; each follow-up PR names the ids it closes.
 

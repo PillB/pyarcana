@@ -10,6 +10,8 @@
 /scripts/preservation/ @PillB
 /scripts/exercise_meaning.mjs @PillB
 /scripts/exercise_fingerprints.mts @PillB
+# The owner's decision record (O27 101-Q2): the exercise-meaning guard reads it at the base, so a change to it asks for review.
+/audit/fixer/OWNER_DECISIONS.md @PillB
 
 # CI and deployment
 /.github/workflows/ @PillB

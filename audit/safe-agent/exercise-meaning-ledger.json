@@ -1,0 +1,345 @@
+{
+  "schema": "exercise_meaning_ledger/1",
+  "rows": [
+    {
+      "row": 1,
+      "id": "S01-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "688463d3b7fc71b834f816e9fa57ce6a9e5a654fbdda748c8a70b30e1eefba67",
+      "to_fp": "5303ca6f7e92325631e48371dc715d876b1e9dad3e85c4668a4b9cd38604b0e4",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.205, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 2,
+      "id": "S02-T1-A-E3",
+      "kind": "historical",
+      "from_fp": "1b72d56ada0ea03c15119afc644ab503a007164daf6b1db14e16cb33512aea56",
+      "to_fp": "6107ba512d76a42820cc25c151867ecb4bd2f38461560f74b58ed2cf473796e9",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.449, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 3,
+      "id": "S02-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "bbc7c1f88ed950bbfd17516ff1244778f3f856cf5486cfc26608aaf6a7d55a8d",
+      "to_fp": "628c5a7a1aaddc6f6678ed8c090766255dbd550d5bef092b5f008cb2a85ade8b",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.13, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 4,
+      "id": "S02-T1-B-E3",
+      "kind": "historical",
+      "from_fp": "12ea51e9d41ac1f5290940d9ae34c6c7b576eeccace98f94eafeed7119447daf",
+      "to_fp": "bffb6a0d953bbce60b18050a5ae0baf20dcb47013c81dc4f21a65fc5820d2078",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.125, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 5,
+      "id": "S02-T2-A-E2",
+      "kind": "historical",
+      "from_fp": "b2e9688733586ebc98cd89001e3846707ba1f73484491726eed2c854335b6deb",
+      "to_fp": "cb81688f3d8449d062b7460e8bdc630a982990fc28ff5279c9a98f5d98afdbdd",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.393, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 6,
+      "id": "S02-T2-A-E3",
+      "kind": "historical",
+      "from_fp": "06e9873f1d53d8be1babd07caa17d16a104f6ad81995d1f4f77848ebf1816abd",
+      "to_fp": "fa3f0705b26a722b79439bc381c33fa5d111651fa21828755eeb845099992b9f",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.18, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 7,
+      "id": "S02-T2-B-E3",
+      "kind": "historical",
+      "from_fp": "e87d0354dcbfd8cf3fdf501a110524be9bc1f2f66d41c08f4391fd32ef5b203c",
+      "to_fp": "fa6a7ac8022ecb603498af91f837e53734a35f42653b82833e911708b6790149",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.1, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 8,
+      "id": "S02-T3-B-E3",
+      "kind": "historical",
+      "from_fp": "cfca6fedf2befc4c91494aeeb3b3b858c98284ff757f4d68cdac6a1cc5cc0ccb",
+      "to_fp": "72c15394eec69a75864237c27e5b6eeb20d2ed31ba63f2340f6eb7ed0299109c",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.261, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 9,
+      "id": "S02-T4-A-E3",
+      "kind": "historical",
+      "from_fp": "9a381cc237fcb0966b2fc5506a15248eb9af43b2235be34b952752a5544ae51f",
+      "to_fp": "87d877da69ae6351063b4f779a399c0f2238ff1f909c4b0df9ba6958de21aa7a",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.426, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 10,
+      "id": "S02-T4-B-E1",
+      "kind": "historical",
+      "from_fp": "cba19d247612e8a85a4a1ff58b9d70c5ed8c2eff89c8dc49c7e645cdea2a13f9",
+      "to_fp": "da13899891b0fe614459de60f2969267a7650c0af1ff6d777d99d576cf54a990",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.15, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 11,
+      "id": "S02-T4-B-E3",
+      "kind": "historical",
+      "from_fp": "06c92792b470748f77b0297375b7509e05be97a2148119447dc7888d7a10a054",
+      "to_fp": "a01d847306753601198440fbb99b7e246f9ce396189782d6304a41bcf1c38385",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.163, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 12,
+      "id": "S03-T1-A-E2",
+      "kind": "historical",
+      "from_fp": "5c8f2d6f69c4b5cbd4c46d857eab00c511438590ddbe07233902036a3d7324aa",
+      "to_fp": "cb472ccdd77f833869f7a76628ff3e22e42b4db5e1b06552e0018e7373c27e7e",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.242, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 13,
+      "id": "S03-T1-A-E3",
+      "kind": "historical",
+      "from_fp": "9eaa1dbd8f19947fec57cbe473dcc50b6ec34b3ddc4f6c3dedfa0d0060a766d1",
+      "to_fp": "d0b55729883403f5277bd243fdffe94b964d41d9887d3a43772473e227e07b36",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.1, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 14,
+      "id": "S03-T1-B-E1",
+      "kind": "historical",
+      "from_fp": "b191ca5b5aa661a00e90a202d789d1af37e5b1798755402aadb91de4760f2cf1",
+      "to_fp": "4e6acae2f9d89d7ec66b45e2fbb82ed9fba297fa0238b553afb6e57a0883656b",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.095, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 15,
+      "id": "S03-T1-B-E2",
+      "kind": "historical",
+      "from_fp": "87b25bd44558822ee057b741d4e24b35079b6f80ba319586647add8d56639768",
+      "to_fp": "4d4a39a5a24a1ccd3688b3c93981ef98804bedeab4fc540547277c8b3dad39cc",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.083, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 16,
+      "id": "S03-T1-B-E3",
+      "kind": "historical",
+      "from_fp": "95adbb7a4bce4f841b88e3d47f083f2d8cf3dd5cc15e3d602006991aba29b251",
+      "to_fp": "64120394edc7acf98501b7533583e180a1f16aee79925def0bad45a84eadc0f7",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.344, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 17,
+      "id": "S03-T2-A-E1",
+      "kind": "historical",
+      "from_fp": "1032cf0b0556b334cf0821501fd808017bd71c421eac16806a1334270db313cb",
+      "to_fp": "714206805c62a632ed492db2255a5822f8aa47d748f55848f05e21d0d25cef59",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.438, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 18,
+      "id": "S03-T2-A-E2",
+      "kind": "historical",
+      "from_fp": "671ad554f48f90dd7f02d7146bc845a280d84c8788327312aced5991dc4aa0ce",
+      "to_fp": "d942882eaaeb40d91df1797c8bba83c4bb4e4dbb57b92a3470400383f6a762bb",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.304, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 19,
+      "id": "S03-T2-A-E3",
+      "kind": "historical",
+      "from_fp": "2610dcb22f71393cdd2767d0f2475aa454ec94acb650a481fe484f5abf850a28",
+      "to_fp": "018d27c04f43aba4c907571aa4676cd712c4de36a0a51b07b0025bc558e77a7a",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.368, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 20,
+      "id": "S03-T2-B-E1",
+      "kind": "historical",
+      "from_fp": "2b29b5249fddd015cedfa715a7d12e25a80ce7f21c24edb27628a1679379c517",
+      "to_fp": "e52e848604aabee633f490ef2623531a2570b1f3a7ed7378776667dcee527607",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.396, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 21,
+      "id": "S03-T2-B-E2",
+      "kind": "historical",
+      "from_fp": "0549e831bab08c6169fdccda18d3b197fe23fe01dc1b5a3f01dcf7ff9974eca7",
+      "to_fp": "7fe79fdf1679587739438f91320df8c659a0c37f94e9c76777d53016ee7c8e0f",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.211, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 22,
+      "id": "S03-T2-B-E3",
+      "kind": "historical",
+      "from_fp": "216f6c9d4a9deb8c6891ab835faf627cc9632cb03b02a445ff2384f67ffb000f",
+      "to_fp": "efc3d0d7ee7ea553a72419082ff1e1108f6b3899b2a6b6e6d49eeadf56d726bc",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.345, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 23,
+      "id": "S03-T3-A-E1",
+      "kind": "historical",
+      "from_fp": "a233c5d12ee6a3dc57f4e765eeef8a217e485257bda320300cb0329a01d5a8b1",
+      "to_fp": "bae9f6f9c871631bd6b3cd57afc7e48098f530d92648dd10287ec29eebae500c",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.163, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 24,
+      "id": "S03-T3-A-E2",
+      "kind": "historical",
+      "from_fp": "fe25603702014ff5db57751db573548d978af9d5f9482b12db2944418226fa08",
+      "to_fp": "8e3aa134c554f3f8ee1350d435c253a5f72a85b62ff1c4e254d406ec8a613dec",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.208, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 25,
+      "id": "S03-T3-A-E3",
+      "kind": "historical",
+      "from_fp": "da7501fc066e4901ce9dcc70715200dd883a7636b8f9a4a48ed9f051f02ed62d",
+      "to_fp": "f241a9dd201052041e3828c9945ac3f3f9dac06ba03db5c4f1de1be8f09522fc",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.121, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 26,
+      "id": "S03-T3-B-E1",
+      "kind": "historical",
+      "from_fp": "8b7a19d9f2ca98bc272468f6c7921ed54aa963cb6cb7a4ac903be366f341eca5",
+      "to_fp": "e883877cbb9459fc16c9cc755032c4a3cadac17421dc5968bf2af58da27bc1ee",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.229, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 27,
+      "id": "S03-T3-B-E2",
+      "kind": "historical",
+      "from_fp": "f13a7cf29dfb78ff143d4015ef64b5aeddbfc567b083cc2711b3ed134a69c5bd",
+      "to_fp": "215c6bf75597fde4d13d70d00c863c51244e1e3f8c6c890f3fd5a171ebf4a2d7",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.32, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 28,
+      "id": "S03-T3-B-E3",
+      "kind": "historical",
+      "from_fp": "b0ffe3752b8065d5acbbcbe8f04dbf5a2e9f46bbcb81d0da019361771182b3ca",
+      "to_fp": "43958f69cb64136ac4b19d0f3e868b8cb8414351f603b67857573974738257cc",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.209, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 29,
+      "id": "S03-T4-A-E1",
+      "kind": "historical",
+      "from_fp": "4096813f419cd85cd4846f03de82bfea3d92a16b232ec360e411f3bb2d0d6023",
+      "to_fp": "76586d64f9592fe28917bb9fb32be1bbbbedacd9e88a05ebabb98c4a81634767",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.236, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 30,
+      "id": "S03-T4-A-E2",
+      "kind": "historical",
+      "from_fp": "0e16b51eb01a8b6d8a96be3c187c00479c7d5b3e240c251ea7b3471dc4b8a435",
+      "to_fp": "744ddf19ee42d4764fb29191c6ee8d55dbcdda436627a0a6ed27e3d6cfc32109",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.167, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 31,
+      "id": "S03-T4-A-E3",
+      "kind": "historical",
+      "from_fp": "45c1927eb0619e7353117fa7650bb4f5dad5cd93cbfb4a52985a8214716148a5",
+      "to_fp": "d17f46e11da631c49637468193808b50edcc1fe6ae708a854a935030f405cd16",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.299, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 32,
+      "id": "S03-T4-B-E1",
+      "kind": "historical",
+      "from_fp": "2ae5c785d54f462c2e22bd05cfcee98c9fc7cc0d0128c283c335b9303b6b1000",
+      "to_fp": "fd99354440ad60899e8835f19f36d819e05aa23fa8ab4345fdecf701a93e742b",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.211, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 33,
+      "id": "S03-T4-B-E2",
+      "kind": "historical",
+      "from_fp": "7953b7b098e1a8054802fbdd09d8153779e810dc15bb34315ec1d7181de07915",
+      "to_fp": "b404ba9a41a0eead5c0797e688120354e095a7ee8f3eca6b6af52633f96c7f50",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.161, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    },
+    {
+      "row": 34,
+      "id": "S03-T4-B-E3",
+      "kind": "historical",
+      "from_fp": "bceb95b6cc2c61eb04a7218405d9f56237401a81bfb7ba3d92050eda75e4cbf7",
+      "to_fp": "8c43138baf62b2e58f54b3c063530416c14801f52d277d323f4d383c5d27161a",
+      "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.105, below 0.5). Accepted as history by owner decision O25.",
+      "decided_by": "owner: O25 (2026-10-13)",
+      "date": "2026-10-13"
+    }
+  ]
+}

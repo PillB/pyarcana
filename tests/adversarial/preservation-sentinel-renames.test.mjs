@@ -22,6 +22,7 @@ import {
   classifyMissingSectionIds,
   parseSectionIdRenames,
 } from '../../scripts/section_id_renames.mjs'
+import { ROADMAP_PATH } from '../../scripts/preservation/roadmap_section_count.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..')
 const SENTINEL = join(ROOT, 'scripts/preservation_sentinel.mjs')
@@ -156,6 +157,9 @@ describe('preservation sentinel CLI: section id renames', () => {
     const fields = `export const PROGRESS_FIELDS = ${JSON.stringify(PROGRESS_FIELDS)}\n`
     writeFileSync(join(dir, 'src/lib/progress-sanitize.ts'), fields)
     writeFileSync(join(dir, SECTION_ID_RENAMES_PATH), mapSource)
+    // The sentinel takes the expected count from the roadmap's headings, so each fixture declares one.
+    const roadmap = ids.map((_, i) => `### S${i + 1} — Sección ${i + 1}\n`).join('\n')
+    writeFileSync(join(dir, ROADMAP_PATH), roadmap)
     git(dir, 'add', '-A')
     git(dir, 'commit', '-q', '-m', `curriculum ${ids.length}`)
     return git(dir, 'rev-parse', 'HEAD')
@@ -274,6 +278,7 @@ describe('preservation sentinel CLI: a comparison that cannot run fails', () => 
     writeFileSync(join(dir, 'src/lib/progress-sanitize.ts'),
       `export const PROGRESS_FIELDS = ${JSON.stringify(PROGRESS_FIELDS)}\n`)
     writeFileSync(join(dir, 'NOTES.md'), 'a tracked file a later commit may delete\n')
+    writeFileSync(join(dir, ROADMAP_PATH), numbers.map((n) => `### S${Number(n)} — Sección ${Number(n)}\n`).join('\n'))
     const commit = (message) => {
       git('add', '-A')
       git('commit', '-q', '-m', message)
