@@ -12,11 +12,14 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
 from false_claims import brief_block as false_claims_block  # noqa: E402
-REGISTRY = ROOT / "audit/consolidated/registry.json"
 EVENTS = ROOT / ".fixer/events.json"
 FIRST_USE = ROOT / "course-state/first_use_all_report.json"
 CONTRACTS = [
@@ -38,40 +41,54 @@ def section_file(slug: str) -> Path:
     raise SystemExit(f"no section file for slug {slug!r}")
 
 
+def vocabulary_before(payload: dict, epoch: numbering.Epoch, num: int) -> list[str]:
+    """Vocabulary the learner has actually met before section `num`."""
+    return sorted({
+        t for e in payload["events"]
+        if e["learner_visible"] and numbering.number_of_slug(e["section_id"], epoch) < num
+        for t in e["defines"]
+    })
+
+
+def vocabulary_gaps(slug: str) -> list[dict]:
+    """The first-use gate's findings for this section."""
+    return [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
+            if (i.get("location") or "").split(".", 1)[0] == slug]
+
+
+def identifier_findings(path: Path) -> list[dict]:
+    """D2 violations in this section's file, as concrete work items rather than a policy line."""
+    report = ROOT / "course-state/synthetic_identifier_report.json"
+    if not report.exists():
+        return []
+    rel = str(path.relative_to(ROOT))
+    return [f for f in json.loads(report.read_text(encoding="utf-8"))["findings"] if f["file"] == rel]
+
+
 def main() -> None:
     tag = sys.argv[1]                      # e.g. S01
-    num = int(tag.lstrip("Ss"))
+    epoch = numbering.load_epoch(ROOT)
+    num = numbering.number_of_tag(tag)
+    slug = numbering.slug_for_tag(tag, epoch)
     payload = json.loads(EVENTS.read_text(encoding="utf-8"))
-    slug = payload["active_section_ids"][num - 1]
     path = section_file(slug)
 
-    findings = [f for f in json.loads(REGISTRY.read_text(encoding="utf-8"))["findings"]
-                if f["section"] == tag]
+    # By slug, through the registry's epoch stamp: a finding filed under "S20" is this section's only
+    # while the registry and the epoch agree on what S20 is.
+    findings = list(numbering.registry_findings(ROOT, epoch)[slug])
+    note = numbering.text_epoch_note(ROOT, epoch)    # empty until a renumber leaves the findings' text behind
     order = {"P0": 0, "P1": 1, "P2": 2, "UNSPEC": 3}
     findings.sort(key=lambda f: order.get(f["severity"], 9))
 
-    # Vocabulary the learner has actually met before this section, and the gaps here.
-    seen_before = sorted({
-        t for e in payload["events"]
-        if e["learner_visible"] and payload["active_section_ids"].index(e["section_id"]) < num - 1
-        for t in e["defines"]
-    })
-    gaps = [i for i in json.loads(FIRST_USE.read_text(encoding="utf-8"))["issues"]
-            if (i.get("location") or "").split(".", 1)[0] == slug]
-
-    # D2 violations in this section, as concrete work items rather than a policy line
-    d2_path = ROOT / "course-state/synthetic_identifier_report.json"
-    d2 = []
-    if d2_path.exists():
-        rel = str(path.relative_to(ROOT))
-        d2 = [f for f in json.loads(d2_path.read_text(encoding="utf-8"))["findings"]
-              if f["file"] == rel]
+    seen_before = vocabulary_before(payload, epoch, num)
+    gaps = vocabulary_gaps(slug)
+    d2 = identifier_findings(path)
 
     def block(title: str, body: str) -> str:
         return f"\n\n===== {title} =====\n{body}"
 
     prompt = [
-        f"""You are writing course content for PyArcana, a 52-section Python curriculum in
+        f"""You are writing course content for PyArcana, a {epoch.count}-section Python curriculum in
 Peruvian Spanish. You are fixing section {tag} ("{slug}").
 
 Read this file for the exact current text: {path.relative_to(ROOT)}
@@ -114,6 +131,8 @@ text. Only after revising, fill `self_critique`:
 
 A patch whose critique says "nothing could confuse anyone" for a paragraph you
 substantially rewrote will be read as a skipped step, not as a clean result.""",
+
+        block("HOW TO READ SECTION NUMBERS INSIDE THE FINDINGS", note) if note else "",
 
         block(f"FINDINGS TO FIX ({len(findings)})", json.dumps([
             {k: f.get(k) for k in

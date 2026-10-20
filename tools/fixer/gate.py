@@ -24,8 +24,20 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import report_lock  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
+#: Where the numbering epoch and the course live. The reports and the round's files are under ROOT; a test
+#: that points ROOT at a scratch directory to keep them out of the tree keeps reading the real course.
+COURSE_ROOT = ROOT
 CONTENT_PY = ROOT / ".venv-content/bin/python"
+
+
+def section_stem(tag: str) -> str:
+    """The file stem of a tag's section (for example "s01-setup"), read from the committed epoch and course."""
+    epoch = numbering.load_epoch(COURSE_ROOT)
+    return Path(numbering.section_rel(numbering.slug_for_tag(tag, epoch), COURSE_ROOT)).stem
 
 
 def sh(cmd: list[str], timeout: int = 1800) -> subprocess.CompletedProcess:
@@ -75,7 +87,7 @@ def strict_mismatches(tag: str) -> int | None:
     # A report left by a previous round would otherwise satisfy `out.exists()` below.
     out.unlink(missing_ok=True)
     r = sh([str(CONTENT_PY), "scripts/python_content_strict_output_audit.py",
-            "--only", f"s{int(tag[1:]):02d}-", "--json", str(out)], 1200)
+            "--only", section_stem(tag), "--json", str(out)], 1200)
     if r.returncode != 0 or not out.exists():
         return None
     return json.loads(out.read_text(encoding="utf-8"))["counts"].get("mismatch", 0)
@@ -184,8 +196,10 @@ def assemble_measures(tag: str, cmap: dict, prose: dict, cs: dict, fu: dict, ids
     # and it still may not rise. 420 -> 406 on the round described above.
     surprising_total = sum(len(c["surprising_uses"]) for c in cmap.values())
     here = sum(1 for c in cmap.values() for u in c["surprising_uses"] if u["section"] == tag)
-    num = int(tag[1:])
-    ids_here = sum(1 for f in ids.get("findings", []) if f"/s{num:02d}-" in f["file"])
+    # By the section's own file, not its number prefix: "s07-" also prefixes the inactive s07-pandas.ts.
+    epoch = numbering.load_epoch(COURSE_ROOT)
+    section_path = numbering.section_rel(numbering.slug_for_tag(tag, epoch), COURSE_ROOT)
+    ids_here = sum(1 for f in ids.get("findings", []) if f.get("file") == section_path)
 
     return {
         "identifier_values_in_section": ids_here,
@@ -367,7 +381,7 @@ def check(tag: str) -> int:
     before = json.loads(before_path.read_text(encoding="utf-8"))
     failed: list[str] = []
     # AGENTS.md lists `npx tsc --noEmit` in the block a round must pass, and the gate never ran
-    # it. apply_patches.py's own check is a tsx probe that imports COURSE_SECTIONS and counts 52
+    # it. apply_patches.py's own check is a tsx probe that imports COURSE_SECTIONS and counts the epoch's sections
     # - tsx TRANSPILES, it does not typecheck - so a patch whose anchor was one `heading:` line
     # and whose replacement was a whole block left three duplicate keys in one object literal,
     # passed every measure, and was pushed. TS1117 is exactly the class a transpiler cannot see:
