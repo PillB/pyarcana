@@ -708,6 +708,8 @@ decision.
 
 ## D24 — Fixer state is keyed by slug; a section number is read from the numbering epoch, and a renumber carries the state with one command (2026-10-13)
 
+Recorded as D23 on its branch; renumbered when it merged, because main's D23 is the section-screenshots decision.
+
 A section's number belongs to a numbering epoch, not to the section. The fixer kept its state
 under numbers: cycle records as `SXX.json`, the redaction list as tags, and the 2,124 findings
 in `audit/consolidated/registry.json` as `section: "S20"`. Its number-to-slug map was a
