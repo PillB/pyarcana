@@ -19,6 +19,9 @@
  *   - below 0.5: its content now sits at a sibling anchor (same section) with a Jaccard of at least
  *     max(J + 0.10, 0.5): EXERCISE_CONTENT_MOVED, naming that sibling; otherwise EXERCISE_MEANING_CHANGED.
  * A finding is resolved by a non-historical ledger row for the id whose to_fp is the current sha256.
+ * `--check` also reports ANCHOR_STALE (staleAnchorFindings, O27 101-C3): every exercise whose current sha256
+ * differs from its committed anchor, unless such a row ends at that sha256. A wording edit is no classify
+ * finding, so this exact-hash check is what catches an edit whose anchor was not regenerated.
  *
  * The ledger (audit/safe-agent/exercise-meaning-ledger.json) is append-only. Every anchor change needs a
  * new row (ledgerFindings). The sentinel runs that check against the base commit. The newest row of each
@@ -216,6 +219,21 @@ export function classify(anchors, current, rows = []) {
     if (!(id in current) && !retiredBy(rows, current, id, anchors[id].sha256)) findings.push({ code: 'EXERCISE_REMOVED', id })
   }
   return findings
+}
+
+/**
+ * ANCHOR_STALE (O27 101-C3): an exercise whose current sha256 differs from the anchor committed for it, and no
+ * non-historical row for the id ends at the current sha256. classify does not report a wording edit (Jaccard of
+ * at least 0.5), so the exact hash is the only check that sees an edit whose anchor was not regenerated. An id
+ * with no committed anchor is classify's EXERCISE_UNANCHORED, not this finding.
+ */
+export function staleAnchorFindings(anchors, current, rows = []) {
+  return Object.keys(current).sort().flatMap((id) => {
+    const committed = anchors[id]
+    const sha = current[id].sha256
+    if (!committed || committed.sha256 === sha || resolvedBy(rows, anchors, id, sha)) return []
+    return [{ code: 'ANCHOR_STALE', id, committed_sha256: committed.sha256, current_sha256: sha }]
+  })
 }
 
 const isSha256 = (value) => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value)
@@ -660,6 +678,7 @@ function runCheck(root) {
   const current = currentFromCourse(root)
   return [
     ...classify(anchors.anchors ?? {}, current, anchors.rows),
+    ...staleAnchorFindings(anchors.anchors ?? {}, current, anchors.rows),
     ...ledgerAnchorFindings(anchors.anchors ?? {}, anchors.rows),
   ]
 }

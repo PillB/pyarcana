@@ -9,7 +9,7 @@ import { after, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,6 +24,7 @@ import {
   ledgerAnchorFindings,
   ledgerFindings,
   recordedOwnerDecisions,
+  staleAnchorFindings,
   tokensOf,
 } from '../../scripts/exercise_meaning.mjs'
 import { currentAnchors } from '../../scripts/exercise_fingerprints.mts'
@@ -1312,5 +1313,91 @@ describe('CLI and sentinel: an anchor change needs a row, and an old row is neve
     git(dir, 'commit', '-q', '-m', 'unrelated')
     runSentinel(dir, base)
     assert.deepEqual(sentinelResult(dir).failures.filter((f) => f.code.startsWith('EXERCISE_')), [])
+  })
+})
+
+describe('staleAnchorFindings: an exercise whose hash moved needs a row that ends at the new hash (O27 101-C3)', () => {
+  const anchorOf = (sha) => ({ section: 'S05', sha256: sha, tokens: ['x'] })
+  const changed = (over = {}) => ({ row: 1, id: 'S05-T1-A-E1', kind: 'changed', from_fp: SHA_A, to_fp: SHA_B, reason: 'reescrito', decided_by: 'owner', date: '2026-10-20', ...over })
+
+  it('reports the id with both hashes when no row ends at the current hash', () => {
+    assert.deepEqual(staleAnchorFindings({ 'S05-T1-A-E1': anchorOf(SHA_A) }, { 'S05-T1-A-E1': anchorOf(SHA_B) }, []), [
+      { code: 'ANCHOR_STALE', id: 'S05-T1-A-E1', committed_sha256: SHA_A, current_sha256: SHA_B },
+    ])
+  })
+
+  it('does not report the change once a non-historical row for the id ends at the current hash', () => {
+    assert.deepEqual(staleAnchorFindings({ 'S05-T1-A-E1': anchorOf(SHA_A) }, { 'S05-T1-A-E1': anchorOf(SHA_B) }, [changed()]), [])
+  })
+
+  it('does not let a historical row cover the change: it records a change made before the anchors', () => {
+    const historical = changed({ kind: 'historical', decided_by: 'owner: O25 (2026-10-13)', date: '2026-10-13' })
+    const findings = staleAnchorFindings({ 'S05-T1-A-E1': anchorOf(SHA_A) }, { 'S05-T1-A-E1': anchorOf(SHA_B) }, [historical])
+    assert.equal(findings.length, 1, JSON.stringify(findings))
+    assert.equal(findings[0].code, 'ANCHOR_STALE')
+  })
+})
+
+describe('--check: an edited solution needs its anchor regenerated and a ledger row (O27 101-C3)', () => {
+  const committed = JSON.parse(readFileSync(join(ROOT, ANCHORS_PATH), 'utf8')).exercises
+  const SECTIONS = 'src/lib/course/sections'
+
+  /** A throwaway copy of the course source and the B11 files, so --check reads the copy's course and not this tree's. */
+  function courseCopy() {
+    const dir = mkdtempSync(join(tmpdir(), 'exercise-check-'))
+    tempDirs.push(dir)
+    for (const path of ['src', 'tsconfig.json', 'package.json', 'scripts/exercise_meaning.mjs', 'scripts/exercise_fingerprints.mts', ANCHORS_PATH, LEDGER_PATH, OWNER_DECISIONS_PATH]) {
+      mkdirSync(dirname(join(dir, path)), { recursive: true })
+      cpSync(join(ROOT, path), join(dir, path), { recursive: true })
+    }
+    symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'))
+    return dir
+  }
+
+  /**
+   * The --check CLI run in a copy: the script is the real file, the working directory is the copy, and the course
+   * it reads is the copy's. The script path must not be a symlink: the CLI runs only when argv[1] is its real path.
+   */
+  const checkIn = (dir) => spawnSync(process.execPath, [CLI], { cwd: dir, encoding: 'utf8' })
+
+  /**
+   * A line of a real solution that occurs once in the course sources, so an edit to it changes one exercise and no
+   * other. It has no quote, backtick, backslash or `$`, so the raw source holds the line as the solution has it.
+   */
+  function editableSolutionLine() {
+    const files = readdirSync(join(ROOT, SECTIONS)).filter((name) => name.endsWith('.ts')).sort()
+    const text = new Map(files.map((name) => [name, readFileSync(join(ROOT, SECTIONS, name), 'utf8')]))
+    const all = [...text.values()].join('\n')
+    const exercises = realExercisesById()
+    for (const id of Object.keys(committed).sort()) {
+      for (const line of exercises.get(id).solutionCode.code.split('\n')) {
+        if (line.length < 12 || /["'`\\$]/.test(line) || all.split(line).length !== 2) continue
+        return { id, line, file: files.find((name) => text.get(name).includes(line)) }
+      }
+    }
+    throw new Error('no real solution line occurs once in the course sources')
+  }
+
+  it('reports an edited solution whose anchor was not regenerated: ANCHOR_STALE, its id and both hashes, exit 1', () => {
+    const { id, line, file } = editableSolutionLine()
+    const dir = courseCopy()
+    const target = join(dir, SECTIONS, file)
+    writeFileSync(target, readFileSync(target, 'utf8').replace(line, `${line} # edited`))
+    const run = checkIn(dir)
+    assert.equal(run.status, 1, run.stderr)
+    const { findings } = JSON.parse(run.stderr.slice(run.stderr.indexOf('{')))
+    assert.deepEqual(findings.map((finding) => finding.code), ['ANCHOR_STALE'], run.stderr)
+    const [stale] = findings
+    assert.equal(stale.id, id)
+    assert.equal(stale.committed_sha256, committed[id].sha256)
+    assert.match(stale.current_sha256, /^[0-9a-f]{64}$/)
+    assert.notEqual(stale.current_sha256, committed[id].sha256)
+  })
+
+  it('passes on the course as committed: every exercise matches its anchor, so --check reports nothing', () => {
+    const dir = courseCopy()
+    const run = checkIn(dir)
+    assert.equal(run.status, 0, run.stderr)
+    assert.match(run.stdout, /EXERCISE MEANING OK/)
   })
 })
