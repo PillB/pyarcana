@@ -20,7 +20,8 @@ import exam_selfcheck_pedagogy_audit as audit  # noqa: E402
 
 #: The banks the detector flags on the tree, measured 2026-10-13. Both are to be rewritten
 #: (codex brief in the plan, A5); a bank leaves this set when its rewrite passes the detector.
-STAND_IN_BANKS_OWED = frozenset({"apis-sql-geo", "evidence-dashboard"})
+#: 2026-10-14: empty - plan PR 9 replaced both stand-in banks with real ones.
+STAND_IN_BANKS_OWED: frozenset[str] = frozenset()
 
 
 def template_bank(slug: str = "probe-template") -> dict:

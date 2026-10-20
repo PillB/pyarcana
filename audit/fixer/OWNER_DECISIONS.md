@@ -475,6 +475,99 @@ A third batch, the same day, all four answered as recommended:
 
 ---
 
+## 2026-10-16 — the merge decisions for PRs #100 to #106
+
+### O27 — Sixty-six merge decisions for PRs #100 to #106
+**Scope:** PRs #100 to #106 and the follow-up PRs they name. **Status:** live.
+
+Asked 2026-10-16 on a decision page that listed every stand-in and open question in the seven PRs, each with what it replaces, what it hides, the real alternative and a recommendation. The owner answered all 66 on 2026-10-16; 57 follow the recommendation and 9 do not, and each line below gives the decision as chosen, so that a later round can cite it by id. Three of those answers are not yet approvals, because each one waits on an input from the owner, and they are marked **Pending** below: until that input is recorded here, no round may treat them as decided. A stand-in that is kept here is kept by this decision, which is what AGENTS.md asks before a double may stay (and O26, that is the owner's case-by-case ruling on test doubles, is the precedent).
+
+Two answers needed reconciling. 105-Q3 took the recommendation to say that some projects ask for an oral defense, while the owner's note on 105-S6 says that no oral defense is required and none is in the plan; the course agrees with the note, because no section asks for an oral defense and S52's defense is the written `defense_notes` artifact. So #105 states that no project requires an oral defense. Whether the catalog's capstone `defense` component («oral or written») changes is a separate claim question, still open.
+
+Three answers wait on the owner: 105-Q2 (the owner states the rule on AI-tool use, then Codex writes it as one sentence), 104-S1 (the owner checks page 45 of the NIST PDF before the rebuilt case is accepted) and 106-Q7 (the owner reads the four replaced demos before approving). None of the three counts as approved until the owner's input is recorded in this entry.
+
+**#100, fixer state (0b-6)**
+- **100-Q1** Is a pass-through wrapper around the real Python a test double? It would prove which Python the gate test ran. — **Decision:** Allow the wrapper as a recorder around a real call, add it, and prove it red with the python3 mutation.
+- **100-S1** A preflight test switches off three of preflight's six checks, so those three never run in any test. — **Decision:** Run all six checks for real by pointing the two fixed paths into the temporary course.
+- **100-S2** A gate test swaps the gate's command runner for a fake, so the strict-output audit never runs in it. — **Decision:** Replace the fake with the real strict audit on a gate-ready temporary course.
+
+**#101, history guards (0b-1)**
+- **101-Q1** Should the owner-decision lookup read OWNER_DECISIONS.md at the PR's base commit (as now) or at its head? — **Decision:** Confirm base.
+- **101-Q2** Should OWNER_DECISIONS.md get a CODEOWNERS line and an AGENTS.md ask-first line now that a guard trusts it? — **Decision:** Add both lines, and let the ask-first line allow recording an answer you just gave.
+- **101-Q3** Should removed rows already on main be checked against the decision record again on every later PR? — **Decision:** Look up the decision only for appended rows.
+- **101-Q4** Confirm that a retired decision keeps its `### O<n>` heading when it moves to the Archive. — **Decision:** Confirm the heading stays, and add that sentence to the header of OWNER_DECISIONS.md.
+- **101-Q5** Accept that `--check` never checks a removed row's owner decision, and fix the text that says it does? — **Decision:** Accept the limit, and correct the header and the report.
+- **101-Q6** Accept that two anchors were re-baselined with no ledger row (S18-T2-B-E3, S10-T4-B-E3)? — **Decision:** Accept: the anchors become main's baseline when this PR merges.
+- **101-S1** Keep the tests' fixed set of recorded decisions {O25}, or load the real record in the rule tests? — **Decision:** Keep RECORDED as test input, and correct 'nine' to 'six' in the report.
+- **101-S2** Run the 816-row renumber test on the real anchors as well as on made-up ones, before the renumber tool exists? — **Decision:** Keep the made-up test, add the same case on the real anchors now, and switch to the tool's real rows in PR-1.
+- **101-S3** Accept the script's header as the renumbered-row format that PR-1's renumber tool must write? — **Decision:** Accept it as the format of record: PR-1's tool must write it, or change it here along with its tests.
+- **101-S4** Keep the small fixture course and throwaway git repositories in the CLI, sentinel and history-guard tests? — **Decision:** Keep them as unit fixtures.
+
+**#102, badge manifest (0b-4)**
+- **102-Q1** Tie the two other copies of the credential floors to the catalog, or leave them unchecked? — **Decision:** Add a test now that the types.ts copy and the Python reference copy equal the catalog floors.
+- **102-Q2** Approve the final skill-term lexicon, and decide whether to strike five weak terms Codex added. — **Decision:** Strike (b) and (c), keep (a), (d) and (e), and approve the rest.
+- **102-Q3** Confirm that the five catalog stamps and tallies stay out of the digest, generated_at included. — **Decision:** Confirm that all five stay out.
+- **102-Q4** Confirm DIGEST_SCHEMA 6, not the schema 5 your r4 answer named. — **Decision:** Confirm schema 6.
+- **102-Q5** Add learning outcomes for skills taught only in lesson bodies now, or wait for G-16? — **Decision:** Wait for G-16 and keep the limit documented as it is.
+- **102-S1** The guard that checks no app code reads a left-out field is a text pattern, not a TypeScript parser. — **Decision:** Use the TypeScript compiler API for the guard, keep the 13 cases, and add the two missed spellings as cases.
+- **102-S2** The floor test skips progress badges by family name and pins the number of scored badges at 26. — **Decision:** Keep the family exemption and add the check that progress badges state 0.
+- **102-S3** 18 hand-judged FALSE_HOMES pins stand in for checking what a matched word means in each section. — **Decision:** Keep the 18 pins, read them in the PR diff, and strike any you disagree with.
+- **102-S4** The badge-level allow-list NOT_DIGESTED is empty, and two tests fill it with a pretend entry. — **Decision:** Keep the empty list and the two mocked tests.
+- **102-S5** Several tests run on temporary copies and short code snippets instead of the real source tree. — **Decision:** Keep the fixtures.
+
+**#103, number guards (0b-8)**
+- **103-Q1** Two protected browser test files still hard-code 52 sections, 13 per level and 13 capstones. — **Decision:** Compute the counts in a small follow-up PR that lands before the renumber.
+- **103-Q2** Should the in-browser Python (Pyodide 0.26.2) be upgraded, as the SIM-11 decision planned? — **Decision:** Upgrade, in its own PR, to the newest release that still runs Python 3.12. *(Not the recommendation.)*
+- **103-Q3** Keep or drop the data-to-viz move from S09 to S19, which you did not name? — **Decision:** Keep the move, and record your resource-tag rulings in OWNER_DECISIONS.md.
+- **103-Q4** S08 and S09 now show no catalogue cards. Should Codex write cards for what they teach? — **Decision:** Codex writes catalogue cards for S08 and S09 now. *(Not the recommendation.)*
+- **103-Q5** About 53 more tags put catalogue cards on sections with another topic. Fix them in their own PR? — **Decision:** Yes: a per-card pass in its own PR, with the tag test extended.
+- **103-S1** Fake demos prove how a playground block renders, instead of the course's real demos. — **Decision:** Keep the fake demos here. The O25 demo-replacement PR adds a browser test that runs each real demo and compares its output.
+- **103-S2** A text scanner, not Python's own parser, decides whether a demo really uses a pinned library. — **Decision:** Replace the scanner with Python's parser in a small follow-up PR, and keep the scanner until then.
+- **103-S3** A count of how often a section names a topic stands in for judging that the section teaches it. — **Decision:** Keep the counts as a guard. In a follow-up, count only the lesson text and set seaborn's floor from that text.
+- **103-S4** Python's built-in SQLite runs the migrations in the test, instead of Prisma's own migration tool. — **Decision:** Add a Prisma run next to the SQLite test: apply the migrations with Prisma onto seeded rows and check that the rows moved.
+- **103-S5** Fake course trees stand in for a renumbered course that does not exist yet. — **Decision:** Run a trial renumber on a scratch branch before this PR merges. *(Not the recommendation.)*
+
+**#104, Python complexity gate (B10)**
+- **104-Q1** Should about 242 TypeScript keys and 6 Python keys that differ only by order keep their numbers? — **Decision:** Accept numbering as the floor.
+- **104-Q2** Should the new per-form guards fail CI when a pull request adds a function form that the tests do not cover yet? — **Decision:** Keep the guards blocking.
+- **104-Q3** A baselined key holds the test title 'S01-S52 ...'. If the 52-to-55 renumber edits that title, the gate fails. — **Decision:** Approve now: the renumber PR renames this one key, with the score unchanged at 24, as a reviewed one-line baseline diff. It also drops the section range from the title, so a later count change cannot break it again.
+- **104-S1** The NIST Figure 4-4 test case was rebuilt from garbled PDF text. I compared it with the page image today, and it matches. — **Decision:** Look at PDF page 45 yourself before you accept it. *(Not the recommendation.)* **Pending:** the owner has not yet read page 45, so the rebuilt case is not accepted.
+- **104-S2** The TypeScript gate gets ESLint's complexity rule through an import that ESLint calls unsupported. — **Decision:** Accept the import, as typescript-eslint does. It fails closed, and ESLint 10 still ships it.
+- **104-S3** The per-form key tests run on small made-up files, not on the repository's own files. — **Decision:** Add a real-file check for each form, next to the made-up cases. *(Not the recommendation.)*
+- **104-S4** Twenty scope exclusions keep code out of both gates, and no owner decision document records the ruling that kept them. — **Decision:** Record your r1 answer as an owner decision: the 20 exclusions stand, and the five 'work left undone' files are named as debt with a retire-when.
+
+**#105, credential and plan copy**
+- **105-Q1** The r6 commits name Sonnet 5.5 as co-author, but the workflow brief asked for Opus 5.5. — **Decision:** Keep the trailers as they are.
+- **105-Q2** The Política de IA never says whether a learner may use AI tools. — **Decision:** The owner states the rule, Codex writes one sentence, and it goes in this PR while version 2.1 is unpublished. **Pending:** the owner has not yet stated the rule, so no sentence is written.
+- **105-Q3** Should the policy say that the course asks for an oral defense that PyArcana neither hears nor records? — **Decision (reconciled):** superseded by the owner's note on 105-S6, so the policy says that no project requires an oral defense and never says that a project asks for one. The answer first given, «some projects ask for an oral defense», followed a recommendation that rested on a false premise, and it is withdrawn.
+- **105-Q4** One class B badge states its public claim in English and describes different evidence from the others. — **Decision:** Separate PR that also aligns its evidence with the other class B claims. *(Not the recommendation.)*
+- **105-Q5** On pyarcana.dev, /verify shows a red «No válida» card for any identifier. — **Decision:** Separate small PR now, with a test, so it can merge without waiting for #105.
+- **105-Q6** The exam card is still titled «Examen de sección con anti-plagio», although O24 puts that copy in this PR. — **Decision:** Codex rewrites both keys in this PR before merge, as O24 says.
+- **105-Q7** Both rewritten legal pages say they took effect on 2026-10-13, but neither is live yet. — **Decision:** Set both dates to the merge day in the last commit before merge.
+- **105-S1** No committed test proves that a changed credential record fails the check. Only a deleted scratch run did. — **Decision:** Follow-up PR: a shared signing function, a temporary SQLite database, and one case per changed field that must get 403.
+- **105-S2** The 'not deployed' checks read config files and code the static build deletes, plus one live request. — **Decision:** Add a weekly live check of pyarcana.dev, and change the 503 case to check that the static build removes the API folder.
+- **105-S3** The policy-text checks read the page's source file, not the page a reader sees. — **Decision:** Reuse renderPage() for the policy and notice sentences in this PR.
+- **105-S4** A hand-written text pattern stands in for 'no page asks for an AI declaration', and it skips three files learners read. — **Decision:** Also run one paid Codex review of the whole course for such requests (a one-time check). *(Not the recommendation.)*
+- **105-S5** Three hand-mapped facts stand in for comparing a policy sentence with what the badge catalog claims. — **Decision:** Pin the section's full sentence list and keep CLAIMED_FACTS.
+- **105-S6** Two text patterns stand in for 'a page asks for a defense' and 'no page asks', and both misfire. — **Decision:** As given in the owner's note. *(Not the recommendation.)* Owner's note: «we do not require and oral defense it is not in the plan.»
+
+**#106, playground demos infrastructure**
+- **106-Q1** S19's demo crashes for learners because of a one-character typo; fix it now or wait for its O25 phase? — **Decision:** Fix the typo in this PR, and empty the three owed lists.
+- **106-Q2** O25 still says the demos live in SectionView.tsx; may the agent add a one-line pointer to their new file? — **Decision:** Let the agent add the one-line pointer in this PR.
+- **106-Q3** Accept a 3.7 MB download on S08 and S14 so that S14's password-hashing demo works in the browser? — **Decision:** As given in the owner's note. *(Not the recommendation.)* Owner's note: «can you implement a way to the user to trigger the download as an optioal demo and give a throbber or progress bar for the download to show the user the 3.7MB download and that way it is an action by the user not default slowdown for everyone. plan and strategize and research and design and architect and implement and validate and test.»
+- **106-Q4** Confirm that hashlib and decimal stay off the list of modules Pyodide leaves out, unlike the brief said. — **Decision:** Confirm the departure.
+- **106-Q5** Approve the new Pyodide gate in CI's adversarial job on every run, with its downloads from the CDN? — **Decision:** Run it on every CI run, as now, and add a package cache when numpy or pandas demos arrive.
+- **106-Q6** Should the Pyodide gate also run the 8 demos that pin no output, and fail if one crashes? — **Decision:** Run them and fail on an exception, with an owed list for any that crash today.
+- **106-Q7** Confirm the files this PR changes in your review-owned paths are within the approval you gave for O25. — **Decision:** Approve after reading the four replaced demos. **Pending:** the owner has not yet read them, so the approval is not given.
+- **106-Q8** Should AGENTS.md's 'Done means' list name the Pyodide gate, and will you run bun install after merge? — **Decision:** Add a note to the existing line saying it includes the Pyodide gate and needs bun install, and run bun install after merge.
+- **106-Q9** CodePlayground's complexity is 20, over the ceiling of 15; which PR brings it under? — **Decision:** A separate chore(lint) PR after this one merges.
+- **106-S1** A fake Pyodide in the exit-3 test hides that a real failed download is reported as broken demos. — **Decision:** Fix the gate, and replace the fake with a real Pyodide that has one unreachable package entry.
+- **106-S2** The CPython demo audit's main() tests use stand-ins for the demo list, the owed list and the interpreter check. — **Decision:** Accept the stand-ins, and point the test file's docstring at your decision.
+- **106-S3** The Pyodide gate runs Pyodide inside Node, not in the learner's browser page. — **Decision:** Keep the Node gate, and add a small Playwright check that runs a few demos on the real page.
+- **106-S4** The prelude tests use a copied pandas warning, not the warning real pandas prints in Pyodide. — **Decision:** Make the Pyodide test import the real pandas, and keep the copied text in the CPython test.
+
+**Retire when:** every item above is done or superseded by a later decision; each follow-up PR names the ids it closes.
+
 ## Archive
 
 *(empty — nothing retired yet)*
