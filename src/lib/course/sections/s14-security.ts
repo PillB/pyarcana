@@ -335,7 +335,7 @@ eps 2.220446049250313e-16`,
       subtopicId: "S14-T4-A",
       paragraphs: [
         "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs, `@` — el operador de producto matriz-vector). Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud. El número exacto **depende de tu máquina**; por eso el demo reporta `ratio_gt_1` y no un SLA (acuerdo de nivel de servicio) fijo.",
-        "Benchmark **honesto**: mismo input, mismo dtype, el contador monotónico `time.perf_counter` (no la función civil de reloj), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En producción conviene repetir mediciones y reportar la mediana; aquí un solo par de tiempos basta para enseñar el contrato.",
+        "Benchmark **honesto**: mismo input, mismo dtype, el contador monotónico `time.perf_counter` (no la función civil de reloj), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). Por eso, una llamada de calentamiento, es decir, una ejecución previa sin medir, evita que un posible costo inicial de una sola vez cuente como parte de la operación comparada. No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En producción conviene repetir mediciones y reportar la mediana; aquí un solo par de tiempos basta para enseñar el contrato.",
         "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en la **nota del portfolio**. Caso sintético: `n=50_000` producto punto loop vs. `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.",
       ],
       code: {
@@ -355,6 +355,8 @@ eps 2.220446049250313e-16`,
         s_loop += a[i] * b[i]
     t_loop = time.perf_counter() - t0
 
+    # Calienta esta operación sin incluirla en el tiempo.
+    _ = np.dot(a, b)
     t1 = time.perf_counter()
     s_vec = float(np.dot(a, b))
     t_vec = time.perf_counter() - t1
@@ -639,6 +641,8 @@ nanmean_solo_nan 0.7125`,
         out_loop[i] = s
     t_loop = time.perf_counter() - t0
 
+    # Calienta esta operación sin incluirla en el tiempo.
+    _ = X @ w
     t1 = time.perf_counter()
     out_vec = X @ w
     t_vec = time.perf_counter() - t1
