@@ -37,7 +37,9 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
 2. **What counts as a failure, and so hands the task up.**
    - An independent verifier's own run fails: tests, `tsc`, a mutation it re-runs, or an empty
      diff where work was required.
-   - A reviewer's blocker or major finding survives a second agent's attempt to refute it.
+   - A reviewer's blocker or major finding survives a second agent's attempt to refute it. Only
+     a refuter that answers "not real" dismisses a finding: one that returns nothing or fails
+     leaves the finding standing, so a missing answer can never pass the work as done.
    - The structured output fails after the harness has used up its own retries.
    - The agent breaks an explicit stop condition of its task.
 3. **What never hands the task up.**
@@ -48,8 +50,12 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
      model would hit the same wall. On 2026-10-18 a weekly usage limit was read as a capability
      failure, and every queued task climbed to Opus for nothing; the ladder now stops on the first
      such failure.
-   - A worktree-budget refusal, or an infrastructure stall, resumes on the same model, because a
-     bigger model would hit the same missing directory.
+   - A worktree-budget refusal, an infrastructure stall, or a transport failure of the agent
+     call itself (a timeout, a reset connection, a 5xx) gets one more try on the same model, and
+     then the run stops, because a bigger model would hit the same missing directory or the same
+     outage. An error the ladder does not recognise stops the run too, rather than buying a
+     bigger model on a guess: only an output that cannot satisfy its schema counts as a
+     capability signature.
    - A question that only the owner can answer goes to the owner.
    - A minor finding is fixed on the same model.
 4. **How many tries each model gets.** A model gets two tries when its first failure is about the
@@ -63,8 +69,9 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
 6. **The verifier is one level up, and independent.** A Haiku drafter gets a Sonnet verifier and
    reviewer, a Sonnet drafter an Opus one, and an Opus drafter another Opus. The verifier works in
    its own small worktree and re-runs at least one of the drafter's claimed mutations.
-7. **Every hand-up carries the evidence.** The next model receives the verified failure text and
-   the branch the last attempt left, and continues from there instead of starting over.
+7. **Every hand-up carries the evidence.** Each attempt's record keeps the branch, commits and
+   evidence file its report named, and the next model's prompt lists them with the verified
+   failure text, so it continues from that work instead of starting over.
 8. **Every attempt is recorded.** One ledger line per attempt holds the class, model, attempt,
    verdict and cause, and the ledger decides class promotions. Each pull request body names the
    model and attempt that produced its work.
@@ -100,13 +107,17 @@ run and reproduce them:
   directory and the starting model the ledger gives that class. It is a workflow-runtime script,
   not application code, which is why it sits under `docs/` (outside ESLint and `tsc`) and is not
   run by CI.
-- **`model-ladder/recreation-tests.json`** holds the four recreation tests as `args` objects, each
-  with its expected outcome. Two must hand up: an agent call whose output cannot satisfy its schema
-  (`schemaThrowOn`), and an agent that reports done without doing the work, which the verifier
-  answers with `empty_diff` (`skipWorkOn`). Two must stop after one attempt, with no hand-up: an
-  agent call that fails on a usage limit (`throwOn`), and a harness that returns nothing
-  (`nullOn`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
-  returned `outcome` and `attempts` with `expect`. The last two call no agent, so they cost nothing.
+- **`model-ladder/recreation-tests.json`** holds the eight recreation tests as `args` objects,
+  each with its expected outcome. Two must hand up: an agent call whose output cannot satisfy its
+  schema (`schemaThrowOn`), and an agent that reports done without doing the work, which the
+  verifier answers with `empty_diff` (`skipWorkOn`). Three must stop without a hand-up: an agent
+  call that fails on a usage limit (`throwOn`), a harness that returns nothing (`nullOn`), and an
+  unrecognised error. One must retry the same model once and then stop: a transport failure. One
+  must keep a serious finding standing when its refuters return nothing (`refuteOn: "null"`), and
+  one must carry each attempt's branch and commits into the next attempt's record (`reportOn`,
+  `verifyOn`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
+  returned `outcome` and `attempts` with `expect`. All but the first two call no agent, so they
+  cost nothing.
 - **`model-ladder/ledger.jsonl`** is the ledger, one line per attempt. A session appends its lines
   and commits them with the pull request whose work they record; the promotions table above is
   read from it.
