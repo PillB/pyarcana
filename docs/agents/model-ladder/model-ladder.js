@@ -109,8 +109,13 @@ async function attempt(model, n, effort, history) {
   return simulated(model) || safe(() => agent(prompt, opts))
 }
 
+// A run without a verifier is refused before any work, never passed on the drafter's word
+// (Codex review of #114, 2026-10-20). verifyThrowOnce simulates one failed verifier call.
+const verifyFailedOnce = {}
 async function verify(model, n, report) {
-  if (!A.verify) return { value: { ok: true, failure_kind: 'none', why: 'no verifier configured' } }
+  if (!A.verify && !(T.verifyOn || {})[model]) return { error: 'no verifier configured', kind: 'no-verifier' }
+  const once = (T.verifyThrowOnce || {})[model]
+  if (once && !verifyFailedOnce[model]) { verifyFailedOnce[model] = true; return { error: once, kind: classify(once) } }
   if ((T.verifyOn || {})[model]) return { value: T.verifyOn[model] }
   return safe(() => agent(`Independently verify a subagent's work. Do not trust its report; check everything yourself. Its result: ${JSON.stringify(report)} (read the evidence file it names if it exists). FIRST check that the work the task asked for exists at all; if nothing was done (no change, no file, an empty diff), answer ok=false with failure_kind 'empty_diff'. If the agent broke a stop condition of its task, answer failure_kind 'stop_condition_broken'. If your checks could not run for an environmental reason (a missing directory, a refused worktree, a stalled tool), answer failure_kind 'infra'. If a check you ran failed, answer failure_kind 'content' with the failing command and its output. Otherwise ok=true and failure_kind 'none'. The task it was given:\n---\n${A.task}\n---\nYOUR CHECKS:\n${A.verify}\nWrite your full notes to the plain-text file ${EVID}/${A.label}-verify-${n}.txt and return the small result.`, { label: `verify:${A.label}:${UP[model]}`, phase: 'Verify', schema: VERIFY, model: UP[model] }))
 }
@@ -135,8 +140,26 @@ async function review(model, n, report) {
   return { value: { findings: rv.value?.findings ?? [], confirmed } }
 }
 
+// A failed check is retried against the existing report, once; the drafter is never run again
+// because a verifier or reviewer had an outage, since a drafter that ran Codex or committed must
+// not repeat that work (Codex review of #114, 2026-10-20).
+const RETRYABLE = ['infra', 'capability']
+let stageRetries = 0
+async function checked(stage, run) {
+  let r = await run()
+  const unusable = (x) => x.error ? RETRYABLE.includes(x.kind) : (stage === 'verify' && x.value && x.value.failure_kind === 'infra')
+  if (unusable(r)) {
+    stageRetries++
+    log(`${A.label}: the ${stage} could not run (${r.error || r.value.why}); retrying the ${stage} only`)
+    r = await run()
+  }
+  return r
+}
+
+if (!A.verify && !T.verifyOn) return { ok: false, outcome: 'no-verifier', attempts: [] }
 const attempts = []
 let infraRetries = 0
+let minorPasses = 0
 const startAt = Math.max(0, LADDER.indexOf(A.start || 'haiku'))
 for (const model of LADDER.slice(startAt)) {
   const tries = model === 'opus' ? [null, 'xhigh'] : [null, null]
@@ -172,27 +195,46 @@ for (const model of LADDER.slice(startAt)) {
     if (report.evidence_path) rec.evidence = report.evidence_path
     if (report.verdict === 'blocked') { attempts.push({ ...rec, verdict: 'blocked', kind: 'blocked', cause: report.summary }); return { ok: false, outcome: 'blocked', model, report, attempts } }
     if (report.verdict === 'stopped') { attempts.push({ ...rec, verdict: 'stopped', kind: 'stopped', cause: report.summary }); return { ok: false, outcome: 'stopped', model, report, attempts } }
-    const v = await verify(model, n, report)
-    if (v.error && !['capability', 'infra'].includes(v.kind)) { attempts.push({ ...rec, verdict: 'unverified', kind: v.kind, cause: `the verifier could not run: ${v.error}` }); return { ok: false, outcome: v.kind, model, report, attempts } }
-    if (v.error) { attempts.push({ ...rec, verdict: 'unverified', kind: 'infra', cause: `the verifier failed to run: ${v.error}` }); if (++infraRetries > 1) return { ok: false, outcome: 'infra', model, report, attempts }; continue }
+    const v = await checked('verify', () => verify(model, n, report))
+    if (v.error) {
+      // Still no verdict after one retry of the verifier (or a limit, an abort, no verifier): stop.
+      const kind = RETRYABLE.includes(v.kind) ? 'infra' : v.kind
+      attempts.push({ ...rec, verdict: 'unverified', kind, cause: `the verifier could not run: ${v.error}` })
+      return { ok: false, outcome: kind, model, report, attempts, stage_retries: stageRetries }
+    }
     const vk = v.value.failure_kind
     if (!v.value.ok) {
-      if (vk === 'infra') { attempts.push({ ...rec, verdict: 'unverified', kind: 'infra', cause: v.value.why }); if (++infraRetries > 1) return { ok: false, outcome: 'infra', model, report, attempts }; continue }
+      if (vk === 'infra') {
+        attempts.push({ ...rec, verdict: 'unverified', kind: 'infra', cause: v.value.why })
+        return { ok: false, outcome: 'infra', model, report, attempts, stage_retries: stageRetries }
+      }
       const capability = vk === 'empty_diff' || vk === 'stop_condition_broken'
       attempts.push({ ...rec, verdict: 'verify-failed', kind: capability ? 'capability' : 'content', cause: `${vk}: ${v.value.why}` })
       if (capability) { log(`${A.label}: ${model}#${n} ${vk}, handing up`); break }
       rung++; continue
     }
-    const rv = await review(model, n, report)
-    if (rv.error && !['capability', 'infra'].includes(rv.kind)) { attempts.push({ ...rec, verdict: 'unreviewed', kind: rv.kind, cause: `the reviewer could not run: ${rv.error}` }); return { ok: false, outcome: rv.kind, model, report, attempts } }
-    if (rv.error) { attempts.push({ ...rec, verdict: 'unreviewed', kind: 'infra', cause: `the reviewer failed to run: ${rv.error}` }); if (++infraRetries > 1) return { ok: false, outcome: 'infra', model, report, attempts }; continue }
+    const rv = await checked('review', () => review(model, n, report))
+    if (rv.error) {
+      const kind = RETRYABLE.includes(rv.kind) ? 'infra' : rv.kind
+      attempts.push({ ...rec, verdict: 'unreviewed', kind, cause: `the reviewer could not run: ${rv.error}` })
+      return { ok: false, outcome: kind, model, report, attempts, stage_retries: stageRetries }
+    }
     if (rv.value.confirmed.length) {
       attempts.push({ ...rec, verdict: 'review-failed', kind: 'content', cause: rv.value.confirmed.map((f) => `${f.severity}: ${f.issue} (fix: ${f.fix})`).join(' | ') })
       rung++; continue
     }
+    // Minor findings go back to the drafter once, on the same model; whatever minors remain after
+    // that pass are returned, not dropped (Codex review of #114, 2026-10-20).
+    const minors = (rv.value.findings || []).filter((f) => f.severity === 'minor')
+    if (minors.length && minorPasses < 1) {
+      minorPasses++
+      attempts.push({ ...rec, verdict: 'minor-findings', kind: 'minor', cause: minors.map((f) => `minor: ${f.issue} (fix: ${f.fix})`).join(' | ') })
+      log(`${A.label}: ${model}#${n} has ${minors.length} minor finding(s); one repair pass on the same model`)
+      continue
+    }
     attempts.push({ ...rec, verdict: 'done', kind: 'ok', cause: '' })
     log(`${A.label}: done on ${model}, attempt ${n}`)
-    return { ok: true, outcome: 'done', model, attempt: n, report, verification: v.value, review: rv.value, attempts }
+    return { ok: true, outcome: 'done', model, attempt: n, report, verification: v.value, review: rv.value, minors_left: minors, attempts, stage_retries: stageRetries }
   }
 }
 return { ok: false, outcome: 'exhausted', attempts }

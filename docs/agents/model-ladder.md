@@ -57,7 +57,11 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
      bigger model on a guess: only an output that cannot satisfy its schema counts as a
      capability signature.
    - A question that only the owner can answer goes to the owner.
-   - A minor finding is fixed on the same model.
+   - A minor finding goes back to the drafter once, on the same model; minors still left after
+     that pass are returned with the result, never dropped.
+   - A verifier or reviewer that fails to run is retried once against the same report; the
+     drafter never runs again because a check had an outage, since its work (a Codex run, a
+     commit) may not be safe to repeat. If the check still cannot run, the run stops.
 4. **How many tries each model gets.** A model gets two tries when its first failure is about the
    content, meaning a wrong fix that the failure text can correct. It gets one try when the failure
    is a capability signature: a schema failure, returning while its own long process still runs, or
@@ -66,9 +70,11 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
 5. **Effort before the owner, at the top only.** Opus runs at its default effort and retries at
    `xhigh` before the task goes to the owner with its evidence. Below Opus, a hand-up is a model
    change.
-6. **The verifier is one level up, and independent.** A Haiku drafter gets a Sonnet verifier and
-   reviewer, a Sonnet drafter an Opus one, and an Opus drafter another Opus. The verifier works in
-   its own small worktree and re-runs at least one of the drafter's claimed mutations.
+6. **The verifier is one level up, independent, and required.** A Haiku drafter gets a Sonnet
+   verifier and reviewer, a Sonnet drafter an Opus one, and an Opus drafter another Opus. The
+   verifier works in its own small worktree and re-runs at least one of the drafter's claimed
+   mutations. A task given without verifier checks is refused before any work: the ladder never
+   passes work on the drafter's word.
 7. **Every hand-up carries the evidence.** Each attempt's record keeps the branch, commits and
    evidence file its report named, and the next model's prompt lists them with the verified
    failure text, so it continues from that work instead of starting over.
@@ -107,15 +113,17 @@ run and reproduce them:
   directory and the starting model the ledger gives that class. It is a workflow-runtime script,
   not application code, which is why it sits under `docs/` (outside ESLint and `tsc`) and is not
   run by CI.
-- **`model-ladder/recreation-tests.json`** holds the eight recreation tests as `args` objects,
+- **`model-ladder/recreation-tests.json`** holds the eleven recreation tests as `args` objects,
   each with its expected outcome. Two must hand up: an agent call whose output cannot satisfy its
   schema (`schemaThrowOn`), and an agent that reports done without doing the work, which the
   verifier answers with `empty_diff` (`skipWorkOn`). Three must stop without a hand-up: an agent
   call that fails on a usage limit (`throwOn`), a harness that returns nothing (`nullOn`), and an
   unrecognised error. One must retry the same model once and then stop: a transport failure. One
-  must keep a serious finding standing when its refuters return nothing (`refuteOn: "null"`), and
-  one must carry each attempt's branch and commits into the next attempt's record (`reportOn`,
-  `verifyOn`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
+  must keep a serious finding standing when its refuters return nothing (`refuteOn: "null"`), one
+  must carry each attempt's branch and commits into the next attempt's record (`reportOn`,
+  `verifyOn`), one must refuse a task that has no verifier, one must send minor findings back for
+  one same-model repair pass and return what is left, and one must retry a verifier that timed
+  out without running the drafter again (`verifyThrowOnce`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
   returned `outcome` and `attempts` with `expect`. All but the first two call no agent, so they
   cost nothing.
 - **`model-ladder/ledger.jsonl`** is the ledger, one line per attempt. A session appends its lines

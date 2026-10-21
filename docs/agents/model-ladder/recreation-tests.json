@@ -1,5 +1,5 @@
 {
- "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind) with expect. Last run 2026-10-20: all eight as expected (A as A2, B as B3); E and F were also run against their mutation and fail there, as noted.",
+ "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind) with expect. Last run 2026-10-20: all eleven as expected (A as A2, B as B3); E, F, H, I and J were also run against the previous code and fail there, as noted.",
  "tests": [
   {
    "name": "A - an unsatisfiable schema hands up",
@@ -313,6 +313,124 @@
        "why": "simulated content failure"
       },
       "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "H - a task with no verifier is refused before any work",
+   "expect": {
+    "outcome": "no-verifier",
+    "attempts": []
+   },
+   "mutation": "the previous script synthesized a passing verification ('no verifier configured') and returned done",
+   "args": {
+    "label": "ladder-testH",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": null,
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "I - minor findings go back once on the same model, and what is left is returned",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "minor-findings",
+      "kind": "minor"
+     },
+     {
+      "model": "haiku",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ],
+    "minors_left": 1
+   },
+   "mutation": "the previous script returned done on attempt 1 and dropped the minor finding",
+   "args": {
+    "label": "ladder-testI",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     },
+     "reviewOn": [
+      {
+       "severity": "minor",
+       "issue": "simulated minor finding",
+       "fix": "simulated minor fix"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "name": "J - a verifier that times out once is retried, and the drafter runs only once",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ],
+    "stage_retries": 1
+   },
+   "mutation": "the previous script recorded the attempt as unverified and ran the drafter a second time",
+   "args": {
+    "label": "ladder-testJ",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyThrowOnce": {
+      "haiku": "connect ETIMEDOUT 10.0.0.1:443"
+     },
+     "verifyOn": {
+      "haiku": {
        "ok": true,
        "failure_kind": "none",
        "why": "sim"
