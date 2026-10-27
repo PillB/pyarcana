@@ -16,6 +16,11 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+from build_prompt import vocabulary_before  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
@@ -99,7 +104,7 @@ def held_definitions(cmap: dict, tag: str, slugs: list[str]) -> list[dict]:
 
     That happened three times in two days, each time on a correct patch:
 
-      `for`    S04, the only definition in 52 sections was a weDo preamble's
+      `for`    S04, the only definition in the whole course was a weDo preamble's
                "(base del gate de resúmenes)"; removing it would have taken the gated measure
                from 268 to 1126.
       function S02's gloss "una función es un bloque reutilizable de instrucciones" is the
@@ -172,8 +177,9 @@ def write_held_definitions(cmap: dict, tag: str, payload: dict) -> Path:
     """
     text = {e["location"]: e["text"] for e in payload["events"]}
     names = {t["id"]: t.get("names", []) for t in payload["terms"]}
+    slugs = list(numbering.load_epoch(ROOT).slugs)
     rows = [{**h, "text": text.get(h["location"], ""), "names": names.get(h["concept"], [])}
-            for h in held_definitions(cmap, tag, payload["active_section_ids"])]
+            for h in held_definitions(cmap, tag, slugs)]
     out = ROOT / f".fixer/{tag}k.held_definitions.json"
     out.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
     return out
@@ -219,14 +225,38 @@ def concept_row(cid: str, c: dict, tag: str) -> dict | None:
     }
 
 
+def operating_contract() -> str:
+    """The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule."""
+    wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
+    w0 = wiki.find("## Campaign operating contract")
+    w1 = wiki.find("## Solarize adaptation")
+    return wiki[w0:w1 if w1 > w0 else None].strip() if w0 >= 0 else ""
+
+
+#: Categories of ReviewerFixer finding that bear on vocabulary and prerequisites.
+VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
+         "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
+
+
+def vocabulary_findings(found: list[dict]) -> list[dict]:
+    """The section's registry findings that bear on vocabulary and prerequisites, trimmed to the fields a
+    brief needs. The audits already named many of these gaps in their own words."""
+    return [
+        {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
+        for f in found
+        if any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper() for v in VOCAB)
+    ][:25]
+
+
 def main() -> int:
     tag = sys.argv[1]
     # D14 sections (S02-S04 under route 2) rebuild exercises; everything else stays prose-only.
     practice_in_scope = "--practice-layer" in sys.argv[2:]
-    num = int(tag.lstrip("Ss"))
+    epoch = numbering.load_epoch(ROOT)
+    num = numbering.number_of_tag(tag)
     payload = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
-    slugs = payload["active_section_ids"]
-    slug = slugs[num - 1]
+    slugs = list(epoch.slugs)
+    slug = numbering.slug_for_tag(tag, epoch)
     path = section_file(slug)
 
     cmap = json.loads((ROOT / "course-state/concept_map.json").read_text(encoding="utf-8"))
@@ -237,12 +267,10 @@ def main() -> int:
             if (row := concept_row(cid, c, tag)) is not None]
     if not todo:
         print(f"{tag}: no unexplained concepts", file=sys.stderr)
-        return 2
+        return 2        # run_concepts.sh reads exactly this status as "nothing to teach"; every other one stops it
 
     todo.sort(key=lambda t: (not t["never_explained_anywhere"], not t["load_bearing"]))
-    known = sorted({t for e in payload["events"]
-                    if e["learner_visible"] and slugs.index(e["section_id"]) < num - 1
-                    for t in e["defines"]})
+    known = vocabulary_before(payload, epoch, num)
     rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
     decisions = (ROOT / "audit/fixer/decisions.md").read_text(encoding="utf-8")
     # The owner's answers to questions only they could settle. Separate from decisions.md because
@@ -251,23 +279,10 @@ def main() -> int:
     # lives only in someone's head or in a chat message is not a decision the round will honour.
     owner = (ROOT / "audit/fixer/OWNER_DECISIONS.md").read_text(encoding="utf-8")
 
-    # The auditors' wiki: the operating contract and the Attack -> Defense -> Verdict rule.
-    wiki = (ROOT / "audit/fixer/wiki/README.md").read_text(encoding="utf-8")
-    w0 = wiki.find("## Campaign operating contract")
-    w1 = wiki.find("## Solarize adaptation")
-    wiki_contract = wiki[w0:w1 if w1 > w0 else None].strip() if w0 >= 0 else ""
-
-    # ReviewerFixer-derived findings for this section that bear on vocabulary and
-    # prerequisites - the audits already named many of these gaps in their own words.
-    VOCAB = ("WIDOW", "TERM", "PREREQUISITE", "FUTURE_KNOWLEDGE", "JARGON", "UNDEFINED",
-             "UNEXPLAINED", "ACRONYM", "OUTCOME_NOT_TAUGHT", "VOCAB", "GLOSS", "DEFIN")
-    registry = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))["findings"]
-    audit_findings = [
-        {k: f.get(k) for k in ("finding_id", "severity", "category", "title", "evidence", "fix")}
-        for f in registry
-        if f["section"] == tag and any(v in (f.get("category") or "").upper() + (f.get("title") or "").upper()
-                                       for v in VOCAB)
-    ][:25]
+    wiki_contract = operating_contract()
+    audit_findings = vocabulary_findings(numbering.registry_findings(ROOT, epoch)[slug])
+    text_note = numbering.text_epoch_note(ROOT, epoch)
+    audit_note = f"{text_note}\n" if text_note else ""
 
     print(f"""You are teaching the concepts that PyArcana section {tag} ("{slug}") currently uses
 without explaining them.
@@ -277,7 +292,7 @@ Do NOT modify it or any other file; you have read-only access. Return JSON match
 schema: a byte-exact `anchor` from that file appearing EXACTLY ONCE, plus `replacement`.
 
 THE PROBLEM, precisely. Each concept below is used in this section before the learner has
-any way to know what it means. Some are never explained anywhere in all 52 sections. A
+any way to know what it means. Some are never explained anywhere in all {epoch.count} sections. A
 reader hits the word, guesses, and carries the guess forward.
 
 {json.dumps(todo, ensure_ascii=False, indent=1)}
@@ -348,7 +363,7 @@ answer `self_critique` about the revised text.
 
 ===== WHAT THE AUDITORS ALREADY FOUND ABOUT VOCABULARY IN THIS SECTION =====
 (from the ReviewerFixer audit registry; their evidence and proposed fixes are input, not orders)
-{json.dumps(audit_findings, ensure_ascii=False, indent=1) if audit_findings else "(none recorded)"}
+{audit_note}{json.dumps(audit_findings, ensure_ascii=False, indent=1) if audit_findings else "(none recorded)"}
 
 ===== AUDIT WIKI: OPERATING CONTRACT (binding) =====
 {wiki_contract}

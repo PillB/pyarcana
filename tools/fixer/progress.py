@@ -3,43 +3,39 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
-CYCLES = ROOT / "audit/fixer/cycles"
 
 
 def main() -> None:
-    reg = json.loads((ROOT / "audit/consolidated/registry.json").read_text(encoding="utf-8"))
-    findings = reg["findings"]
-    per_section: dict[str, list] = {}
-    for f in findings:
-        per_section.setdefault(f["section"], []).append(f)
+    epoch = numbering.load_epoch(ROOT)
+    # Findings by slug, through the registry's epoch stamp; tags below are only the display of those slugs.
+    by_slug = numbering.registry_findings(ROOT, epoch)
+    per_section = {numbering.tag_for_slug(slug, epoch): found for slug, found in by_slug.items()}
 
-    done, questions, total_closed = [], 0, 0
-    for i in range(1, 53):
-        tag = f"S{i:02d}"
-        c = CYCLES / f"{tag}.json"
-        if not c.exists():
-            continue
-        d = json.loads(c.read_text(encoding="utf-8"))
-        done.append(d)
-        total_closed += len(d["findings_closed"])
-        questions += len(d["unresolved_questions"])
+    # Records in course order, each read through its slug; a record that cannot be placed refuses the read.
+    records = numbering.cycle_records(ROOT, epoch)
+    done = [records[slug] for slug in epoch.slugs if slug in records]
+    # Through numbering, not the record's own closed list: a closure the owner reopened does not count (O25).
+    total_closed = sum(len(numbering.closed_findings(d)) for d in done)
+    total_reopened = sum(len(numbering.reopened_findings(d)) for d in done)
+    questions = sum(len(d["unresolved_questions"]) for d in done)
 
-    remaining = sum(len(v) for k, v in per_section.items()
-                    if k not in {d["section"] for d in done})
+    remaining = sum(len(found) for slug, found in by_slug.items() if slug not in records)
 
-    print(f"sections fixed : {len(done)}/52")
+    print(f"sections fixed : {len(done)}/{epoch.count}")
     print(f"findings closed: {total_closed}")
-    print(f"findings left  : ~{remaining} across {52 - len(done)} untouched sections")
+    if total_reopened:
+        print(f"findings reopened: {total_reopened} (closed once; the owner ruled they do not count, so they are open)")
+    print(f"findings left  : ~{remaining} across {epoch.count - len(done)} untouched sections")
     print(f"questions open : {questions}")
-    print()
-    print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
-    for d in done:
-        print(f"{d['section']:5s} {len(d['findings_closed']):7d} "
-              f"{len(d['findings_open']):5d} {d['patches_rejected']:4d} "
-              f"{len(d['unresolved_questions']):3d}")
+    _print_table(done)
 
     fu = ROOT / "course-state/first_use_all_report.json"
     if fu.exists():
@@ -47,9 +43,21 @@ def main() -> None:
         print(f"\nvocabulary gaps course-wide: {sum(r['issue_counts'].values())} "
               f"({r['issue_counts']})")
 
-    # where the remaining work is heaviest
-    left = sorted(((len(v), k) for k, v in per_section.items()
-                   if k not in {d["section"] for d in done}), reverse=True)[:8]
+    _print_heaviest(per_section, {d["section"] for d in done})
+
+
+def _print_table(done: list[dict]) -> None:
+    print()
+    print(f"{'sec':5s} {'closed':>7s} {'open':>5s} {'rej':>4s} {'Qs':>3s}")
+    for d in done:
+        print(f"{d['section']:5s} {len(numbering.closed_findings(d)):7d} "
+              f"{len(numbering.open_findings(d)):5d} {d['patches_rejected']:4d} "
+              f"{len(d['unresolved_questions']):3d}")
+
+
+def _print_heaviest(per_section: dict[str, list], done_tags: set[str]) -> None:
+    """Where the remaining work is heaviest: the untouched sections with the most findings."""
+    left = sorted(((len(v), k) for k, v in per_section.items() if k not in done_tags), reverse=True)[:8]
     if left:
         print("\nheaviest sections still untouched:")
         print("  " + ", ".join(f"{k} ({n})" for n, k in left))
