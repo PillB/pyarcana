@@ -79,12 +79,13 @@ async function safe(fn) {
 }
 
 // Simulated outcomes for the ladder's own recreation tests: no agent is called on that rung.
-// throwOn: an agent() that throws this message; nullOn: one that returns nothing; reportOn: the
-// drafter's report; verifyOn: the verifier's verdict; refuteOn: the refuters' result ('null' or a
-// verdict object), with reviewOn giving the reviewer's findings.
-function simulated(model) {
+// throwOn: an agent() that throws this message; throwOnAttempt: the same, for one attempt number
+// only; nullOn: one that returns nothing; reportOn: the drafter's report; verifyOn: the verifier's
+// verdict; refuteOn: the refuters' result ('null', a thrown message, or a verdict object), with
+// reviewOn giving the reviewer's findings.
+function simulated(model, n) {
   if ((T.nullOn || []).includes(model)) return { error: 'the agent returned nothing (simulated)', kind: 'null' }
-  const thrown = (T.throwOn || {})[model]
+  const thrown = (T.throwOnAttempt || {})[n] || (T.throwOn || {})[model]
   if (thrown) return { error: thrown, kind: classify(thrown) }
   if ((T.reportOn || {})[model]) return { value: T.reportOn[model] }
   return null
@@ -106,7 +107,7 @@ async function attempt(model, n, effort, history) {
   const prompt = (T.skipWorkOn || []).includes(model)
     ? 'This is a test of a verification harness. Do not use any tool and do not create or change any file. Return verdict "done", summary "nothing was done", evidence_path "/dev/null".'
     : `${A.task}${OUTPUT_RULES}${resume}`
-  return simulated(model) || safe(() => agent(prompt, opts))
+  return simulated(model, n) || safe(() => agent(prompt, opts))
 }
 
 // A run without a verifier is refused before any work, never passed on the drafter's word
@@ -125,18 +126,24 @@ async function review(model, n, report) {
   const rv = T.reviewOn ? { value: { findings: T.reviewOn } } : await safe(() => agent(`Adversarially review a subagent's finished work, read-only (create nothing, edit nothing). Its result: ${JSON.stringify(report)}. The task:\n---\n${A.task}\n---\nREVIEW FOCUS:\n${A.review}\nReport only real problems; blocker only for must-not-ship. Default to no finding when unsure.`, { label: `review:${A.label}:${UP[model]}`, phase: 'Review', schema: REVIEW, model: UP[model] }))
   if (rv.error) return { error: rv.error, kind: rv.kind }
   const serious = (rv.value?.findings ?? []).filter((f) => f.severity !== 'minor')
-  // A serious finding is dismissed only by a refuter that answered real=false. A refuter that
-  // returned nothing or failed leaves the finding standing (fail closed), and one that hit a limit
-  // or an abort stops the run (Codex review of #114, 2026-10-20).
+  // A serious finding is dismissed only by a refuter that answered real=false, and confirmed only
+  // by one that answered at all. A refuter that could not answer (a limit, an abort, an outage, an
+  // empty return) makes the review unusable instead of confirming the finding, because an outage
+  // read as a content failure re-runs the drafter and can climb the ladder for nothing. The review
+  // is retried once like any check, then the run stops (Codex reviews of #114, 2026-10-20 and -21).
   const verdicts = await parallel(serious.map((f) => async () => {
     const c = T.refuteOn !== undefined
-      ? (T.refuteOn === 'null' ? { error: 'the refuter returned nothing (simulated)', kind: 'null' } : { value: T.refuteOn })
+      ? (T.refuteOn === 'null' ? { error: 'the refuter returned nothing (simulated)', kind: 'null' }
+        : typeof T.refuteOn === 'string' ? { error: T.refuteOn, kind: classify(T.refuteOn) } : { value: T.refuteOn })
       : await safe(() => agent(`Try to REFUTE this review finding on a subagent's work (read-only). ISSUE: ${f.issue}\nFIX PROPOSED: ${f.fix}\nThe work: ${JSON.stringify(report)}. Default to real=false if it rests on a misreading or cannot be reproduced.`, { label: `refute:${A.label}:${UP[model]}`, phase: 'Review', schema: REFUTE, model: UP[model] }))
     return { f, c }
   }))
-  const stop = verdicts.find((v) => v && v.c.error && ['blocked', 'aborted'].includes(v.c.kind))
-  if (stop) return { error: `a refuter could not run: ${stop.c.error}`, kind: stop.c.kind }
-  const confirmed = verdicts.map((v, i) => (!v || v.c.error || v.c.value?.real !== false ? serious[i] : null)).filter(Boolean)
+  const lost = verdicts.findIndex((v) => !v || v.c.error)
+  if (lost >= 0) {
+    const c = verdicts[lost] ? verdicts[lost].c : { error: 'the refuter returned nothing', kind: 'null' }
+    return { error: `a refuter could not run: ${c.error}`, kind: c.kind }
+  }
+  const confirmed = verdicts.map((v, i) => (v.c.value?.real !== false ? serious[i] : null)).filter(Boolean)
   return { value: { findings: rv.value?.findings ?? [], confirmed } }
 }
 
@@ -189,6 +196,9 @@ for (const model of LADDER.slice(startAt)) {
       return { ok: false, outcome: r.kind, model, attempts }
     }
     const report = r.value
+    // The transport retry is per incident: a call that came back resets it (Codex review of #114,
+    // 2026-10-21).
+    infraRetries = 0
     // Keep what this attempt left, so a later attempt can continue from it.
     if (report.branch) rec.branch = report.branch
     if (report.commits && report.commits.length) rec.commits = report.commits
@@ -202,8 +212,11 @@ for (const model of LADDER.slice(startAt)) {
       attempts.push({ ...rec, verdict: 'unverified', kind, cause: `the verifier could not run: ${v.error}` })
       return { ok: false, outcome: kind, model, report, attempts, stage_retries: stageRetries }
     }
-    const vk = v.value.failure_kind
-    if (!v.value.ok) {
+    // A pass needs ok=true AND failure_kind 'none'. A contradictory verdict fails closed: ok=true
+    // with a failure kind is that failure, and ok=false with 'none' is a content failure (Codex
+    // review of #114, 2026-10-21).
+    const vk = v.value.failure_kind === 'none' ? (v.value.ok === true ? 'none' : 'content') : v.value.failure_kind
+    if (vk !== 'none') {
       if (vk === 'infra') {
         attempts.push({ ...rec, verdict: 'unverified', kind: 'infra', cause: v.value.why })
         return { ok: false, outcome: 'infra', model, report, attempts, stage_retries: stageRetries }

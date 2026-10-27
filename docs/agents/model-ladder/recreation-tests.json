@@ -1,5 +1,5 @@
 {
- "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind) with expect. Last run 2026-10-20: all eleven as expected (A as A2, B as B3); E, F, H, I and J were also run against the previous code and fail there, as noted.",
+ "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind, and branch and commits where expect lists them) with expect. Last run 2026-10-27: all fourteen as expected. E, F, H, I, J, K, L and M were also run against the code before their fix and fail there, as each entry's mutation notes.",
  "tests": [
   {
    "name": "A - an unsatisfiable schema hands up",
@@ -186,10 +186,16 @@
    }
   },
   {
-   "name": "F - a serious finding whose refuters return nothing stands",
+   "name": "F - a serious finding whose refuters return nothing is not dismissed: the run stops",
    "expect": {
-    "outcome": "exhausted",
-    "attempts": "six attempts, every one verdict review-failed, kind content"
+    "outcome": "null",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "unreviewed",
+      "kind": "null"
+     }
+    ]
    },
    "mutation": "the old rule (a finding stands only if a refuter answered real=true) reports done on haiku#1 with the major finding dismissed",
    "args": {
@@ -262,6 +268,9 @@
      {
       "model": "haiku",
       "branch": "claude/test-g",
+      "commits": [
+       "abc1234"
+      ],
       "verdict": "verify-failed",
       "kind": "content"
      },
@@ -431,6 +440,197 @@
      },
      "verifyOn": {
       "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "K - a verdict that says ok but names a failure fails closed and hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "mutation": "the previous script trusted ok=true alone and returned done on haiku#1 although the verifier named empty_diff",
+   "args": {
+    "label": "ladder-testK",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "empty_diff",
+       "why": "sim: nothing was changed"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "L - a refuter outage stops the run instead of confirming the finding",
+   "expect": {
+    "outcome": "infra",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "unreviewed",
+      "kind": "infra"
+     }
+    ]
+   },
+   "mutation": "the previous script counted a refuter that timed out as confirming the major finding, re-ran the drafter six times and ended exhausted",
+   "args": {
+    "label": "ladder-testL",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "opus": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "opus": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     },
+     "reviewOn": [
+      {
+       "severity": "major",
+       "issue": "sim",
+       "fix": "sim"
+      }
+     ],
+     "refuteOn": "socket hang up"
+    }
+   }
+  },
+  {
+   "name": "M - each transport failure gets its own same-model retry",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     },
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     },
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "mutation": "the previous script kept one transport retry for the whole run, so the second timeout (attempt 3) stopped it as infra",
+   "args": {
+    "label": "ladder-testM",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "throwOnAttempt": {
+      "1": "connect ETIMEDOUT 10.0.0.1:443",
+      "3": "connect ETIMEDOUT 10.0.0.1:443"
+     },
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": false,
+       "failure_kind": "content",
+       "why": "sim: a check failed"
+      },
+      "sonnet": {
        "ok": true,
        "failure_kind": "none",
        "why": "sim"

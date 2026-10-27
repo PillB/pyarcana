@@ -36,10 +36,14 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
    of frozen.
 2. **What counts as a failure, and so hands the task up.**
    - An independent verifier's own run fails: tests, `tsc`, a mutation it re-runs, or an empty
-     diff where work was required.
+     diff where work was required. A verdict passes only when it says `ok` and names no failure
+     kind; a contradictory verdict, such as `ok` with `empty_diff`, counts as the failure it
+     names, so an inconsistent answer can never pass the work as done.
    - A reviewer's blocker or major finding survives a second agent's attempt to refute it. Only
-     a refuter that answers "not real" dismisses a finding: one that returns nothing or fails
-     leaves the finding standing, so a missing answer can never pass the work as done.
+     a refuter that answers "not real" dismisses a finding, and only one that answers at all
+     confirms it. A refuter that returns nothing or fails has not judged the finding either way,
+     so the review counts as a check that could not run (below): the finding is never dismissed,
+     and an outage is never read as a content failure that re-runs the drafter.
    - The structured output fails after the harness has used up its own retries.
    - The agent breaks an explicit stop condition of its task.
 3. **What never hands the task up.**
@@ -53,15 +57,18 @@ fixed cascade (Bouchard, 2026). The ladder below therefore learns by task class.
    - A worktree-budget refusal, an infrastructure stall, or a transport failure of the agent
      call itself (a timeout, a reset connection, a 5xx) gets one more try on the same model, and
      then the run stops, because a bigger model would hit the same missing directory or the same
-     outage. An error the ladder does not recognise stops the run too, rather than buying a
+     outage. The retry belongs to that failure: once a call comes back, a later timeout gets its
+     own retry. An error the ladder does not recognise stops the run too, rather than buying a
      bigger model on a guess: only an output that cannot satisfy its schema counts as a
      capability signature.
    - A question that only the owner can answer goes to the owner.
    - A minor finding goes back to the drafter once, on the same model; minors still left after
      that pass are returned with the result, never dropped.
-   - A verifier or reviewer that fails to run is retried once against the same report; the
-     drafter never runs again because a check had an outage, since its work (a Codex run, a
-     commit) may not be safe to repeat. If the check still cannot run, the run stops.
+   - A verifier, reviewer or refuter that fails on a transport error or an unusable output is
+     retried once against the same report; the drafter never runs again because a check had an
+     outage, since its work (a Codex run, a commit) may not be safe to repeat. If the check still
+     cannot run, the run stops, and a check that hits a limit, is aborted or returns nothing
+     stops it at once, as the first point of this list says.
 4. **How many tries each model gets.** A model gets two tries when its first failure is about the
    content, meaning a wrong fix that the failure text can correct. It gets one try when the failure
    is a capability signature: a schema failure, returning while its own long process still runs, or
@@ -113,19 +120,22 @@ run and reproduce them:
   directory and the starting model the ledger gives that class. It is a workflow-runtime script,
   not application code, which is why it sits under `docs/` (outside ESLint and `tsc`) and is not
   run by CI.
-- **`model-ladder/recreation-tests.json`** holds the eleven recreation tests as `args` objects,
-  each with its expected outcome. Two must hand up: an agent call whose output cannot satisfy its
-  schema (`schemaThrowOn`), and an agent that reports done without doing the work, which the
-  verifier answers with `empty_diff` (`skipWorkOn`). Three must stop without a hand-up: an agent
-  call that fails on a usage limit (`throwOn`), a harness that returns nothing (`nullOn`), and an
-  unrecognised error. One must retry the same model once and then stop: a transport failure. One
-  must keep a serious finding standing when its refuters return nothing (`refuteOn: "null"`), one
-  must carry each attempt's branch and commits into the next attempt's record (`reportOn`,
-  `verifyOn`), one must refuse a task that has no verifier, one must send minor findings back for
-  one same-model repair pass and return what is left, and one must retry a verifier that timed
-  out without running the drafter again (`verifyThrowOnce`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each one, and compare the
-  returned `outcome` and `attempts` with `expect`. All but the first two call no agent, so they
-  cost nothing.
+- **`model-ladder/recreation-tests.json`** holds the fourteen recreation tests as `args` objects,
+  each with its expected outcome. Three must hand up: an agent call whose output cannot satisfy
+  its schema (`schemaThrowOn`), an agent that reports done without doing the work, which the
+  verifier answers with `empty_diff` (`skipWorkOn`), and a verifier whose verdict says `ok` while
+  it names `empty_diff`. Three must stop without a hand-up: an agent call that fails on a usage
+  limit (`throwOn`), a harness that returns nothing (`nullOn`), and an unrecognised error. One
+  must retry the same model once and then stop: a transport failure; and one must give a second
+  transport failure, after a call that came back, its own retry (`throwOnAttempt`). Two must stop
+  rather than re-draft when a serious finding's refuters cannot answer: one returns nothing
+  (`refuteOn: "null"`) and one times out (`refuteOn` with the error text). One must carry each
+  attempt's branch and commits into the next attempt's record (`reportOn`, `verifyOn`), one must
+  refuse a task that has no verifier, one must send minor findings back for one same-model repair
+  pass and return what is left, and one must retry a verifier that timed out without running the
+  drafter again (`verifyThrowOnce`). Replace `<EVIDENCE_DIR>` with a scratch directory, run each
+  one, and compare the returned `outcome` and `attempts` with `expect`. All but the first two
+  call no agent, so they cost nothing.
 - **`model-ladder/ledger.jsonl`** is the ledger, one line per attempt. A session appends its lines
   and commits them with the pull request whose work they record; the promotions table above is
   read from it.
