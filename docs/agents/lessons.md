@@ -8,6 +8,13 @@ away the first time it is inconvenient.
 Read the relevant section when a root rule seems wrong for your situation. It is probably
 here for a reason that already cost something.
 
+## Delegating to subagents: the model ladder
+
+Any session that hands work to Claude subagents follows [`model-ladder.md`](model-ladder.md):
+start on Haiku, hand a task up to Sonnet and then Opus only on verified failure, stop (never hand
+up) on a usage limit, an abort or an empty result, and verify one level above the drafter. Its
+reusable workflow script, recreation tests and ledger are in [`model-ladder/`](model-ladder/).
+
 ## Expert standard (binds every feature and every decision)
 
 The bar is not "meets the stated constraints". The bar is what the best

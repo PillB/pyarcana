@@ -1,0 +1,643 @@
+{
+ "how_to_run": "Replace <EVIDENCE_DIR> with an empty scratch directory, run Workflow({scriptPath: '<repo>/docs/agents/model-ladder/model-ladder.js', args}) for each entry, and compare the result's outcome and attempts (model, verdict, kind, and branch and commits where expect lists them) with expect. Last run 2026-10-27: all fourteen as expected. E, F, H, I, J, K, L and M were also run against the code before their fix and fail there, as each entry's mutation notes.",
+ "tests": [
+  {
+   "name": "A - an unsatisfiable schema hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testA",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "test": {
+     "schemaThrowOn": [
+      "haiku"
+     ]
+    },
+    "task": "Write exactly the text `ladder test A` (no newline needed) to the file <EVIDENCE_DIR>/ladder-testA.txt using the Write tool. Touch nothing else.",
+    "verify": "Read <EVIDENCE_DIR>/ladder-testA.txt. ok=true only if it exists and its content is exactly `ladder test A` (a trailing newline is fine); if it does not exist, the work was not done."
+   }
+  },
+  {
+   "name": "B - an agent that reports done with nothing done hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testB",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "test": {
+     "skipWorkOn": [
+      "haiku"
+     ]
+    },
+    "task": "Write exactly the text `ladder test B` (no newline needed) to the file <EVIDENCE_DIR>/ladder-testB.txt using the Write tool. Touch nothing else.",
+    "verify": "Read <EVIDENCE_DIR>/ladder-testB.txt. ok=true only if it exists and its content is exactly `ladder test B` (a trailing newline is fine); if the file does not exist, the work was not done."
+   }
+  },
+  {
+   "name": "C - a harness that returns nothing stops after one attempt",
+   "expect": {
+    "outcome": "null",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "null"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testC",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "task": "unused: this rung is simulated",
+    "verify": "unused",
+    "test": {
+     "nullOn": [
+      "haiku",
+      "sonnet",
+      "opus"
+     ]
+    }
+   }
+  },
+  {
+   "name": "D - a usage limit stops after one attempt, as blocked",
+   "expect": {
+    "outcome": "blocked",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "blocked"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testD",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "evidenceDir": "<EVIDENCE_DIR>",
+    "review": null,
+    "task": "unused: this rung is simulated",
+    "verify": "unused",
+    "test": {
+     "throwOn": {
+      "haiku": "You've hit your weekly limit",
+      "sonnet": "You've hit your weekly limit",
+      "opus": "You've hit your weekly limit"
+     }
+    }
+   }
+  },
+  {
+   "name": "E - a transport failure retries the same model once, then stops",
+   "expect": {
+    "outcome": "infra",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     },
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     }
+    ]
+   },
+   "mutation": "classify() without its transport rule (old default: capability) climbs ETIMEDOUT through Sonnet and Opus",
+   "args": {
+    "label": "ladder-testE",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "unused",
+    "test": {
+     "throwOn": {
+      "haiku": "connect ETIMEDOUT 10.0.0.1:443",
+      "sonnet": "connect ETIMEDOUT",
+      "opus": "connect ETIMEDOUT"
+     }
+    }
+   }
+  },
+  {
+   "name": "E2 - an unrecognised error stops after one attempt",
+   "expect": {
+    "outcome": "unknown",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "unknown"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testE2",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "unused",
+    "test": {
+     "throwOn": {
+      "haiku": "something odd happened",
+      "sonnet": "something odd happened",
+      "opus": "something odd happened"
+     }
+    }
+   }
+  },
+  {
+   "name": "F - a serious finding whose refuters return nothing is not dismissed: the run stops",
+   "expect": {
+    "outcome": "null",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "unreviewed",
+      "kind": "null"
+     }
+    ]
+   },
+   "mutation": "the old rule (a finding stands only if a refuter answered real=true) reports done on haiku#1 with the major finding dismissed",
+   "args": {
+    "label": "ladder-testF",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "opus": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "opus": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     },
+     "reviewOn": [
+      {
+       "severity": "major",
+       "issue": "simulated major finding",
+       "fix": "simulated fix"
+      }
+     ],
+     "refuteOn": "null"
+    }
+   }
+  },
+  {
+   "name": "G - each attempt record keeps its branch and commits",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "branch": "claude/test-g",
+      "commits": [
+       "abc1234"
+      ],
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "haiku",
+      "branch": "claude/test-g",
+      "commits": [
+       "abc1234"
+      ],
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "sonnet",
+      "branch": "claude/test-g",
+      "commits": [
+       "abc1234",
+       "def5678"
+      ],
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "args": {
+    "label": "ladder-testG",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/tmp/g.txt",
+       "branch": "claude/test-g",
+       "commits": [
+        "abc1234"
+       ]
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/tmp/g2.txt",
+       "branch": "claude/test-g",
+       "commits": [
+        "abc1234",
+        "def5678"
+       ]
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": false,
+       "failure_kind": "content",
+       "why": "simulated content failure"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "H - a task with no verifier is refused before any work",
+   "expect": {
+    "outcome": "no-verifier",
+    "attempts": []
+   },
+   "mutation": "the previous script synthesized a passing verification ('no verifier configured') and returned done",
+   "args": {
+    "label": "ladder-testH",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": null,
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "I - minor findings go back once on the same model, and what is left is returned",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "minor-findings",
+      "kind": "minor"
+     },
+     {
+      "model": "haiku",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ],
+    "minors_left": 1
+   },
+   "mutation": "the previous script returned done on attempt 1 and dropped the minor finding",
+   "args": {
+    "label": "ladder-testI",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     },
+     "reviewOn": [
+      {
+       "severity": "minor",
+       "issue": "simulated minor finding",
+       "fix": "simulated minor fix"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "name": "J - a verifier that times out once is retried, and the drafter runs only once",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ],
+    "stage_retries": 1
+   },
+   "mutation": "the previous script recorded the attempt as unverified and ran the drafter a second time",
+   "args": {
+    "label": "ladder-testJ",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyThrowOnce": {
+      "haiku": "connect ETIMEDOUT 10.0.0.1:443"
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "K - a verdict that says ok but names a failure fails closed and hands up",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "capability"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "mutation": "the previous script trusted ok=true alone and returned done on haiku#1 although the verifier named empty_diff",
+   "args": {
+    "label": "ladder-testK",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "empty_diff",
+       "why": "sim: nothing was changed"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "L - a refuter outage stops the run instead of confirming the finding",
+   "expect": {
+    "outcome": "infra",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "unreviewed",
+      "kind": "infra"
+     }
+    ]
+   },
+   "mutation": "the previous script counted a refuter that timed out as confirming the major finding, re-ran the drafter six times and ended exhausted",
+   "args": {
+    "label": "ladder-testL",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "opus": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      },
+      "opus": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     },
+     "reviewOn": [
+      {
+       "severity": "major",
+       "issue": "sim",
+       "fix": "sim"
+      }
+     ],
+     "refuteOn": "socket hang up"
+    }
+   }
+  },
+  {
+   "name": "M - each transport failure gets its own same-model retry",
+   "expect": {
+    "outcome": "done",
+    "attempts": [
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     },
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "haiku",
+      "verdict": "no-output",
+      "kind": "infra"
+     },
+     {
+      "model": "haiku",
+      "verdict": "verify-failed",
+      "kind": "content"
+     },
+     {
+      "model": "sonnet",
+      "verdict": "done",
+      "kind": "ok"
+     }
+    ]
+   },
+   "mutation": "the previous script kept one transport retry for the whole run, so the second timeout (attempt 3) stopped it as infra",
+   "args": {
+    "label": "ladder-testM",
+    "cls": "ladder-test",
+    "start": "haiku",
+    "review": null,
+    "task": "unused: simulated",
+    "verify": "simulated",
+    "test": {
+     "throwOnAttempt": {
+      "1": "connect ETIMEDOUT 10.0.0.1:443",
+      "3": "connect ETIMEDOUT 10.0.0.1:443"
+     },
+     "reportOn": {
+      "haiku": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      },
+      "sonnet": {
+       "verdict": "done",
+       "summary": "sim",
+       "evidence_path": "/dev/null"
+      }
+     },
+     "verifyOn": {
+      "haiku": {
+       "ok": false,
+       "failure_kind": "content",
+       "why": "sim: a check failed"
+      },
+      "sonnet": {
+       "ok": true,
+       "failure_kind": "none",
+       "why": "sim"
+      }
+     }
+    }
+   }
+  }
+ ]
+}
