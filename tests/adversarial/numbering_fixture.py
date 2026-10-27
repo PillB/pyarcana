@@ -82,7 +82,8 @@ def write_section_files(root: Path, slugs, index_fields) -> None:
 
 
 def write_course_index(root: Path, slugs, course_order) -> None:
-    """index.ts imports each section and lists it, in `course_order` when given, else in the epoch's order."""
+    """index.ts imports each section and lists it, in `course_order` when given, else in the course's
+    own slug order (`slugs`), which equals the epoch's order only when `epoch_slugs` is not given."""
     order = course_order if course_order is not None else list(slugs)
     imports = "".join(
         f"import {{ section{slugs.index(s) + 1} }} from './sections/s{slugs.index(s) + 1:02d}-{s}'\n"
