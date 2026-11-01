@@ -143,8 +143,21 @@ const catalog = {
     totals.exercises >= 1200,
 }
 
-fs.mkdirSync(path.dirname(outPath), { recursive: true })
-fs.writeFileSync(outPath, JSON.stringify(catalog, null, 2))
+// The committed artifact is read by tests. If the source has changed since it
+// was last exported, a stale July catalog could hide three of S01's eight
+// questions. --check must fail without mutating tracked evidence. Timestamp is
+// intentionally excluded from source-content parity.
+const comparable = ({ generated_at: _timestamp, ...source }) => JSON.stringify(source)
+if (process.argv.includes('--check')) {
+  const previous = fs.existsSync(outPath) ? JSON.parse(fs.readFileSync(outPath, 'utf8')) : null
+  if (!previous || comparable(previous) !== comparable(catalog)) {
+    console.error('CATALOG_STALE: regenerate and commit course-state/interaction_catalog.json')
+    process.exitCode = 1
+  }
+} else {
+  fs.mkdirSync(path.dirname(outPath), { recursive: true })
+  fs.writeFileSync(outPath, JSON.stringify(catalog, null, 2))
+}
 console.log(JSON.stringify({ outPath, totals, ok: catalog.ok }, null, 2))
 if (!catalog.ok) {
   console.error('CATALOG_GATE_FAILED', totals)

@@ -35,6 +35,20 @@ DEFINITION = "definition: 'Una etiqueta que apunta a un valor en memoria. En Pyt
 KEY = "      correctIndex: 0,\n      explanation:\n        'El síntoma es de intérprete/PATH"
 
 
+class RunDiagnosticsContract(unittest.TestCase):
+    def test_type_error_stdout_survives_unrelated_stderr_warning(self) -> None:
+        """Negative control: a warning must never replace the actual validator reason."""
+        from tools.fixer.apply_patches import _run
+
+        good, diagnostic = _run([sys.executable, "-c", (
+            "import sys; print('TS2345: GlossaryCategory'); "
+            "print('npm warning', file=sys.stderr); sys.exit(1)"
+        )])
+        self.assertFalse(good)
+        self.assertIn("TS2345: GlossaryCategory", diagnostic)
+        self.assertIn("npm warning", diagnostic)
+
+
 class ApplyPatchesValidatesTouchedFiles(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:

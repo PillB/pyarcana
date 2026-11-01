@@ -60,6 +60,24 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 
 - Never skip, delete or weaken a failing test to get green CI.
 - A test must be able to fail. Prove it: break what it guards and watch it report.
+- **Every task and every review round needs an executable falsifiable contract.** Before coding,
+  write the intended user-visible outcome, at least one plausible wrong outcome, and the
+  assertion that distinguishes them. Exercise a *negative control* (deliberately inject or
+  simulate the wrong outcome) and record that the test goes RED, then restore the correct
+  behavior and record GREEN. A test that merely re-reads its own fixture, counts its own
+  generated tiles, clicks without asserting a resulting state, or catches a required
+  interaction failure is not evidence. If mutation cannot be run safely, mark the gate
+  unverified and explain why; never claim it passed.
+- For each user journey, verify cause and effect across **input → action → visible state →
+  persistent/API state when applicable**. An API-only success does not prove the UI flow;
+  UI-only feedback does not prove server-side grading. Test incorrect as well as correct
+  answers, retry/reset, no-selection, bounds, and reload where those states apply.
+- Never swallow required clicks/assertions with broad `catch {}`, conditional existence
+  checks, or `force: true` unless the test is explicitly proving a rejected/blocked path.
+- **`chore(lint)` is mandatory on each code task and round:** `npm run lint:complexity`
+  enforces a cyclomatic ceiling of 15, with explicitly registered legacy debt; new or
+  worsened debt must fail. Run this in addition to `npm run lint` and the task-specific
+  tests; a missing baseline or unavailable dependency is a failure, not a reset.
 - Counts are floors that catch loss, not ceilings on teaching (D6). Convert one only after
   probing that it actually blocks added content — most exact counts match canonical ids
   and already tolerate extras.
@@ -139,6 +157,34 @@ If you can say why they would reject your choice, it is already wrong — change
 the feasible ideal over the cheap satisfier. Research before deciding, not after being
 challenged. Weight methodological correctness, current practice, usability of the actual
 path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
+
+## Adversarial release protocol — per lesson, page and mechanic
+
+- Resolve the canonical section through `src/lib/course/index.ts`; audit source and the
+  deployed SHA separately. Inventory every visible element, hidden/expanded state, exercise,
+  option and expected transition. For each captured viewport describe the reading path in a
+  left-to-right Z pattern, occlusion, scrolling, keyboard focus, animation, and error feedback.
+- Perform **five analysis rounds**, **five independent red-team passes** (technical/scientific,
+  mathematical/contract, pedagogy/prerequisites, adversarial state/permutations, cross-section
+  regression), and **four aesthetic/accessibility passes** (information hierarchy; visual
+  collision; responsive/contrast; focus/motion/reduced motion) per lesson. Run six meaningful
+  end-to-end exercise iterations when feasible, varying input, choices, retry, state and
+  platform. Distinct passes must add distinct observations, not duplicate a verdict.
+- For each finding: identify the exact source + observed behavior, construct an attack,
+  construct the strongest plausible defense, and classify `CONFIRMED_FINDING`,
+  `REJECTED_FINDING`, or `UNRESOLVED`. Trace root cause and all components or later lessons
+  depending on it. Keep a typed JSON ledger with element/subtopic/paragraph IDs, severity,
+  hypothesis, counterexample, expected/actual result, minimal fix, research sources,
+  negative-control result and before/after evidence. Never hand-mark a pass.
+- Have an **independent red-team/QA review** challenge each fix and surprise-sample analogous
+  exercises, not just the case initially reported. The reviewer must verify the source,
+  execution and rendered result rather than accepting another agent's completion claim.
+- Research one failed fix hypothesis using authoritative docs, comparable bug reports and
+  primary evidence **before** proposing the next hypothesis; record the failed attempt and
+  why the replacement differs. Never hide a blocked test behind a weaker substitute.
+- State every material trade-off (especially safety, methodological fidelity, test scope,
+  performance and UX). Do not claim world-class quality, exhaustive permutations or production
+  readiness unless there is executable evidence and zero unresolved release blockers.
 
 ## Invariants
 

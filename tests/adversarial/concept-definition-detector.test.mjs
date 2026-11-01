@@ -26,7 +26,7 @@ import { POST_CUE, PHENOMENON_CUE, definesTerm } from '../../scripts/concept_det
 // themselves instead: the test then checks the course being committed, not whatever a previous
 // local run left behind.
 const extracted = execFileSync(
-  'npx', ['tsx', 'scripts/course_event_extractor.mts'],
+  process.execPath, ['--import', 'tsx', 'scripts/course_event_extractor.mts'],
   { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
 )
 const events = JSON.parse(extracted)
@@ -169,9 +169,9 @@ test('a term the course marks as a term, plus a verb, teaches it', () => {
 })
 
 test('a command line that starts a sentence is not a definition of its command', () => {
-  // "`git restore archivo` descarta cambios sin commit" is an instruction about a command,
+  // "`git restore archivo` es destructivo" explains a command's risk,
   // not an explanation of Git. The formatted span has to be the term and nothing else.
-  assert.equal(definingEvent(/`git restore archivo` descarta cambios/, 'git'), false)
+  assert.equal(definingEvent(/`git restore archivo` es destructivo/, 'git'), false)
   assert.equal(definingEvent(/`git remote -v` permite/, 'git'), false)
 })
 

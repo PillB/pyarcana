@@ -322,6 +322,21 @@ jobs:
           BASE_URL: http://localhost:3000
           CODE_FIDELITY_SCREENSHOTS: '1'
 
+      # A sharded suite existing in the tree is not a release gate unless CI
+      # executes it. Keep S01 (the beginner's entry point) strict on every PR:
+      # all 24 solution toggles must work; eight deliberately wrong answers must
+      # score 0%, and eight correct answers 100% after retry. Expand remaining
+      # shards as their bounded runtime and independent oracles are validated.
+      - name: S01 falsifiable exercise and scoring journeys
+        run: |
+          node scripts/export_interaction_catalog.mjs --check
+          node scripts/export_interaction_catalog.mjs
+          SECTION_SHARD=0/52 npx playwright test -c scripts/e2e_max/playwright.max.config.ts \
+            scripts/e2e_max/03_demos_exercises.shard.spec.ts \
+            scripts/e2e_max/04_quiz_options.shard.spec.ts --reporter=list
+        env:
+          BASE_URL: http://localhost:3000
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -330,6 +345,7 @@ jobs:
           path: |
             test-results/
             playwright-report/
+            playwright-report-e2e-max/
 
   content-gates:
     name: Content gates (runtime audit, V3 invariants, glossary)
