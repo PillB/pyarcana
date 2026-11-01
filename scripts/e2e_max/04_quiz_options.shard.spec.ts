@@ -11,6 +11,12 @@ test.describe('E2E max — self-check option matrix (sharded)', () => {
       test.setTimeout(120_000)
       // Ensure anonymous session for self-check
       await page.context().clearCookies()
+      // The first-visit tour is a real modal; its overlay correctly blocks
+      // clicks behind it. Tour behavior has its own tests. This journey begins
+      // after onboarding, as the parallel demos/exercises journey already does.
+      await page.addInitScript(() => {
+        localStorage.setItem('pyarcana:tourCompleted', '1')
+      })
       await gotoSection(page, section.id)
       await openTab(page, 'quiz')
 
