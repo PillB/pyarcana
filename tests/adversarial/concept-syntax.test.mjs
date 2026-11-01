@@ -55,7 +55,7 @@ test('the title is blanked, and nothing else is', () => {
 
 // The same extraction the gate runs.
 const events = JSON.parse(execFileSync(
-  'npx', ['tsx', 'scripts/course_event_extractor.mts'],
+  process.execPath, ['--import', 'tsx', 'scripts/course_event_extractor.mts'],
   { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
 )).events
 

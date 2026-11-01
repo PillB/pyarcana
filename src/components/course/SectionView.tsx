@@ -125,7 +125,8 @@ export function SectionView({
   const {
     completedSubSteps,
     toggleSubStep,
-    toggleSectionComplete,
+    markSubStepDone,
+    markSectionComplete,
     quizScores,
     setQuizScore,
     setLastVisited,
@@ -339,9 +340,9 @@ export function SectionView({
                 <QuizTab
                   section={section}
                   onDone={() => {
-                    toggleSubStep(section.id, 'quiz')
+                    markSubStepDone(section.id, 'quiz')
                     if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
-                      toggleSectionComplete(section.id)
+                      markSectionComplete(section.id)
                     }
                   }}
                   done={subStepsDone.includes('quiz')}
@@ -930,6 +931,7 @@ function QuizTab({
                       key={oIdx}
                       onClick={() => handleSelect(qIdx, oIdx)}
                       disabled={submitted}
+                      aria-pressed={isSelected}
                       data-testid={`sc-q-${qIdx}-opt-${oIdx}`}
                       className={cn(
                         'flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-all',

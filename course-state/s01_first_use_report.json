@@ -2,63 +2,73 @@
   "section": "setup",
   "first_hits": {
     "venv": {
-      "location": "jobRelevance",
-      "snippet": "smo resultado. Aquí aprendes a crear un entorno virtual (una carpeta con su propio Python y librerías), a usar Git ",
+      "location": "tagline",
+      "snippet": "it desde el día 1. Un entorno virtual (`venv`) es un directorio aislado, asociado a un **intérprete** —e",
       "defined_at_first_use": true
     },
     "git": {
-      "location": "jobRelevance",
-      "snippet": "n su propio Python y librerías), a usar Git para conservar el historial de cambios y a comprobar cada p",
-      "defined_at_first_use": true
-    },
-    "repl": {
-      "location": "theory.heading",
-      "snippet": "El intérprete Python y el REPL",
+      "location": "tagline",
+      "snippet": "Python, un editor, un entorno virtual y Git desde el día 1. Un entorno virtual (`venv`) es un directori",
       "defined_at_first_use": true
     },
     "interprete": {
-      "location": "theory.heading",
-      "snippet": "El intérprete Python y el REPL",
+      "location": "tagline",
+      "snippet": " un directorio aislado, asociado a un **intérprete** —el programa que lee tus instrucciones y las convierte en",
+      "defined_at_first_use": true
+    },
+    "repl": {
+      "location": "learningOutcome",
+      "snippet": "ograma que ejecuta tu código) y usar el REPL (nombre formado por las iniciales inglesas de un ciclo que ",
       "defined_at_first_use": true
     },
     "path": {
-      "location": "theory.heading",
-      "snippet": "cwd, PATH y códigos de salida en la shell",
-      "defined_at_first_use": true
-    },
-    "pip": {
-      "location": "theory.heading",
-      "snippet": "pip, freeze y requirements.txt",
-      "defined_at_first_use": true
-    },
-    "requirements": {
-      "location": "theory.heading",
-      "snippet": "pip, freeze y requirements.txt",
-      "defined_at_first_use": true
-    },
-    "commit": {
-      "location": "theory.heading",
-      "snippet": "Git: commits y lectura de diffs",
-      "defined_at_first_use": true
-    },
-    "pr": {
-      "location": "theory.heading",
-      "snippet": "Ramas, Pull Requests y recuperación segura",
+      "location": "learningOutcome",
+      "snippet": " = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabaj",
       "defined_at_first_use": true
     },
     "repo": {
-      "location": "theory.paragraph",
-      "snippet": "**Git (T3):** *Repo (repositorio)* — la carpeta del proyecto bajo **Git** (el s",
+      "location": "learningOutcome",
+      "snippet": "Inicializar un **repositorio**, una carpeta con historial que Git mantiene, y crear un `",
       "defined_at_first_use": true
     },
     "github": {
+      "location": "learningOutcome",
+      "snippet": "Request, una propuesta de cambios, en **GitHub**, el sitio web que aloja y permite compartir el repositori",
+      "defined_at_first_use": true
+    },
+    "commit": {
+      "location": "learningOutcome",
+      "snippet": "historial que Git mantiene, y crear un `commit`, un punto guardado de ese historial. Publicar el commit co",
+      "defined_at_first_use": true
+    },
+    "pr": {
+      "location": "learningOutcome",
+      "snippet": "ublicar el commit con `push` y abrir un Pull Request, una propuesta de cambios, en **GitHub**, el sitio web que ",
+      "defined_at_first_use": true
+    },
+    "requirements": {
+      "location": "learningOutcome",
+      "snippet": "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignor",
+      "defined_at_first_use": true
+    },
+    "pip": {
       "location": "theory.paragraph",
-      "snippet": "opiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. *Commit* — guardar un snapshot del historia",
+      "snippet": "a crea su propio entorno aislado y usa `pip`, el instalador de paquetes de Python, con `python -m pip i",
       "defined_at_first_use": true
     },
     "clonar": {
       "location": "theory.paragraph",
-      "snippet": "que conserva el historial de cambios). *Clonar* — copiar un repo desde un remoto (p. ej. **GitHub**) a tu ",
+      "snippet": "y otra en Berlín clonan tu repositorio. Clonar significa descargar una copia completa. Cada una crea su pr",
+      "defined_at_first_use": true
+    },
+    "stdout": {
+      "location": "theory.paragraph",
+      "snippet": "procesos tienen dos canales de texto. **stdout** es la salida estándar, donde un programa escribe su resul",
+      "defined_at_first_use": true
+    },
+    "stderr": {
+      "location": "theory.paragraph",
+      "snippet": "programa escribe su resultado normal; **stderr** es la salida de errores, donde informa los problemas. Nin",
       "defined_at_first_use": true
     }
   },
@@ -66,5 +76,5 @@
   "open_p0": [],
   "open_p1": [],
   "ok": true,
-  "has_day1_dictionary": true
+  "has_day1_definitions": true
 }

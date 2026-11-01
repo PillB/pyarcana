@@ -1,7 +1,8 @@
 # CLAUDE.md
 
-The agent policy for this repository is **[`AGENTS.md`](./AGENTS.md)**, at the repository
-root: `/Users/pabloillescas/Documents/GitHub/pyarcana/AGENTS.md`.
+The binding agent policy is **[`AGENTS.md`](./AGENTS.md)**, at the repository root
+(`./AGENTS.md`, relative to this `CLAUDE.md`). Resolve its absolute path from the current
+checkout; do not assume an individual developer's home directory.
 
 Read it before doing anything here. It is binding, and it outranks habit. In particular:
 
@@ -12,9 +13,13 @@ Read it before doing anything here. It is binding, and it outranks habit. In par
   would reject your choice, the choice is already wrong.
 - **Every trade-off is stated, never absorbed.** Work left undone is named.
 - **A real test for every task and every round.** Tautological tests are worse than no
-  test: they convert an unverified claim into a green check.
+  test: they convert an unverified claim into a green check. Define good and deliberately
+  wrong outcomes, assert their difference, and demonstrate RED→GREEN with a negative control.
 - **`chore(lint)` complexity ceiling.** `node scripts/complexity_gate.mjs` — cyclomatic
-  complexity 15, enforced as a ratchet.
+  complexity 15, enforced as a ratchet. Run `npm run lint:complexity` in every code round.
+- **Section release review:** follow `AGENTS.md` for five analysis rounds, five red-team
+  passes, four visual/accessibility passes, six varied exercise journeys, typed evidence and
+  independent QA spotchecks. Unrun iterations remain explicitly open, never assumed passed.
 - **One failed hypothesis, then research.** If a fix hypothesis fails once, search for
   how others solved the same error before trying a second guess.
 - **A blocked or rate-limited dependency is a stop, not a retry.** Surface it.

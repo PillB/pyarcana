@@ -384,7 +384,10 @@ function annotateGlossaryTermsPlain(
 ): string {
   if (!terms.length) return plain
   const holes: string[] = []
-  // Protect fenced-style inline code and already-marked spans
+  // Protect inline code and each newly annotated glossary span. If a long
+  // alias such as "Conventional Commits" is marked first, a later "commit"
+  // pass must not insert a second marker *inside* that marker. Nested markers
+  // leaked literally into S01-T3-B-E2 on the published site.
   let text = plain.replace(/`[^`]+`/g, (m) => {
     const i = holes.length
     holes.push(m)
@@ -412,7 +415,9 @@ function annotateGlossaryTermsPlain(
       if (!re.test(text)) continue
       text = text.replace(re, (_full, before: string, match: string) => {
         seen.add(term.id)
-        return `${before}⟦TERM:${term.id}⟧${match}⟦/TERM⟧`
+        const i = holes.length
+        holes.push(`⟦TERM:${term.id}⟧${match}⟦/TERM⟧`)
+        return `${before}\u0000${i}\u0000`
       })
       break
     }

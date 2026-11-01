@@ -53,11 +53,13 @@ GLOSSARY = ROOT / "src/lib/glossary/terms.ts"
 
 def _run(cmd: list[str]) -> tuple[bool, str]:
     """(True, all of stdout) on success; (False, the tail of the error) on failure. Success must
-    not be truncated or swapped for stderr: the extractor's stdout is the bank, as JSON."""
+    not be truncated or swapped for stderr: the extractor's stdout is the bank, as JSON.
+    On failure, preserve *both* channels: npm can warn on stderr while TypeScript places
+    the actual type error on stdout. Preferring stderr used to hide the diagnostic."""
     r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
     if r.returncode == 0:
         return True, r.stdout
-    return False, (r.stderr or r.stdout)[-1500:]
+    return False, (r.stdout + ("\n" if r.stdout and r.stderr else "") + r.stderr)[-3000:]
 
 
 #: Every scratch directory sits two levels below ROOT: .fixer/validate-XXXX/.

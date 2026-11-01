@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,53 +30,50 @@ JARGON = [
     ("repl", [r"\bREPL\b"]),
     ("interprete", [r"int[eé]rprete"]),
     ("clonar", [r"\bclonar\b", r"\bclona\b", r"\bclone\b"]),
+    ("stdout", [r"\bstdout\b"]),
+    ("stderr", [r"\bstderr\b"]),
 ]
 
-# Definition cues (Spanish pedagogy)
-DEF_CUE = re.compile(
-    r"(es un|es una|son un|significa|carpeta|historial|programa que|"
-    r"lista de|instalador|propuesta de|modo interactivo|control de versiones|"
-    r"repositorio:|entorno virtual\s*\(|repo\s*\(|venv\s*\)|"
-    r"Diccionario del d[ií]a|herramienta `venv`)",
-    re.I,
-)
+# A term's definition must match that *term*, not any unrelated earlier "es una"
+# in the cumulative text. Each pattern is a minimal independently reviewable
+# first-use contract, not a claim that keyword matching proves all pedagogy.
+DEFINITION_PATTERNS = {
+    "venv": r"entorno virtual.{0,35}(?:venv)?.{0,35}(?:directorio|carpeta|aislad)|venv.{0,80}(?:directorio|carpeta|aislad)",
+    "repo": r"repositorio.{0,35}carpeta.{0,30}historial|carpeta.{0,60}repositorio",
+    "git": r"Git.{0,15}(?:sistema|historial)",
+    "github": r"GitHub.{0,35}(?:sitio web|aloja|servidor|compart)",
+    "commit": r"commit.{0,32}(?:punto guardado|historial|guarda)|punto guardado.{0,80}commit",
+    "pr": r"(?:Pull Request|PR).{0,35}(?:propuesta|revisar|revisión)",
+    "pip": r"pip.{0,20}(?:instalador|instala paquetes)",
+    "requirements": r"requirements\.txt.{0,45}(?:lista|paquetes|versiones)",
+    "path": r"PATH.{0,50}(?:d[oó]nde|busca programas|busca ejecutables)",
+    "repl": r"REPL.{0,95}(?:ciclo|interactivo|Read.Eval.Print)",
+    "interprete": r"int[eé]rprete.{0,60}(?:programa|ejecuta|lee)",
+    "clonar": r"clon(?:ar|a|an).{0,65}(?:descarg|copia)",
+    "stdout": r"stdout.{0,90}(?:salida est[aá]ndar|salida normal|texto normal)",
+    "stderr": r"stderr.{0,90}(?:salida de errores|mensajes de error|canal de errores)",
+}
 
 
-def extract_string_literals_in_order(src: str) -> list[tuple[str, str]]:
-    """Rough ordered learner-facing strings from S01 export object."""
-    chunks: list[tuple[str, str]] = []
-    # jobRelevance
-    m = re.search(r"jobRelevance:\s*'((?:\\'|[^'])*)'", src, re.S)
-    if m:
-        chunks.append(("jobRelevance", m.group(1).replace("\\'", "'").replace("\\n", "\n")))
-    # learning outcomes
-    for m in re.finditer(r"\{\s*text:\s*'((?:\\'|[^'])*)'\s*\}", src):
-        chunks.append(("learningOutcome", m.group(1).replace("\\'", "'")))
-    # theory paragraphs + headings
-    for m in re.finditer(r"heading:\s*'((?:\\'|[^'])*)'", src):
-        chunks.append(("theory.heading", m.group(1).replace("\\'", "'")))
-    for m in re.finditer(r"paragraphs:\s*\[([\s\S]*?)\]", src):
-        body = m.group(1)
-        for sm in re.finditer(r"'((?:\\'|[^'])*)'", body):
-            chunks.append(("theory.paragraph", sm.group(1).replace("\\'", "'").replace("\\n", "\n")))
-    # iDo intro
-    m = re.search(r"iDo:\s*\{[\s\S]*?intro:\s*'((?:\\'|[^'])*)'", src)
-    if m:
-        chunks.append(("iDo.intro", m.group(1).replace("\\'", "'")))
-    return chunks
+def extract_string_literals_in_order() -> list[tuple[str, str]]:
+    """Import the *rendered data order*, not source-code regular expressions."""
+    result = subprocess.run(
+        ["node", "--import", "tsx", "scripts/export_s01_first_use.mts"],
+        cwd=ROOT, capture_output=True, text=True, check=True,
+    )
+    return [(loc, text) for loc, text in json.loads(result.stdout)]
 
 
-def main() -> None:
-    src = S01.read_text(encoding="utf-8")
-    chunks = extract_string_literals_in_order(src)
-    # Only audit prefix until first theory paragraphs of block 1 (job + outcomes + first 4 paras)
-    # Actually audit full cumulative through early theory
-    cumulative = ""
+def first_use_is_defined(term: str, context: str) -> bool:
+    """A constrained positive assertion; unrelated definitions cannot satisfy it."""
+    return bool(re.search(DEFINITION_PATTERNS[term], context, re.I | re.S))
+
+
+def audit_chunks(chunks: list[tuple[str, str]]) -> dict:
     first_hits: dict[str, dict] = {}
     issues = []
 
     for loc, text in chunks:
-        # skip code-heavy later theory for "first use" focus: stop after we have dictionary + 3 more paras of first blocks
         for jid, patterns in JARGON:
             if jid in first_hits:
                 continue
@@ -82,13 +81,11 @@ def main() -> None:
                 m = re.search(pat, text, re.I)
                 if not m:
                     continue
-                # definition already in cumulative (before this match) or in same text before match
-                before = cumulative + text[: m.start()]
-                window = text[max(0, m.start() - 120) : m.end() + 160]
-                defined = bool(DEF_CUE.search(before)) or bool(DEF_CUE.search(window))
-                # Dictionary paragraph always counts as definition for all listed there
-                if "Diccionario del día" in cumulative or "Diccionario del día" in text:
-                    defined = True
+                # Check this term's nearby context, not an arbitrary definition
+                # of a different term. The following 220 chars allow an inline
+                # definition after the first mention in a beginner paragraph.
+                window = text[max(0, m.start() - 30) : m.end() + 450]
+                defined = first_use_is_defined(jid, window)
                 first_hits[jid] = {
                     "location": loc,
                     "snippet": text[max(0, m.start() - 40) : m.end() + 60].replace("\n", " "),
@@ -105,22 +102,22 @@ def main() -> None:
                         }
                     )
                 break
-        cumulative += "\n" + text
-        # stop deep audit after early theory (first heading + 4 paragraphs roughly)
-        if loc == "theory.paragraph" and cumulative.count("theory.paragraph") >= 6:
-            # don't hard stop — keep scanning outcomes only already done
-            pass
-
-    # Special: tagline is marketing; require dictionary exists in first theory paragraph
-    has_dict = any("Diccionario del día" in t for _, t in chunks)
-    if not has_dict:
+    # S01 intentionally uses inline explanations instead of a block titled
+    # "Diccionario del día". Require substantive definitions in the opening
+    # paragraph cluster; a cosmetic heading alone is not sufficient.
+    early_theory = " ".join(t for loc, t in chunks if loc == "theory.paragraph")[:6000]
+    has_day1_definitions = all(
+        first_use_is_defined(jid, early_theory)
+        for jid in ("venv", "git", "repo", "commit", "pip", "requirements")
+    )
+    if not has_day1_definitions:
         issues.append(
             {
-                "term": "dictionary_block",
+                "term": "day1_core_definitions",
                 "severity": "P0",
                 "location": "theory[0]",
-                "snippet": "missing Diccionario del día 1",
-                "fix": "Add day-1 dictionary as first theory paragraph",
+                "snippet": "missing one or more first-block core explanations",
+                "fix": "Define venv, Git, repo, commit, pip and requirements early; headings alone do not count",
             }
         )
 
@@ -131,10 +128,17 @@ def main() -> None:
         "open_p0": [i for i in issues if i["severity"] == "P0"],
         "open_p1": [i for i in issues if i["severity"] == "P1"],
         "ok": len([i for i in issues if i["severity"] in ("P0", "P1")]) == 0,
-        "has_day1_dictionary": has_dict,
+        "has_day1_definitions": has_day1_definitions,
     }
+    return report
+
+
+def main() -> None:
+    report = audit_chunks(extract_string_literals_in_order())
     OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False))
-    print(json.dumps({"ok": report["ok"], "p0": len(report["open_p0"]), "p1": len(report["open_p1"]), "hits": len(first_hits)}, indent=2))
+    print(json.dumps({"ok": report["ok"], "p0": len(report["open_p0"]), "p1": len(report["open_p1"]), "hits": len(report["first_hits"])}, indent=2))
+    if not report["ok"]:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

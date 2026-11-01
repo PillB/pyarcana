@@ -47,7 +47,7 @@ export const section01: CourseSection = {
     {
             heading: "Dos equipos, dos unidades, una nave perdida",
       paragraphs: [
-        "En 1999 la misión Mars Climate Orbiter se perdió porque un archivo de software terrestre entregó datos de propulsión en unidades inglesas, aunque el contrato documentado entre equipos exigía unidades métricas. Nadie mintió y nadie se equivocó al calcular; simplemente, cada lado dio por supuesto algo que el otro no compartía. La versión cotidiana no destruye una nave. Dos personas creen ejecutar «el mismo proyecto», pero usan intérpretes o dependencias diferentes. Las dependencias son los componentes de código que el proyecto necesita. Los números salen distintos y nada avisa.",
+        "En 1999 la misión Mars Climate Orbiter se perdió cuando un archivo de software terrestre suministró datos de impulso en unidades inglesas, aunque el contrato exigía unidades métricas. La investigación de NASA identificó tanto ese error de unidades como fallos de las verificaciones que debían detectarlo; no fue solo un malentendido inocente (informe: https://llis.nasa.gov/lesson/641). La versión cotidiana no destruye una nave. Dos personas creen ejecutar «el mismo proyecto», pero usan intérpretes o dependencias diferentes. Las dependencias son los componentes de código que el proyecto necesita. Los números salen distintos y nada avisa.",
         "De ahí sale la única prueba que importa en esta sección. No es un examen, sino una escena: una colega en Nairobi y otra en Berlín clonan tu repositorio. Clonar significa descargar una copia completa. Cada una crea su propio entorno aislado y usa `pip`, el instalador de paquetes de Python, con `python -m pip install -r requirements.txt`. Después, la prueba mínima debe producir el resultado que tú documentaste. Si solo funciona en tu laptop, todavía no tienes un proyecto reproducible: tienes una casualidad local.",
         "Para llegar ahí hacen falta cuatro piezas y conviene saber qué hace cada una. El **intérprete** es el programa `python` que lee tu código y lo ejecuta; la **terminal** es la ventana de texto donde le das órdenes. El módulo `venv` crea el **entorno virtual**. Es un directorio aislado, asociado al intérprete con el que lo creaste y con sus propios paquetes. Allí mantienes separados los componentes de este proyecto. Así, instalar uno no altera lo que otro proyecto ya usaba. El entorno se recrea desde archivos del proyecto; no se copia ni se mueve a otra máquina. **pip** instala paquetes, y **`requirements.txt`** es la lista escrita de cuáles son y en qué versión. Sin esa lista, «instala lo que haga falta» es una instrucción que cada persona interpreta distinto.",
         "La cuarta pieza guarda la historia en lugar del estado. **Git** es el sistema que conserva el historial de cambios y registra cómo el proyecto llegó a ser lo que es. La carpeta bajo su control se llama **repositorio**. Copiarla desde un servidor como GitHub se llama **clonar**. Cada punto guardado del historial es un **commit** con su mensaje. Cuando quieres que alguien revise tus cambios antes de integrarlos, abres un **pull request**. Ninguna de estas palabras es difícil; lo difícil es que casi nunca te las explican antes de usarlas.",
@@ -149,6 +149,7 @@ pip 24.0 from ... (python 3.12)`,
         'En un centro de operaciones, nadie puede mirar miles de pantallas para decidir qué proceso «parece» haber terminado bien. Las máquinas necesitan un contrato más sobrio: un entero. La **terminal** es la aplicación o ventana de texto. Dentro funciona la **shell**, el programa que interpreta tus órdenes. Bash, zsh y PowerShell son shells. La shell lanza procesos como `python`, `git` o `mkdir`. Cuando uno termina, devuelve un **código de salida**. Por convención, **0 significa éxito** y **cualquier valor distinto de 0 indica que el siguiente paso no debe darse por seguro**. Bash/zsh lo exponen con `echo $?`; PowerShell, con `echo $LASTEXITCODE`.',
         'No confundas el **directorio de trabajo actual** (cwd: dónde “estás” con `cd` y `pwd` / `Get-Location`) con el **PATH** (lista de carpetas donde el sistema busca ejecutables como `python`). Puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. `mkdir` y `cd` mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH.',
         'Para observar el contrato no necesitas escribir todavía un programa con decisiones. Ejecuta primero `python3 --version`, que debe terminar con código 0, y luego `python3 archivo_que_no_existe.py`, que debe terminar con un código distinto de 0. Usa el nombre de intérprete que verificaste y lee `$?` en bash/zsh o `$LASTEXITCODE` en PowerShell. El texto explica qué ocurrió; el entero indica si el siguiente paso puede darse por seguro.',
+        'Además del código de salida, los procesos tienen dos canales de texto. **stdout** es la salida estándar, donde un programa escribe su resultado normal; **stderr** es la salida de errores, donde informa los problemas. Ninguno de los dos sustituye al código de salida: un programa puede terminar con código 3 sin mostrar nada, o escribir un mensaje de error sin terminar necesariamente con código distinto de cero.',
         'Los **argumentos de línea de comandos** son datos que se escriben después del nombre de un programa al lanzarlo. Python permite leerlos, pero hacerlo requiere listas, decisiones e índices que todavía no necesitas. Esa técnica se enseñará en la sección dedicada a programas de línea de comandos; aquí solo leerás códigos de salida producidos por comandos preparados.',
         '**Qué intérprete es este proceso:** `sys.executable` es la ruta absoluta del binario Python que está corriendo tu script (ej. `.../.venv/bin/python`). Si `import requests` falla, compara `sys.executable` con el `pip` que usaste: la regla de oro es instalar con `python -m pip install ...` usando **el mismo** ejecutable. Así evitas el clásico "lo instalé pero ModuleNotFoundError".',
       ],
@@ -185,8 +186,8 @@ echo $?
       code: {
         language: 'bash',
         title: 'Los conectores, uno por uno',
-        code: `# 1) mkdir -p crea la carpeta; && entra solo si se creó bien
-mkdir -p lab_conectores && cd lab_conectores
+        code: `# 1) mktemp crea una carpeta NUEVA; no reutilizamos ni borramos carpetas ajenas
+lab_dir="$(mktemp -d)" && cd "$lab_dir"
 
 # 2) > escribe desde cero (borra lo anterior)
 echo "primera linea" > notas.txt
@@ -208,9 +209,9 @@ grep "tercera" notas.txt || echo "no aparece"
 comando_que_no_existe 2>/dev/null
 echo $?
 
-# 8) limpieza: rm -rf borra la carpeta de practica y su contenido
+# 8) limpieza: solo la carpeta temporal recién creada, cuya ruta guardamos
 cd ..
-rm -rf lab_conectores`,
+rm -r -- "$lab_dir"`,
         output: `primera linea
 segunda linea
 no aparece
@@ -527,7 +528,7 @@ docs: agregar README inicial
         'Antes del primer `push`, autentica GitHub CLI con `gh auth login --web`: el comando abre un flujo seguro en el navegador, por lo que no debes pegar contraseñas ni tokens en archivos del proyecto. Después conecta la carpeta local con `git remote add origin URL`; **origin** es solo el apodo convencional de esa dirección. `git remote -v` permite comprobarla antes de publicar. Si ya existe un `origin`, no lo agregues de nuevo: verifica que apunta al repositorio correcto.',
         'Publica primero `main` y después tu rama. Al abrir el repositorio en GitHub aparecerá **Compare & pull request** para la rama recién publicada: revisa el diff, explica qué cambiaste y crea el PR. El PR no es otro archivo ni otro commit; es la conversación de revisión alrededor de una comparación entre ramas.',
         'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, lo seleccionas con `git add` y guardas la resolución en un commit. En S01 no necesitas resolver conflictos complejos: sí necesitas no entrar en pánico ni “arreglarlos” con historial destructivo. La regla de oro de este curso es **no hacer `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
-        'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda por omisión las modificaciones de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. Usa `git stash -u` solo cuando decidas incluir también esos archivos y comprueba el resultado con `git status`; `git stash pop` recupera lo guardado. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
+        'Primero decide si quieres **conservar** o **descartar** el cambio. Para conservarlo temporalmente, `git stash push -m "borrador"` guarda cambios de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. `git stash -u` también guarda esos archivos nuevos y `git stash pop` intenta recuperar lo guardado. **Atención: `git restore archivo` es destructivo para las ediciones locales sin commit de ese archivo**: las sustituye por el contenido del índice, y esas ediciones pueden perderse definitivamente. Inspecciona `git status` y `git diff` antes de usarlo, y haz una copia o un stash si existe cualquier duda. `git restore --staged archivo` solo quita el archivo del área de preparación; no descarta sus ediciones de trabajo. `git reset --hard` puede descartar muchos cambios a la vez: no lo uses como atajo. La decisión segura empieza por conservar lo que todavía podrías necesitar.',
       ],
       screenshots: [
         { id: 's01-new-repository-menu', after: 1 },
@@ -551,12 +552,14 @@ git push -u origin main
 git switch feat/hello-env
 git push -u origin feat/hello-env
 
-# Recuperación no destructiva (sin force-push a main):
-# git restore archivo.md
+# Para CONSERVAR: comprueba el diff y guarda cambios antes de decidir.
+# git status
+# git diff -- archivo.md
 # git stash push -m "wip"       # guarda cambios de archivos rastreados
 # git stash push -u -m "wip"    # incluye además archivos no rastreados, si lo decidiste
-# git status                     # comprueba qué quedó
 # git stash pop                  # recupera lo guardado
+# Para DESCARTAR definitivamente ediciones sin commit (no es un deshacer seguro):
+# git restore archivo.md        # solo tras confirmar que no necesitas esas ediciones
 `,
         output: `feat/hello-env
 # El push/PR requiere un remoto origin configurado`,
@@ -565,7 +568,7 @@ git push -u origin feat/hello-env
         type: 'danger',
         title: 'Errores típicos + prohibido force-push a main',
         content:
-          'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya versionaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
+          'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya versionaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Para conservar ediciones antes de decidir, crea una copia o usa stash. `git restore` **descarta** ediciones sin commit: no es una forma de guardarlas. Force-push nunca es la respuesta a “push rechazado” en main.',
       },
     },
     {
@@ -617,23 +620,25 @@ select = ["E", "F", "I"]
       ],
       code: {
         language: 'bash',
-        title: 'Crear archivos en VS Code y verificar `.env`',
-        code: `# En VS Code, crea .gitignore con estas líneas:
-.venv/
-venv/
-__pycache__/
-*.pyc
-.env
-.ipynb_checkpoints/
+        title: 'Plantillas de archivos (comentarios) y comprobación en terminal',
+        code: `# Primero, en VS Code, crea .gitignore con estas líneas SIN el signo #:
+# .venv/
+# venv/
+# .venv_replica/
+# __pycache__/
+# *.pyc
+# .env
+# .ipynb_checkpoints/
 
-# Crea .env.example con estas líneas:
-API_TOKEN=
-DATABASE_URL=
+# Crea .env.example con estas líneas SIN el signo #:
+# API_TOKEN=
+# DATABASE_URL=
 
-# Guarda ambos archivos. Después ejecuta en la terminal:
+# Las líneas anteriores son CONTENIDO DE ARCHIVOS, no órdenes de shell.
+# Guarda los archivos. SOLO ENTONCES ejecuta en la terminal:
 git check-ignore -v .env
 `,
-        output: `.gitignore:5:.env    .env`,
+        output: `.gitignore:6:.env    .env`,
       },
       callout: {
         type: 'warning',
@@ -645,7 +650,7 @@ git check-ignore -v .env
   ],
   iDo: {
     intro:
-      'Te muestro paso a paso cómo configuro un entorno desde cero. Los bloques son comandos **copy-paste reales**: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
+      'Te muestro paso a paso cómo configuro un entorno desde cero. **No pegues un bloque entero sin leerlo**: algunas líneas son comentarios, ejemplos de archivos o pasos manuales que debes completar antes del siguiente comando. En macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` en PowerShell, o `activate.bat` únicamente en cmd.exe. Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
     steps: [
       {
         demoId: 'S01-T1-A-DEMO',
@@ -826,13 +831,20 @@ git branch --show-current
         code: {
           language: 'bash',
           title: 'Terminal + pyproject.toml',
-          code: `# pyproject.toml ya tiene [tool.ruff] select = ["E","F","I"]
+          code: `# ANTES de seguir, crea pyproject.toml en la raíz con estas líneas SIN #:
+# [tool.ruff]
+# line-length = 88
+# target-version = "py312"
+# [tool.ruff.lint]
+# select = ["E", "F", "I"]
 python -m pip install ruff
 
-# Contenido inicial de hello_lint.py (import sin usar a propósito):
+# ANTES del siguiente comando: crea y guarda hello_lint.py en VS Code
+# con estas DOS líneas (sin el # inicial):
 # import sys
 # print("hola")
 
+# Si el archivo no existe, Ruff dará un error de ruta, NO F401.
 python -m ruff check hello_lint.py
 # hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
 # → borra la línea "import sys" y repite:
@@ -1130,7 +1142,7 @@ codigo_fail=1`,
           '- **Contexto:** una secuencia automática necesita saber si un comando terminó bien y dónde escribió cada mensaje.\n- **Meta:** ejecutar cuatro comandos preparados, leer sus códigos de salida y registrar si cada mensaje llegó por stdout o stderr.\n- **Éxito:** reconoces exit 0 en el éxito y exit distinto de 0 en los tres fallos; distingues stdout, stderr y ausencia de mensaje.\n- **Límites:** no escribas un programa con argumentos; usa el nombre de Python que ya verificaste y lee el código inmediatamente después de cada comando.',
         id: 'S01-T1-B-E2',
         instruction:
-          '1. Ejecuta el comando exitoso y luego los tres fallos preparados: archivo ausente, comando inexistente y salida 3.\n2. Después de cada uno, lee `echo $?` en bash/zsh o `echo $LASTEXITCODE` en PowerShell.\n3. Completa el registro con el código y el canal del mensaje: stdout, stderr o ninguno.',
+          '1. Ejecuta el comando exitoso y luego los tres fallos preparados: archivo ausente, comando inexistente y salida 3.\n2. En bash/zsh lee `echo $?` inmediatamente. En PowerShell lee `Write-Output $?` para saber si falló la orden (`True`/`False`) y, **solo si ejecutaste Python**, `Write-Output $LASTEXITCODE` para conocer su número de salida. Un comando desconocido puede no actualizar `$LASTEXITCODE`.\n3. Completa el registro: código de proceso cuando exista, resultado de la shell y canal stdout, stderr o ninguno.',
         hint: 'No deduzcas el resultado por el texto: lee el código justo después de cada comando y registra por separado el canal.',
         hints: [
           'El comando que imprime `ok` usa stdout y termina con exit 0. Python informa el archivo ausente por stderr y termina con exit distinto de 0.',
@@ -1141,7 +1153,7 @@ codigo_fail=1`,
           'Confundir ausencia de mensaje con éxito: el comando que termina con código 3 no escribe en stdout ni stderr',
         ],
         tests:
-          'Registra cuatro ejecuciones: éxito con exit 0 y stdout; archivo ausente con exit distinto de 0 y stderr; comando inexistente con exit distinto de 0 y stderr; salida 3 sin mensaje.',
+          'Registra cuatro ejecuciones: éxito de Python con exit 0 y stdout; archivo ausente con exit distinto de 0 y stderr; comando inexistente con estado de fallo de shell (sin inventar un código numérico en PowerShell); salida 3 sin mensaje.',
         feedback:
           'El texto y el código responden preguntas distintas: stdout entrega el resultado normal, stderr explica un fallo y el código decide si el siguiente paso puede darse por seguro. El malentendido: “no imprimió nada, entonces funcionó”.',
         retrospective:
@@ -1151,7 +1163,8 @@ codigo_fail=1`,
           title: 'transcripción de códigos y canales',
           code: `# CASO-LIM-001 · cuatro comandos preparados
 # TAREA: ejecuta cada comando y completa código y canal
-# Bash/zsh: lee $? · PowerShell: usa $LASTEXITCODE
+# Bash/zsh: lee $? · PowerShell: $? mide éxito/fallo de la orden;
+# $LASTEXITCODE solo informa la última ejecución nativa (Python).
 
 # 1) Éxito
 python3 -c "print('ok')"
@@ -1177,7 +1190,8 @@ echo $?
           language: 'bash',
           title: 'registro de códigos y canales',
           code: `# Usa python en lugar de python3 si ese es el nombre que verificaste.
-# En PowerShell, lee $LASTEXITCODE en lugar de $?.
+# PowerShell: usa $? para un error propio de la shell y
+# $LASTEXITCODE para los números de salida de procesos Python.
 
 python3 -c "print('ok')"
 echo $?
@@ -1189,7 +1203,8 @@ echo $?
 
 comando_que_no_existe_pyarcana
 echo $?
-# código: distinto de 0 · mensaje: comando no encontrado · canal: stderr
+# bash/zsh: normalmente 127; PowerShell: $? es False y
+# $LASTEXITCODE puede conservar un código anterior · canal: error de shell
 
 python3 -c "import sys; sys.exit(3)"
 echo $?
@@ -1281,21 +1296,21 @@ echo $?
         kind: 'guided',
         title: 'Crear, activar y desactivar `.venv`',
         preamble:
-          '- **Contexto:** un proyecto = un entorno aislado; no mezcles dependencias en el Python del sistema.\n- **Meta:** crear `.venv`, activarlo y probar que `sys.prefix` apunta a esa carpeta; luego `deactivate`.\n- **Éxito:** carpeta `.venv` existe; tras activate, `sys.prefix` contiene `.venv`; tras deactivate, sales del entorno del proyecto.\n- **Límites:** no instales paquetes aún; no uses el Python global a propósito; en PowerShell, si `Activate.ps1` falla por política, documenta `RemoteSigned` (CurrentUser) o `activate.bat`.',
+          '- **Contexto:** un proyecto = un entorno aislado; no mezcles dependencias en el Python del sistema.\n- **Meta:** crear `.venv`, activarlo y comprobar con `sys.prefix` qué intérprete usas; luego `deactivate` si activaste.\n- **Éxito:** `.venv` existe y `sys.prefix` apunta a ella; en una shell con activación, `deactivate` vuelve al Python base. En PowerShell bloqueado, invocar directamente el ejecutable del entorno **también vale** y no requiere `deactivate`.\n- **Límites:** no instales paquetes aún; no uses el Python global a propósito. Si PowerShell bloquea `Activate.ps1`, no cambies la política de seguridad sin autorización: prueba `.venv\\Scripts\\python.exe` directamente y documenta la limitación. `activate.bat` solo sirve en cmd.exe.',
         id: 'S01-T2-A-E1',
         instruction:
-          '1. Entra a la carpeta de práctica del starter.\n2. Completa create / activate / print `sys.prefix` / deactivate.\n3. Marca el checklist del ejercicio.',
+          '1. Entra a la carpeta de práctica del starter.\n2. Completa create / activate / print `sys.prefix` / deactivate en bash, zsh o PowerShell si la política permite activar.\n3. Alternativa en PowerShell bloqueado: usa `& .\\.venv\\Scripts\\python.exe -c "import sys; print(sys.prefix)"` sin activar ni desactivar; registra esa ruta como evidencia válida.\n4. Marca el checklist correspondiente al camino que realmente ejecutaste.',
         hint: 'El ciclo es crear, activar, verificar con `sys.prefix` y salir con `deactivate`; practícalo en orden.',
         hints: [
           'Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .venv\\Scripts\\Activate.ps1',
           'Verifica con: python -c "import sys; print(sys.prefix)" — debe terminar en .venv. which/where python también ayuda.',
         ],
         edgeCases: [
-          'PowerShell: política de ejecución puede bloquear Activate.ps1 — usar Set-ExecutionPolicy -Scope CurrentUser RemoteSigned o el activate.bat',
+          'PowerShell: si la política bloquea Activate.ps1, utiliza .venv\\Scripts\\python.exe sin activar y consulta la política del equipo; activate.bat solo sirve en cmd.exe',
           'Crear .venv fuera del proyecto y olvidar la ruta al activar',
         ],
         tests:
-          'Checklist: existe carpeta .venv; tras activate, sys.prefix contiene .venv; tras deactivate, el prefijo ya no es el del proyecto (o el prompt pierde (.venv)).',
+          'Dos rutas válidas: (A) activar, probar que sys.prefix apunta a .venv y desactivar; (B) en PowerShell bloqueado, invocar .venv\\Scripts\\python.exe directamente y comprobar el prefijo sin exigir activate/deactivate. En ambas existe la carpeta .venv y no se cambian políticas de seguridad sin autorización.',
         feedback:
           'Si creaste, activaste y desactivaste sin instalar nada global, ya dominas el ciclo de vida mínimo del entorno. El malentendido: confundir la carpeta del repo con el PATH. Siguiente: recrear un entorno roto.',
         retrospective:
@@ -1338,21 +1353,21 @@ deactivate`,
         kind: 'independent',
         title: 'Recrear un `.venv` roto sin tocar el código',
         preamble:
-          '- **Contexto:** un `site-packages` corrupto se repara recreando el entorno, no “a mano”.\n- **Meta:** borrar/recrear `.venv` limpio preservando scripts del proyecto.\n- **Éxito:** activate funciona; `sys.prefix` es el nuevo `.venv`; los `.py` del proyecto siguen existiendo.\n- **Límites:** no uses conda ni reinstales el Python del sistema; no borres la raíz del proyecto.',
+          '- **Contexto:** un `site-packages` corrupto se repara recreando el entorno, no “a mano”.\n- **Meta:** reconstruir `.venv` sin perder el entorno anterior si falla la recreación, preservando scripts del proyecto.\n- **Éxito:** `sys.prefix` coincide con la ruta del nuevo `.venv`, `hello.py` existe y solo entonces eliminas el respaldo.\n- **Límites:** no uses conda ni reinstales el Python del sistema; no borres la raíz del proyecto y no informes éxito ante un fallo.',
         id: 'S01-T2-A-E2',
         instruction:
-          '1. `deactivate` si estás dentro del venv viejo.\n2. Elimina `.venv` y créalo de nuevo.\n3. Activa y verifica `sys.prefix`.\n4. Confirma que tu código fuente permanece.',
+          '1. `deactivate` si estás dentro del venv viejo.\n2. Ejecuta `pwd`, confirma el proyecto y que `hello.py` y `.venv` existen.\n3. Tras confirmar, aparta el entorno viejo como `.venv_respaldo_s01` (solo si no existe ya) y crea el nuevo `.venv`.\n4. Si falla la recreación, avisa con código no cero y conserva el respaldo; si funciona y `sys.prefix` coincide, verifica `hello.py` y recién entonces borra el respaldo.',
         hint: 'Separa lo regenerable (`.venv`) de lo irremplazable (tus `.py` y `requirements.txt`); solo borras lo primero.',
         hints: [
           'El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en la raíz del proyecto.',
-          'rm -rf .venv  (Unix) o Remove-Item -Recurse -Force .venv (PowerShell), luego python3 -m venv .venv y volver a activar.',
+          'Verifica pwd, hello.py y .venv; mueve el viejo a .venv_respaldo_s01, sin sobrescribir un respaldo anterior; ejecuta python3 -m venv .venv y elimina el respaldo solo tras comprobar sys.prefix y el código.',
         ],
         edgeCases: [
           'Intentar “arreglar” site-packages a mano en lugar de recrear',
           'Estar dentro de .venv/bin al borrar (cd .. primero)',
         ],
         tests:
-          'Tras recrear: activate funciona; sys.prefix apunta al nuevo .venv; archivos .py del proyecto siguen existiendo.',
+          'Ruta negativa: falta hello.py o se niega la confirmación → código no cero, ningún borrado. Ruta con fallo del creador de venv → código no cero, respaldo intacto. Ruta positiva: sys.prefix igual a .venv, hello.py existe, respaldo retirado.',
         feedback:
           'Recrear el entorno es la respuesta profesional a un site-packages corrupto. El malentendido: editar archivos dentro de `site-packages`. En equipos: “borra el venv y reinstala desde requirements”.',
         retrospective:
@@ -1369,28 +1384,48 @@ deactivate`,
 # 0) Asegúrate de no estar usando el venv viejo
 ____ 2>/dev/null || true
 
-# 1) Eliminar entorno roto
-____ .venv
+# 1) Comprueba pwd, hello.py y .venv; aborta con estado no cero si falla.
+# 2) Mueve el viejo a .venv_respaldo_s01 (sin sobrescribir otro backup)
+____ .venv .venv_respaldo_s01
 
-# 2) Recrear
+# 3) Recrear
 python3 -m venv ____
 
-# 3) Activar y verificar
+# 4) Activar y verificar
 source .venv/bin/activate
 python -c "import sys; print(sys.prefix)"
-# hello.py u otros .py NO se borran`,
+# 5) Comprueba sys.prefix y hello.py, y solo entonces elimina el respaldo.
+# Si falla Python o la activación: código no cero y respaldo intacto.`,
         },
         solutionCode: {
           language: 'bash',
           title: 'recrear_venv.sh',
           code: `deactivate 2>/dev/null || true
-rm -rf .venv
-# PowerShell: Remove-Item -Recurse -Force .venv
-python3 -m venv .venv
-source .venv/bin/activate
-python -c "import sys; print(sys.prefix)"
-ls hello.py 2>/dev/null || echo "(tu código fuente permanece en el proyecto)"`,
-          output: `.../proyecto/.venv`,
+pwd # revisa visualmente la ruta exacta del proyecto antes de seguir
+read -r -p 'Si ES el proyecto correcto, escribe BORRAR: ' confirmacion
+if [ "$confirmacion" = BORRAR ] && [ -f hello.py ] && [ -d .venv ] && [ ! -e .venv_respaldo_s01 ]; then
+  # Guarda el venv anterior; nada se borra antes de verificar el nuevo.
+  if mv -- .venv .venv_respaldo_s01 &&
+     python3 -m venv .venv &&
+     source .venv/bin/activate &&
+     python -c 'import pathlib,sys; assert pathlib.Path(sys.prefix).resolve() == (pathlib.Path.cwd()/".venv").resolve()' &&
+     test -f hello.py; then
+    rm -rf -- .venv_respaldo_s01 && echo "Verificado: hello.py sigue presente y sys.prefix es .venv"
+  else
+    echo "FALLO: la recreación no se verificó. Respaldo conservado; revisa ambos entornos." >&2
+    false
+  fi
+else
+  echo "ABORTADO: nada se borró. Comprueba pwd, hello.py, .venv y que no hay otro respaldo." >&2
+  false
+fi
+# PowerShell: Get-Location; Test-Path .\\hello.py; Test-Path .\\.venv
+# Solo después de comprobar ambos y confirmar el destino:
+# Remove-Item -Recurse -Force .\\.venv`,
+          output: `Ejemplo de sesión interactiva (rutas variables):
+/ruta/al/proyecto                  # pwd
+Si ES el proyecto correcto, escribe BORRAR: BORRAR
+Verificado: hello.py sigue presente y sys.prefix es .venv`,
         },
       },
       {
@@ -1934,15 +1969,15 @@ feat: agregar smoke hello_env y documentar install
       {
         subtopicId: 'S01-T3-B',
         kind: 'transfer',
-        title: 'Recuperar con `restore`/`stash` (sin force-push)',
+        title: 'Guardar o descartar conscientemente (`stash`/`restore`)',
         preamble:
-          '- **Contexto:** editaste `README.md` sin commit y el cambio está mal; te proponen `reset --hard` o force-push a `main`.\n- **Meta:** procedimiento correcto no destructivo y por qué force-push a `main` no es opción.\n- **Éxito:** menciona `git restore`; `stash` como alternativa de guardado; prohíbe force-push a `main`; no pone `reset --hard` como default.\n- **Límites:** no reescribas historial compartido; distingue restore (working tree) de revert (commits hechos).',
+          '- **Contexto:** editaste `README.md` sin commit y el cambio está mal; te proponen `reset --hard` o force-push a `main`.\n- **Meta:** preservar primero cualquier trabajo valioso y distinguir la decisión de guardar (`stash`) de la destructiva de descartar (`restore`).\n- **Éxito:** inspeccionas el diff y confirmas que no necesitas el cambio antes de usar `git restore`; propones `stash` para conservar; prohíbes force-push a `main` y `reset --hard` por defecto.\n- **Límites:** no reescribas historial compartido; distingue restore (working tree) de revert (commits hechos).',
         id: 'S01-T3-B-E3',
         instruction:
-          '1. Completa el procedimiento con `restore` (y staged si aplica).\n2. Explica cuándo usar `stash`.\n3. Justifica el no a force-push y el no a hard como primer reflejo.',
+          '1. Inspecciona `git status` y `git diff`; decide por escrito si conservar o descartar.\n2. Si conservar: explica `stash`; solo si descartar: completa `restore` (y `--staged` si aplica) con una advertencia explícita de pérdida.\n3. Justifica el no a force-push y a `reset --hard` como primer reflejo.',
         hint: 'Clasifica antes de actuar: ¿descartar (`restore`), guardar para después (`stash`) o integrar? Force-push nunca.',
         hints: [
-          'restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.',
+          'restore descarta de forma potencialmente irreversible cambios locales; stash conserva para después. Ninguno reescribe main remoto.',
           'reset --hard borra trabajo sin commit sin red de seguridad; no es el default de este curso.',
         ],
         edgeCases: [
@@ -1950,27 +1985,30 @@ feat: agregar smoke hello_env y documentar install
           'Confundir restore con revert (revert es para commits ya hechos)',
         ],
         tests:
-          'Menciona git restore; menciona stash como alternativa de guardado; prohíbe force-push a main; no recomienda reset --hard como primera opción.',
+          'Exige leer status/diff, advertir que restore pierde ediciones sin commit, usar stash si hay valor que conservar, prohibir force-push a main y no recomendar reset --hard como primer paso.',
         feedback:
-          'La recuperación no destructiva es parte de la cultura de equipo. El malentendido: “force-push arregla push rechazado en main”. Quien no destruye historial ajeno genera confianza.',
+          'No todo lo que actúa solo sobre archivos locales es reversible: `git restore` puede perder ediciones sin commit. El malentendido: “restore siempre recupera”. Preservar antes de descartar genera confianza.',
         retrospective:
           'Clasifica antes de actuar: ¿quieres descartar un cambio local, guardar trabajo temporal o resolver una divergencia remota? `restore`, `stash` y sincronizar ramas responden a problemas distintos; force-push no es un martillo universal. Escribe en el README del capstone una regla que explique tanto la prohibición como la alternativa segura.',
         starterCode: {
           language: 'markdown',
           title: 'recuperacion_segura.md',
-          code: `# CASO-LIM-001 · recuperación no destructiva
-# TAREA: completa restore, stash y por qué no force-push a main
-# Éxito: priorizas restore/stash; prohíbes force-push a main
-# Recuperación no destructiva
+          code: `# CASO-LIM-001 · conservar o descartar conscientemente
+# TAREA: inspecciona, distingue stash de restore y no fuerces main
+# Éxito: priorizas guardar si hay dudas; adviertes que restore destruye ediciones
+# Decidir qué conservar
 
 ## Situación
 README.md modificado, sin commit, cambio indeseado.
 
-## Procedimiento con restore
+## Inspección y decisión antes de actuar
 1. ____
 2. ____
 
 ## ¿Cuándo stash en su lugar?
+____
+
+## Riesgo de restore
 ____
 
 ## Por qué NO force-push a main
@@ -1982,24 +2020,27 @@ ____`,
         solutionCode: {
           language: 'markdown',
           title: 'recuperacion_segura.md',
-          code: `# Recuperación no destructiva
+          code: `# Conservar o descartar conscientemente
 
 ## Situación
 README.md modificado, sin commit, cambio indeseado.
 
-## Procedimiento con restore
-1. \`git status\` para confirmar que el cambio es solo local y aún no tiene commit.
-2. \`git restore README.md\` para volver al último contenido con commit (si estaba staged: \`git restore --staged README.md\` y luego \`git restore README.md\`).
+## Inspección y decisión antes de actuar
+1. \`git status\` y \`git diff -- README.md\` para ver las ediciones locales; si está staged, \`git diff --cached -- README.md\`.
+2. Si las ediciones **se deben descartar conscientemente**, y ya hice copia o confirmo que no las necesitaré: \`git restore README.md\` (si estaba staged: \`git restore --staged README.md\` y luego \`git restore README.md\`). Esto NO equivale a deshacer de forma segura.
 
 ## ¿Cuándo stash en su lugar?
 Si *podrías* querer el cambio después: \`git stash push -m "wip readme"\` y más tarde \`git stash pop\`.
+
+## Riesgo de restore
+\`git restore README.md\` **destruye las modificaciones sin commit** de ese archivo; no existe garantía de poder recuperarlas.
 
 ## Por qué NO force-push a main
 Reescribe historial compartido y puede borrar commits de otras personas. El rechazo de un push se resuelve con pull/rebase en tu rama o con PR, no con force a main.
 
 ## Por qué no reset --hard como default
-Borra cambios sin commit de forma fácil de lamentar. Primero restore/stash; hard solo con conciencia y backup.`,
-          output: 'restore/stash primero; force-push a main prohibido.',
+Borra cambios sin commit de forma fácil de lamentar. Primero inspecciona y guarda, si lo necesitas; hard solo con conciencia y backup.`,
+          output: 'Inspección y stash para conservar; restore solo para descartar con advertencia; force-push a main prohibido.',
         },
       },
       {
@@ -2187,7 +2228,7 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
           'Olvidar .venv/ y solo poner venv/ (o al revés)',
         ],
         tests:
-          'git check-ignore -v .env exit 0; check-ignore aplica a .venv o ruta de entorno.',
+          'git check-ignore -v .env exit 0; git check-ignore .venv/ y git check-ignore .venv_replica/ confirman ambos entornos.',
         feedback:
           'Un ignore correcto evita el push de 200MB de site-packages y de secretos. El malentendido: “con ignorar `.venv` basta; `venv` no se usa”. Es higiene, no opcional.',
         retrospective:
@@ -2201,6 +2242,7 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
 # Entornos
 ____/
 ____/
+.venv_replica/
 
 # Bytecode
 ____/
@@ -2219,6 +2261,7 @@ ____
           code: `# Entornos
 .venv/
 venv/
+.venv_replica/
 
 # Bytecode
 __pycache__/
@@ -2230,7 +2273,7 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/`,
           output: `git check-ignore -v .env
-.gitignore:8:.env    .env`,
+.gitignore:11:.env    .env`,
         },
       },
       {
@@ -2348,14 +2391,14 @@ LOG_LEVEL=INFO
     context:
       'Una organización internacional recibe archivos de clientes desde oficinas con sistemas distintos. Antes de discutir reglas de calidad, el equipo necesita una base común que cualquiera pueda clonar y ejecutar. Este You Do es el **primer incremento del capstone CP-N1-A** (un capstone, que es el proyecto final que integra lo aprendido en un nivel; este corresponde a *Client Intake & Data Quality* y se cierra en S04). En S01 no construyes el validador: entregas su pista de aterrizaje —entorno reproducible, historial Git legible, Ruff, datos sintéticos y diccionario—. S02–S04 añadirán el script de admisión sin rehacer esta base.',
     objectives: [
-      'Publicar un repo clonable con `.gitignore` (`.venv/` y `venv/`), `.env.example`, `requirements.txt` y `pyproject.toml` (Ruff)',
+      'Publicar un repo clonable con `.gitignore` (`.venv/`, `venv/` y `.venv_replica/`), `.env.example`, `requirements.txt` y `pyproject.toml` (Ruff)',
       'Documentar en README install/run y la frase “esqueleto de CP-N1-A”',
       'Incluir `data/clients_synthetic.csv` (sintético) + `data/data_dictionary.md`',
       'Prueba mínima de `scripts/hello_env.py` con código de salida 0; mínimo 3 commits Conventional Commits y 1 rama de trabajo con un PR abierto',
     ],
     requirements: [
       'Repo público accesible (GitHub u otro remoto del curso)',
-      '.gitignore excluye: .venv/, venv/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/',
+      '.gitignore excluye: .venv/, venv/, .venv_replica/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/',
       '.env.example versionado sin secretos; .env nunca en el historial de la entrega',
       'requirements.txt pinneado (python -m pip freeze) usable con install -r',
       'pyproject.toml con [tool.ruff] mínimo; ruff check limpio en scripts/hello_env.py',

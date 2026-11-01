@@ -25,6 +25,8 @@ interface ProgressState {
   // actions
   toggleSectionComplete: (sectionId: string) => void
   toggleSubStep: (sectionId: string, step: string) => void
+  markSectionComplete: (sectionId: string) => void
+  markSubStepDone: (sectionId: string, step: string) => void
   setQuizScore: (sectionId: string, score: number) => void
   setLastVisited: (sectionId: string) => void
   toggleBookmark: (sectionId: string) => void
@@ -57,6 +59,24 @@ export const useProgressStore = create<ProgressState>()(
             ? s.completedSections.filter((id) => id !== sectionId)
             : [...s.completedSections, sectionId],
         })),
+
+      // Completion events are idempotent. Repeated perfect scores, retries,
+      // or a double-click must NEVER undo a learner's earned progress.
+      markSectionComplete: (sectionId) =>
+        set((s) => s.completedSections.includes(sectionId) ? s : ({
+          completedSections: [...s.completedSections, sectionId],
+        })),
+
+      markSubStepDone: (sectionId, step) =>
+        set((s) => {
+          const current = s.completedSubSteps[sectionId] || []
+          if (current.includes(step)) return s
+          syncToServer(sectionId, step, true)
+          return { completedSubSteps: {
+            ...s.completedSubSteps,
+            [sectionId]: [...current, step],
+          } }
+        }),
 
       toggleSubStep: (sectionId, step) =>
         set((s) => {

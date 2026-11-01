@@ -1,15 +1,16 @@
 {
-  "generated_at": "2026-10-03T18:44:07.346Z",
+  "generated_at": "2026-11-01T22:28:20.049Z",
   "counts": {
-    "es-PE": 263,
-    "es-ES": 263,
-    "en": 263
+    "es-PE": 1009,
+    "es-ES": 1009,
+    "en": 1009
   },
   "missing": {
     "es-PE": [],
     "es-ES": [],
     "en": []
   },
+  "empty": [],
   "ok": true,
   "hardcoded_chrome_candidates": [
     {

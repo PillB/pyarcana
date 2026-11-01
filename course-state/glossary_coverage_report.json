@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T18:43:58.772070Z",
+  "generated_at": "2026-11-01T22:28:15.943616Z",
   "terms": 108,
   "sections": [
     {
@@ -18,8 +18,8 @@
     },
     {
       "sectionId": "decisions-rules",
-      "introCount": 6,
-      "found": 5,
+      "introCount": 7,
+      "found": 6,
       "missing": [
         "apply"
       ]
@@ -32,8 +32,8 @@
     },
     {
       "sectionId": "functions-contracts",
-      "introCount": 2,
-      "found": 2,
+      "introCount": 1,
+      "found": 1,
       "missing": []
     },
     {
@@ -115,10 +115,9 @@
     {
       "sectionId": "data-engineering",
       "introCount": 6,
-      "found": 4,
+      "found": 5,
       "missing": [
-        "distribuci-n-normal",
-        "estimando"
+        "distribuci-n-normal"
       ]
     },
     {
@@ -333,7 +332,7 @@
     }
   ],
   "sections_with_intros": 29,
-  "p1_missing_prose": 9,
+  "p1_missing_prose": 8,
   "issues": [
     {
       "sectionId": "basics",
@@ -367,13 +366,6 @@
       "sectionId": "data-engineering",
       "termId": "distribuci-n-normal",
       "term": "Distribución normal",
-      "severity": "P1",
-      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
-    },
-    {
-      "sectionId": "data-engineering",
-      "termId": "estimando",
-      "term": "Estimando",
       "severity": "P1",
       "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
     },

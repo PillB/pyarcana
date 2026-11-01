@@ -37,41 +37,25 @@ test.describe('E2E max — demos + exercises (sharded)', () => {
       await openTab(page, 'wedo')
       for (const ex of section.exercises) {
         const card = page.getByTestId(`exercise-${ex.id}`)
-        try {
-          if ((await card.count()) > 0) {
-            await card.first().scrollIntoViewIfNeeded({ timeout: 10_000 })
-            await expect(card.first()).toBeVisible()
-            const check = page.getByTestId(`exercise-check-${ex.id}`)
-            const feedback = page.getByTestId(`exercise-feedback-${ex.id}`)
-            // A solution must not exist in the rendered DOM or accessibility tree
-            // before the learner explicitly requests it.
-            await expect(feedback).toHaveCount(0)
-            await check.click()
-            await expect(feedback).toBeVisible({ timeout: 10_000 })
-            await expect(check).toHaveAccessibleName(/Ocultar solución/i)
-            await check.click()
-            await expect(feedback).toHaveCount(0)
-            await expect(check).toHaveAccessibleName(/Ver solución/i)
-            continue
-          }
-        } catch {
-          // fall through to index path
-        }
-        const byIndex = page.locator('[data-testid^="exercise-"]').nth(ex.index)
-        if ((await byIndex.count()) > 0) {
-          await byIndex.scrollIntoViewIfNeeded({ timeout: 10_000 }).catch(() => {})
-          const btn = byIndex.getByRole('button', {
-            name: /Ver solución|Ocultar solución/i,
-          })
-          if ((await btn.count()) > 0) {
-            const feedback = byIndex.locator('[data-testid^="exercise-feedback-"]')
-            await expect(feedback).toHaveCount(0)
-            await btn.first().click()
-            await expect(feedback).toBeVisible({ timeout: 10_000 })
-            await btn.first().click()
-            await expect(feedback).toHaveCount(0)
-          }
-        }
+        await expect(card, `missing or duplicate exercise ${ex.id}`).toHaveCount(1)
+        await card.scrollIntoViewIfNeeded({ timeout: 10_000 })
+        await expect(card).toBeVisible()
+        const check = page.getByTestId(`exercise-check-${ex.id}`)
+        const feedback = page.getByTestId(`exercise-feedback-${ex.id}`)
+        // A solution is genuinely hidden until the learner asks for it.
+        await expect(check).toHaveCount(1)
+        await expect(check).toHaveAccessibleName(/Ver solución/i)
+        await expect(feedback).toHaveCount(0)
+        await check.click()
+        await expect(feedback).toBeVisible({ timeout: 10_000 })
+        // The Framer Motion panel expands from opacity/height 0. The button
+        // can move while expansion is under way, so wait for its final visual
+        // tick before the second (close) click. This also checks the animation.
+        await expect(feedback).toHaveCSS('opacity', '1')
+        await expect(check).toHaveAccessibleName(/Ocultar solución/i)
+        await check.click()
+        await expect(feedback).toHaveCount(0)
+        await expect(check).toHaveAccessibleName(/Ver solución/i)
       }
 
       // You Do has content

@@ -1,54 +1,259 @@
 {
+ "schema_version": 2,
  "ceiling": 15,
  "over_ceiling": 32,
  "worst": 78,
- "worst_offenders": [
+ "offenders": [
   {
+   "key": "src/components/course/Dashboard.tsx::function:Dashboard#0",
    "score": 78,
    "file": "src/components/course/Dashboard.tsx",
    "line": 78
   },
   {
+   "key": "src/lib/eligibility/engine.ts::method:evaluate#0",
    "score": 43,
    "file": "src/lib/eligibility/engine.ts",
-   "line": 112
+   "line": 173
   },
   {
+   "key": "src/lib/familiarity.ts::function:scorePair#0",
    "score": 42,
    "file": "src/lib/familiarity.ts",
    "line": 169
   },
   {
+   "key": "src/app/page.tsx::function:Home#0",
    "score": 40,
    "file": "src/app/page.tsx",
    "line": 69
   },
   {
+   "key": "src/components/course/RichText.tsx::function:parseBlocks#0",
    "score": 33,
    "file": "src/components/course/RichText.tsx",
-   "line": 167
+   "line": 175
   },
   {
+   "key": "src/lib/admin-analytics.ts::anonymous-fingerprint:61137e3f5c40eb2a#0",
    "score": 29,
    "file": "src/lib/admin-analytics.ts",
    "line": 104
   },
   {
+   "key": "src/components/course/ExamView.tsx::function:ExamView#0",
    "score": 26,
    "file": "src/components/course/ExamView.tsx",
-   "line": 82
+   "line": 81
   },
   {
+   "key": "src/components/course/QAHarness.tsx::function:QAHarness#0",
    "score": 26,
    "file": "src/components/course/QAHarness.tsx",
    "line": 138
   },
   {
+   "key": "src/lib/admin-analytics.ts::function:buildAnalyticsPayload#0",
    "score": 26,
    "file": "src/lib/admin-analytics.ts",
    "line": 200
   },
   {
+   "key": "src/app/api/feedback/route.ts::function:POST#0",
+   "score": 24,
+   "file": "src/app/api/feedback/route.ts",
+   "line": 29
+  },
+  {
+   "key": "src/components/course/AuthModal.tsx::function:UserMenu#0",
+   "score": 24,
+   "file": "src/components/course/AuthModal.tsx",
+   "line": 573
+  },
+  {
+   "key": "src/app/api/cohorts/[id]/invite/route.ts::function:POST#0",
+   "score": 23,
+   "file": "src/app/api/cohorts/[id]/invite/route.ts",
+   "line": 7
+  },
+  {
+   "key": "src/lib/element-selector.ts::function:uniqueSelector#0",
+   "score": 23,
+   "file": "src/lib/element-selector.ts",
+   "line": 121
+  },
+  {
+   "key": "src/components/course/PricingPage.tsx::anonymous-fingerprint:52eaeadd1af1cfcc#0",
+   "score": 22,
+   "file": "src/components/course/PricingPage.tsx",
+   "line": 126
+  },
+  {
+   "key": "src/components/course/CodeBlock.tsx::function:CodeBlock#0",
+   "score": 21,
+   "file": "src/components/course/CodeBlock.tsx",
+   "line": 31
+  },
+  {
+   "key": "src/components/course/Sidebar.tsx::anonymous-fingerprint:0ee008aee1a1efea#0",
+   "score": 21,
+   "file": "src/components/course/Sidebar.tsx",
+   "line": 136
+  },
+  {
+   "key": "src/lib/familiarity.ts::function:computeFamiliarity#0",
+   "score": 21,
+   "file": "src/lib/familiarity.ts",
+   "line": 279
+  },
+  {
+   "key": "src/components/course/CodePlayground.tsx::function:CodePlayground#0",
+   "score": 20,
+   "file": "src/components/course/CodePlayground.tsx",
+   "line": 93
+  },
+  {
+   "key": "src/components/course/Dashboard.tsx::function:BadgeExplainer#0",
+   "score": 20,
+   "file": "src/components/course/Dashboard.tsx",
+   "line": 689
+  },
+  {
+   "key": "src/components/course/FamiliarityDashboard.tsx::function:PairDetail#0",
+   "score": 20,
+   "file": "src/components/course/FamiliarityDashboard.tsx",
+   "line": 505
+  },
+  {
+   "key": "src/components/course/SectionView.tsx::anonymous-fingerprint:82228f4b98e8bf85#0",
+   "score": 20,
+   "file": "src/components/course/SectionView.tsx",
+   "line": 582
+  },
+  {
+   "key": "src/components/ui/chart.tsx::anonymous-fingerprint:82f9558d2edfc9d6#0",
+   "score": 20,
+   "file": "src/components/ui/chart.tsx",
+   "line": 182
+  },
+  {
+   "key": "src/lib/qa-session.ts::function:isQaIssue#0",
+   "score": 20,
+   "file": "src/lib/qa-session.ts",
+   "line": 178
+  },
+  {
+   "key": "src/app/api/subscription/checkout/route.ts::function:POST#0",
+   "score": 18,
+   "file": "src/app/api/subscription/checkout/route.ts",
+   "line": 16
+  },
+  {
+   "key": "src/app/verify/page.tsx::function:VerifyContent#0",
+   "score": 17,
+   "file": "src/app/verify/page.tsx",
+   "line": 38
+  },
+  {
+   "key": "src/components/course/InteractiveTour.tsx::function:InteractiveTour#0",
+   "score": 17,
+   "file": "src/components/course/InteractiveTour.tsx",
+   "line": 327
+  },
+  {
+   "key": "src/components/course/ResourcesPage.tsx::anonymous-fingerprint:e95addf6b7b453a6#0",
+   "score": 17,
+   "file": "src/components/course/ResourcesPage.tsx",
+   "line": 1748
+  },
+  {
+   "key": "src/lib/subscription-plans.ts::function:detectCountry#0",
+   "score": 17,
+   "file": "src/lib/subscription-plans.ts",
+   "line": 124
+  },
+  {
+   "key": "src/app/api/invitations/[id]/route.ts::function:POST#0",
+   "score": 16,
+   "file": "src/app/api/invitations/[id]/route.ts",
+   "line": 35
+  },
+  {
+   "key": "src/components/course/AuthModal.tsx::function:AuthModal#0",
+   "score": 16,
+   "file": "src/components/course/AuthModal.tsx",
+   "line": 89
+  },
+  {
+   "key": "src/components/ui/chart.tsx::anonymous-fingerprint:f1f128500939e0bc#0",
+   "score": 16,
+   "file": "src/components/ui/chart.tsx",
+   "line": 131
+  },
+  {
+   "key": "src/lib/qa-session.ts::function:isQaContext#0",
+   "score": 16,
+   "file": "src/lib/qa-session.ts",
+   "line": 151
+  }
+ ],
+ "worst_offenders": [
+  {
+   "key": "src/components/course/Dashboard.tsx::function:Dashboard#0",
+   "score": 78,
+   "file": "src/components/course/Dashboard.tsx",
+   "line": 78
+  },
+  {
+   "key": "src/lib/eligibility/engine.ts::method:evaluate#0",
+   "score": 43,
+   "file": "src/lib/eligibility/engine.ts",
+   "line": 173
+  },
+  {
+   "key": "src/lib/familiarity.ts::function:scorePair#0",
+   "score": 42,
+   "file": "src/lib/familiarity.ts",
+   "line": 169
+  },
+  {
+   "key": "src/app/page.tsx::function:Home#0",
+   "score": 40,
+   "file": "src/app/page.tsx",
+   "line": 69
+  },
+  {
+   "key": "src/components/course/RichText.tsx::function:parseBlocks#0",
+   "score": 33,
+   "file": "src/components/course/RichText.tsx",
+   "line": 175
+  },
+  {
+   "key": "src/lib/admin-analytics.ts::anonymous-fingerprint:61137e3f5c40eb2a#0",
+   "score": 29,
+   "file": "src/lib/admin-analytics.ts",
+   "line": 104
+  },
+  {
+   "key": "src/components/course/ExamView.tsx::function:ExamView#0",
+   "score": 26,
+   "file": "src/components/course/ExamView.tsx",
+   "line": 81
+  },
+  {
+   "key": "src/components/course/QAHarness.tsx::function:QAHarness#0",
+   "score": 26,
+   "file": "src/components/course/QAHarness.tsx",
+   "line": 138
+  },
+  {
+   "key": "src/lib/admin-analytics.ts::function:buildAnalyticsPayload#0",
+   "score": 26,
+   "file": "src/lib/admin-analytics.ts",
+   "line": 200
+  },
+  {
+   "key": "src/app/api/feedback/route.ts::function:POST#0",
    "score": 24,
    "file": "src/app/api/feedback/route.ts",
    "line": 29
