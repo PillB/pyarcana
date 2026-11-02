@@ -26,15 +26,16 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S02-truthiness': {
     kind: 'decision',
-    headline: 'Qué es falso en un if, y por qué eso no significa «ausente»',
+    headline: 'Ausencia, bandera falsa, cero y texto vacío no significan lo mismo',
     input: 'valor',
     branches: [
       { test: 'valor is None', result: 'ausente', tint: 4 },
+      { test: 'valor is False', result: 'presente: bandera falsa', tint: 3 },
       { test: 'valor == 0', result: 'presente, vale cero', tint: 2 },
       { test: 'valor == ""', result: 'presente, vacío', tint: 2 },
       { test: 'resto', result: 'presente', tint: 2 },
     ],
-    note: 'Un if desnudo funde las tres primeras ramas en una. Por eso la ausencia se pregunta con `is None`, nunca con truthiness.',
+    note: 'Comprueba la ausencia con `is None`. `False == 0` también es True en Python: distingue primero la bandera `False` si el tipo importa.',
   },
   'S12-retry-or-not': {
     kind: 'decision',
@@ -100,15 +101,15 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S02-decimal-rounding': {
     kind: 'timeline',
-    headline: 'Dónde se redondea cambia el total',
+    headline: 'Cada monto registrado necesita su regla de céntimos',
     from: 0, to: 4, axisLabel: 'pasos del cálculo',
-    boundaryAt: 3, boundaryLabel: 'única vez que se redondea',
+    boundaryAt: 2, boundaryLabel: 'límite de registro: IGV',
     events: [
-      { at: 1, label: 'precio', sub: 'Decimal exacto', tint: 2 },
-      { at: 2, label: 'IGV', sub: 'sigue exacto', tint: 2 },
-      { at: 3, label: 'total', sub: 'quantize aquí', tint: 4 },
+      { at: 1, label: 'base', sub: 'Decimal desde texto', tint: 2 },
+      { at: 2, label: 'IGV', sub: 'quantize si se registra', tint: 4 },
+      { at: 3, label: 'total', sub: 'quantize según regla', tint: 4 },
     ],
-    note: 'Redondear en cada paso acumula el error; con float, además, ni siquiera es reproducible.',
+    note: 'Evita redondeos intermedios innecesarios; cuantiza cada monto que el negocio deba registrar. float aproxima muchos decimales binarios.',
   },
 
   // ------------------------------------------------------------------- stack

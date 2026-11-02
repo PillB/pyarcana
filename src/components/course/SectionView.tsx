@@ -49,7 +49,7 @@ import {
 } from '@/components/ui/popover'
 import { useSession } from 'next-auth/react'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
-import type { CourseSection } from '@/lib/types'
+import type { CourseSection, WeDoStep } from '@/lib/types'
 import {
   SELF_CHECK_PASS_PCT,
   authoredOrders,
@@ -110,6 +110,9 @@ export function SectionView({
 }: SectionViewProps) {
   const [uncontrolledTab, setUncontrolledTab] = useState<SubStep>('theory')
   const [tabSectionId, setTabSectionId] = useState(section.id)
+  // Drafts outlive animated tab unmounts. Keep React state immutable, and do
+  // not persist potentially sensitive learner code beyond this page session.
+  const [exerciseDrafts, setExerciseDrafts] = useState<Record<string, string>>({})
   if (section.id !== tabSectionId) {
     setTabSectionId(section.id)
     setUncontrolledTab('theory')
@@ -324,7 +327,7 @@ export function SectionView({
               <IDoTab section={section} onDone={() => toggleSubStep(section.id, 'ido')} done={subStepsDone.includes('ido')} />
             </TabsContent>
             <TabsContent value="wedo" className="mt-0 focus-visible:outline-none">
-              <WeDoTab section={section} onDone={() => toggleSubStep(section.id, 'wedo')} done={subStepsDone.includes('wedo')} />
+              <WeDoTab section={section} onDone={() => toggleSubStep(section.id, 'wedo')} done={subStepsDone.includes('wedo')} exerciseDrafts={exerciseDrafts} onDraftChange={(key, code) => setExerciseDrafts((drafts) => ({ ...drafts, [key]: code }))} />
             </TabsContent>
             <TabsContent value="youdo" className="mt-0 focus-visible:outline-none">
               <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
@@ -567,8 +570,143 @@ function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () 
 }
 
 // === We Do Tab ===
-function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+function ExerciseHints({ step, sectionId }: { step: WeDoStep; sectionId: string }) {
+  const hints = step.hints?.length ? step.hints : [step.hint]
+  const content = hints.map((hint, index) => (
+    <Callout key={index} type="tip" title={`Pista ${index + 1}`}>
+      <RichText content={hint} sectionId={sectionId} />
+    </Callout>
+  ))
+
+  // Roll out spoiler-free independent hints in the audited S02 pilot only.
+  // Other sections retain their existing hint contract until reviewed.
+  if (sectionId !== 'basics' || step.kind === 'guided') return <>{content}</>
+
+  return (
+    <details className="rounded-lg border border-border/60 px-3 py-2" data-testid={`exercise-hints-${step.id}`}>
+      <summary className="cursor-pointer text-sm font-medium text-foreground focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        Mostrar pistas opcionales
+      </summary>
+      {content}
+    </details>
+  )
+}
+
+function nextEditor(current: string | null, selected: string): string | null {
+  return current === selected ? null : selected
+}
+
+function ExerciseEditor({ step, exId, sectionId, activeEditor, onToggle, exerciseDrafts, onDraftChange }: {
+  step: WeDoStep
+  exId: string
+  sectionId: string
+  activeEditor: string | null
+  onToggle: () => void
+  exerciseDrafts: Record<string, string>
+  onDraftChange: (key: string, code: string) => void
+}) {
+  const isOpen = activeEditor === exId
+  const draftKey = `${sectionId}:${exId}`
+  const [draft, setDraft] = useState(() => exerciseDrafts[draftKey] ?? step.starterCode.code)
+
+  // An editor that executes Python must never advertise 'Run' for shell,
+  // Markdown or dependency-heavy material. S02 is the independently audited
+  // pilot; opt other sections in only after their runtime contracts are proven.
+  if (sectionId !== 'basics' || step.starterCode.language !== 'python') return null
+
+  return (
+    <>
+      <div>
+        <Button variant="outline" size="sm" onClick={onToggle} data-testid={`exercise-try-${exId}`}>
+          {isOpen ? 'Cerrar editor' : 'Escribir y ejecutar aquí'}
+        </Button>
+      </div>
+      {isOpen && (
+        <div className="space-y-2" data-testid={`exercise-editor-${exId}`}>
+          <p className="text-xs text-muted-foreground">
+            Este editor ejecuta Python real. No califica automáticamente la consigna:
+            compara tu salida con las condiciones de éxito y comprueba qué cambió.
+          </p>
+          <CodePlayground
+            key={exId}
+            initialCode={draft}
+            resetCode={step.starterCode.code}
+            onCodeChange={(code) => {
+              onDraftChange(draftKey, code)
+              setDraft(code)
+            }}
+            title={`Ensayo · ${exId}`}
+            testId={`exercise-playground-${exId}`}
+          />
+        </div>
+      )}
+    </>
+  )
+}
+
+function ExerciseSolution({ step, exId, sectionId, showSol, onToggle }: {
+  step: WeDoStep
+  exId: string
+  sectionId: string
+  showSol: boolean
+  onToggle: () => void
+}) {
+  return (
+    <>
+      <div>
+        <Button variant="outline" size="sm" onClick={onToggle} className="gap-2" data-testid={`exercise-check-${exId}`}>
+          {showSol ? (
+            <><EyeOff className="h-4 w-4" />Ocultar solución</>
+          ) : (
+            <><Eye className="h-4 w-4" />Ver solución</>
+          )}
+        </Button>
+      </div>
+      {showSol && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="space-y-3"
+          data-testid={`exercise-feedback-${exId}`}
+        >
+          <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
+          <CodeBlock
+            code={step.solutionCode.code}
+            language={step.solutionCode.language}
+            title={step.solutionCode.title}
+            output={step.solutionCode.output}
+          />
+          {step.edgeCases && step.edgeCases.length > 0 && (
+            <Callout type="warning" title="Casos borde">
+              <ul className="list-disc pl-4 space-y-1">
+                {step.edgeCases.map((ec, eci) => <li key={eci}>{ec}</li>)}
+              </ul>
+            </Callout>
+          )}
+          {step.feedback && (
+            <Callout type="success" title="Feedback">
+              <RichText content={step.feedback} sectionId={sectionId} />
+            </Callout>
+          )}
+          {step.retrospective && (
+            <Callout type="tip" title="Después del ejercicio — consolida">
+              <RichText content={step.retrospective} sectionId={sectionId} />
+            </Callout>
+          )}
+          {step.tests && (
+            <p className="text-xs text-muted-foreground">
+              <span className="font-medium">Verificación: </span>{step.tests}
+            </p>
+          )}
+        </motion.div>
+      )}
+    </>
+  )
+}
+
+function WeDoTab({ section, onDone, done, exerciseDrafts, onDraftChange }: { section: CourseSection; onDone: () => void; done: boolean; exerciseDrafts: Record<string, string>; onDraftChange: (key: string, code: string) => void }) {
   const [showSolutions, setShowSolutions] = useState<Record<number, boolean>>({})
+  const [activeEditor, setActiveEditor] = useState<string | null>(null)
 
   return (
     <div className="space-y-6">
@@ -612,17 +750,7 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                   <RichText content={step.instruction} sectionId={section.id} />
                 </div>
               </div>
-              {step.hints && step.hints.length > 0 ? (
-                step.hints.map((h, hi) => (
-                  <Callout key={hi} type="tip" title={hi === 0 ? 'Pista 1' : `Pista ${hi + 1}`}>
-                    <RichText content={h} sectionId={section.id} />
-                  </Callout>
-                ))
-              ) : (
-                <Callout type="tip" title="Pista">
-                  <RichText content={step.hint} sectionId={section.id} />
-                </Callout>
-              )}
+              <ExerciseHints step={step} sectionId={section.id} />
               {step.kind && (
                 <p className="text-xs text-muted-foreground">
                   Tipo:{' '}
@@ -642,68 +770,22 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                   title={step.starterCode.title}
                 />
               </div>
-              <div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowSolutions((s) => ({ ...s, [i]: !s[i] }))}
-                  className="gap-2"
-                  data-testid={`exercise-check-${exId}`}
-                >
-                  {showSol ? (
-                    <>
-                      <EyeOff className="h-4 w-4" />
-                      Ocultar solución
-                    </>
-                  ) : (
-                    <>
-                      <Eye className="h-4 w-4" />
-                      Ver solución
-                    </>
-                  )}
-                </Button>
-              </div>
-              {showSol && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="space-y-3"
-                  data-testid={`exercise-feedback-${exId}`}
-                >
-                  <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
-                  <CodeBlock
-                    code={step.solutionCode.code}
-                    language={step.solutionCode.language}
-                    title={step.solutionCode.title}
-                    output={step.solutionCode.output}
-                  />
-                  {step.edgeCases && step.edgeCases.length > 0 && (
-                    <Callout type="warning" title="Casos borde">
-                      <ul className="list-disc pl-4 space-y-1">
-                        {step.edgeCases.map((ec, eci) => (
-                          <li key={eci}>{ec}</li>
-                        ))}
-                      </ul>
-                    </Callout>
-                  )}
-                  {step.feedback && (
-                    <Callout type="success" title="Feedback">
-                      <RichText content={step.feedback} sectionId={section.id} />
-                    </Callout>
-                  )}
-                  {step.retrospective && (
-                    <Callout type="tip" title="Después del ejercicio — consolida">
-                      <RichText content={step.retrospective} sectionId={section.id} />
-                    </Callout>
-                  )}
-                  {step.tests && (
-                    <p className="text-xs text-muted-foreground">
-                      <span className="font-medium">Verificación: </span>
-                      {step.tests}
-                    </p>
-                  )}
-                </motion.div>
-              )}
+              <ExerciseEditor
+                step={step}
+                exId={exId}
+                sectionId={section.id}
+                activeEditor={activeEditor}
+                onToggle={() => setActiveEditor((current) => nextEditor(current, exId))}
+                exerciseDrafts={exerciseDrafts}
+                onDraftChange={onDraftChange}
+              />
+              <ExerciseSolution
+                step={step}
+                exId={exId}
+                sectionId={section.id}
+                showSol={showSol}
+                onToggle={() => setShowSolutions((s) => ({ ...s, [i]: !s[i] }))}
+              />
             </div>
           </Card>
         )
@@ -1071,32 +1153,31 @@ Script ejecutado de arriba abajo`,
     },
     'basics': {
       title: 'Practica el contrato raw/clean',
-      code: `# Convierte texto de intake sin perder el valor original
-def safe_int(campo, valor):
-    raw = valor
-    texto = raw.strip()
-    if texto == "":
-        return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
-    entero_usable = texto.isascii() and (
-        texto.isdecimal()
-        or (texto.startswith("-") and texto[1:].isdecimal())
-    )
-    if not entero_usable:
-        return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
-    return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
+      code: `# S02: conserva el original; no recuperes todavía errores de conversión.
+from decimal import Decimal, ROUND_HALF_EVEN
 
-for edad_raw in [" 28 ", "  ", "abc"]:
-    resultado = safe_int("edad", edad_raw)
-    print(
-        repr(resultado["raw"]),
-        "->",
-        resultado["clean"],
-        resultado["error"],
-    )`,
-      expectedOutput: `' 28 ' -> 28 None
-'  ' -> None valor vacío
-'abc' -> None entero inválido`,
-      hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
+nombres_raw = "  María José  "
+edad_raw = " 28 "
+monto_raw = " 150.505 "
+
+nombres_clean = nombres_raw.strip()
+edad_clean = edad_raw.strip()
+monto_clean = monto_raw.strip()
+edad = int(edad_clean)
+monto = Decimal(monto_clean).quantize(
+    Decimal("0.01"), rounding=ROUND_HALF_EVEN
+)
+
+print("nombre:", repr(nombres_raw), "->", nombres_clean)
+print("edad:", repr(edad_raw), "->", edad, type(edad).__name__)
+print("monto:", repr(monto_raw), "->", f"S/ {monto:.2f}")
+print("originales intactos:", nombres_raw == "  María José  ",
+      edad_raw == " 28 ", monto_raw == " 150.505 ")`,
+      expectedOutput: `nombre: '  María José  ' -> María José
+edad: ' 28 ' -> 28 int
+monto: ' 150.505 ' -> S/ 150.50
+originales intactos: True True True`,
+      hint: 'Cambia una edad válida y predice los resultados. Para observar un ValueError, ejecuta int("abc") por separado; aprenderás a recuperarlo en S09.',
     },
     'decisions-rules': {
       title: 'Practica decisiones y reglas',

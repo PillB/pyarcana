@@ -106,6 +106,7 @@ edad: 19`,
         'Un sistema de reservas puede recibir el asiento `"07"`, la cantidad `7` y la bandera `True` en una misma fila. A simple vista son datos breves; para el programa, cada uno promete operaciones distintas. **Puente desde el mapa:** antes de convertir nada, aprende a reconocer qué clase de objeto tienes delante.',
         'Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `"Quispe"`, `True`, `None`. Python clasifica cada valor en un **tipo**. Los tipos básicos de S02 son: **`int`** (enteros: `0`, `34`, `-7`), **`float`** (punto flotante: `150.5`, `1.0`), **`str`** (texto Unicode: `"María José"`, `"Ñahui"`), **`bool`** (`True` / `False`) y **`None`** (ausencia de valor; su tipo es **`NoneType`**).',
         'La trampa clásica de intake: el número **`42`** (int) y el texto **`"42"`** (str) **no son el mismo valor**. `42 == "42"` es `False`. En formularios y CSV **casi todo llega como str**. Si sumas o comparas sin convertir, obtienes `TypeError` o lógica silenciosamente incorrecta. El teléfono **`999000111` debe modelarse como `str`**, no como `int`: no es una cantidad aritmética y puede tener ceros a la izquierda en otros países.',
+        '**Vocabulario para leer el resto del curso:** un **`dict`** (diccionario) es una colección que asocia claves con valores; por ejemplo, `{"edad": 34}` asocia la clave textual `"edad"` al entero `34`. Solo reconócelo cuando aparezca en una explicación: en S02 aún no necesitas construirlo ni modificarlo. Aprenderás sus operaciones y sus límites en S06.',
         'Para ver el tipo usa **`type(x)`**. En `type(x).__name__`, el punto permite consultar un dato asociado al resultado y `__name__` proporciona el nombre legible del tipo (`"int"`, `"str"`, …). La forma **`x.metodo()`** pide al valor `x` ejecutar un método, es decir, una operación propia; por ejemplo, pronto usarás `valor.strip()`. Más adelante preferirás `isinstance` para validar; primero entrenas el ojo con literales. Nota avanzada (no abuses): en Python **`bool` es subtipo de `int`**, así que `isinstance(True, int)` es `True`. Para lógica de negocio, trata `bool` como booleano, no como `0`/`1`, salvo que documentes una conversión explícita.',
         '**Detente y predice:** antes de ejecutar el ejemplo, anota el tipo de `None`, `"42"` y `42`. Después compara tu predicción con la salida. Si fallaste, no memorices la respuesta: pregunta qué operaciones tendría sentido permitir en cada caso. Esa explicación causal te prepara para convertir y validar en T1-B.',
       ],
@@ -299,9 +300,9 @@ False`,
       figure: {
         id: "S02-truthiness",
         caption:
-          "Ausencia, cero y texto vacío son valores distintos. Para preguntar específicamente por ausencia, compara con `None` mediante `is None`.",
+          "Ausencia, `False`, cero y texto vacío tienen significados distintos, aunque `False == 0` sea `True`. Para preguntar por ausencia, usa `is None`.",
         alt:
-          "Cuatro guardas evaluadas en orden: is None da ausente; == 0 y == vacío dan presente; el resto, presente.",
+          "Cinco comparaciones en orden: `is None` marca ausencia; `is False` separa una bandera falsa; `== 0` reconoce el cero; `== texto vacío` reconoce un texto vacío; los demás valores siguen presentes.",
       },
 
       subtopicId: 'S02-T2-B',
@@ -391,16 +392,16 @@ a + b * c = 16
       figure: {
         id: "S02-decimal-rounding",
         caption:
-          "Redondear una sola vez, al final. Hacerlo en cada paso acumula el error y con float ni siquiera es reproducible.",
+          "Evita redondear cada operación intermedia. Usa `quantize` en cada límite de negocio que exija registrar un monto, como el IGV y el total del ejemplo.",
         alt:
-          "Un eje de cuatro pasos con una línea vertical en el tercero marcada como la única vez que se redondea.",
+          "Una línea de cálculo: la base se representa como Decimal; el IGV se cuantiza si se registra y el total se cuantiza según su propia regla. El límite indicado es el registro del IGV.",
       },
 
       subtopicId: 'S02-T3-B',
       paragraphs: [
         'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. La lección no exige dramatismo: **representar dinero es elegir qué errores aceptas**. **Puente desde T3-A:** la fórmula puede ser correcta y, sin embargo, el tipo numérico puede traicionarla.',
         'Los valores `float` representan muchos decimales mediante aproximaciones binarias: por eso `0.1 + 0.2` produce `0.30000000000000004`. Para montos decimales en **soles (S/)** usa **`Decimal`**, un tipo numérico incluido en el módulo `decimal`. Un **módulo** es una parte reutilizable de Python; la **biblioteca estándar** es el conjunto de herramientas que viene con Python. Construye `Decimal` desde **`str`**: `Decimal("0.1")`, no desde `Decimal(0.1)`, porque ese `float` ya contiene una aproximación.',
-        'Para expresar un monto en céntimos, **`quantize(Decimal("0.01"))`** ajusta el resultado a dos posiciones decimales. La instrucción `from decimal import Decimal, ROUND_HALF_EVEN` hace disponibles esos dos nombres en este archivo. `Decimal` usa **`ROUND_HALF_EVEN`** por defecto; ante una mitad exacta, ese modo elige el resultado cuyo último dígito es par. Una regla contable, tributaria o contractual puede exigir otro modo. En este ejemplo elegimos `ROUND_HALF_EVEN` como convención del curso y redondeamos en cada límite de negocio cuya regla exija mostrar o guardar un monto.',
+        'Para expresar un monto en céntimos, **`quantize(Decimal("0.01"))`** ajusta el resultado a dos posiciones decimales. La instrucción `from decimal import Decimal, ROUND_HALF_EVEN` hace disponibles esos dos nombres en este archivo. `Decimal` usa **`ROUND_HALF_EVEN`** por defecto; ante una mitad exacta, ese modo elige el resultado cuyo último dígito es par. Una regla contable, tributaria o contractual puede exigir otro modo. En este ejemplo elegimos `ROUND_HALF_EVEN` como convención del curso y redondeamos en cada límite de negocio cuya regla exija mostrar o guardar un monto. Por eso el IGV que se registra se cuantiza antes de sumarlo al total; un cálculo sin ese límite podría exigir otro resultado.',
         'En una captura inicial, el campo monto puede llegar como **texto** (`"150.50"`). `Decimal(texto.strip())` convierte un texto decimal válido. Si el texto no representa un decimal, Python informa un error; aprenderás a recuperarte de ese error en S09. **Convención S02: punto decimal** (`150.50`), no coma; si el archivo CSV trae coma, documenta la normalización antes de usar `Decimal`.',
         '**Comprueba la causa:** predice si `Decimal(0.1)` y `Decimal("0.1")` serán idénticos; luego imprime ambos. El segundo nace de la representación decimal que escribiste; el primero hereda una aproximación binaria ya creada. En T4 llevarás este valor confiable a un mensaje legible sin devolverlo a `float`.',
       ],
@@ -490,6 +491,28 @@ campos | a | b`,
         title: 'input → str siempre',
         content:
           'Si necesitas int/Decimal, convierte después de strip. Nunca asumas que “el usuario escribió un número” = tipo numérico en Python.',
+      },
+    },
+    {
+      heading: 'Prueba de entrada real en tu terminal',
+      paragraphs: [
+        'En la demostración anterior usamos respuestas ya escritas para repetir el mismo resultado. Ahora usa la terminal que preparaste en S01 para llamar a `input()` de verdad: Python muestra la pregunta, espera una línea y devuelve el texto sin el salto final. Este paso requiere una terminal interactiva; no se ejecuta automáticamente en la página.',
+        'En una terminal Bash o Zsh ejecuta el comando del ejemplo. Cuando aparezca «Edad:», escribe ` 34 ` y pulsa Enter. Debes ver `str` como tipo, el original con espacios entre comillas y `34` como texto limpio. Después repite con una entrada de solo espacios: el texto limpio queda vacío y el original sigue visible. En Windows puedes abrir Python con `py`, escribir primero `edad_raw = input("Edad: ")`, responder la pregunta y luego ejecutar por separado las dos instrucciones restantes.',
+        'Para comprobar el otro límite, inicia una nueva ejecución y señala el final de entrada sin enviar una línea: en Linux o macOS pulsa Ctrl+D; en la consola de Windows pulsa Ctrl+Z y Enter. Python informa `EOFError`; no devuelve un número ni el texto vacío. En S09 aprenderás a recuperar la ejecución de ese error.',
+      ],
+      code: {
+        language: 'bash',
+        title: 'Entrada real en Bash o Zsh (Python 3)',
+        code: `python3 -c '
+edad_raw = input("Edad: ")
+edad_clean = edad_raw.strip()
+print("tipo:", type(edad_raw).__name__, "raw:", repr(edad_raw), "clean:", repr(edad_clean))
+'`,
+      },
+      callout: {
+        type: 'tip',
+        title: 'Tres entradas, tres observaciones',
+        content: 'Prueba ` 34 `, luego tres espacios, y finalmente fin de entrada. Las dos primeras llamadas devuelven texto; la tercera detiene el programa con EOFError. No introduzcas datos personales reales.',
       },
     },
     {
@@ -1021,12 +1044,12 @@ activo: True`,
         hint: '`int(raw.strip())`: limpia primero y construye después.',
         hints: [
           '`int(raw.strip())`: limpia primero y construye después.',
-          'Si haces int(raw) sin strip, en " 21 " también funciona en Python 3, pero el hábito strip es obligatorio para vacíos y mensajes; úsalo siempre en parsers.',
+          'int(" 21 ") también funciona en Python 3. `strip()` deja visible la etapa de limpieza; para detectar un texto vacío hay que comprobarlo aparte, y la recuperación del error corresponde a S09.',
         ],
         edgeCases: ['espacios alrededor del número'],
         tests: 'assert edad == 21 and type(edad) is int',
         feedback:
-          '`int` sin `strip` a veces “funciona” con espacios, pero el hábito falla en vacíos y en mensajes. Orden: limpiar → construir → reportar tipo. Sin `eval`.',
+          '`int` tolera espacios alrededor de los dígitos; `strip()` no evita por sí mismo un `ValueError` de texto vacío. Conserva `raw`, limpia en otro nombre y convierte solo el texto válido. Sin `eval`.',
         retrospective:
           '`strip` + `int` cubre una conversión válida, pero limpiar y convertir no son lo mismo: `strip` quita los espacios de los bordes y no transforma `"veintiuno"` en un número. Predice en qué línea se detendrá Python y ejecuta esa conversión por separado. Comprueba que `raw` conserva el texto recibido. En S09 aprenderás a continuar el programa después de ese fallo.',
         starterCode: {
@@ -1114,7 +1137,7 @@ total 25`,
           '- **Contexto:** una captura trae un código postal, una cantidad y un precio como texto.\n- **Meta:** elegir qué texto debe seguir siendo texto y qué valores sí representan cantidades.\n- **Éxito:** el código conserva `007`, la cantidad es `12`, el precio es `3.5` y el subtotal es `42.0`.\n- **Límites:** conserva cada nombre `_raw`; no conviertas el código postal en número.',
         id: 'S02-T1-B-E3',
         instruction:
-          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`.\n3. Calcula el subtotal y ejecuta las cuatro comprobaciones impresas.',
+          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`, solo como práctica de tipos; en T3-B reemplazarás `float` por `Decimal` para dinero.\n3. Calcula el subtotal de esta simulación y ejecuta las cuatro comprobaciones impresas.',
         hint: 'Una cantidad admite aritmética; un código postal identifica una zona y puede empezar con cero.',
         hints: [
           'Usa `int(cantidad_raw.strip())` y `float(precio_raw.strip())`.',
@@ -1125,7 +1148,7 @@ total 25`,
         feedback:
           'Convertir todo por igual es un error: `007` perdería información si se volviera entero. La operación que necesitas decide el tipo adecuado.',
         retrospective:
-          'Los tres campos llegaron como texto, pero no significan lo mismo. La cantidad y el precio participan en un cálculo; el código postal conserva su forma. La decisión depende del uso que tendrá cada valor: convertir permite operar, mientras conservar el texto protege su forma. Explica esa diferencia antes de mirar los tipos impresos.',
+          'Los tres campos llegaron como texto, pero no significan lo mismo. La cantidad y el precio participan en un cálculo de práctica; el código postal conserva su forma. `float` permite observar la conversión, pero **no es el tipo para cobrar en soles**: en T3-B construirás `Decimal` desde el texto original. Explica esa diferencia antes de mirar los tipos impresos.',
         starterCode: {
           language: 'python',
           title: 'tres_campos.py',
@@ -1370,7 +1393,9 @@ print("1 is True →", ____)
 print("[] == [] →", [] == [])
 print("[] is [] →", [] is [])
 print("1 == True →", 1 == True)
-print("1 is True →", 1 is True)
+numero = 1
+bandera = True
+print("1 is True →", numero is bandera)
 # is → identidad (None, singletons); == → igualdad de valor`,
           output: `None is None → True
 [] == [] → True
@@ -1496,14 +1521,14 @@ trabajo: ['  María  ', ' 999 ', 'revisado']`,
           '17//5 → 3, 17%5 → 2, 2**4 → 16, 17/5 → 3.4 (float).',
         ],
         edgeCases: [
-          'división / siempre float en Python 3',
+          'con dos operandos int, / devuelve float en Python 3',
           '// trunca hacia −∞ (no “hacia cero” en negativos)',
         ],
         tests: 'assert 17//5==3; 17%5==2; 2**4==16; 17/5==3.4',
         feedback:
           'Con `n=17`, `d=5`: `//` 3, `%` 2, `**` 16, `/` 3.4. En Python 3 el `/` no trunca. Si la nota menciona float, ya no confundes división entera con real.',
         retrospective:
-          'En Python 3, `/` produce `float`; `//` y `%` responden preguntas distintas sobre una división entera. Recompón `17` como `3 * 5 + 2`: así explicas cociente y resto sin memorizar símbolos. En negativos, `//` va hacia −∞, no hacia cero. Siguiente: otra regla que conviene demostrar, `-3**2`.',
+          'Con los enteros de este ejercicio, `/` produce `float`; con `Decimal` el resultado de dividir dos montos `Decimal` sigue siendo `Decimal`. `//` y `%` responden preguntas distintas sobre una división entera. Recompón `17` como `3 * 5 + 2`: así explicas cociente y resto sin memorizar símbolos. En negativos, `//` va hacia −∞, no hacia cero. Siguiente: otra regla que conviene demostrar, `-3**2`.',
         starterCode: {
           language: 'python',
           title: 'tabla_operadores.py',
@@ -1708,6 +1733,8 @@ total = ____
 print(propina, total)
 assert propina == Decimal("8.55")
 assert total == Decimal("94.05")
+assert str(propina) == "8.55"
+assert str(total) == "94.05"
 print("OK")`,
         },
         solutionCode: {
@@ -1725,6 +1752,8 @@ total = (cuenta + propina).quantize(
 print(propina, total)
 assert propina == Decimal("8.55")
 assert total == Decimal("94.05")
+assert str(propina) == "8.55"
+assert str(total) == "94.05"
 print("OK")`,
           output: `8.55 94.05
 OK`,
@@ -1768,6 +1797,9 @@ print(monto_a, monto_b, monto_c)
 print(monto_a == Decimal("150.50"))
 print(monto_b == Decimal("20.10"))
 print(monto_c == Decimal("0.00"))
+assert str(monto_a) == "150.50"
+assert str(monto_b) == "20.10"
+assert str(monto_c) == "0.00"
 
 # Ejecuta por separado para observar el fallo:
 # Decimal("150,50")`,
@@ -1794,7 +1826,10 @@ monto_c = Decimal(monto_c_raw.strip()).quantize(
 print(monto_a, monto_b, monto_c)
 print(monto_a == Decimal("150.50"))
 print(monto_b == Decimal("20.10"))
-print(monto_c == Decimal("0.00"))`,
+print(monto_c == Decimal("0.00"))
+assert str(monto_a) == "150.50"
+assert str(monto_b) == "20.10"
+assert str(monto_c) == "0.00"`,
           output: `150.50 20.10 0.00
 True
 True
@@ -2205,10 +2240,16 @@ print("edad int", type(edad).__name__ == "int" and edad == 28)
 print("monto", monto == Decimal("150.50"))
 
 assert nombres_raw == "  María José  "
+assert apellido_paterno_raw == "  Quispe "
 assert apellido_materno_raw == " Ñahui  "
+assert contacto_raw == "0999000111"
+assert direccion_raw == " Av. Ejemplo 123 "
+assert edad_raw == " 28 "
+assert monto_raw == " 150.505 "
 assert contacto_clean == "0999000111"
 assert edad == 28
 assert monto == Decimal("150.50")
+assert str(monto) == "150.50"
 
 edad_invalida_raw = "abc"
 print("entrada problemática:", edad_invalida_raw)
@@ -2322,15 +2363,15 @@ print("entrada problemática:", edad_invalida_raw)
         },
         {
           id: 'S02-T1-TE-2',
-          title: 'safe_int con vacío, espacios y letras',
+          title: 'Conversión válida y fallos observables por separado',
           authentic: true,
-          deliverable: 'Función safe_int + 4 casos (OK, "", "abc", "  ") con mensajes por campo',
+          deliverable: 'Cuatro ejecuciones separadas: int(" 34 ") correcto; int(""), int("abc") e int("  ") muestran ValueError. El original raw permanece intacto. Explica cada resultado.',
         },
       ],
       rubric_0_3: {
         correctness: '¿Tipos y conversiones son correctos?',
-        robustness: '¿Vacío y ValueError se reportan sin que el programa falle?',
-        maintainability: '¿Mensajes nombran el campo y el valor recibido?',
+        robustness: '¿Puede observar `ValueError` sin afirmar que S02 ya recupera la ejecución?',
+        maintainability: '¿Los mensajes de observación nombran el campo y el valor recibido?',
         responsible_use: '¿Solo datos sintéticos; sin eval?',
       },
     },
@@ -2344,18 +2385,18 @@ print("entrada problemática:", edad_invalida_raw)
           id: 'S02-T2-TE-1',
           title: 'Renombrar schema a PEP 8 + corregir = vs ==',
           authentic: true,
-          deliverable: 'Dict encabezado→snake_case (con apellido_paterno/materno) + 3 if con ==',
+          deliverable: 'Seis asignaciones con nombres snake_case (incluidos apellido_paterno y apellido_materno) y tres print con ==, sin condicionales.',
         },
         {
           id: 'S02-T2-TE-2',
           title: 'raw/clean sin corromper el original',
           authentic: true,
-          deliverable: 'make_record con *_raw; assert raw intacto tras mutar clean',
+          deliverable: 'Valores *_raw y *_clean separados, dos assert de originales intactos y una copia superficial de lista que demuestra que no es alias.',
         },
       ],
       rubric_0_3: {
         correctness: '¿Nombres PEP 8 y comparaciones con ==?',
-        robustness: '¿Raw sobrevive a strip/upper?',
+        robustness: '¿Los textos originales sobreviven a strip() y la lista original no cambia al modificar su copia?',
         maintainability: '¿Identificadores legibles sin l/O/I?',
         responsible_use: '¿Sin PII real ni afirmaciones de parentesco?',
       },
@@ -2376,12 +2417,12 @@ print("entrada problemática:", edad_invalida_raw)
           id: 'S02-T3-TE-2',
           title: 'Monto en soles con Decimal + quantize',
           authentic: true,
-          deliverable: 'parse_monto o propina 10% con Decimal("…") y quantize(0.01); sin float',
+          deliverable: 'Conversión de un monto desde texto o cálculo de propina 10% con Decimal("…") y quantize(0.01), sin float ni funciones nuevas.',
         },
       ],
       rubric_0_3: {
         correctness: '¿Precedencia y montos Decimal son correctos?',
-        robustness: '¿InvalidOperation / vacío se manejan?',
+        robustness: '¿El texto inválido se prueba por separado para observar `ValueError` o `InvalidOperation` sin simular recuperación?',
         maintainability: '¿Paréntesis explícitos en fórmulas?',
         responsible_use: '¿Sin float para dinero de negocio?',
       },
@@ -2400,14 +2441,14 @@ print("entrada problemática:", edad_invalida_raw)
         },
         {
           id: 'S02-T4-TE-2',
-          title: 'Suite parse_client: Unicode, vacío, edad inválida',
+          title: 'Recorrido raw/clean: Unicode, vacío y edad inválida',
           authentic: true,
-          deliverable: '3 asserts (Ñahui raw, nombres vacío, edad_raw="abc") + errors accionables',
+          deliverable: 'Tres assert para raw Unicode, texto limpio vacío y edad válida convertida; observar `ValueError` de edad_raw="abc" en una ejecución aparte.',
         },
       ],
       rubric_0_3: {
-        correctness: '¿raw/clean/errors cumplen el contrato?',
-        robustness: '¿Vacío, Unicode y número inválido cubiertos?',
+        correctness: '¿raw/clean/valor cumplen el contrato demostrado en S02?',
+        robustness: '¿Vacío y Unicode se comprueban, y el número inválido se ejecuta por separado?',
         maintainability: '¿Mensajes y f-strings claros en español?',
         responsible_use: '¿Solo datos sintéticos; sin PII?',
       },

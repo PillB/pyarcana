@@ -337,6 +337,18 @@ jobs:
         env:
           BASE_URL: http://localhost:3000
 
+      # S02 extends the same exact 24-card + wrong/correct quiz contract and
+      # verifies an actual editable Python exercise: error, success, draft,
+      # reset, and hidden-on-demand hints. A CDN failure is a real blocker.
+      - name: S02 exercise, Python execution and scoring journeys
+        run: |
+          SECTION_SHARD=1/52 npx playwright test -c scripts/e2e_max/playwright.max.config.ts \
+            scripts/e2e_max/03_demos_exercises.shard.spec.ts \
+            scripts/e2e_max/04_quiz_options.shard.spec.ts \
+            scripts/e2e_max/s02_exercise_editor.spec.ts --reporter=list
+        env:
+          BASE_URL: http://localhost:3000
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
