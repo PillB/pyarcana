@@ -151,8 +151,12 @@ class TestSection02IndependentContract(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/tests.yml").read_text(encoding="utf-8")
         pr_filter = _between(workflow, "  pull_request:", "\nconcurrency:")
         self.assertIn("audit/s01-forensic-qa-20261101", pr_filter)
-        self.assertIn("SECTION_SHARD=1/52", workflow)
-        self.assertIn("scripts/e2e_max/s02_exercise_editor.spec.ts", workflow)
+        s02_job = _between(workflow, "  s02-browser:", "\n  content-gates:")
+        self.assertIn("SECTION_SHARD=1/52", s02_job)
+        self.assertIn("scripts/e2e_max/s02_exercise_editor.spec.ts", s02_job)
+        self.assertIn("scripts/e2e_max/04_quiz_options.shard.spec.ts", s02_job)
+        self.assertIn("Install Playwright Chromium", s02_job)
+        self.assertIn("timeout-minutes: 15", s02_job)
 
     def test_topic_evaluations_do_not_assess_later_sections(self) -> None:
         topic_evaluations = SECTION.read_text(encoding="utf-8").split("  topicEvaluations: [", 1)[1]
