@@ -9,7 +9,9 @@ on:
   push:
     branches: [main, develop, curriculum/55]
   pull_request:
-    branches: [main, curriculum/55]
+    # The S02 audit is stacked on the S01 draft. Keep its PR CI enforceable
+    # without broadening push triggers or requiring a premature merge to main.
+    branches: [main, curriculum/55, audit/s01-forensic-qa-20261101]
 
 concurrency:
   group: tests-${{ github.workflow }}-${{ github.ref }}
@@ -345,6 +347,56 @@ jobs:
           path: |
             test-results/
             playwright-report/
+            playwright-report-e2e-max/
+
+  # The shared HUD/fidelity regression is lengthy. Give S02 its own bounded,
+  # parallel browser verdict instead of hiding it behind that job's 15-minute
+  # timeout. This intentionally spends one more ephemeral runner/install.
+  s02-browser:
+    name: S02 browser practice, self-check scoring and keyboard journey
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start app under test
+        run: |
+          bun run dev &
+          sleep 15
+          curl -sI http://localhost:3000 | head -1
+
+      - name: S02 exercises, wrong/right self-check scoring, Pyodide, drafts, keyboard
+        run: |
+          SECTION_SHARD=1/52 npx playwright test -c scripts/e2e_max/playwright.max.config.ts \
+            scripts/e2e_max/03_demos_exercises.shard.spec.ts \
+            scripts/e2e_max/04_quiz_options.shard.spec.ts \
+            scripts/e2e_max/s02_exercise_editor.spec.ts --reporter=list
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Upload S02 browser traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-s02-results
+          path: |
+            test-results/
             playwright-report-e2e-max/
 
   content-gates:

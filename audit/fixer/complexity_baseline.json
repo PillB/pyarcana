@@ -1,7 +1,7 @@
 {
  "schema_version": 2,
  "ceiling": 15,
- "over_ceiling": 32,
+ "over_ceiling": 31,
  "worst": 78,
  "offenders": [
   {
@@ -123,12 +123,6 @@
    "score": 20,
    "file": "src/components/course/FamiliarityDashboard.tsx",
    "line": 505
-  },
-  {
-   "key": "src/components/course/SectionView.tsx::anonymous-fingerprint:82228f4b98e8bf85#0",
-   "score": 20,
-   "file": "src/components/course/SectionView.tsx",
-   "line": 582
   },
   {
    "key": "src/components/ui/chart.tsx::anonymous-fingerprint:82f9558d2edfc9d6#0",

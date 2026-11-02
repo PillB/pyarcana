@@ -73,6 +73,12 @@ describe('deploy gate', () => {
 describe('the curriculum/55 integration branch', () => {
   it('gets CI on its pushes and on the PRs that target it', () => {
     assert.match(TESTS, /^ {2}push:\n {4}branches: \[main, develop, curriculum\/55\]$/m)
-    assert.match(TESTS, /^ {2}pull_request:\n {4}branches: \[main, curriculum\/55\]$/m)
+    const prBranches = /^ {2}pull_request:\n(?: {4}#[^\n]*\n)* {4}branches: \[([^\]]+)\]$/m.exec(TESTS)?.[1]
+    assert.ok(prBranches, 'a branch-filtered pull_request trigger must exist')
+    const targets = prBranches.split(',').map((value) => value.trim())
+    for (const base of ['main', 'curriculum/55']) {
+      assert.ok(targets.includes(base), `${base} must keep its PR CI coverage`)
+    }
+    assert.ok(targets.includes('audit/s01-forensic-qa-20261101'), 'the stacked S02 review needs browser CI')
   })
 })

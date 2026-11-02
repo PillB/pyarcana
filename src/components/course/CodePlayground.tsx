@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useId } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Loader2, RotateCcw, Terminal, CheckCircle2, XCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -77,6 +77,10 @@ function loadPyodide(): Promise<any> {
 
 interface CodePlaygroundProps {
   initialCode?: string
+  /** Preserve an exercise draft while an on-demand editor is temporarily closed. */
+  onCodeChange?: (code: string) => void
+  /** Keep Reset tied to the authored starter, not a previously saved draft. */
+  resetCode?: string
   expectedOutput?: string
   hint?: string
   title?: string
@@ -92,6 +96,8 @@ interface OutputLine {
 
 export function CodePlayground({
   initialCode = '',
+  onCodeChange,
+  resetCode,
   expectedOutput,
   hint,
   title = 'Editor interactivo',
@@ -105,6 +111,7 @@ export function CodePlayground({
   const [loadError, setLoadError] = useState<string | null>(null)
   const [showHint, setShowHint] = useState(false)
   const [passed, setPassed] = useState<boolean | null>(null)
+  const keyboardHelpId = useId()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const lineNumbersRef = useRef<HTMLDivElement>(null)
   const pyodideRef = useRef<any>(null)
@@ -228,7 +235,9 @@ export function CodePlayground({
   }, [code, pyodideReady, expectedOutput])
 
   const reset = () => {
-    setCode(initialCode)
+    const restored = resetCode ?? initialCode
+    setCode(restored)
+    onCodeChange?.(restored)
     setOutput([])
     setPassed(null)
     setShowHint(false)
@@ -238,22 +247,6 @@ export function CodePlayground({
   const handleScroll = () => {
     if (textareaRef.current && lineNumbersRef.current) {
       lineNumbersRef.current.scrollTop = textareaRef.current.scrollTop
-    }
-  }
-
-  // Tab key support
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Tab') {
-      e.preventDefault()
-      const start = e.currentTarget.selectionStart
-      const end = e.currentTarget.selectionEnd
-      const newCode = code.substring(0, start) + '    ' + code.substring(end)
-      setCode(newCode)
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + 4
-        }
-      }, 0)
     }
   }
 
@@ -340,16 +333,23 @@ export function CodePlayground({
         <textarea
           data-initial-code={initialCode}
           aria-label="Editor de código Python"
+          aria-describedby={keyboardHelpId}
           ref={textareaRef}
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(e) => {
+            setCode(e.target.value)
+            onCodeChange?.(e.target.value)
+          }}
           onScroll={handleScroll}
-          onKeyDown={handleKeyDown}
           spellCheck={false}
           className="code-block flex-1 resize-none bg-transparent py-4 pl-2 pr-4 text-[0.875rem] leading-[1.65] text-[var(--code-fg)] outline-none"
           style={{ fontFamily: 'var(--font-geist-mono), monospace', tabSize: 4, minHeight: '120px' }}
         />
       </div>
+
+      <p id={keyboardHelpId} className="border-t border-border/60 px-4 py-1.5 text-[11px] text-muted-foreground">
+        Usa espacios para indentar. Tab y Mayús+Tab mueven el foco al siguiente control o al anterior.
+      </p>
 
       {/* Output area */}
       <div className="border-t border-border/60 bg-muted/20">
