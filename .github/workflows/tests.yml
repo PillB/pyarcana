@@ -9,7 +9,9 @@ on:
   push:
     branches: [main, develop, curriculum/55]
   pull_request:
-    branches: [main, curriculum/55]
+    # The S02 audit is stacked on the S01 draft. Keep its PR CI enforceable
+    # without broadening push triggers or requiring a premature merge to main.
+    branches: [main, curriculum/55, audit/s01-forensic-qa-20261101]
 
 concurrency:
   group: tests-${{ github.workflow }}-${{ github.ref }}

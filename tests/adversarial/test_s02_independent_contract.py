@@ -146,6 +146,14 @@ class TestSection02IndependentContract(unittest.TestCase):
         self.assertIn('un **`dict`** (diccionario) es una colección', source)
         self.assertIn('en S02 aún no necesitas construirlo ni modificarlo', source)
 
+    def test_stacked_s02_pr_actually_triggers_its_browser_ci(self) -> None:
+        """A correctly authored browser test is useless if its PR base is filtered out."""
+        workflow = (ROOT / ".github/workflows/tests.yml").read_text(encoding="utf-8")
+        pr_filter = _between(workflow, "  pull_request:", "\nconcurrency:")
+        self.assertIn("audit/s01-forensic-qa-20261101", pr_filter)
+        self.assertIn("SECTION_SHARD=1/52", workflow)
+        self.assertIn("scripts/e2e_max/s02_exercise_editor.spec.ts", workflow)
+
     def test_topic_evaluations_do_not_assess_later_sections(self) -> None:
         topic_evaluations = SECTION.read_text(encoding="utf-8").split("  topicEvaluations: [", 1)[1]
         for future_skill in (
