@@ -527,7 +527,7 @@ docs: agregar README inicial
         'Antes del primer `push`, autentica GitHub CLI con `gh auth login --web`: el comando abre un flujo seguro en el navegador, por lo que no debes pegar contraseñas ni tokens en archivos del proyecto. Después conecta la carpeta local con `git remote add origin URL`; **origin** es solo el apodo convencional de esa dirección. `git remote -v` permite comprobarla antes de publicar. Si ya existe un `origin`, no lo agregues de nuevo: verifica que apunta al repositorio correcto.',
         'Publica primero `main` y después tu rama. Al abrir el repositorio en GitHub aparecerá **Compare & pull request** para la rama recién publicada: revisa el diff, explica qué cambiaste y crea el PR. El PR no es otro archivo ni otro commit; es la conversación de revisión alrededor de una comparación entre ramas.',
         'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, lo seleccionas con `git add` y guardas la resolución en un commit. En S01 no necesitas resolver conflictos complejos: sí necesitas no entrar en pánico ni “arreglarlos” con historial destructivo. La regla de oro de este curso es **no hacer `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
-        'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda por omisión las modificaciones de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. Usa `git stash -u` solo cuando decidas incluir también esos archivos y comprueba el resultado con `git status`; `git stash pop` recupera lo guardado. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
+        'Recuperación del día a día, con cuidado: `git restore archivo` descarta **de forma permanente** los cambios *sin commit* de ese archivo en el working tree (vuelve a la última versión confirmada o staged, según el caso), y Git no guarda copia de ellos. Antes, revisa qué perderías con `git diff archivo` o guárdalo con `git stash`. `git stash` guarda por omisión las modificaciones de archivos que Git ya sigue; los archivos nuevos no rastreados permanecen. Usa `git stash -u` solo cuando decidas incluir también esos archivos y comprueba el resultado con `git status`; `git stash pop` recupera lo guardado. Cuando dudes, prefiere `git stash` a `restore` y a `reset --hard`: es la única de las tres que conserva el trabajo. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
       ],
       screenshots: [
         { id: 's01-new-repository-menu', after: 1 },
@@ -551,8 +551,9 @@ git push -u origin main
 git switch feat/hello-env
 git push -u origin feat/hello-env
 
-# Recuperación no destructiva (sin force-push a main):
-# git restore archivo.md
+# Recuperación con cuidado (sin force-push a main):
+# git diff archivo.md            # revisa qué perderías
+# git restore archivo.md         # permanente: descarta la edición sin commit
 # git stash push -m "wip"       # guarda cambios de archivos rastreados
 # git stash push -u -m "wip"    # incluye además archivos no rastreados, si lo decidiste
 # git status                     # comprueba qué quedó
@@ -566,6 +567,40 @@ git push -u origin feat/hello-env
         title: 'Errores típicos + prohibido force-push a main',
         content:
           'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya versionaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
+      },
+    },
+    {
+      heading: 'Contraejemplo: `restore` no deja copia, `stash` sí',
+      subtopicId: 'S01-T3-B',
+      paragraphs: [
+        'Tomemos un archivo con una versión confirmada y una edición que todavía no tiene commit. El script crea un repositorio de prueba, descarta la edición con `restore` y, en la segunda mitad, la guarda con `stash` antes de volver a verla. Las líneas con `echo` imprimen el contenido del archivo en cada paso.',
+        'Lee la salida por parejas. Tras `restore`, el archivo vuelve a `versión 1` y la edición ya no aparece en ningún sitio: esa es la pérdida que describe la sección. Tras `stash`, el archivo también vuelve a `versión 1`, pero `git stash pop` devuelve la edición intacta. Por eso guardar antes de descartar es la opción segura cuando la edición todavía importa.',
+      ],
+      code: {
+        language: 'bash',
+        title: 'restore_vs_stash.sh',
+        code: `mkdir ejemplo-restore && cd ejemplo-restore
+git init -q
+echo "versión 1" > notas.md
+git add notas.md && git commit -qm "versión 1"
+
+# Error: restore descarta la edición sin commit, y no queda copia
+echo "versión 2, sin commit" > notas.md
+git restore notas.md
+echo "tras restore:" && cat notas.md
+
+# Corrección: stash guarda la edición antes de descartarla
+echo "versión 2, sin commit" > notas.md
+git stash push -q -m "wip"
+echo "tras stash:" && cat notas.md
+git stash pop -q
+echo "tras stash pop:" && cat notas.md`,
+        output: `tras restore:
+versión 1
+tras stash:
+versión 1
+tras stash pop:
+versión 2, sin commit`,
       },
     },
     {
