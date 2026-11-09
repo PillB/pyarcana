@@ -41,7 +41,7 @@ CLUSTERS = {
     "S01-N7": ("Contraejemplo: unir un repositorio de GitHub con README a uno local", "bash", "# Git se niega a unir dos historias sin antecesor común."),
     "S01-N2": ("Contraejemplo: git add . sin .gitignore versiona el secreto", "bash", "A  .env"),
     "S01-N6": ("Contraejemplo: mensajes de commit que no dicen qué cambió", "bash", "arreglé algo"),
-    "S01-N8": ("Contraejemplo: pip del sistema con PEP 668 (transcripción sin verificar)", "bash", "externally-managed-environment"),
+    "S01-N8": ("Contraejemplo: pip del sistema con PEP 668", "bash", "externally-managed-environment"),
     "S01-N3": ("Contraejemplo: instalar con un pip y ejecutar con otro Python", "bash", "ModuleNotFoundError: No module named 'requests'"),
     "S01-N4": ("Contraejemplo: `|| true` convierte un fallo en éxito", "bash", "|| true"),
     "S01-N5": ("Contraejemplo: un cwd equivocado y un PATH roto fallan de formas distintas", "bash", "command not found"),

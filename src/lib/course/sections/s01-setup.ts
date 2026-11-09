@@ -399,18 +399,20 @@ gh version 2.40.0
       ],
     },
     {
-      heading: "Contraejemplo: pip del sistema con PEP 668 (transcripción sin verificar)",
+      heading: "Contraejemplo: pip del sistema con PEP 668",
       paragraphs: [
         "En Debian o Ubuntu recientes, el Python del sistema rechaza `pip install` con `externally-managed-environment`, precisamente para que no mezcles paquetes del sistema con los de tus proyectos. En otros sistemas la instalación sí ocurre, y alcanza a todos los proyectos que usan ese Python. Con `.venv` activo, `pip --version` muestra una ruta dentro del proyecto, y lo que instales queda solo allí.",
       ],
       code: {
         language: 'bash',
-        title: 'pep668_sin_verificar.sh',
+        title: 'pep668_sistema.sh',
         code: `# Error: instalar en el Python del sistema (Debian/Ubuntu recientes, PEP 668)
-# Transcripción sin verificar: el mensaje PEP 668 no se reprodujo en el contenedor.
+# Transcripción de Debian con Python 3.12 (salida recortada)
 $ deactivate
 $ python3 -m pip install requests
 error: externally-managed-environment
+
+× This environment is externally managed
 # (en otros sistemas la instalación sí ocurre y alcanza a todos los proyectos)
 
 # Corrección: instalar dentro del .venv activo del proyecto
