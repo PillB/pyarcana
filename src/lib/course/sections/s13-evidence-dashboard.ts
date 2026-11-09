@@ -169,7 +169,6 @@ fp_means_fraud False`,
     },
     {
       heading: "Contraejemplo: si el score sale de la etiqueta, precision 1.0 no mide nada",
-      subtopicId: "S13-T1-B",
       paragraphs: [
         "El generador de la demo anterior calculaba el score a partir de la etiqueta: `y == 1` recibía 0.85, `y == 0` recibía 0.2 y tres pares se fijaban a mano. Una regla así parece perfecta porque nunca decidió nada con el par: leyó la respuesta antes de contar.",
         "Lee la salida por parejas. La primera línea muestra el error: precision 1.0 y recall 0.714 salen del generador, no de una regla. La segunda usa scores literales, como los que daría una regla, e incluye un falso positivo (un par con `y = 0` y score 0.83). Ahí la precision baja a 0.667: el falso positivo cuenta, y la etiqueta ya no decide el score.",
