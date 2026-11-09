@@ -14,6 +14,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
@@ -60,9 +64,10 @@ def main() -> int:
         print(f"{tag}: no unresolved critiques", file=sys.stderr)
         return 2
 
-    num = int(tag.lstrip("Ss").rstrip("rbc") or 0)
-    payload = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
-    slug = payload["active_section_ids"][num - 1]
+    base = re.match(r"[Ss]\d+", tag)
+    if base is None:
+        raise SystemExit(f"{tag} is not a section tag")
+    slug = numbering.slug_for_tag(base.group(0), numbering.load_epoch(ROOT))
     path = section_file(slug)
     rules = (ROOT / "audit/fixer/writing_rules.md").read_text(encoding="utf-8")
 

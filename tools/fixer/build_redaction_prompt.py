@@ -13,6 +13,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/fixer"))
 
@@ -30,9 +34,7 @@ def section_file(slug: str) -> Path:
 
 def main() -> None:
     tag = sys.argv[1]
-    num = int(tag.lstrip("Ss"))
-    payload = json.loads((ROOT / ".fixer/events.json").read_text(encoding="utf-8"))
-    slug = payload["active_section_ids"][num - 1]
+    slug = numbering.slug_for_tag(tag, numbering.load_epoch(ROOT))
     path = section_file(slug)
 
     metrics = json.loads((ROOT / "course-state/prose_quality_report.json").read_text(encoding="utf-8"))

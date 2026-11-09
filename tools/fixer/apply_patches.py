@@ -20,21 +20,20 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def resolve_slug(name: str) -> str:
-    """Accept either the slug ('setup') or the curriculum tag ('S01')."""
-    m = re.fullmatch(r"[Ss](\d{1,2})", name.strip())
-    if not m:
-        return name
-    events = ROOT / ".fixer/events.json"
-    if events.exists():
-        ids = json.loads(events.read_text(encoding="utf-8"))["active_section_ids"]
-        n = int(m.group(1))
-        if 1 <= n <= len(ids):
-            return ids[n - 1]
-    return name
+    """Accept either the slug ('setup') or the curriculum tag ('S01'). Numbers come from the epoch, and a
+    number the epoch does not hold is refused, not passed on to fail later under another message."""
+    try:
+        return numbering.resolve(name, numbering.load_epoch(ROOT))
+    except numbering.NumberingError as e:
+        raise SystemExit(str(e)) from e
 
 
 def section_file(slug: str) -> Path:
@@ -86,13 +85,18 @@ def _scratch(scratch: Path, name: str, text: str) -> Path:
     return path
 
 
+def sections_probe_source(count: int) -> str:
+    """The probe script that checks the course still holds `count` sections, and that they load."""
+    return (f"import {{ COURSE_SECTIONS }} from '{UP}/src/lib/course/index'\n"
+            f"if (COURSE_SECTIONS.length !== {count}) throw new Error('section count changed')\n"
+            "process.stdout.write('ok')\n")
+
+
 def sections_load(scratch: Path) -> tuple[bool, str]:
-    """The 52 sections still import and evaluate. tsx strips types without checking them, so this
-    catches what breaks at load time and nothing else; `tsc_touched` is the type check."""
-    probe = _scratch(scratch, "_verify.mts",
-                     f"import {{ COURSE_SECTIONS }} from '{UP}/src/lib/course/index'\n"
-                     "if (COURSE_SECTIONS.length !== 52) throw new Error('section count changed')\n"
-                     "process.stdout.write('ok')\n")
+    """Every section of the numbering epoch still imports and evaluates. tsx strips types without
+    checking them, so this catches what breaks at load time and nothing else; `tsc_touched` is the type check."""
+    count = numbering.load_epoch(ROOT).count
+    probe = _scratch(scratch, "_verify.mts", sections_probe_source(count))
     return _run(["npx", "tsx", str(probe.relative_to(ROOT))])
 
 

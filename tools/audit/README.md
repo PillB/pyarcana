@@ -81,7 +81,7 @@ python3 tools/audit/report.py     "$WORK" audit/consolidated
 | `consolidate.py` | Reads all 234 audit documents and every conversation blob. Findings appear in five different shapes (objects in a named list, a singular `finding`, an `adds` list, positional arrays, and bare objects inside Python literals in code cells) — each needs its own reader. Also detects per-file severity vocabulary, because 5 documents grade `critical/high/medium` while 229 grade `P0/P1/P2`, and reading `high` as top severity inflates P0. |
 | `build.py` | Deduplicates by `(section, finding_id)`, merges partial records, keeps all provenance, and enriches from cross-reference lists. |
 | `validate.py` | Five cross-source checks (see below). Exit code 1 on failure. |
-| `report.py` | Emits `registry.json`, `findings.csv`, `INDEX.md` and `sections/S**.md`. |
+| `report.py` | Emits `registry.json`, `findings.csv`, `INDEX.md` and `sections/S**.md`. `registry.json` is stamped `numbering_epoch` and `text_numbering_epoch`, both the numbering the audit sources used (52 sections), so a later renumber cannot make a finding filed under `S20` read as the section that is `S20` afterwards. `tools/fixer/numbering.py` refuses a registry without the stamp. |
 
 ## The validation checks
 

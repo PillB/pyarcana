@@ -29,8 +29,18 @@ for TAG in "$@"; do
   rm -f .fixer/${TAG}k.* ".fixer/$TAG.gate-before.json" ".fixer/$TAG.gate-after.json"
   python3 tools/fixer/gate.py snapshot "$TAG" || { echo "!! $TAG snapshot failed"; exit 1; }
 
-  if ! python3 tools/fixer/build_concept_prompt.py "$TAG" > ".fixer/${TAG}k.prompt.txt" 2>/dev/null; then
+  # The builder's one word for "nothing to teach" is exit 2. Any other status is a refusal or a crash
+  # (a registry stamped for another numbering epoch, a missing file), and it must stop the run: read
+  # as "nothing unexplained", it would hide every section that has work behind a clean-looking line.
+  # So its stderr is kept, not discarded.
+  python3 tools/fixer/build_concept_prompt.py "$TAG" > ".fixer/${TAG}k.prompt.txt" 2> ".fixer/${TAG}k.err"
+  BRIEF=$?
+  if [ "$BRIEF" -eq 2 ]; then
     echo "    nothing unexplained in $TAG"; continue
+  elif [ "$BRIEF" -ne 0 ]; then
+    echo "!! $TAG brief refused (exit $BRIEF) - stopping"
+    cat ".fixer/${TAG}k.err" >&2
+    exit 1
   fi
   python3 tools/fixer/run_codex.py "${TAG}k" "$MODEL" "$EFFORT" || { echo "!! $TAG codex failed - stopping"; exit 1; }
 

@@ -28,6 +28,7 @@ COPY = [
     "src", "prisma/seed.ts", "tsconfig.json", "package.json",
     "scripts/learner_text_extractor.mts", "scripts/false_claims_scan.mts", "scripts/lib",
     "tools/fixer/apply_patches.py", "audit/fixer/known_false_claims.json",
+    "tools/fixer/numbering.py", "audit/fixer/numbering_epoch.json",
 ]
 TERMS = "src/lib/glossary/terms.ts"
 SEED = "prisma/seed.ts"

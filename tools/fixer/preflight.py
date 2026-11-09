@@ -19,6 +19,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import numbering  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT_PY = ROOT / ".venv-content/bin/python"
 BASELINE = ROOT / "audit/fixer/dirty_baseline.json"
@@ -69,10 +73,23 @@ def check_sections() -> None:
     for f in files:
         if f.exists() and re.search(r"""\bid:\s*['"]""", f.read_text(encoding="utf-8")):
             ids += 1
-    if ids != 52:
-        problems.append(f"{ids} of 52 sections expose an id the fixer can resolve")
+    try:
+        count = numbering.load_epoch(ROOT).count
+    except numbering.NumberingError as e:
+        problems.append(str(e))
+        return
+    if ids != count:
+        problems.append(f"{ids} of {count} sections expose an id the fixer can resolve")
     else:
-        notes.append("all 52 sections resolve")
+        notes.append(f"all {count} sections resolve")
+
+
+def check_numbering() -> None:
+    """The epoch, the roadmap, the course and the fixer state agree. Nothing is numbered otherwise."""
+    found = numbering.check_epoch(ROOT)
+    problems.extend(found)
+    if not found:
+        notes.append("numbering epoch agrees with the roadmap, the course and the fixer state")
 
 
 def snapshot_dirty() -> None:
@@ -96,16 +113,18 @@ def snapshot_dirty() -> None:
 
 
 def check_registry() -> None:
-    reg = ROOT / "audit/consolidated/registry.json"
-    if not reg.exists():
-        problems.append("audit/consolidated/registry.json missing - nothing to fix from")
+    """The findings exist and are numbered under the current epoch. Read through numbering, like every reader."""
+    try:
+        held = sum(len(found) for found in numbering.registry_findings(ROOT).values())
+    except numbering.NumberingError as e:
+        if str(e) not in problems:    # check_numbering reports a stamp problem first; say it once
+            problems.append(str(e))
         return
-    n = len(json.loads(reg.read_text(encoding="utf-8"))["findings"])
-    notes.append(f"registry holds {n} findings")
+    notes.append(f"registry holds {held} findings, numbered under the current epoch")
 
 
 def main() -> int:
-    for check in (check_interpreter, check_pins, check_sections, snapshot_dirty, check_registry):
+    for check in (check_interpreter, check_pins, check_numbering, check_sections, snapshot_dirty, check_registry):
         check()
     for n in notes:
         print(f"  ok   {n}")

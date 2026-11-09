@@ -20,6 +20,7 @@
  * for them. They exist to drive the gate into each state, including the one where it opens (K3),
  * which proves the refusals in K1, K2 and K4 are not an "always 403". No production code
  * registers them. section_exams is the real verifier, reading the fake ExamAttempt table.
+ * Kept by owner decision O26 (c), audit/fixer/OWNER_DECISIONS.md, until real verifiers exist.
  *
  * Run: node --experimental-test-module-mocks --import tsx --test tests/adversarial/credential-blockers.test.ts
  *      (npm run test:adversarial:node passes the flag)

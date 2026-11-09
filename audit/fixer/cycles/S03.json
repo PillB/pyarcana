@@ -1,5 +1,8 @@
 {
  "section": "S03",
+ "numbering_epoch": 52,
+ "slug": "decisions-rules",
+ "slug_at_record": "data-structures",
  "recorded_at": "2026-09-14T15:21:43+00:00",
  "commit": "86a09ad0cad3c07ca8a92f6540c6c8de8aded348",
  "file": "src/lib/course/sections/s03-data-structures.ts",
@@ -25,6 +28,25 @@
   "S03-F04",
   "S03-F14"
  ],
+ "findings_reopened": [
+  "S03-F05",
+  "S03-F06",
+  "S03-F07",
+  "S03-F08",
+  "S03-F09",
+  "S03-F10",
+  "S03-F11",
+  "S03-F12",
+  "S03-F13",
+  "S03-F15",
+  "S03-F16",
+  "S03-F17"
+ ],
+ "reopened_by": {
+  "decision": "O25",
+  "decided": "2026-10-13",
+  "reason": "The 12 closures were made against src/lib/course/sections/s03-data-structures.ts as it stood in September 2026. Commit 03474115 (1 Oct 2026) rebuilt that section, so the owner ruled that they do not count. Nothing is awarded retroactively: S03's next round re-checks each finding against the current file. findings_closed is kept as the record of what was once claimed; readers count through numbering.closed_findings."
+ },
  "patches_offered": 22,
  "patches_applied": 22,
  "patches_rejected": 0,

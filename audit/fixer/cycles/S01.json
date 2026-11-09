@@ -1,5 +1,7 @@
 {
  "section": "S01",
+ "numbering_epoch": 52,
+ "slug": "setup",
  "recorded_at": "2026-09-11T14:34:10+00:00",
  "commit": "703666e87f303a5e0fd5b3bf3c42ced424217b8c",
  "file": "src/lib/course/sections/s01-setup.ts",
