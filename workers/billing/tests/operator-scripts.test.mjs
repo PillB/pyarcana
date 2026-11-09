@@ -581,7 +581,8 @@ test("setup.sh: Enter at the token prompt still stops before any wrangler call",
 });
 
 const GIT_ENV = { GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@example.test", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@example.test", GIT_CONFIG_NOSYSTEM: "1" };
-const BRANCH = "claude/gifted-lamport-8ddc84";
+const BRANCH = "main";
+const RETIRED = "claude/gifted-lamport-8ddc84"; // the deploy branch before PR #121
 
 function git(cwd, ...args) {
   const r = spawnSync("git", args, { cwd, env: { ...process.env, ...GIT_ENV, HOME: cwd }, encoding: "utf8" });
@@ -612,11 +613,11 @@ const redeploy = (t, opts = {}) => run(t, "redeploy.sh", { ...opts, env: { ...GI
 
 test("redeploy.sh stops on the wrong branch, and with other local changes, before touching anything", () => {
   const t = deployCheckout();
-  git(t.root, "checkout", "-q", "-b", "main");
+  git(t.root, "checkout", "-q", "-b", RETIRED);
   const wrong = redeploy(t, { input: "\n" });
-  assert.notEqual(wrong.status, 0);
-  assert.match(wrong.out, /STOP: this checkout is on "main", but pyarcana\.dev deploys from "claude\/gifted-lamport-8ddc84"/);
-  assert.match(wrong.out, /git checkout claude\/gifted-lamport-8ddc84/);
+  assert.notEqual(wrong.status, 0, "the retired deploy branch is refused");
+  assert.match(wrong.out, /STOP: this checkout is on "claude\/gifted-lamport-8ddc84", but pyarcana\.dev deploys from "main"/);
+  assert.match(wrong.out, /git checkout main/);
   git(t.root, "checkout", "-q", BRANCH);
   writeFileSync(path.join(t.root, "package.json"), '{"name":"changed"}\n');
   const dirty = redeploy(t, { input: "\n" });
