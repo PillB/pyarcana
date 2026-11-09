@@ -389,7 +389,7 @@ x > 5 es una rama muerta`,
       subtopicId: 'S03-T3-A',
       paragraphs: [
         'Una aseguradora digital de Singapur puede conocer perfectamente el rango permitido de una variable y, al mismo tiempo, recibir un código regional nuevo que su catálogo todavía no contiene. Ambos casos “fallan una condición”, pero no significan lo mismo. El rango imposible suele justificar `reject`; el catálogo incompleto puede pedir `review`.',
-        'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es una regla que reconoce de antemano los valores admitidos. En S03 puedes expresarla con comparaciones explícitas: `region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO"`. Cuando el catálogo crece, el `set` de T1-A, `REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}`, expresa la misma regla con `region in REGIONES_PERMITIDAS`. No guardes el catálogo como un texto con separadores: dentro de un texto, `in` busca fragmentos, y entonces `""` o `"R-N"` pasarían la regla. Si el valor no aparece, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
+        'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es una regla que reconoce de antemano los valores admitidos. En S03 puedes expresarla con comparaciones explícitas: `region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO"`. Cuando el catálogo crece, el `set` de T1-A, `REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}`, expresa la misma regla con `region in REGIONES_PERMITIDAS`. No guardes el catálogo como un texto con separadores: dentro de un texto, `in` busca fragmentos, y entonces `""` o `"R-N"` pasarían la regla. El bloque siguiente ejecuta los dos catálogos lado a lado para que veas el error y su corrección. Si el valor no aparece, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
         'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs. `OUT_OF_RANGE`).',
         'Tri-estado en dominio: **`accept`** (cumple), **`reject`** (viola una regla estricta) y **`review`** (está ausente, es desconocido o es un valor alejado de lo habitual que una persona debe revisar). El cero en montos suele ser `accept` si el invariante lo permite.',
         '**No confundas desconocido con inválido.** `NOT_IN_ALLOWLIST` describe la relación entre un valor y un catálogo; `OUT_OF_RANGE` describe una violación numérica. El status final depende de la política, pero conservar códigos distintos permite revisar el catálogo sin ocultar un error de rango.',
@@ -455,6 +455,54 @@ None 40 → review`,
         title: 'Catálogo sintético, política explícita',
         content:
           'Los códigos `R-NORTE`, `R-SUR`, `R-CENTRO` y `R-COSTA` son ficticios. Sirven para observar la política sin fingir que representan un padrón oficial. En un proyecto real, la allowlist debe tener dueño, versión y procedimiento de actualización.',
+      },
+    },
+    {
+      heading: 'Contraejemplo: el catálogo como texto deja pasar fragmentos',
+      subtopicId: 'S03-T3-A',
+      paragraphs: [
+        'Guardar las regiones permitidas en un solo texto, `"R-NORTE|R-SUR|R-CENTRO"`, parece equivalente al `set`, pero cambia la pregunta que hace `in`. Con un texto, `in` pregunta si unos caracteres aparecen **en algún lugar** del texto. Con un `set`, pregunta si el valor es **igual a uno de sus elementos**. El código compara los dos catálogos con las mismas cuatro entradas.',
+        'Lee la salida por parejas. Las cuatro primeras líneas muestran el error: una región cortada (`"R-N"`), una región vacía (`""`) y un trozo que cruza el separador (`"NORTE|R-SUR"`) dan `True` con el texto. Las cuatro siguientes muestran la corrección: con el `set`, solo la región completa da `True`. Las dos últimas muestran la consecuencia en el negocio: con el texto, un registro sin región termina en `accept`; con el `set`, va a `review`, como pide la política de esta sección.',
+      ],
+      code: {
+        language: 'python',
+        title: 'catalogo_texto_vs_set.py',
+        code: `# Error: el catálogo es un solo texto con separadores
+REGIONES_TEXTO = "R-NORTE|R-SUR|R-CENTRO"
+print("texto: 'R-NORTE' →", "R-NORTE" in REGIONES_TEXTO)
+print("texto: 'R-N' →", "R-N" in REGIONES_TEXTO)
+print("texto: '' →", "" in REGIONES_TEXTO)
+print("texto: 'NORTE|R-SUR' →", "NORTE|R-SUR" in REGIONES_TEXTO)
+
+# Corrección: un elemento por región
+REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}
+print("set: 'R-NORTE' →", "R-NORTE" in REGIONES_PERMITIDAS)
+print("set: 'R-N' →", "R-N" in REGIONES_PERMITIDAS)
+print("set: '' →", "" in REGIONES_PERMITIDAS)
+print("set: 'NORTE|R-SUR' →", "NORTE|R-SUR" in REGIONES_PERMITIDAS)
+
+# Consecuencia: un registro sin región
+region = ""
+if region in REGIONES_TEXTO:
+    estado_texto = "accept"
+else:
+    estado_texto = "review"
+if region in REGIONES_PERMITIDAS:
+    estado_set = "accept"
+else:
+    estado_set = "review"
+print("región vacía con texto →", estado_texto)
+print("región vacía con set →", estado_set)`,
+        output: `texto: 'R-NORTE' → True
+texto: 'R-N' → True
+texto: '' → True
+texto: 'NORTE|R-SUR' → True
+set: 'R-NORTE' → True
+set: 'R-N' → False
+set: '' → False
+set: 'NORTE|R-SUR' → False
+región vacía con texto → accept
+región vacía con set → review`,
       },
     },
     {
