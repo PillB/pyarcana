@@ -46,7 +46,10 @@ tools/fixer/run_spanish.sh SXX              # English in the Spanish, decided wo
 Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_QUESTIONS.md`:
 **findings → redaction → concepts → figures → vocab → ids → runtime.**
 
-- Codex authors every learner-facing word, read-only; tooling applies and verifies.
+- Learner-facing words are authored by Codex, or by Claude when the owner approves each
+  proposed change first: the passage, its replacement and the reasoning (owner, 2026-11-09).
+  Tooling applies and verifies. Prose follows `audit/fixer/writing_rules.md`, including
+  §I (machine-prose tropes, read against Zinsser's *On Writing Well*).
 - Codex critiques each passage before returning it; unresolved concerns return twice, then
   go to a human.
 - Research what the registry does not settle from several expert perspectives (STORM),

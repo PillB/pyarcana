@@ -135,3 +135,53 @@ ones to read a passage against by eye before returning it.
   style with no way to know the cap existed. Sections near the cap are already saturated:
   reach for a role (`region norte`, `sucursal B`, `la sede`) or an existing fixture id
   instead of naming another city. The concepts prompt states the file's remaining headroom.
+
+## I. Machine-prose tropes *(owner rule, 2026-11-09)*
+
+Edit for precision, a natural authorial voice and economy, following William Zinsser,
+*On Writing Well*. The patterns below are prompts for editorial judgment, not bans and
+not proof that a machine wrote the text. Remove one when it is repetitive, vague,
+overstated or distracts from the point; keep a contrast, parallelism, technical term or
+punctuation mark when it serves the passage. Never flatten a distinctive voice, and never
+swap precise technical language for a simpler word that is wrong. Read with D13 (no
+staccato) and G2 (assistant register), which these extend.
+
+Spanish forms to listen for: «no solo X, sino también Y» used as a reflex; «no es X, es Y»;
+«no se trata de X, sino de Y»; one-clause sentences stacked for punch; three-item lists by
+habit; a closing line that restates the paragraph.
+
+- **I1 — Counted symmetry.** Titles built for memorability ("Un filtro, dos notaciones").
+- **I2 — A recurring pet metaphor** applied to unrelated results ("lo que nos compra X").
+- **I3 — Corrective antithesis on repeat** («no es X, sino Y» paragraph after paragraph).
+- **I4 — A staged misconception and reveal** ("Se suele pensar que… Eso es incompleto.").
+- **I5 — Rebutting an objection nobody raised** ("Esto no es una omisión."). Give the reason.
+- **I6 — Grand compression claims** ("La idea en una frase").
+- **I7 — Slide slogans as headings** ("La estructura gana al ajuste.").
+- **I8 — Manufactured counts** ("Tres cosas destacan") when the number is not the point.
+- **I9 — Over-polished mirror sentences** that make a qualified claim sound categorical.
+- **I10 — Agency verbs for code or maths objects** (pandas "decide", el modelo "prefiere")
+  when a description of behaviour is available.
+- **I11 — Forced economic metaphors** («el precio de», «paga», «compra») for rates or costs.
+- **I12 — Exposition staged as a chain of questions** the text asks itself.
+- **I13 — Headings that explain the explanation** ("Qué dice la regla", "Por qué funciona").
+- **I14 — Announcing importance** («Esto es clave», «Esto importa») instead of showing it.
+- **I15 — Tour-guide transitions** ("Volvamos al ejemplo.") that script the segue.
+- **I16 — Promises about later sections** piling up beside roadmaps and recaps.
+- **I17 — Consultancy vocabulary** ("playbook", "congelar la geometría") for plain procedures.
+- **I18 — Moralised precision** ("validación honesta"); name the property meant.
+- **I19 — Theatrical scope disclaimers** ("todos los casos imaginables").
+- **I20 — A caveat repeated** a few lines after it was made.
+- **I21 — Recap boxes** that repackage the paragraph just read (see B3: a box must add).
+- **I22 — A specific result turned into a general admonition.**
+- **I23 — Promotional significance** ("revolucionario", "fundamental") instead of the evidence.
+- **I24 — Vague authority** ("los expertos coinciden", "los estudios muestran"); cite a
+  verified source for the exact claim, or qualify or drop it.
+- **I25 — Filler openings and closings** that state no concrete problem or result.
+- **I26 — Decorative participles** ("…, lo que resalta la importancia de…"); state the
+  causal link instead.
+- **I27 — Mechanical uniformity** of paragraph templates, sentence rhythm and transitions.
+  An em dash or a word on a list is not by itself evidence of anything.
+
+Every content change under these rules reaches the owner first as a proposal: the passage,
+the replacement, and the rule and reasoning behind it. It is applied only after approval
+(owner, 2026-11-09).
