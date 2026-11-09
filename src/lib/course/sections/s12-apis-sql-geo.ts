@@ -272,7 +272,7 @@ offline offline_fallback`,
       subtopicId: "S12-T2-B",
       paragraphs: [
         "Un corte que solo pregunta `status >= 500` trata todo lo demás como éxito. Así, un 404 (el recurso no existe) o un 429 (demasiadas peticiones) producen un body `online` que nunca llegó del proveedor. El código compara los dos cortes con las mismas entradas.",
-        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos: 2xx es online; 5xx y timeout (un timeout no tiene status, así que llega como `None`) son offline con el cuerpo local; cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
+        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout (no tiene status, así que llega como `None`) y un 429 que sigue llegando después de los reintentos de la política N1. Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
       ],
       code: {
         language: 'python',
@@ -283,9 +283,9 @@ def fallback_binario(status, local_body):
         return local_body, "offline"
     return {"online": True}, "online"
 
-# Corrección: tres ramas
+# Corrección: tres ramas; un 429 llega aquí solo si los reintentos se agotaron
 def fallback_tres_ramas(status, local_body):
-    if status is None or status >= 500:
+    if status is None or status == 429 or status >= 500:
         return local_body, "offline"
     if 200 <= status < 300:
         return {"online": True}, "online"
@@ -302,7 +302,7 @@ binario 429 ({'online': True}, 'online')
 tres ramas 200 ({'online': True}, 'online')
 tres ramas 503 ({'lat': -12.0}, 'offline')
 tres ramas 404 (None, 'fail_client')
-tres ramas 429 (None, 'fail_client')`,
+tres ramas 429 ({'lat': -12.0}, 'offline')`,
       },
     },
     {
@@ -1290,15 +1290,15 @@ missing keys: ['lon']`,
         kind: "independent",
         title: "Fallback offline ante 5xx y fallo de cliente",
         preamble:
-          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo. Un 404 o un 429 no son un éxito: el body no llegó, así que no puedes presentarlo como online.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo. Un timeout llega como `status` `None`.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`; `None` → `(local_body, 'offline')`; 404 → `(None, 'fail_client')`.\n- **Límites:** 2xx es online; 5xx y timeout son offline; el resto es `fail_client`; no reescribas el status a 200.",
+          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo. Un 404 no es un éxito: el body no llegó, así que no puedes presentarlo como online. Un 429 (demasiadas peticiones) es transitorio: si sigue llegando después de los reintentos, lo tratas como un 503.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo. Un timeout llega como `status` `None`.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`; `None` → `(local_body, 'offline')`; 429 → `(local_body, 'offline')`; 404 → `(None, 'fail_client')`.\n- **Límites:** 2xx es online; 5xx, 429 y timeout son offline; el resto es `fail_client`; no reescribas el status a 200.",
         instruction:
-          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (4xx, como 404 o 429), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del solution: 200, 503, `None`, 404 y 429.",
-        hint: "5xx y timeout disparan el body local y el modo offline; 4xx no.",
+          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None`, `status == 429` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (un 4xx de cliente, como 404), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del solution: 200, 503, `None`, 404 y 429.",
+        hint: "5xx, 429 y timeout disparan el body local y el modo offline; los demás 4xx no.",
         hints: [
           "Compara status con 500 para decidir el modo.",
           "Retorna siempre una tupla (body, mode).",
         ],
-        edgeCases: ["5xx → offline", "timeout (None) → offline", "404 → fail_client"],
+        edgeCases: ["5xx → offline", "timeout (None) → offline", "429 tras los reintentos → offline", "404 → fail_client"],
         tests: "online/offline/fail_client modes",
         feedback:
           "Fallback degradado mantiene el demo del dashboard vivo. El modo offline es la verdad del origen: no finjas éxito online cuando leíste precalculados. Un 404 o un 429 no es un éxito del proveedor: si devuelves `'online'`, inventas una respuesta que nunca llegó.",
@@ -1322,7 +1322,7 @@ print('ok', True)`,
           language: 'python',
           title: "fallback_5xx.py",
           code: `def fetch_with_fallback(status, local_body):
-    if status is None or status >= 500:
+    if status is None or status == 429 or status >= 500:
         return local_body, "offline"
     if 200 <= status < 300:
         return {"online": True}, "online"
@@ -1336,7 +1336,7 @@ print(fetch_with_fallback(429, {"lat": -12.0}))`,
 ({'lat': -12.0}, 'offline')
 ({'lat': -12.0}, 'offline')
 (None, 'fail_client')
-(None, 'fail_client')`,
+({'lat': -12.0}, 'offline')`,
         },
       },
       {

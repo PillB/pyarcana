@@ -620,6 +620,16 @@
       "reason": "The clerical band is [0.4, 0.8), the same policy as the T1-B theory, the decision matrix and T3-B. The fixture and the expected ['P2', 'P3'] are unchanged. Same exercise, same goal: the clerical queue.",
       "decided_by": "owner 2026-11-09 (proposals-03 C12, batch-1 approval)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 63,
+      "id": "S12-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "d7d5e301b8358058c951eddc6853be0fbc972ca4b20f7ff2a09752145c180a04",
+      "to_fp": "36008ac183ee0fb379ba27d469716a0d9657bdabcf1af88802742cf08d328a64",
+      "reason": "Owner decision 2026-11-09 (decision card on HTTP 429): a 429 is transient. When it survives the N1 retries it falls back to the local copy like a 503, instead of fail_client. Preamble, steps, hint, edge cases and the fifth output line follow.",
+      "decided_by": "owner 2026-11-09 (decision: 429 transient, wait, retry, then offline)",
+      "date": "2026-11-09"
     }
   ]
 }

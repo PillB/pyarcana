@@ -351,14 +351,21 @@ class C10ThreeBranchFallback(unittest.TestCase):
             'RESULT = {s: fetch_with_fallback(s, {"lat": -12.0})[1] for s in (404, 429)}',
         )
         self.assertIsNone(out["error"])
-        self.assertEqual(out["result"], {"404": "fail_client", "429": "fail_client"})
+        self.assertEqual(out["result"], {"404": "fail_client", "429": "offline"})
 
-    def test_404_and_429_return_no_invented_body(self) -> None:
+    def test_a_404_returns_no_invented_body(self) -> None:
+        out = probe(self.solution, 'RESULT = fetch_with_fallback(404, {"lat": -12.0})[0]')
+        self.assertIsNone(out["result"])
+
+    def test_429_is_transient_like_a_503(self) -> None:
+        # Owner 2026-11-09: a 429 that survives the N1 retries falls back to the local copy, as a 503
+        # does, never to fail_client (it is "slow down", not "your request is wrong"; RFC 6585).
         out = probe(
             self.solution,
-            'RESULT = [fetch_with_fallback(s, {"lat": -12.0})[0] for s in (404, 429)]',
+            'RESULT = [fetch_with_fallback(s, {"lat": -12.0}) for s in (429, 503)]',
         )
-        self.assertEqual(out["result"], [None, None])
+        self.assertEqual(out["result"][0], out["result"][1])
+        self.assertEqual(out["result"][0][1], "offline")
 
     def test_2xx_is_online_and_5xx_or_timeout_is_offline(self) -> None:
         # Control: a branch that always answered fail_client would pass the tests above.
@@ -374,6 +381,7 @@ class C10ThreeBranchFallback(unittest.TestCase):
         stdout = run_snippet(block["code"])
         self.assertIn("binario 404 ({'online': True}, 'online')", stdout, "the Error half must show the defect")
         self.assertIn("tres ramas 404 (None, 'fail_client')", stdout, "the Corrección half must show the fix")
+        self.assertIn("tres ramas 429 ({'lat': -12.0}, 'offline')", stdout, "a 429 is transient, like a 503")
         self.assertEqual(stdout.rstrip("\n"), block["output"].rstrip("\n"))
 
     def test_the_we_do_pinned_output_lists_the_five_cases(self) -> None:
