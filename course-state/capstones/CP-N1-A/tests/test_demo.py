@@ -72,6 +72,21 @@ def test_empty_batch_has_no_rate():
     assert res.tasa_reject is None
 
 
+def test_a_non_finite_amount_is_rejected_without_stopping_the_batch():
+    """failure: Decimal("NaN") is not an amount; it must not raise InvalidOperation mid-batch"""
+    rows = [row(monto=Decimal("NaN")), row(monto=Decimal("Infinity")), row(monto=10)]
+    res = impl.run(rows)
+    assert [x["estado"] for x in res.results] == ["reject", "reject", "accept"]
+
+
+def test_the_generated_dataset_agrees_with_the_contract():
+    """each synthetic record's declared status is what classify() decides"""
+    sys.path.insert(0, os.path.join(PKG, "data"))
+    import generate
+    for rec in generate.generate()["records"]:
+        assert impl.classify(rec) == rec["status"], rec["raw_line"]
+
+
 def test_run_demo_exits_zero():
     r = subprocess.run([sys.executable, os.path.join(PKG, "demo.py")], capture_output=True, text=True)
     assert r.returncode == 0, f"demo exited {r.returncode}: {r.stderr}"
