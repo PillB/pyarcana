@@ -109,8 +109,10 @@ const WORKER_SUITES = [
   ["measurement-privacy", 3],
   // Stage 2d: the owner's operator scripts (setup.sh, deploy.sh) and their helper; the second
   // runs both scripts under a real pty (util-linux `script`) against a fake wrangler.
-  ["ops", 7],
-  ["operator-scripts", 15]
+  ["ops", 10],
+  ["operator-scripts", 27],
+  // Which browser the e2e suites launch (7 Oct 2026: they hard-coded the sandbox path).
+  ["e2e-launch", 3]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -134,14 +136,14 @@ const CLIENT_SUITES = [
   ["billing-ui", 11],
   ["client-fixes", 22],
   ["cloud-i18n", 3],
-  ["config", 14],
+  ["config", 16],
   ["consent-qa", 7],
   ["experiments", 10],
   ["force-sync", 12],
   ["gate", 16],
   ["handoff", 8],
   ["handoff-import", 6],
-  ["headers", 11],
+  ["headers", 18],
   ["hotkeys", 2],
   ["import-boundary", 2],
   ["legal-content", 9],
@@ -154,13 +156,15 @@ const CLIENT_SUITES = [
   ["prerender", 14],
   ["pricing-view", 5],
   ["primitives", 10],
-  ["privacy-notice", 5],
+  ["privacy-notice", 9],
   ["progress-merge", 17],
   ["progress-sync", 27],
   ["progress-sync-efficiency", 7],
   ["qa-report", 21],
   ["qa-session-stats", 4],
   ["qa-tour-layout", 6],
+  ["section-completion", 4],
+  ["site-icons", 8],
   ["remote-apply", 4],
   ["review-r3", 11],
   ["review-r4", 12],

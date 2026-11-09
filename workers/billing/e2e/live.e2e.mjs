@@ -2,7 +2,7 @@
 // The easy way: workers/billing/e2e/live.sh runs the setup and every step below, guided.
 //
 //   node live.e2e.mjs                 anonymous checks: health, sign-in methods, JWKS, pages, ads,
-//                                     robots.txt, ads.txt, the pyarcana.com redirect
+//                                     robots.txt, ads.txt, the pyarcana.com and www redirects
 //   node live.e2e.mjs --login         opens YOUR installed Chrome (a throwaway profile, not driven by
 //                                     automation, so Google accepts the sign-in) on the home page:
 //                                     sign in yourself (Google is needed for admin), then press Enter
@@ -200,6 +200,26 @@ if (ANON) await flow('worker', async () => {
   record('signed out, /v1/me answers 401', me.status() === 401, `status=${me.status()}`)
 })
 
+/** One host must answer 301 to the same path and query on BASE. Kept out of the flow for its complexity. */
+async function checkRedirect(ctx, host, url, pathAndQuery) {
+  const r = await ctx.get(url, { maxRedirects: 0 }).catch((e) => ({ error: e.message }))
+  const loc = r.error ? '' : r.headers().location ?? ''
+  const detail = r.error ? `error=${r.error.split('\n')[0]}` : `status=${r.status()} location=${loc}`
+  record(`${host} redirects (301) to pyarcana.dev with path and query`, !r.error && r.status() === 301 && loc === `${BASE}${pathAndQuery}`, detail)
+}
+
+/**
+ * Round of 19 Oct 2026, item 3 (S7): the notice is in exactly one mode. Open: it names a holder
+ * with an address and no longer says sign-up is closed. Closed: it says so and names nobody. The
+ * mode is printed, so the run shows which one is live (this deploy should be "open").
+ */
+async function checkHolderMode(page) {
+  const t = (await page.locator('main').innerText().catch(() => '')).replace(/\s+/g, ' ')
+  const named = /El responsable de tus datos es .+, con domicilio en /.test(t)
+  const closed = /no abrimos cuentas nuevas/.test(t)
+  record('/privacy is in exactly one sign-up mode (open names the holder and address; closed says so)', named !== closed, `mode=${named ? 'open' : closed ? 'closed' : 'neither'}${named && closed ? ' and closed at once' : ''}`)
+}
+
 if (ANON) await flow('domain', async () => {
   const robots = await api.get('/robots.txt')
   const text = robots.ok() ? await robots.text() : ''
@@ -207,9 +227,11 @@ if (ANON) await flow('domain', async () => {
   const adsTxt = await api.get('/ads.txt')
   record('ads.txt: 404 until an AdSense id is set, text/plain once it is', adsTxt.status() === 404 || /text\/plain/.test(adsTxt.headers()['content-type'] ?? ''), `status=${adsTxt.status()}`)
   const com = await pwRequest.newContext()
-  const r = await com.get('https://pyarcana.com/precios?x=1', { maxRedirects: 0 }).catch(() => null)
-  const loc = r?.headers().location ?? ''
-  record('pyarcana.com redirects (301) to pyarcana.dev with path and query', r?.status() === 301 && loc === `${BASE}/precios?x=1`, `status=${r?.status()} location=${loc}`)
+  await checkRedirect(com, 'pyarcana.com', 'https://pyarcana.com/precios?x=1', '/precios?x=1')
+  // 85dc9ee (6 Oct 2026): www.pyarcana.dev is no longer bound to the worker, which served the
+  // course there with accounts silently off. It must be a zone Redirect Rule (README, setup step 5);
+  // without one www does not resolve, and this fails.
+  await checkRedirect(com, 'www.pyarcana.dev', 'https://www.pyarcana.dev/empezar?x=1', '/empezar?x=1')
   // Handback 5 Oct 2026, item 3: Cloudflare's automatic RUM injects its beacon at the edge, and only
   // into what looks like a browser page load: the request must say it accepts HTML. Asked without
   // that header (the first version of this check, and `curl`), the page comes back clean even when
@@ -256,10 +278,11 @@ if (ANON) await flow('pyodide', async () => {
 if (ANON) await flow('anonymous pages', async () => {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
   await ctx.addInitScript(() => { try { localStorage.setItem('pyarcana:tourCompleted', '1') } catch {} })
-  for (const path of ['/', '/#setup', '/precios', '/suscripcion', '/cuenta', '/qa', '/privacy', '/cookies', '/terms', '/data-rights']) {
+  for (const path of ['/', '/#setup', '/precios', '/suscripcion', '/cuenta', '/qa', '/privacy', '/cookies', '/terms', '/data-rights', '/empezar']) {
     const before = errors.length
     const page = await open(ctx, path, 'anon')
     record(`anonymous ${path} renders cleanly`, errors.length === before, errors.slice(before).join(' | '))
+    if (path === '/privacy') await checkHolderMode(page)
     if (path === '/#setup') {
       const adapter = await page.locator('[data-testid="ad-slot"][data-placement="section_end"]').first().getAttribute('data-adapter').catch(() => null)
       // In sync there is no Pro to promote, so no house box; in beta or paid the trial promo shows.

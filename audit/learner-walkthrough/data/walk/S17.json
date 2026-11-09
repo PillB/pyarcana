@@ -1,0 +1,142 @@
+{
+ "section": "S17",
+ "id": "packaging",
+ "title": "Joins, reshape, groupby y cierre analítico",
+ "at": "2026-10-05T02:51:12.504Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Joins, reshape, groupby y cierre analítico",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 14,
+  "optional": 1,
+  "words": 2801
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica semver y dependencias",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "Version actual: 1.4.2\n  patch bump:  1.4.3\n  minor bump:  1.5.0\n  major bump:  2.0.0\n1.4.2 -> 1.5.0 compatible: True\n1.4.2 -> 2.0.0 compatible: False",
+  "hint": "Implementa una funcion que determine si un bump es breaking change",
+  "afterEdit": {
+   "edited": "\"Parsea una version semver: MAJOR.MINOR.PATCH.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 717,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 7
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nvalidate='one_to_one' en merge sirve par",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nvalidate='one_to_one' en merge sirve para:\n\nFallar si la cardinalidad no es 1:1\nImputar nulls\nC\nOrdenar el DF\nD\nCrear MultiIndex\n✗ Incorrecto. validate es un gate de cardinalidad: lanza MergeError si el join no es 1:1, evitando fan-out silencioso que infla sumas de montos. No imputa ni reordena."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 27999
+}

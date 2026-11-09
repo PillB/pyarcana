@@ -1,0 +1,159 @@
+{
+ "section": "S46",
+ "id": "gpu-computing",
+ "title": "Ingeniería de datos y orquestación de producción",
+ "at": "2026-10-05T03:14:12.859Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Ingeniería de datos y orquestación de producción",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 5,
+  "optional": 1,
+  "words": 3197
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica conceptos de GPU (simulado)",
+  "readyMs": 3,
+  "verdict": "no-verdict",
+  "output": "=== GPU Computing Concepts ===\n1. Paralelismo:\n  CPU: 4-16 cores, cada uno hace trabajo complejo\n  GPU: 1000s de cores, cada uno hace trabajo simple\n  Para matrices 5000x5000:\n    CPU (1 core):  ~2.1s\n    GPU (CuPy):    ~0.05s (42x speedup)\n2. Jerarquia de memoria:\n  CPU RAM:  16-64 GB, lento (100 GB/s)\n  GPU VRAM: 8-80 GB, rapido (900 GB/s)\n  Limitacion: datos deben caber en VRAM\n  T4: 16GB | A100: 80GB | H100: 80GB\n3. Benchmark (matriz 100x100):\n  CPU (Python puro): 0.1110s\n  GPU estimado:      0.0026s (42x speedup)\n  NumPy estimado:    0.0011s (100x vs Python puro)\n4. vLLM (LLM serving):\n  PagedAttention: gestiona KV cache como memoria virtual\n  Permite batch de 100+ requests sin OOM\n  3-5x mas rapido que HuggingFace transformers",
+  "hint": "Cambia n a 200 y observa como aumenta el tiempo cuadraticamente",
+  "afterEdit": {
+   "edited": "\"Multiplicacion de matrices en CPU (O(n^3)).\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 785,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEn un pipeline de streaming, ¿qué mide e",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "¿qué mide el event time frente al processing time?\n\nA\nEvent time es el reloj del worker; processing time es cuándo ocurrió el hecho\nEvent time es cuándo ocurrió el hecho en el mundo; processing time es cuándo lo procesó el worker\nSon sinónimos si el watermark es cero\nD\nProcessing time solo existe en batch; event time solo en stream\n✗ Incorrecto. Event time ancla la corrección de negocio; processing time solo describe la latencia del sistema. Las ventanas y watermarks se definen sobre event time."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 94423
+}

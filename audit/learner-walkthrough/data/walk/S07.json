@@ -1,0 +1,139 @@
+{
+ "section": "S07",
+ "id": "text-unicode-regex",
+ "title": "Texto, Unicode y expresiones regulares",
+ "at": "2026-10-05T02:33:29.145Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Texto, Unicode y expresiones regulares",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 7,
+  "optional": 1,
+  "words": 3734
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica Unicode, regex y evidencia",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "NFC iguales: True\nEmail: ana+demo@example.com\nEmail inválido → review: True\nsearch/fullmatch: True False\nJaccard: 0.667\nDecisión: review",
+  "hint": "Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos",
+  "afterEdit": {
+   "edited": "\"NFC\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 666,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Por qué 'José' y 'Jose\\u0301' pueden fa",
+  "questions": 10,
+  "attempt1": {
+   "result": "90%\n¡Buenazo! Sección completada\n\n9 de 10 correctas (90%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?\n\nA\nPython no soporta tildes\nB\ncasefold borra la é\nFormas Unicode distintas (NFC vs. NFD)\nSon de tipos distintos\n✗ Incorrecto. La respuesta correcta es NFC frente a NFD: la pantalla oculta que una forma usa `é` compuesta y la otra `e` más marca combinante. Python sí soporta tildes, `casefold` no explica esa diferencia y ambos valores siguen siendo `str`. Normaliza ambos lados antes de comparar."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 90
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 90
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 90
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 27546
+}

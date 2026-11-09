@@ -13,6 +13,8 @@ import {
   d1IdFromList,
   extractJson,
   parseAdminEmails,
+  parseHolder,
+  privacyHtmlProblems,
   placeholders,
   secretNames,
   setTomlValue,
@@ -74,4 +76,32 @@ test("parseAdminEmails normalises a comma list and refuses anything that is not 
   for (const bad of ["", "   ", "not-an-address", "a@b", "a@example.com b@example.com", "a@example.com,,", 'a"@example.com']) {
     assert.throws(() => parseAdminEmails(bad), /address/, JSON.stringify(bad));
   }
+});
+
+// Round of 19 Oct 2026, item 3 (S7): the holder file and the built page's check.
+test("parseHolder: NAME and ADDRESS together, optional RUC; comments, quotes and blank lines; nothing is null", () => {
+  assert.equal(parseHolder(""), null);
+  assert.equal(parseHolder("# only a comment\n\n"), null);
+  assert.deepEqual(parseHolder('NAME=Titular de prueba\nADDRESS="Av. Ejemplo 123, Lima"\n'), { name: "Titular de prueba", address: "Av. Ejemplo 123, Lima", ruc: "" });
+  assert.deepEqual(parseHolder("name = Titular de prueba\r\naddress=Av. Ejemplo 123, Lima\r\nRUC=10123456789"), { name: "Titular de prueba", address: "Av. Ejemplo 123, Lima", ruc: "10123456789" });
+});
+
+test("parseHolder refuses a half-filled file, a bad RUC and unknown lines", () => {
+  assert.throws(() => parseHolder("NAME=Titular de prueba"), /half-filled/);
+  assert.throws(() => parseHolder("ADDRESS=Av. Ejemplo 123, Lima"), /half-filled/);
+  assert.throws(() => parseHolder("RUC=10123456789"), /half-filled/);
+  assert.throws(() => parseHolder("NAME=a\nADDRESS=b\nRUC=123"), /11 digits/);
+  assert.throws(() => parseHolder("NAME=a\nADDRESS=b\nEMAIL=x@example.test"), /unknown line/);
+  assert.throws(() => parseHolder("Titular de prueba"), /unknown line/);
+});
+
+test("privacyHtmlProblems: open needs the escaped name and address and no closed phrase; closed needs the phrase", () => {
+  const holder = { name: "Titular & Cía", address: "Av. Ejemplo 123, Lima", ruc: "" };
+  const open = "<p>El responsable de tus datos es <strong>Titular &amp; Cía</strong>, con domicilio en <!-- -->Av. Ejemplo 123, Lima.</p>";
+  assert.deepEqual(privacyHtmlProblems(open, holder), []);
+  assert.deepEqual(privacyHtmlProblems(open.replace("Titular &amp; Cía", ""), holder), ["the holder's name is not in the page"]);
+  assert.deepEqual(privacyHtmlProblems(open.replace("Av. Ejemplo 123, Lima", ""), holder), ["the holder's address is not in the page"]);
+  assert.deepEqual(privacyHtmlProblems(open + "<p>no abrimos cuentas nuevas</p>", holder), ['the page still says "no abrimos cuentas nuevas"']);
+  assert.deepEqual(privacyHtmlProblems("<p>Hasta entonces, no abrimos cuentas nuevas al público.</p>", null), []);
+  assert.equal(privacyHtmlProblems(open, null).length, 1, "a page naming a holder while the deploy is closed is refused");
 });

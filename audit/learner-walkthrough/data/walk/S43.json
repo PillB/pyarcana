@@ -1,0 +1,159 @@
+{
+ "section": "S43",
+ "id": "llmops",
+ "title": "Contenedores y reproducibilidad operativa",
+ "at": "2026-10-05T03:11:34.818Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Contenedores y reproducibilidad operativa",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 11,
+  "optional": 1,
+  "words": 3142
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica tracing y eval (simulado)",
+  "readyMs": 3,
+  "verdict": "no-verdict",
+  "output": "=== Tracing ===\n  [retriever] 0.0ms -> ['doc_0', 'doc_1', 'doc_2']\n  [generator] 0.0ms -> Respuesta basada en 3 documentos\n  [rag_pipeline] 1.0ms -> Respuesta basada en 3 documentos\n=== Evaluacion RAGAS (simulada) ===\n  faithfulness             : 0.92 [OK]\n  answer_relevancy         : 0.88 [OK]\n  context_precision        : 0.85 [OK]\n  context_recall           : 0.90 [OK]\n  Promedio: 0.89 (APROBADO)\n=== Cost Tracking ===\n  Tokens: {'input': 1500, 'output': 300}\n  Costo: 0.0067",
+  "hint": "Cambia faithfulness a 0.5 y observa como cambia el status",
+  "afterEdit": {
+   "edited": "\"Decorador que simula tracing de LangSmith.\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 616,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar Dockerfil",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar Dockerfile, layers y caché en CASO-TRU-043?\n\nA\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\ndos builds con el mismo lock producen el mismo digest lógico de deps\ndatos personales reales para que parezca auténtico\n✗ Incorrecto. La teoría exige que dos builds con el mismo lock produzcan el mismo digest lógico de deps; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 93097
+}

@@ -1,0 +1,604 @@
+{
+ "S01": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 15,
+    "keyed": "Crear una rama (`git switch -c feat/...`), hacer commit ahí, publicarla y abrir un Pull Re",
+    "explanation_supports": "Hacer commit directo en `main` y luego un force-push"
+   },
+   {
+    "item": 18,
+    "keyed": "Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples m",
+    "explanation_supports": "Es un gestor de entornos virtuales que reemplaza a venv"
+   }
+  ]
+ },
+ "S02": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 18,
+  "explanation_disagrees_with_key": []
+ },
+ "S03": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S04": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 6,
+    "keyed": "Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)",
+    "explanation_supports": "Siempre; for está deprecado"
+   },
+   {
+    "item": 12,
+    "keyed": "n_error / n_total si n_total > 0; si no, None o N/A (no dividir por cero)",
+    "explanation_supports": "n_error / n_accept (solo aceptados en el denominador)"
+   }
+  ]
+ },
+ "S05": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 16,
+    "keyed": "f(f(x)) == f(x)",
+    "explanation_supports": "f muta x in-place dos veces"
+   },
+   {
+    "item": 17,
+    "keyed": "Pasar reader/path/función como argumento al orquestador; el core no toca disco",
+    "explanation_supports": "Prohibir tests con fakes"
+   }
+  ]
+ },
+ "S06": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": []
+ },
+ "S07": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 20,
+    "keyed": "Priorizar revisión humana / ranking de candidatos — no certificar identidad",
+    "explanation_supports": "Afirmar parentesco legal automáticamente"
+   }
+  ]
+ },
+ "S08": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 8,
+    "keyed": "Detectar/configurar delimiter y quotechar; documentar en provenance",
+    "explanation_supports": "Usar split(\",\") y recomponer después los campos entre comillas"
+   }
+  ]
+ },
+ "S09": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S10": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 13,
+    "keyed": "0 éxito (según política); distinto de 0 = error fatal de sesión o política de fallo",
+    "explanation_supports": "Exit codes no se usan en Python"
+   }
+  ]
+ },
+ "S11": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S12": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S13": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S14": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 8,
+    "keyed": "Conservar ejes de tamaño 1 y facilitar broadcasting posterior",
+    "explanation_supports": "Borrar el array original"
+   }
+  ]
+ },
+ "S15": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S16": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S17": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S18": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 22,
+    "keyed": "Un color corporativo exacto",
+    "explanation_supports": "Dependencias/seed/filtros versionados y script reejecutable"
+   }
+  ]
+ },
+ "S19": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 4,
+    "keyed": "Usar el mismo color para todo sin leyenda",
+    "explanation_supports": "Mapear variables a canal visual sin distorsión injustificada y con leyenda clara"
+   }
+  ]
+ },
+ "S20": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S21": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": []
+ },
+ "S22": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S23": {
+  "n": 24,
+  "key_position": {
+   "0": 1,
+   "1": 23
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S24": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S25": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S26": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S27": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S28": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 23,
+    "keyed": "Aislar causa (orden, tiempo, red) y hacerlo determinista o cuarentena con owner",
+    "explanation_supports": "Aumentar retries a 100 sin root cause"
+   }
+  ]
+ },
+ "S29": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S30": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 23,
+    "keyed": "Diagnosticar fallas por tipo de campo/fuente/segmento sintético",
+    "explanation_supports": "Inferir colusión o fraude a partir del match"
+   }
+  ]
+ },
+ "S31": {
+  "n": 24,
+  "key_position": {
+   "0": 5,
+   "1": 6,
+   "2": 8,
+   "3": 5
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 0,
+    "keyed": "Una entidad (cliente, cuenta, contacto) con id y tipo",
+    "explanation_supports": "Siempre un veredicto de fraude"
+   },
+   {
+    "item": 15,
+    "keyed": "Posición topológica destacada bajo una métrica; requiere contexto e hipótesis",
+    "explanation_supports": "Culpabilidad o fraude demostrado"
+   }
+  ]
+ },
+ "S32": {
+  "n": 24,
+  "key_position": {
+   "0": 1,
+   "1": 23
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 21,
+    "keyed": "La distribución o lógica de features difiere entre entrenamiento y producción",
+    "explanation_supports": "Train y serve usan el mismo pipeline versionado"
+   }
+  ]
+ },
+ "S33": {
+  "n": 24,
+  "key_position": {
+   "0": 4,
+   "1": 20
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S34": {
+  "n": 24,
+  "key_position": {
+   "0": 8,
+   "1": 16
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S35": {
+  "n": 24,
+  "key_position": {
+   "0": 7,
+   "1": 4,
+   "2": 8,
+   "3": 5
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": []
+ },
+ "S36": {
+  "n": 24,
+  "key_position": {
+   "0": 11,
+   "1": 13
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 22,
+    "keyed": "Usar rúbricas, sintéticos de práctica y no estigmatizar sin evidencia",
+    "explanation_supports": "Tratar cada score alto como fraude probado"
+   }
+  ]
+ },
+ "S37": {
+  "n": 24,
+  "key_position": {
+   "0": 10,
+   "1": 14
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S38": {
+  "n": 24,
+  "key_position": {
+   "0": 18,
+   "1": 6
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 0,
+    "keyed": "Hay mucha espera I/O y se comparte memoria con cuidado",
+    "explanation_supports": "El workload es CPU-bound puro y se busca paralelismo real en un solo proceso"
+   },
+   {
+    "item": 23,
+    "keyed": "Pasos de diagnóstico, mitigación, rollback/replay y comunicación",
+    "explanation_supports": "Cómo convertir scores en sentencia de fraude"
+   }
+  ]
+ },
+ "S39": {
+  "n": 24,
+  "key_position": {
+   "0": 7,
+   "1": 17
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 12,
+    "keyed": "Usar solo campos necesarios para la decisión y el audit trail",
+    "explanation_supports": "Entrenar con datos reales de clientes sin base legal en el curso"
+   }
+  ]
+ },
+ "S40": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ },
+ "S41": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 1,
+    "keyed": "Sin side effects de escritura (safe/idempotente en la práctica de lectura)",
+    "explanation_supports": "Mutante del estado de negocio"
+   }
+  ]
+ },
+ "S42": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S43": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 23,
+    "keyed": "Nunca poder diagnosticar",
+    "explanation_supports": "Dejar shells root y tools de debug en la imagen prod permanente"
+   }
+  ]
+ },
+ "S44": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 19,
+  "explanation_disagrees_with_key": []
+ },
+ "S45": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 20,
+  "explanation_disagrees_with_key": [
+   {
+    "item": 11,
+    "keyed": "Tiene costo de throughput/complejidad; a veces basta orden por partición",
+    "explanation_supports": "Es gratis y sin trade-offs"
+   }
+  ]
+ },
+ "S46": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": []
+ },
+ "S47": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S48": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 22,
+  "explanation_disagrees_with_key": []
+ },
+ "S49": {
+  "n": 24,
+  "key_position": {
+   "0": 6,
+   "1": 6,
+   "2": 6,
+   "3": 6
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S50": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 23,
+  "explanation_disagrees_with_key": []
+ },
+ "S51": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 21,
+  "explanation_disagrees_with_key": []
+ },
+ "S52": {
+  "n": 24,
+  "key_position": {
+   "1": 24
+  },
+  "key_is_longest": 24,
+  "explanation_disagrees_with_key": []
+ }
+}

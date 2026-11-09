@@ -1,0 +1,139 @@
+{
+ "section": "S24",
+ "id": "rpa-advanced",
+ "title": "OCR y Document AI",
+ "at": "2026-10-05T02:54:35.990Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "OCR y Document AI",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 4,
+  "optional": 1,
+  "words": 3652
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica orquestacion y retries",
+  "readyMs": 3,
+  "verdict": "match",
+  "output": "=== Pipeline RPA ===\nEjecutando: Login\n  Resultado: {'status': 'ok', 'token': 'abc123'}\nEjecutando: Navegar\n  Resultado: {'status': 'ok', 'page': 'reportes'}\nEjecutando: Descargar\n  ✓ Intento 1: exitoso\n  Resultado: {'status': 'ok', 'data': [1, 2, 3]}\nEjecutando: Cerrar sesion\n  Resultado: {'status': 'ok'}\n✓ Pipeline completado",
+  "hint": "Cambia la probabilidad de fallo a 0.9 y observa cuantos intentos necesita",
+  "afterEdit": {
+   "edited": "\"Reintenta una funcion hasta max_attempts veces.\"",
+   "verdict": "match",
+   "message": "¡Correcto! El output coincide con lo esperado."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 804,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué haces si confidence de RUC es 0.6 (",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué haces si confidence de RUC es 0.6 (umbral lab 0.85)?\n\nReintentar el OCR a mayor resolución y aceptar el segundo valor\nB\nAceptar el valor y marcarlo como baja confianza en el reporte\nC\nBajar el umbral a 0.6 si la mayoría de documentos queda debajo\nAbstener y encolar revisión\n✗ Incorrecto. Abstención bajo umbral es control de calidad: el campo crítico va a cola HITL. No se inventan dígitos ni se etiqueta fraude por score bajo."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 27185
+}

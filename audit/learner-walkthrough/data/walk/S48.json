@@ -1,0 +1,159 @@
+{
+ "section": "S48",
+ "id": "ai-governance",
+ "title": "LLM applications y RAG con evidencia",
+ "at": "2026-10-05T03:16:18.567Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "ido"
+  },
+  {
+   "kind": "http.409",
+   "text": "PUT http://localhost:8787/api/v1/me/progress",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "LLM applications y RAG con evidencia",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 10,
+  "optional": 1,
+  "words": 2738
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica bias y fairness",
+  "readyMs": 2,
+  "verdict": "match",
+  "output": "=== Bias Detection ===\n  Tasa aprobacion Hombres: 76.0%\n  Tasa aprobacion Mujeres: 50.0%\n  Disparate Impact: 0.658\n  Bias detectado: SI (umbral: 0.8)\n=== Model Card ===\n  name: Credit Scoring Model v2.0\n  intended_use: Scoring crediticio para clientes de banca\n  training_data: 10,000 registros historicos (2024)\n  metrics: {'auc': 0.87, 'precision': 0.82}\n  bias_check: Disparate impact: 0.658\n  limitations: Solo valido para clientes con > 3 meses de antiguedad\n  human_oversight: Requerido para score > 80%",
+  "hint": "Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece",
+  "afterEdit": {
+   "edited": "\"] * 50 + [\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 614,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\n¿Qué evidencia permite aprobar embedding",
+  "questions": 7,
+  "attempt1": {
+   "result": "86%\n¡Buenazo! Sección completada\n\n6 de 7 correctas (86%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\n¿Qué evidencia permite aprobar embeddings y similitud en CASO-PUN-048?\n\nun print sin assert ni versión\nB\nuna captura de pantalla sin fuente\nC\ndatos personales reales para que parezca auténtico\nranking reproducible con versión de embedding\n✗ Incorrecto. La teoría exige ranking reproducible con versión de embedding; evidencia decorativa o PII no satisface el contrato."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 86
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 86
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 86
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 32792
+}

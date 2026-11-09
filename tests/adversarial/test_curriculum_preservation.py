@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import re
+import tempfile
 import unittest
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,8 +27,13 @@ def section_id(path: Path) -> str | None:
     return m.group(1) if m else None
 
 
-def exercise_ids(path: Path) -> set[str]:
-    return set(re.findall(r"\bid:\s*['\"](S\d{2}-T\d-[AB]-E[1-3])['\"]", path.read_text(encoding="utf-8")))
+def exercise_id_counts(path: Path) -> Counter[str]:
+    """Every occurrence of each exercise id in the file. A set would hide an id written twice in one file."""
+    return Counter(re.findall(r"\bid:\s*['\"](S\d{2}-T\d-[AB]-E[1-3])['\"]", path.read_text(encoding="utf-8")))
+
+
+def duplicated_ids(counts: Counter[str]) -> list[str]:
+    return sorted(exercise_id for exercise_id, count in counts.items() if count > 1)
 
 
 class TestCurriculumPreservation(unittest.TestCase):
@@ -49,15 +56,28 @@ class TestCurriculumPreservation(unittest.TestCase):
     def test_each_active_section_retains_24_exercise_ids(self) -> None:
         for number, stem, path in self.active:
             with self.subTest(section=f"S{number:02d}", stem=stem):
-                ids = exercise_ids(path)
-                self.assertEqual(len(ids), 24, path.name)
+                counts = exercise_id_counts(path)
+                self.assertEqual(duplicated_ids(counts), [], f"written twice in {path.name}")
+                self.assertEqual(sum(counts.values()), 24, path.name)
                 prefix = f"S{number:02d}"
-                self.assertTrue(all(i.startswith(prefix) for i in ids))
+                self.assertTrue(all(i.startswith(prefix) for i in counts))
+
+    def test_a_duplicate_id_within_one_file_is_reported(self) -> None:
+        """The counter sees a duplicate that a set of the same ids would have hidden."""
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "s99-duplicated.ts"
+            path.write_text(
+                "export const exercises = [\n  { id: 'S01-T1-A-E1' },\n  { id: 'S01-T1-A-E1' },\n]\n",
+                encoding="utf-8",
+            )
+            counts = exercise_id_counts(path)
+            self.assertEqual(duplicated_ids(counts), ["S01-T1-A-E1"])
+            self.assertEqual(sum(counts.values()), 2)
 
     def test_exercise_ids_globally_unique_across_active_curriculum(self) -> None:
         all_ids: list[str] = []
         for _, _, path in self.active:
-            all_ids.extend(exercise_ids(path))
+            all_ids.extend(exercise_id_counts(path).elements())
         self.assertEqual(len(all_ids), len(set(all_ids)))
         self.assertEqual(len(all_ids), 52 * 24)
 

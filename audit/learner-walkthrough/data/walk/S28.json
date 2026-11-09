@@ -1,0 +1,142 @@
+{
+ "section": "S28",
+ "id": "llm-agents",
+ "title": "Pruebas de datos, propiedades e integración",
+ "at": "2026-10-05T02:59:07.905Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Pruebas de datos, propiedades e integración",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 15,
+  "optional": 1,
+  "words": 2763
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica razonamiento de agentes (simulado)",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "Pregunta: que es Python\nStep 1:\n  Thought: Necesito buscar informacion sobre la pregunta\n  Action: search(que es Python)\n  Observation: Python es un lenguaje de programacion interpretado, creado en 1991\nStep 2:\n  Thought: Tengo la informacion, puedo responder\n  Action: respond()\n  Answer: Python es un lenguaje de programacion interpretado, creado en 1991\nRespuesta final: Python es un lenguaje de programacion interpretado, creado en 1991",
+  "hint": "Cambia la pregunta a \"que es Pandas\" y observa el resultado",
+  "afterEdit": {
+   "edited": "\"python\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": [
+   "div:ResetRun",
+   "button:Run"
+  ]
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 927,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nUn test metamórfico verifica:\n\nA\nQue la ",
+  "questions": 5,
+  "attempt1": {
+   "result": "80%\n¡Buenazo! Sección completada\n\n4 de 5 correctas (80%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "fica:\n\nQue la salida sea siempre un número mágico fijo sin mirar la entrada\nB\nQue dos ejecuciones con reloj real coincidan siempre en la marca de tiempo\nC\nQue el score del emparejamiento autorice una etiqueta de fraude\nRelaciones predecibles entre entradas transformadas y salidas\n✗ Incorrecto. Una prueba metamórfica relaciona salidas bajo transformaciones conocidas (p. ej. padding no cambia normalize; upper no debe romper igualdad casefold) cuando no hay un oráculo absoluto del score “correcto”."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 80
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 80
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 80
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 30005
+}

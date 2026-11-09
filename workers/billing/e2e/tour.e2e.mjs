@@ -6,16 +6,13 @@
 //   3. spotlighted: a ring drawn over it, so it is not dimmed with the rest of the window.
 // Real page, real layout, real scrolling; nothing is faked.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
-import { existsSync, mkdirSync } from 'node:fs'
+import { launchOptions } from './sandbox-trust.mjs'
+import { mkdirSync } from 'node:fs'
 
 const BASE = process.env.BASE || 'http://localhost:8787'
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
-// CHROMIUM, else this sandbox's Chromium, else Playwright's own (on the owner's computer, via live.sh).
-const SANDBOX_CHROMIUM = '/opt/pw-browsers/chromium'
-const executablePath = process.env.CHROMIUM || (existsSync(SANDBOX_CHROMIUM) ? SANDBOX_CHROMIUM : undefined)
-const browser = await chromium.launch({ headless: true, args: sandboxTrustArgs(), ...(executablePath ? { executablePath } : {}) })
+const browser = await chromium.launch(launchOptions())
 const results = []
 
 function record(name, ok, detail = '') {

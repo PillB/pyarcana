@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { resolveStaticBasePath } from './static_base_path.mjs'
+import { writeSiteIcons } from './site_icons.mjs'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(scriptDir, '..')
@@ -73,6 +74,9 @@ try {
   const finalOutput = join(projectRoot, 'out')
   rmSync(finalOutput, { recursive: true, force: true })
   cpSync(builtOutput, finalOutput, { recursive: true })
+  // favicon.ico, apple-touch-icon(-precomposed).png, 192/512/maskable PNGs and the manifest, from
+  // public/favicon.svg (round of 19 Oct 2026, S21): public/ is protected, so they are built here.
+  await writeSiteIcons(join(projectRoot, 'public', 'favicon.svg'), finalOutput, basePath)
   writeFileSync(join(finalOutput, 'deployment.json'), JSON.stringify({
     schema_version: 1,
     git_sha: deploySha,

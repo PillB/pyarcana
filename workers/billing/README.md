@@ -69,7 +69,8 @@ revoke it afterwards.
 `scripts/deploy.sh`:
 
 1. Refuses while a `TODO_` placeholder is in `wrangler.toml`.
-2. Runs `NEXT_PUBLIC_BASE_PATH= bun run build:static` at the repository root, then refuses unless
+2. Runs `NEXT_PUBLIC_BASE_PATH= node scripts/build_static_export.mjs` (what `bun run build:static`
+   runs, without bun's walk over the parent folders) at the repository root, then refuses unless
    `out/deployment.json` records base path `""`. `scripts/static_base_path.mjs` makes an empty
    value mean the root; the check guards against any build that would still land under `/pyarcana`.
 3. Runs `node scripts/cloud-headers.mjs out` (`out/_headers`, `out/ads.txt`) when the script
@@ -105,7 +106,7 @@ with `wrangler secret put` (by `setup.sh`, or by hand for the payment keys), nev
 | var | `CREEM_API_BASE`, `CREEM_PRODUCT_PRO_MONTHLY`, `CREEM_PRODUCT_PRO_YEARLY`, `MP_API_BASE` | live API bases; product ids filled by the owner |
 | var | `LICENSE_KEY_ID`, `LICENSE_TTL_SECONDS`, `LICENSE_PREV_PUBLIC_JWK` | `k1`, `259200`, `""` (the old PUBLIC JWK during a rotation) |
 | var | `EXPERIMENTS_ENABLED`, `EVENTS_ENABLED` | `""`, `"true"` |
-| var | `CONTROLLER_NAME` | `""` = sign-up closed to all but `ADMIN_EMAILS`; the legal entity's name opens it (Owner steps 14) |
+| var | `CONTROLLER_NAME` | `""` in `wrangler.toml` = sign-up closed to all but `ADMIN_EMAILS`. `deploy.sh` sets it with `--var` from the holder file, which opens sign-up (Owner steps 14) |
 | var | `USAGE_FLUSH_SECONDS`, `USAGE_LEVEL` | unset: `300` and the measured level (drills and the e2e run only; see "Progress and the free tier") |
 | binding | `DB` (D1), `EMAIL` (`send_email`), `ASSETS` (static assets) | `wrangler.toml`; the D1 id is written locally by `setup.sh` |
 | secret | `SERVER_PEPPER` | `setup.sh` (generated, piped) |
@@ -432,6 +433,58 @@ only real Google and Microsoft tokens. Real Google and Microsoft sign-in is ther
 here. Setup: `cd e2e && npm install --prefix . --no-save wrangler@4 playwright@1.63.0` (`--prefix` keeps npm out of `workers/billing/package.json`), then `./run.sh`; Chromium comes from
 `CHROMIUM` (default `/opt/pw-browsers/chromium`).
 
+## Backup and restore (D1)
+
+Round of 19 Oct 2026, S18. Two layers, both Cloudflare's own:
+
+1. **Time Travel** (on by default, nothing to set up): D1 can return the database to any minute of
+   the last 7 days on Workers Free, 30 on Paid. This is the first choice after a bad migration or
+   a mass deletion, because it is exact and needs no file.
+
+   ```bash
+   npx wrangler d1 time-travel info pyarcana-accounts
+   npx wrangler d1 time-travel restore pyarcana-accounts --timestamp=2026-10-19T12:00:00Z
+   ```
+
+   The restore replaces the whole database. `info` prints the bookmark to return to if the
+   restore itself was the mistake.
+
+2. **A monthly export**, for anything older than Time Travel and for the case where the Cloudflare
+   account itself is lost. Run it from `workers/billing` with the deploy token loaded, as for
+   `redeploy.sh`:
+
+   ```bash
+   npx wrangler d1 export pyarcana-accounts --remote --output="$HOME/pyarcana-backups/d1-$(date -u +%Y-%m-%d).sql"
+   chmod 600 "$HOME/pyarcana-backups/"d1-*.sql
+   ```
+
+   The file holds personal data (email addresses, progress, reports). Keep it outside the
+   repository, on an encrypted disk, and delete files older than 3 months. Cloudflare warns that
+   an export blocks other requests to the database while it runs, so run it at night (Lima).
+
+**Restore drill** (once after the first export, then every few months): load the file into a
+local D1, never the live one, and count the rows.
+
+```bash
+mkdir -p /tmp/d1-drill && cp wrangler.toml /tmp/d1-drill/
+cd /tmp/d1-drill
+npx wrangler d1 execute pyarcana-accounts --local --file="$HOME/pyarcana-backups/d1-2026-10-19.sql" --yes
+npx wrangler d1 execute pyarcana-accounts --local --command "SELECT count(*) FROM accounts"
+```
+
+To restore the live database from a file, run the same `execute --file` with `--remote` into a
+new, empty database (`npx wrangler d1 create`), point `database_id` at it and redeploy. Never
+load an export over the live database: its `CREATE TABLE` statements fail on existing tables.
+
+Checked on 19 Oct 2026 with wrangler 4.145.0: a local export and its load into an empty local D1
+gave back the same rows. The `--remote` commands were not run (no deploy token here).
+
+Not built (stated, not absorbed): an account deleted after an export comes back if that export
+is restored. Before reopening a restored database, list the deletions made since the export in
+the old database (`SELECT target_account_id, created_at FROM audit_log WHERE action =
+'account.delete'`) and repeat them. There is no script for this yet. The privacy page does not
+mention backups; it should before the first export is kept.
+
 ## Not built yet
 
 Named undone work; nothing below exists in the code today.
@@ -558,13 +611,31 @@ Only the owner can do these; nothing here is deployed.
     run `aa_2026_q4` first and read its SRM before trusting any other result. The consent text
     and `consent.mode` are a legal decision (DESIGN-v3 §F keeps `everywhere` until a lawyer says
     otherwise).
-14. Opening sign-up (D4 audit, 4 Oct 2026). Until the privacy notice names the holder of the data
-    bank and its address (Ley 29733 art. 18), only `ADMIN_EMAILS` may create an account; anyone
-    else gets 403 `signup_closed` and existing accounts sign in as usual. Microsoft never proves an
-    address, so a backup owner signs up with Google first and links Microsoft afterwards. Once the
-    legal entity exists, set `CLOUD_CONFIG.legal.sellerName`, `address` and `ruc` on the site and
-    `CONTROLLER_NAME` (the same name) in `wrangler.toml`, then redeploy: a test keeps the two equal.
-    Put the RNPD number in `CLOUD_CONFIG.legal.rnpd` when it arrives.
+14. Opening sign-up (D4 audit, 4 Oct 2026; holder file, 19 Oct 2026). Until the privacy notice
+    names the holder of the data bank and its address (Ley 29733 art. 18; DS 016-2024-JUS art.
+    6.1.1), only `ADMIN_EMAILS` may create an account; anyone else gets 403 `signup_closed` and
+    existing accounts sign in as usual. Microsoft never proves an address, so a backup owner signs
+    up with Google first and links Microsoft afterwards.
+    - The holder lives in a file on the deploying computer, never in the repository (it is public:
+      a name or address committed once stays in its history, forks and code search):
+      `~/.config/pyarcana/holder` (or `$PYARCANA_HOLDER_FILE`), plain `KEY=VALUE` lines:
+      ```
+      NAME=Titular de prueba
+      ADDRESS=Av. Ejemplo 123, Lima
+      RUC=
+      ```
+      `NAME` and `ADDRESS` are required together; `RUC` is optional (11 digits). A RUC starting with
+      20 (a company) drops the notice's "interim holder" sentence; without one, or with a 10 (a
+      natural person), the notice says the holder is interim until the company exists.
+    - `deploy.sh` prints `Sign-up: OPEN` or `Sign-up: CLOSED` before building. Open: the build gets
+      `NEXT_PUBLIC_HOLDER_*`, `out/privacy.html` must contain the name and the address and not
+      "no abrimos cuentas nuevas", and the Worker is deployed with `--var CONTROLLER_NAME:<name>`.
+      Closed (no file): the page must say sign-up is closed, and the deploy is plain. A
+      half-filled file stops the deploy before the build.
+    - Trade-offs: a new computer without the file deploys closed (safe, but sign-up closes until the
+      file exists; /admin → Uso shows `controller`). A `--var` lasts for that deploy only: editing
+      `CONTROLLER_NAME` in the Cloudflare dashboard opens sign-up only until the next deploy.
+    - Put the RNPD number in `CLOUD_CONFIG.legal.rnpd` when it arrives.
 15. `/.well-known/security.txt` is written by `scripts/cloud-headers.mjs` at deploy with `Expires`
     300 days ahead. Redeploy at least every 300 days, or it expires; the release checklist carries
     this.

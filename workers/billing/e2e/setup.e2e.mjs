@@ -17,15 +17,13 @@
 //      _next/static path under the base path, with its box and its dated caption.
 import { chromium } from 'playwright'
 import AxeBuilder from '@axe-core/playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
-import { existsSync, mkdirSync } from 'node:fs'
+import { launchOptions } from './sandbox-trust.mjs'
+import { mkdirSync } from 'node:fs'
 
 const BASE = (process.env.BASE || 'http://localhost:8787').replace(/\/$/, '')
 const OUT = new URL('./shots/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
-const SANDBOX_CHROMIUM = '/opt/pw-browsers/chromium'
-const executablePath = process.env.CHROMIUM || (existsSync(SANDBOX_CHROMIUM) ? SANDBOX_CHROMIUM : undefined)
-const browser = await chromium.launch({ headless: true, args: sandboxTrustArgs(), ...(executablePath ? { executablePath } : {}) })
+const browser = await chromium.launch(launchOptions())
 const results = []
 
 function record(name, ok, detail = '') {

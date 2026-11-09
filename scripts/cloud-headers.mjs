@@ -6,13 +6,15 @@
  *
  *   node scripts/cloud-headers.mjs [outDir]      # default: out
  *
- * - _headers: the meta CSP as a real header plus the standard security headers (headers.ts).
+ * - _headers: the standard security headers, and per page a CSP header whose script-src lists that
+ *   page's inline-script hashes instead of 'unsafe-inline' (headers.ts; round of 19 Oct 2026, S1).
  * - ads.txt: only when ads.adsenseClient is set; a malformed id stops the script.
+ * - sitemap.xml and the robots.txt Sitemap line: the account edition only (S21).
  * Refuses (exit 1, nothing written) when outDir holds no index.html (not a built export), and when
  * an ads.txt is already there but no AdSense id is configured (a stale authorization).
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 
@@ -55,14 +57,33 @@ if (!existsSync(join(outDir, 'index.html'))) fail(`${outDir} has no index.html; 
 
 const here = import.meta.url
 const { CLOUD_CONFIG } = await import(new URL('../src/lib/cloud/config.ts', here).href)
-const { buildAdsTxt, buildHeadersFile, buildSecurityTxt } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
+const { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, robotsWithSitemap } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
+
+/** Every built page under outDir (not the _next assets), as {file, html}. */
+function builtPages(dir) {
+  const pages = []
+  const walk = (d) => {
+    for (const entry of readdirSync(d, { withFileTypes: true })) {
+      const full = join(d, entry.name)
+      if (entry.isDirectory() && entry.name !== '_next') walk(full)
+      else if (entry.isFile() && entry.name.endsWith('.html')) pages.push({ file: relative(dir, full), html: readFileSync(full, 'utf8') })
+    }
+  }
+  walk(dir)
+  return pages.sort((a, b) => a.file.localeCompare(b.file))
+}
 
 let adsTxt
 let headers
 let securityTxt
+let sitemap
+let robots
 try {
   adsTxt = buildAdsTxt(CLOUD_CONFIG)
-  headers = buildHeadersFile(CLOUD_CONFIG)
+  const pages = builtPages(outDir)
+  headers = buildHeadersFile(CLOUD_CONFIG, pages)
+  sitemap = buildSitemap(CLOUD_CONFIG, pages)
+  robots = existsSync(join(outDir, 'robots.txt')) ? robotsWithSitemap(CLOUD_CONFIG, readFileSync(join(outDir, 'robots.txt'), 'utf8')) : null
   securityTxt = buildSecurityTxt(CLOUD_CONFIG, Date.now())
 } catch (error) {
   fail(error instanceof Error ? error.message : String(error))
@@ -77,4 +98,8 @@ if (securityTxt !== null) {
   mkdirSync(join(outDir, '.well-known'), { recursive: true })
   writeFileSync(join(outDir, '.well-known', 'security.txt'), securityTxt)
 }
-console.log(`cloud-headers: wrote _headers${adsTxt !== null ? ', ads.txt' : ''}${securityTxt !== null ? ', .well-known/security.txt' : ''} to ${outDir} (stage ${CLOUD_CONFIG.launchStage}, base path ${JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH ?? null)})`)
+if (sitemap !== null) writeFileSync(join(outDir, 'sitemap.xml'), sitemap)
+if (robots !== null) writeFileSync(join(outDir, 'robots.txt'), robots)
+const ruleCount = headers.split('\n').filter((l) => l && !/^\s/.test(l)).length
+const longest = Math.max(...headers.split('\n').map((l) => l.length))
+console.log(`cloud-headers: wrote _headers (${ruleCount} rules, longest line ${longest} chars)${adsTxt !== null ? ', ads.txt' : ''}${securityTxt !== null ? ', .well-known/security.txt' : ''}${sitemap !== null ? ', sitemap.xml, robots.txt Sitemap line' : ''} to ${outDir} (stage ${CLOUD_CONFIG.launchStage}, base path ${JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH ?? null)})`)
