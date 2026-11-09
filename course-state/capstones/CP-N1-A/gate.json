@@ -4,9 +4,9 @@
   "name": "Client Intake & Data Quality Script",
   "level": 1,
   "acceptance_criteria": [
-    "Script lee registros sintéticos y emite estados válidos (ok/warn/error).",
+    "Script lee registros sintéticos y emite estados válidos (accept/review/reject).",
     "Validación de campos obligatorios y formatos simples sin PII real.",
-    "Tasa de error del lote calculada y reportada en métricas JSON.",
+    "Tasa de rechazo del lote calculada y reportada en métricas JSON (None si el lote está vacío).",
     "Casos borde (vacíos, tipos incorrectos) no crashean el proceso.",
     "Salida reproducible con seed fija y exit code 0 en demo."
   ],
@@ -20,7 +20,7 @@
         "2": "Cumple casos normales; bordes incompletos.",
         "3": "Correcto en normal, borde y error documentado."
       },
-      "focus": "Clasificación correcta ok/warn/error según reglas documentadas."
+      "focus": "Clasificación correcta accept/review/reject según reglas documentadas."
     },
     "robustness": {
       "weight_hint": 0.2,
@@ -63,7 +63,7 @@
     "S03",
     "S04"
   ],
-  "wow_factor_definition": "Demo local que valida un lote sintético de intake, imprime métricas (n_total, n_ok, n_error, error_rate) y un resumen legible para stakeholders.",
+  "wow_factor_definition": "Demo local que valida un lote sintético de intake, imprime métricas (n_total, n_accept, n_reject, tasa_reject) y un resumen legible para stakeholders.",
   "scoring_weights_reference": {
     "correctness": 0.35,
     "edge_cases_data": 0.2,
