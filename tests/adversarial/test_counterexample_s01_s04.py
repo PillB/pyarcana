@@ -12,6 +12,7 @@ a green run cannot come from a check that never ran.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -164,6 +165,58 @@ class NegativeControls(unittest.TestCase):
     def test_missing_effect_is_reported(self):
         block = {"code": self.GOOD, "language": "python", "output": "a\nb"}
         self.assertTrue(check_block(block, "python", "NO EXISTE"))
+
+
+
+EXERCISE_DUMP = """
+import {{ section01 }} from {s1!r};
+import {{ section02 }} from {s2!r};
+import {{ section03 }} from {s3!r};
+import {{ section04 }} from {s4!r};
+const all = [section01, section02, section03, section04].flatMap((s) =>
+  (Array.isArray(s.weDo) ? s.weDo : (s.weDo?.exercises ?? s.weDo?.steps ?? [])).map((e) => ({{
+    id: e.id ?? null, preamble: e.preamble ?? "",
+    solution: typeof e.solutionCode === "string" ? e.solutionCode : (e.solutionCode?.code ?? "") }})));
+console.log(JSON.stringify(all));
+"""
+
+RAISE_DEMAND = re.compile(r"lanza\s+`?\w*Error`?")
+
+
+@lru_cache(maxsize=1)
+def exercises() -> list:
+    script = EXERCISE_DUMP.format(s1=str(FILES[0]), s2=str(FILES[1]), s3=str(FILES[2]), s4=str(FILES[3]))
+    done = subprocess.run(["node", "--import", "tsx", "--input-type=module", "-e", script],
+                          cwd=ROOT, capture_output=True, text=True, timeout=300)
+    if done.returncode != 0:
+        raise RuntimeError("could not read the exercises through tsx: " + done.stderr[-800:])
+    return json.loads(done.stdout)
+
+
+def preamble_contradicts_solution(preamble: str, solution: str) -> bool:
+    """The preamble tells the learner to raise an error the reference solution never raises."""
+    return bool(RAISE_DEMAND.search(preamble)) and "raise" not in solution
+
+
+class PreambleAgreesWithSolution(unittest.TestCase):
+    """Codex review on #148: S04-T1-B-E3 became print-only, but its preamble still said
+    "lanza `ValueError`", and SectionView shows the preamble under "Antes de empezar"."""
+
+    def test_the_exercises_are_read(self):
+        ids = {e["id"] for e in exercises()}
+        self.assertIn("S04-T1-B-E3", ids)
+        self.assertGreater(len(ids), 20)
+
+    def test_no_preamble_demands_a_raise_the_solution_does_not_make(self):
+        offenders = [e["id"] for e in exercises()
+                     if preamble_contradicts_solution(e["preamble"], e["solution"])]
+        self.assertEqual(offenders, [])
+
+    def test_detector_flags_the_old_preamble_and_accepts_a_raising_solution(self):
+        old = "- **Límites:** lanza `ValueError` si `len(a) != len(b)`."
+        self.assertTrue(preamble_contradicts_solution(old, 'print("DESALINEADO")'))
+        self.assertFalse(preamble_contradicts_solution(old, 'raise ValueError("x")'))
+        self.assertFalse(preamble_contradicts_solution("usa `len` e `if`.", 'print("OK")'))
 
 
 if __name__ == "__main__":

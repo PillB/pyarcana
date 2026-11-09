@@ -1157,7 +1157,7 @@ zip corto [('Ana', 30)]`,
         kind: "transfer",
         title: "zip_strict: fallar si hay desalineación",
         preamble:
-          "- **Contexto:** al comprobar la calidad de dos columnas, una diferencia de longitud debe producir un error visible, no una pérdida silenciosa.\n- **Meta:** implementar una comprobación de longitudes equivalente a `zip(..., strict=True)`.\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
+          "- **Contexto:** al comprobar la calidad de dos columnas, una diferencia de longitud debe producir un aviso visible, no una pérdida silenciosa.\n- **Meta:** comprobar las longitudes antes de emparejar, que es lo que `zip(..., strict=True)` hace por ti.\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** usa `len` e `if`; imprime `DESALINEADO` cuando `len(a) != len(b)`. No hace falta lanzar errores: las excepciones llegan en S09.",
         id: "S04-T1-B-E3",
         instruction:
           "1. Compara `len(a)` con `len(b)` antes de emparejar; si difieren, imprime `DESALINEADO`.\n2. Primer par de listas de longitudes 3 y 2: debe salir `DESALINEADO`.\n3. Segundo par de longitudes 2 y 2: imprime `OK`.",
