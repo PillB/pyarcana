@@ -83,7 +83,9 @@ from course_events import fresh_events  # noqa: E402
 # 2026-10-13, S18 round (design step 0b-7): 7 -> 6. `estimando` is now defined in S18-T2-B and
 # named in that block's code, so it is explained AND exemplified; UNEXEMPLIFIED stays at 35.
 NEVER_EXPLAINED_OWED = 6
-UNEXEMPLIFIED_CONCEPTS_OWED = 35
+# 2026-11-09, proposal 04 counterexamples (S09-S13): 35 -> 33. `abc` now has a worked example (S11-C6)
+# and `f-string` one (S12-C1); both were explained and never exemplified.
+UNEXEMPLIFIED_CONCEPTS_OWED = 33
 # The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
 # are short; they owe 274 figures between them. Counting concepts hid a lost figure.
 FIGURES_OWED = 274
