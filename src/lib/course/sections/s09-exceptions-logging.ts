@@ -412,7 +412,7 @@ def mask_address(address: str) -> str:
 def parse_campo_requerido(raw: str) -> str:
     # demo de ERROR path: no uses float para montos (ver Decimal en T1-A)
     if raw.strip().upper() in {"N/A", "NA", ""}:
-        raise ValueError(f"valor vacío o N/A: {raw!r}")
+        raise ValueError("valor vacío o N/A")
     return raw.strip()
 
 buf = io.StringIO()
@@ -944,7 +944,7 @@ print(with_retry(bad_data))`,
         feedback:
           "`int('x')` es valor ilegal (`ValueError`); sumar str+int es tipo (`TypeError`); dict sin clave es `KeyError`; archivo inexistente es `FileNotFoundError`. La regla monto < 0 es de **dominio**: `ValidationError`, no otro ValueError opaco.",
         retrospective:
-          "El tipo es la primera señal operable del post mórtem. El error clásico es aplanar todo a `ValueError` «porque es común». Siguiente (E2): implementar `parse_monto` con `Decimal` y mensajes que incluyan el raw.",
+          "El tipo es la primera señal operable del post mórtem. El error clásico es aplanar todo a `ValueError` «porque es común». Siguiente (E2): implementar `parse_monto` con `Decimal` y mensajes que nombren el problema sin repetir el valor recibido.",
         starterCode: {
           language: 'python',
           title: "map_exceptions.py",

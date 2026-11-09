@@ -112,5 +112,22 @@ class EveryParseMontoKeepsTheContract(unittest.TestCase):
                 self.assertEqual(contract_violations(module), [])
 
 
+class NoMessageRepeatsTheInput(unittest.TestCase):
+    """S09 teaches that an exception never repeats the value it received; no example may contradict it."""
+
+    ECHO = re.compile(r"raise \w+\(f[\"'][^\"']*\{raw[^}]*\}")
+    ADVICE = "mensajes que incluyan el raw"
+
+    def test_echo_detector_can_fail(self) -> None:
+        self.assertTrue(self.ECHO.search('raise ValueError(f"valor vacío: {raw!r}")'))
+
+    def test_no_section_raises_with_the_input(self) -> None:
+        for section, path in SECTIONS.items():
+            source = path.read_text(encoding="utf-8")
+            with self.subTest(section=section):
+                self.assertEqual(self.ECHO.findall(source), [])
+                self.assertNotIn(self.ADVICE, source)
+
+
 if __name__ == "__main__":
     unittest.main()
