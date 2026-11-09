@@ -21,6 +21,11 @@ API is not reachable from the build sandbox. Once the zone and the identity prov
 workers/billing/scripts/redeploy.sh
 ```
 
+**Deploy from `main`.** GitHub Pages builds `main` as the live preview; pyarcana.dev is production
+and is deployed from the same `main`, so a release is: merge to `main`, check the Pages preview, then
+run `redeploy.sh` on a checkout of `main`. The old deploy branch `claude/gifted-lamport-8ddc84` was
+merged into `main` (PR #121, 9 Nov 2026) and is retired; `redeploy.sh` refuses it.
+
 That is the whole redeploy, from the deploy checkout: it checks the branch and local changes,
 pulls, runs `bun install`, then `setup.sh`, which asks for the token (hidden) and the account id
 when they are not exported. The pieces, when needed on their own (no comments inside the block:
