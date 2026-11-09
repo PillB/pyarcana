@@ -2186,10 +2186,12 @@ def read_env_layer(environ):
 
 def read_file_layer(path):
     # TODO: si path existe, devuelve su contenido JSON como dict; si no existe, {}.
+    #   Si el JSON no es un objeto (por ejemplo, una lista), lanza ValueError("config: ...").
     return {}
 
 def validate_config(config, command):
-    if config.get("log_level") not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
+    level = config.get("log_level")
+    if not isinstance(level, str) or level not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
         raise ValueError("config: log_level inválido")
     required = {"ingest": "input_path", "report": "manifest_path"}.get(command)
     if required and not config.get(required):
@@ -2421,6 +2423,20 @@ class ConfigLayerTests(unittest.TestCase):
             (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
             done = run_cli(["normalize", "Ana"], folder)
             self.assertEqual(done.returncode, 1, done.stderr)
+
+    def test_file_layer_must_be_an_object(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text("[]", encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("config", done.stderr)
+
+    def test_log_level_must_be_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": []}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("log_level", done.stderr)
 
     def test_env_beats_file(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -2502,10 +2518,14 @@ def read_env_layer(environ):
 def read_file_layer(path):
     if not path.exists():
         return {}
-    return json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("config: familiarity.json debe ser un objeto JSON")
+    return data
 
 def validate_config(config, command):
-    if config.get("log_level") not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
+    level = config.get("log_level")
+    if not isinstance(level, str) or level not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
         raise ValueError("config: log_level inválido")
     required = {"ingest": "input_path", "report": "manifest_path"}.get(command)
     if required and not config.get(required):
@@ -2737,6 +2757,20 @@ class ConfigLayerTests(unittest.TestCase):
             (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
             done = run_cli(["normalize", "Ana"], folder)
             self.assertEqual(done.returncode, 1, done.stderr)
+
+    def test_file_layer_must_be_an_object(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text("[]", encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("config", done.stderr)
+
+    def test_log_level_must_be_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": []}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("log_level", done.stderr)
 
     def test_env_beats_file(self):
         with tempfile.TemporaryDirectory() as folder:
