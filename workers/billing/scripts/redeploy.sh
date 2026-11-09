@@ -15,8 +15,10 @@
 
 set -euo pipefail
 
-# The branch pyarcana.dev deploys from. Change it here when the work moves to another branch.
-DEPLOY_BRANCH="${PYARCANA_DEPLOY_BRANCH:-claude/gifted-lamport-8ddc84}"
+# The branch pyarcana.dev deploys from. It is main: the old deploy branch
+# claude/gifted-lamport-8ddc84 was merged into main (PR #121, 9 Nov 2026) and is retired.
+# GitHub Pages builds main as the live preview, so what is deployed here is what was previewed.
+DEPLOY_BRANCH="${PYARCANA_DEPLOY_BRANCH:-main}"
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=common.sh
