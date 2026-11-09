@@ -18,7 +18,9 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-VENV_PY = ROOT / ".venv-content/bin/python"
+# Every snippet these tests run uses the standard library only, so any Python 3.12 runs them,
+# including the adversarial CI job, which installs no content packages. No test here skips.
+VENV_PY = Path(sys.executable)
 SECTIONS = ROOT / "src/lib/course/sections"
 S12 = SECTIONS / "s12-apis-sql-geo.ts"
 S13 = SECTIONS / "s13-evidence-dashboard.ts"
@@ -104,17 +106,9 @@ def theory(section: dict, heading_part: str) -> dict:
     return found[0]
 
 
-def venv_ready() -> bool:
-    return VENV_PY.exists()
-
-
-NEEDS_VENV = unittest.skipUnless(venv_ready(), "needs .venv-content (Python 3.12, pinned packages)")
-
-
 # ---------------------------------------------------------------------------------------------
 # A4: the S12 I Do fetch demo checks the status before it parses the body.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class A4FetchDemoChecksStatusFirst(unittest.TestCase):
     def test_a_503_with_an_error_body_raises_runtime_error_not_key_error(self) -> None:
         code = step(sections()["s12"], "iDo", "S12-T1-A-DEMO", "demoId")["code"]
@@ -134,7 +128,6 @@ class A4FetchDemoChecksStatusFirst(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # A5: the S12 geocoder mocks are keyed by city; an unknown city is None, not Lima.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class A5GeocoderMocksAreKeyedByCity(unittest.TestCase):
     def setUp(self) -> None:
         self.code = step(sections()["s12"], "iDo", "S12-T2-B-DEMO", "demoId")["code"]
@@ -160,7 +153,6 @@ class A5GeocoderMocksAreKeyedByCity(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # A6: two documents that are empty after normalisation do not match.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class A6EmptyNormalisedDocumentsDoNotMatch(unittest.TestCase):
     def setUp(self) -> None:
         self.solution = step(sections()["s13"], "weDo", "S13-T1-A-E3")["solution"]
@@ -267,7 +259,6 @@ def you_do_variant(starter: str, fixed: tuple[str, ...]) -> str:
     return code
 
 
-@NEEDS_VENV
 class A7YouDoChecksTheFourHiddenDefects(unittest.TestCase):
     def setUp(self) -> None:
         self.starter = sections()["s13"]["youDo"]["starter"]
@@ -316,7 +307,6 @@ class A7YouDoChecksTheFourHiddenDefects(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # C9: the S12 egress allowlist is {city, country}; an exact address is refused.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class C9EgressAllowlistDropsAddress(unittest.TestCase):
     def setUp(self) -> None:
         self.solution = step(sections()["s12"], "weDo", "S12-T4-A-E3")["solution"]
@@ -351,7 +341,6 @@ class C9EgressAllowlistDropsAddress(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # C10: fetch_with_fallback has three branches; 404 and 429 are client failures, not online.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class C10ThreeBranchFallback(unittest.TestCase):
     def setUp(self) -> None:
         self.solution = step(sections()["s12"], "weDo", "S12-T2-B-E2")["solution"]
@@ -396,7 +385,6 @@ class C10ThreeBranchFallback(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # C11: the S13 precision/recall demo is measured from a literal table, with a false positive.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class C11PrecisionRecallIsMeasuredNotBuiltIn(unittest.TestCase):
     def setUp(self) -> None:
         self.demo = step(sections()["s13"], "iDo", "S13-T1-B-DEMO", "demoId")
@@ -440,7 +428,6 @@ class C11PrecisionRecallIsMeasuredNotBuiltIn(unittest.TestCase):
 # ---------------------------------------------------------------------------------------------
 # C12: one review band, [0.4, 0.8), in the theory, the I Do, the We Do and the T3-B decision.
 # ---------------------------------------------------------------------------------------------
-@NEEDS_VENV
 class C12OneReviewBand(unittest.TestCase):
     SCORES = [0.3, 0.4, 0.7, 0.75, 0.79, 0.8, 0.9]
 
