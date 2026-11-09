@@ -53,6 +53,8 @@ def estado_monto(monto: Any) -> str:
         return "review"
     if not (isinstance(monto, (int, Decimal))) or isinstance(monto, bool):
         return "reject"
+    if isinstance(monto, Decimal) and not monto.is_finite():
+        return "reject"  # NaN or Infinity: not an amount, and `<` on a NaN would stop the batch
     if monto < 0:
         return "reject"
     if monto > 50000:

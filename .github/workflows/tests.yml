@@ -129,6 +129,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      # The S01 lint lesson's checks run the learner's real `ruff check` (batch 1, A8). Pinned to the
+      # version the checks were verified with, so a ruff release cannot change the verdict silently.
+      - name: Install ruff for the S01 lint checks
+        run: python -m pip install ruff==0.16.9
+
       - name: Run adversarial unit tests
         run: npm run test:adversarial
 

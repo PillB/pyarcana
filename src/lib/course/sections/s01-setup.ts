@@ -571,7 +571,6 @@ git push -u origin feat/hello-env
     },
     {
       heading: 'Contraejemplo: `restore` no deja copia, `stash` sí',
-      subtopicId: 'S01-T3-B',
       paragraphs: [
         'Tomemos un archivo con una versión confirmada y una edición que todavía no tiene commit. El script crea un repositorio de prueba, descarta la edición con `restore` y, en la segunda mitad, la guarda con `stash` antes de volver a verla. Las líneas con `echo` imprimen el contenido del archivo en cada paso.',
         'Lee la salida por parejas. Tras `restore`, el archivo vuelve a `versión 1` y la edición ya no aparece en ningún sitio: esa es la pérdida que describe la sección. Tras `stash`, el archivo también vuelve a `versión 1`, pero `git stash pop` devuelve la edición intacta. Por eso guardar antes de descartar es la opción segura cuando la edición todavía importa.',
