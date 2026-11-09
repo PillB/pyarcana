@@ -2331,7 +2331,9 @@ from familiarity_core import compare, parse_monto, run_ingest
 
 class CoreTests(unittest.TestCase):
     def test_decimal_and_compare(self):
-        self.assertEqual(parse_monto("10,5"), Decimal("10.50"))
+        self.assertEqual(parse_monto("10,50"), Decimal("10.50"))
+        with self.assertRaises(ValueError):
+            parse_monto("10,5")
         self.assertEqual(compare(" Ana ", "ana"), Decimal("1.00"))
 
     def test_etl_reconciles_and_quarantines(self):
