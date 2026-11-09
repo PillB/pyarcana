@@ -1513,7 +1513,7 @@ True`,
           'Explica por qué `"DNI"` pertenece al catálogo y `"dni"` no. ¿Qué decisión tomarías si el formato recibido usa minúsculas? El defecto mostró que reemplazar `in` por una comparación distinta cambia la pregunta y que las mayúsculas forman parte de cada código. Compara ahora el caso vecino `"RUC"` con `"Ruc"`: ¿cuál debe dar `True` según el catálogo? Esta precisión prepara el siguiente ejercicio, donde valores parecidos a ausencia tampoco deben tratarse como equivalentes.',
         starterCode: {
           language: 'python',
-          title: 'CODIGOS_PERMITIDOS.py',
+          title: 'codigos_permitidos.py',
           code: `# DEFECT: cada comparación usa el código equivocado
 CODIGOS_PERMITIDOS = {"DNI", "CE", "PAS"}
 codigo_1 = "DNI"
@@ -1525,7 +1525,7 @@ print(codigo_3 == "PAS")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'CODIGOS_PERMITIDOS.py',
+          title: 'codigos_permitidos.py',
           code: `CODIGOS_PERMITIDOS = {"DNI", "CE", "PAS"}
 codigo_1 = "DNI"
 codigo_2 = "dni"
