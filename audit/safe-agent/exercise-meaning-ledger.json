@@ -540,6 +540,46 @@
       "reason": "Starter slices raw[7:10], so it prints C00 instead of the expected C001 (C14). Anchor unchanged.",
       "decided_by": "owner 2026-11-09 (proposals-03 C14)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 55,
+      "id": "S11-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "523e518d4a99d01a3f2bbe00abed593c5c47431a33b39544b3e7ac9ff27888a4",
+      "to_fp": "c0b4422ccdbd6d71feb17db6f3669033b8ad79a1dab7d03010e1a087e01f0b6c",
+      "reason": "C8: the solution removes decide_fraud from the real Client (redefined without the verdict method) and asserts not hasattr(Client, ...). The ANTES line is kept as the counterexample. Same goal: extract the verdict, keep scores.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 56,
+      "id": "S11-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "bd889ff2002592fd0abf357044e7881d67e1bdc632197bc8e0298979a4d37d17",
+      "to_fp": "bd889ff2002592fd0abf357044e7881d67e1bdc632197bc8e0298979a4d37d17",
+      "reason": "C14: the starter used to print the expected 0.5 unchanged. It now calls score on a FakeScorer that only defines compute, so it fails with AttributeError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 57,
+      "id": "S11-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "to_fp": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "reason": "C14: the starter used to return \"pass\" from a test that never rejects. It now runs an unguarded assert False, so it fails with AssertionError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 58,
+      "id": "S11-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "ff9abe0556b66d858ad80fc1498fdaf0308b07ecbeb1697ab37e26b26fc65763",
+      "to_fp": "ff9abe0556b66d858ad80fc1498fdaf0308b07ecbeb1697ab37e26b26fc65763",
+      "reason": "C14: the starter used to print pass three times without asserts. It now has real asserts over a FakeRepo that does not save, so it fails with TypeError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
     }
   ]
 }
