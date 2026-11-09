@@ -9,11 +9,14 @@ from __future__ import annotations
 import json
 import re
 import subprocess
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-PY = ROOT / ".venv-content" / "bin" / "python"
+# Every snippet these tests run uses the standard library only, so any Python 3.12 runs them,
+# including the adversarial job, which installs no content packages.
+PY = sys.executable
 SECTIONS = ROOT / "src" / "lib" / "course" / "sections"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
 
