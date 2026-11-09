@@ -226,6 +226,38 @@ merged: {'timeout': 30, 'retry': 3}`,
       },
     },
     {
+      heading: "Contraejemplo: un índice por ID pierde la fila repetida",
+      paragraphs: [
+        "Una comprensión como `{c[\"id\"]: c for c in filas}` guarda una sola fila por clave. Si el ID se repite, la fila posterior reemplaza a la anterior y Python no avisa.",
+        "La salida muestra el efecto: entraron tres filas, el índice tiene dos y C001 aparece con la región `Centro`, porque la región `Norte` desapareció. La corrección recorre las filas antes de indexar y guarda el ID repetido en una lista. Así el conflicto queda a la vista para el patrón `unique + conflicts` de T2-B.",
+      ],
+      code: {
+        language: 'python',
+        title: "indice_id_repetido.py",
+        code: `# Error: indexar sin revisar IDs repetidos
+filas = [
+    {"id": "C001", "region": "Norte"},
+    {"id": "C002", "region": "Sur"},
+    {"id": "C001", "region": "Centro"},
+]
+
+idx = {c["id"]: c for c in filas}
+print("filas:", len(filas), "en el índice:", len(idx))
+print("C001 →", idx["C001"]["region"])
+
+# Corrección: detectar repetidos antes de indexar
+vistos, repetidos = set(), []
+for c in filas:
+    if c["id"] in vistos:
+        repetidos.append(c["id"])
+    vistos.add(c["id"])
+print("repetidos:", repetidos)`,
+        output: `filas: 3 en el índice: 2
+C001 → Centro
+repetidos: ['C001']`,
+      },
+    },
+    {
       heading: "Deduplicación y operaciones de set",
       subtopicId: "S06-T2-B",
       paragraphs: [
@@ -338,6 +370,33 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
       },
     },
     {
+      heading: "Contraejemplo: d[k] sin revisar corta el recorrido",
+      paragraphs: [
+        "`c[\"txs\"]` supone que todos los clientes traen esa clave. Con C002, que no la trae, el bucle imprime la primera línea y se detiene con `KeyError`, como muestra el comentario, y los clientes posteriores no se revisan.",
+        "La corrección pregunta con `in` antes de leer la clave, y C002 termina en `review` con su motivo. Así el recorrido llega al final y la ausencia queda registrada en vez de cortar la ejecución.",
+      ],
+      code: {
+        language: 'python',
+        title: "clave_ausente.py",
+        code: `# Error: los corchetes suponen que la clave siempre existe
+clients = [{"id": "C001", "txs": []}, {"id": "C002"}]
+
+# for c in clients:
+#     print(c["id"], len(c["txs"]))
+# imprimiría «C001 0» y terminaría con:
+# KeyError: 'txs'
+
+# Corrección: comprobar la clave y mandar la ausencia a revisión
+for c in clients:
+    if "txs" not in c:
+        print(c["id"], "review: falta txs")
+    else:
+        print(c["id"], len(c["txs"]))`,
+        output: `C001 0
+C002 review: falta txs`,
+      },
+    },
+    {
       heading: "Acceso seguro: campos ausentes y campos vacíos",
       subtopicId: "S06-T3-B",
       paragraphs: [
@@ -383,6 +442,42 @@ missing is sentinel: True`,
         title: "Falsy ≠ missing",
         content:
           "No uses una prueba de falsedad como definición universal de ausencia. Cero, cadena vacía y lista vacía pueden ser datos válidos según el contrato.",
+      },
+    },
+    {
+      heading: "Contraejemplo: if not mezcla ausente y vacío",
+      paragraphs: [
+        "`if not valor` pregunta si el valor es falso, y en Python son falsos tanto `None` como `''`, `0` y `[]`. Si usas esa prueba para decidir qué falta, un campo presente pero vacío cae en la misma categoría que un campo que nunca llegó.",
+        "La primera línea muestra el error: C002, que no trae la clave, y C003, que trae `''`, aparecen juntos como faltantes. La corrección pregunta primero con `in` si la clave existe y después si el texto está vacío. Así C002 queda en `missing` y C003 en `empty`, que es lo que el reporte de calidad necesita distinguir.",
+      ],
+      code: {
+        language: 'python',
+        title: "contactos_vacios.py",
+        code: `# Error: la falsedad decide qué falta
+contactos = [
+    {"id": "C001", "email": "a@example.com"},
+    {"id": "C002"},
+    {"id": "C003", "email": ""},
+]
+
+faltan = []
+for c in contactos:
+    if not c.get("email"):
+        faltan.append(c["id"])
+print("missing con if not:", faltan)
+
+# Corrección: primero la clave, después el contenido
+missing, empty = [], []
+for c in contactos:
+    if "email" not in c:
+        missing.append(c["id"])
+    elif c["email"] == "":
+        empty.append(c["id"])
+print("missing:", missing)
+print("empty:", empty)`,
+        output: `missing con if not: ['C002', 'C003']
+missing: ['C002']
+empty: ['C003']`,
       },
     },
     {
@@ -513,6 +608,37 @@ same order: True`,
         title: "Solo biblioteca estándar",
         content:
           "Resuelve esta entrega con los tipos incorporados `list`, `dict` y `set`, y usa el módulo `copy` solo cuando necesites controlar una copia. Los formatos de archivo y las bibliotecas tabulares llegan después de que puedas justificar el modelo básico.",
+      },
+    },
+    {
+      heading: "Contraejemplo: el orden de un set no es un contrato",
+      paragraphs: [
+        "Un `set` no guarda el orden de inserción ni un orden alfabético: Python recorre sus elementos según su posición interna. Con los enteros `10`, `1` y `5`, `list(set(...))` devuelve `[1, 10, 5]`, y con textos ese orden puede cambiar de una ejecución a otra. `sorted` fija el orden que promete el informe.",
+        "Con los diccionarios pasa algo parecido cuando los conviertes a texto. `a` y `b` tienen las mismas claves y los mismos valores, y `==` lo confirma, pero `json.dumps` escribe las claves en el orden en que se insertaron y produce dos textos distintos. Con `sort_keys=True` los dos textos coinciden, y un diff entre corridas solo mostrará cambios reales.",
+      ],
+      code: {
+        language: 'python',
+        title: "orden_set_dict.py",
+        code: `# Error 1: usar el orden de un set como orden del informe
+import json
+
+lotes = [10, 1, 5]
+print("set:", list(set(lotes)))
+# Corrección 1: ordenar explícitamente
+print("sorted:", sorted(set(lotes)))
+
+# Error 2: el texto JSON sigue el orden de inserción del dict
+a = {"id": "C001", "region": "Norte"}
+b = {"region": "Norte", "id": "C001"}
+print("mismo dict:", a == b)
+print("mismo texto:", json.dumps(a) == json.dumps(b))
+# Corrección 2: sort_keys fija el orden de las claves
+print("mismo texto con sort_keys:", json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True))`,
+        output: `set: [1, 10, 5]
+sorted: [1, 5, 10]
+mismo dict: True
+mismo texto: False
+mismo texto con sort_keys: True`,
       },
     },
   ],
@@ -920,9 +1046,9 @@ print(len(v0))`,
           code: `# Contrato de columnas: convierte a tuple inmutable.
 headers = ['id', 'monto']
 KEYS = headers  # alias mutable
-more = KEYS + ['canal']
+KEYS.append('canal')  # un helper añade una columna para su reporte
 print('KEYS', KEYS)
-print('more', more)
+print('headers', headers)
 print('KEYS sigue', KEYS)`,
         },
         solutionCode: {
@@ -1261,7 +1387,7 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         kind: "guided",
         title: "Emails únicos en lista ordenada",
         preamble:
-          "- **Contexto:** cohorte de contactos sintéticos; el set deduplica, pero el print debe ser estable.\n- **Meta:** unicos como lista ordenada, no set crudo.\n- **Éxito:** `['a@ex.com', 'b@ex.com']` (una sola vez cada email).\n- **Límites:** no dependas del orden de inserción del set.",
+          "- **Contexto:** cohorte de contactos sintéticos; el set deduplica, pero el print debe ser estable.\n- **Meta:** unicos como lista ordenada, no set crudo.\n- **Éxito:** `['a@ex.com', 'b@ex.com']` (una sola vez cada email).\n- **Límites:** un set no tiene orden; si el informe necesita orden, usa `sorted`.",
         id: "S06-T2-B-E1",
         instruction:
           "1. El starter imprime un `set` sin orden garantizado.\n2. Usa `sorted(set(emails))`.\n3. Imprime solo esa lista.\n4. Verifica que el duplicado no aparece dos veces.",

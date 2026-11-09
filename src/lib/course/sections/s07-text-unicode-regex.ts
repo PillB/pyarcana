@@ -149,6 +149,38 @@ print({"raw": full_raw, "normalized": full_normalized, "components": None, "stat
       },
     },
     {
+      heading: "Contraejemplo: sobrescribir raw destruye el original",
+      paragraphs: [
+        "La política v1 de este ejemplo toma el primer y el último token, y el código guarda el resultado encima del valor recibido. `María Pérez de la Cruz` queda como `María Cruz`, y el texto original ya no está en el registro.",
+        "La segunda línea muestra la consecuencia: si mañana una política v2 debe reconocer apellidos compuestos, solo podrá partir de `María Cruz`. En la corrección, `raw` conserva el texto completo, `normalized` guarda el resultado de v1 y `transforms` dice qué se hizo, así que v2 puede reprocesar desde el original.",
+      ],
+      code: {
+        language: 'python',
+        title: "raw_intacto.py",
+        code: `# Error: la heurística sobrescribe el valor recibido
+registro = {"nombre": "María Pérez de la Cruz"}
+toks = registro["nombre"].split()
+registro["nombre"] = toks[0] + " " + toks[-1]  # política v1: primer y último token
+print(registro)
+print("la política v2 parte de:", registro["nombre"])
+
+# Corrección: raw queda intacto; normalized y transforms van aparte
+raw = "María Pérez de la Cruz"
+toks = raw.split()
+registro = {
+    "raw": raw,
+    "normalized": toks[0] + " " + toks[-1],
+    "transforms": ["primer_y_ultimo_token"],
+}
+print(registro)
+print("la política v2 parte de:", registro["raw"])`,
+        output: `{'nombre': 'María Cruz'}
+la política v2 parte de: María Cruz
+{'raw': 'María Pérez de la Cruz', 'normalized': 'María Cruz', 'transforms': ['primer_y_ultimo_token']}
+la política v2 parte de: María Pérez de la Cruz`,
+      },
+    },
+    {
       heading: "split / join / search / replace",
       subtopicId: "S07-T2-A",
       paragraphs: [
@@ -179,6 +211,33 @@ print(parts)`,
         title: "str primero",
         content:
           "Si un replace/split basta, no escribas regex. Más legible y más seguro.",
+      },
+    },
+    {
+      heading: "Contraejemplo: find usado como booleano",
+      paragraphs: [
+        "`find` devuelve una posición: `0` si el texto empieza con lo buscado y `-1` si no lo encuentra. Como `0` cuenta como falso y `-1` como verdadero, un `if texto.find(...)` responde al revés justo en esos dos casos.",
+        "Las dos primeras líneas lo muestran: `Av.` está al inicio y el `if` dice que no aparece, mientras que `Jr.` no está y el `if` dice que sí. La corrección compara con `-1`, o usa `in` cuando solo quieres saber si aparece, y entonces las dos respuestas coinciden con el texto.",
+      ],
+      code: {
+        language: 'python',
+        title: "find_booleano.py",
+        code: `# Error: usar el índice de find como si fuera True o False
+texto = "Av. Central 123"
+
+for buscado in ["Av.", "Jr."]:
+    if texto.find(buscado):
+        print("con find:", buscado, "aparece")
+    else:
+        print("con find:", buscado, "no aparece")
+
+# Corrección: comparar con -1, o preguntar con in
+for buscado in ["Av.", "Jr."]:
+    print("find != -1:", buscado, texto.find(buscado) != -1, "| in:", buscado in texto)`,
+        output: `con find: Av. no aparece
+con find: Jr. aparece
+find != -1: Av. True | in: True
+find != -1: Jr. False | in: False`,
       },
     },
     {
@@ -265,6 +324,28 @@ anchors exact: True`,
       },
     },
     {
+      heading: "Contraejemplo: el punto de un patrón no es un punto",
+      paragraphs: [
+        "En una expresión regular, el punto significa «cualquier carácter», así que el patrón `Av.` también encuentra `Avd` dentro de `Avda.`. `re.sub` reemplaza las dos apariciones, y la segunda dirección termina como `Avenidaa. Grau 45`.",
+        "`str.replace` busca el texto exacto `Av.`, con el punto incluido, así que cambia solo la abreviatura que querías y deja `Avda. Grau 45` intacto. Cuando el texto que buscas es fijo, `replace` evita esta trampa; con regex, tendrías que escribir `Av\\.` para que el punto fuera literal.",
+      ],
+      code: {
+        language: 'python',
+        title: "punto_en_regex.py",
+        code: `# Error: en un patrón, el punto significa «cualquier carácter»
+import re
+
+direccion = "Av. Central 123, Avda. Sur 45"
+
+print(re.sub("Av.", "Avenida", direccion))
+
+# Corrección: replace busca el texto literal
+print(direccion.replace("Av.", "Avenida"))`,
+        output: `Avenida Central 123, Avenidaa. Sur 45
+Avenida Central 123, Avda. Sur 45`,
+      },
+    },
+    {
       heading: "Compilación, extracción y límites",
       subtopicId: "S07-T3-B",
       paragraphs: [
@@ -292,6 +373,41 @@ span (29, 38) 988777666`,
         title: "Backtracking",
         content:
           "Patrones tipo (a+)+b sobre strings hostiles pueden colgar el proceso. `re` no ofrece timeout: mantén regex simples, limita la entrada y aísla cualquier patrón no confiable.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un patrón de dos palabras rechaza partículas",
+      paragraphs: [
+        "Un patrón de dos palabras describe `Ana Quispe`, pero no `María del Carmen Quispe`: con las partículas, `fullmatch` devuelve `None`. Si lo aflojas con `.+`, el patrón acepta cualquier nombre, y el reparto que produce, con `María del Carmen Quispe` como nombre y `Ríos` como apellido, parece válido aunque está mal.",
+        "La corrección usa el `split` de T1-B y solo acepta el caso de dos tokens. El nombre con partículas va a `review` junto con su `raw`, de modo que ninguna regla inventa dónde termina el nombre y dónde empieza el apellido.",
+      ],
+      code: {
+        language: 'python',
+        title: "nombre_con_particula.py",
+        code: `# Error 1: el patrón de dos palabras no admite partículas
+import re
+
+dos = re.compile(r"(?P<nom>\\w+) (?P<ap>\\w+)")
+for raw in ["Ana Quispe", "María del Carmen Quispe"]:
+    m = dos.fullmatch(raw)
+    print(raw, "→", m.groupdict() if m else None)
+
+# Error 2: aflojarlo con .+ produce un reparto que parece válido
+flojo = re.compile(r"(?P<nom>.+) (?P<ap>.+)")
+print(flojo.fullmatch("María del Carmen Quispe Ríos").groupdict())
+
+# Corrección: tokenizar con str y mandar lo ambiguo a review
+for raw in ["Ana Quispe", "María del Carmen Quispe Ríos"]:
+    toks = raw.split()
+    if len(toks) == 2:
+        print(raw, "→", {"nom": toks[0], "ap": toks[1], "status": "ok"})
+    else:
+        print(raw, "→", {"raw": raw, "status": "review"})`,
+        output: `Ana Quispe → {'nom': 'Ana', 'ap': 'Quispe'}
+María del Carmen Quispe → None
+{'nom': 'María del Carmen Quispe', 'ap': 'Ríos'}
+Ana Quispe → {'nom': 'Ana', 'ap': 'Quispe', 'status': 'ok'}
+María del Carmen Quispe Ríos → {'raw': 'María del Carmen Quispe Ríos', 'status': 'review'}`,
       },
     },
     {
@@ -334,6 +450,56 @@ sin tokens: None`,
         title: "Sin afirmaciones de identidad",
         content:
           "Score ≠ identidad. El pipeline de *match* solo sugiere revisión humana.",
+      },
+    },
+    {
+      heading: "Contraejemplo: fusionar por score borra un registro",
+      paragraphs: [
+        "Un score de 0.667 dice que dos nombres comparten dos de sus tres tokens, pero no dice que los registros sean de la misma persona. El código compara `Juan Perez` con `Juan P Perez`, dos registros sintéticos con correos distintos, y aplica primero una fusión automática con umbral `0.5`.",
+        "La salida del error muestra que `CLI-0002` desapareció y con él el correo `jp.ventas@example.org`. Si eran dos personas, una de ellas perdió su ficha sin que nadie la revisara. La corrección conserva los dos registros y produce un paquete de evidencia con `decision: 'review'`, que una persona puede revisar antes de decidir.",
+      ],
+      code: {
+        language: 'python',
+        title: "fusion_por_score.py",
+        code: `# Error: un score parcial fusiona dos registros
+import unicodedata
+
+def tokens(s: str) -> set[str]:
+    return set(unicodedata.normalize("NFC", s).casefold().split())
+
+def token_jaccard(a: str, b: str):
+    A, B = tokens(a), tokens(b)
+    if not A or not B:
+        return None
+    return len(A & B) / len(A | B)
+
+r1 = {"id": "CLI-0001", "nombre": "Juan Perez", "email": "juan.perez@example.com"}
+r2 = {"id": "CLI-0002", "nombre": "Juan P Perez", "email": "jp.ventas@example.org"}
+score = token_jaccard(r1["nombre"], r2["nombre"])
+print("score:", round(score, 3))
+
+registros = {"CLI-0001": r1, "CLI-0002": r2}
+if score >= 0.5:
+    registros.pop("CLI-0002")
+print("tras auto-fusión:", sorted(registros))
+print("emails que quedan:", [r["email"] for r in registros.values()])
+
+# Corrección: los dos registros siguen; el par va a review con su evidencia
+registros = {"CLI-0001": r1, "CLI-0002": r2}
+evidencia = {
+    "raw_a": r1["nombre"],
+    "raw_b": r2["nombre"],
+    "score": round(score, 3),
+    "decision": "review",
+    "reason": "score parcial",
+}
+print("con review:", sorted(registros))
+print(evidencia)`,
+        output: `score: 0.667
+tras auto-fusión: ['CLI-0001']
+emails que quedan: ['juan.perez@example.com']
+con review: ['CLI-0001', 'CLI-0002']
+{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', 'score': 0.667, 'decision': 'review', 'reason': 'score parcial'}`,
       },
     },
     {
@@ -391,6 +557,46 @@ José/Jose da 0.0: NFC y casefold no eliminan tildes`,
         title: "Evidencia > etiqueta",
         content:
           "Guarda `raw`, `score` y `reason`. El humano decide fusiones sensibles; el sistema no etiqueta parentesco ni fraude.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un umbral elegido después de ver los scores",
+      paragraphs: [
+        "Si eliges el umbral después de ver el score del par que querías aceptar, el umbral queda hecho a la medida de ese par. Aquí `Juan Perez` frente a `Juan P Perez` da 0.667 y el umbral de `exact` se fija en ese valor. Entonces un par nuevo que la referencia marca como distinto, `Ana Rojas` frente a `Ana Rojas Torres`, obtiene el mismo 0.667 y pasa como `exact`.",
+        "Con los umbrales declarados antes de calcular, `exact` exige 1.0 y la franja desde 0.4 va a `review`. El mismo par nuevo termina en `review`, donde una persona puede examinarlo.",
+      ],
+      code: {
+        language: 'python',
+        title: "umbral_a_posteriori.py",
+        code: `# Error: el umbral se elige después de ver el score del par conocido
+def token_jaccard(a: str, b: str):
+    A, B = set(a.casefold().split()), set(b.casefold().split())
+    if not A or not B:
+        return None
+    return len(A & B) / len(A | B)
+
+conocido = ("Juan Perez", "Juan P Perez")   # el par que «queríamos» aceptar
+nuevo = ("Ana Rojas", "Ana Rojas Torres")   # expected_match = False
+s_conocido = round(token_jaccard(conocido[0], conocido[1]), 3)
+s_nuevo = round(token_jaccard(nuevo[0], nuevo[1]), 3)
+print("scores:", s_conocido, s_nuevo)
+
+umbral_exact = s_conocido
+print("nuevo con umbral a posteriori:", "exact" if s_nuevo >= umbral_exact else "review")
+
+# Corrección: umbrales declarados antes de calcular
+UMBRAL_EXACT = 1.0
+UMBRAL_REVIEW = 0.4
+if s_nuevo >= UMBRAL_EXACT:
+    decision = "exact"
+elif s_nuevo >= UMBRAL_REVIEW:
+    decision = "review"
+else:
+    decision = "no_match"
+print("nuevo con umbral declarado:", decision)`,
+        output: `scores: 0.667 0.667
+nuevo con umbral a posteriori: exact
+nuevo con umbral declarado: review`,
       },
     },
     {

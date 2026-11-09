@@ -121,6 +121,59 @@ print(demo_path_write())`,
       },
     },
     {
+      heading: "Contraejemplo: pegar rutas como texto",
+      paragraphs: [
+        "Si pegas la carpeta y el archivo como textos, es fácil olvidar el separador y obtener `dataclients.csv`. Si escribes `\\` a mano, la ruta funciona en Windows, pero en Linux esa barra es un carácter más del nombre: `parts` muestra un solo elemento, un archivo llamado `data\\clients.csv`.",
+        "`PurePosixPath` y `PureWindowsPath` representan rutas de Linux o macOS y de Windows sin tocar el disco, así que sirven para comparar. Con el operador `/`, cada una pone su separador y la ruta queda dividida en carpeta y archivo; en tu código, `Path` elige el separador del sistema donde corre.",
+      ],
+      code: {
+        language: 'python',
+        title: "rutas_como_texto.py",
+        code: `# Error: armar la ruta pegando textos
+from pathlib import PurePosixPath, PureWindowsPath
+
+carpeta = "data"
+
+print(carpeta + "clients.csv")
+print("partes en Linux:", PurePosixPath(carpeta + "\\\\" + "clients.csv").parts)
+
+# Corrección: el operador / pone el separador de cada sistema
+print("partes en Linux:", (PurePosixPath(carpeta) / "clients.csv").parts)
+print(PurePosixPath(carpeta) / "clients.csv", "|", PureWindowsPath(carpeta) / "clients.csv")`,
+        output: `dataclients.csv
+partes en Linux: ('data\\\\clients.csv',)
+partes en Linux: ('data', 'clients.csv')
+data/clients.csv | data\\clients.csv`,
+      },
+    },
+    {
+      heading: "Contraejemplo: leer UTF-8 con otra codificación",
+      paragraphs: [
+        "El archivo se escribe en UTF-8, donde la `ñ` ocupa dos bytes. El error lo lee con `cp1252`, la codificación regional que muchas instalaciones de Windows usan por omisión, y cada uno de esos dos bytes se convierte en un carácter: `Muñoz` aparece como `MuÃ±oz` sin ningún error.",
+        "Aquí la codificación equivocada está escrita a propósito para que el resultado sea igual en cualquier máquina. Si omites `encoding`, Python usa la del sistema y el mismo daño aparece solo en algunos equipos. Con `encoding=\"utf-8\"` al escribir y al leer, la segunda lectura devuelve `Muñoz`.",
+      ],
+      code: {
+        language: 'python',
+        title: "mojibake.py",
+        code: `# Error: leer con la codificación regional de otra máquina (cp1252, común en Windows)
+from pathlib import Path
+import tempfile
+
+td = Path(tempfile.mkdtemp())
+p = td / "clientes.txt"
+p.write_text("id;apellido\\nC001;Muñoz\\n", encoding="utf-8")
+
+print(p.read_text(encoding="cp1252"), end="")
+
+# Corrección: el contrato declara UTF-8 al escribir y al leer
+print(p.read_text(encoding="utf-8"), end="")`,
+        output: `id;apellido
+C001;MuÃ±oz
+id;apellido
+C001;Muñoz`,
+      },
+    },
+    {
       heading: "Newlines y escritura atómica",
       subtopicId: "S08-T1-B",
       paragraphs: [
@@ -161,6 +214,39 @@ tiene CRLF True`,
         title: "No dejes dest truncado",
         content:
           "Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: temporal unico por corrida (mkstemp en el mismo directorio) + os.replace.",
+      },
+    },
+    {
+      heading: "Contraejemplo: escribir directo sobre clean.csv",
+      paragraphs: [
+        "El código simula una corrida que se corta a la mitad: escribe solo los primeros 15 caracteres de la versión nueva y se detiene. En el error, esa escritura ocurre directamente sobre `clean.csv`, que `open` en modo `w` ya había vaciado. Por eso el consumidor lee `'id,nombre\\nC001,'`, que no es ni la versión anterior ni la nueva.",
+        "En la corrección, el mismo corte ocurre dentro del temporal y `os.replace` nunca llega a ejecutarse. El consumidor sigue leyendo la versión anterior completa, con C001 y C002, y el temporal que quedó lo retira después una tarea de mantenimiento.",
+      ],
+      code: {
+        language: 'python',
+        title: "escritura_directa.py",
+        code: `# Error: escribir directo sobre el destino; la corrida se corta a la mitad
+from pathlib import Path
+import os, tempfile
+
+td = Path(tempfile.mkdtemp())
+dest = td / "clean.csv"
+anterior = "id,nombre\\nC001,Ana\\nC002,Luis\\n"
+nueva = "id,nombre\\nC001,Ana\\nC002,Luis\\nC003,Rosa\\n"
+
+dest.write_text(anterior, encoding="utf-8")
+with dest.open("w", encoding="utf-8") as f:
+    f.write(nueva[:15])  # aquí se detiene el proceso (simulado)
+print("el consumidor lee:", repr(dest.read_text(encoding="utf-8")))
+
+# Corrección: temporal único + os.replace; el mismo corte ocurre antes de publicar
+dest.write_text(anterior, encoding="utf-8")
+fd, tmp_name = tempfile.mkstemp(dir=td, prefix="clean.csv.", suffix=".tmp")
+os.close(fd)
+Path(tmp_name).write_text(nueva[:15], encoding="utf-8")  # corte: os.replace nunca llega
+print("el consumidor lee:", repr(dest.read_text(encoding="utf-8")))`,
+        output: `el consumidor lee: 'id,nombre\\nC001,'
+el consumidor lee: 'id,nombre\\nC001,Ana\\nC002,Luis\\n'`,
       },
     },
     {
@@ -300,6 +386,81 @@ utf-8-sig quita BOM: id`,
       },
     },
     {
+      heading: "Contraejemplo: “parece número” no es número",
+      paragraphs: [
+        "`Decimal` lee más formas de las que acepta el contrato del curso: notación científica (`1e3`), el valor especial `NaN` (es decir, «no es un número») y dígitos de otros sistemas de escritura, como los de ancho completo `１２`. Si aceptas todo lo que `Decimal` entiende, esos valores entran a clean.",
+        "La línea `total: NaN` muestra la consecuencia: un solo `NaN` convierte toda la suma en `NaN`. La corrección aplica primero el predicado de formato de T2-A (solo ASCII, un punto como máximo y dígitos) y manda las otras tres entradas a cuarentena con `cast_monto`.",
+      ],
+      code: {
+        language: 'python',
+        title: "parece_numero.py",
+        code: `# Error: aceptar todo lo que Decimal sabe leer
+from decimal import Decimal
+
+valores = ["10.5", "1e3", "NaN", "１２"]
+
+for v in valores:
+    print(repr(v), "→", Decimal(v))
+print("total:", Decimal("10.5") + Decimal("NaN"))
+
+# Corrección: el formato acordado decide antes que Decimal
+for v in valores:
+    digits = v.replace(".", "", 1)
+    if v.isascii() and v.count(".") <= 1 and digits.isdecimal():
+        print(repr(v), "→", Decimal(v).quantize(Decimal("0.01")))
+    else:
+        print(repr(v), "→ cuarentena: cast_monto")`,
+        output: `'10.5' → 10.5
+'1e3' → 1E+3
+'NaN' → NaN
+'１２' → 12
+total: NaN
+'10.5' → 10.50
+'1e3' → cuarentena: cast_monto
+'NaN' → cuarentena: cast_monto
+'１２' → cuarentena: cast_monto`,
+      },
+    },
+    {
+      heading: "Contraejemplo: columnas por posición",
+      paragraphs: [
+        "Un `dict` conserva el orden en que se insertaron sus claves, y dos fuentes pueden armar la misma fila en órdenes distintos. Si escribes `fila.values()` con `csv.writer`, cada valor cae en la columna que le toca por posición, no por nombre.",
+        "La tercera línea muestra el error: `20.00` quedó bajo `id` y `C002` bajo `nombre`, sin ningún aviso. `DictWriter` con `fieldnames=[\"id\", \"nombre\", \"monto\"]` busca cada valor por su clave, y la salida corregida pone el monto de Luis en su columna aunque el dict llegara en otro orden.",
+      ],
+      code: {
+        language: 'python',
+        title: "columnas_por_posicion.py",
+        code: `# Error: escribir los valores en el orden en que vienen
+import csv, io
+
+filas = [
+    {"id": "C001", "nombre": "Ana", "monto": "10.50"},
+    {"monto": "20.00", "id": "C002", "nombre": "Luis"},  # otra fuente armó el dict en otro orden
+]
+
+out = io.StringIO()
+w = csv.writer(out, lineterminator="\\n")
+w.writerow(list(filas[0].keys()))
+for fila in filas:
+    w.writerow(list(fila.values()))
+print(out.getvalue(), end="")
+
+# Corrección: DictWriter con fieldnames declarados
+out = io.StringIO()
+w = csv.DictWriter(out, fieldnames=["id", "nombre", "monto"], lineterminator="\\n")
+w.writeheader()
+for fila in filas:
+    w.writerow(fila)
+print(out.getvalue(), end="")`,
+        output: `id,nombre,monto
+C001,Ana,10.50
+20.00,C002,Luis
+id,nombre,monto
+C001,Ana,10.50
+C002,Luis,20.00`,
+      },
+    },
+    {
       heading: "Filas irregulares y cuarentena",
       subtopicId: "S08-T2-B",
       paragraphs: [
@@ -355,6 +516,42 @@ print(quarantine_irregular(text))`,
         title: "Silenciar irregular = deuda",
         content:
           "La fila extra se pierde o desalinea columnas y corrompe n_in del manifest. Siempre quarantine + reason; nunca “arreglar” a ciegas.",
+      },
+    },
+    {
+      heading: "Contraejemplo: zip descarta columnas sin aviso",
+      paragraphs: [
+        "`zip` empareja elementos hasta que se acaba la lista más corta y descarta el resto sin aviso. Si armas el dict de cada fila con `dict(zip(header, row))`, una fila corta pierde columnas y una fila larga pierde lo que sobra.",
+        "Las tres primeras líneas lo muestran: C002 sale sin `monto` y C003 sale sin `'extra'`, y las dos parecen filas normales. La corrección compara el largo antes de armar el dict, así que C002 y C003 van a cuarentena con `col_count` y `clean` solo contiene la fila que coincide con el encabezado.",
+      ],
+      code: {
+        language: 'python',
+        title: "zip_descarta.py",
+        code: `# Error: zip arma el dict aunque falten o sobren columnas
+header = ["id", "nombre", "monto"]
+filas = [
+    ["C001", "Ana", "10.50"],
+    ["C002", "Luis"],
+    ["C003", "Rosa", "7.00", "extra"],
+]
+
+for row in filas:
+    print(dict(zip(header, row)))
+
+# Corrección: comprobar el largo antes de armar el dict
+clean, quarantine = [], []
+for record_number, row in enumerate(filas, start=1):
+    if len(row) != len(header):
+        quarantine.append({"record_number": record_number, "reason": "col_count"})
+    else:
+        clean.append(dict(zip(header, row)))
+print("clean:", clean)
+print("quarantine:", quarantine)`,
+        output: `{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}
+{'id': 'C002', 'nombre': 'Luis'}
+{'id': 'C003', 'nombre': 'Rosa', 'monto': '7.00'}
+clean: [{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}]
+quarantine: [{'record_number': 2, 'reason': 'col_count'}, {'record_number': 3, 'reason': 'col_count'}]`,
       },
     },
     {
@@ -425,6 +622,65 @@ print(montos)`,
       },
     },
     {
+      heading: "Contraejemplo: default=str convierte sin avisar",
+      paragraphs: [
+        "`default=str` le pide a `json.dumps` que convierta en texto cualquier valor que no sepa serializar. Con el `Decimal` el resultado parece correcto, pero el `set` de etiquetas se convierte en el texto `\"{'vip'}\"`, que al releer ya no es una lista sino un string.",
+        "La corrección convierte cada campo a propósito: el monto con `str` y las etiquetas con `sorted`, que devuelve una lista, de modo que al releer `tags` vuelve como `['vip']`. Sin ninguna conversión, `dumps` se detiene con el `TypeError` del comentario, y ese error te dice qué campo falta tratar.",
+      ],
+      code: {
+        language: 'python',
+        title: "default_str.py",
+        code: `# Error: default=str convierte cualquier cosa en texto sin avisar
+import json
+from decimal import Decimal
+
+fila = {"id": "T1", "monto": Decimal("10.50"), "tags": {"vip"}}
+
+texto = json.dumps(fila, default=str)
+print(texto)
+print("tags al releer:", repr(json.loads(texto)["tags"]))
+
+# Corrección: convertir cada campo a propósito antes de dumps
+salida = {"id": fila["id"], "monto": str(fila["monto"]), "tags": sorted(fila["tags"])}
+texto = json.dumps(salida)
+print(texto)
+print("tags al releer:", repr(json.loads(texto)["tags"]))
+# json.dumps(fila) sin default terminaría con:
+# TypeError: Object of type Decimal is not JSON serializable`,
+        output: `{"id": "T1", "monto": "10.50", "tags": "{'vip'}"}
+tags al releer: "{'vip'}"
+{"id": "T1", "monto": "10.50", "tags": ["vip"]}
+tags al releer: ['vip']`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un monto JSON como número pierde el cero",
+      paragraphs: [
+        "Si el JSON trae el monto como número, `json.loads` lo convierte en `float`, que guarda muchas fracciones decimales de forma aproximada. La suma de `0.10` y `0.20` da `0.30000000000000004` y la comparación con `0.30` falla; además, el cero final de `0.10` se perdió al leer.",
+        "Cuando el monto viaja como texto, `Decimal` lo reconstruye exacto: la suma da `0.30` y la comparación da `True`. Por eso la regla del curso para JSON es escribir el monto como string y leerlo con `Decimal`.",
+      ],
+      code: {
+        language: 'python',
+        title: "monto_float.py",
+        code: `# Error: el monto viaja como número JSON y vuelve como float
+import json
+from decimal import Decimal
+
+texto = '[{"id": "T1", "monto": 0.10}, {"id": "T2", "monto": 0.20}]'
+filas = json.loads(texto)
+total = filas[0]["monto"] + filas[1]["monto"]
+print("float:", filas[0]["monto"], "+", filas[1]["monto"], "=", total, "| igual a 0.30:", total == 0.30)
+
+# Corrección: el monto viaja como texto y se reconstruye con Decimal
+texto = '[{"id": "T1", "monto": "0.10"}, {"id": "T2", "monto": "0.20"}]'
+filas = json.loads(texto)
+total = Decimal(filas[0]["monto"]) + Decimal(filas[1]["monto"])
+print("Decimal:", filas[0]["monto"], "+", filas[1]["monto"], "=", total, "| igual a 0.30:", total == Decimal("0.30"))`,
+        output: `float: 0.1 + 0.2 = 0.30000000000000004 | igual a 0.30: False
+Decimal: 0.10 + 0.20 = 0.30 | igual a 0.30: True`,
+      },
+    },
+    {
       heading: "Schema, nulls y evolución compatible",
       subtopicId: "S08-T3-B",
       paragraphs: [
@@ -468,6 +724,29 @@ print(obj)`,
         title: "null ≠ missing siempre",
         content:
           "Documenta en el contrato si null borra el valor o significa unknown. En Python: 'email' in obj distingue clave presente (aunque sea None) de clave ausente.",
+      },
+    },
+    {
+      heading: "Contraejemplo: get no distingue null de clave ausente",
+      paragraphs: [
+        "`get` devuelve `None` tanto si la clave llegó con `null` como si no llegó, así que las dos primeras líneas no permiten distinguir los casos. Si el contrato dice que `null` significa «borrar el correo», tratar ambos casos igual borra o conserva datos por error.",
+        "`in` pregunta por la clave y no por el valor. La tercera línea muestra `True` para el registro que trae `email: None` y `False` para el que no la trae.",
+      ],
+      code: {
+        language: 'python',
+        title: "null_vs_ausente.py",
+        code: `# Error: get devuelve None en los dos casos
+llego_null = {"id": "C1", "email": None}
+sin_clave = {"id": "C2"}
+
+print(llego_null.get("email"), sin_clave.get("email"))
+print("indistinguibles:", llego_null.get("email") == sin_clave.get("email"))
+
+# Corrección: in pregunta por la clave
+print("email" in llego_null, "email" in sin_clave)`,
+        output: `None None
+indistinguibles: True
+True False`,
       },
     },
     {
@@ -516,6 +795,95 @@ print(len(run_id), info["bak_rel"] == f"backups/{run_id}/clients.csv")`,
         title: "Hash del input",
         content:
           "El manifest referencia el hash del archivo crudo, no del clean. Si el clean cambia por una regla nueva, el hash del input debe seguir identificando la misma evidencia.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un hex copiado deja de coincidir",
+      paragraphs: [
+        "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
+        "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+      ],
+      code: {
+        language: 'python',
+        title: "hex_obsoleto.py",
+        code: `# Error: comparar contra un hex copiado de un fixture anterior
+import hashlib
+
+esperado = "b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9"  # sha256 de b"id\\nC1\\n"
+fixture = b"id\\r\\nC1\\r\\n"  # el fixture se guardó con CRLF
+print("coincide con el hex copiado:", hashlib.sha256(fixture).hexdigest() == esperado)
+
+# Corrección: recalcular la huella desde los bytes que la prueba usa
+esperado = hashlib.sha256(fixture).hexdigest()
+print("recalculado:", esperado[:12], len(esperado))
+print("coincide:", hashlib.sha256(fixture).hexdigest() == esperado)`,
+        output: `coincide con el hex copiado: False
+recalculado: 676f62e9fc51 64
+coincide: True`,
+      },
+    },
+    {
+      heading: "Contraejemplo: hash() cambia entre procesos",
+      paragraphs: [
+      "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
+      "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+      ],
+      code: {
+        language: 'bash',
+        title: "Transcripci\u00f3n: PYTHONHASHSEED frente a sha256",
+        code: `# Error: hash() cambia entre procesos
+$ PYTHONHASHSEED=1 python -c "print(hash(b'abc'))"
+7831159276781462151
+$ PYTHONHASHSEED=2 python -c "print(hash(b'abc'))"
+9213337458927266479
+
+# Corrección: sha256 da la misma huella en cualquier proceso
+$ PYTHONHASHSEED=1 python -c "import hashlib; print(hashlib.sha256(b'abc').hexdigest())"
+ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+$ PYTHONHASHSEED=2 python -c "import hashlib; print(hashlib.sha256(b'abc').hexdigest())"
+ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un respaldo con nombre fijo pisa la corrida anterior",
+      paragraphs: [
+        "Con un respaldo de nombre fijo, cada corrida copia encima de la anterior. El martes, `input.bak` guardó una fila; el miércoles la fuente cambió y la segunda copia reemplazó a la primera, así que la evidencia del martes ya no existe.",
+        "Con una carpeta por `run_id`, cada corrida conserva su copia, y las dos líneas siguientes muestran ambos contenidos; aquí los `run_id` son fijos para que la salida no cambie, pero en el pipeline salen de `uuid`. La última línea explica por qué la hora no sirve como `run_id`: dos corridas lanzadas en el mismo segundo producirían la misma carpeta, así que la hora se guarda como metadata.",
+      ],
+      code: {
+        language: 'python',
+        title: "respaldo_run_id.py",
+        code: `# Error: un respaldo con nombre fijo
+from pathlib import Path
+import shutil, tempfile
+
+td = Path(tempfile.mkdtemp())
+src = td / "clients.csv"
+
+src.write_text("id\\nC1\\n", encoding="utf-8")       # corrida del martes
+shutil.copy2(src, td / "input.bak")
+src.write_text("id\\nC1\\nC2\\n", encoding="utf-8")   # corrida del miércoles: la fuente cambió
+shutil.copy2(src, td / "input.bak")
+print("input.bak:", repr((td / "input.bak").read_text(encoding="utf-8")))
+
+# Corrección: una carpeta por run_id (aquí fijos para que la salida sea estable)
+for run_id, contenido in [("run-001", "id\\nC1\\n"), ("run-002", "id\\nC1\\nC2\\n")]:
+    src.write_text(contenido, encoding="utf-8")
+    bak = td / "backups" / run_id / src.name
+    bak.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, bak)
+for run_id in ["run-001", "run-002"]:
+    bak = td / "backups" / run_id / "clients.csv"
+    print(run_id, repr(bak.read_text(encoding="utf-8")))
+
+# Consecuencia: el momento de inicio no sirve como identidad
+inicio_a = "2026-01-15T10:00:00"
+inicio_b = "2026-01-15T10:00:00"  # dos corridas lanzadas en el mismo segundo
+print("misma carpeta si el nombre es la hora:", f"backups/{inicio_a}" == f"backups/{inicio_b}")`,
+        output: `input.bak: 'id\\nC1\\nC2\\n'
+run-001 'id\\nC1\\n'
+run-002 'id\\nC1\\nC2\\n'
+misma carpeta si el nombre es la hora: True`,
       },
     },
     {
@@ -807,18 +1175,20 @@ print(obj)`,
         environment: "local-python",
         description: "sha256 de input CSV + backup `.bak`",
         preamble:
-          "El auditor pregunta: “¿sobre qué bytes corriste esta ingesta?”. Observa: se escribe un CSV sintético, se copia a `.bak` con `shutil.copy2`, y se calcula `sha256` de `read_bytes`. La demo imprime 12 hex del digest y `True` si el backup existe. No mutes el crudo después de hashearlo sin registrar un nuevo run. Solo sintéticos.",
+          "El auditor pregunta: “¿sobre qué bytes corriste esta ingesta?”. Observa: se escribe un CSV sintético, se copia a `backups/<run_id>/clients.csv` con `shutil.copy2`, y se calcula `sha256` de `read_bytes`. La demo imprime 12 hex del digest y `True` si el backup existe. No mutes el crudo después de hashearlo sin registrar un nuevo run. Solo sintéticos.",
         code: {
           language: 'python',
           title: "S08-T4-A-DEMO — hash",
           code: `from pathlib import Path
-import hashlib, shutil, tempfile
+import hashlib, shutil, tempfile, uuid
 
 def hash_and_backup(content="id\\nC1\\n"):
     td = Path(tempfile.mkdtemp())
     src = td / "clients.csv"
     src.write_text(content, encoding="utf-8")
-    bak = td / "clients.csv.bak"
+    run_id = uuid.uuid4().hex
+    bak = td / "backups" / run_id / "clients.csv"
+    bak.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, bak)
     dig = hashlib.sha256(src.read_bytes()).hexdigest()
     return dig[:12], bak.exists()
@@ -1190,7 +1560,7 @@ final COMPLETO`,
           title: "dictreader.py",
           code: `# DEFECT: split manual rompe comas en campos
 import csv, io
-raw = 'id,nombre\\nC001,Ana\\n'
+raw = 'id,nombre,ciudad\\nC001,"Pérez, Ana",Porto\\n'
 for line in raw.strip().split('\\n')[1:]:
     print(line.split(','))`,
         },
@@ -1198,10 +1568,10 @@ for line in raw.strip().split('\\n')[1:]:
           language: 'python',
           title: "dictreader.py",
           code: `import csv, io
-raw = 'id,nombre\\nC001,Ana\\n'
+raw = 'id,nombre,ciudad\\nC001,"Pérez, Ana",Porto\\n'
 for row in csv.DictReader(io.StringIO(raw)):
     print(row)`,
-          output: `{'id': 'C001', 'nombre': 'Ana'}`,
+          output: `{'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}`,
         },
       },
       {
@@ -1463,15 +1833,19 @@ schema 1`,
           code: `# DEFECT: slice manual con índice incorrecto; no usa loads
 import json
 raw = '{"id":"C001"}'
-print(raw[7:10])`,
+con_espacio = '{"id": "C002"}'
+print(raw[7:10])
+print(con_espacio[7:10])`,
         },
         solutionCode: {
           language: 'python',
           title: "loads_fix.py",
           code: `import json
-obj = json.loads('{"id":"C001"}')
-print(obj['id'])`,
-          output: `C001`,
+for raw in ['{"id":"C001"}', '{"id": "C002"}']:
+    obj = json.loads(raw)
+    print(obj['id'])`,
+          output: `C001
+C002`,
         },
       },
       {
@@ -1724,7 +2098,7 @@ print(dig[:8], len(dig))`,
         kind: "independent",
         title: "Backup in.csv con copy2 e igualdad",
         preamble:
-          "- **Contexto:** antes de cualquier transformación, el gate preserva el crudo.\n- **Meta:** copiar `in.csv` a `in.csv.bak` y verificar igualdad de bytes.\n- **Éxito:** imprime `True`.\n- **Límites:** `shutil.copy2`; comparar con `read_bytes`, no solo `exists`.",
+          "- **Contexto:** antes de cualquier transformación, el gate preserva el crudo.\n- **Meta:** copiar `in.csv` a `backups/<run_id>/in.csv` y verificar igualdad de bytes.\n- **Éxito:** imprime `True`.\n- **Límites:** `shutil.copy2`; comparar con `read_bytes`, no solo `exists`.",
         instruction:
           "1. El starter solo imprime `bak.exists()` (False).\n2. Tras escribir `in.csv`, haz `shutil.copy2(src, bak)`.\n3. Imprime `bak.read_bytes() == src.read_bytes()`.\n4. No reescribas el bak a mano con otro contenido.",
         hint: "shutil.copy2",
@@ -1747,7 +2121,9 @@ import shutil, tempfile
 td = Path(tempfile.mkdtemp())
 src = td / 'in.csv'
 src.write_text('a\\n', encoding='utf-8')
-bak = td / 'in.csv.bak'
+import uuid
+run_id = uuid.uuid4().hex
+bak = td / 'backups' / run_id / 'in.csv'
 print(bak.exists())`,
         },
         solutionCode: {
@@ -1758,7 +2134,10 @@ import shutil, tempfile
 td = Path(tempfile.mkdtemp())
 src = td / 'in.csv'
 src.write_text('a\\n', encoding='utf-8')
-bak = td / 'in.csv.bak'
+import uuid
+run_id = uuid.uuid4().hex
+bak = td / 'backups' / run_id / 'in.csv'
+bak.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(src, bak)
 print(bak.read_bytes() == src.read_bytes())`,
           output: `True`,
@@ -1839,7 +2218,7 @@ print(prov)`,
           code: `# DEFECT: always reconcile_ok True; no totales derivados
 sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
-    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = True
@@ -1853,7 +2232,7 @@ for source in sources:
 run_id = uuid.uuid4().hex
 sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
-    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']
@@ -1868,9 +2247,9 @@ manifest = {
 print(manifest['n_in'], manifest['n_clean'], manifest['n_quarantine'])
 print([(s['name'], s['reconcile_ok']) for s in sources])
 print(manifest['reconcile_ok'])`,
-          output: `5 4 1
-[('clients.csv', True), ('transactions.json', True)]
-True`,
+          output: `6 4 1
+[('clients.csv', True), ('transactions.json', False)]
+False`,
         },
       },
       {
