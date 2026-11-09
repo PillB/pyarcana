@@ -2096,7 +2096,6 @@ print(datetime.now().date())
           title: 'hello_lint.py',
           code: `from datetime import datetime
 
-
 print("hola")
 print(datetime.now().date())`,
           output: `hola
