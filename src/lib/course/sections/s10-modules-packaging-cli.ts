@@ -23,7 +23,7 @@ export const section10: CourseSection = {
   icon: "Package",
   accentColor: "bg-gradient-to-br from-red-500 to-rose-600",
   jobRelevance:
-    "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Aquí aprendes a convertir tu pipeline en un paquete propio: módulos limpios, un archivo pyproject.toml, subcomandos y configuración por precedencia (esto es, la opción de línea de comandos pisa a la del archivo y esta a la del entorno). El resultado es algo que un colega puede instalar con un comando y ejecutar sin leer tu código.",
+    "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Aquí aprendes a convertir tu pipeline en un paquete propio: módulos limpios, un archivo pyproject.toml, subcomandos y configuración por precedencia (esto es, la opción de línea de comandos pisa a la variable de entorno, y esta al archivo de configuración). El resultado es algo que un colega puede instalar con un comando y ejecutar sin leer tu código.",
   learningOutcomes: [
     { text: "Organizar imports, evitar ciclos y usar if __name__ == '__main__'" },
     { text: "Definir API pública estable y helpers privados" },
@@ -2137,6 +2137,7 @@ api_token: 'hardcoded' -> None`,
       "README con la tabla de precedencia de config (flags > env > archivo > defaults)",
       "El subcomando ingest ejecuta una versión simplificada del ETL CSV del S08: parseo de `Decimal` desde texto, partición clean/quarantine (registros válidos vs. descartados) y manifest por fuente reconciliado (reutiliza lo que ya construiste en S08)",
       "`python -m unittest discover -s tests` pasa en un checkout limpio",
+      "Completa los TODO de `config.py`: la capa de variables de entorno y la del archivo `familiarity.json`, con la precedencia de la sección",
     ],
     starterCode: `"""bootstrap_familiarity.py — crea un paquete real, instalable y testeable.
 Ejecuta: python bootstrap_familiarity.py; cd familiarity_core_project;
@@ -2168,6 +2169,9 @@ from .core import compare, normalize, parse_monto, run_ingest
 __all__ = ["compare", "normalize", "parse_monto", "run_ingest"]
 ''',
     "src/familiarity_core/config.py": '''
+import json
+from pathlib import Path
+
 DEFAULTS = {"log_level": "INFO"}
 
 def merge_config(defaults, file_cfg, env_cfg, flags):
@@ -2175,6 +2179,14 @@ def merge_config(defaults, file_cfg, env_cfg, flags):
     for layer in (file_cfg, env_cfg, flags):
         result.update({key: value for key, value in layer.items() if value is not None})
     return result
+
+def read_env_layer(environ):
+    # TODO: devuelve {"log_level": ...} solo si FAMILIARITY_LOG_LEVEL está en environ; si no, {}.
+    return {}
+
+def read_file_layer(path):
+    # TODO: si path existe, devuelve su contenido JSON como dict; si no existe, {}.
+    return {}
 
 def validate_config(config, command):
     if config.get("log_level") not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
@@ -2228,6 +2240,9 @@ def run_ingest(input_path: Path, out_dir: Path) -> dict:
         if not reader.fieldnames or not required.issubset(reader.fieldnames):
             raise ValueError("CSV requiere columnas id,name,monto")
         for line_no, row in enumerate(reader, start=2):
+            if None in row:
+                quarantine.append({"line": line_no, "reason": "columnas inesperadas"})
+                continue
             try:
                 record_id = row["id"].strip()
                 if not record_id:
@@ -2267,10 +2282,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
-from .config import DEFAULTS, merge_config, validate_config
+from .config import DEFAULTS, merge_config, read_env_layer, read_file_layer, validate_config
 from .core import compare, normalize, run_ingest
 
 def build_parser():
@@ -2296,8 +2312,13 @@ def main(argv=None):
         "input_path": getattr(args, "input", None),
         "manifest_path": getattr(args, "manifest", None),
     }
-    config = merge_config(DEFAULTS, {}, {}, {**flags, **command_cfg})
     try:
+        config = merge_config(
+            DEFAULTS,
+            read_file_layer(Path("familiarity.json")),
+            read_env_layer(os.environ),
+            {**flags, **command_cfg},
+        )
         validate_config(config, args.command)
         if args.command == "normalize":
             print(normalize(args.text))
@@ -2322,6 +2343,7 @@ from .cli import entrypoint
 entrypoint()
 ''',
     "tests/test_core.py": '''
+import json
 import tempfile
 import unittest
 from decimal import Decimal
@@ -2347,6 +2369,66 @@ class CoreTests(unittest.TestCase):
             self.assertEqual((manifest["n_in"], manifest["n_clean"], manifest["n_quarantine"]), (2, 1, 1))
             self.assertTrue(manifest["sources"][0]["reconcile_ok"])
 
+    def test_extra_column_is_quarantined(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "clients.csv"
+            source.write_text(chr(10).join([
+                "id,name,monto", "C1,Ana,10.50", "C3,Eva,1,234",
+            ]) + chr(10), encoding="utf-8")
+            manifest = run_ingest(source, root / "out")
+            self.assertEqual((manifest["n_clean"], manifest["n_quarantine"]), (1, 1))
+            clean = json.loads((root / "out" / "clean.json").read_text(encoding="utf-8"))
+            self.assertEqual([row["id"] for row in clean], ["C1"])
+
+if __name__ == "__main__":
+    unittest.main()
+''',
+    "tests/test_cli.py": '''
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+SRC = str(Path(__file__).resolve().parents[1] / "src")
+
+def run_cli(args, cwd, extra_env=None):
+    env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": SRC, "PYTHONDONTWRITEBYTECODE": "1"}
+    env.update(extra_env or {})
+    return subprocess.run(
+        [sys.executable, "-m", "familiarity_core"] + args,
+        cwd=cwd, env=env, capture_output=True, text=True, timeout=60,
+    )
+
+class ConfigLayerTests(unittest.TestCase):
+    def test_env_layer_is_validated(self):
+        with tempfile.TemporaryDirectory() as folder:
+            done = run_cli(["normalize", "Ana"], folder, {"FAMILIARITY_LOG_LEVEL": "garbage"})
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("log_level", done.stderr)
+
+    def test_flag_beats_env(self):
+        with tempfile.TemporaryDirectory() as folder:
+            done = run_cli(["--log-level", "INFO", "normalize", "Ana"], folder,
+                           {"FAMILIARITY_LOG_LEVEL": "garbage"})
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertEqual(done.stdout.strip(), "ana")
+
+    def test_file_layer_is_validated(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+
+    def test_env_beats_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder, {"FAMILIARITY_LOG_LEVEL": "INFO"})
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertEqual(done.stdout.strip(), "ana")
+
 if __name__ == "__main__":
     unittest.main()
 ''',
@@ -2369,6 +2451,323 @@ for relative, body in FILES.items():
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(body.strip() + chr(10), encoding="utf-8")
 print("created", len(FILES), "files in", root)`,
+    solutionCode: {
+      language: "python",
+      title: "bootstrap_familiarity.py",
+      code: `"""bootstrap_familiarity.py — crea un paquete real, instalable y testeable.
+Ejecuta: python bootstrap_familiarity.py; cd familiarity_core_project;
+python -m pip install -e .; python -m unittest discover -s tests.
+"""
+from pathlib import Path
+
+FILES = {
+    "pyproject.toml": '''
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "familiarity-core"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+familiarity = "familiarity_core.cli:entrypoint"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+''',
+    "src/familiarity_core/__init__.py": '''
+from .core import compare, normalize, parse_monto, run_ingest
+
+__all__ = ["compare", "normalize", "parse_monto", "run_ingest"]
+''',
+    "src/familiarity_core/config.py": '''
+import json
+from pathlib import Path
+
+DEFAULTS = {"log_level": "INFO"}
+
+def merge_config(defaults, file_cfg, env_cfg, flags):
+    result = dict(defaults)
+    for layer in (file_cfg, env_cfg, flags):
+        result.update({key: value for key, value in layer.items() if value is not None})
+    return result
+
+def read_env_layer(environ):
+    value = environ.get("FAMILIARITY_LOG_LEVEL")
+    return {} if value is None else {"log_level": value}
+
+def read_file_layer(path):
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+def validate_config(config, command):
+    if config.get("log_level") not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
+        raise ValueError("config: log_level inválido")
+    required = {"ingest": "input_path", "report": "manifest_path"}.get(command)
+    if required and not config.get(required):
+        raise ValueError("config: falta %s para %s" % (required, command))
+''',
+    "src/familiarity_core/core.py": '''
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+
+CENT = Decimal("0.01")
+
+def normalize(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+def compare(left: str, right: str) -> Decimal:
+    return Decimal("1.00") if normalize(left) == normalize(right) else Decimal("0.00")
+
+def parse_monto(raw: object) -> Decimal:
+    text = str(raw).strip()
+    if "," in text:
+        whole, _, cents = text.partition(",")
+        if "." in text or "," in cents or len(cents) != 2:
+            raise ValueError("monto con separador ambiguo")
+        text = whole + "." + cents
+    try:
+        value = Decimal(text).quantize(CENT)
+        if not value.is_finite():
+            raise InvalidOperation
+    except (InvalidOperation, ValueError):
+        raise ValueError("monto inválido") from None
+    if value < Decimal("0"):
+        raise ValueError("monto negativo")
+    return value
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def run_ingest(input_path: Path, out_dir: Path) -> dict:
+    clean, quarantine = [], []
+    with input_path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {"id", "name", "monto"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError("CSV requiere columnas id,name,monto")
+        for line_no, row in enumerate(reader, start=2):
+            if None in row:
+                quarantine.append({"line": line_no, "reason": "columnas inesperadas"})
+                continue
+            try:
+                record_id = row["id"].strip()
+                if not record_id:
+                    raise ValueError("id vacío")
+                clean.append({
+                    "id": record_id,
+                    "name": normalize(row["name"]),
+                    "monto": str(parse_monto(row["monto"])),
+                })
+            except (KeyError, ValueError) as exc:
+                quarantine.append({"line": line_no, "reason": str(exc)})
+    source = {
+        "name": input_path.name,
+        "sha256": _sha256(input_path),
+        "n_in": len(clean) + len(quarantine),
+        "n_clean": len(clean),
+        "n_quarantine": len(quarantine),
+    }
+    source["reconcile_ok"] = source["n_in"] == source["n_clean"] + source["n_quarantine"]
+    manifest = {
+        "sources": [source],
+        "n_in": source["n_in"],
+        "n_clean": source["n_clean"],
+        "n_quarantine": source["n_quarantine"],
+        "reconcile_ok": source["reconcile_ok"],
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "clean.json").write_text(json.dumps(clean, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "quarantine.json").write_text(json.dumps(quarantine, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    if not manifest["reconcile_ok"]:
+        raise RuntimeError("reconciliación falló")
+    return manifest
+''',
+    "src/familiarity_core/cli.py": '''
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+from .config import DEFAULTS, merge_config, read_env_layer, read_file_layer, validate_config
+from .core import compare, normalize, run_ingest
+
+def build_parser():
+    parser = argparse.ArgumentParser(prog="familiarity")
+    parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"])
+    commands = parser.add_subparsers(dest="command", required=True)
+    ingest = commands.add_parser("ingest")
+    ingest.add_argument("--input", required=True)
+    ingest.add_argument("--out-dir", required=True)
+    normal = commands.add_parser("normalize")
+    normal.add_argument("text")
+    comp = commands.add_parser("compare")
+    comp.add_argument("left")
+    comp.add_argument("right")
+    report = commands.add_parser("report")
+    report.add_argument("--manifest", required=True)
+    return parser
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    flags = {"log_level": args.log_level}
+    command_cfg = {
+        "input_path": getattr(args, "input", None),
+        "manifest_path": getattr(args, "manifest", None),
+    }
+    try:
+        config = merge_config(
+            DEFAULTS,
+            read_file_layer(Path("familiarity.json")),
+            read_env_layer(os.environ),
+            {**flags, **command_cfg},
+        )
+        validate_config(config, args.command)
+        if args.command == "normalize":
+            print(normalize(args.text))
+        elif args.command == "compare":
+            print(compare(args.left, args.right))
+        elif args.command == "ingest":
+            print(json.dumps(run_ingest(Path(args.input), Path(args.out_dir)), sort_keys=True))
+        elif args.command == "report":
+            manifest = json.loads(Path(args.manifest).read_text(encoding="utf-8"))
+            print(json.dumps(manifest, sort_keys=True))
+        return 0
+    except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
+        print("error: %s" % exc, file=sys.stderr)
+        return 1
+
+def entrypoint():
+    raise SystemExit(main())
+''',
+    "src/familiarity_core/__main__.py": '''
+from .cli import entrypoint
+
+entrypoint()
+''',
+    "tests/test_core.py": '''
+import json
+import tempfile
+import unittest
+from decimal import Decimal
+from pathlib import Path
+
+from familiarity_core import compare, parse_monto, run_ingest
+
+class CoreTests(unittest.TestCase):
+    def test_decimal_and_compare(self):
+        self.assertEqual(parse_monto("10,50"), Decimal("10.50"))
+        with self.assertRaises(ValueError):
+            parse_monto("10,5")
+        self.assertEqual(compare(" Ana ", "ana"), Decimal("1.00"))
+
+    def test_etl_reconciles_and_quarantines(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "clients.csv"
+            source.write_text(chr(10).join([
+                "id,name,monto", "C1,Ana,10.50", "C2,Luis,abc",
+            ]) + chr(10), encoding="utf-8")
+            manifest = run_ingest(source, root / "out")
+            self.assertEqual((manifest["n_in"], manifest["n_clean"], manifest["n_quarantine"]), (2, 1, 1))
+            self.assertTrue(manifest["sources"][0]["reconcile_ok"])
+
+    def test_extra_column_is_quarantined(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "clients.csv"
+            source.write_text(chr(10).join([
+                "id,name,monto", "C1,Ana,10.50", "C3,Eva,1,234",
+            ]) + chr(10), encoding="utf-8")
+            manifest = run_ingest(source, root / "out")
+            self.assertEqual((manifest["n_clean"], manifest["n_quarantine"]), (1, 1))
+            clean = json.loads((root / "out" / "clean.json").read_text(encoding="utf-8"))
+            self.assertEqual([row["id"] for row in clean], ["C1"])
+
+if __name__ == "__main__":
+    unittest.main()
+''',
+    "tests/test_cli.py": '''
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+SRC = str(Path(__file__).resolve().parents[1] / "src")
+
+def run_cli(args, cwd, extra_env=None):
+    env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": SRC, "PYTHONDONTWRITEBYTECODE": "1"}
+    env.update(extra_env or {})
+    return subprocess.run(
+        [sys.executable, "-m", "familiarity_core"] + args,
+        cwd=cwd, env=env, capture_output=True, text=True, timeout=60,
+    )
+
+class ConfigLayerTests(unittest.TestCase):
+    def test_env_layer_is_validated(self):
+        with tempfile.TemporaryDirectory() as folder:
+            done = run_cli(["normalize", "Ana"], folder, {"FAMILIARITY_LOG_LEVEL": "garbage"})
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertIn("log_level", done.stderr)
+
+    def test_flag_beats_env(self):
+        with tempfile.TemporaryDirectory() as folder:
+            done = run_cli(["--log-level", "INFO", "normalize", "Ana"], folder,
+                           {"FAMILIARITY_LOG_LEVEL": "garbage"})
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertEqual(done.stdout.strip(), "ana")
+
+    def test_file_layer_is_validated(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder)
+            self.assertEqual(done.returncode, 1, done.stderr)
+
+    def test_env_beats_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "familiarity.json").write_text('{"log_level": "garbage"}', encoding="utf-8")
+            done = run_cli(["normalize", "Ana"], folder, {"FAMILIARITY_LOG_LEVEL": "INFO"})
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertEqual(done.stdout.strip(), "ana")
+
+if __name__ == "__main__":
+    unittest.main()
+''',
+    "README.md": '''
+# familiarity-core
+
+1. python -m pip install -e .
+2. python -m unittest discover -s tests
+3. familiarity ingest --input data/clients.csv --out-dir out
+4. familiarity report --manifest out/manifest.json
+
+Precedencia: flags > entorno > archivo > defaults. Esta base local no necesita secretos.
+Exit 0 = éxito, 1 = runtime/config, 2 = uso inválido de argparse.
+''',
+}
+
+root = Path("familiarity_core_project")
+for relative, body in FILES.items():
+    target = root / relative
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(body.strip() + chr(10), encoding="utf-8")
+print("created", len(FILES), "files in", root)`,
+    },
     portfolioNote:
       "Incluye captura de --help, tabla de exit codes y ejemplo de pipe `... | normalize > out.json 2> log.txt` con datos sintéticos.",
     rubric: [
