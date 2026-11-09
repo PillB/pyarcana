@@ -380,6 +380,16 @@
       "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
       "decided_by": "owner 2026-11-09 (proposals-03 C1)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 39,
+      "id": "S01-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "6242b2a46c98a0708b6b2a60a8d752953b636e83d8f4ec5857e36d78c6bc6fdd",
+      "to_fp": "8a89db3be71142c7c49bfeb3e61c0d53efc2d01a40e59ebbf457260786e64805",
+      "reason": "C2 follow-up: the recovery exercise called its own procedure 'no destructiva'; it now says it avoids destroying history ('sin destruir historial'). The task, starter and expected outcome are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C2)",
+      "date": "2026-11-09"
     }
   ]
 }

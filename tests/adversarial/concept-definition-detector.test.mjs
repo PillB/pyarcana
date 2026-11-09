@@ -171,7 +171,7 @@ test('a term the course marks as a term, plus a verb, teaches it', () => {
 test('a command line that starts a sentence is not a definition of its command', () => {
   // "`git restore archivo` descarta cambios sin commit" is an instruction about a command,
   // not an explanation of Git. The formatted span has to be the term and nothing else.
-  assert.equal(definingEvent(/`git restore archivo` descarta cambios/, 'git'), false)
+  assert.equal(definingEvent(/`git restore archivo` descarta \*\*de forma permanente\*\*/, 'git'), false)
   assert.equal(definingEvent(/`git remote -v` permite/, 'git'), false)
 })
 
