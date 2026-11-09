@@ -23,6 +23,7 @@ fails, and an id that no longer offends must be removed from the list.
 from __future__ import annotations
 
 import importlib.util
+import os
 import re
 import shutil
 import subprocess
@@ -34,6 +35,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SECTIONS = ROOT / "src/lib/course/sections"
 VENV_PY = ROOT / ".venv-content/bin/python"
+#: The pinned teaching environment: the local venv, or, in CI's content-gates job (which installs
+#: requirements-content.txt into its Python 3.12 and sets PYARCANA_PINNED_CONTENT_ENV=1), that
+#: interpreter. The adversarial job has neither, so it skips these runs; skip_allowlist.json names
+#: content-gates as where they run.
+if VENV_PY.exists():
+    CONTENT_PY: Path | None = VENV_PY
+elif os.environ.get("PYARCANA_PINNED_CONTENT_ENV") == "1":
+    CONTENT_PY = Path(sys.executable)
+else:
+    CONTENT_PY = None
 BATCH_1 = [
     "s01-setup", "s02-basics", "s03-decisions-rules", "s04-iteration-summaries",
     "s05-functions-contracts", "s06-collections", "s07-text-unicode-regex", "s08-files-ingestion",
@@ -106,7 +117,7 @@ def run(code: str, workdir: Path) -> tuple[int, str]:
     probe.write_text(code, encoding="utf-8")
     try:
         done = subprocess.run(
-            [str(VENV_PY), "-I", str(probe)], capture_output=True, text=True, timeout=25,
+            [str(CONTENT_PY), "-I", str(probe)], capture_output=True, text=True, timeout=25,
             cwd=workdir, stdin=subprocess.DEVNULL,
         )
         return done.returncode, done.stdout
@@ -153,7 +164,7 @@ class DetectorCanFail(unittest.TestCase):
         self.assertFalse(prints_the_answer("", ""))
 
 
-@unittest.skipUnless(VENV_PY.exists(), "needs .venv-content (Python 3.12, pinned packages)")
+@unittest.skipUnless(CONTENT_PY, "needs the pinned content interpreter (.venv-content or content-gates)")
 class BatchOneStartersAreNotTheAnswer(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
