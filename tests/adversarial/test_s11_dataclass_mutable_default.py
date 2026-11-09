@@ -25,6 +25,7 @@ FALSE_CLAIMS = [
     "El starter comparte la lista",
     "default=[] sería mutable compartido",
     "default=[] comparte la misma lista entre instancias",
+    "todas las instancias comparten la misma lista",
 ]
 
 

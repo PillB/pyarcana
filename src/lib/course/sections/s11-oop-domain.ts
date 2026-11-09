@@ -2582,7 +2582,7 @@ if __name__ == "__main__":
         options: ["Permite que el valor por defecto dependa de otros campos", "Hace que la lista sea inmutable dentro de la instancia", "Evita el default mutable compartido entre instancias", "Evita copiar la lista cada vez que se crea un objeto"],
         correctIndex: 2,
         explanation:
-          "Un default `[]` se evalúa una sola vez: todas las instancias comparten la misma lista. `default_factory=list` crea una lista nueva por instancia.",
+          "Un default `[]` se evalúa una sola vez. En un `__init__` escrito a mano, todas las instancias compartirían esa lista; por eso `@dataclass` la rechaza con `ValueError` al definir la clase. `default_factory=list` crea una lista nueva por instancia.",
       },
       {
         question: "RelationshipEvidence.signal_score representa…",
