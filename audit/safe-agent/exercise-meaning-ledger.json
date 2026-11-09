@@ -430,6 +430,116 @@
       "reason": "The fixture now makes id order and monto order disagree, so sorting by id gives a different output than sorting by monto. Same goal.",
       "decided_by": "owner 2026-11-09 (proposals-03 C14)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 44,
+      "id": "S07-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "90964cbcd10f536af37b5b8ce6619e62543e467afcc514ec83cf66384c2efc53",
+      "to_fp": "bfa7b85f5380c2d4b11e956825328bfe9e5a629c1535a1e5dd10e0fb379f3ee1",
+      "reason": "Email: only the domain is casefolded; the local part keeps its case (proposals-03 C5, S07-005). Starter unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C5)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 45,
+      "id": "S07-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "8329881d25ff7c996e2b222c90edb79e8d99f777903246c782427ddd07eb5f5b",
+      "to_fp": "14a04d07105b7a3d312313e1987adaaa99a22e0611171daec42418d8c8c2b10a",
+      "reason": "Backslashes restored in the starter (A1, NEW-S07-1). Input fijo 123456789 added to starter and solution so the leading-9 defect shows (C14). Starter output no longer equals the expected output.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1+C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 46,
+      "id": "S07-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "192be56f621c05cd8b85fc78263ad198069ffbd9cdd228527395d89c60f1ebc4",
+      "to_fp": "2dfb3c5167c74313fbc5b71d3007bcedfe364a2a5393d9dacba864efbf3e47c1",
+      "reason": "Jaccard: a side without tokens returns None (review), as the theory says; the 1.0 for both-empty is removed (C4, S07-003).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C4)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 47,
+      "id": "S07-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "ae7a8050c9aba15a7b48f8c41ee792ceefcc7fa84f2f8231ebeb1eacd7f1e521",
+      "to_fp": "dbb533e5b4f68b91878a09a91a99982ac5285ba6438a7d0c37eaadc640cb84e4",
+      "reason": "Exact needs score 1.0 and equal normalised strings; 1.0 without equality is review (C4, S07-004).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C4)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 48,
+      "id": "S08-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "23fb25b5baee6999ecf0c179d217e401a8c920af8576a61f9d81feedb566e0c9",
+      "to_fp": "bc527e52ba20723834e4af7ffc236e09f5f97329e62327118d128a492c6baa1f",
+      "reason": "Temporary file is unique (mkstemp in the same folder) (C6, S08-001). Starter writes a draft, so its output no longer equals the expected output (C14).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C6+C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 49,
+      "id": "S08-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "15b764159e909d1904b283d813078c118b2bb66d3d9fc6826864b99697be3a44",
+      "to_fp": "1059c5b2a13af5e1eee1353d538270e3f6c5c9df7a063f0741119676f364fec4",
+      "reason": "Second write uses a unique mkstemp temporary in the same folder (C6, S08-001).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C6)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 50,
+      "id": "S07-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "24de4827763e698babc9018def0b1cabf6def6e217d45af7f64d76dfae9a6bb6",
+      "to_fp": "24de4827763e698babc9018def0b1cabf6def6e217d45af7f64d76dfae9a6bb6",
+      "reason": "Starter compares raw strings and prints False; the expected True comes from casefold (C14). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 51,
+      "id": "S07-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "e809e94ab1e1a9a205d3862f74164a438825d52b11977a9fe0969548716328a1",
+      "to_fp": "e809e94ab1e1a9a205d3862f74164a438825d52b11977a9fe0969548716328a1",
+      "reason": "Starter pattern [A-Za-z]{3} lets Lima pass through search; the feedback claim about Lim is corrected (C14, NEW-S07-2). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 52,
+      "id": "S07-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "577cd573f5638682037ac91c8460b93ac54fb6126461aea27e440469b3f83284",
+      "to_fp": "577cd573f5638682037ac91c8460b93ac54fb6126461aea27e440469b3f83284",
+      "reason": "Backslashes restored in the starter (NEW-S07-1). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 53,
+      "id": "S07-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "aacdc58daedabb4edacb060a47da10ea9b0e90e5aaeedf39275da881c30b58f9",
+      "to_fp": "aacdc58daedabb4edacb060a47da10ea9b0e90e5aaeedf39275da881c30b58f9",
+      "reason": "Backslashes restored in the starter (NEW-S07-1). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 54,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "to_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "reason": "Starter slices raw[7:10], so it prints C00 instead of the expected C001 (C14). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
     }
   ]
 }

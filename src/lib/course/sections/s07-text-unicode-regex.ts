@@ -609,22 +609,37 @@ riesgo: evita patrones con cuantificadores anidados ambiguos`,
           title: "S07-T4-A-DEMO — jaccard",
           code: `import unicodedata
 
-def token_jaccard(a: str, b: str) -> float:
+def norm(s: str) -> str:
+    s = unicodedata.normalize("NFC", s)
+    return " ".join(s.casefold().split())
+
+def token_jaccard(a: str, b: str) -> float | None:
     def toks(s: str) -> set[str]:
-        s = unicodedata.normalize("NFC", s.replace(".", " "))
-        return set(s.casefold().split())
+        return set(norm(s.replace(".", " ")).split())
     A, B = toks(a), toks(b)
-    if not A and not B:
-        return 1.0
     if not A or not B:
-        return 0.0
+        return None
     return len(A & B) / len(A | B)
+
+def decide(a: str, b: str) -> str:
+    s = token_jaccard(a, b)
+    if s is None:
+        return "review"
+    if s == 1.0 and norm(a) == norm(b):
+        return "exact"
+    if s >= 0.4:
+        return "review"
+    return "no_match"
 
 s = token_jaccard("Juan Perez", "Juan P. Perez")
 print("score", round(s, 3))
-print("decision", "review" if 0.4 <= s < 1.0 else ("exact" if s == 1.0 else "no_match"))`,
+print("decision", decide("Juan Perez", "Juan P. Perez"))
+print("Error: el orden ignorado da", token_jaccard("Juan Perez", "Perez Juan"))
+print("Corrección:", decide("Juan Perez", "Perez Juan"))`,
           output: `score 0.667
-decision review`,
+decision review
+Error: el orden ignorado da 1.0
+Corrección: review`,
         },
         why: "Un score medio cae en `review`: es evidencia para un humano, no veredicto. Exact solo con igualdad plena tras el mismo pipeline de normalización. Nunca auto-fusionar ni afirmar identidad legal a partir de Jaccard.",
         retrospective:
@@ -742,9 +757,9 @@ for n in names:
           language: 'python',
           title: "casefold_match.py",
           code: `# TAREA: matching case-insensitive con casefold (política del normalizador)
-# DEFECT: usa lower por hábito; aquí lower también da True, pero el contrato pide casefold
+# DEFECT: compara tal cual, sin política de mayúsculas; el contrato pide casefold
 a, b = 'MAÑANA', 'mañana'
-match = a.lower() == b.lower()  # funciona en este par; reescribe con casefold
+match = a == b
 print(match)`,
         },
         solutionCode: {
@@ -1071,17 +1086,17 @@ print(''.join(c for c in raw if c.isdigit()))`,
         kind: "guided",
         title: "normalize_email modesto con fail-closed",
         preamble:
-          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok a@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
+          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok A@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
         id: "S07-T2-B-E1",
         instruction:
-          "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Usa `casefold`, exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",
+          "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Haz `casefold` solo sobre el dominio y conserva la parte local; exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",
         hint: "Devuelve `(False, None, motivo)` para una fila inválida y llama al normalizador solo cuando `ok` sea verdadero.",
         hints: [
           "Comprueba `s.count('@') == 1`, cero espacios y partes no vacías.",
           "Acumula la decisión en `(ok, valor, motivo)` antes de llamar a `normalize_email`.",
         ],
         edgeCases: ["local vacío", "doble @", "espacios", "plus válido"],
-        tests: "Contrato exacto: ok a@b.com; tres review_error; user+tag@example.com sigue válido.",
+        tests: "Contrato exacto: ok A@b.com; tres review_error; user+tag@example.com sigue válido.",
         feedback:
           "Un `@` al inicio deja local vacío; dos `@` rompen el conteo; un espacio en medio es inválido. No estás verificando entregabilidad: solo estructura mínima.",
         retrospective:
@@ -1108,13 +1123,13 @@ for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
           language: 'python',
           title: "email_lower.py",
           code: `def validar_email(raw):
-    s = raw.strip().casefold()
+    s = raw.strip()
     if s.count('@') != 1 or any(ch.isspace() for ch in s):
         return False, None, 'email requiere un @ y cero espacios'
     local, domain = s.split('@')
     if not local or not domain:
         return False, None, 'email requiere local y dominio'
-    return True, s, None
+    return True, local + '@' + domain.casefold(), None
 
 def normalize_email(raw):
     ok, valor, motivo = validar_email(raw)
@@ -1127,11 +1142,17 @@ for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
     if ok:
         print('ok', normalize_email(valor))
     else:
-        print('review_error', motivo)`,
-          output: `ok a@b.com
+        print('review_error', motivo)
+# Error: casefold sobre todo el texto borra la mayúscula de la parte local
+print('Error:', '  Ana+X@Example.COM '.strip().casefold())
+# Corrección: solo el dominio pasa a casefold
+print('Corrección:', validar_email('  Ana+X@Example.COM ')[1])`,
+          output: `ok A@b.com
 review_error email requiere local y dominio
 review_error email requiere un @ y cero espacios
-review_error email requiere un @ y cero espacios`,
+review_error email requiere un @ y cero espacios
+Error: ana+x@example.com
+Corrección: Ana+X@example.com`,
         },
       },
       {
@@ -1234,7 +1255,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         edgeCases: ["anclas"],
         tests: "True False",
         feedback:
-          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede coincidir con `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
+          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas: `search` halla «Lim» dentro de la palabra, y por eso pasa. `fullmatch` exige que **toda** la cadena cumpla el patrón.",
         retrospective:
           "`fullmatch` rechaza letras minúsculas, guiones y texto alrededor porque el contrato describe el campo entero. Si hubieras usado `search`, una cadena con basura podría parecer válida gracias a un fragmento interno. Transfiere la prueba a un código de pedido: construye un caso feliz, un prefijo extra y un sufijo extra; los dos últimos deben fallar por la misma causa.",
         starterCode: {
@@ -1243,7 +1264,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
           code: `# TAREA: fullmatch de código de región de 3 letras
 # DEFECT: search no fullmatch; Lima pasa
 import re
-pat = r'[A-Z]{3}'
+pat = r'[A-Za-z]{3}'
 print(bool(re.search(pat, 'LIM')))
 print(bool(re.search(pat, 'Lima')))`,
         },
@@ -1284,7 +1305,7 @@ False`,
           code: `# TAREA: groupdict con nom y ap
 # DEFECT: groups posicionales mal
 import re
-pat = re.compile(r'^(\w+) (\w+)$')
+pat = re.compile(r'^(\\w+) (\\w+)$')
 m = pat.fullmatch('Ana Quispe')
 print({'nom': m.group(2), 'ap': m.group(1)} if m else None)`,
         },
@@ -1366,10 +1387,10 @@ usar search para extraer; fullmatch para validar campo exacto`,
           language: 'python',
           title: "compile_reuse.py",
           code: `# TAREA: compile + findall de teléfonos 9xxxxxxxx
-# DEFECT: patrón \d{9} sin ancla 9
+# DEFECT: patrón \\d{9} sin ancla 9
 import re
-pat = re.compile(r'\b\d{9}\b')
-for s in ['tel 999000111', 'no match 123']:
+pat = re.compile(r'\\b\\d{9}\\b')
+for s in ['tel 999000111', 'no match 123', 'fijo 123456789']:
     print(s, '→', pat.findall(s))`,
         },
         solutionCode: {
@@ -1377,10 +1398,11 @@ for s in ['tel 999000111', 'no match 123']:
           title: "compile_reuse.py",
           code: `import re
 pat = re.compile(r'\\b9\\d{8}\\b')
-for s in ['tel 999000111', 'no match 123']:
+for s in ['tel 999000111', 'no match 123', 'fijo 123456789']:
     print(s, '→', pat.findall(s))`,
           output: `tel 999000111 → ['999000111']
-no match 123 → []`,
+no match 123 → []
+fijo 123456789 → []`,
         },
       },
       {
@@ -1410,7 +1432,7 @@ no match 123 → []`,
 # DEFECT: lower case codes
 import re
 log = 'ok LIM-01 y CUS-02 fin'
-codes = re.findall(r'[a-z]{3}-\d{2}', log)
+codes = re.findall(r'[a-z]{3}-\\d{2}', log)
 print(codes)`,
         },
         solutionCode: {
@@ -1514,7 +1536,7 @@ print(norm('  Juan  PEREZ ') == norm('juan perez'))`,
           "- **Contexto:** si el exact normalizado falla, un score de solapamiento de tokens es señal **débil** para review.\n- **Meta:** implementar Jaccard |A∩B|/|A∪B| tras NFC + casefold + split.\n- **Éxito:** `0.667` redondeado a 3 decimales para Juan Perez / Juan P Perez.\n- **Límites:** no uses `min` de longitudes; no auto-fusionar; no afirmes identidad.",
         id: "S07-T4-A-E2",
         instruction:
-          "1. Tokeniza con NFC previo.\n2. Corrige el denominador: unión de conjuntos, no `min`.\n3. Maneja vacíos (ambos vacíos → 1.0; uno vacío → 0.0) como en el contrato de la demo.\n4. Imprime `round(..., 3)`.",
+          "1. Tokeniza con NFC previo.\n2. Corrige el denominador: unión de conjuntos, no `min`.\n3. Maneja vacíos: si un lado no tiene tokens, devuelve `None` (sin score, va a review), como en la teoría.\n4. Imprime `round(..., 3)`.",
         hint: "|A∩B|/|A∪B| tras NFC",
         hints: [
           "NFC → set(casefold().split())",
@@ -1549,10 +1571,8 @@ def tokens(s):
 
 def token_jaccard(a, b):
     A, B = tokens(a), tokens(b)
-    if not A and not B:
-        return 1.0
     if not A or not B:
-        return 0.0
+        return None
     return len(A & B) / len(A | B)
 print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
           output: `0.667`,
@@ -1563,10 +1583,10 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         kind: "transfer",
         title: "Umbrales exact / review / no_match",
         preamble:
-          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** si la decisión es `review`, no conviertas dos registros en uno automáticamente ni digas «es la misma persona».",
+          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: exact solo con score 1.0 e igualdad normalizada; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** si la decisión es `review`, no conviertas dos registros en uno automáticamente ni digas «es la misma persona».",
         id: "S07-T4-A-E3",
         instruction:
-          "1. Con score `0.67`, corrige la rama que hoy cae en `exact`.\n2. Exact solo si `score == 1.0`.\n3. Imprime `decision a b score` en una línea.\n4. Superficie: política de umbrales, no el cálculo de Jaccard.",
+          "1. Con score `0.67`, corrige la rama que hoy cae en `exact`.\n2. Exact solo si `score == 1.0` **y** las cadenas normalizadas son iguales; un 1.0 sin igualdad va a review.\n3. Imprime `decision a b score` en una línea.\n4. Superficie: política de umbrales, no el cálculo de Jaccard.",
         hint: "Umbrales explícitos",
         hints: [
           "Umbrales explícitos",
@@ -1577,7 +1597,7 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         feedback:
           "Un umbral flojo que convierte 0.67 en `exact` fabrica fusiones. Review es el default honesto ante ambigüedad: no digas «misma persona» por un score medio.",
         retrospective:
-          "Cambiar la primera condición de `>= 0.5` a `== 1.0` evita que una similitud parcial se disfrace de exactitud. Si pensabas que 0.67 «parece alto», estabas sustituyendo una política explícita por intuición. Transfiere el diseño a otro dominio: documenta umbrales, casos frontera y acción humana antes de calcular scores; nunca después de verlos.",
+          "Cambiar la primera condición de `>= 0.5` a `== 1.0` y a igualdad normalizada evita que una similitud parcial se disfrace de exactitud. Si pensabas que 0.67 «parece alto», estabas sustituyendo una política explícita por intuición. Transfiere el diseño a otro dominio: documenta umbrales, casos frontera y acción humana antes de calcular scores; nunca después de verlos.",
         starterCode: {
           language: 'python',
           title: "score_review.py",
@@ -1595,8 +1615,13 @@ print(decision, a, b, score)`,
         solutionCode: {
           language: 'python',
           title: "score_review.py",
-          code: `a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
-if score == 1.0:
+          code: `import unicodedata
+
+def norm(s):
+    return ' '.join(unicodedata.normalize('NFC', s).casefold().split())
+
+a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
+if score == 1.0 and norm(a) == norm(b):
     decision = 'exact'
 elif score >= 0.4:
     decision = 'review'
@@ -1796,7 +1821,7 @@ def normalize_nombre(raw: str) -> tuple[str, list[str]]:
 
 
 def normalize_email(raw: str) -> tuple[str, list[str]]:
-    # Contrato: strip/casefold; exactamente un @, local+domain, sin espacios
+    # Contrato: strip; la parte local conserva sus mayúsculas; solo el dominio en casefold; exactamente un @, sin espacios
     raise NotImplementedError
 
 
