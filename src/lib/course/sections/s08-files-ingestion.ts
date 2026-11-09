@@ -251,7 +251,6 @@ el consumidor lee: 'id,nombre\\nC001,Ana\\nC002,Luis\\n'`,
     },
     {
       heading: "Contraejemplo: un .tmp fijo mezcla dos escrituras",
-      subtopicId: "S08-T1-B",
       paragraphs: [
         "Con un temporal de nombre fijo, dos escritores comparten el mismo archivo. Cada uno empieza a escribir desde su propia posición, así que sus bytes se pisan y `os.replace` publica una mezcla. El bloque reproduce el choque sin hilos ni azar: dos descriptores abiertos sobre el mismo `clean.csv.tmp`.",
         "Lee la salida por parejas. La primera línea muestra el error: el destino contiene `BBAA`, que no es el contenido de ninguno de los dos escritores. La segunda muestra la corrección: cada escritor recibe su propio temporal con `mkstemp`, y el destino queda con `BB`, el contenido completo del último que publica, sin mezcla. La tercera confirma que no sobra ningún temporal.",

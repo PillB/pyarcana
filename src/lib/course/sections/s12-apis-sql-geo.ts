@@ -269,7 +269,6 @@ offline offline_fallback`,
     },
     {
       heading: "Contraejemplo: el corte binario da éxito a un 404 y a un 429",
-      subtopicId: "S12-T2-B",
       paragraphs: [
         "Un corte que solo pregunta `status >= 500` trata todo lo demás como éxito. Así, un 404 (el recurso no existe) o un 429 (demasiadas peticiones) producen un body `online` que nunca llegó del proveedor. El código compara los dos cortes con las mismas entradas.",
         "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout (no tiene status, así que llega como `None`) y un 429 que sigue llegando después de los reintentos de la política N1. Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",

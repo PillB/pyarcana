@@ -10,7 +10,7 @@ def generate(seed=SEED):
         return int(h[:8], 16) / 0xffffffff
     # Registros sintéticos: edad, region, monto_ingreso, raw_line. Incluye casos accept, review y reject.
     records = [
-        {"edad":30,"region":"R-NORTE","monto_ingreso":100.0,"raw_line":"30|R-NORTE|100","status":"accept"},
+        {"edad":30,"region":"R-NORTE","monto_ingreso":100,"raw_line":"30|R-NORTE|100","status":"accept"},
         {"edad":30,"region":"R-SUR","monto_ingreso":0,"raw_line":"30|R-SUR|0","status":"accept"},
         {"edad":None,"region":"R-SUR","monto_ingreso":50,"raw_line":"|R-SUR|50","status":"review"},
         {"edad":30,"region":"R-SUR","monto_ingreso":-3,"raw_line":"30|R-SUR|-3","status":"reject"},
