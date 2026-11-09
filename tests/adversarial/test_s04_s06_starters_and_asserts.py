@@ -147,5 +147,17 @@ class S04YouDoAssertsCatchWrongCode(unittest.TestCase):
         self.assertNotIn("tests OK", stdout)
 
 
+class YouDoReferenceStaysVisible(unittest.TestCase):
+    """Moving the full program out of the starter must not hide it from the learner."""
+
+    def test_the_you_do_tab_renders_the_reference_behind_a_reveal(self):
+        view = (ROOT / "src/components/course/SectionView.tsx").read_text(encoding="utf-8")
+        start = view.index("function YouDoTab")
+        tab = view[start:view.index("\nfunction ", start + 1)]
+        self.assertIn("project.solutionCode &&", tab)
+        self.assertIn("<details", tab[tab.index("project.solutionCode &&"):])
+        self.assertIn("code={project.solutionCode.code}", tab)
+
+
 if __name__ == "__main__":
     unittest.main()
