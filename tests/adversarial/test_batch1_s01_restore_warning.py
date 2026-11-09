@@ -44,6 +44,12 @@ class S01RestoreWarningTests(unittest.TestCase):
         self.assertNotIn("no destructiva", paragraph.lower())
         self.assertNotIn("Recuperación **no destructiva**", paragraph)
 
+    def test_no_s01_text_calls_recovery_non_destructive(self) -> None:
+        # The recovery exercise (S01-T3-B) said "recuperación no destructiva" while its solution uses
+        # `git restore`, which discards the edit. What it avoids is destroying history.
+        source = SECTION.read_text(encoding="utf-8").lower()
+        self.assertNotIn("no destructiv", source)
+
     def test_restore_warning_says_the_edit_is_lost_and_names_the_two_ways_out(self) -> None:
         paragraph = _restore_paragraph(SECTION.read_text(encoding="utf-8"))
         # Non-vacuity: the paragraph really is the one about restore, not an empty match.

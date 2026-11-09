@@ -1971,7 +1971,7 @@ feat: agregar smoke hello_env y documentar install
         kind: 'transfer',
         title: 'Recuperar con `restore`/`stash` (sin force-push)',
         preamble:
-          '- **Contexto:** editaste `README.md` sin commit y el cambio está mal; te proponen `reset --hard` o force-push a `main`.\n- **Meta:** procedimiento correcto no destructivo y por qué force-push a `main` no es opción.\n- **Éxito:** menciona `git restore`; `stash` como alternativa de guardado; prohíbe force-push a `main`; no pone `reset --hard` como default.\n- **Límites:** no reescribas historial compartido; distingue restore (working tree) de revert (commits hechos).',
+          '- **Contexto:** editaste `README.md` sin commit y el cambio está mal; te proponen `reset --hard` o force-push a `main`.\n- **Meta:** procedimiento correcto que no destruye historial y por qué force-push a `main` no es opción.\n- **Éxito:** menciona `git restore`; `stash` como alternativa de guardado; prohíbe force-push a `main`; no pone `reset --hard` como default.\n- **Límites:** no reescribas historial compartido; distingue restore (working tree) de revert (commits hechos).',
         id: 'S01-T3-B-E3',
         instruction:
           '1. Completa el procedimiento con `restore` (y staged si aplica).\n2. Explica cuándo usar `stash`.\n3. Justifica el no a force-push y el no a hard como primer reflejo.',
@@ -1987,16 +1987,16 @@ feat: agregar smoke hello_env y documentar install
         tests:
           'Menciona git restore; menciona stash como alternativa de guardado; prohíbe force-push a main; no recomienda reset --hard como primera opción.',
         feedback:
-          'La recuperación no destructiva es parte de la cultura de equipo. El malentendido: “force-push arregla push rechazado en main”. Quien no destruye historial ajeno genera confianza.',
+          'Recuperar sin destruir historial es parte de la cultura de equipo. El malentendido: “force-push arregla push rechazado en main”. Quien no destruye historial ajeno genera confianza.',
         retrospective:
           'Clasifica antes de actuar: ¿quieres descartar un cambio local, guardar trabajo temporal o resolver una divergencia remota? `restore`, `stash` y sincronizar ramas responden a problemas distintos; force-push no es un martillo universal. Escribe en el README del capstone una regla que explique tanto la prohibición como la alternativa segura.',
         starterCode: {
           language: 'markdown',
           title: 'recuperacion_segura.md',
-          code: `# CASO-LIM-001 · recuperación no destructiva
+          code: `# CASO-LIM-001 · recuperación sin destruir historial
 # TAREA: completa restore, stash y por qué no force-push a main
 # Éxito: priorizas restore/stash; prohíbes force-push a main
-# Recuperación no destructiva
+# Recuperación sin destruir historial
 
 ## Situación
 README.md modificado, sin commit, cambio indeseado.
@@ -2017,7 +2017,7 @@ ____`,
         solutionCode: {
           language: 'markdown',
           title: 'recuperacion_segura.md',
-          code: `# Recuperación no destructiva
+          code: `# Recuperación sin destruir historial
 
 ## Situación
 README.md modificado, sin commit, cambio indeseado.
