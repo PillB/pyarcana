@@ -459,7 +459,6 @@ None 40 → review`,
     },
     {
       heading: 'Contraejemplo: el catálogo como texto deja pasar fragmentos',
-      subtopicId: 'S03-T3-A',
       paragraphs: [
         'Guardar las regiones permitidas en un solo texto, `"R-NORTE|R-SUR|R-CENTRO"`, parece equivalente al `set`, pero cambia la pregunta que hace `in`. Con un texto, `in` pregunta si unos caracteres aparecen **en algún lugar** del texto. Con un `set`, pregunta si el valor es **igual a uno de sus elementos**. El código compara los dos catálogos con las mismas cuatro entradas.',
         'Lee la salida por parejas. Las cuatro primeras líneas muestran el error: una región cortada (`"R-N"`), una región vacía (`""`) y un trozo que cruza el separador (`"NORTE|R-SUR"`) dan `True` con el texto. Las cuatro siguientes muestran la corrección: con el `set`, solo la región completa da `True`. Las dos últimas muestran la consecuencia en el negocio: con el texto, un registro sin región termina en `accept`; con el `set`, va a `review`, como pide la política de esta sección.',
