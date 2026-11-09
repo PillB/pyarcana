@@ -215,5 +215,73 @@ class RunnerRefusesOtherInterpreters(unittest.TestCase):
         self.assertIn("REFUSED: Python 3.13.1 is not CI's 3.12", err)
 
 
+CAPSTONE_PACKAGES = ROOT / "course-state" / "capstones"
+
+# Capstone test files that still held `assert True` placeholders on 2026-11-09 (B2, proposals-03).
+# This is a ratchet: a file that is not listed may not gain a placeholder, and a listed file must
+# leave the list in the same change that replaces its placeholders.
+PLACEHOLDER_ALLOWLIST = frozenset({
+    "course-state/capstones/CP-N1-B/tests/test_demo.py",
+    "course-state/capstones/CP-N1-C/tests/test_demo.py",
+    "course-state/capstones/CP-N2-A/tests/test_demo.py",
+    "course-state/capstones/CP-N2-B/tests/test_demo.py",
+    "course-state/capstones/CP-N2-C/tests/test_demo.py",
+    "course-state/capstones/CP-N3-A/tests/test_demo.py",
+    "course-state/capstones/CP-N3-B/tests/test_demo.py",
+    "course-state/capstones/CP-N3-C/tests/test_demo.py",
+    "course-state/capstones/CP-N4-A/tests/test_demo.py",
+    "course-state/capstones/CP-N4-B/tests/test_demo.py",
+})
+
+
+def placeholder_asserts(source: str) -> list[int]:
+    """Lines of asserts whose test is a constant truthy value (`assert True`): they can never fail."""
+    return [n.lineno for n in ast.walk(ast.parse(source))
+            if isinstance(n, ast.Assert) and isinstance(n.test, ast.Constant) and bool(n.test.value)]
+
+
+def capstone_test_files() -> list[Path]:
+    return sorted(CAPSTONE_PACKAGES.glob("*/tests/*.py"))
+
+
+def files_with_placeholders(paths: list[Path]) -> dict[str, list[int]]:
+    found = {}
+    for p in paths:
+        lines = placeholder_asserts(p.read_text(encoding="utf-8"))
+        if lines:
+            found[p.relative_to(ROOT).as_posix()] = lines
+    return found
+
+
+class CapstoneTestsHaveNoPlaceholderAsserts(unittest.TestCase):
+    """R2/B2: 11 capstone suites shipped `assert True  # placeholder`, so their green check could
+    not turn red. TEST_FILES above globs tests/ only, which is why nothing saw them."""
+
+    def test_the_scan_reaches_every_capstone_test_directory(self):
+        scanned = {p.relative_to(ROOT).as_posix() for p in capstone_test_files()}
+        self.assertIn("course-state/capstones/CP-N1-A/tests/test_demo.py", scanned)
+        self.assertIn("course-state/capstones/CP-N4-C/tests/test_otel_export.py", scanned)
+
+    def test_no_capstone_test_gains_a_placeholder_outside_the_allowlist(self):
+        found = files_with_placeholders(capstone_test_files())
+        new = {f: lines for f, lines in found.items() if f not in PLACEHOLDER_ALLOWLIST}
+        self.assertEqual(new, {}, "replace each `assert True` with a check that can fail")
+
+    def test_the_allowlist_shrinks_as_files_are_fixed(self):
+        found = files_with_placeholders(capstone_test_files())
+        clean = sorted(f for f in PLACEHOLDER_ALLOWLIST if f not in found)
+        self.assertEqual(clean, [], "remove these from PLACEHOLDER_ALLOWLIST: they have no placeholder now")
+        missing = sorted(f for f in PLACEHOLDER_ALLOWLIST if not (ROOT / f).is_file())
+        self.assertEqual(missing, [], "remove these from PLACEHOLDER_ALLOWLIST: the file is gone")
+
+    def test_the_detector_flags_a_constant_true_assert(self):
+        self.assertEqual(placeholder_asserts("def test_0():\n    assert True  # placeholder\n"), [2])
+        self.assertEqual(placeholder_asserts("def test_0():\n    assert 1\n"), [2])
+
+    def test_the_detector_passes_a_real_check_and_ignores_a_comment(self):
+        self.assertEqual(placeholder_asserts("def test_0():\n    assert classify(row) == 'ok'\n"), [])
+        self.assertEqual(placeholder_asserts("# assert True\ndef test_0():\n    pass\n"), [])
+
+
 if __name__ == "__main__":
     unittest.main()
