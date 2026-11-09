@@ -640,6 +640,36 @@
       "reason": "R2 instance: the reconcile assert now also compares with len(rows), so a process_batch that drops a row and reports one fewer fails. The task, data and printed output are unchanged.",
       "decided_by": "owner 2026-11-09 (proposals-03 R2)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 65,
+      "id": "S12-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "6c46f267ccea2c9155a8ec61a28d3a13d4aeab3343a64e04992854bb28d28561",
+      "to_fp": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
+      "reason": "Starter and solution now insert three client rows, and the starter prints fetchall(): the injected id returns the other clients' rows, the leak the exercise names. The solution is parametrized and still prints None.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S12-C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 66,
+      "id": "S11-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "to_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "reason": "Starter is now frozen=True with display_name in the comparison, so the set stays hashable and shows the named defect (no collapse, prints False False and 3) instead of a TypeError: unhashable type. The instruction step 2 is adjusted to match. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 67,
+      "id": "S11-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "to_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "reason": "Starter is @dataclass(eq=False), hashable by identity, so the set keeps the duplicate and prints 3 (the named defect) instead of a TypeError: unhashable type. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
     }
   ]
 }
