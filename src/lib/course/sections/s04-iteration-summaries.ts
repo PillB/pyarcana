@@ -1797,21 +1797,21 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
   youDo: {
     title: "Client Intake & Data Quality Script (cierre CP-N1-A)",
     context:
-      "Ahora reúnes las piezas en una promesa verificable: cada registro sintético entra una vez, conserva su raw y contribuye exactamente una vez al resumen. Recorre las filas con un solo `for` **O(n)** y escribe dentro de ese recorrido las cadenas `if`/`elif`/`else` que S03 usó para edad, región y monto. Acumula los contadores accept/reject/review y calcula `tasa_reject` sobre `len(rows)`. Un lote vacío no es una tasa perfecta: es ausencia de observaciones y se representa con `None`. Antes de ejecutar, escribe los invariantes que los `assert` deben proteger y predice los contadores y la tasa. Después ejecuta el único recorrido hasta que los contadores y la tasa coincidan con tu predicción.",
+      "Ahora reúnes las piezas en una promesa verificable: cada registro sintético entra una vez, conserva su raw y contribuye exactamente una vez al resumen. Recorre cada lote con un `for` **O(n)** sobre sus filas y escribe dentro de ese recorrido las cadenas `if`/`elif`/`else` que S03 usó para edad, región y monto. Acumula los contadores accept/reject/review y calcula `tasa_reject` sobre `len(lote)`. Un lote vacío no es una tasa perfecta: es ausencia de observaciones y se representa con `None`. Antes de ejecutar, escribe los invariantes que los `assert` deben proteger y predice los contadores y la tasa. Después ejecuta el recorrido hasta que los contadores y la tasa coincidan con tu predicción.",
     objectives: [
-      "Procesar ≥3 registros sintéticos con un solo `for` sobre `rows`",
+      "Procesar ≥3 registros sintéticos con un `for` sobre cada lote",
       "Decidir cada campo dentro del recorrido con cadenas `if`/`elif`/`else`",
       "Acumular los contadores accept/reject/review y construir un `dict` resumen",
-      "Calcular `tasa_reject` con `len(rows)` como denominador",
+      "Calcular `tasa_reject` con `len(lote)` como denominador",
       "Conservar el raw de cada registro y comprobar los invariantes con `assert`",
     ],
     requirements: [
       "Cada fila usa el esquema `{edad, region, monto_ingreso, raw_line}` recibido de S03",
-      "El único `for` sobre `rows` visita cada fila una vez; no uses recorridos anidados",
+      "El `for` externo recorre los dos lotes (`rows` y el lote vacío) y el `for` interno visita cada fila de cada lote una vez; no compares filas entre sí",
       "Cada campo conserva `estado`, `codigo` y `mensaje`; `registro_estado` es `reject` si algún campo se rechaza, `review` si ninguno se rechaza y alguno requiere revisión, o `accept` en los demás casos",
       "El resumen contiene n_total, n_accept, n_reject, n_review, tasa_reject y resultados",
-      "`tasa_reject = n_reject / len(rows)` cuando hay filas; para un lote vacío vale `None`",
-      "Los `assert` fijan los cuatro conteos, la suma de estados, la tasa, el raw original y el caso vacío",
+      "`tasa_reject = n_reject / len(lote)` cuando hay filas; para un lote vacío vale `None`",
+      "Los `assert` fijan los cuatro conteos, la suma de estados, el estado de cada registro, los códigos de dos campos, la tasa, el raw original y el caso vacío",
       "La salida exacta es `resumen 4 1 1 2 0.25` y, en la línea siguiente, `tests OK`",
       "Sin datos personales reales y sin herramientas que se enseñan después de S04",
     ],
@@ -1830,127 +1830,60 @@ rows = [
     {"edad": 25, "region": "R-CENTRO", "monto_ingreso": -1, "raw_line": "25|R-CENTRO|-1"},
     {"edad": 40, "region": "R-FUERA", "monto_ingreso": 100, "raw_line": "40|R-FUERA|100"},
 ]
+lotes = [rows, []]  # el segundo lote está vacío a propósito
 
-n_accept = 0
-n_reject = 0
-n_review = 0
-resultados = []
+resumenes = []
+for lote in lotes:
+    n_accept = 0
+    n_reject = 0
+    n_review = 0
+    resultados = []
 
-for row in rows:
-    edad = row["edad"]
-    region = row["region"]
-    monto_ingreso = row["monto_ingreso"]
+    for row in lote:
+        edad = row["edad"]
+        region = row["region"]
+        monto_ingreso = row["monto_ingreso"]
 
-    if edad is None:
-        edad_estado = "review"
-        edad_codigo = "MISSING"
-        edad_mensaje = "Edad ausente; revisa el caso."
-    elif not isinstance(edad, int) or isinstance(edad, bool):
-        edad_estado = "reject"
-        edad_codigo = "BAD_TYPE"
-        edad_mensaje = "Edad no numérica; corrige el dato."
-    elif edad < 0 or edad > 120:
-        edad_estado = "reject"
-        edad_codigo = "OUT_OF_RANGE"
-        edad_mensaje = "Edad fuera de rango; corrige el dato."
-    elif edad < 18:
-        edad_estado = "review"
-        edad_codigo = "NEEDS_REVIEW"
-        edad_mensaje = "Edad menor de 18; revisa el caso."
-    else:
-        edad_estado = "accept"
-        edad_codigo = "OK"
-        edad_mensaje = "Edad aceptada."
+        # TODO 1: decide edad con if/elif/else (S03). None -> review MISSING;
+        #   no int o bool -> reject BAD_TYPE; fuera de 0..120 -> reject OUT_OF_RANGE;
+        #   menor de 18 -> review NEEDS_REVIEW; si no, accept OK.
+        # TODO 2: decide region. None -> review MISSING; en el catálogo -> accept OK;
+        #   si no -> review NOT_IN_ALLOWLIST.
+        # TODO 3: decide monto. None -> review MISSING; no int ni Decimal, o bool -> reject BAD_TYPE;
+        #   negativo -> reject OUT_OF_RANGE; mayor que 50000 -> review NEEDS_REVIEW; si no, accept OK.
+        # TODO 4: registro_estado es reject si algún campo rechaza, review si ninguno rechaza
+        #   y alguno revisa, o accept en los demás casos.
+        # TODO 5: suma el contador del estado y añade a resultados un dict con raw, estado y campos.
+        raise NotImplementedError("Escribe los TODO 1 a 5 dentro de este for de filas")
 
-    if region is None:
-        region_estado = "review"
-        region_codigo = "MISSING"
-        region_mensaje = "Región ausente; revisa el caso."
-    elif region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA":
-        region_estado = "accept"
-        region_codigo = "OK"
-        region_mensaje = "Región aceptada."
-    else:
-        region_estado = "review"
-        region_codigo = "NOT_IN_ALLOWLIST"
-        region_mensaje = "Región fuera del catálogo; revisa el caso."
+    tasa_reject = n_reject / len(lote) if lote else None
+    pares_resumen = [
+        ("n_total", len(lote)),
+        ("n_accept", n_accept),
+        ("n_reject", n_reject),
+        ("n_review", n_review),
+        ("tasa_reject", tasa_reject),
+        ("resultados", resultados),
+    ]
+    resumenes.append({clave: valor for clave, valor in pares_resumen})
 
-    if monto_ingreso is None:
-        monto_estado = "review"
-        monto_codigo = "MISSING"
-        monto_mensaje = "Monto ausente; revisa el caso."
-    elif not (isinstance(monto_ingreso, int) or isinstance(monto_ingreso, Decimal)) or isinstance(monto_ingreso, bool):
-        monto_estado = "reject"
-        monto_codigo = "BAD_TYPE"
-        monto_mensaje = "Monto no numérico; corrige el dato."
-    elif monto_ingreso < 0:
-        monto_estado = "reject"
-        monto_codigo = "OUT_OF_RANGE"
-        monto_mensaje = "Monto negativo; usa cero o un valor mayor."
-    elif monto_ingreso > 50000:
-        monto_estado = "review"
-        monto_codigo = "NEEDS_REVIEW"
-        monto_mensaje = "Monto mayor que 50000; revisa el caso."
-    else:
-        monto_estado = "accept"
-        monto_codigo = "OK"
-        monto_mensaje = "Monto aceptado."
-
-    if edad_estado == "reject" or region_estado == "reject" or monto_estado == "reject":
-        registro_estado = "reject"
-    elif edad_estado == "review" or region_estado == "review" or monto_estado == "review":
-        registro_estado = "review"
-    else:
-        registro_estado = "accept"
-
-    if registro_estado == "accept":
-        n_accept += 1
-    elif registro_estado == "reject":
-        n_reject += 1
-    else:
-        n_review += 1
-
-    resultados.append({
-        "raw": row,
-        "estado": registro_estado,
-        "campos": {
-            "edad": {"estado": edad_estado, "codigo": edad_codigo, "mensaje": edad_mensaje},
-            "region": {"estado": region_estado, "codigo": region_codigo, "mensaje": region_mensaje},
-            "monto_ingreso": {"estado": monto_estado, "codigo": monto_codigo, "mensaje": monto_mensaje},
-        },
-    })
-
-tasa_reject = n_reject / len(rows) if rows else None
-pares_resumen = [
-    ("n_total", len(rows)),
-    ("n_accept", n_accept),
-    ("n_reject", n_reject),
-    ("n_review", n_review),
-    ("tasa_reject", tasa_reject),
-    ("resultados", resultados),
-]
-resumen = {clave: valor for clave, valor in pares_resumen}
+resumen = resumenes[0]
+resumen_vacio = resumenes[1]
 
 assert resumen["n_total"] == 4
 assert resumen["n_accept"] == 1
 assert resumen["n_reject"] == 1
 assert resumen["n_review"] == 2
-assert resumen["n_accept"] + resumen["n_reject"] + resumen["n_review"] == len(rows)
+assert resumen["n_accept"] + resumen["n_reject"] + resumen["n_review"] == resumen["n_total"]
+assert [r["estado"] for r in resumen["resultados"]] == ["accept", "review", "reject", "review"]
+assert resumen["resultados"][2]["campos"]["monto_ingreso"]["codigo"] == "OUT_OF_RANGE"
+assert resumen["resultados"][3]["campos"]["region"]["codigo"] == "NOT_IN_ALLOWLIST"
 assert resumen["tasa_reject"] == 0.25
 assert resumen["resultados"][0]["raw"]["raw_line"] == "30|R-NORTE|0"
 
-filas_vacias = []
-tasa_vacia = 0 / len(filas_vacias) if filas_vacias else None
-pares_vacios = [
-    ("n_total", len(filas_vacias)),
-    ("n_accept", 0),
-    ("n_reject", 0),
-    ("n_review", 0),
-    ("tasa_reject", tasa_vacia),
-    ("resultados", []),
-]
-resumen_vacio = {clave: valor for clave, valor in pares_vacios}
+assert resumen_vacio["n_total"] == 0
 assert resumen_vacio["tasa_reject"] is None
+assert resumen_vacio["resultados"] == []
 
 print(
     "resumen",
@@ -1962,6 +1895,159 @@ print(
 )
 print("tests OK")
 `,
+    solutionCode: {
+      language: 'python',
+      title: "intake_quality_batch.py",
+      code: `"""intake_quality_batch.py — cierre CP-N1-A (S04).
+Un solo recorrido, decisiones por campo y resumen comprobable.
+Datos sintéticos únicamente.
+"""
+
+from decimal import Decimal
+
+# Esquema recibido de S03:
+# {"edad": ..., "region": ..., "monto_ingreso": ..., "raw_line": ...}
+rows = [
+    {"edad": 30, "region": "R-NORTE", "monto_ingreso": Decimal("0.00"), "raw_line": "30|R-NORTE|0"},
+    {"edad": None, "region": "R-SUR", "monto_ingreso": 10, "raw_line": "|R-SUR|10"},
+    {"edad": 25, "region": "R-CENTRO", "monto_ingreso": -1, "raw_line": "25|R-CENTRO|-1"},
+    {"edad": 40, "region": "R-FUERA", "monto_ingreso": 100, "raw_line": "40|R-FUERA|100"},
+]
+lotes = [rows, []]  # el segundo lote está vacío a propósito
+
+resumenes = []
+for lote in lotes:
+    n_accept = 0
+    n_reject = 0
+    n_review = 0
+    resultados = []
+
+    for row in lote:
+        edad = row["edad"]
+        region = row["region"]
+        monto_ingreso = row["monto_ingreso"]
+
+        if edad is None:
+            edad_estado = "review"
+            edad_codigo = "MISSING"
+            edad_mensaje = "Edad ausente; revisa el caso."
+        elif not isinstance(edad, int) or isinstance(edad, bool):
+            edad_estado = "reject"
+            edad_codigo = "BAD_TYPE"
+            edad_mensaje = "Edad no numérica; corrige el dato."
+        elif edad < 0 or edad > 120:
+            edad_estado = "reject"
+            edad_codigo = "OUT_OF_RANGE"
+            edad_mensaje = "Edad fuera de rango; corrige el dato."
+        elif edad < 18:
+            edad_estado = "review"
+            edad_codigo = "NEEDS_REVIEW"
+            edad_mensaje = "Edad menor de 18; revisa el caso."
+        else:
+            edad_estado = "accept"
+            edad_codigo = "OK"
+            edad_mensaje = "Edad aceptada."
+
+        if region is None:
+            region_estado = "review"
+            region_codigo = "MISSING"
+            region_mensaje = "Región ausente; revisa el caso."
+        elif region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA":
+            region_estado = "accept"
+            region_codigo = "OK"
+            region_mensaje = "Región aceptada."
+        else:
+            region_estado = "review"
+            region_codigo = "NOT_IN_ALLOWLIST"
+            region_mensaje = "Región fuera del catálogo; revisa el caso."
+
+        if monto_ingreso is None:
+            monto_estado = "review"
+            monto_codigo = "MISSING"
+            monto_mensaje = "Monto ausente; revisa el caso."
+        elif not (isinstance(monto_ingreso, int) or isinstance(monto_ingreso, Decimal)) or isinstance(monto_ingreso, bool):
+            monto_estado = "reject"
+            monto_codigo = "BAD_TYPE"
+            monto_mensaje = "Monto no numérico; corrige el dato."
+        elif monto_ingreso < 0:
+            monto_estado = "reject"
+            monto_codigo = "OUT_OF_RANGE"
+            monto_mensaje = "Monto negativo; usa cero o un valor mayor."
+        elif monto_ingreso > 50000:
+            monto_estado = "review"
+            monto_codigo = "NEEDS_REVIEW"
+            monto_mensaje = "Monto mayor que 50000; revisa el caso."
+        else:
+            monto_estado = "accept"
+            monto_codigo = "OK"
+            monto_mensaje = "Monto aceptado."
+
+        if edad_estado == "reject" or region_estado == "reject" or monto_estado == "reject":
+            registro_estado = "reject"
+        elif edad_estado == "review" or region_estado == "review" or monto_estado == "review":
+            registro_estado = "review"
+        else:
+            registro_estado = "accept"
+
+        if registro_estado == "accept":
+            n_accept += 1
+        elif registro_estado == "reject":
+            n_reject += 1
+        else:
+            n_review += 1
+
+        resultados.append({
+            "raw": row,
+            "estado": registro_estado,
+            "campos": {
+                "edad": {"estado": edad_estado, "codigo": edad_codigo, "mensaje": edad_mensaje},
+                "region": {"estado": region_estado, "codigo": region_codigo, "mensaje": region_mensaje},
+                "monto_ingreso": {"estado": monto_estado, "codigo": monto_codigo, "mensaje": monto_mensaje},
+            },
+        })
+
+    tasa_reject = n_reject / len(lote) if lote else None
+    pares_resumen = [
+        ("n_total", len(lote)),
+        ("n_accept", n_accept),
+        ("n_reject", n_reject),
+        ("n_review", n_review),
+        ("tasa_reject", tasa_reject),
+        ("resultados", resultados),
+    ]
+    resumenes.append({clave: valor for clave, valor in pares_resumen})
+
+resumen = resumenes[0]
+resumen_vacio = resumenes[1]
+
+assert resumen["n_total"] == 4
+assert resumen["n_accept"] == 1
+assert resumen["n_reject"] == 1
+assert resumen["n_review"] == 2
+assert resumen["n_accept"] + resumen["n_reject"] + resumen["n_review"] == resumen["n_total"]
+assert [r["estado"] for r in resumen["resultados"]] == ["accept", "review", "reject", "review"]
+assert resumen["resultados"][2]["campos"]["monto_ingreso"]["codigo"] == "OUT_OF_RANGE"
+assert resumen["resultados"][3]["campos"]["region"]["codigo"] == "NOT_IN_ALLOWLIST"
+assert resumen["tasa_reject"] == 0.25
+assert resumen["resultados"][0]["raw"]["raw_line"] == "30|R-NORTE|0"
+
+assert resumen_vacio["n_total"] == 0
+assert resumen_vacio["tasa_reject"] is None
+assert resumen_vacio["resultados"] == []
+
+print(
+    "resumen",
+    resumen["n_total"],
+    resumen["n_accept"],
+    resumen["n_reject"],
+    resumen["n_review"],
+    resumen["tasa_reject"],
+)
+print("tests OK")
+`,
+      output: `resumen 4 1 1 2 0.25
+tests OK`,
+    },
     portfolioNote:
       "En el README escribe primero el esquema `{edad, region, monto_ingreso, raw_line}`. Luego cuenta la historia de un lote pequeño: tabla de entradas, decisiones, suma de contadores y cálculo `n_reject / len(rows)`. Incluye el caso vacío y una captura reproducible de stdout. Explica qué auditoría permite el raw intacto y qué decisión de diseño mantiene el procesamiento en O(n); esas razones valen más que una captura aislada.",
     rubric: [

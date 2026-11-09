@@ -1697,7 +1697,7 @@ for v in vals:
         kind: "guided",
         title: "Ordenar txs por monto ascendente",
         preamble:
-          "- **Contexto:** listar txs sintéticas de menor a mayor monto para un extracto.\n- **Meta:** `sorted` con `key` en `monto`.\n- **Éxito:** ids `['T1', 'T2']`.\n- **Límites:** no mutes con `.sort`; no ordenes por `id`.",
+          "- **Contexto:** listar txs sintéticas de menor a mayor monto para un extracto.\n- **Meta:** `sorted` con `key` en `monto`.\n- **Éxito:** ids `['T2', 'T1']`.\n- **Límites:** no mutes con `.sort`; no ordenes por `id`.",
         id: "S06-T4-A-E1",
         instruction:
           "1. El starter usa `key` sobre `id`.\n2. Cambia el key a `monto`.\n3. Imprime la lista de ids ordenados.\n4. Deja `rows` original sin mutar.",
@@ -1707,7 +1707,7 @@ for v in vals:
           "sorted no muta la lista original.",
         ],
         edgeCases: ["monto numérico"],
-        tests: "T1 luego T2",
+        tests: "T2 luego T1",
         feedback:
           "El `key` extrae el criterio sin reescribir comparadores. Ordenar por `id` no responde al ranking por monto del extracto; `sorted` deja `rows` intacta.",
         retrospective:
@@ -1716,17 +1716,17 @@ for v in vals:
           language: 'python',
           title: "sort_monto.py",
           code: `# Ordena filas por monto con sorted+key.
-rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
+rows = [{'id': 'T1', 'monto': 30}, {'id': 'T2', 'monto': 10}]
 ordered = sorted(rows, key=lambda r: r['id'])
 print([r['id'] for r in ordered])`,
         },
         solutionCode: {
           language: 'python',
           title: "sort_monto.py",
-          code: `rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
+          code: `rows = [{'id': 'T1', 'monto': 30}, {'id': 'T2', 'monto': 10}]
 ordered = sorted(rows, key=lambda r: r['monto'])
 print([r['id'] for r in ordered])`,
-          output: `['T1', 'T2']`,
+          output: `['T2', 'T1']`,
         },
       },
       {
