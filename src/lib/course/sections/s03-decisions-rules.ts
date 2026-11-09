@@ -156,7 +156,6 @@ region in REGIONES_PERMITIDAS → True
     },
     {
       heading: 'Contraejemplo: `== None` puede responder que sí a un objeto que no es `None`',
-      subtopicId: 'S03-T1-A',
       paragraphs: [
         'Con `None`, `0` y `""`, `== None` e `is None` dan el mismo resultado, así que esos valores no muestran la diferencia. La diferencia aparece cuando el objeto de la izquierda decide por sí mismo qué significa `==`. `ANY`, de la biblioteca estándar `unittest.mock`, es un marcador que se declara igual a cualquier valor. Aquí lo usamos como si fuera un monto presente.',
         'Lee la salida por parejas. El bloque de error clasifica `ANY` como `review: ausente`, porque `==` le pregunta al objeto y el objeto responde que sí. El bloque de corrección lo clasifica como `accept: presente`, porque `is` pregunta si el valor es el propio `None`, el único objeto que representa la ausencia en Python. Por eso el curso escribe `is None`. Ruff, la herramienta de revisión que usa el curso, marca `== None` con E711 antes de que ejecutes nada.',
@@ -559,7 +558,6 @@ None 40 → review`,
     },
     {
       heading: 'Contraejemplo: el catálogo como texto deja pasar fragmentos',
-      subtopicId: 'S03-T3-A',
       paragraphs: [
         'Guardar las regiones permitidas en un solo texto, `"R-NORTE|R-SUR|R-CENTRO"`, parece equivalente al `set`, pero cambia la pregunta que hace `in`. Con un texto, `in` pregunta si unos caracteres aparecen **en algún lugar** del texto. Con un `set`, pregunta si el valor es **igual a uno de sus elementos**. El código compara los dos catálogos con las mismas cuatro entradas.',
         'Lee la salida por parejas. Las cuatro primeras líneas muestran el error: una región cortada (`"R-N"`), una región vacía (`""`) y un trozo que cruza el separador (`"NORTE|R-SUR"`) dan `True` con el texto. Las cuatro siguientes muestran la corrección: con el `set`, solo la región completa da `True`. Las dos últimas muestran la consecuencia en el negocio: con el texto, un registro sin región termina en `accept`; con el `set`, va a `review`, como pide la política de esta sección.',
