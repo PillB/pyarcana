@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { CLOUD_CONFIG, normalizeOrigin, type CloudConfig, type LaunchStage } from '@/lib/cloud/config'
 import { supportContact } from '@/lib/cloud/billing-ui'
-import { adNetwork, controllerOf, legalBlocks, processors, type LegalBlock, type LegalKind } from '@/lib/cloud/legal-content'
+import { adNetwork, controllerOf, holderIsCompany, legalBlocks, processors, type LegalBlock, type LegalKind } from '@/lib/cloud/legal-content'
 import { useCloudStage } from '@/lib/cloud/hooks'
 import { CLOUD_SESSION_KEY } from '@/lib/cloud/session'
 import { CONSENT_KEY, MEASUREMENT_ID_KEY } from '@/lib/cloud/consent'
@@ -83,7 +83,9 @@ export function storageDisclosure(cfg: CloudConfig): StorageGroup[] {
 function Controller({ cfg, tr }: { cfg: CloudConfig; tr: Tr }) {
   const c = controllerOf(cfg)
   if (!c) return <p>{tr('legalc.controller.pending', { email: cfg.legal.supportEmail || '—' })}</p>
-  return <p>{tr('legalc.controller.body', { name: c.name, ruc: c.ruc ?? '—', address: c.address ?? '—', email: c.email ?? '—' })}</p>
+  const vars = { name: c.name, ruc: c.ruc ?? '', address: c.address ?? '—', email: c.email ?? '—' }
+  const body = tr(c.ruc ? 'legalc.controller.body' : 'legalc.controller.bodyNoRuc', vars)
+  return <p>{holderIsCompany(c) ? body : `${body} ${tr('legalc.controller.interim')}`}</p>
 }
 
 function Processors({ cfg, tr }: { cfg: CloudConfig; tr: Tr }) {

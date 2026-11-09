@@ -13,7 +13,8 @@
 #   3. refuses to go on while any TODO_ placeholder survives in wrangler.toml;
 #   4. reads the Worker's secret names (`wrangler secret list`); a missing Worker means none yet,
 #      any other failure stops the script, so a secret that may exist is never replaced blindly;
-#   5. asks for ADMIN_EMAILS (comma-separated; Enter keeps the stored value or skips);
+#   5. asks for ADMIN_EMAILS: offers the list saved on this computer (~/.config/pyarcana/admin-emails,
+#      never in git) with Y/n; a typed list is shown back and confirmed, then saved there;
 #   6. licence key (DESIGN-v3-delta D-ORCH-03): when absent, or with --rotate-key, generates an
 #      ES256 pair and pipes the private half straight into
 #      `wrangler secret put LICENSE_PRIVATE_KEY_PKCS8_B64` (never a file, never the terminal), then
@@ -48,7 +49,7 @@ while [ $# -gt 0 ]; do
       shift 2
       ;;
     -h | --help)
-      sed -n '2,31p' "$0"
+      sed -n '2,32p' "$0"
       exit 0
       ;;
     *) die "Unknown argument: $1 (see --help)" ;;
@@ -161,17 +162,60 @@ has_secret() { printf '%s\n' "$names" | grep -qx "$1"; }
 printf '%s\n' "$names" | sed '/^$/d; s/^/  /'
 
 # --- ADMIN_EMAILS, asked before anything is stored -----------------------------------------------
+# The list is kept in a private file on this computer (never in the repository: the addresses are
+# personal, and ADMIN_EMAILS is a secret) and offered as the default on every run, so it is typed
+# once and confirmed with Y afterwards instead of retyped. Owner request, 7 Oct 2026: a typo in
+# this list silently locks the owner out of /admin.
+ADMIN_FILE="${PYARCANA_ADMIN_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/pyarcana/admin-emails}"
+yes_default() { local a; IFS= read -r a || a=""; case "$a" in '' | y | Y | yes | s | si | sí) return 0 ;; *) return 1 ;; esac; }
+show_admins() { printf '%s\n' "$1" | tr ',' '\n' | sed 's/^/  /'; }
+save_admins() {
+  mkdir -p "$(dirname "$ADMIN_FILE")" && chmod 700 "$(dirname "$ADMIN_FILE")"
+  (umask 077 && printf '%s\n' "$1" >"$ADMIN_FILE") && chmod 600 "$ADMIN_FILE"
+  echo "Saved for next time in $ADMIN_FILE (only on this computer)."
+}
+# Ask for a list, show it back normalised and confirm it; 'n' asks again (3 tries). Prints the list,
+# or nothing for Enter. A malformed list stops the script, as before: nothing is stored.
+type_admins() {
+  local line value
+  for _ in 1 2 3; do
+    printf '%s' "$1" >&2
+    IFS= read -r line || line=""
+    [ -n "$(printf '%s' "$line" | tr -d '[:space:]')" ] || return 0
+    value=$(printf '%s' "$line" | ops admin-emails) || die "Nothing was stored."
+    echo "These addresses:" >&2
+    show_admins "$value" >&2
+    printf 'Store them? [Y/n] ' >&2
+    if yes_default; then printf '%s' "$value"; return 0; fi
+  done
+  die "No admin list was confirmed. Nothing was stored."
+}
 say "Admin addresses (ADMIN_EMAILS, stored as a secret)"
 echo "Use an address Google is authoritative for (a Gmail address): admin also needs a Google session."
-if has_secret ADMIN_EMAILS; then
-  printf 'New comma-separated list, or Enter to keep the stored one: '
-else
-  printf 'Comma-separated list, or Enter to skip (no admin until it is set): '
+SAVED_ADMINS=""
+if [ -f "$ADMIN_FILE" ]; then
+  SAVED_ADMINS=$(ops admin-emails <"$ADMIN_FILE" 2>/dev/null) || {
+    SAVED_ADMINS=""
+    echo "The saved list in $ADMIN_FILE is not valid, so it is not offered."
+  }
 fi
-IFS= read -r admin_line || admin_line=""
 ADMIN_VALUE=""
-if [ -n "$(printf '%s' "$admin_line" | tr -d '[:space:]')" ]; then
-  ADMIN_VALUE=$(printf '%s' "$admin_line" | ops admin-emails) || die "Nothing was stored."
+if [ -n "$SAVED_ADMINS" ]; then
+  echo "Saved on this computer:"
+  show_admins "$SAVED_ADMINS"
+  printf 'Use these admin addresses? [Y/n] '
+  if yes_default; then
+    ADMIN_VALUE="$SAVED_ADMINS"
+  else
+    ADMIN_VALUE=$(type_admins 'New comma-separated list, or Enter to keep the stored one: ')
+  fi
+elif has_secret ADMIN_EMAILS; then
+  ADMIN_VALUE=$(type_admins 'New comma-separated list, or Enter to keep the stored one: ')
+else
+  ADMIN_VALUE=$(type_admins 'Comma-separated list, or Enter to skip (no admin until it is set): ')
+fi
+if [ -n "$ADMIN_VALUE" ] && [ "$ADMIN_VALUE" != "$SAVED_ADMINS" ]; then
+  save_admins "$ADMIN_VALUE"
 fi
 
 # --- licence signing key -------------------------------------------------------------------------

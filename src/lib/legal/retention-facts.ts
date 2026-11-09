@@ -31,8 +31,20 @@ export const RETENTION_DAYS = {
 export const SESSION_IDLE_DAYS = 30
 export const SESSION_MAX_DAYS = 180
 
-/** ARCO reply deadlines, in business days (DS 016-2024-JUS, as stated by the owner's setup thread). */
-export const ARCO_DAYS = { access: 20, other: 10 } as const
+/**
+ * Reply deadlines, in business days (DS 016-2024-JUS art. 2.8), for every user: art. VI.1 applies
+ * the regulation to processing in an establishment in Peru, whatever the user's country.
+ * - information: art. 69.1, 8 days; art. 71.1 says this one cannot be extended;
+ * - access: 20 days; the other rights (rectification, cancellation, objection): 10 days.
+ */
+export const ARCO_DAYS = { information: 8, access: 20, other: 10 } as const
 
 /** Hours to notify the ANPD of a personal-data breach (DS 016-2024-JUS). */
 export const BREACH_AUTHORITY_HOURS = 48
+
+/**
+ * Hours to tell the people a breach affects (DS 016-2024-JUS art. 34.3: "dentro de las 48 horas
+ * ... sin dilación indebida", in plain language, with the measures taken; reasons if later).
+ * Art. 34.4 drops it when their other rights were not affected and the incident was fully contained.
+ */
+export const BREACH_PEOPLE_HOURS = 48

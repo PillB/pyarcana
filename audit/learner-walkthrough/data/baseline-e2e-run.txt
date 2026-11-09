@@ -1,0 +1,137 @@
+PASS  anonymous sees the end-of-section ad  (slots=1 adapter=house creative=trial)
+PASS  free sees the end-of-section ad  (slots=1 adapter=house creative=trial)
+PASS  gift sees the end-of-section ad  (slots=1 adapter=house creative=noads)
+PASS  tester sees the end-of-section ad  (slots=1 adapter=house creative=noads)
+PASS  admin sees the end-of-section ad  (slots=1 adapter=house creative=trial)
+PASS  paid does not see the end-of-section ad  (slots=0 adapter=null creative=null)
+PASS  trial does not see the end-of-section ad  (slots=0 adapter=null creative=null)
+PASS  admin list shows who sees ads  ({"free@e2e.test":"yes","gift@e2e.test":"yes","tester@e2e.test":"yes","paid@e2e.test":"no","trial@e2e.test":"no","admin@example.test":"yes"})
+PASS  batch switch-off of gift + tester is reflected in the list  ({"free@e2e.test":"yes","gift@e2e.test":"no","tester@e2e.test":"no","paid@e2e.test":"no","trial@e2e.test":"no","admin@example.test":"yes"})
+PASS  filter "disabled" lists exactly the switched accounts  (["gift@e2e.test","tester@e2e.test"])
+PASS  gift no longer sees the ad after the admin switch  (slots=0)
+PASS  tester no longer sees the ad after the admin switch  (slots=0)
+PASS  gift sees ads again after "Volver a mostrar anuncios"  (slots=1)
+PASS  tester stays without ads  (slots=0)
+PASS  a free learner gets 403 from the admin ads list  (status=403)
+PASS  QA ad preview shows the test placeholder to a paid account  (adapter=test)
+16/16 passed
+PASS  sign-in code is sent (dev-log)  (code read from the worker log)
+PASS  signed in through the UI: /v1/me knows the new account  (status=200)
+PASS  sign-out ends the session (me answers 401)  (status=401)
+PASS  after sign-out /cuenta offers sign-in again
+PASS  progress reaches the server after "Sincronizar ahora"  (status=200 rev=2)
+PASS  a second browser receives the synced progress (section 1 theory read)  ({"state":{"completedSections":[],"completedSubSteps":{"setup":["theory"]},"quizScores":{},"lastVisited":"setup","bookmar)
+PASS  a free account meets the Pro gate on section 6
+PASS  a gift Pro account opens section 6
+PASS  starting the trial gives Pro (source trial) and turns ads off  ({"src":"trial","ads":{"show":false,"reason":"trial"}})
+PASS  a second trial is refused  (status=409 reason=trial_used)
+PASS  admin tab "Reportes" renders without an error
+PASS  admin tab "Pro regalado" renders without an error
+PASS  admin tab "Testers" renders without an error
+PASS  admin tab "Cuentas" renders without an error
+PASS  admin tab "Anuncios" renders without an error
+PASS  admin tab "Experimentos" renders without an error
+PASS  admin tab "Satisfacción" renders without an error
+PASS  admin gifts 14 days to an address with no account yet  (Regalo creado. | )
+PASS  admin gives an indefinite gift and it is listed  (grants=3)
+PASS  the indefinite gift given during a running trial waits for the trial to end  (free@e2e.test · Regalo · upcoming Desde 12 oct. 2026, sin fecha de fin Retirar)
+PASS  admin revokes the indefinite gift  (state=revoked)
+PASS  admin gives the tester role and it is listed  (roles=2)
+PASS  admin looks up an account and sees its subscription  (Idacct_e2epaidxxxxxxxxxxxxxCorreopaid@e2e.test (verificado)Creada5 oct. 2026Primer ingreso5 oct. 2026AccesoPro (paid) ha)
+PASS  a learner on /admin sees no admin tabs  (AdministraciónEsta página es solo para quienes administran PyArcana.Volver al curso)
+PASS  "Enviar al equipo" sends the saved issue and marks it sent
+PASS  the MODO PRUEBA badge shows in QA test mode
+PASS  a tester sees the sent report on /qa  (Reportes de control de calidad (QA)Estos reportes sirven para corregir el curso, pero esta página no es el Libro de Reclamaciones: un reclamo o una queja como c)
+PASS  /qa says it is not the Libro de Reclamaciones
+PASS  a learner on /qa does not see other people's reports  (Reportes de control de calidad (QA)Estos reportes sirven para corregir el curso, pero esta página no es el Libro de Reclamaciones: un reclamo o una queja como c)
+PASS  the admin Reportes tab lists the sent report
+PASS  anonymous / renders cleanly
+PASS  anonymous /precios renders cleanly
+PASS  anonymous /suscripcion renders cleanly
+PASS  anonymous /cuenta renders cleanly
+PASS  anonymous /qa renders cleanly
+PASS  anonymous /privacy renders cleanly
+PASS  anonymous /cookies renders cleanly
+PASS  anonymous /terms renders cleanly
+PASS  anonymous /data-rights renders cleanly
+PASS  anonymous /disclaimer renders cleanly
+PASS  anonymous /acceptable-use renders cleanly
+PASS  anonymous /credential-policy renders cleanly
+PASS  anonymous /security renders cleanly
+PASS  anonymous /external-resources renders cleanly
+PASS  anonymous /verify renders cleanly
+PASS  gift / renders cleanly
+PASS  gift /precios renders cleanly
+PASS  gift /suscripcion renders cleanly
+PASS  gift /cuenta renders cleanly
+PASS  gift /qa renders cleanly
+PASS  gift /privacy renders cleanly
+PASS  gift /cookies renders cleanly
+PASS  gift /terms renders cleanly
+PASS  gift /data-rights renders cleanly
+PASS  gift /disclaimer renders cleanly
+PASS  gift /acceptable-use renders cleanly
+PASS  gift /credential-policy renders cleanly
+PASS  gift /security renders cleanly
+PASS  gift /external-resources renders cleanly
+PASS  gift /verify renders cleanly
+PASS  button sweep free /cuenta: 2 buttons clicked, no page error
+PASS  button sweep anonymous /precios: 0 buttons clicked, no page error
+PASS  button sweep gift /suscripcion: 0 buttons clicked, no page error
+PASS  button sweep anonymous /cuenta: 1 buttons clicked, no page error
+64/64 passed
+PASS  metered: first upload (PUT, new row)  (status=200 read=4 written=4)
+PASS  metered: upload (PUT, update)  (status=200 read=6 written=2)
+PASS  metered: download (GET progress)  (status=200 read=4 written=0)
+PASS  metered: account (GET /v1/me)  (status=200 read=15 written=0)
+PASS  metered: one event (POST /v1/events)  (status=200 read=3 written=8)
+PASS  a reload with no new progress uploads nothing  (PUTs=0)
+PASS  admin banner shows red
+PASS  Uso tab: level red, routes listed
+PASS  learner: the change is kept and the line says cloud saving is paused, not offline  (La copia en la nube está en pausa para no pasar el límite gratuito del día. Tus cambios quedan en este navegador y se envían solos cuando el límite se renueve (00:00 UTC).)
+PASS  learner: the progress is in this browser  ({"state":{"completedSections":[],"completedSubSteps":{"setup":["theory"]},"quizScores":{},"lastVisit)
+PASS  budget back to green: "Sincronizar ahora" sends the kept change  (Guardado en tu cuenta · 5 de octubre de 2026)
+PASS  nudge shows with 3 completed steps  (Ya completaste 3 pasos. Si borras los datos del navegador o cambias de equipo, se pierden; con una cuenta quedan también en la nube y sigues desde cualquier dispositivo.)
+PASS  the browser was asked once to keep the data, and the answer is remembered  (denied)
+PASS  "Ahora no" hides it on the next visit
+PASS  the sign-in button stays
+PASS  /.well-known/security.txt: 200, text/plain, Contact and Expires  (status=200 type=text/plain; charset=utf-8)
+PASS  /privacy without JavaScript: the real stack, RNPD and 48 h, nothing from Firebase
+PASS  /privacy renders in Chromium with the cloud section
+PASS  P5: CORP same-origin and X-Permitted-Cross-Domain-Policies none; no COEP  ({"corp":"same-origin","xpcdp":"none"})
+PASS  P4: the served CSP has no Firebase host, no bare jsDelivr and no unsafe-eval  (default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net/pyodide/v0.26.2/full/ https://accounts.google.com/gsi/client; )
+SKIP  P4c: Pyodide from the real jsDelivr under the CSP  (jsDelivr unreachable here: pyodide.js net::ERR_TUNNEL_CONNECTION_FAILED; runs in live.e2e.mjs)
+PASS  P4: eval, a jsDelivr file outside Pyodide and a Firebase host are each refused by the CSP  (script-src-elem https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js | script-src-elem https://cdn.jsdelivr.net/npm/left-pad@1.3.0/index.js | script-src eval | script-src eval | connect-src https://firestore.googleapis.com/ | connect-src https://firestore.googleapis.com/)
+PASS  P6: /api/v1/health is {ok, db} only  ({"ok":true,"db":true})
+PASS  P6: the admin Uso tab lists the configuration (terms on, controller named in the harness)
+usage: 23/23 passed
+PASS  Linux (this browser) Ctrl + Alt + Q opens the QA window  (opened=true)
+PASS  Ctrl + Q alone does not open it  (opened=false)
+PASS  the session counts active time and the section on screen  (active=30 s sections=1)
+PASS  the session lives in this tab (sessionStorage)  ({"sessionId":"qs_stvXgpASk1t8HiP1bYqfnK","startedAt":1791167015117,"lastActiveAt":1791167045172,"lastTickAt":1791167045172,"activeMs":30055,"sections":{"setup":)
+PASS  a signed-in tester sends the session summary, and the button says what happened  (Ya enviado: no hay cambios desde el último envío.)
+PASS  Ctrl + Alt + S with nothing new: "Ya está guardado", no upload  (PUTs=0)
+PASS  a real change: Ctrl + Alt + S sends one upload and says it is saved  (PUTs=1)
+PASS  check, force, uncheck, force: refused with the cooldown, no forced upload  (Has marcado y desmarcado lo mismo varias veces. Espera 30 s PUTs=0)
+PASS  autosave still saves the change the force refused  (PUTs=1)
+PASS  admin QA tab: reports and sessions counted  (reports=1 sessions=1 coverage=0 de 52)
+PASS  admin QA tab: time per section and per tester
+PASS  Descargar CSV: a dated file with BOM, header and the report  (pyarcana-qa-2026-10-05.csv)
+PASS  Descargar JSON: the pyarcana.qa.v1 package with the sessions  (issues=1 sessions=1)
+PASS  the JSON download opens in the QA workspace (Importar)  (Importadas 1 incidencias desde 2e626119-1f20-47e6-983a-77f2cfbc34c0.)
+PASS  importing does not rename the importer  (alias=null)
+15/15 passed
+PASS  plain /cuenta: Google's sign-in script is requested (once)  (requests=1)
+PASS  plain /cuenta: the real Google button renders (script, style and button frame load)  (style=1 frame=1 iframe=1)
+PASS  plain /cuenta: no Content-Security-Policy violation
+PASS  callback load: the fragment is stripped from the address  (hash=)
+PASS  callback load: Google's script is never requested in that page view, even after the strip  (requests=0)
+PASS  callback load: the sign-in panel is open and the Google button says why it is not there
+PASS  callback load: no Google script element on the page  (scripts=0)
+cuenta: 7/7 passed, 0 skipped
+PASS  1440×698: every highlighted control is visible, uncovered and spotlighted (7 steps)  (7 checked)
+PASS  1280×900: every highlighted control is visible, uncovered and spotlighted (7 steps)  (7 checked)
+PASS  1024×640: every highlighted control is visible, uncovered and spotlighted (7 steps)  (7 checked)
+PASS  390×844: every highlighted control is visible, uncovered and spotlighted (7 steps)  (7 checked)
+tour: 4/4 passed
+RUNSH_EXIT 0

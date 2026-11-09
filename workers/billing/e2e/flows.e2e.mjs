@@ -3,7 +3,7 @@
 // http://localhost:8787). Seeded people come from seed.mjs. Each flow records PASS/FAIL and the
 // run continues, so one failure does not hide the rest. Screenshots go to ./shots/flows-*.png.
 import { chromium } from 'playwright'
-import { sandboxTrustArgs } from './sandbox-trust.mjs'
+import { launchOptions } from './sandbox-trust.mjs'
 import { readFileSync, mkdirSync } from 'node:fs'
 
 const BASE = 'http://localhost:8787'
@@ -11,7 +11,7 @@ const OUT = new URL('./shots/', import.meta.url).pathname
 const LOG = new URL('./wrangler.log', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 const tokens = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)))
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', headless: true, args: sandboxTrustArgs() })
+const browser = await chromium.launch(launchOptions())
 const results = []
 const errors = []
 const IGNORED = /cdn\.jsdelivr\.net|ERR_TUNNEL_CONNECTION_FAILED|ERR_ABORTED|status of 401|favicon/i
@@ -85,10 +85,17 @@ await flow('email sign-in and sign-out', async () => {
   const me = await api(page, 'GET', '/v1/me')
   record('signed in through the UI: /v1/me knows the new account', me.status === 200 && me.body.account.email === email, `status=${me.status}`)
   await shot(page, 'cuenta-signed-in')
-  await page.getByTestId('account-signout').first().click()
-  await page.waitForTimeout(1500)
+  // Wait for the logout itself rather than a fixed delay, and say what happened when it fails.
+  const logout = page.waitForResponse((r) => r.url().includes('/v1/auth/logout'), { timeout: 10000 }).catch(() => null)
+  // Scroll first: after the full-page screenshot above, Chromium's click on a button below the fold
+  // reached nothing at all (no pointer event; 0 of 4 runs vs 4 of 4 when scrolled, 7 Oct 2026;
+  // microsoft/playwright#30770). That, not the site, was the "one run in three" sign-out failure.
+  const signout = page.getByTestId('account-signout').first()
+  await signout.scrollIntoViewIfNeeded()
+  await signout.click()
+  const lr = await logout
   const after = await api(page, 'GET', '/v1/me')
-  record('sign-out ends the session (me answers 401)', after.status === 401, `status=${after.status}`)
+  record('sign-out ends the session (me answers 401)', after.status === 401, `status=${after.status}; logout ${lr ? `answered ${lr.status()}` : 'never requested'}`)
   await page.waitForTimeout(800)
   const panelBack = await page.getByTestId('cuenta-signin').isVisible().catch(() => false) || await page.getByTestId('signin-panel').isVisible().catch(() => false)
   record('after sign-out /cuenta offers sign-in again', panelBack)

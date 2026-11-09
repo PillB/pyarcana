@@ -90,6 +90,8 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   the owner's decision. Find the root cause first: a stand-in is never the fix for an
   environment problem that can be solved for real (owner rule, 5 Oct 2026).
 - Record a decision that binds later rounds in `audit/fixer/decisions.md`.
+- When delegating to Claude subagents, follow [`docs/agents/model-ladder.md`](docs/agents/model-ladder.md):
+  Haiku first; only verified failure hands up; limits, aborts and empty results stop; verify one level up.
 
 ## Ask first
 
@@ -107,6 +109,9 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   `src/lib/eligibility/claim_digests.json`,
   `audit/fixer/numbering_epoch.json`, `curriculum55_window.json`, `renumber_epoch.json`,
   `renumber_edit_ledger.json` or `authoring_pending.json`.
+- Changing `audit/fixer/OWNER_DECISIONS.md`, the owner's decision record, which the exercise-meaning
+  guard reads at the base. Recording an answer the owner has just given in chat, in the owner's own
+  words, does not need asking first, because agents record those answers as a normal step (O27 101-Q2).
 
 ## Never
 

@@ -15,20 +15,26 @@ import { PYODIDE_CDN } from '@/lib/pyodide'
  * - jsDelivr only for the Pyodide folder (PYODIDE_CDN), not the whole CDN;
  * - 'wasm-unsafe-eval' instead of 'unsafe-eval': Pyodide compiles WebAssembly and nothing here
  *   evaluates JavaScript strings (checked in Chromium, e2e/usage.e2e.mjs);
- * - 'unsafe-inline' stays: the export's inline scripts change hash on every build (see layout.tsx).
+ * - 'unsafe-inline' stays in THIS policy (the <meta> copy, and the GitHub Pages edition's only
+ *   one): a meta policy is written into the page before its inline scripts are final, so it cannot
+ *   carry their hashes. The Cloudflare build sends, per page, a header policy where script-src lists
+ *   that page's inline-script sha256 hashes instead (headers.ts hashedCsp; round of 19 Oct 2026,
+ *   S1). Both policies are enforced and a script must pass both, so on pyarcana.dev the hashes rule.
+ * - base-uri 'none' (ASVS 5.0 3.4.3): no page uses <base>, so none may inject one (19 Oct 2026, S2).
+ * - no fonts.googleapis.com: the fonts are self-hosted (next/font/local, layout.tsx; S3).
  */
 const WASM_EVAL = "'wasm-unsafe-eval'"
 
 const BASE: ReadonlyArray<[string, string[]]> = [
   ['default-src', ["'self'"]],
   ['script-src', ["'self'", "'unsafe-inline'", WASM_EVAL, PYODIDE_CDN]],
-  ['style-src', ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com']],
+  ['style-src', ["'self'", "'unsafe-inline'"]],
   ['img-src', ["'self'", 'data:', 'https:']],
   ['font-src', ["'self'", 'data:']],
   ['connect-src', ["'self'", PYODIDE_CDN]],
   ['frame-src', []],
   ['object-src', ["'none'"]],
-  ['base-uri', ["'self'"]],
+  ['base-uri', ["'none'"]],
   ['form-action', ["'self'"]],
   ['frame-ancestors', ["'none'"]],
   ['upgrade-insecure-requests', []],
@@ -85,12 +91,12 @@ export function buildCsp(cfg: CloudConfig): string {
 export const LEGACY_CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PYODIDE_CDN}`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
   `connect-src 'self' ${PYODIDE_CDN}`,
   "object-src 'none'",
-  "base-uri 'self'",
+  "base-uri 'none'",
   "form-action 'self'",
   "frame-ancestors 'none'",
   "upgrade-insecure-requests",

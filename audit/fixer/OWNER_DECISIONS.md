@@ -2,7 +2,9 @@
 
 Decisions the owner took on questions only they could answer. Each one binds the rounds named in
 its **Scope** until its **Retire when** condition is met; then it moves to the archive at the
-bottom, with the date and what replaced it.
+bottom, with the date and what replaced it. A retired decision keeps its `### O<n>` heading when it
+moves there. The exercise-meaning guard finds the decision a removed row cites by that heading, so a
+retirement that dropped the heading would make every new row citing it fail. The heading stays (O27 101-Q4).
 
 This file is read at the start of every round (`LESSON_READINESS.md` step 2) and injected whole
 into every codex brief, beside `decisions.md`. `decisions.md` holds the standing rules of the

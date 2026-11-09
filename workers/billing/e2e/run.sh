@@ -11,12 +11,14 @@
 #   npm install --prefix . --no-save wrangler@4 playwright@1.63.0   (not repo deps; --prefix keeps
 #   npm from writing them into workers/billing/package.json, the nearest package.json above)
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, tour, setup)
+#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, progress, tour, setup, csp)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(git -C "$HERE" rev-parse --show-toplevel)"
 WORK="${PYARCANA_E2E_WORK:-${TMPDIR:-/tmp}/pyarcana-e2e}"   # outside the repo: repo gates never scan the build
+E2E_HOLDER_NAME="Titular de prueba"
+E2E_HOLDER_ADDRESS="Av. Ejemplo 123, Lima"
 if [[ "${1:-}" != "--no-build" ]]; then
   git -C "$REPO" worktree remove --force "$WORK/site" 2>/dev/null || true
   git -C "$REPO" worktree add --detach "$WORK/site" HEAD >/dev/null
@@ -34,10 +36,13 @@ if [[ "${1:-}" != "--no-build" ]]; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     fs.writeFileSync(p, fs.readFileSync(p, "utf8").replace(/^routes = \[[\s\S]*?\]\n/m, ""));' "$WORK/site/workers/billing/wrangler.toml"
-  (cd "$WORK/site" && NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
+  # The holder, as deploy.sh passes it from ~/.config/pyarcana/holder: a test holder that opens the
+  # page here exactly as CONTROLLER_NAME below opens the Worker (round of 19 Oct 2026, item 3).
+  (cd "$WORK/site" && NEXT_PUBLIC_HOLDER_NAME="$E2E_HOLDER_NAME" NEXT_PUBLIC_HOLDER_ADDRESS="$E2E_HOLDER_ADDRESS" NEXT_PUBLIC_HOLDER_RUC= \
+    NEXT_PUBLIC_BASE_PATH= bun run build:static >"$WORK/build.log" 2>&1 && node scripts/cloud-headers.mjs out >/dev/null)
 fi
 PEPPER="$(node -e 'console.log(require("crypto").randomBytes(32).toString("base64"))')"
-printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\nUSAGE_FLUSH_SECONDS=0\nCONTROLLER_NAME=PyArcana E2E E.I.R.L.\n' "$PEPPER" >"$WORK/site/workers/billing/.dev.vars"
+printf 'SERVER_PEPPER=%s\nADMIN_EMAILS=admin@example.test\nALLOWED_ORIGINS=http://localhost:8787\nCANONICAL_ORIGIN=http://localhost:8787\nTERMS_VERSION=e2e-2026-10-01\nEMAIL_PROVIDER=dev-log\nUSAGE_FLUSH_SECONDS=0\nCONTROLLER_NAME=%s\n' "$PEPPER" "$E2E_HOLDER_NAME" >"$WORK/site/workers/billing/.dev.vars"
 WRANGLER=""
 stop() { if [[ -n "$WRANGLER" ]]; then kill "$WRANGLER" 2>/dev/null || true; wait "$WRANGLER" 2>/dev/null || true; fi; WRANGLER=""; }
 trap stop EXIT
@@ -72,8 +77,14 @@ stop
 start
 (cd "$HERE" && node qa.e2e.mjs) || STATUS=1
 (cd "$HERE" && node cuenta.e2e.mjs) || STATUS=1
+# Section completion and progress sync (learner walkthrough W01, W07, W10): a fresh database again.
+stop
+start
+(cd "$HERE" && node progress.e2e.mjs) || STATUS=1
 # The QA tutorial's highlight: never under its panel, at four window sizes (no database needed).
 (cd "$HERE" && node tour.e2e.mjs) || STATUS=1
 # Sesión 0 (/empezar): tracks, keyboard switch, ticks and storage, at desktop and phone sizes.
 (cd "$HERE" && node setup.e2e.mjs) || STATUS=1
+# The per-page CSP from out/_headers, as Cloudflare's asset worker applies it (round of 19 Oct 2026).
+(cd "$HERE" && E2E_OUT="$WORK/site/out" node csp.e2e.mjs) || STATUS=1
 exit $STATUS

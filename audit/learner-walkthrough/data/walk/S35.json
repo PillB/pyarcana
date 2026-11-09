@@ -1,0 +1,139 @@
+{
+ "section": "S35",
+ "id": "system-design",
+ "title": "Explicabilidad, equidad e incertidumbre",
+ "at": "2026-10-05T03:05:00.831Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "Explicabilidad, equidad e incertidumbre",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 11,
+  "optional": 1,
+  "words": 2922
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica la ficha de caso CP-N3-C",
+  "readyMs": 4,
+  "verdict": "match",
+  "output": "=== Ficha CP-N3-C ===\n  evidence: ['shared_phone', 'amount_z_high']\n  model: {'score': 1.0, 'means_fraud': False, 'causal': False}\n  uncertainty: {'band': (0.5, 0.7), 'ood': True, 'action': 'abstain'}\n  human: {'case': 'CASO-LIM-035', 'human': 'override_skip', 'by': 'analyst_7'}\n=== Model card ===\n  use: queue_rank\n  out_of_scope: ['fraud_label']\n  owner: risk_ops\n  contestability: True\nportfolio_ready: True",
+  "hint": "Cambia means_fraud a True o by a \"\" y observa como portfolio_ready pasa a False",
+  "afterEdit": {
+   "edited": "\"shared_phone\"",
+   "verdict": "mismatch",
+   "message": "Output diferente al esperado. Revisa tu código."
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 780,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nLas cuatro capas de la ficha de caso son",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nLas cuatro capas de la ficha de caso son:\n\nA\nSolo el score puntual del modelo\nB\nSolo importancia global (permutación) sin decisión humana\nEvidencia, modelo, incertidumbre y decisión humana\nSolo la interfaz de la cola de revisión\n✗ Incorrecto. Las cuatro capas evitan confundir evidencia observada con score del modelo, incertidumbre y decisión humana auditable."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 29553
+}

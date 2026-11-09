@@ -1,0 +1,139 @@
+{
+ "section": "S33",
+ "id": "advanced-models",
+ "title": "ML supervisado y baselines responsables",
+ "at": "2026-10-05T03:02:57.971Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794366080,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "ML supervisado y baselines responsables",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 9,
+  "termHints": 8,
+  "optional": 2,
+  "words": 4150
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica Optuna y SHAP (simulado)",
+  "readyMs": 4,
+  "verdict": "no-verdict",
+  "output": "=== Optuna Simulation (10 trials) ===\n  Trial 1: NUEVO MEJOR AUC=0.7550 {'n_estimators': 427, 'max_depth': 4, 'learning_rate': 0.01725311901457341}\n  Trial 2: NUEVO MEJOR AUC=0.9353 {'n_estimators': 214, 'max_depth': 5, 'learning_rate': 0.22357665210756358}\n  Trial 5: NUEVO MEJOR AUC=0.9403 {'n_estimators': 387, 'max_depth': 6, 'learning_rate': 0.21764568774749699}\nMejor: AUC=0.9403\nParams: {'n_estimators': 387, 'max_depth': 6, 'learning_rate': 0.21764568774749699}\n=== SHAP Values (simulado) ===\nBase value: 0.50\nPrediccion: 0.81\nContribuciones:\n  antiguedad     : +0.220 ↑\n  edad           : +0.150 ↑\n  ingreso        : -0.080 ↓\n  productos      : +0.050 ↑\n  transacciones  : -0.030 ↓",
+  "hint": "Cambia n_trials a 30 y observa si mejora el AUC",
+  "afterEdit": {
+   "edited": "\"Simula busqueda de hiperparametros con TPE.\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 887,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nEl target del workbench debe:\n\nA\nSer nee",
+  "questions": 9,
+  "attempt1": {
+   "result": "89%\n¡Buenazo! Sección completada\n\n8 de 9 correctas (89%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nEl target del workbench debe:\n\nSer needs_review con horizonte\nLlamarse is_fraud\nC\nOmitir unidad\nD\nIgnorar prevalencia\n✗ Incorrecto. needs_review_* con horizonte y unidad cierra el problema de cola sin auto-etiqueta de fraude. is_fraud es breach de producto; sin prevalencia el dummy engaña."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 89
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 89
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 89
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 91877
+}

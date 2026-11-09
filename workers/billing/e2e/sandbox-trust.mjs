@@ -23,3 +23,19 @@ export function sandboxTrustArgs(caPath = SANDBOX_CA) {
   if (!existsSync(caPath)) return []
   return [`--ignore-certificate-errors-spki-list=${spkiHash(readFileSync(caPath, 'utf8'))}`]
 }
+
+/**
+ * The sandbox's Chromium. Playwright's own download is blocked there, so this copy is used; on any
+ * other machine the path is absent.
+ */
+export const SANDBOX_CHROMIUM = '/opt/pw-browsers/chromium'
+
+/**
+ * Options for chromium.launch() in every e2e suite. The browser is CHROMIUM when set, else the
+ * sandbox's copy when present, else Playwright's own. Until 7 Oct 2026 six suites hard-coded the
+ * sandbox path, so on the owner's Mac they failed at launch unless CHROMIUM was exported.
+ */
+export function launchOptions({ env = process.env, exists = existsSync, caPath = SANDBOX_CA } = {}) {
+  const executablePath = env.CHROMIUM || (exists(SANDBOX_CHROMIUM) ? SANDBOX_CHROMIUM : undefined)
+  return { headless: true, args: sandboxTrustArgs(caPath), ...(executablePath ? { executablePath } : {}) }
+}

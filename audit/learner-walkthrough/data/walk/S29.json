@@ -1,0 +1,159 @@
+{
+ "section": "S29",
+ "id": "mlops",
+ "title": "SQL avanzado y modelado relacional",
+ "at": "2026-10-05T02:59:37.911Z",
+ "events": [
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_ABORTED",
+   "tab": "load"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_CONNECTION_REFUSED",
+   "tab": "ido"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+   "tab": "ido"
+  },
+  {
+   "kind": "requestfailed",
+   "text": "PUT http://localhost:8787/api/v1/me/progress net::ERR_CONNECTION_REFUSED",
+   "tab": "wedo"
+  },
+  {
+   "kind": "console.error",
+   "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+   "tab": "wedo"
+  }
+ ],
+ "signedIn": {
+  "status": 200,
+  "email": "present",
+  "access": {
+   "isPro": true,
+   "source": "paid",
+   "accessEnd": 1794364204,
+   "indefinite": false,
+   "graceUntil": null,
+   "pendingGrantDays": 0,
+   "pendingIndefinite": false,
+   "upcoming": []
+  }
+ },
+ "header": "SQL avanzado y modelado relacional",
+ "theory": {
+  "headings": 2,
+  "codeBlocks": 8,
+  "termHints": 3,
+  "optional": 1,
+  "words": 3095
+ },
+ "playground": {
+  "present": true,
+  "title": "Practica model registry y drift (simulado)",
+  "readyMs": 4,
+  "verdict": "no-verdict",
+  "output": "=== Model Registry ===\n  Registrado: churn_v1.0 (Staging)\n  Registrado: churn_v2.0 (Staging)\nProduccion: churn_v2.0 (AUC: 0.87)\n=== Data Drift Detection ===\n  Distribucion training: {'lima': 0.6, 'arequipa': 0.2, 'cusco': 0.15, 'otros': 0.05}\n  Distribucion produccion: {'lima': 0.4, 'arequipa': 0.3, 'cusco': 0.2, 'otros': 0.1}\n  Drift score: 0.400 (ALTO)",
+  "hint": "Registra una v3.0 con AUC 0.90 y promovela a Production",
+  "afterEdit": {
+   "edited": "\"Simula MLflow Model Registry.\"",
+   "verdict": "no-verdict",
+   "message": null
+  }
+ },
+ "theoryDone": "Completado",
+ "mobileTheory": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "offenders": []
+ },
+ "ido": {
+  "demos": 8,
+  "steppedRuns": 8,
+  "realExecution": false
+ },
+ "idoDone": "Completado",
+ "wedo": {
+  "exercises": 24,
+  "revealed": 24,
+  "editable": 0,
+  "kinds": {
+   "Guiado": 8,
+   "Independiente": 8,
+   "Transferencia": 8
+  }
+ },
+ "wedoDone": "Completado",
+ "youdo": {
+  "words": 800,
+  "mentionsGithub": true,
+  "links": 0,
+  "uploadOrSubmit": 0,
+  "rubricRows": 6
+ },
+ "youdoDone": "Completado",
+ "beforeQuiz": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": null
+ },
+ "quiz": {
+  "examShown": false,
+  "intro": "Autocheck — Verifica tu aprendizaje\n¿Para qué este quiz?\nActive recall: intentar recordar lo que aprendiste es más efectivo que releer. Contesta sin mirar la teoría. Si sacas 70% o más, desbloqueas la siguiente sección. Si no, vuelve a repasar y reintenta.\n1\n\nentity_a < entity_b en el par sirve para",
+  "questions": 8,
+  "attempt1": {
+   "result": "88%\n¡Buenazo! Sección completada\n\n7 de 8 correctas (88%)\n\nReintentar\nMarcar como completada",
+   "missFeedback": "1\n\nentity_a < entity_b en el par sirve para:\n\nEvitar duplicar el mismo par en orden invertido\nInferir fraude\nC\nBorrar historia\nD\nSubir isolation\n✗ Incorrecto. Con entity_a < entity_b (orden canónico) el par (e1,e2) y (e2,e1) no coexisten. No implica fraude ni parentesco: solo evita duplicar el mismo candidato en la cola."
+  },
+  "afterAttempt1": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo",
+    "quiz"
+   ],
+   "complete": true,
+   "quizScore": 88
+  },
+  "afterCta": {
+   "subSteps": [
+    "theory",
+    "ido",
+    "wedo",
+    "youdo"
+   ],
+   "complete": false,
+   "quizScore": 88
+  }
+ },
+ "final": {
+  "subSteps": [
+   "theory",
+   "ido",
+   "wedo",
+   "youdo"
+  ],
+  "complete": false,
+  "quizScore": 88
+ },
+ "next": {
+  "present": true,
+  "label": ""
+ },
+ "ms": 92378
+}

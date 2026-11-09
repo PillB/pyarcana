@@ -260,6 +260,8 @@ describe('CODEOWNERS covers the renumber guard inputs', () => {
  *   - src/lib/eligibility/section_manifest.json, skill_node_terms.json, claim_digests.json: the
  *     badge manifest, the skill-term lexicon and the claim digests (0b-4)
  *   - src/lib/credential-statement.ts: the signed statement template (the copy PR moved it there)
+ *   - audit/fixer/OWNER_DECISIONS.md: the owner's decision record, which the exercise-meaning guard reads
+ *     at the base (O27 101-Q2: a CODEOWNERS line and an ask-first bullet, as O17 does for its inputs)
  * The directory rule and the basename rule above already reach the three eligibility files, and
  * a rule can be narrowed or removed in a diff nobody reads as an ownership change. So each file
  * needs a line of its own, and GitHub applies the LAST matching line: the line must sit after
@@ -267,6 +269,7 @@ describe('CODEOWNERS covers the renumber guard inputs', () => {
  */
 const NAMED_PATHS = [
   'audit/fixer/numbering_epoch.json',
+  'audit/fixer/OWNER_DECISIONS.md',
   'src/lib/eligibility/section_manifest.json',
   'src/lib/eligibility/skill_node_terms.json',
   'src/lib/eligibility/claim_digests.json',
