@@ -394,3 +394,16 @@ test('conceded: a gloss more than 45 characters from its term is not attached to
   assert.equal(credits('La **ER**, en todo este curso, en sus proyectos y en cada capstone del nivel cuatro, es un proceso que une registros.', 'ER'), false)
   assert.equal(credits('La **ER**, en todo este curso, es un proceso que une registros de una misma entidad.', 'ER'), true)
 })
+
+test('a term that only opens a longer code span is not defined by what follows it', () => {
+  // "prefiere `git stash` a `restore`: es la única…" describes the command `git stash`.
+  const cmd = 'Prefiere `git stash` a `restore`: es la única que conserva el trabajo.'
+  assert.equal(definesTerm(cmd, cmd.indexOf('git'), 3, 'theory'), false)
+  const comp = 'En inglés también se llama `dict comprehension`.'
+  assert.equal(definesTerm(comp, comp.indexOf('dict'), 4, 'theory'), false)
+  // The guard must not swallow the term written alone: that is still a definition.
+  const alone = 'Usa `git`: es un sistema de control de versiones.'
+  assert.equal(definesTerm(alone, alone.indexOf('git'), 3, 'theory'), true)
+  const named = 'Esta herramienta se llama `git` y guarda versiones.'
+  assert.equal(definesTerm(named, named.indexOf('git'), 3, 'theory'), true)
+})
