@@ -580,6 +580,46 @@
       "reason": "C14: the starter used to print pass three times without asserts. It now has real asserts over a FakeRepo that does not save, so it fails with TypeError. Solution, tests, title and output are unchanged; only the starter changed.",
       "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 59,
+      "id": "S12-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "acd601175dc5d4a13bdac69dd9bfd97dc518d001769859c36b4d18edd8945db3",
+      "to_fp": "d7d5e301b8358058c951eddc6853be0fbc972ca4b20f7ff2a09752145c180a04",
+      "reason": "The fallback now has three branches: 2xx is online, 5xx and timeout (None) are offline, and any other status (404, 429) is fail_client. The old binary split is kept as the counterexample in the T2-B theory. Same exercise, same goal: the offline fallback for 5xx.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C10, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 60,
+      "id": "S12-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "d4912ab8f3eaa61e34afce22a341c1ed14446052af82090581efeee522486d5c",
+      "to_fp": "cc487309b7f390fb608e90db32500143fcd8d6cbc9afaaa8539a3d3248a0eb56",
+      "reason": "The egress allowlist is {city, country}. The exact address is no longer allowed, which matches the intro and the T4-A paragraph. The payload in the exercise is city only; the solution also checks that an address is refused. Same exercise, same goal: keep PII out of the public geocoder.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C9, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 61,
+      "id": "S13-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "3752d26bc307329799a356c903defc7a2eace29c93f834db2e24aec056d27b39",
+      "to_fp": "e6c02b8b17a68667e66beea233e84d4140e062db1a28496c60dd39cc8b6b6e2f",
+      "reason": "Two documents that are empty after normalisation no longer match, so the score is 0.0. Outputs are unchanged (1.0 0.5 0.0). Same exercise, same goal: the three-level entity resolution score.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A6, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 62,
+      "id": "S13-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "cbce9d91295c68bdecf6634d8b76a26f7c4566622dfa23e07de33fa335719f45",
+      "to_fp": "ca909230111e699791b6c2de46e7a997e6d0f07c63ff2b16c985ec3b146cd1c7",
+      "reason": "The clerical band is [0.4, 0.8), the same policy as the T1-B theory, the decision matrix and T3-B. The fixture and the expected ['P2', 'P3'] are unchanged. Same exercise, same goal: the clerical queue.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C12, batch-1 approval)",
+      "date": "2026-11-09"
     }
   ]
 }
