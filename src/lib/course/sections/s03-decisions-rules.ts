@@ -155,6 +155,36 @@ region in REGIONES_PERMITIDAS → True
       },
     },
     {
+      heading: 'Contraejemplo: `== None` puede responder que sí a un objeto que no es `None`',
+      subtopicId: 'S03-T1-A',
+      paragraphs: [
+        'Con `None`, `0` y `""`, `== None` e `is None` dan el mismo resultado, así que esos valores no muestran la diferencia. La diferencia aparece cuando el objeto de la izquierda decide por sí mismo qué significa `==`. `ANY`, de la biblioteca estándar `unittest.mock`, es un marcador que se declara igual a cualquier valor. Aquí lo usamos como si fuera un monto presente.',
+        'Lee la salida por parejas. El bloque de error clasifica `ANY` como `review: ausente`, porque `==` le pregunta al objeto y el objeto responde que sí. El bloque de corrección lo clasifica como `accept: presente`, porque `is` pregunta si el valor es el propio `None`, el único objeto que representa la ausencia en Python. Por eso el curso escribe `is None`. Ruff, la herramienta de revisión que usa el curso, marca `== None` con E711 antes de que ejecutes nada.',
+      ],
+      code: {
+        language: 'python',
+        title: 'none_igualdad_vs_identidad.py',
+        code: `# Error: == pregunta al objeto, y ANY responde que es igual a cualquier valor
+from unittest.mock import ANY
+
+valor = ANY
+if valor == None:
+    estado = "review: ausente"
+else:
+    estado = "accept: presente"
+print("== None →", estado)
+
+# Corrección: is pregunta si valor es el propio None
+if valor is None:
+    estado = "review: ausente"
+else:
+    estado = "accept: presente"
+print("is None →", estado)`,
+        output: `== None → review: ausente
+is None → accept: presente`,
+      },
+    },
+    {
       heading: 'Una regla visible: condición, resultado e impresión',
       paragraphs: [
         'Una regla no necesita una estructura nueva para ser legible. Primero asignas el dato, después recorres una sola cadena `if`/`elif`/`else`, guardas la decisión en una variable y al final la imprimes.',
@@ -851,13 +881,13 @@ monto_cero = 0
 nota = ""
 monto_ok = 150
 
-print("monto_none == None →", monto_none == None)
+print("monto_none is None →", monto_none is None)
 print("monto_cero == 0 →", monto_cero == 0)
 print('nota == "" →', nota == "")
 print("monto_ok > 0 →", monto_ok > 0)
 
 monto = None
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -868,7 +898,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = 0
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -879,7 +909,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = -5
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -890,7 +920,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = 150
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -899,7 +929,7 @@ elif monto < 0:
 else:
     estado = "accept: positivo"
 print("policy", monto, "→", estado)`,
-          output: `monto_none == None → True
+          output: `monto_none is None → True
 monto_cero == 0 → True
 nota == "" → True
 monto_ok > 0 → True
@@ -1131,7 +1161,7 @@ print(200, "→", status, code)`,
           title: 'S03-T3-A-DEMO — region_edad',
           code: `region = "R-NORTE"
 edad = 30
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1143,7 +1173,7 @@ print("R-NORTE", 30, "→", status)
 
 region = "R-FUERA"
 edad = 30
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1155,7 +1185,7 @@ print("R-FUERA", 30, "→", status)
 
 region = "R-COSTA"
 edad = 15
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1167,7 +1197,7 @@ print("R-COSTA", 15, "→", status)
 
 region = None
 edad = 40
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1319,7 +1349,7 @@ NEEDS_REVIEW review review same= True`,
           code: `print('contacto debe ser "telefono" o "correo"; None va a review')
 
 contacto = "telefono"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1329,7 +1359,7 @@ esperado = "accept"
 print("telefono →", status, "ok=", status == esperado)
 
 contacto = "correo"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1339,7 +1369,7 @@ esperado = "accept"
 print("correo →", status, "ok=", status == esperado)
 
 contacto = None
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1349,7 +1379,7 @@ esperado = "review"
 print("None →", status, "ok=", status == esperado)
 
 contacto = "fax"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1615,10 +1645,10 @@ nota = ""
 monto = 0
 print(valor_ausente == 0)
 print(nota == "pendiente")
-print(monto == None)
+print(monto is None)
 if monto == 0:
     estado = "review"
-elif monto == None:
+elif monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1632,10 +1662,10 @@ print(monto, "→", estado)`,
           code: `valor_ausente = None
 nota = ""
 monto = 0
-print(valor_ausente == None)
+print(valor_ausente is None)
 print(nota == "")
 print(monto == 0)
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto == 0:
     estado = "accept"
@@ -1663,7 +1693,7 @@ True
         hint: 'Compara cada variable con el valor que realmente contiene.',
         hints: [
           'Compara cada variable con el valor que realmente contiene.',
-          'Las preguntas correctas terminan en `== None`, `== 0` y `== ""`.',
+          'Las preguntas correctas terminan en `is None`, `== 0` y `== ""`.',
         ],
         edgeCases: ['Cero y texto vacío no son `None`.'],
         tests: 'La salida debe ser: `ausente → True`, `cero → True`, `vacío → True`.',
@@ -1679,7 +1709,7 @@ valor_ausente = None
 monto_cero = 0
 nota = ""
 print("ausente →", valor_ausente == 0)
-print("cero →", monto_cero == None)
+print("cero →", monto_cero is None)
 print("vacío →", nota == "pendiente")`,
         },
         solutionCode: {
@@ -1688,7 +1718,7 @@ print("vacío →", nota == "pendiente")`,
           code: `valor_ausente = None
 monto_cero = 0
 nota = ""
-print("ausente →", valor_ausente == None)
+print("ausente →", valor_ausente is None)
 print("cero →", monto_cero == 0)
 print("vacío →", nota == "")`,
           output: `ausente → True
@@ -1747,9 +1777,9 @@ False`,
         id: 'S03-T1-B-E3',
         instruction:
           'Repara el mismo DEFECT en los cuatro casos. Primero comprueba ausencia; después rechaza números negativos; cualquier otro monto se acepta.',
-        hint: 'La primera condición debe ser `monto == None`, no `monto == 0`.',
+        hint: 'La primera condición debe ser `monto is None`, no `monto == 0`.',
         hints: [
-          'La primera condición debe ser `monto == None`, no `monto == 0`.',
+          'La primera condición debe ser `monto is None`, no `monto == 0`.',
           'Después usa `elif monto < 0`; el `else` acepta cero y positivos.',
         ],
         edgeCases: ['Cero debe llegar a `accept`.'],
@@ -1802,7 +1832,7 @@ print(monto, "→", estado)`,
           language: 'python',
           title: 'monto_cero.py',
           code: `monto = None
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1811,7 +1841,7 @@ else:
 print(monto, "→", estado)
 
 monto = 0
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1820,7 +1850,7 @@ else:
 print(monto, "→", estado)
 
 monto = -1
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1829,7 +1859,7 @@ else:
 print(monto, "→", estado)
 
 monto = 100
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"

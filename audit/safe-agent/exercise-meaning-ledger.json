@@ -350,6 +350,36 @@
       "reason": "The reference solution now keeps the exercise's own contract: 1,234 is rejected as ambiguous and messages no longer repeat the input; the demo list adds 1,234 and NaN. Same exercise, same goal.",
       "decided_by": "owner: Pablo approved batch-1 proposal 01 item 2 (2026-11-09)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 36,
+      "id": "S03-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "3db0f06132d7432a646d4b7433bf87395c3cefb65364aef57c7934287a729347",
+      "to_fp": "eff13bb707f9d74624f0000bb96fa794feda1927c7f1019fba79fa3ac93364d0",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 37,
+      "id": "S03-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "965f66c8861700952fec2b6afb490eb708a05e5ecde5bc7a9faffc54851e1722",
+      "to_fp": "e66b7ca0fa7e25dff259b84796671c907dfc197dd3f515c6640d4628a72ab8f8",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 38,
+      "id": "S03-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "b8d051fda6c19e1e52fc05691bf400df43b848a2914bf03a5e4a239a787d9921",
+      "to_fp": "156134171dac7771764858f98724d3d5686ac65f62eeb088d856de9d47cf6c51",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
     }
   ]
 }
