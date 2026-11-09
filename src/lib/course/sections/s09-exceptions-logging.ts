@@ -581,13 +581,19 @@ class ValidationError(Exception):
     pass
 
 def parse_monto(raw: object) -> Decimal:
+    texto = str(raw).strip()
+    if "," in texto:
+        entero, _, decimales = texto.partition(",")
+        if "." in texto or "," in decimales or len(decimales) != 2:
+            raise ParseError("monto con separador ambiguo")
+        texto = entero + "." + decimales
     try:
-        monto = Decimal(str(raw).strip().replace(",", ".")).quantize(Decimal("0.01"))
+        monto = Decimal(texto).quantize(Decimal("0.01"))
         if not monto.is_finite():
             raise InvalidOperation
         return monto
     except (InvalidOperation, ValueError) as e:
-        raise ParseError(f"monto no parseable: {raw!r}") from e
+        raise ParseError("monto no parseable") from e
 
 def validate_intake(row: dict) -> dict:
     try:
@@ -606,7 +612,7 @@ except ValidationError as e:
     print("cause", type(e.__cause__).__name__, e.__cause__)`,
           output: `{'id': 'C001', 'monto': Decimal('12.50')}
 ValidationError -> id=C002: validación falló
-cause ParseError monto no parseable: 'N/A'`,
+cause ParseError monto no parseable`,
         },
         why: "El chaining con `from e` deja `__cause__` legible en el post mórtem: el on-call ve la capa de dominio (ValidationError + id de fila) y la causa de parse. Los montos van por `Decimal` y `quantize(0.01)`, nunca por `float`. Un handler amplio que devuelva un estado genérico o silencie el error sí ocultaría ambos niveles.",
         retrospective:
@@ -987,15 +993,15 @@ regla de negocio: monto < 0 -> ValidationError`,
           "Paso 1: Revisa el starter: usa `float` y no valida signo, finitud ni separadores.\nPaso 2: Acepta una sola coma únicamente cuando la siguen dos decimales y no hay punto; rechaza los demás usos de coma.\nPaso 3: Convierte con `Decimal`, cuantiza a `Decimal('0.01')` y rechaza valores no finitos con un mensaje que no repita `raw`.\nPaso 4: Rechaza negativos y demuestra los casos `10.5`, `3,25`, `1,234`, `abc` y `-1`.",
         hint: "Construye Decimal desde texto, no desde float.",
         hints: [
-          "Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.",
+          "Decimal desde str; captura InvalidOperation. El mensaje nombra el problema (`monto no numérico`), no el valor recibido.",
           "Rechaza NaN/Infinity con is_finite y compara contra Decimal('0').",
         ],
         edgeCases: ["Cadena vacía.", "None.", "NaN.", "Infinity."],
         tests: "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; no se permite float().",
         feedback:
-          "Si usaste `float()`, rehazlo: la precisión de dinero y NaN/Infinity no son negociables. El mensaje debe incluir el raw para que el on-call vea *qué* llegó sin abrir el CSV completo.",
+          "Si usaste `float()`, rehazlo: la precisión de dinero y NaN/Infinity no son negociables. El mensaje no repite el valor recibido, porque una excepción termina en tracebacks y logs; quien está de guardia localiza la fila por su `id`, que añade la capa de validación.",
         retrospective:
-          "`Decimal` + mensaje con raw es el contrato de montos del pipeline. El error clásico es capturar `Exception` y devolver `0`. Luego (E3) envolverás un fallo de I/O en `DataLoadError` **from** la causa.",
+          "`Decimal` construido desde texto y un mensaje que nombra el problema sin repetir el dato forman el contrato de montos del pipeline. El error clásico es capturar `Exception` y devolver `0`. Luego (E3) envolverás un fallo de I/O en `DataLoadError` **from** la causa.",
         starterCode: {
           language: 'python',
           title: "parse_monto.py",
@@ -1018,25 +1024,33 @@ for v in ['10.5', 'x', '-1']:
           code: `from decimal import Decimal, InvalidOperation
 
 def parse_monto(raw):
+    texto = str(raw).strip()
+    if "," in texto:
+        entero, _, decimales = texto.partition(",")
+        if "." in texto or "," in decimales or len(decimales) != 2:
+            raise ValueError("monto con separador ambiguo")
+        texto = entero + "." + decimales
     try:
-        n = Decimal(str(raw).strip().replace(",", ".")).quantize(Decimal("0.01"))
+        n = Decimal(texto).quantize(Decimal("0.01"))
         if not n.is_finite():
             raise InvalidOperation
     except (InvalidOperation, ValueError):
-        raise ValueError(f"monto no numérico: {raw!r}") from None
+        raise ValueError("monto no numérico") from None
     if n < Decimal("0"):
-        raise ValueError(f"monto negativo no permitido: {n}")
+        raise ValueError("monto negativo no permitido")
     return n
 
-for v in ["10.5", "3,25", "abc", "-1"]:
+for v in ["10.5", "3,25", "1,234", "abc", "-1", "NaN"]:
     try:
         print(v, "->", parse_monto(v))
     except ValueError as e:
         print(v, "ERR", e)`,
           output: `10.5 -> 10.50
 3,25 -> 3.25
-abc ERR monto no numérico: 'abc'
--1 ERR monto negativo no permitido: -1.00`,
+1,234 ERR monto con separador ambiguo
+abc ERR monto no numérico
+-1 ERR monto negativo no permitido
+NaN ERR monto no numérico`,
         },
       },
       {

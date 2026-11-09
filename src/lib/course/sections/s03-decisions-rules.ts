@@ -389,7 +389,7 @@ x > 5 es una rama muerta`,
       subtopicId: 'S03-T3-A',
       paragraphs: [
         'Una aseguradora digital de Singapur puede conocer perfectamente el rango permitido de una variable y, al mismo tiempo, recibir un código regional nuevo que su catálogo todavía no contiene. Ambos casos “fallan una condición”, pero no significan lo mismo. El rango imposible suele justificar `reject`; el catálogo incompleto puede pedir `review`.',
-        'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es una regla que reconoce de antemano los valores admitidos. En S03 puedes expresarla con comparaciones explícitas: `region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO"`. Para las comprobaciones controladas con `in`, también puedes guardar el texto `REGIONES_PERMITIDAS = "R-NORTE|R-SUR|R-CENTRO"`. Si el valor no aparece, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
+        'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es una regla que reconoce de antemano los valores admitidos. En S03 puedes expresarla con comparaciones explícitas: `region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO"`. Cuando el catálogo crece, el `set` de T1-A, `REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}`, expresa la misma regla con `region in REGIONES_PERMITIDAS`. No guardes el catálogo como un texto con separadores: dentro de un texto, `in` busca fragmentos, y entonces `""` o `"R-N"` pasarían la regla. Si el valor no aparece, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
         'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs. `OUT_OF_RANGE`).',
         'Tri-estado en dominio: **`accept`** (cumple), **`reject`** (viola una regla estricta) y **`review`** (está ausente, es desconocido o es un valor alejado de lo habitual que una persona debe revisar). El cero en montos suele ser `accept` si el invariante lo permite.',
         '**No confundas desconocido con inválido.** `NOT_IN_ALLOWLIST` describe la relación entre un valor y un catálogo; `OUT_OF_RANGE` describe una violación numérica. El status final depende de la política, pero conservar códigos distintos permite revisar el catálogo sin ocultar un error de rango.',
@@ -760,33 +760,33 @@ R-NORTE es accept → True`,
         environment: 'browser-pyodide',
         description: 'Comparar región y monto de un registro sintético',
         preamble:
-          'Antes de armar un `if` de negocio, separa las preguntas sobre el registro sintético `CASO-LIM-003`: `region = "R-NORTE"` y `monto = 1500`. `regiones_permitidas` es un texto que reúne nombres separados por `|`; aquí `in` y `not in` comprueban si un texto aparece dentro de otro. Revisa las siete comparaciones como lo haría quien busca una regla mal escrita. Antes de mirar la salida, predice cuáles darán `True`, cuál dará `False` y escríbelas.',
+          'Antes de armar un `if` de negocio, separa las preguntas sobre el registro sintético `CASO-LIM-003`: `region = "R-NORTE"` y `monto = 1500`. `REGIONES_PERMITIDAS` es el `set` de la teoría, es decir, un catálogo de regiones completas; `in` y `not in` preguntan si `region` coincide con uno de sus elementos, de modo que un trozo como `"R-N"` no cuenta como región. Revisa las siete comparaciones como lo haría quien busca una regla mal escrita. Antes de mirar la salida, predice cuáles darán `True`, cuál dará `False` y escríbelas.',
         code: {
           language: 'python',
           title: 'S03-T1-A-DEMO — comparar_region_monto',
           code: `region = "R-NORTE"
 monto = 1500
-regiones_permitidas = "R-NORTE|R-SUR|R-CENTRO"
+REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}
 
 print("region == 'R-NORTE' →", region == "R-NORTE")
 print("region != 'R-OESTE' →", region != "R-OESTE")
 print("monto >= 1000 →", monto >= 1000)
 print("monto < 500 →", monto < 500)
-print("region in regiones_permitidas →", region in regiones_permitidas)
-print("'R-OESTE' not in regiones_permitidas →", "R-OESTE" not in regiones_permitidas)
+print("region in REGIONES_PERMITIDAS →", region in REGIONES_PERMITIDAS)
+print("'R-OESTE' not in REGIONES_PERMITIDAS →", "R-OESTE" not in REGIONES_PERMITIDAS)
 print("1000 <= monto <= 2000 →", 1000 <= monto <= 2000)`,
           output: `region == 'R-NORTE' → True
 region != 'R-OESTE' → True
 monto >= 1000 → True
 monto < 500 → False
-region in regiones_permitidas → True
-'R-OESTE' not in regiones_permitidas → True
+region in REGIONES_PERMITIDAS → True
+'R-OESTE' not in REGIONES_PERMITIDAS → True
 1000 <= monto <= 2000 → True`,
         },
         why:
-          'Las siete líneas mantienen separadas las preguntas sobre región y monto. Así puedes localizar una comparación equivocada antes de combinarla con `and` u `or`. Quien revisa no acepta una salida por intuición: relaciona cada `True` o `False` con sus dos valores. Los separadores `|` permiten ver dónde termina cada nombre dentro del texto y evitan atribuir el resultado a una región distinta.',
+          'Las siete líneas mantienen separadas las preguntas sobre región y monto. Así puedes localizar una comparación equivocada antes de combinarla con `and` u `or`. Quien revisa no acepta una salida por intuición: relaciona cada `True` o `False` con sus dos valores. Como el catálogo guarda cada región como un elemento completo, `in` no puede confundir `"R-NORTE"` con un fragmento suyo, y por eso el resultado de esa línea depende solo de `region`.',
         retrospective:
-          'Explica por qué `monto < 500` es `False` y por qué `"R-OESTE" not in regiones_permitidas` es `True`. Luego haz una **prueba contrafactual**: cambia mentalmente una sola entrada para comprobar qué decisión depende de ella. Si `monto` pasa de `1500` a `400`, quien revisa anticipa que cambian las líneas sobre `monto >= 1000`, `monto < 500` y el intervalo, mientras las preguntas sobre región permanecen iguales. En We Do repararás comparaciones invertidas y volverás a practicar `in`.',
+          'Explica por qué `monto < 500` es `False` y por qué `"R-OESTE" not in REGIONES_PERMITIDAS` es `True`. Luego haz una **prueba contrafactual**: cambia mentalmente una sola entrada para comprobar qué decisión depende de ella. Si `monto` pasa de `1500` a `400`, quien revisa anticipa que cambian las líneas sobre `monto >= 1000`, `monto < 500` y el intervalo, mientras las preguntas sobre región permanecen iguales. En We Do repararás comparaciones invertidas y volverás a practicar `in`.',
       },
       {
         demoId: 'S03-T1-B-DEMO',
@@ -1496,43 +1496,43 @@ True`,
         kind: 'independent',
         title: 'Comprobar códigos permitidos con `in`',
         preamble:
-          '- **Contexto:** un texto puede reunir varios códigos separados por `|`.\n- **Meta:** usar `in` para comprobar tres códigos sin colecciones ni repeticiones automáticas.\n- **Éxito:** el programa imprime `True`, `False` y `False`.\n- **Límites:** conserva las tres variables y los tres `print` explícitos.',
+          '- **Contexto:** `CODIGOS_PERMITIDOS` es un `set` con los tipos de documento que acepta el intake.\n- **Meta:** usar `in` para comprobar tres códigos, uno por línea, sin bucles.\n- **Éxito:** el programa imprime `True`, `False` y `False`.\n- **Límites:** conserva las tres variables y los tres `print` explícitos.',
         id: 'S03-T1-A-E2',
         instruction:
-          'Cambia las tres comparaciones defectuosas por preguntas con `in`. Comprueba `"DNI"`, `"dni"` y `"RUC"` dentro de `codigos_permitidos`.',
-        hint: 'La primera pregunta es `codigo_1 in codigos_permitidos`.',
+          'Cambia las tres comparaciones defectuosas por preguntas con `in`. Comprueba `"DNI"`, `"dni"` y `"RUC"` dentro de `CODIGOS_PERMITIDOS`.',
+        hint: 'La primera pregunta es `codigo_1 in CODIGOS_PERMITIDOS`.',
         hints: [
-          'La primera pregunta es `codigo_1 in codigos_permitidos`.',
-          'Python distingue `"dni"` de `"DNI"`; `"RUC"` tampoco aparece en el texto.',
+          'La primera pregunta es `codigo_1 in CODIGOS_PERMITIDOS`.',
+          'Python distingue `"dni"` de `"DNI"`; `"RUC"` tampoco pertenece al catálogo.',
         ],
         edgeCases: ['Las mayúsculas y minúsculas cambian el resultado.'],
         tests: 'La salida debe ser, línea por línea: True, False, False.',
         feedback:
           'Si la segunda línea es `True`, revisa que no cambiaste `"dni"` por `"DNI"`. La pregunta debe usar el valor original.',
         retrospective:
-          'Explica por qué `"DNI"` aparece en el texto y `"dni"` no. ¿Qué decisión tomarías si el formato recibido usa minúsculas? El defecto mostró que reemplazar `in` por una comparación distinta cambia la pregunta y que las mayúsculas forman parte del texto. Compara ahora el caso vecino `"RUC"` con `"Ruc"`: ¿cuál debe dar `True` según el texto permitido? Esta precisión prepara el siguiente ejercicio, donde valores parecidos a ausencia tampoco deben tratarse como equivalentes.',
+          'Explica por qué `"DNI"` pertenece al catálogo y `"dni"` no. ¿Qué decisión tomarías si el formato recibido usa minúsculas? El defecto mostró que reemplazar `in` por una comparación distinta cambia la pregunta y que las mayúsculas forman parte de cada código. Compara ahora el caso vecino `"RUC"` con `"Ruc"`: ¿cuál debe dar `True` según el catálogo? Esta precisión prepara el siguiente ejercicio, donde valores parecidos a ausencia tampoco deben tratarse como equivalentes.',
         starterCode: {
           language: 'python',
-          title: 'codigos_permitidos.py',
+          title: 'CODIGOS_PERMITIDOS.py',
           code: `# DEFECT: cada comparación usa el código equivocado
-codigos_permitidos = "DNI|CE|PAS"
+CODIGOS_PERMITIDOS = {"DNI", "CE", "PAS"}
 codigo_1 = "DNI"
 codigo_2 = "dni"
 codigo_3 = "RUC"
-print(codigo_1 not in codigos_permitidos)
+print(codigo_1 not in CODIGOS_PERMITIDOS)
 print("DNI" in codigo_2)
 print(codigo_3 == "PAS")`,
         },
         solutionCode: {
           language: 'python',
-          title: 'codigos_permitidos.py',
-          code: `codigos_permitidos = "DNI|CE|PAS"
+          title: 'CODIGOS_PERMITIDOS.py',
+          code: `CODIGOS_PERMITIDOS = {"DNI", "CE", "PAS"}
 codigo_1 = "DNI"
 codigo_2 = "dni"
 codigo_3 = "RUC"
-print(codigo_1 in codigos_permitidos)
-print(codigo_2 in codigos_permitidos)
-print(codigo_3 in codigos_permitidos)`,
+print(codigo_1 in CODIGOS_PERMITIDOS)
+print(codigo_2 in CODIGOS_PERMITIDOS)
+print(codigo_3 in CODIGOS_PERMITIDOS)`,
           output: `True
 False
 False`,
