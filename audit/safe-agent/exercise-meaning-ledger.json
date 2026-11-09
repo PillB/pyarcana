@@ -710,6 +710,36 @@
       "reason": "Same exercise as row 70: the fixture city in the quoted-comma row is Porto instead of a Peruvian city (ratchet and neutral-data rule D2). The solution output pin follows the fixture.",
       "decided_by": "owner 2026-11-09 (proposal 04 S08-SPLIT)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 72,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "to_fp": "eb6ce0297b0519f0a6b0514a5df1cdc59430c0c6003df5f8c2d2b6c292fef6c3",
+      "reason": "Learner text follows the row-71 fixture (Codex review on #149): the Éxito line and tests now promise {'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}, which is what the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 73,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "to_fp": "93c3b0fbbcc4eddcf05acb4a1a653a147a7187b37801545160ac80e718a72bbb",
+      "reason": "Learner text follows the two-input fixture (Codex review on #149): the Éxito line, step 3 and tests now name C002 as well as C001, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 74,
+      "id": "S08-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "to_fp": "69c3b7deca01d1133bc17878031ffe19c3feaf26df1c3f5c3a6d3e1e0410d273",
+      "reason": "Learner text follows the RECONCILE fixture (Codex review on #149): the Éxito line and tests now promise 6 4 1, clients.csv True, transactions.json False and manifest False, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
     }
   ]
 }

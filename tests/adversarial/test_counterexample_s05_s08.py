@@ -9,6 +9,7 @@ a block with no `# Corrección` and on a stale pin, so a green result cannot com
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import unittest
@@ -30,7 +31,7 @@ import {{ section08 }} from {s08!r};
 const theory = (s) => s.theory.map((t) => ({{ heading: t.heading ?? null, subtopicId: t.subtopicId ?? null,
   language: t.code?.language ?? null, code: t.code?.code ?? null, output: t.code?.output ?? null }}));
 const steps = (xs) => (xs || []).map((x) => ({{ id: x.id ?? null, demoId: x.demoId ?? null,
-  preamble: x.preamble ?? '', code: x.code?.code ?? null, output: x.code?.output ?? null, starter: x.starterCode?.code ?? null,
+  preamble: x.preamble ?? '', instruction: x.instruction ?? '', tests: x.tests ?? '', code: x.code?.code ?? null, output: x.code?.output ?? null, starter: x.starterCode?.code ?? null,
   solution: x.solutionCode?.code ?? null, solutionOutput: x.solutionCode?.output ?? null }}));
 const pick = (s) => ({{ theory: theory(s), iDo: steps(s.iDo?.steps), weDo: steps(s.weDo?.steps) }});
 console.log(JSON.stringify({{ s05: pick(section05), s06: pick(section06), s07: pick(section07), s08: pick(section08) }}));
@@ -348,6 +349,48 @@ class ControlsProveTheChecker(unittest.TestCase):
 
     def test_correct_pin_passes(self) -> None:
         self.assertEqual(counterexample_problems(self.FULL, "1\n1\n", []), [])
+
+
+
+def success_line(preamble: str) -> str:
+    for line in preamble.splitlines():
+        if line.startswith("- **Éxito:**"):
+            return line
+    raise AssertionError("no Éxito line in the preamble")
+
+
+def promised_but_not_printed(preamble: str, output: str) -> list[str]:
+    """Backticked values in the Éxito line that the reference solution never prints."""
+    return [span for span in re.findall(r"`([^`]+)`", success_line(preamble)) if span not in output]
+
+
+class LearnerTextMatchesTheRevisedFixtures(unittest.TestCase):
+    """Codex review on #149: S08-T2-A-E1, T3-A-E1 and T4-B-E1 changed their fixtures, but the
+    Éxito line and `tests` still promised the old output, and T4-A-E2's numbered steps left out the
+    mkdir the nested backup path needs. SectionView shows all of these to the learner."""
+
+    REVISED = ("S08-T2-A-E1", "S08-T3-A-E1", "S08-T4-B-E1")
+
+    def test_every_promised_value_is_printed(self):
+        for step_id in self.REVISED:
+            with self.subTest(step=step_id):
+                step = we_do("s08", step_id)
+                self.assertEqual(promised_but_not_printed(step["preamble"], step["solutionOutput"]), [])
+
+    def test_the_tests_text_names_the_new_totals(self):
+        self.assertIn("6/4/1", we_do("s08", "S08-T4-B-E1")["tests"])
+        self.assertIn("C002", we_do("s08", "S08-T3-A-E1")["tests"])
+        self.assertIn("Pérez, Ana", we_do("s08", "S08-T2-A-E1")["tests"])
+
+    def test_the_backup_steps_create_the_run_directory(self):
+        step = we_do("s08", "S08-T4-A-E2")
+        self.assertIn("mkdir(parents=True, exist_ok=True)", step["solution"])
+        self.assertIn("mkdir(parents=True, exist_ok=True)", step["instruction"])
+
+    def test_detector_flags_a_stale_promise(self):
+        stale = "- **Éxito:** imprime `5 4 1`, ambas fuentes True."
+        self.assertEqual(promised_but_not_printed(stale, "6 4 1\nFalse\n"), ["5 4 1"])
+        self.assertEqual(promised_but_not_printed(stale, "5 4 1\n"), [])
 
 
 if __name__ == "__main__":

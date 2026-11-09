@@ -6326,7 +6326,7 @@
     },
     "S08-T2-A-E1": {
       "section": "S08",
-      "sha256": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "sha256": "eb6ce0297b0519f0a6b0514a5df1cdc59430c0c6003df5f8c2d2b6c292fef6c3",
       "tokens": [
         "ana",
         "c001",
@@ -6532,7 +6532,7 @@
     },
     "S08-T3-A-E1": {
       "section": "S08",
-      "sha256": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "sha256": "93c3b0fbbcc4eddcf05acb4a1a653a147a7187b37801545160ac80e718a72bbb",
       "tokens": [
         "c001",
         "c002",
@@ -6547,7 +6547,8 @@
         "obj",
         "parsear",
         "print",
-        "raw"
+        "raw",
+        "y"
       ]
     },
     "S08-T3-A-E2": {
@@ -6787,18 +6788,16 @@
     },
     "S08-T4-B-E1": {
       "section": "S08",
-      "sha256": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "sha256": "69c3b7deca01d1133bc17878031ffe19c3feaf26df1c3f5c3a6d3e1e0410d273",
       "tokens": [
         "0",
         "1",
         "2",
         "3",
         "4",
-        "5",
         "6",
         "abc",
         "all",
-        "ambas",
         "clients",
         "con",
         "csv",

@@ -1540,7 +1540,7 @@ final COMPLETO`,
         kind: "guided",
         title: "Leer filas CSV con DictReader",
         preamble:
-          "- **Contexto:** el clean del gate trabaja por **nombre de columna**, no por posición frágil.\n- **Meta:** usar `csv.DictReader` sobre un StringIO sintético.\n- **Éxito:** imprime `{'id': 'C001', 'nombre': 'Ana'}`.\n- **Límites:** solo stdlib; no hagas `split(',')` manual del cuerpo.",
+          "- **Contexto:** el clean del gate trabaja por **nombre de columna**, no por posición frágil.\n- **Meta:** usar `csv.DictReader` sobre un StringIO sintético.\n- **Éxito:** imprime `{'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}`: la coma entre comillas queda dentro de `nombre`.\n- **Límites:** solo stdlib; no hagas `split(',')` manual del cuerpo.",
         instruction:
           "1. El starter parte líneas a mano: rompe si hay comas en campos.\n2. Envuélvelo en `io.StringIO` y recorre con `DictReader`.\n3. Imprime cada fila (dict).\n4. Confirma mentalmente que el header define las claves.",
         hint: "csv.DictReader",
@@ -1549,7 +1549,7 @@ final COMPLETO`,
           "io.StringIO",
         ],
         edgeCases: ["header"],
-        tests: "print dict C001 Ana",
+        tests: "print dict C001, 'Pérez, Ana', Porto",
         feedback:
           "`DictReader` usa la primera línea como fieldnames y entrega dicts. El split manual desalinea columnas y es el camino a métricas corruptas del gate.",
         retrospective:
@@ -1812,16 +1812,16 @@ schema 1`,
         kind: "guided",
         title: "Parsear JSON con loads e id C001",
         preamble:
-          "- **Contexto:** `transactions.json` del gate llega como texto; el slice manual es frágil.\n- **Meta:** usar `json.loads` y leer `id`.\n- **Éxito:** imprime `C001`.\n- **Límites:** solo stdlib; no indexar caracteres del string crudo.",
+          "- **Contexto:** `transactions.json` del gate llega como texto; el slice manual es frágil.\n- **Meta:** usar `json.loads` y leer `id`.\n- **Éxito:** imprime `C001` y luego `C002`, aunque el segundo texto lleve un espacio después de los dos puntos.\n- **Límites:** solo stdlib; no indexar caracteres del string crudo.",
         instruction:
-          "1. El starter hace `raw[7:10]`: un corte manual que pierde el último carácter del id y se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']`.\n4. No uses expresiones regulares sobre el JSON.",
+          "1. El starter hace `raw[7:10]`: un corte manual que pierde el último carácter del id y se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']` para cada uno de los dos textos.\n4. No uses expresiones regulares sobre el JSON.",
         hint: "json.loads",
         hints: [
           "json.loads",
           "dict access",
         ],
         edgeCases: ["loads"],
-        tests: "C001",
+        tests: "C001 y C002",
         feedback:
           "`loads` parsea **string**; `load` parsea **file**. El slice asume posiciones fijas y falla en el primer cambio de formato del export.",
         retrospective:
@@ -2099,10 +2099,11 @@ print(dig[:8], len(dig))`,
         preamble:
           "- **Contexto:** antes de cualquier transformación, el gate preserva el crudo.\n- **Meta:** copiar `in.csv` a `backups/<run_id>/in.csv` y verificar igualdad de bytes.\n- **Éxito:** imprime `True`.\n- **Límites:** `shutil.copy2`; comparar con `read_bytes`, no solo `exists`.",
         instruction:
-          "1. El starter solo imprime `bak.exists()` (False).\n2. Tras escribir `in.csv`, haz `shutil.copy2(src, bak)`.\n3. Imprime `bak.read_bytes() == src.read_bytes()`.\n4. No reescribas el bak a mano con otro contenido.",
+          "1. El starter solo imprime `bak.exists()` (False).\n2. Tras escribir `in.csv`, crea la carpeta de la corrida con `bak.parent.mkdir(parents=True, exist_ok=True)`; sin ella, `copy2` falla con `FileNotFoundError`.\n3. Haz `shutil.copy2(src, bak)`.\n4. Imprime `bak.read_bytes() == src.read_bytes()`.\n5. No reescribas el bak a mano con otro contenido.",
         hint: "shutil.copy2",
         hints: [
           "shutil.copy2",
+          "bak.parent.mkdir(parents=True, exist_ok=True)",
           "read_bytes compare",
         ],
         edgeCases: ["backup"],
@@ -2197,7 +2198,7 @@ print(prov)`,
         kind: "guided",
         title: "Manifest multi-fuente con totales derivados",
         preamble:
-          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
+          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `6 4 1`, luego `('clients.csv', True)` y `('transactions.json', False)`, y al final `False`: la segunda fuente no cuadra, porque 3 ≠ 2 + 0.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
         instruction:
           "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Antes de armar el manifiesto, crea una sola vez `run_id = uuid.uuid4().hex`.\n3. Arma el dict manifest con ese `run_id`, `sources` y totales sumados.\n4. `reconcile_ok` global = `all` por fuente.\n5. Imprime totales, lista (`name`, `ok`) y el booleano global.",
         hint: "Calcula reconcile_ok por fuente antes de sumar",
@@ -2206,7 +2207,7 @@ print(prov)`,
           "sources contiene clients.csv y transactions.json.",
         ],
         edgeCases: ["dos fuentes", "totales derivados"],
-        tests: "totales 5/4/1; ambas reconcile_ok True; manifest True",
+        tests: "totales 6/4/1; clients.csv True, transactions.json False; manifest False",
         feedback:
           "Hardcodear True es mentir al auditor. Los totales se **derivan** de sources para que una edición de conteos no deje el resumen inconsistente.",
         retrospective:
