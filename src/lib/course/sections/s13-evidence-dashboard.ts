@@ -133,7 +133,7 @@ relationship_signal_score SEPARATE`,
       subtopicId: "S13-T1-B",
       paragraphs: [
         "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La **precision** mide, entre los pares que llamaste match, qué parte sí lo era; el **recall** mide, entre los matches reales, qué parte encontraste. Estas dos lecturas permiten auditar la regla antes de que los casos dudosos pasen a la cola clerical. La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
-        "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en banda intermedia (p. ej. [0.4, 0.7]) **nunca** auto-mergean: van a revisión. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
+        "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en la banda de revisión, [0.4, 0.8), **nunca** auto-mergean: van a la cola clerical. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
         "**Caso trabajado:** tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. Reportas ambos redondeados a 3 decimales y el flag explícito `fp_means_fraud=False` en el memo del gate. Si solo publicas «accuracy alto» sin desglose TP/FP/FN, el revisor no puede auditar el coste de los errores.",
         "**Borde ético:** un **FP no implica fraude**. Es colisión de identidad estimada (dos personas, un score alto por casualidad o por regla débil). Tratar FP como delito es el error más grave que puedes llevar a un dashboard de N1: por eso la ficha y el runbook repiten la frase hasta que se vuelva reflejo.",
       ],
@@ -165,6 +165,42 @@ fp_means_fraud False`,
         title: "FP ≠ fraude",
         content:
           "False positive de ER es colisión de identidad estimada, no evidencia de delito.",
+      },
+    },
+    {
+      heading: "Contraejemplo: si el score sale de la etiqueta, precision 1.0 no mide nada",
+      paragraphs: [
+        "El generador de la demo anterior calculaba el score a partir de la etiqueta: `y == 1` recibía 0.85, `y == 0` recibía 0.2 y tres pares se fijaban a mano. Una regla así parece perfecta porque nunca decidió nada con el par: leyó la respuesta antes de contar.",
+        "Lee la salida por parejas. La primera línea muestra el error: precision 1.0 y recall 0.714 salen del generador, no de una regla. La segunda usa scores literales, como los que daría una regla, e incluye un falso positivo (un par con `y = 0` y score 0.83). Ahí la precision baja a 0.667: el falso positivo cuenta, y la etiqueta ya no decide el score.",
+      ],
+      code: {
+        language: 'python',
+        title: 'etiqueta_filtrada_vs_tabla.py',
+        code: `# Error: el score sale de la etiqueta
+def build_pairs(n=20):
+    pairs = []
+    for i in range(n):
+        y = 1 if i % 3 == 0 else 0
+        score = 0.85 if y == 1 else 0.2
+        if i in (4, 9, 15):
+            score = 0.55
+        pairs.append({"y": y, "score": score})
+    return pairs
+
+pairs = build_pairs()
+tp = sum(1 for p in pairs if p["y"] == 1 and p["score"] >= 0.8)
+fp = sum(1 for p in pairs if p["y"] == 0 and p["score"] >= 0.8)
+fn = sum(1 for p in pairs if p["y"] == 1 and p["score"] < 0.8)
+print("error precision", round(tp / (tp + fp), 3), "recall", round(tp / (tp + fn), 3))
+
+# Corrección: scores literales de una regla, con un falso positivo
+TABLA = [(1, 0.91), (1, 0.86), (0, 0.83), (1, 0.55), (0, 0.12), (0, 0.30)]
+tp = sum(1 for y, s in TABLA if y == 1 and s >= 0.8)
+fp = sum(1 for y, s in TABLA if y == 0 and s >= 0.8)
+fn = sum(1 for y, s in TABLA if y == 1 and s < 0.8)
+print("corrección precision", round(tp / (tp + fp), 3), "recall", round(tp / (tp + fn), 3))`,
+        output: `error precision 1.0 recall 0.714
+corrección precision 0.667 recall 0.667`,
       },
     },
     {
@@ -519,47 +555,57 @@ entity_resolution_score 1.0`,
         demoId: "S13-T1-B-DEMO",
         subtopicId: "S13-T1-B",
         environment: "local-python",
-        description: "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
+        description: "Evaluar 20 pares etiquetados sintéticos con una regla de score; listar 5 para revisión humana por score en duda.",
         preamble:
-          "Sin etiquetas sintéticas no sabes si tu regla de ER ayuda o daña. Esta demo arma 20 pares con seed fijo, calcula precision/recall y lista la **cola clerical** (scores en [0.4, 0.7]). Observa que precision alta no borra los FN, y que la banda gris va a una persona — no a una unión automática. Predice la cola antes de leer la salida.",
+          "Sin etiquetas sintéticas no sabes si tu regla de ER ayuda o daña. Esta demo tiene 20 pares, cada uno con una etiqueta `y` (1 = misma persona, 0 = no) y un score fijo. Calcula precision/recall con la regla «aceptar si score ≥ 0.8» y lista la **cola clerical** (scores en [0.4, 0.8)). Observa el falso positivo P3: un score alto no prueba identidad. Predice la cola antes de leer la salida.",
         code: {
           language: 'python',
           title: "eval_clerical_demo.py",
-          code: `import random
-
-def build_pairs(seed=13, n=20):
-    random.seed(seed)
-    pairs = []
-    for i in range(n):
-        y = 1 if i % 3 == 0 else 0
-        score = 0.85 if y == 1 else 0.2
-        if i in (4, 9, 15):
-            score = 0.55
-        pairs.append({"id": f"P{i}", "y": y, "score": score, "pred": int(score >= 0.7)})
-    return pairs
+          code: `PAIRS = [
+    {"id": "P0", "y": 1, "score": 0.91},
+    {"id": "P1", "y": 0, "score": 0.12},
+    {"id": "P2", "y": 1, "score": 0.86},
+    {"id": "P3", "y": 0, "score": 0.83},
+    {"id": "P4", "y": 1, "score": 0.55},
+    {"id": "P5", "y": 0, "score": 0.47},
+    {"id": "P6", "y": 1, "score": 0.97},
+    {"id": "P7", "y": 0, "score": 0.08},
+    {"id": "P8", "y": 1, "score": 0.81},
+    {"id": "P9", "y": 1, "score": 0.62},
+    {"id": "P10", "y": 0, "score": 0.30},
+    {"id": "P11", "y": 0, "score": 0.44},
+    {"id": "P12", "y": 1, "score": 0.93},
+    {"id": "P13", "y": 0, "score": 0.15},
+    {"id": "P14", "y": 1, "score": 0.79},
+    {"id": "P15", "y": 0, "score": 0.25},
+    {"id": "P16", "y": 1, "score": 0.88},
+    {"id": "P17", "y": 0, "score": 0.10},
+    {"id": "P18", "y": 0, "score": 0.02},
+    {"id": "P19", "y": 1, "score": 0.99},
+]
 
 def pr_metrics(pairs):
-    tp = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 1)
-    fp = sum(1 for p in pairs if p["y"] == 0 and p["pred"] == 1)
-    fn = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 0)
+    # Regla: aceptar si score >= 0.8; la etiqueta y solo se lee para contar
+    tp = sum(1 for p in pairs if p["y"] == 1 and p["score"] >= 0.8)
+    fp = sum(1 for p in pairs if p["y"] == 0 and p["score"] >= 0.8)
+    fn = sum(1 for p in pairs if p["y"] == 1 and p["score"] < 0.8)
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall = tp / (tp + fn) if (tp + fn) else 0.0
     return tp, fp, fn, precision, recall
 
-pairs = build_pairs()
-tp, fp, fn, precision, recall = pr_metrics(pairs)
+tp, fp, fn, precision, recall = pr_metrics(PAIRS)
 print("tp", tp, "fp", fp, "fn", fn)
 print("precision", round(precision, 3))
 print("recall", round(recall, 3))
-print("clerical_queue", [p["id"] for p in pairs if 0.4 <= p["score"] <= 0.7])`,
-          output: `tp 5 fp 0 fn 2
-precision 1.0
-recall 0.714
-clerical_queue ['P4', 'P9', 'P15']`,
+print("clerical_queue", [p["id"] for p in PAIRS if 0.4 <= p["score"] < 0.8])`,
+          output: `tp 7 fp 1 fn 3
+precision 0.875
+recall 0.7
+clerical_queue ['P4', 'P5', 'P9', 'P11', 'P14']`,
         },
         why: "Métricas + cola clerical cierran el loop de calidad de ER. Un FP es colisión de matching, no fraude; la banda intermedia nunca auto-mergea. En crédito/compliance priorizas precision y empujas la duda al humano.",
         retrospective:
-          "Si puedes decir por qué un score 0.55 no debe auto-aceptarse, ya internalizaste human-in-the-loop. Un FP es colisión de matching, no delito. Pregunta de auto-chequeo: ¿precision 1.0 borra los FN de la cola? We Do: formulas precision/recall, cola inclusive y reporte ético `fp_not_fraud`.",
+          "Si puedes decir por qué un score 0.55 no debe auto-aceptarse, ya internalizaste human-in-the-loop. Un FP es colisión de matching, no delito. Pregunta de auto-chequeo: ¿una precision de 0.875 dice algo sobre los FN o sobre los pares de la cola? We Do: fórmulas precision/recall, cola con 0.4 incluido y 0.8 excluido, y reporte ético `fp_not_fraud`.",
       },
       {
         demoId: "S13-T2-A-DEMO",
@@ -927,7 +973,9 @@ def bkey(r):
     ap = parts[1] if len(parts) >= 2 else parts[0]
     return f"{ap}|{r['region'].casefold()}"
 def er_score(a, b):
-    same_doc = norm_doc(a["document_id"]) == norm_doc(b["document_id"])
+    doc_a, doc_b = norm_doc(a["document_id"]), norm_doc(b["document_id"])
+    # Dos documentos vacíos tras normalizar no son el mismo documento
+    same_doc = doc_a != "" and doc_a == doc_b
     same_block = bkey(a) == bkey(b)
     if same_doc and same_block:
         return 1.0
@@ -988,9 +1036,9 @@ recall 0.667`,
         kind: "independent",
         title: "Cola clerical en banda de duda",
         preamble:
-          "- **Contexto:** el dashboard no decide solo: la **cola clerical** es la bandeja humana de scores intermedios.\n- **Meta:** devolver ids con score en [0.4, 0.7] **inclusive**.\n- **Éxito:** `['P2', 'P3']` (P1=0.2 fuera; P4=0.9 fuera).\n- **Límites:** no encoles la banda de accept; orden estable del fixture; solo stdlib.",
+          "- **Contexto:** el dashboard no decide solo: la **cola clerical** es la bandeja humana de scores intermedios.\n- **Meta:** devolver ids con score en [0.4, 0.8): incluye 0.4 y excluye 0.8.\n- **Éxito:** `['P2', 'P3']` (P1=0.2 fuera; P4=0.9 fuera).\n- **Límites:** no encoles la banda de accept; orden estable del fixture; solo stdlib.",
         instruction:
-          "1. El starter encola la banda de accept (`score >= high`) — ese es el DEFECT.\n2. Cambia el filtro a la **banda de duda** inclusiva definida en la meta (low…high).\n3. Conserva el orden de aparición de `pairs`.\n4. Imprime la lista de ids; no borres P1–P4.",
+          "1. El starter encola la banda de accept (`score >= high`) — ese es el DEFECT.\n2. Cambia el filtro a la **banda de duda** de la meta: `low <= score < high`.\n3. Conserva el orden de aparición de `pairs`.\n4. Imprime la lista de ids; no borres P1–P4.",
         hint: "list comprehension con filtro de banda",
         hints: [
           "list comprehension con filtro de banda",
@@ -1013,7 +1061,7 @@ pairs = [
     {"id": "P3", "score": 0.7},
     {"id": "P4", "score": 0.9},
 ]
-def clerical_queue(pairs, low=0.4, high=0.7):
+def clerical_queue(pairs, low=0.4, high=0.8):
     return [p["id"] for p in pairs if p["score"] >= high]
 print(clerical_queue(pairs))
 print('ok', True)`,
@@ -1027,8 +1075,8 @@ print('ok', True)`,
     {"id": "P3", "score": 0.7},
     {"id": "P4", "score": 0.9},
 ]
-def clerical_queue(pairs, low=0.4, high=0.7):
-    return [p["id"] for p in pairs if low <= p["score"] <= high]
+def clerical_queue(pairs, low=0.4, high=0.8):
+    return [p["id"] for p in pairs if low <= p["score"] < high]
 print(clerical_queue(pairs))`,
           output: `['P2', 'P3']`,
         },
@@ -1977,6 +2025,8 @@ Orden sugerido (ruta verde local):
 3) Corrige decide_ops_status hasta que las 9 filas de DECISION_MATRIX pasen
 4) Corrige pseudonymize; privacy_sheet y level1_regression_notes ya están listos
 Luego: main() imprime er/rel, decision_matrix_ok y artefactos CF-1.
+main() comprueba cuatro pares de prueba (positivo, negativo, tres tokens y una sola señal)
+antes de imprimir nada.
 Pair de demo esperado tras correcciones: er=1.0, rel=1.0, pseudo='A*** Q***'.
 """
 
@@ -2077,7 +2127,27 @@ def level1_regression_notes() -> list[str]:
     return ["%s: %s" % (row["section"], row["check"]) for row in LEVEL1_REGRESSION_MATRIX]
 
 
+# (a, b, er esperado, rel esperado)
+PAIR_CASES = [
+    # positivo: mismo documento y mismo bloque; las tres señales suman 1.0
+    ({"name": "Ana Quispe", "document_id": "D-1", "region": "Lima", "phone": "900", "km": 1.0},
+     {"name": "ANA QUISPE", "document_id": "d1", "region": "Lima", "phone": "900", "km": 1.0}, 1.0, 1.0),
+    # negativo: otro documento, otro apellido y otra región; ninguna señal
+    ({"name": "Ana Quispe", "document_id": "D-1", "region": "Lima"},
+     {"name": "Luis Rojas", "document_id": "D-9", "region": "Cusco"}, 0.0, 0.0),
+    # tres tokens: el bloque usa el apellido paterno, así que coincide; solo el apellido suma 0.2
+    ({"name": "Ana Quispe Rojas", "document_id": "d-1", "region": "Lima"},
+     {"name": "Ana Quispe Díaz", "document_id": "D1", "region": "Lima"}, 1.0, 0.2),
+    # una sola señal (teléfono): 0.5, no 0.4
+    ({"name": "Eva Mamani", "document_id": "X7", "region": "Puno", "phone": "955"},
+     {"name": "Luis Rojas", "document_id": "X8", "region": "Lima", "phone": "955"}, 0.0, 0.5),
+]
+
+
 def main() -> None:
+    for a, b, er_expected, rel_expected in PAIR_CASES:
+        assert er_score(a, b) == er_expected, (a, b, "er")
+        assert relationship_signal_score(a, b) == rel_expected, (a, b, "rel")
     a = {"name": "Ana Quispe", "document_id": "D-1", "region": "Lima", "phone": "900", "km": 1.0}
     b = {"name": "ANA QUISPE", "document_id": "d1", "region": "Lima", "phone": "900", "km": 1.0}
     print("pseudo", pseudonymize(a["name"]))

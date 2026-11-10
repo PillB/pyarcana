@@ -268,6 +268,43 @@ offline offline_fallback`,
       },
     },
     {
+      heading: "Contraejemplo: el corte binario da éxito a un 404 y a un 429",
+      paragraphs: [
+        "Un corte que solo pregunta `status >= 500` trata todo lo demás como éxito. Así, un 404 (el recurso no existe) o un 429 (demasiadas peticiones) producen un body `online` que nunca llegó del proveedor. El código compara los dos cortes con las mismas entradas.",
+        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout (no tiene status, así que llega como `None`) y un 429 que sigue llegando después de los reintentos de la política N1. Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
+      ],
+      code: {
+        language: 'python',
+        title: 'fallback_binario_vs_tres_ramas.py',
+        code: `# Error: corte binario; solo >= 500 es offline
+def fallback_binario(status, local_body):
+    if status >= 500:
+        return local_body, "offline"
+    return {"online": True}, "online"
+
+# Corrección: tres ramas; un 429 llega aquí solo si los reintentos se agotaron
+def fallback_tres_ramas(status, local_body):
+    if status is None or status == 429 or status >= 500:
+        return local_body, "offline"
+    if 200 <= status < 300:
+        return {"online": True}, "online"
+    return None, "fail_client"
+
+for status in (200, 503, 404, 429):
+    print("binario", status, fallback_binario(status, {"lat": -12.0}))
+for status in (200, 503, 404, 429):
+    print("tres ramas", status, fallback_tres_ramas(status, {"lat": -12.0}))`,
+        output: `binario 200 ({'online': True}, 'online')
+binario 503 ({'lat': -12.0}, 'offline')
+binario 404 ({'online': True}, 'online')
+binario 429 ({'online': True}, 'online')
+tres ramas 200 ({'online': True}, 'online')
+tres ramas 503 ({'lat': -12.0}, 'offline')
+tres ramas 404 (None, 'fail_client')
+tres ramas 429 ({'lat': -12.0}, 'offline')`,
+      },
+    },
+    {
       heading: "Esquema, CRUD y joins",
       subtopicId: "S12-T3-A",
       paragraphs: [
@@ -355,7 +392,7 @@ print(try_batch_unique_doc())`,
       subtopicId: "S12-T4-A",
       paragraphs: [
         "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
-        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es ciudad/dirección sintética autorizada. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"address\", \"city\", \"country\"}`. Si aparece `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es solo la ciudad (y el país, si hace falta). La dirección exacta no sale del sistema. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"city\", \"country\"}`. Si aparece `address` o `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
         "`MockGeocoder` devuelve lat/lon fijos para las dos ciudades que tiene en su tabla, y así las demos offline son reproducibles; cualquier ciudad fuera de esa tabla → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
       code: {
@@ -391,7 +428,7 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
         type: "warning",
         title: "Política de egress (salida de datos)",
         content:
-          "Checklist: ¿el payload al proveedor incluye solo dirección/ciudad sintética autorizada? Si no, bloquea.",
+          "Checklist: ¿el payload al proveedor incluye solo la ciudad (y el país)? Si trae una dirección exacta o un document_id, bloquea.",
       },
     },
     {
@@ -468,6 +505,8 @@ def list_signals():
 
 resp = list_signals()
 # 1) status → acción; 2) solo si 2xx, parsea items
+if not 200 <= resp.status_code < 300:
+    raise RuntimeError(f"status {resp.status_code}")
 data = resp.json()
 print("status", resp.status_code)
 print("count", data["count"])
@@ -567,21 +606,24 @@ token_logged False`,
           language: 'python',
           title: "geocoder_contract_demo.py",
           code: `REQUIRED = {"lat", "lon", "provider"}
-PRECALC = {"Lima": {"lat": -12.0464, "lon": -77.0428, "provider": "precalc"}}
+COORDS = {"Lima": (-12.0464, -77.0428)}
 
 def contract_ok(d):
     return not (REQUIRED - set(d.keys()))
 
 def geocode(city, fail_online=False):
-    if fail_online:
-        return {**PRECALC[city], "mode": "offline_fallback"}
-    online = {"lat": -12.0464, "lon": -77.0428, "provider": "mock", "mode": "online"}
-    assert contract_ok(online)
-    return online
+    # Clave por ciudad: una ciudad sin dato devuelve None, no las coords de otra
+    if city not in COORDS:
+        return None
+    lat, lon = COORDS[city]
+    provider, mode = ("precalc", "offline_fallback") if fail_online else ("mock", "online")
+    result = {"lat": lat, "lon": lon, "provider": provider, "mode": mode}
+    assert contract_ok(result)
+    return result
 
 print("online", geocode("Lima"))
 print("fallback", geocode("Lima", fail_online=True))
-print("contract_precalc", contract_ok(PRECALC["Lima"]))`,
+print("contract_precalc", contract_ok(geocode("Lima", fail_online=True)))`,
           output: `online {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}
 fallback {'lat': -12.0464, 'lon': -77.0428, 'provider': 'precalc', 'mode': 'offline_fallback'}
 contract_precalc True`,
@@ -1245,20 +1287,20 @@ missing keys: ['lon']`,
         id: "S12-T2-B-E2",
         subtopicId: "S12-T2-B",
         kind: "independent",
-        title: "Fallback offline ante 5xx",
+        title: "Fallback offline ante 5xx y fallo de cliente",
         preamble:
-          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`.\n- **Límites:** solo status ≥ 500 dispara offline; no reescribas el status a 200.",
+          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo. Un 404 no es un éxito: el body no llegó, así que no puedes presentarlo como online. Un 429 (demasiadas peticiones) es transitorio: si sigue llegando después de los reintentos, lo tratas como un 503.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo. Un timeout llega como `status` `None`.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`; `None` → `(local_body, 'offline')`; 429 → `(local_body, 'offline')`; 404 → `(None, 'fail_client')`.\n- **Límites:** 2xx es online; 5xx, 429 y timeout son offline; el resto es `fail_client`; no reescribas el status a 200.",
         instruction:
-          "1. El starter ignora status y siempre devuelve online.\n2. Si `status >= 500`, devuelve `(local_body, 'offline')`.\n3. En caso contrario, body online y modo `'online'`.\n4. Imprime ambos casos del starter.",
-        hint: "5xx dispara el body local y el modo offline.",
+          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None`, `status == 429` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (un 4xx de cliente, como 404), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del solution: 200, 503, `None`, 404 y 429.",
+        hint: "5xx, 429 y timeout disparan el body local y el modo offline; los demás 4xx no.",
         hints: [
           "Compara status con 500 para decidir el modo.",
           "Retorna siempre una tupla (body, mode).",
         ],
-        edgeCases: ["5xx → offline"],
-        tests: "online/offline modes",
+        edgeCases: ["5xx → offline", "timeout (None) → offline", "429 tras los reintentos → offline", "404 → fail_client"],
+        tests: "online/offline/fail_client modes",
         feedback:
-          "Fallback degradado mantiene el demo del dashboard vivo. El modo offline es la verdad del origen: no finjas éxito online cuando leíste precalculados.",
+          "Fallback degradado mantiene el demo del dashboard vivo. El modo offline es la verdad del origen: no finjas éxito online cuando leíste precalculados. Un 404 o un 429 no es un éxito del proveedor: si devuelves `'online'`, inventas una respuesta que nunca llegó.",
         retrospective:
           "El modo offline es la verdad del origen, no un detalle de UI. En E3 formalizas el runbook `live_api` / `local_file` para el flag de operación.",
         starterCode: {
@@ -1270,18 +1312,29 @@ def fetch_with_fallback(status, local_body):
     return {"online": True}, "online"
 print(fetch_with_fallback(200, {"lat": 0}))
 print(fetch_with_fallback(503, {"lat": -12.0}))
+print(fetch_with_fallback(None, {"lat": -12.0}))
+print(fetch_with_fallback(404, {"lat": -12.0}))
+print(fetch_with_fallback(429, {"lat": -12.0}))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "fallback_5xx.py",
           code: `def fetch_with_fallback(status, local_body):
-    if status >= 500:
+    if status is None or status == 429 or status >= 500:
         return local_body, "offline"
-    return {"online": True}, "online"
+    if 200 <= status < 300:
+        return {"online": True}, "online"
+    return None, "fail_client"
 print(fetch_with_fallback(200, {"lat": 0}))
-print(fetch_with_fallback(503, {"lat": -12.0}))`,
+print(fetch_with_fallback(503, {"lat": -12.0}))
+print(fetch_with_fallback(None, {"lat": -12.0}))
+print(fetch_with_fallback(404, {"lat": -12.0}))
+print(fetch_with_fallback(429, {"lat": -12.0}))`,
           output: `({'online': True}, 'online')
+({'lat': -12.0}, 'offline')
+({'lat': -12.0}, 'offline')
+(None, 'fail_client')
 ({'lat': -12.0}, 'offline')`,
         },
       },
@@ -1736,9 +1789,9 @@ None`,
         kind: "transfer",
         title: "Allowlist de egress al geocoder público",
         preamble:
-          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{address, city, country}`.\n- **Éxito:** payload limpio → `True`; con `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
+          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{city, country}`.\n- **Éxito:** `{'city': 'Quito'}` → `True`; con `address` o `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
         instruction:
-          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime ambos casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
+          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime los tres casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
         hint: "Todas las claves del payload deben estar en la allowlist.",
         hints: [
           "Comprueba que el set de claves del payload está contenido en ALLOWED.",
@@ -1755,22 +1808,25 @@ None`,
           title: "egress_checklist.py",
           code: `# CASO-LIM-012 · allowlist payload
 # DEFECT: siempre True
-ALLOWED = {"address", "city", "country"}
+ALLOWED = {"city", "country"}
 def allowed_for_public_geocoder(payload):
     return True
-print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))
+print(allowed_for_public_geocoder({"city": "Quito"}))
+print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
+print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "egress_checklist.py",
-          code: `ALLOWED = {"address", "city", "country"}
+          code: `ALLOWED = {"city", "country"}
 def allowed_for_public_geocoder(payload):
     return set(payload) <= ALLOWED
-print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
+print(allowed_for_public_geocoder({"city": "Quito"}))
+print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
+print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))`,
           output: `True
+False
 False`,
         },
       },
@@ -1985,7 +2041,7 @@ def normalize_address(s: str) -> str:
 
 
 def allowed_for_public_geocoder(payload: dict) -> bool:
-    # DEFECT: NotImplemented — allowlist {address, city, country}
+    # DEFECT: NotImplemented — allowlist {city, country}
     raise NotImplementedError
 
 
@@ -2034,7 +2090,7 @@ def main() -> None:
     print("cache_hits", hit1, hit2)
     print("prov", min_provenance("https://api.example.com/s", 200, hit2))
     print("norm", normalize_address("  av  larco  1 "))
-    print("egress_ok", allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+    print("egress_ok", allowed_for_public_geocoder({"city": "Lima"}))
     print("egress_bad", allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
     print("geo", MockGeocoder().geocode("Lima"))
     km = round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2)
@@ -2089,7 +2145,7 @@ if __name__ == "__main__":
         options: ["Viola la política de egress de CP-N1-C", "Está permitido si hay timeout", "Mejora el Haversine", "Es requerido por SQLite"],
         correctIndex: 0,
         explanation:
-          "La política de egress (qué sale al proveedor) permite solo dirección/ciudad sintética; nunca PII bancaria como `document_id`.",
+          "La política de egress (qué sale al proveedor) permite solo la ciudad y el país; ni la dirección exacta ni PII bancaria como `document_id`.",
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",
