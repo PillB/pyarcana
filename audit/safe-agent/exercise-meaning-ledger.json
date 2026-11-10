@@ -630,6 +630,16 @@
       "reason": "Owner decision 2026-11-09 (decision card on HTTP 429): a 429 is transient. When it survives the N1 retries it falls back to the local copy like a 503, instead of fail_client. Preamble, steps, hint, edge cases and the fifth output line follow.",
       "decided_by": "owner 2026-11-09 (decision: 429 transient, wait, retry, then offline)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 64,
+      "id": "S09-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "c748d5a9cb1fb9e3772dec10b2716a54cb7f096d169c5e90be6dc94a8499b91d",
+      "to_fp": "2e2cd75b1d9d369010b755b8e2c75fcfd558391c13a754e15562dc91890c6054",
+      "reason": "R2 instance: the reconcile assert now also compares with len(rows), so a process_batch that drops a row and reports one fewer fails. The task, data and printed output are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 R2)",
+      "date": "2026-11-09"
     }
   ]
 }

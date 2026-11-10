@@ -866,7 +866,7 @@ rows = [
 ]
 r = process_batch(rows, {"required_fields": ["id", "email"]})
 print(r)
-assert len(r["ok"]) + len(r["quarantined"]) == r["in"]
+assert len(r["ok"]) + len(r["quarantined"]) == r["in"] == len(rows)
 try:
     process_batch(rows, {})
 except RuntimeError as e:
@@ -1086,8 +1086,11 @@ def load_text(path_fn):
     except FileNotFoundError as e:
         raise DataLoadError("load failed")
 
+def missing_reader():
+    raise FileNotFoundError("missing")
+
 try:
-    load_text(lambda: (_ for _ in ()).throw(FileNotFoundError("missing")))
+    load_text(missing_reader)
 except DataLoadError as e:
     print(type(e).__name__, e.__cause__)
 `,
@@ -2101,7 +2104,7 @@ print(process_batch(rows))
 rows = [{"id": "C1"}, {}, {"id": "C2"}]
 r = process_batch(rows)
 print(r)
-assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
+assert r["in"] == len(rows) == len(r["ok"]) + len(r["quarantined"])`,
           output: `{'ok': [{'id': 'C1'}, {'id': 'C2'}], 'quarantined': [{'row': {}, 'reason': 'data:missing_id'}], 'in': 3}`,
         },
       },
@@ -2461,7 +2464,7 @@ checked = process_batch(
     "job-test-reconcile",
     {"required_fields": ["id", "email"]},
 )
-assert checked["in"] == len(checked["ok"]) + len(checked["quarantined"])`,
+assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantined"])`,
     portfolioNote:
       "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de las comprobaciones. Subraya privacidad.",
     rubric: [
