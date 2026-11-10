@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload sentinel result
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: preservation-sentinel
           path: audit/safe-agent/preservation-sentinel-result.json
@@ -156,7 +156,7 @@ jobs:
 
       - name: Upload glossary and first-use reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: glossary-reports
           path: |
@@ -337,7 +337,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-results
           path: |
@@ -417,7 +417,7 @@ jobs:
 
       - name: Upload audit reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: content-gate-reports
           path: |
