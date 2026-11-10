@@ -38,7 +38,7 @@ export const section07: CourseSection = {
             heading: "Dos nombres idénticos que la computadora ve distintos",
       paragraphs: [
         "Escribe «José» dos veces, una copiada de un formulario web y otra tecleada en tu editor. En pantalla son iguales. Para Python pueden no serlo: una versión guarda la é como un solo carácter y la otra como una e seguida de una tilde suelta. La comparación devuelve `False`, el cruce de tablas no encuentra la coincidencia, y no hay ningún error que te avise. S06 te dejó colecciones capaces de guardar registros; esta sección pregunta si el texto que está dentro de ellos significa lo que parece.",
-        "Poner de acuerdo esas dos formas de escribir lo mismo se llama **normalización Unicode**. Es el primer paso: sin él, todo lo demás compara ruido. Después avanzas un peldaño a la vez. Los métodos de texto de Python quitan espacios sobrantes, unifican mayúsculas y separan apellidos. Solo recurres a una expresión regular cuando el patrón es genuinamente irregular. El orden importa: la herramienta poderosa se usa al final, no al principio.",
+        "Poner de acuerdo esas dos formas de escribir lo mismo se llama **normalización Unicode**. Es el primer paso: sin él, todo lo demás compara ruido. Después avanzas un peldaño a la vez. Los métodos de texto de Python quitan espacios sobrantes, unifican mayúsculas y separan un nombre en palabras. Solo recurres a una expresión regular cuando el patrón es genuinamente irregular. El orden importa: la herramienta poderosa se usa al final, no al principio.",
         "Después viene comparar, y comparar nombres es más difícil de lo que parece en una región donde la gente lleva dos apellidos y los tildes se pierden al escribir rápido. «Ma. del Carmen» puede ser una abreviatura de «María del Carmen»; el texto por sí solo no demuestra que dos registros pertenezcan a la misma persona. Se puede medir cuánto se parecen dos textos, pero ese parecido es una **señal**, no una conclusión. Dos personas pueden llamarse igual; una misma persona puede aparecer escrita de cinco maneras. Por eso el resultado de esta sección nunca afirma parentesco: reúne evidencia y la deja a la vista.",
         "Todo eso se sostiene sobre un contrato de tres partes que verás en cada ejercicio. El **`raw`** es el valor tal como llegó y no se toca nunca, porque es lo único que permite auditar después. El **`normalized`** es el valor listo para comparar. Y **`transforms`** es la lista de lo que se le hizo en el camino, en orden. Con esas tres cosas cualquiera puede reconstruir por qué dos filas se cruzaron o por qué no.",
         "Usa este mapa de decisiones cuando te pierdas: **conservar `raw` → normalizar → comparar → reunir evidencia → decidir o enviar a `review`**. Y una pregunta antes de empezar: toma dos valores que parezcan iguales y predice en qué etapa podrían divergir. Si no puedes nombrar la etapa, todavía no necesitas una expresión regular; necesitas mirar el `raw`, la transformación y el resultado, en ese orden.",
@@ -326,8 +326,8 @@ anchors exact: True`,
     {
       heading: "Contraejemplo: el punto de un patrón no es un punto",
       paragraphs: [
-        "En una expresión regular, el punto significa «cualquier carácter», así que el patrón `Av.` también encuentra `Avd` dentro de `Avda.`. `re.sub` reemplaza las dos apariciones, y la segunda dirección termina como `Avenidaa. Grau 45`.",
-        "`str.replace` busca el texto exacto `Av.`, con el punto incluido, así que cambia solo la abreviatura que querías y deja `Avda. Grau 45` intacto. Cuando el texto que buscas es fijo, `replace` evita esta trampa; con regex, tendrías que escribir `Av\\.` para que el punto fuera literal.",
+        "En una expresión regular, el punto significa «cualquier carácter», así que el patrón `Av.` también encuentra `Avd` dentro de `Avda.`. `re.sub` reemplaza las dos apariciones, y la segunda dirección termina como `Avenidaa. Sur 45`.",
+        "`str.replace` busca el texto exacto `Av.`, con el punto incluido, así que cambia solo la abreviatura que querías y deja `Avda. Sur 45` intacto. Cuando el texto que buscas es fijo, `replace` evita esta trampa; con regex, tendrías que escribir `Av\\.` para que el punto fuera literal.",
       ],
       code: {
         language: 'python',
@@ -506,7 +506,7 @@ con review: ['CLI-0001', 'CLI-0002']
       heading: "FP/FN y conservación de evidencia",
       subtopicId: "S07-T4-B",
       paragraphs: [
-        "Cada par sintético recibe una **etiqueta de referencia `expected_match`**. Esta etiqueta indica si el ejercicio espera una coincidencia y se fija sin mirar el score. Hay un **FP** (*falso positivo*) cuando la predicción es `match`, pero `expected_match` es `False`. Hay un **FN** (*falso negativo*) cuando la predicción es `no_match`, pero `expected_match` es `True`. Sin esa referencia externa no puedes llamar FP o FN a un resultado. Estas etiquetas solo pertenecen al ejercicio sintético; no establecen identidades reales.",
+        "Cada par sintético recibe una **etiqueta de referencia `expected_match`**. Esta etiqueta indica si el ejercicio espera una coincidencia y se fija sin mirar el score. Hay un **FP** (*falso positivo*) cuando la predicción es `match`, pero `expected_match` es `False`. Hay un **FN** (*falso negativo*) cuando la predicción es `no_match`, pero `expected_match` es `True`. Sin esa referencia externa no puedes llamar FP o FN a un resultado. Estas etiquetas solo pertenecen al ejercicio sintético; no establecen identidades reales. En esta tabla la predicción es `match` solo cuando la decisión es `exact`; un par que iría a `review` cuenta como `no_match`, porque el sistema no lo unió por sí mismo. Por eso `Juan Perez` / `Juan P Perez` aparece como FN: no lo perdió nadie, una persona lo verá en `review`.",
         "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión es `exact`, `review` o `no_match` de **matching**: **no** es etiqueta familiar ni veredicto legal. Si falta evidencia, no completes el paquete con inventos. Cierra por fallo (*fail-closed*): mejor `review` vacío de afirmaciones que un campo inventado.",
         "¿Por qué el curso prohíbe afirmar parentesco o identidad legal desde Jaccard? Porque no hay fuente autoritativa (RENIEC u otra), porque el riesgo ético y legal es alto, y porque un score textual **no es prueba**. El pipeline entrega señales; el humano decide qué fusiones son sensibles.",
         "**Decide con evidencia:** para cada fila, nombra primero el costo de equivocarte y después la etiqueta FP o FN. Conserva el caso que contradiga tu regla: esa excepción enseña dónde mover un umbral o ampliar `review`, sin disfrazar incertidumbre de certeza.",
@@ -857,7 +857,7 @@ Corrección: review`,
         environment: "browser-pyodide",
         description: "Tabla FP/FN de 4 pares sintéticos",
         preamble:
-          "**Predicción:** clasifica las cuatro filas como TP, FP, FN o TN antes de ejecutar y escribe qué costo tendría cada error en un sistema de cuentas. Compara después tu tabla con la salida. `truth` pertenece a este ejercicio sintético de métricas; no es una consulta registral ni autoriza una afirmación de parentesco.",
+          "**Predicción:** clasifica las cuatro filas como TP, FP, FN o TN antes de ejecutar y escribe qué costo tendría cada error en un sistema de cuentas. Compara después tu tabla con la salida. `pred` es la decisión que ya tomó un sistema de prueba; tu tarea es nombrar cada error, no recalcularlo. `truth` pertenece a este ejercicio sintético de métricas; no es una consulta registral ni autoriza una afirmación de parentesco.",
         code: {
           language: 'python',
           title: "S07-T4-B-DEMO — fpfn",
@@ -865,7 +865,7 @@ Corrección: review`,
     # truth: same_entity sintético solo para ejercicio de métricas (no legal)
     rows = [
         {"a": "Ana", "b": "Ana", "pred": "match", "truth": "match"},
-        {"a": "José", "b": "Jose", "pred": "match", "truth": "match"},
+        {"a": "ROSA QUISPE", "b": "Rosa Quispe", "pred": "match", "truth": "match"},
         {"a": "Luis", "b": "Luisa", "pred": "match", "truth": "no"},
         {"a": "María del Carmen", "b": "Maria Carmen", "pred": "no", "truth": "match"},
     ]
@@ -883,7 +883,7 @@ Corrección: review`,
 
 s07_ido_8()`,
           output: `Ana vs Ana → TP
-José vs Jose → TP
+ROSA QUISPE vs Rosa Quispe → TP
 Luis vs Luisa → FP
 María del Carmen vs Maria Carmen → FN
 evidencia se conserva; no se afirma parentesco`,
@@ -1292,7 +1292,7 @@ print(''.join(c for c in raw if c.isdigit()))`,
         kind: "guided",
         title: "normalize_email modesto con fail-closed",
         preamble:
-          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok A@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
+          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok A@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`. Al final, dos líneas `Error:` / `Corrección:` comparan `casefold` sobre todo el texto y solo sobre el dominio.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
         id: "S07-T2-B-E1",
         instruction:
           "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Haz `casefold` solo sobre el dominio y conserva la parte local; exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",

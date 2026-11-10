@@ -3720,7 +3720,7 @@
     },
     "S04-T3-B-E3": {
       "section": "S04",
-      "sha256": "3b23dc5d8026665be1661180a30db6455b8c2b3f8e7e0c73ec0823487cef641f",
+      "sha256": "284e6f76aaac0d0f924cf29384e72b37db22bfe378fee57a1d554faeea18a9b3",
       "tokens": [
         "0",
         "5",
@@ -3737,6 +3737,7 @@
         "crear",
         "de",
         "diccionario",
+        "else",
         "for",
         "forma",
         "i",
@@ -3745,6 +3746,7 @@
         "in",
         "items",
         "len",
+        "none",
         "pares",
         "print",
         "r",

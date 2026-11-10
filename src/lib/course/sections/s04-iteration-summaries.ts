@@ -161,7 +161,7 @@ original intacto: [10, 0, -2, 5]`,
       paragraphs: [
         "Dos problemas parecen iguales y no lo son: **numerar** una sola secuencia y **alinear** dos secuencias. `enumerate(seq, start=1)` resuelve lo primero sin llevar un contador manual; `zip(a, b)` resuelve lo segundo, pero solo si puedes defender que ambas columnas tienen la misma longitud.",
         "**`zip(a, b)`** empareja valores que ocupan la misma posición. Sin `strict=True`, se detiene en el grupo más corto. Si `nombres` tiene 3 valores y `edades` tiene 2, el tercer nombre desaparece en silencio. En el entorno Python 3.12 del curso, usa `zip(a, b, strict=True)` cuando las longitudes deban coincidir. Si no coinciden, Python lanza un `ValueError`. Este error indica que los valores recibidos no cumplen ese requisito.",
-        "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Comprueba sus longitudes (`len(a)==len(b)` o `zip(..., strict=True)`) antes de procesarlas juntas. Un zip corto silencioso infla o deflacta las tasas de reject del resumen.",
+        "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Comprueba sus longitudes (`len(a)==len(b)` o `zip(..., strict=True)`) antes de procesarlas juntas. Un zip corto silencioso infla o reduce las tasas de reject del resumen.",
       ],
       code: {
         language: 'python',
@@ -186,7 +186,7 @@ C003 → Arequipa`,
         type: "warning",
         title: "Gate de alineación",
         content:
-          "Desalineación en zip produce resúmenes incorrectos y tasas infladas/deflactadas. En el entorno Python 3.12 del curso, usa `zip(..., strict=True)` cuando ambas columnas deban tener la misma longitud.",
+          "Desalineación en zip produce resúmenes incorrectos y tasas infladas o reducidas. En el entorno Python 3.12 del curso, usa `zip(..., strict=True)` cuando ambas columnas deban tener la misma longitud.",
       },
     },
     {
@@ -390,7 +390,7 @@ corregido: ['ok:1', 'ok:2']`,
       subtopicId: "S04-T3-A",
       paragraphs: [
         "Un resumen fiable responde tres preguntas distintas: «¿cuántas veces ocurrió?» (**contador**), «¿cuánto acumularon los valores?» (**acumulador**) y «¿dónde apareció el primer caso?» (**búsqueda**). Separar esas intenciones evita mezclar unidades y producir cifras plausibles pero falsas.",
-        "Para **tasas** del gate CP-N1-A: `tasa_error = n_error / n_total` solo si **`n_total > 0`**. El denominador es el número de registros **intentados**, no solo los aceptados. Si no hay filas, reporta `None` o “N/A”, no dividas por cero.",
+        "Para **tasas** del gate CP-N1-A: `tasa_error = n_error / n_total` solo si **`n_total > 0`**. El denominador es el número de registros **intentados**, no solo los aceptados. Si no hay filas, reporta `None` o “N/A”, no dividas por cero. Prueba el bloque con `statuses = []`: imprime `N/A` en lugar de dividir.",
         "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad.",
       ],
       code: {
@@ -409,7 +409,10 @@ if n_total > 0:
     tasa = n_reject / n_total
 else:
     tasa = None
-print("total", n_total, "reject", n_reject, "tasa", round(tasa, 4))
+if tasa is None:
+    print("total", n_total, "reject", n_reject, "tasa", "N/A")
+else:
+    print("total", n_total, "reject", n_reject, "tasa", round(tasa, 4))
 print("first_reject_idx", first_reject_idx)
 `,
         output: `total 6 reject 2 tasa 0.3333
@@ -669,7 +672,7 @@ final total= 30 n_pos= 2`,
       paragraphs: [
         "Dos programas pueden imprimir el mismo resumen y, sin embargo, no ser equivalentes. Un pase sobre n filas crece de forma **O(n)**; comparar cada fila con todas las demás crece **O(n²)**. La diferencia parece pequeña en un juguete y domina cuando el lote crece.",
         "Un error **off-by-one** ocurre cuando un índice o conteo se desvía una posición. `range(len(xs))` produce los índices válidos de 0 a n−1. Si usas `for i in range(len(xs)+1)` para acceder a `xs[i]`, añades una vuelta de más. Esa vuelta intenta acceder a `xs[len(xs)]`, que no existe, y produce `IndexError`. Elegir `>=` en vez de `>` es un **error de frontera o inclusividad**. Con cantidades enteras puede parecerse a un off-by-one, pero describe una regla distinta.",
-        "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío), no `ZeroDivisionError` silencioso.",
+        "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío) en lugar de dejar que un `ZeroDivisionError` detenga el resumen.",
       ],
       code: {
         language: 'python',
@@ -859,7 +862,10 @@ n 5 tasa_reject 0.4`,
     {"id": "C3", "status": "reject"},
 ]
 rejects = [r["id"] for r in rows if r["status"] == "reject"]
-tasa = len(rejects) / len(rows)
+if len(rows) > 0:
+    tasa = len(rejects) / len(rows)
+else:
+    tasa = None
 print(rejects, "tasa", tasa)
 `,
           output: `['C2', 'C3'] tasa 0.6666666666666666`,
@@ -1788,7 +1794,10 @@ print('ok', True)
           code: `rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}, {"id": "C3", "status": "accept"}, {"id": "C4", "status": "reject"}]
 by = {r["id"]: r["status"] for r in rows}
 rejects = [i for i, st in by.items() if st == "reject"]
-tasa = len(rejects) / len(rows)
+if len(rows) > 0:
+    tasa = len(rejects) / len(rows)
+else:
+    tasa = None
 print(by["C2"], rejects, tasa)`,
           output: `reject ['C2', 'C4'] 0.5`,
         },

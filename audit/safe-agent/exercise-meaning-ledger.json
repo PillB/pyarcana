@@ -820,6 +820,16 @@
       "reason": "Rule D2: the document id DNI-N became the opaque id DOC-000N in the starter, solution and pinned output. Same exercise, same solution logic.",
       "decided_by": "owner 2026-11-10 (proposal 07, item 7)",
       "date": "2026-11-10"
+    },
+    {
+      "row": 83,
+      "id": "S04-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "3b23dc5d8026665be1661180a30db6455b8c2b3f8e7e0c73ec0823487cef641f",
+      "to_fp": "284e6f76aaac0d0f924cf29384e72b37db22bfe378fee57a1d554faeea18a9b3",
+      "reason": "The solution's rate now has the len(rows) > 0 guard the theory says is mandatory; on the exercise's data the output is unchanged. Same exercise, same solution logic.",
+      "decided_by": "owner 2026-11-10 (proposal 09, item S04-2)",
+      "date": "2026-11-10"
     }
   ]
 }

@@ -234,7 +234,7 @@ el proceso real debe propagar este error`,
       figure: {
         id: "S09-error-boundary",
         caption:
-          "Una captura amplia puede mezclar políticas. La evidencia se pierde al silenciar el error o reemplazarlo sin encadenar; en la frontera del proceso puedes registrarlo si conservas la excepción y luego la propagas o la conviertes de forma deliberada.",
+          "Una captura amplia puede mezclar políticas. La evidencia se pierde al silenciar el error o al reemplazarlo con `from None`. Sin `from`, Python todavía muestra la excepción original, pero la presenta como un segundo error accidental; `from` la marca como causa directa. En la frontera del proceso puedes registrarla y luego propagarla o convertirla de forma deliberada.",
         alt:
           "Tres capas apiladas: origen, capa de dominio y frontera de recuperación.",
       },
@@ -242,7 +242,7 @@ el proceso real debe propagar este error`,
       paragraphs: [
         "El traceback estándar de Python imprime primero las llamadas anteriores y después las más profundas. El último frame señala la línea inmediata donde surgió la excepción; la línea final contiene su clase y mensaje. Empieza por ese último frame de **tu código** y retrocede hacia los llamadores para reconstruir cómo llegó allí.",
         "El debugger es una sesión interactiva que pausa el programa para inspeccionar su estado. Solo en una terminal local, coloca `breakpoint()` antes de la línea sospechosa; cuando aparezca `(Pdb)`, escribe `p record_id` para ver esa variable segura y `c` para continuar. No uses `p row`, porque mostraría el registro completo.",
-        "En demos y automatización usamos `traceback.format_exc()` porque no hay una sesión interactiva. Esta función devuelve la traza como texto; incluye los frames y también el mensaje de la excepción. Por eso una excepción que contiene un correo o un secreto seguirá filtrándolo aunque el mensaje principal del log esté enmascarado.",
+        "En demos y automatización usamos `traceback.format_exc()` porque no hay una sesión interactiva. Esta función devuelve la traza como texto; incluye los frames y también el mensaje de la excepción. Por eso una excepción que contiene un correo o un secreto seguirá filtrándolo aunque el mensaje principal del log esté enmascarado. En tu terminal, `demo.py` aparece como la ruta de tu archivo, por ejemplo `traceback_read.py`; los números de línea y los nombres de función son los mismos.",
         "Registra identificadores internos y motivos seguros. Omite datos personales completos tanto de las variables impresas como de los mensajes lanzados; la evidencia completa, si es necesaria, pertenece a un almacenamiento separado con acceso restringido.",
       ],
       code: {
@@ -499,10 +499,10 @@ def mask_phone(phone: str) -> str:
     return "***" + digits[-4:]
 
 def mask_address(address: str) -> str:
-    return "***" if address else "***"
+    return "***"
 
 def parse_campo_requerido(raw: str) -> str:
-    # demo de ERROR path: no uses float para montos (ver Decimal en T1-A)
+    # un valor vacío o N/A lanza ValueError
     if raw.strip().upper() in {"N/A", "NA", ""}:
         raise ValueError("valor vacío o N/A")
     return raw.strip()
@@ -529,9 +529,9 @@ except ValueError:
 out = buf.getvalue()
 # solo la primera línea del log (sin el traceback largo en el oráculo)
 print(out.splitlines()[0])
-print(f"phone={mask_phone('+51 999 123 4567')}")`,
+print(f"phone={mask_phone('+51 999 123 456')}")`,
         output: `ERROR correlation_id=job-7f3a stage=validate error_class=data email=a***@ejemplo.pe
-phone=***4567`,
+phone=***3456`,
       },
       callout: {
         type: "danger",
@@ -807,7 +807,7 @@ fatal config: encoding requerido`,
         environment: "local-python",
         description: "Reproducir KeyError en normalizer y ubicar frame con traceback.",
         preamble:
-          "Una fila del batch sintético llega sin `email` y el job lanza `KeyError`. Observa cómo se imprime solo líneas del stack que mencionan *tu* código (`normalize_email`, `run_batch`) y el tipo de error — no el diccionario crudo del cliente. Predice cuál frame es el más útil (donde se indexa la clave). Datos `C00x` sintéticos; no reescribas.",
+          "Una fila del batch sintético llega sin `email` y el job lanza `KeyError`. Observa cómo se imprime solo líneas del stack que mencionan *tu* código (`normalize_email`, `run_batch`) y el tipo de error — no el diccionario crudo del cliente. Predice cuál frame es el más útil (donde se indexa la clave). Datos `C00x` sintéticos; no reescribas. En tu terminal, `demo.py` aparece como la ruta de tu archivo, `keyerror_frames.py`; los números de línea y los nombres de función son los mismos.",
         code: {
           language: 'python',
           title: "keyerror_frames.py",

@@ -306,8 +306,8 @@ sobran temporales: False`,
       },
       subtopicId: "S08-T2-A",
       paragraphs: [
-        "`csv.DictReader` y `DictWriter` trabajan con encabezados: cada registro leído produce un `dict`. **Declara `fieldnames`** al escribir; no confíes en el orden que muestra Excel. Antes de leer registros, valida una sola vez que estén todas las columnas requeridas, que ningún encabezado se repita y si la política permite columnas adicionales. Un fallo allí corresponde a toda la fuente, no a muchas filas individuales. La conversión de tipos (`int`, `Decimal`) es explícita: una fila que falla va a cuarentena con `{parsed_row, reason, record_number}`; `parsed_row` nombra la representación ya interpretada por el lector, mientras que `raw` queda reservado para el texto original exacto. Muchas fracciones decimales no se pueden representar exactamente con un `float` binario y eso puede introducir diferencias de redondeo. Por eso el contrato monetario del curso construye `Decimal` desde el texto, lo cuantiza a `0.01` y lo serializa como texto (`\"10.50\"`).",
-        "Fechas pueden quedarse como **string ISO** (`YYYY-MM-DD`) en N1-B: no hace falta `datetime` todavía si el contrato lo documenta. Lo crítico es el **contrato de columnas** (nombres, tipos, required) versionado en el manifest o en el README del pipeline. Si falta una columna requerida o el cast falla, la fila **no** entra a clean.",
+        "`csv.DictReader` y `DictWriter` trabajan con encabezados: cada registro leído produce un `dict`. **Declara `fieldnames`** al escribir; no confíes en el orden que muestra Excel. Antes de leer registros, valida una sola vez que estén todas las columnas requeridas, que ningún encabezado se repita y si la política permite columnas adicionales. Un fallo allí corresponde a toda la fuente, no a muchas filas individuales. La conversión de tipos (`int`, `Decimal`) es explícita: una fila que falla va a cuarentena con `{parsed_row, reason, record_number}`; `parsed_row` nombra la representación ya interpretada por el lector, mientras que `raw` queda reservado para el texto original exacto. Si una fila trae más campos que el encabezado, `DictReader` guarda los sobrantes en una lista bajo la clave `None`; si trae menos, completa los que faltan con `None`. Por eso `C004` muestra `None: ['extra']` y `C003` muestra `'monto': None`. Muchas fracciones decimales no se pueden representar exactamente con un `float` binario y eso puede introducir diferencias de redondeo. Por eso el contrato monetario del curso construye `Decimal` desde el texto, lo cuantiza a `0.01` y lo serializa como texto (`\"10.50\"`).",
+        "Fechas pueden quedarse como **string ISO** (`YYYY-MM-DD`) en N1-B: basta un string si el contrato lo documenta. Cuando un ejercicio necesite fecha y hora, `datetime(2026, 1, 15, 10, 0, 0).isoformat()` escribe ese mismo formato. Lo crítico es el **contrato de columnas** (nombres, tipos, required) versionado en el manifest o en el README del pipeline. Si falta una columna requerida o el cast falla, la fila **no** entra a clean.",
         "Dialectos reales en Latam: `delimiter=';'` es común en exports Excel en español; la coma es el default anglosajón. El BOM de Excel “CSV UTF-8” se quita abriendo con `encoding='utf-8-sig'`. **No** asumas el dialecto: inspecciona las primeras líneas o el contrato de la fuente y deja delimiter/encoding **explícitos** en el código de ingesta.",
       ],
       code: {
@@ -624,7 +624,7 @@ print(montos)`,
       heading: "Contraejemplo: default=str convierte sin avisar",
       paragraphs: [
         "`default=str` le pide a `json.dumps` que convierta en texto cualquier valor que no sepa serializar. Con el `Decimal` el resultado parece correcto, pero el `set` de etiquetas se convierte en el texto `\"{'vip'}\"`, que al releer ya no es una lista sino un string.",
-        "La corrección convierte cada campo a propósito: el monto con `str` y las etiquetas con `sorted`, que devuelve una lista, de modo que al releer `tags` vuelve como `['vip']`. Sin ninguna conversión, `dumps` se detiene con el `TypeError` del comentario, y ese error te dice qué campo falta tratar.",
+        "La corrección convierte cada campo a propósito: el monto con `str` y las etiquetas con `sorted`, que devuelve una lista, de modo que al releer `tags` vuelve como `['vip']`. Sin ninguna conversión, `dumps` se detiene con el `TypeError` del comentario, y ese error nombra el tipo que falta tratar (`Decimal`), no el campo; con el tipo buscas qué campos lo usan.",
       ],
       code: {
         language: 'python',
@@ -685,7 +685,7 @@ Decimal: 0.10 + 0.20 = 0.30 | igual a 0.30: True`,
       paragraphs: [
         "Comprueba las **claves requeridas** antes de normalizar o convertir montos. En Python, un `null` de JSON se convierte en `None`. Cuando el contrato lo exija, distingue ese `null` explícito de una clave ausente. Es la diferencia que viste en S03: ausente no significa vacío. `'email' in obj` devuelve `True` aunque el valor sea `None`; devuelve `False` si la clave no llegó en el JSON. Esa diferencia permite separar «borrar el correo» de «correo desconocido».",
         "Evolución compatible: añadir un campo opcional no rompe a productores antiguos que todavía no lo envían. Solo puedes completar su ausencia con un valor predeterminado cuando el contrato declara que ese valor significa precisamente ‘no enviado’. Si no existe ese acuerdo, conserva la clave ausente o usa `None` según la política; una categoría conveniente no es un dato observado. Quitar una clave requerida o renombrarla sí rompe el contrato: registra la versión del esquema en `schema_version` dentro del manifiesto o en el contrato de la fuente.",
-        "`validate_schema(obj, required)` devuelve `(ok, missing)` para decidir clean vs. cuarentena. Si falta `id` o un email requerido, la fila no pasa: fail-closed, **sin inventar** valores “para que el dashboard no se vea vacío”. El You Do aplica el mismo patrón a transacciones (`id`, `client_id`, `monto`).",
+        "La versión mínima, `validate_schema(obj, required)`, devuelve `(ok, missing)` y solo mira si la clave llegó: es la del I Do y la del We Do. El bloque de abajo la amplía con un tercer valor, `invalid`, que también rechaza `None` y `\"\"` en los campos que no los admiten. Con la versión mínima, `email: None` pasa; con la ampliada, no pasa salvo que `email` esté en `nullable`. Cualquiera de las dos decide clean vs. cuarentena. Si falta `id` o un email requerido, la fila no pasa: fail-closed, **sin inventar** valores “para que el dashboard no se vea vacío”. El You Do aplica el mismo patrón a transacciones (`id`, `client_id`, `monto`).",
       ],
       code: {
         language: 'python',
@@ -799,8 +799,7 @@ print(len(run_id), info["bak_rel"] == f"backups/{run_id}/clients.csv")`,
     {
       heading: "Contraejemplo: un hex copiado deja de coincidir",
       paragraphs: [
-        "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
-        "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+        "Este bloque muestra un descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
       ],
       code: {
         language: 'python',
@@ -824,17 +823,16 @@ coincide: True`,
     {
       heading: "Contraejemplo: hash() cambia entre procesos",
       paragraphs: [
-      "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
-      "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+        "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres. Los números de `hash()` dependen de la versión de Python; en 3.12 son los de la transcripción, y lo que importa es que cambian de un proceso a otro.",
       ],
       code: {
         language: 'bash',
         title: "Transcripci\u00f3n: PYTHONHASHSEED frente a sha256",
         code: `# Error: hash() cambia entre procesos
 $ PYTHONHASHSEED=1 python -c "print(hash(b'abc'))"
-7831159276781462151
+-4667308735975688587
 $ PYTHONHASHSEED=2 python -c "print(hash(b'abc'))"
-9213337458927266479
+4069345407874332860
 
 # Corrección: sha256 da la misma huella en cualquier proceso
 $ PYTHONHASHSEED=1 python -c "import hashlib; print(hashlib.sha256(b'abc').hexdigest())"
@@ -1079,7 +1077,7 @@ print(load_csv_monto(raw))`,
         environment: "local-python",
         description: "Separar good.csv vs. quarantine.csv",
         preamble:
-          "Filas con columnas de más o de menos no se “arreglan” en silencio. Observa: el header fija el largo esperado; `C002,Luis,EXTRA` y `badonly` van a cuarentena con `reason: 'col_count'` y raw conservado; solo `C001,Ana` entra a clean. Predice la tupla `(clean, quar)` antes de mirar la salida. Sin este split, T4 no puede reconciliar `n_in`.",
+          "Filas con columnas de más o de menos no se “arreglan” en silencio. Observa: el header fija el largo esperado; `C002,Luis,EXTRA` y `badonly` van a cuarentena con `reason: 'col_count'` y sus campos separados; solo `C001,Ana` entra a clean. Predice la tupla `(clean, quar)` antes de mirar la salida. Sin este split, T4 no puede reconciliar `n_in`.",
         code: {
           language: 'python',
           title: "S08-T2-B-DEMO — quar",
@@ -1093,16 +1091,16 @@ def split_clean_quarantine(text):
     clean, quar = [], []
     for row in reader:
         if len(row) != len(header):
-            quar.append({"raw": ",".join(row), "reason": "col_count"})
+            quar.append({"fields": row, "reason": "col_count"})
         else:
             clean.append(dict(zip(header, row)))
     return clean, quar
 
 text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n"
 print(split_clean_quarantine(text))`,
-          output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'}, {'raw': 'badonly', 'reason': 'col_count'}])`,
+          output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'fields': ['C002', 'Luis', 'EXTRA'], 'reason': 'col_count'}, {'fields': ['badonly'], 'reason': 'col_count'}])`,
         },
-        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. El raw intacto permite reprocesar. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
+        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. Para reprocesar hace falta el texto original: el bloque de teoría de T2-B lo guarda en `raw`. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
         retrospective:
           "Irregular ≠ “casi bien”: es rechazo con traza. El misconception es truncar o rellenar columnas a ciegas. We Do: booleano col_count, escribir quarantine.csv y resumir motivos.",
       },
@@ -1145,7 +1143,7 @@ print(write_json_and_jsonl(rows))`,
         environment: "local-python",
         description: "validate_schema(obj, required) + campo opcional nuevo",
         preamble:
-          "El schema mínimo del gate pide claves presentes, no “truthy”. Observa: `email: None` **pasa** required (la clave existe); falta `email` falla con `['email']`. Luego `setdefault('segment', 'standard')` añade un opcional sin pisar si ya viniera. Predice las tres salidas. Datos sintéticos `C1` / `a@ex.com` — sin PII real.",
+          "El schema mínimo del gate pide claves presentes, no “truthy”. Observa: `email: None` **pasa** required (la clave existe); falta `email` falla con `['email']`. Luego `setdefault('segment', 'standard')` añade un opcional sin pisar si ya viniera; aquí usa `'standard'` porque el contrato de este ejemplo declara que ese valor significa «no enviado». Predice las tres salidas. Datos sintéticos `C1` / `a@ex.com` — sin PII real.",
         code: {
           language: 'python',
           title: "S08-T3-B-DEMO — schema",
