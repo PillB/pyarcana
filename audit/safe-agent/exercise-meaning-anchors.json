@@ -1127,7 +1127,7 @@
     },
     "S01-T3-B-E3": {
       "section": "S01",
-      "sha256": "6242b2a46c98a0708b6b2a60a8d752953b636e83d8f4ec5857e36d78c6bc6fdd",
+      "sha256": "8a89db3be71142c7c49bfeb3e61c0d53efc2d01a40e59ebbf457260786e64805",
       "tokens": [
         "1",
         "2",
@@ -1152,7 +1152,7 @@
         "de",
         "default",
         "despues",
-        "destructiva",
+        "destruir",
         "el",
         "en",
         "es",
@@ -2349,7 +2349,7 @@
     },
     "S03-T1-A-E3": {
       "section": "S03",
-      "sha256": "3db0f06132d7432a646d4b7433bf87395c3cefb65364aef57c7934287a729347",
+      "sha256": "eff13bb707f9d74624f0000bb96fa794feda1927c7f1019fba79fa3ac93364d0",
       "tokens": [
         "0",
         "accept",
@@ -2361,6 +2361,7 @@
         "else",
         "estado",
         "if",
+        "is",
         "la",
         "monto",
         "none",
@@ -2378,13 +2379,14 @@
     },
     "S03-T1-B-E1": {
       "section": "S03",
-      "sha256": "965f66c8861700952fec2b6afb490eb708a05e5ecde5bc7a9faffc54851e1722",
+      "sha256": "e66b7ca0fa7e25dff259b84796671c907dfc197dd3f515c6640d4628a72ab8f8",
       "tokens": [
         "0",
         "ausencia",
         "ausente",
         "cero",
         "debe",
+        "is",
         "la",
         "monto_cero",
         "none",
@@ -2430,7 +2432,7 @@
     },
     "S03-T1-B-E3": {
       "section": "S03",
-      "sha256": "b8d051fda6c19e1e52fc05691bf400df43b848a2914bf03a5e4a239a787d9921",
+      "sha256": "156134171dac7771764858f98724d3d5686ac65f62eeb088d856de9d47cf6c51",
       "tokens": [
         "0",
         "1",
@@ -2443,6 +2445,7 @@
         "else",
         "estado",
         "if",
+        "is",
         "la",
         "monto",
         "none",

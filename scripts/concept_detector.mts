@@ -237,12 +237,20 @@ function isAliasExpansion(inner: string, aliases: string[]): boolean {
 /** "no uses un `set` (una colección sin orden)" is an instruction, not a definition. */
 const NEGATED_IMPERATIVE = /\b(?:no|nunca|jamás|tampoco)\s+\p{L}+\s*$/iu
 
+/** The term sits right after an opening backtick... */
+const OPENS_LONGER_CODE = /(?:^|[^`])`$/
+/** ...and the same code span goes on past it: `git stash`, `pip install x`. */
+const LONGER_CODE_REST = /^[ \-][^`\n]{1,60}`/
 export function definesTerm(
   text: string, at: number, len: number, kind: string, aliases: string[] = [],
 ): boolean {
   const after = text.slice(at + len, at + len + 120)
   const before = text.slice(Math.max(0, at - 80), at)
   const head = after.slice(0, 50)
+  // "prefiere `git stash` a `restore` y a `reset --hard`: es la única…" describes a command
+  // line. When the term only opens a longer code span, whatever the sentence says is about
+  // that command, never about the term, so no cue after it can define the term.
+  if (OPENS_LONGER_CODE.test(before) && LONGER_CODE_REST.test(after)) return false
   const paren = PAREN_GLOSS.exec(after)
   if (paren && !PAREN_NOT_DEF.test(paren[1].trim()) && looksLikeProse(paren[1])
     && !isAliasExpansion(paren[1], aliases)
