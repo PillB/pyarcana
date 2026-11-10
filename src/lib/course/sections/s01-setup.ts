@@ -218,6 +218,28 @@ no aparece
       },
     },
     {
+      heading: "Contraejemplo: `|| true` convierte un fallo en éxito",
+      paragraphs: [
+        "Las dos órdenes fallan igual y muestran el mismo mensaje, pero el código de salida cambia: con `|| true` es `0` y sin el conector es `2`. Un script o una revisión automática que solo lea ese entero creerá que el primer paso salió bien.",
+        "Por eso `|| true` solo se justifica cuando decidiste que ese fallo no importa y lo dejaste escrito. Si el fallo debe detener el trabajo, deja la orden sin el conector, y el `2` llegará intacto a quien decide el paso siguiente.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'or_true.sh',
+        code: `# Error: || true convierte el fallo en éxito
+$ python3 archivo_que_no_existe.py || true
+python3: can't open file '.../archivo_que_no_existe.py': [Errno 2] No such file or directory
+$ echo $?
+0
+
+# Corrección: sin el conector, el código de salida llega intacto
+$ python3 archivo_que_no_existe.py
+python3: can't open file '.../archivo_que_no_existe.py': [Errno 2] No such file or directory
+$ echo $?
+2`,
+      },
+    },
+    {
       heading: 'cwd, PATH y códigos de salida en la shell',
       figure: {
         id: "S01-cwd-path",
@@ -265,6 +287,41 @@ ok
         title: 'PATH ≠ carpeta del proyecto',
         content:
           'Si `python` “no se reconoce”, el problema suele ser PATH o el nombre del comando (`python` vs `python3`), no que falte un archivo dentro de tu repo. Si `python script.py` dice que no encuentra el archivo, ahí sí revisa el cwd y la ruta al script. Diagnostica en ese orden: (1) ¿el ejecutable responde? (2) ¿estoy en la carpeta correcta? (3) ¿el proceso salió con 0?',
+      },
+    },
+    {
+      heading: "Contraejemplo: un cwd equivocado y un PATH roto fallan de formas distintas",
+      paragraphs: [
+        "Los dos fallos se parecen, pero tienen causas distintas. En el primero, Python existe y responde, pero el cwd es la carpeta de arriba y `hello_env.py` no está allí. El mensaje dice `can't open file` y el código es `2`. En el segundo, el PATH no contiene la carpeta de Python, así que la shell ni siquiera lo encuentra y responde `command not found` con código `127`.",
+        "Cada fallo tiene su corrección. Para el primero, `cd python-ds-journey` cambia el cwd, y el mismo comando imprime el saludo con código `0`. Para el segundo, reinstalar paquetes no sirve: lo que hay que restaurar es el PATH.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'cwd_y_path.sh',
+        code: `# Error 1: Python responde, pero el cwd no contiene el archivo
+$ pwd
+.../proyectos
+$ python3 hello_env.py
+python3: can't open file '.../proyectos/hello_env.py': [Errno 2] No such file or directory
+$ echo $?
+2
+# Corrección 1: cambiar el cwd a la carpeta del proyecto
+$ cd python-ds-journey
+$ python3 hello_env.py
+hola desde hello_env
+$ echo $?
+0
+
+# Error 2 (en una subshell: escribe bash antes y exit después)
+$ PATH=/carpeta_sin_python
+$ python3 --version
+bash: python3: command not found
+$ echo $?
+127
+# Corrección 2: salir de la subshell recupera el PATH original
+$ exit
+$ python3 --version
+Python 3.12.3`,
       },
     },
     {
@@ -342,6 +399,30 @@ gh version 2.40.0
       ],
     },
     {
+      heading: "Contraejemplo: pip del sistema con PEP 668",
+      paragraphs: [
+        "En Debian o Ubuntu recientes, el Python del sistema rechaza `pip install` con `externally-managed-environment`, precisamente para que no mezcles paquetes del sistema con los de tus proyectos. En otros sistemas la instalación sí ocurre, y alcanza a todos los proyectos que usan ese Python. Con `.venv` activo, `pip --version` muestra una ruta dentro del proyecto, y lo que instales queda solo allí.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'pep668_sistema.sh',
+        code: `# Error: instalar en el Python del sistema (Debian/Ubuntu recientes, PEP 668)
+# Transcripción de Debian con Python 3.12 (salida recortada)
+$ deactivate
+$ python3 -m pip install requests
+error: externally-managed-environment
+
+× This environment is externally managed
+# (en otros sistemas la instalación sí ocurre y alcanza a todos los proyectos)
+
+# Corrección: instalar dentro del .venv activo del proyecto
+$ source .venv/bin/activate
+(.venv) $ python -m pip install requests==2.32.3
+(.venv) $ python -m pip --version
+pip ... from .../python-ds-journey/.venv/lib/python3.12/site-packages/pip (python 3.12)`,
+      },
+    },
+    {
       heading: 'Entornos virtuales con venv',
       subtopicId: 'S01-T2-A',
       paragraphs: [
@@ -391,6 +472,30 @@ which python
         'Activa `.venv` y ejecuta `python -m pip --version`. La respuesta correcta contiene una ruta dentro de `.venv`; eso muestra que el instalador pertenece al entorno del proyecto. Si la ruta queda fuera, detente y vuelve a activar el entorno.',
         'Instala la versión del ejemplo y ejecuta `python -c "import requests; print(requests.__version__)"`. La comprobación termina cuando aparece `2.32.3`: el archivo declaró una versión, pip la instaló y el mismo Python pudo usarla.',
       ],
+    },
+    {
+      heading: "Contraejemplo: instalar con un pip y ejecutar con otro Python",
+      paragraphs: [
+        "Hay dos entornos, `va` y `vb`. La instalación termina sin error, pero la hace el `pip` de `va`; cuando el Python de `vb` intenta importar `requests`, responde `ModuleNotFoundError`. Las dos líneas de `--version` muestran la causa, porque cada `pip` apunta a la carpeta `site-packages` de su propio entorno.",
+        "`python -m pip` elimina esa ambigüedad: el mismo Python que después ejecuta el programa es el que instala. Tras `vb/bin/python -m pip install`, el import funciona y muestra la versión pedida.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'pip_de_otro_entorno.sh',
+        code: `# Error: el pip de un entorno instala; el Python de otro entorno importa
+$ va/bin/pip install requests==2.32.3
+$ vb/bin/python -c "import requests"
+ModuleNotFoundError: No module named 'requests'
+$ va/bin/pip --version
+pip 26.2.2 from .../va/lib/python3.x/site-packages/pip (python 3.x)
+$ vb/bin/python -m pip --version
+pip 26.2.2 from .../vb/lib/python3.x/site-packages/pip (python 3.x)
+
+# Corrección: instala con el mismo Python que ejecuta
+$ vb/bin/python -m pip install requests==2.32.3
+$ vb/bin/python -c "import requests; print(requests.__version__)"
+2.32.3`,
+      },
     },
     {
       heading: 'pip, freeze y requirements.txt',
@@ -456,6 +561,27 @@ python -c "import requests; print(requests.__version__)"
         'Completa `____: agregar script hello_env`. Si añadiste una capacidad, escribe `feat`; si corregiste un fallo, escribe `fix`; si solo cambiaste una explicación, escribe `docs`. Una respuesta correcta tiene un tipo, dos puntos, un espacio y una descripción específica.',
         'Después de guardar el cambio, ejecuta `git log -1 --oneline`. La comprobación está completa si la primera línea contiene el mensaje elegido y otra persona puede anticipar el cambio sin abrir los archivos.',
       ],
+    },
+    {
+      heading: "Contraejemplo: mensajes de commit que no dicen qué cambió",
+      paragraphs: [
+        "El primer historial obliga a abrir cada commit para saber qué cambió: `cambios`, `wip` y `arreglé algo` no dicen qué archivo tocaron ni con qué propósito. En el segundo, cada línea anuncia el tipo de cambio y su contenido, y puedes elegir qué commit revisar sin abrir ninguno.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'mensajes_commit.sh',
+        code: `# Error: mensajes que no dicen qué cambió
+$ git log --format=%s
+arreglé algo
+wip
+cambios
+
+# Corrección: tipo + descripción concreta
+$ git log --format=%s
+fix: corregir ruta en README
+feat: agregar script hello_env
+docs: explicar cómo crear el entorno virtual`,
+      },
     },
     {
       heading: 'Git: commits y lectura de diffs',
@@ -570,6 +696,54 @@ git push -u origin feat/hello-env
       },
     },
     {
+      heading: "Contraejemplo: un push --force tras un rechazo borra el commit de un colega",
+      paragraphs: [
+        "El rechazo `fetch first` significa que el remoto tiene un commit que tu copia no tiene; aquí es «docs: regla de Luis». `git push --force` no resuelve esa diferencia. Reemplaza la historia del remoto por la tuya, y el log final ya no contiene el commit de Luis, aunque él no hizo nada mal.",
+        "En la corrección, `git pull --rebase`, es decir, traer los commits remotos y volver a aplicar los tuyos encima, deja tu commit después del de Luis. El `push` siguiente se acepta sin forzar y el historial conserva los tres commits.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'push_force_rechazo.sh',
+        code: `# Error: Luis ya publicó un commit en main; Ana fuerza el suyo
+$ git push origin main
+ ! [rejected]        main -> main (fetch first)
+$ git push --force origin main
+ + 47b8e81...f66c121 main -> main (forced update)
+$ git log --format=%s origin/main
+docs: nota de Ana
+docs: agregar README
+
+# Corrección: integrar primero el commit remoto, luego publicar sin forzar
+$ git pull --rebase origin main
+Successfully rebased and updated refs/heads/main.
+$ git push origin main
+   34cc0a0..e804582  main -> main
+$ git log --format=%s origin/main
+docs: nota de Ana
+docs: regla de Luis
+docs: agregar README`,
+      },
+    },
+    {
+      heading: "Contraejemplo: unir un repositorio de GitHub con README a uno local",
+      paragraphs: [
+        "Si el repositorio de GitHub nace con su propio README, tiene un primer commit que tu repositorio local no comparte. El `push` se rechaza, y el `pull` se niega a unir dos historias sin un antecesor común. Con el repositorio remoto vacío, el primer `push` simplemente crea la rama `main`.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'repo_con_readme.sh',
+        code: `# Error: el repositorio de GitHub se creó con README; el local ya tenía commits
+$ git push -u origin main
+ ! [rejected]        main -> main (fetch first)
+$ git pull origin main
+# Git se niega a unir dos historias sin antecesor común.
+
+# Corrección: crear el repositorio remoto vacío (sin README, .gitignore ni licencia)
+$ git push -u origin main
+ * [new branch]      main -> main`,
+      },
+    },
+    {
       heading: 'Contraejemplo: `restore` no deja copia, `stash` sí',
       paragraphs: [
         'Tomemos un archivo con una versión confirmada y una edición que todavía no tiene commit. El script crea un repositorio de prueba, descarta la edición con `restore` y, en la segunda mitad, la guarda con `stash` antes de volver a verla. Las líneas con `echo` imprimen el contenido del archivo en cada paso.',
@@ -674,6 +848,48 @@ git check-ignore -v .env
         title: 'Secretos, PII y datos sintéticos',
         content:
           'En el esqueleto CP-N1-A usa solo datos sintéticos (nombres inventados, DNI ficticios). No subas extractos reales de clientes, ni dumps de producción, ni capturas con información personal. El uso responsable de los datos pesa en la rúbrica tanto como “que el script corra”.',
+      },
+    },
+    {
+      heading: "Contraejemplo: git add . sin .gitignore versiona el secreto",
+      paragraphs: [
+        "Sin `.gitignore`, `git add .` selecciona todo lo que hay en la carpeta, y el estado muestra `.env`, con el token, y los archivos de `.venv` listos para el commit. Añadir `.gitignore` después no los saca: `git ls-files` sigue listándolos, porque el ignore solo afecta a archivos que Git todavía no sigue.",
+        "Si el `.gitignore` existe antes del primer `git add .`, el estado solo muestra `.gitignore` y `hello_env.py`. Si el error ya ocurrió, `git rm -r --cached` deja de versionar los archivos sin borrarlos del disco. Aun así, `git log -- .env` muestra que el commit antiguo conserva el secreto, y por eso hay que rotarlo.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'add_punto_sin_gitignore.sh',
+        code: `# Error: git add . sin .gitignore selecciona el secreto y el entorno
+$ git add .
+$ git status --short
+A  .env
+A  .venv/lib/paquete.py
+A  hello_env.py
+$ git commit -m "feat: primer commit"
+# El .gitignore llega tarde: lo que Git ya sigue, lo sigue siguiendo
+$ printf '.venv/\\n.env\\n' > .gitignore
+$ git add .gitignore && git commit -m "chore: agregar gitignore"
+$ git ls-files
+.env
+.gitignore
+.venv/lib/paquete.py
+hello_env.py
+
+# Corrección A: .gitignore antes del primer git add .
+$ git add .
+$ git status --short
+A  .gitignore
+A  hello_env.py
+
+# Corrección B, si el error ya ocurrió: dejar de seguirlos y rotar el secreto
+$ git rm -r --cached .env .venv
+$ git commit -m "chore: dejar de versionar .env y .venv"
+$ git ls-files
+.gitignore
+hello_env.py
+$ git log --format=%s -- .env
+chore: dejar de versionar .env y .venv
+feat: primer commit`,
       },
     },
   ],

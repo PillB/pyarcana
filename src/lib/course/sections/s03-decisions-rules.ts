@@ -277,6 +277,48 @@ cadena vacía or alternativa → alternativa
       },
     },
     {
+      heading: "Contraejemplo: if monto: trata el cero como ausencia",
+      paragraphs: [
+        "Con `if monto:`, Python elige la rama por truthiness, y tanto `0` como `None` son falsy. Por eso las dos primeras líneas envían a `review` un monto cero válido y un monto ausente, y la regla ya no distingue a quien declaró cero de quien no contestó.",
+        "La corrección pregunta primero `monto is None`. El cero deja de confundirse con la ausencia: no es `None`, así que cae en la rama `else` y queda `accept`. `None` sigue en `review`, como pide la política. (La regla `monto < 0` para rechazar negativos se verá en el bloque de `if/elif/else`.)",
+      ],
+      code: {
+        language: 'python',
+        title: 'if_monto_cero.py',
+        code: `# Error: if monto: trata el cero igual que la ausencia
+monto = 0
+if monto:
+    estado_cero = "accept"
+else:
+    estado_cero = "review"
+monto = None
+if monto:
+    estado_none = "accept"
+else:
+    estado_none = "review"
+print("if monto: 0 →", estado_cero)
+print("if monto: None →", estado_none)
+
+# Corrección: is None aparta la ausencia y el cero llega a la regla
+monto = 0
+if monto is None:
+    estado_cero = "review"
+else:
+    estado_cero = "accept"
+monto = None
+if monto is None:
+    estado_none = "review"
+else:
+    estado_none = "accept"
+print("is None: 0 →", estado_cero)
+print("is None: None →", estado_none)`,
+        output: `if monto: 0 → review
+if monto: None → review
+is None: 0 → accept
+is None: None → review`,
+      },
+    },
+    {
       heading: 'Ramas de decisión con if/elif/else',
       figure: {
         id: "S03-tri-state",
@@ -414,6 +456,34 @@ x > 5 es una rama muerta`,
       },
     },
     {
+      heading: "Contraejemplo: comparar un None antes de preguntar por la ausencia",
+      paragraphs: [
+        "Si la comparación de rango va primero, Python intenta evaluar `None < 0` antes de llegar a la pregunta por la ausencia. Esa comparación no tiene respuesta: el comentario del bloque muestra el `TypeError` que obtendrías al ejecutarla sola, y el programa nunca llega a imprimir un estado. La rama `edad is None` existía, pero la entrada no llegó a ella.",
+        "La corrección usa la misma entrada y solo cambia el orden: la guarda `edad is None` aparta la ausencia, y la comparación de rango recibe únicamente edades presentes. La salida muestra `None → review`. Ejecuta el fragmento de error por separado; en S09 aprenderás a capturar ese error, pero aquí basta con impedir que ocurra.",
+      ],
+      code: {
+        language: 'python',
+        title: 'orden_none_rango.py',
+        code: `# Error: el rango se pregunta antes que la ausencia
+edad = None
+# Ejecuta estas líneas por separado: la comparación con None lanza un error.
+# if edad < 0 or edad > 120:
+#     estado = "reject"
+# TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+# Corrección: la ausencia se aparta primero, con la misma entrada
+edad = None
+if edad is None:
+    estado = "review"
+elif edad < 0 or edad > 120:
+    estado = "reject"
+else:
+    estado = "accept"
+print("None →", estado)`,
+        output: `None → review`,
+      },
+    },
+    {
       heading: 'Reglas de dominio: rangos y listas permitidas',
       subtopicId: 'S03-T3-A',
       paragraphs: [
@@ -531,6 +601,64 @@ set: '' → False
 set: 'NORTE|R-SUR' → False
 región vacía con texto → accept
 región vacía con set → review`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un solo código para dos fallos distintos",
+      paragraphs: [
+        "Con una sola condición unida por `or`, una región nueva que el catálogo todavía no conoce y una edad imposible reciben el mismo código, `INVALIDO`. Las dos primeras líneas quedan idénticas, así que quien revisa el lote no puede saber qué registro espera una actualización del catálogo y cuál trae un dato que hay que rechazar.",
+        "La corrección separa la condición en dos ramas: `R-ESTE` va a `review` con `NOT_IN_ALLOWLIST`, y `R-NORTE 15` va a `reject` con `OUT_OF_RANGE`. Cuando el catálogo incorpore `R-ESTE`, bastará con volver a procesar los registros que llevan el primer código.",
+      ],
+      code: {
+        language: 'python',
+        title: 'codigo_unico_dos_fallos.py',
+        code: `# Error: un solo código para dos fallos distintos
+REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}
+
+region = "R-ESTE"
+edad = 30
+if region not in REGIONES_PERMITIDAS or not (18 <= edad <= 65):
+    codigo_1 = "INVALIDO"
+else:
+    codigo_1 = "OK"
+region = "R-NORTE"
+edad = 15
+if region not in REGIONES_PERMITIDAS or not (18 <= edad <= 65):
+    codigo_2 = "INVALIDO"
+else:
+    codigo_2 = "OK"
+print("R-ESTE 30 →", codigo_1)
+print("R-NORTE 15 →", codigo_2)
+
+# Corrección: una rama y un código por causa
+region = "R-ESTE"
+edad = 30
+if region not in REGIONES_PERMITIDAS:
+    estado_1 = "review"
+    codigo_1 = "NOT_IN_ALLOWLIST"
+elif not (18 <= edad <= 65):
+    estado_1 = "reject"
+    codigo_1 = "OUT_OF_RANGE"
+else:
+    estado_1 = "accept"
+    codigo_1 = "OK"
+region = "R-NORTE"
+edad = 15
+if region not in REGIONES_PERMITIDAS:
+    estado_2 = "review"
+    codigo_2 = "NOT_IN_ALLOWLIST"
+elif not (18 <= edad <= 65):
+    estado_2 = "reject"
+    codigo_2 = "OUT_OF_RANGE"
+else:
+    estado_2 = "accept"
+    codigo_2 = "OK"
+print("R-ESTE 30 →", estado_1, codigo_1)
+print("R-NORTE 15 →", estado_2, codigo_2)`,
+        output: `R-ESTE 30 → INVALIDO
+R-NORTE 15 → INVALIDO
+R-ESTE 30 → review NOT_IN_ALLOWLIST
+R-NORTE 15 → reject OUT_OF_RANGE`,
       },
     },
     {
@@ -770,6 +898,56 @@ CASO 120: OK — Campo 'edad' aceptado.`,
         title: 'Cierre de S03',
         content:
           'Ya puedes convertir una pregunta booleana en ramas exclusivas, asignar un estado, un código y un mensaje escalares, y comprobar cada ruta con `assert`. S05 enseñará a reunir una regla repetida bajo un nombre; S06 enseñará a reunir varios resultados en una colección.',
+      },
+    },
+    {
+      heading: "Contraejemplo: el mismo mensaje para dos problemas distintos",
+      paragraphs: [
+        "Con el mensaje `Error`, la ausencia y la edad 130 producen la misma línea, y quien corrige el formulario no sabe si debe escribir un valor o cambiar el que puso. El programa sí separó los dos casos, porque entró en ramas distintas, pero el mensaje no lo transmite.",
+        "En la corrección, cada mensaje nombra el campo, el problema y la acción: el primero pide escribir una edad y el segundo pide un número dentro del rango. Las ramas son las mismas; lo único que cambia es lo que cada una le dice a la persona.",
+      ],
+      code: {
+        language: 'python',
+        title: 'mensaje_generico.py',
+        code: `# Error: el mismo mensaje para dos problemas distintos
+edad = None
+if edad is None:
+    mensaje_1 = "Error"
+elif edad < 0 or edad > 120:
+    mensaje_1 = "Error"
+else:
+    mensaje_1 = "OK"
+edad = 130
+if edad is None:
+    mensaje_2 = "Error"
+elif edad < 0 or edad > 120:
+    mensaje_2 = "Error"
+else:
+    mensaje_2 = "OK"
+print("None →", mensaje_1)
+print("130 →", mensaje_2)
+
+# Corrección: cada mensaje nombra el campo, el problema y la acción
+edad = None
+if edad is None:
+    mensaje_1 = "Campo 'edad' ausente; escribe un número de 0 a 120."
+elif edad < 0 or edad > 120:
+    mensaje_1 = "Campo 'edad' fuera de rango; usa un número de 0 a 120."
+else:
+    mensaje_1 = "Campo 'edad' aceptado."
+edad = 130
+if edad is None:
+    mensaje_2 = "Campo 'edad' ausente; escribe un número de 0 a 120."
+elif edad < 0 or edad > 120:
+    mensaje_2 = "Campo 'edad' fuera de rango; usa un número de 0 a 120."
+else:
+    mensaje_2 = "Campo 'edad' aceptado."
+print("None →", mensaje_1)
+print("130 →", mensaje_2)`,
+        output: `None → Error
+130 → Error
+None → Campo 'edad' ausente; escribe un número de 0 a 120.
+130 → Campo 'edad' fuera de rango; usa un número de 0 a 120.`,
       },
     },
     {
@@ -3793,10 +3971,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO None:", estado, codigo, "—", mensaje)
 assert estado == "review"
 assert codigo == "MISSING"
 assert mensaje == "Campo 'edad' ausente; escribe un número de 0 a 120 o déjalo para revisión."
-print("CASO None:", estado, codigo, "—", mensaje)
+
 
 edad = "x"
 edad_ausente = False
@@ -3817,10 +3996,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO x:", estado, codigo, "—", mensaje)
 assert estado == "reject"
 assert codigo == "BAD_TYPE"
 assert mensaje == "Campo 'edad' no es numérico; escribe un número de 0 a 120."
-print("CASO x:", estado, codigo, "—", mensaje)
+
 
 edad = -5
 edad_ausente = False
@@ -3841,10 +4021,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO -5:", estado, codigo, "—", mensaje)
 assert estado == "reject"
 assert codigo == "OUT_OF_RANGE"
 assert mensaje == "Campo 'edad' fuera de rango; usa un número de 0 a 120."
-print("CASO -5:", estado, codigo, "—", mensaje)
+
 
 edad = 35
 edad_ausente = False
@@ -3865,10 +4046,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO 35:", estado, codigo, "—", mensaje)
 assert estado == "accept"
 assert codigo == "OK"
 assert mensaje == "Campo 'edad' aceptado."
-print("CASO 35:", estado, codigo, "—", mensaje)`,
+`,
         },
         solutionCode: {
           language: 'python',

@@ -127,6 +127,35 @@ posición 2`,
       },
     },
     {
+      heading: "Contraejemplo: borrar de una lista mientras la recorres",
+      paragraphs: [
+        "`montos.remove(monto)` borra de la lista el primer elemento igual a `monto`. Si lo haces dentro del `for` que recorre esa misma lista, los elementos siguientes se corren una posición hacia atrás y el bucle salta uno. Al borrar el `0`, el `-2` ocupa su lugar; el `for` avanza a la posición siguiente y el `-2` queda sin revisar.",
+        "La corrección recorre la lista original sin tocarla y guarda en `positivos` los montos que cumplen la condición. Así obtienes `[10, 5]` y conservas además el lote completo, que es la evidencia de lo que llegó.",
+      ],
+      code: {
+        language: 'python',
+        title: 'borrar_al_recorrer.py',
+        code: `# Error: borrar elementos de la lista mientras el for la recorre
+montos = [10, 0, -2, 5]
+for monto in montos:
+    if monto <= 0:
+        montos.remove(monto)
+print("después de borrar en el recorrido:", montos)
+
+# Corrección: recorrer el original y guardar lo útil en otra lista
+montos = [10, 0, -2, 5]
+positivos = []
+for monto in montos:
+    if monto > 0:
+        positivos.append(monto)
+print("positivos:", positivos)
+print("original intacto:", montos)`,
+        output: `después de borrar en el recorrido: [10, -2, 5]
+positivos: [10, 5]
+original intacto: [10, 0, -2, 5]`,
+      },
+    },
+    {
       heading: "enumerate y zip sin desalinear",
       subtopicId: "S04-T1-B",
       paragraphs: [
@@ -161,6 +190,44 @@ C003 → Arequipa`,
       },
     },
     {
+      heading: "Contraejemplo: zip se detiene sin avisar cuando una columna es corta",
+      paragraphs: [
+        "`zip` empareja hasta que se acaba la columna más corta, y no avisa. Aquí `estados` llegó con una fila menos, así que `C004` nunca entra al bucle. La tasa se calcula sobre 3 filas de 4 y se publica como si describiera el lote completo, aunque el estado que falta podía cambiarla.",
+        "La corrección compara `len(ids)` con `len(estados)` antes de emparejar y, si no coinciden, no publica ninguna tasa. `zip(ids, estados, strict=True)` también detecta la diferencia, pero solo al llegar al final. Procesa `C001` a `C003` y después se detiene con `ValueError: zip() argument 2 is shorter than argument 1`, cuando los contadores ya avanzaron.",
+      ],
+      code: {
+        language: 'python',
+        title: 'zip_corto.py',
+        code: `# Error: zip se detiene en la columna más corta y no avisa
+ids = ["C001", "C002", "C003", "C004"]
+estados = ["accept", "accept", "reject"]  # la columna llegó con una fila menos
+
+n_total = 0
+n_reject = 0
+for rid, estado in zip(ids, estados):
+    n_total += 1
+    if estado == "reject":
+        n_reject += 1
+print("filas emparejadas:", n_total, "de", len(ids))
+print("tasa_reject:", round(n_reject / n_total, 4))
+
+# Corrección: comparar longitudes antes de emparejar
+if len(ids) != len(estados):
+    print("desalineado:", len(ids), "ids y", len(estados), "estados; no se calcula la tasa")
+else:
+    n_total = 0
+    n_reject = 0
+    for rid, estado in zip(ids, estados):
+        n_total += 1
+        if estado == "reject":
+            n_reject += 1
+    print("tasa_reject:", round(n_reject / n_total, 4))`,
+        output: `filas emparejadas: 3 de 4
+tasa_reject: 0.3333
+desalineado: 4 ids y 3 estados; no se calcula la tasa`,
+      },
+    },
+    {
       heading: "while, centinelas y terminación",
       subtopicId: "S04-T2-A",
       paragraphs: [
@@ -190,6 +257,44 @@ siguiente posición: 3`,
         title: "Terminación",
         content:
           "Antes de escribir while, responde: ¿qué valor cambia en cada vuelta? ¿Cuándo se vuelve falsa la condición? Si no puedes contestar, reescribe con for o añade un contador de seguridad.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un índice que no avanza en el while",
+      paragraphs: [
+        "En el bucle con error, `i` no cambia dentro del `while`, así que `i < len(lineas)` es verdadera en cada vuelta y el programa procesa `C001|R-NORTE` una y otra vez. El tope `vueltas < 4` existe solo para que veas el error; sin él, el programa no terminaría y tendrías que detenerlo con Ctrl+C.",
+        "La corrección avanza `i` en cada vuelta, de modo que la condición se acerca a `False` y el centinela `END` corta el recorrido. La última línea confirma que el bucle se detuvo en la posición 3, después de leer el centinela.",
+      ],
+      code: {
+        language: 'python',
+        title: 'indice_que_no_avanza.py',
+        code: `# Error: el índice no avanza, así que la condición nunca cambia
+lineas = ["C001|R-NORTE", "C002|R-SUR", "END"]
+
+i = 0
+vueltas = 0
+while i < len(lineas) and vueltas < 4:  # tope solo para ver el error sin colgar
+    vueltas += 1
+    print("vuelta", vueltas, "i =", i, lineas[i])
+print("terminó por el tope, no por la condición:", vueltas == 4)
+
+# Corrección: el índice avanza en cada vuelta
+i = 0
+while i < len(lineas):
+    linea = lineas[i]
+    i += 1
+    if linea == "END":
+        break
+    print("procesada:", linea)
+print("siguiente posición:", i)`,
+        output: `vuelta 1 i = 0 C001|R-NORTE
+vuelta 2 i = 0 C001|R-NORTE
+vuelta 3 i = 0 C001|R-NORTE
+vuelta 4 i = 0 C001|R-NORTE
+terminó por el tope, no por la condición: True
+procesada: C001|R-NORTE
+procesada: C002|R-SUR
+siguiente posición: 3`,
       },
     },
     {
@@ -236,6 +341,51 @@ conservada: Cusco`,
       },
     },
     {
+      heading: "Contraejemplo: break y continue ante el mismo fallo",
+      paragraphs: [
+        "Las mismas seis líneas dan tres resultados según la instrucción que elijas. Con `break` ante la fila vacía, el bucle termina en la primera vuelta y no conserva nada. Con `continue` ante `ERROR`, el bucle salta el error y sigue, así que `ok:3` entra al resumen aunque llegó después de un fallo fatal.",
+        "La corrección usa `continue` para el ruido, que aquí es la fila vacía, y `break` para el fallo que invalida el resto del lote. Por eso conserva `ok:1` y `ok:2`, que llegaron antes de `ERROR`, y deja fuera todo lo posterior.",
+      ],
+      code: {
+        language: 'python',
+        title: 'break_vs_continue.py',
+        code: `# Error 1: break ante una fila vacía corta el lote antes de empezar
+lineas = ["", "ok:1", "", "ok:2", "ERROR", "ok:3"]
+
+conservadas = []
+for linea in lineas:
+    if linea == "":
+        break
+    if linea == "ERROR":
+        break
+    conservadas.append(linea)
+print("break en vacío:", conservadas)
+
+# Error 2: continue ante ERROR deja pasar las filas posteriores
+conservadas = []
+for linea in lineas:
+    if linea == "":
+        continue
+    if linea == "ERROR":
+        continue
+    conservadas.append(linea)
+print("continue en ERROR:", conservadas)
+
+# Corrección: continue para el ruido, break para el fallo fatal
+conservadas = []
+for linea in lineas:
+    if linea == "":
+        continue
+    if linea == "ERROR":
+        break
+    conservadas.append(linea)
+print("corregido:", conservadas)`,
+        output: `break en vacío: []
+continue en ERROR: ['ok:1', 'ok:2', 'ok:3']
+corregido: ['ok:1', 'ok:2']`,
+      },
+    },
+    {
       heading: "Contadores, acumuladores y búsqueda",
       subtopicId: "S04-T3-A",
       paragraphs: [
@@ -270,6 +420,142 @@ first_reject_idx 1`,
         title: "Denominador correcto",
         content:
           "Tasa de error = errores / registros intentados. Un registro intentado es uno que entró al lote, aunque falle antes de completar todo el proceso. No uses solo los aceptados en el denominador: cambiarías la población que mide la tasa.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un contador que suma montos",
+      paragraphs: [
+        "Un contador responde cuántas filas hubo y un acumulador responde cuánto suman sus montos. En el error, `n_filas += monto` mezcla las dos preguntas: el contador termina en `235`, que es una suma de montos. El promedio sale `1.0`, una cifra de aspecto razonable que no describe el lote.",
+        "La corrección suma 1 por fila en `n_filas` y el monto en `total_monto`. Con 4 filas y un total de 235, el promedio correcto es `58.75`.",
+      ],
+      code: {
+        language: 'python',
+        title: 'contador_vs_acumulador.py',
+        code: `# Error: el contador de filas suma montos
+montos = [120, 0, 75, 40]
+
+n_filas = 0
+total_monto = 0
+for monto in montos:
+    n_filas += monto
+    total_monto += monto
+print("filas:", n_filas, "| promedio:", total_monto / n_filas)
+
+# Corrección: el contador sube 1 por fila; el acumulador suma el monto
+n_filas = 0
+total_monto = 0
+for monto in montos:
+    n_filas += 1
+    total_monto += monto
+print("filas:", n_filas, "| promedio:", total_monto / n_filas)`,
+        output: `filas: 235 | promedio: 1.0
+filas: 4 | promedio: 58.75`,
+      },
+    },
+    {
+      heading: "Contraejemplo: la tasa con el denominador de aceptados",
+      paragraphs: [
+        "El lote tiene seis registros intentados y dos rechazos. Si divides los rechazos entre los aceptados, la tasa sale `0.6667`. El número compara rechazos con aceptados y deja fuera el registro en `review`; ya no responde qué fracción del lote se rechazó.",
+        "Con el total intentado como denominador, la misma cuenta de rechazos da `0.3333`, es decir, dos de cada seis. Las dos líneas usan los mismos contadores: solo cambia la población por la que divides, y con ella el significado del número.",
+      ],
+      code: {
+        language: 'python',
+        title: 'denominador_aceptados.py',
+        code: `# Error: el denominador son solo los aceptados
+estados = ["accept", "reject", "accept", "reject", "accept", "review"]
+n_total = n_accept = n_reject = 0
+for estado in estados:
+    n_total += 1
+    if estado == "accept":
+        n_accept += 1
+    elif estado == "reject":
+        n_reject += 1
+
+print("reject / aceptados:", round(n_reject / n_accept, 4))
+
+# Corrección: el denominador son todos los registros intentados
+print("reject / intentados:", round(n_reject / n_total, 4))`,
+        output: `reject / aceptados: 0.6667
+reject / intentados: 0.3333`,
+      },
+    },
+    {
+      heading: "Contraejemplo: buscar sin break devuelve el último caso",
+      paragraphs: [
+        "Sin `break`, el bucle sigue después del primer `review` y cada coincidencia nueva reemplaza a la anterior. Por eso la búsqueda devuelve la posición 2, `C3`, que es el último `review` del lote y no el primero.",
+        "Con `break`, el recorrido se detiene en la primera coincidencia y devuelve `1 C2`. Además deja de revisar las filas restantes, algo que se nota cuando el lote es largo.",
+      ],
+      code: {
+        language: 'python',
+        title: 'busqueda_sin_break.py',
+        code: `# Error: sin break, la búsqueda sigue y se queda con el último review
+ids = ["C1", "C2", "C3"]
+estados = ["accept", "review", "review"]
+
+idx = -1
+for i, estado in enumerate(estados):
+    if estado == "review":
+        idx = i
+print("sin break:", idx, ids[idx])
+
+# Corrección: break detiene el recorrido en el primer review
+idx = -1
+for i, estado in enumerate(estados):
+    if estado == "review":
+        idx = i
+        break
+print("con break:", idx, ids[idx])`,
+        output: `sin break: 2 C3
+con break: 1 C2`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un lote vacío con tasa 0.0",
+      paragraphs: [
+        "Si el lote vacío recibe `0.0`, el reporte no se distingue del de un lote con tres aceptados y ningún rechazo. Las dos tasas de la primera línea son iguales, aunque una describe un lote sin errores y la otra no describe nada.",
+        "Con `None`, la segunda línea separa los dos casos: `None` dice que no hubo filas que medir, y `0.0` sigue significando que hubo filas y ninguna se rechazó. Quien lee el resumen ya no confunde un lote que no llegó con un lote limpio.",
+      ],
+      code: {
+        language: 'python',
+        title: 'lote_vacio.py',
+        code: `# Error: un lote vacío recibe tasa 0.0, igual que un lote sin rechazos
+estados = []
+n_total = n_reject = 0
+for estado in estados:
+    n_total += 1
+    if estado == "reject":
+        n_reject += 1
+if n_total > 0:
+    tasa_vacio = n_reject / n_total
+else:
+    tasa_vacio = 0.0
+
+estados = ["accept", "accept", "accept"]
+n_total = n_reject = 0
+for estado in estados:
+    n_total += 1
+    if estado == "reject":
+        n_reject += 1
+if n_total > 0:
+    tasa_limpio = n_reject / n_total
+else:
+    tasa_limpio = 0.0
+print("vacío →", tasa_vacio, "| sin rechazos →", tasa_limpio)
+
+# Corrección: None dice que no hubo filas que medir
+estados = []
+n_total = n_reject = 0
+for estado in estados:
+    n_total += 1
+    if estado == "reject":
+        n_reject += 1
+if n_total > 0:
+    tasa_vacio = n_reject / n_total
+else:
+    tasa_vacio = None
+print("vacío →", tasa_vacio, "| sin rechazos →", tasa_limpio)`,
+        output: `vacío → 0.0 | sin rechazos → 0.0
+vacío → None | sin rechazos → 0.0`,
       },
     },
     {
@@ -452,31 +738,24 @@ n= 3 range → [0, 1, 2]`,
         environment: "browser-pyodide",
         description: "enumerate para reportar fila y zip strict para columnas",
         preamble:
-          "Antes de ejecutar, separa dos predicciones: `enumerate(..., start=1)` imprimirá tres rótulos humanos, mientras que columnas de longitudes 3 y 2 deben fallar de forma visible. El helper `zip_strict` convierte una pérdida silenciosa en una señal auditable. Pregúntate qué registro desaparecería si usaras `zip` sin la comprobación.",
+          "Antes de ejecutar, separa dos predicciones: `enumerate(..., start=1)` imprimirá tres rótulos humanos, mientras que columnas de longitudes 3 y 2 deben avisar de forma visible. Comparar `len` antes de emparejar convierte una pérdida silenciosa en una señal auditable. Pregúntate qué registro desaparecería si usaras `zip` sin la comprobación.",
         code: {
           language: 'python',
           title: "S04-T1-B-DEMO — enumerate_zip",
           code: `ids = ["C001", "C002", "C003"]
 regiones = ["Lima", "Cusco", "Arequipa"]
 
-def zip_strict(a, b):
-    if len(a) != len(b):
-        raise ValueError("desalineado")
-    return zip(a, b)
-
-for i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1):
+for i, (rid, reg) in enumerate(zip(ids, regiones), start=1):
     print(f"fila {i}: {rid} @ {reg}")
 mal = ["Lima", "Cusco"]
-try:
-    list(zip_strict(ids, mal))
-except ValueError:
+if len(ids) != len(mal):
     print("desalineado detectado")`,
           output: `fila 1: C001 @ Lima
 fila 2: C002 @ Cusco
 fila 3: C003 @ Arequipa
 desalineado detectado`,
         },
-        why: "`start=1` numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar `len(a)==len(b)` (o `zip(..., strict=True)` en 3.10+) evita el truncamiento silencioso de `zip`, que corrompe tasas de reject cuando una columna llega incompleta. El proceso debe detenerse con un error visible en vez de perder datos sin avisar.",
+        why: "`start=1` numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar `len(a)==len(b)` (o `zip(..., strict=True)` en 3.10+) evita el truncamiento silencioso de `zip`, que corrompe tasas de reject cuando una columna llega incompleta. El aviso visible sustituye a la pérdida silenciosa de datos.",
         retrospective:
           "Un resultado corto puede parecer ordenado y seguir siendo falso. La evidencia correcta no es «zip funcionó», sino «demostré que las longitudes coinciden». Lleva esa regla a importaciones CSV, respuestas de API o cualquier par de columnas antes de practicar el fallo ruidoso.",
       },
@@ -878,52 +1157,42 @@ zip corto [('Ana', 30)]`,
         kind: "transfer",
         title: "zip_strict: fallar si hay desalineación",
         preamble:
-          "- **Contexto:** al comprobar la calidad de dos columnas, una diferencia de longitud debe producir un error visible, no una pérdida silenciosa.\n- **Meta:** implementar una comprobación de longitudes equivalente a `zip(..., strict=True)`.\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
+          "- **Contexto:** al comprobar la calidad de dos columnas, una diferencia de longitud debe producir un aviso visible, no una pérdida silenciosa.\n- **Meta:** comprobar las longitudes antes de emparejar, que es lo que `zip(..., strict=True)` hace por ti.\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** usa `len` e `if`; imprime `DESALINEADO` cuando `len(a) != len(b)`. No hace falta lanzar errores: las excepciones llegan en S09.",
         id: "S04-T1-B-E3",
         instruction:
-          "1. Completa `zip_strict`: si longitudes difieren, `raise ValueError`.\n2. Primer intento con listas 3 vs. 2 → captura y `print(\"DESALINEADO\")`.\n3. Segundo intento con listas de longitud 2 → `print(\"OK\")` si no lanza.",
-        hint: "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
+          "1. Compara `len(a)` con `len(b)` antes de emparejar; si difieren, imprime `DESALINEADO`.\n2. Primer par de listas de longitudes 3 y 2: debe salir `DESALINEADO`.\n3. Segundo par de longitudes 2 y 2: imprime `OK`.",
+        hint: "Compara len(a) y len(b) antes de emparejar; si difieren, imprime DESALINEADO.",
         hints: [
-          "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
-          "Necesitas dos bloques try/except: uno que imprima DESALINEADO y otro OK.",
+          "Compara len(a) y len(b) antes de emparejar; si difieren, imprime DESALINEADO.",
+          "Son dos comprobaciones seguidas: el primer par difiere y el segundo coincide.",
         ],
         edgeCases: ["strict alignment"],
         tests: "DESALINEADO luego OK",
         feedback:
-          "Si no sale `DESALINEADO` primero, el `raise` no corrió con longitudes 3 vs. 2. Si no sale `OK` después, el segundo bloque no validó un par alineado. El silencio de `zip` sin assert es el bug a evitar.",
+          "Si la salida es una lista de pares, la comprobación de longitudes no va antes del emparejamiento. Si no sale `OK` al final, el segundo par no tiene longitudes iguales.",
         retrospective:
-          "Aquí fallar pronto es una forma de cuidar los datos. Si tres ids llegan con dos edades, no existe un emparejamiento total que puedas defender. Explica por qué `ValueError` conserva más verdad que una lista de dos pares aparentemente correctos, y dónde pondrías esta comprobación en una importación real.",
+          "Aquí fallar pronto es una forma de cuidar los datos. Si tres ids llegan con dos edades, no existe un emparejamiento total que puedas defender. Explica por qué un aviso visible conserva más verdad que una lista de dos pares aparentemente correctos, y dónde pondrías esta comprobación en una importación real.",
         starterCode: {
           language: 'python',
-          title: "zip_strict.py",
-          code: `# CASO-LIM-004 · zip_strict
-def zip_strict(a, b):
-    # DEFECT: no valida longitudes
-    return list(zip(a, b))
-
-try:
-    print(zip_strict([1, 2, 3], [10, 20]))
-except ValueError:
-    print("DESALINEADO")
-print('ok', True)
+          title: "longitudes_antes_de_zip.py",
+          code: `# CASO-LIM-004 · comprobar longitudes antes de emparejar
+a = [1, 2, 3]
+b = [10, 20]
+# DEFECT: empareja sin comprobar longitudes; zip calla la fila sobrante
+print(list(zip(a, b)))
 `,
         },
         solutionCode: {
           language: 'python',
-          title: "zip_strict.py",
-          code: `def zip_strict(a, b):
-    if len(a) != len(b):
-        raise ValueError("desalineado")
-    return list(zip(a, b))
-try:
-    zip_strict([1, 2, 3], [10, 20])
-except ValueError:
+          title: "longitudes_antes_de_zip.py",
+          code: `a = [1, 2, 3]
+b = [10, 20]
+if len(a) != len(b):
     print("DESALINEADO")
-try:
-    zip_strict([1, 2], [3, 4])
-    print("OK")
-except ValueError:
-    print("DESALINEADO")`,
+a = [1, 2]
+b = [3, 4]
+if len(a) == len(b):
+    print("OK")`,
           output: `DESALINEADO
 OK`,
         },
@@ -1294,10 +1563,10 @@ print(n_accept, n_reject, n_total)`,
           "- **Contexto:** un lote vacío no es tasa 0 automática ni crash: se reporta `None`.\n- **Meta:** `tasa_reject = n_reject / n_total` solo si `n_total > 0`.\n- **Éxito:** con `[\"accept\",\"reject\",\"accept\"]` imprime `0.3333`; con `[]` imprime `None`.\n- **Límites:** cuenta **reject**, no accept; no dejes que `[]` lance `ZeroDivisionError`.",
         id: "S04-T3-A-E2",
         instruction:
-          "1. El starter divide siempre y además cuenta accepts como si fueran rejects (DEFECT doble).\n2. Si `n_total == 0`, retorna `None`.\n3. Si no, cuenta `status == \"reject\"` y divide.\n4. Imprime `round(..., 4)` del primer caso y el segundo caso crudo.",
-        hint: "Si n_total es 0, retorna None; si no, divide n_reject / n_total.",
+          "1. El starter divide siempre y además cuenta accepts como si fueran rejects (DEFECT doble).\n2. Si `n_total == 0`, deja la tasa en `None`.\n3. Si no, cuenta `status == \"reject\"` y divide.\n4. Imprime `round(..., 4)` del primer caso y la tasa del lote vacío.",
+        hint: "Si n_total es 0, asigna None a la tasa; si no, divide n_reject / n_total.",
         hints: [
-          "Si n_total es 0, retorna None; si no, divide n_reject / n_total.",
+          "Si n_total es 0, asigna None a la tasa; si no, divide n_reject / n_total.",
           "Cuenta status == \"reject\" (no accept). Primera tasa redondeada a 4 decimales: 0.3333.",
         ],
         edgeCases: ["división por cero"],
@@ -1306,32 +1575,44 @@ print(n_accept, n_reject, n_total)`,
           "Si el vacío crashea, faltó el guard `n_total == 0 → None`. Si la primera tasa es `0.6667`, contaste accept en vez de reject: el numerador del gate es **reject**.",
         retrospective:
           "Distingue dos hechos: cero rejects observados y ninguna observación. El primero puede producir `0.0`; el segundo produce `None`. Esa diferencia evita que un lote vacío parezca perfecto. Explica qué texto mostraría una interfaz para cada caso sin borrar la distinción del dato.",
-        starterCode: {
+                starterCode: {
           language: 'python',
           title: "tasa_segura.py",
           code: `# CASO-LIM-004 · tasa_reject
-def tasa_reject(sts):
-    # BUG intencional: división por cero no manejada; cuenta accept como reject
-    n_total = len(sts)
-    n_reject = sum(1 for s in sts if s == "accept")
-    return n_reject / n_total
-
-print(round(tasa_reject(["accept", "reject", "accept"]), 4))
-print(tasa_reject([]))
-print('ok', True)
+sts = ["accept", "reject", "accept"]
+# BUG intencional: cuenta accept como reject y no protege el lote vacío
+n_total = len(sts)
+n_reject = 0
+for status in sts:
+    if status == "accept":
+        n_reject += 1
+print(round(n_reject / n_total, 4))
+vacio = []
+print(n_reject / len(vacio))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "tasa_segura.py",
-          code: `def tasa_reject(sts):
-    n_total = len(sts)
-    if n_total == 0:
-        return None
-    n_reject = sum(1 for s in sts if s == "reject")
-    return n_reject / n_total
-print(round(tasa_reject(["accept", "reject", "accept"]), 4))
-print(tasa_reject([]))`,
+          code: `sts = ["accept", "reject", "accept"]
+n_total = len(sts)
+n_reject = 0
+for status in sts:
+    if status == "reject":
+        n_reject += 1
+if n_total == 0:
+    tasa = None
+else:
+    tasa = n_reject / n_total
+print(round(tasa, 4))
+vacio = []
+n_total = len(vacio)
+n_reject = 0
+if n_total == 0:
+    tasa_vacia = None
+else:
+    tasa_vacia = n_reject / n_total
+print(tasa_vacia)`,
           output: `0.3333
 None`,
         },

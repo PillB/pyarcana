@@ -670,6 +670,26 @@
       "reason": "Starter is @dataclass(eq=False), hashable by identity, so the set keeps the duplicate and prints 3 (the named defect) instead of a TypeError: unhashable type. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
       "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 68,
+      "id": "S04-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "0f893f5f13f6842c16d47410f0f0f57e9a088865f6b8ffe892cb4693dcbdc298",
+      "to_fp": "4a74aea0d1e55c54cb6736f4601c2b7f4146664d7e77dcdc475569df9ffdf53d",
+      "reason": "Side defect of proposal 04: the exercise used def, raise and try/except before S05/S09 (D9/D10). Rewritten with S04 tools (len check, if, print); the task (detect 3 vs 2 misalignment, then accept 2 vs 2) and the printed DESALINEADO/OK output are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T1-B-E3)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 69,
+      "id": "S04-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "ce719f52c3d765b6ba835533e75bad685b2a79a147501327f9065b22579a3647",
+      "to_fp": "8693458a8567237f60d9cd495cf5dd8b0009a58a3b24daef745f1203f4df0eee",
+      "reason": "Side defect of proposal 04: the exercise used def, return and a generator expression before S05 (D9). Rewritten as a loop with an if for the empty batch; the task (reject rate over reject count, None for an empty batch) and the printed output 0.3333 and None are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T3-A-E2)",
+      "date": "2026-11-09"
     }
   ]
 }
