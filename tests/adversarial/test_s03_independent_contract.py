@@ -35,6 +35,7 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertIn("title: 'Decisiones y reglas de validación'", source)
         self.assertEqual(
             len(re.findall(r"subtopicId: 'S03-T[1-4]-[AB]'", source)),
+            # Supporting blocks (the D24 counterexamples) carry no subtopicId, so this stays 40.
             40,
         )
         self.assertEqual(

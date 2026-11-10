@@ -340,6 +340,16 @@
       "reason": "Meaning changed between 35d19637 and HEAD (token Jaccard 0.105, below 0.5). Accepted as history by owner decision O25.",
       "decided_by": "owner: O25 (2026-10-13)",
       "date": "2026-10-13"
+    },
+    {
+      "row": 35,
+      "id": "S09-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "17d1c9f34c632c0907c0ed9968f48d49b6b087613a6135bf9d12fa8581e4d83c",
+      "to_fp": "e322af0a6f8329f6f5fc0d790385f840910ba87da5385c77106c0619aa861234",
+      "reason": "The reference solution now keeps the exercise's own contract: 1,234 is rejected as ambiguous and messages no longer repeat the input; the demo list adds 1,234 and NaN. Same exercise, same goal.",
+      "decided_by": "owner: Pablo approved batch-1 proposal 01 item 2 (2026-11-09)",
+      "date": "2026-11-09"
     }
   ]
 }

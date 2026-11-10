@@ -806,18 +806,18 @@ pass`,
         preamble:
           "- **Contexto:** en el registro de cliente del matching local, cada `ClientRecord` necesita su propia lista de emails.\n- **Meta:** completar la dataclass canónica y eliminar el default mutable.\n- **Éxito:** un `repr` `ClientRecord(...)` con `emails=['ana@ejemplo.pe']`.\n- **Límites:** solo stdlib; no uses `emails=[]` como default; datos sintéticos `C001` / `@ejemplo.pe`.",
         instruction:
-          "1. Abre el starter: `emails: list = []` es el defecto (lista compartida).\n2. Importa `field` y tipa `emails: list[str] = field(default_factory=list)`.\n3. Instancia con `C001`, `DNI-1`, `Ana Pérez` y el email de demo.\n4. Imprime el objeto (sin texto extra).",
+          "1. Ejecuta el starter: Python no llega a crear la clase y muestra `ValueError: mutable default … use default_factory`. Lee el mensaje, porque ya te dice la solución.\n2. Importa `field` y tipa `emails: list[str] = field(default_factory=list)`.\n3. Instancia con `C001`, `DNI-1`, `Ana Pérez` y el email de demo.\n4. Imprime el objeto (sin texto extra).",
         hint: "Usa field(default_factory=list) para emails.",
         hints: [
           "Usa field(default_factory=list) para emails.",
           "Instancia con C001, DNI-1, Ana Pérez y un email @ejemplo.pe.",
         ],
-        edgeCases: ["default=[] sería mutable compartido"],
+        edgeCases: ["`@dataclass` rechaza `= []`; en una clase escrita a mano, `def __init__(self, emails=[])` sí compartiría la lista sin avisar."],
         tests: "Salida: un repr `ClientRecord(...)` con emails=['ana@ejemplo.pe']; no uses emails=[].",
         feedback:
-          "Si dos instancias comparten la misma lista al mutar emails, el default se evaluó una sola vez. `field(default_factory=list)` crea una lista **nueva** por instancia — base del schema canónico de ClientRecord.",
+          "Si ves `ValueError: mutable default`, todavía queda un `= []`. `field(default_factory=list)` llama a `list()` cada vez que creas un `ClientRecord`, así que cada registro recibe su propia lista, y esa es la base del schema canónico de ClientRecord.",
         retrospective:
-          "Default mutable es el bug más caro en dataclasses de dominio: la lista se evalúa **una** vez y se comparte. El error clásico es “funciona en la primera instancia”. El mismo patrón reaparece en listas de evidencias (T3-A). Siguiente: montos con `Decimal` desde texto, no `float`.",
+          "Un valor por defecto se evalúa una sola vez, cuando Python lee la definición. En una función o en un `__init__` escrito a mano, eso hace que todas las llamadas compartan la misma lista, y el fallo aparece tarde, cuando un registro “hereda” emails de otro. `@dataclass` detecta ese caso para listas, diccionarios y conjuntos, y por eso falla al definir la clase. El mismo cuidado vuelve con las listas de evidencias en T3-A. Siguiente: montos con `Decimal` desde texto, no `float`.",
         starterCode: {
           language: 'python',
           title: "complete_client.py",
@@ -1661,15 +1661,15 @@ design=composition`,
         preamble:
           "- **Contexto:** cada expediente de matching debe nacer vacío, no heredar evidencias del anterior por accidente.\n- **Meta:** `evidences` con `field(default_factory=list)` y `add_evidence`.\n- **Éxito:** una línea `n= 2 empty 0`.\n- **Límites:** no uses `evidences=[]`; solo stdlib.",
         instruction:
-          "1. El starter comparte la lista: CF2 “ve” lo de CF1.\n2. Cambia a `field(default_factory=list)`.\n3. Añade dos evidencias a CF1; crea CF2 limpio.\n4. Imprime el contrato exacto `n= 2 empty 0`.",
+          "1. Ejecuta el starter: igual que en `ClientRecord`, `@dataclass` rechaza `evidences: list = []` con `ValueError` antes de crear un solo expediente.\n2. Cambia a `field(default_factory=list)`.\n3. Añade dos evidencias a CF1; crea CF2 limpio.\n4. Imprime el contrato exacto `n= 2 empty 0`.",
         hint: "Lista interna con default_factory, no = [].",
         hints: [
           "Lista interna con default_factory, no = [].",
           "Tras dos add en CF1, crea CF2 y muestra len(cf)=2 y len(cf2)=0.",
         ],
-        edgeCases: ["Validar score en el value object, no solo en CaseFile", "default=[] comparte la misma lista entre instancias"],
+        edgeCases: ["Validar score en el value object, no solo en CaseFile", "Sin `@dataclass`, un `__init__(self, evidences=[])` haría que CF2 viera las evidencias de CF1."],
         tests: "Contrato exacto: una línea `n= 2 empty 0` (CF1 con dos evidencias; CF2 sin contaminar).",
-        feedback: "Si CF2 no arranca en 0, el default mutable compartió la lista entre expedientes — usa default_factory.",
+        feedback: "Si Python muestra `ValueError: mutable default`, queda un `= []`; si CF2 no arranca en 0, CF1 y CF2 están usando la misma lista, así que cada expediente necesita la suya mediante `default_factory`.",
         retrospective:
           "Default mutable en agregados contamina casos. Es el mismo principio de emails en ClientRecord, ahora en el grafo de evidencias. Luego: invariantes del value object de relación.",
         starterCode: {
@@ -2582,7 +2582,7 @@ if __name__ == "__main__":
         options: ["Permite que el valor por defecto dependa de otros campos", "Hace que la lista sea inmutable dentro de la instancia", "Evita el default mutable compartido entre instancias", "Evita copiar la lista cada vez que se crea un objeto"],
         correctIndex: 2,
         explanation:
-          "Un default `[]` se evalúa una sola vez: todas las instancias comparten la misma lista. `default_factory=list` crea una lista nueva por instancia.",
+          "Un default `[]` se evalúa una sola vez. En un `__init__` escrito a mano, todas las instancias compartirían esa lista; por eso `@dataclass` la rechaza con `ValueError` al definir la clase. `default_factory=list` crea una lista nueva por instancia.",
       },
       {
         question: "RelationshipEvidence.signal_score representa…",
