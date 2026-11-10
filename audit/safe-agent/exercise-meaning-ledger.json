@@ -690,6 +690,106 @@
       "reason": "Side defect of proposal 04: the exercise used def, return and a generator expression before S05 (D9). Rewritten as a loop with an if for the empty batch; the task (reject rate over reject count, None for an empty batch) and the printed output 0.3333 and None are unchanged.",
       "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T3-A-E2)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 70,
+      "id": "S06-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
+      "to_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
+      "reason": "Starter only: `more = KEYS + ['canal']` becomes `KEYS.append('canal')` so the starter shows the alias defect it names; the second print shows headers. The solution, tests and printed solution output are unchanged, and the anchor covers no starter text, so the anchor stays the same.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S06-ALIAS)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 71,
+      "id": "S06-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
+      "to_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
+      "reason": "Preamble wording only: the limit \"no dependas del orden de inserción del set\" becomes \"un set no tiene orden; si el informe necesita orden, usa sorted\", because a set has no insertion order. Task, solution and output are unchanged; the anchor covers no preamble text.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S06-ORDEN)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 72,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "b42cdb911ada43b6ff6d88f800859fa7595762ea5ab4329bb4c5dd52780a22fb",
+      "to_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
+      "reason": "Starter and solution fixture now have a quoted field with a comma (`\"Pérez, Ana\"`): the starter split shows its named defect, the solution is the DictReader row with the same meaning. The solution output changes accordingly.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-SPLIT)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 73,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "to_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "reason": "Starter gets a second entry with a space after the colon, so the slice `raw[7:10]` fails visibly; the solution now parses both entries with json.loads and prints both ids. Output updated to C001 and C002.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-JSONSLICE)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 74,
+      "id": "S08-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "6c02b7f040d2949438d69c51ce74191f91ec44ba2b64d372adf13b54d638bb53",
+      "to_fp": "21b68ef6d9d0821ff87df720ce653af8cc491ce7dee6dffe5b8e72d33ac54dd2",
+      "reason": "Backup moves from the fixed name `in.csv.bak` to `backups/<run_id>/in.csv`, the run_id-scoped contract of the T4-A theory. Starter and solution both changed; the printed result stays True.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-RUNID)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 75,
+      "id": "S08-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "a63013cbcf8679b2fa660756ae222b4d4be04484652fdf21e30f764ed3ee26f8",
+      "to_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "reason": "transactions.json gets n_in 3 with 2 clean and 0 quarantined, so the starter always-True reconcile shows a real mismatch. The solution now prints 6 4 1, the per-source reconcile list with transactions.json False, and False overall.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-RECONCILE)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 76,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
+      "to_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "reason": "Same exercise as row 70: the fixture city in the quoted-comma row is Porto instead of a Peruvian city (ratchet and neutral-data rule D2). The solution output pin follows the fixture.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-SPLIT)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 77,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "to_fp": "eb6ce0297b0519f0a6b0514a5df1cdc59430c0c6003df5f8c2d2b6c292fef6c3",
+      "reason": "Learner text follows the row-71 fixture (Codex review on #149): the Éxito line and tests now promise {'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}, which is what the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 78,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "to_fp": "93c3b0fbbcc4eddcf05acb4a1a653a147a7187b37801545160ac80e718a72bbb",
+      "reason": "Learner text follows the two-input fixture (Codex review on #149): the Éxito line, step 3 and tests now name C002 as well as C001, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 79,
+      "id": "S08-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "to_fp": "69c3b7deca01d1133bc17878031ffe19c3feaf26df1c3f5c3a6d3e1e0410d273",
+      "reason": "Learner text follows the RECONCILE fixture (Codex review on #149): the Éxito line and tests now promise 6 4 1, clients.csv True, transactions.json False and manifest False, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
     }
   ]
 }

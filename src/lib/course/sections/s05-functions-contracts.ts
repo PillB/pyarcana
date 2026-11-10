@@ -114,7 +114,9 @@ print(sumar_uno(4))
 def eco(valor: int) -> int:
     return valor
 
-print(eco("hola"))`,
+print(eco("hola"))
+# eco("hola") + 1 terminaría con:
+# TypeError: can only concatenate str (not "int") to str`,
         output: `5
 hola`,
       },
@@ -175,13 +177,46 @@ None`,
       },
     },
     {
+      heading: "Contraejemplo: imprimir no es devolver",
+      paragraphs: [
+        "Una función que imprime su resultado parece funcionar, porque el número aparece en pantalla. Quien la llama, en cambio, recibe `None`, el valor que Python entrega cuando no se ejecuta ningún `return`.",
+        "En la salida, el `2` de la primera línea lo imprimió la propia función, y la segunda línea muestra lo que recibió el caller: `None`. Con `return`, el caller recibe `2` y puede sumar los conteos, como en la línea `total: 3`. Con la versión que imprime, esa misma suma terminaría con el error del comentario.",
+      ],
+      code: {
+        language: 'python',
+        title: "imprimir_vs_devolver.py",
+        code: `# Error: la función imprime el conteo en vez de devolverlo
+def contar_palabras_print(raw):
+    print(len(raw.split()))
+
+recibido = contar_palabras_print("Ana María")
+print("el caller recibió:", recibido)
+
+# Corrección: la función devuelve; el caller decide qué imprimir
+def contar_palabras(raw):
+    return len(raw.split())
+
+recibido = contar_palabras("Ana María")
+print("el caller recibió:", recibido)
+
+# Consecuencia: solo el valor devuelto se puede sumar
+print("total:", contar_palabras("Ana María") + contar_palabras("Luis"))
+# contar_palabras_print("Ana María") + contar_palabras_print("Luis") terminaría con:
+# TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'`,
+        output: `2
+el caller recibió: None
+el caller recibió: 2
+total: 3`,
+      },
+    },
+    {
       heading: "Posicionales, keyword y defaults seguros",
       subtopicId: "S05-T1-B",
       paragraphs: [
         "Una función reutilizable necesita opciones, pero una opción mal diseñada puede recordar datos de una llamada anterior como si llevara una libreta secreta. **Puente desde T1-A:** ya sabes entregar un resultado; ahora aprenderás a recibir parámetros sin crear estado compartido accidental.",
         "Los argumentos **posicionales** se vinculan por orden. Los argumentos **por nombre** (`keyword`) se vinculan mediante el nombre escrito en la llamada, como en `fn(x=1)`.",
         "Una lista es un contenedor mutable: su contenido puede cambiar. Python crea una sola vez el objeto usado como valor por defecto, cuando ejecuta la definición. `append` cambia ese mismo objeto. Por eso una llamada puede encontrar elementos que dejó una llamada anterior. Si la función podría modificar una lista o un diccionario, usa `None` y crea un objeto nuevo dentro de cada llamada.",
-        "Orden recomendado: primero los parámetros posicionales obligatorios; después, los opcionales con valor por defecto. En llamadas largas, los argumentos por nombre muestran qué valor recibe cada parámetro. Escribir `nombre=` y `email=` evita intercambiar ambos textos sin que Python avise.",
+        "Orden recomendado: primero los parámetros posicionales obligatorios; después, los opcionales con valor por defecto. En llamadas largas, los argumentos por nombre muestran qué valor recibe cada parámetro. Escribir `nombre=` y `email=` evita intercambiar ambos textos sin que Python avise. El contraejemplo siguiente lo muestra en ejecución.",
         "Imagina una variante regional: `def normalize_telefono_intl(raw, *, country=\"PE\")`. Allí `country` es **solo por palabra clave** (`keyword-only`). El `*` obliga a escribir `country=` y evita que el país se cuele como segundo argumento posicional.",
         "Este ejemplo solo muestra una firma. No cambia el contrato de `normalize_telefono` en esta sección: esa función todavía deja únicamente los dígitos y no consulta el país. En un ETL de una fintech peruana, escribir `country=` evita que alguien intercambie `raw` y `country` y asigne el código de país equivocado.",
         "**Dibuja la memoria:** representa `bucket=[]` como una sola caja pegada a la definición y dos llamadas apuntando a ella. Luego representa `bucket=None` con una caja nueva dentro de cada llamada. Si puedes explicar por qué las salidas difieren sin decir «Python es raro», estás listo para documentar esa decisión como contrato en T2.",
@@ -220,6 +255,47 @@ SR./SRA. QUISPE
         title: "Default mutable",
         content:
           "Si una función puede modificar un objeto mutable usado como valor por defecto, varias llamadas pueden compartirlo. Usa `None` y crea un objeto nuevo dentro de la función.",
+      },
+    },
+    {
+      heading: "Contraejemplo: argumentos intercambiados sin aviso",
+      paragraphs: [
+        "Cuando una función recibe dos textos por posición, Python los asigna en el orden en que llegan y no revisa qué significa cada uno. El código llama a `etiqueta_contacto` y a `prefijo_telefono` con los argumentos invertidos. Después repite las llamadas con argumentos por nombre y, por último, con `country` como parámetro solo por palabra clave.",
+        "Lee la salida por parejas. Las dos primeras líneas muestran el error: el correo quedó en el lugar del nombre y el teléfono salió como `+51CL`, un valor imposible que Python devolvió sin quejarse. Las dos siguientes usan los mismos valores escritos con `nombre=`, `email=`, `raw=` y `country=`, y salen correctas aunque cambió el orden de la llamada. La última usa la firma con `*`: con ella, la llamada posicional ni siquiera se ejecuta, como indica el comentario, así que el error aparece antes de producir un dato falso.",
+      ],
+      code: {
+        language: 'python',
+        title: "argumentos_intercambiados.py",
+        code: `# Error: dos textos posicionales en el orden equivocado
+def etiqueta_contacto(nombre, email):
+    return f"{nombre} <{email}>"
+
+def prefijo_telefono(raw, country="PE"):
+    if country == "CL":
+        return "+56" + raw
+    return "+51" + raw
+
+print(etiqueta_contacto("ana@example.com", "Ana Ruiz"))
+print(prefijo_telefono("CL", "987654321"))
+
+# Corrección: argumentos por nombre, mismos valores
+print(etiqueta_contacto(email="ana@example.com", nombre="Ana Ruiz"))
+print(prefijo_telefono(country="CL", raw="987654321"))
+
+# Corrección en la firma: country solo por palabra clave
+def prefijo_telefono_kw(raw, *, country="PE"):
+    if country == "CL":
+        return "+56" + raw
+    return "+51" + raw
+
+print(prefijo_telefono_kw("987654321", country="CL"))
+# prefijo_telefono_kw("CL", "987654321") terminaría con:
+# TypeError: prefijo_telefono_kw() takes 1 positional argument but 2 were given`,
+        output: `ana@example.com <Ana Ruiz>
++51CL
+Ana Ruiz <ana@example.com>
++56987654321
++56987654321`,
       },
     },
     {
@@ -313,6 +389,43 @@ print(normalize_email("  X@Y.COM "))`,
       },
     },
     {
+      heading: "Contraejemplo: una anotación que promete texto y devuelve None",
+      paragraphs: [
+        "La anotación `-> str` describe lo que la función promete, pero Python no comprueba que cada camino la cumpla. En `etiqueta_region`, el código `\"E\"` no entra en ninguno de los dos `if`, así que la función llega al final sin `return` y entrega `None`, es decir, ningún texto.",
+        "La primera línea de la salida muestra ese `None` y su tipo, `NoneType`. Quien confíe en la firma y llame a `.upper()` se detendrá con el error del comentario. La corrección añade un `return` para el caso restante, y las dos últimas líneas confirman que ahora sale un `str` sobre el que `.upper()` funciona.",
+      ],
+      code: {
+        language: 'python',
+        title: "anotacion_sin_return.py",
+        code: `# Error: la firma promete str, pero una ruta termina sin return
+def etiqueta_region(codigo: str) -> str:
+    if codigo == "N":
+        return "Norte"
+    if codigo == "S":
+        return "Sur"
+
+resultado = etiqueta_region("E")
+print(repr(resultado), type(resultado).__name__)
+# resultado.upper() terminaría con:
+# AttributeError: 'NoneType' object has no attribute 'upper'
+
+# Corrección: cada ruta devuelve lo que la firma promete
+def etiqueta_region_ok(codigo: str) -> str:
+    if codigo == "N":
+        return "Norte"
+    if codigo == "S":
+        return "Sur"
+    return "Sin región"
+
+resultado = etiqueta_region_ok("E")
+print(repr(resultado), type(resultado).__name__)
+print(resultado.upper())`,
+        output: `None NoneType
+'Sin región' str
+SIN REGIÓN`,
+      },
+    },
+    {
       heading: "Funciones pequeñas y composición",
       subtopicId: "S05-T3-A",
       paragraphs: [
@@ -353,6 +466,45 @@ print(normalize_linea("  maría  josé ", "  X@Y.COM "))`,
         title: "Orquestador delgado",
         content:
           "`normalize_linea` no reimplementa la limpieza: delega cada regla y solo combina los resultados. Así una corrección queda localizada en la función responsable.",
+      },
+    },
+    {
+      heading: "Contraejemplo: una copia de la regla no recibe la corrección",
+      paragraphs: [
+        "Una función grande que copia reglas dentro de su cuerpo deja de recibir las correcciones que se hacen en los helpers. Aquí la política de email se corrigió en `normalize_email` para que recorte espacios, pero `normalize_all` conserva su copia anterior, que solo pasa a minúsculas.",
+        "La primera línea muestra el resultado de esa copia: el correo conserva un espacio delante y otro detrás. La segunda, que viene del orquestador que llama a los helpers, sale limpia. El `False` final indica que el mismo registro produce dos claves distintas, así que un cruce por email no lo encontraría.",
+      ],
+      code: {
+        language: 'python',
+        title: "copia_de_regla.py",
+        code: `# Error: la función grande copió una versión vieja de la regla de email
+def normalize_nombre(raw: str) -> str:
+    return " ".join(raw.strip().split()).title()
+
+def normalize_email(raw: str) -> str:
+    # Política vigente: recorta espacios y pasa a minúsculas.
+    s = raw.strip().lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
+
+def normalize_all(n: str, e: str) -> str:
+    nombre = " ".join(n.strip().split()).title()
+    email = e.lower()  # copia anterior: sin strip
+    return nombre + " | " + email
+
+# Corrección: el orquestador llama a los helpers y no copia reglas
+def normalize_linea(n: str, e: str) -> str:
+    return normalize_nombre(n) + " | " + normalize_email(e)
+
+print(repr(normalize_all("ana", " Ana@Example.COM ")))
+print(repr(normalize_linea("ana", " Ana@Example.COM ")))
+
+# Consecuencia: el mismo registro produce dos claves distintas
+print(normalize_all("ana", " Ana@Example.COM ") == normalize_linea("ana", " Ana@Example.COM "))`,
+        output: `'Ana |  ana@example.com '
+'Ana | ana@example.com'
+False`,
       },
     },
     {
@@ -398,6 +550,44 @@ resultado: 0`,
       },
     },
     {
+      heading: "Contraejemplo: un normalizador que sigue transformando",
+      paragraphs: [
+        "Un ETL se vuelve a ejecutar cuando falla un paso o llega una corrección, de modo que el normalizador a veces recibe un valor que ya normalizó. `normalize_tel_intl_mal` antepone `+51` siempre, sin mirar si el código ya estaba, y el bucle simula tres corridas sobre el mismo valor.",
+        "Las tres primeras líneas muestran el error: cada corrida agrega otro `51` y el teléfono crece hasta `+515151999000111`, aunque ninguna línea lanzó un error. La corrección retira el código cuando los dígitos ya empiezan por `51` y son más de nueve. Con la misma entrada, las tres corridas dan `+51999000111`, que es lo que exige `f(f(x)) == f(x)`.",
+      ],
+      code: {
+        language: 'python',
+        title: "normalizador_idempotente.py",
+        code: `# Error: antepone el código de país sin mirar si ya está
+def normalize_tel_intl_mal(raw: str) -> str:
+    d = "".join(c for c in raw if c.isdigit())
+    return "+51" + d
+
+valor = "999-000-111"
+for corrida in [1, 2, 3]:
+    valor = normalize_tel_intl_mal(valor)
+    print("corrida", corrida, "→", valor)
+
+# Corrección: retira el código si ya venía y luego lo antepone
+def normalize_tel_intl(raw: str) -> str:
+    d = "".join(c for c in raw if c.isdigit())
+    if d.startswith("51") and len(d) > 9:
+        d = d[2:]
+    return "+51" + d
+
+valor = "999-000-111"
+for corrida in [1, 2, 3]:
+    valor = normalize_tel_intl(valor)
+    print("corrida", corrida, "→", valor)`,
+        output: `corrida 1 → +51999000111
+corrida 2 → +5151999000111
+corrida 3 → +515151999000111
+corrida 1 → +51999000111
+corrida 2 → +51999000111
+corrida 3 → +51999000111`,
+      },
+    },
+    {
       heading: "LEGB y closures básicos",
       subtopicId: "S05-T4-A",
       paragraphs: [
@@ -410,8 +600,18 @@ resultado: 0`,
       code: {
         language: 'python',
         title: "legb_closure.py",
-        code: `PREF = "Cliente: "  # nombre global del módulo
+        code: `# Error: el parámetro se llama prefix, pero el cuerpo lee PREF
+PREF = "Cliente: "  # nombre global del módulo
 
+def make_prefixer_mal(prefix: str):
+    def add_prefix(raw: str) -> str:
+        return PREF + raw
+    return add_prefix
+
+alerta = make_prefixer_mal("Atención: ")
+print(alerta("Revisar correo"))
+
+# Corrección: el cuerpo usa el nombre del ámbito envolvente
 def make_prefixer(prefix: str):
     def add_prefix(raw: str) -> str:
         return prefix + raw
@@ -422,7 +622,8 @@ alerta = make_prefixer("Atención: ")
 
 print(cliente("Ana"))
 print(alerta("Revisar correo"))`,
-        output: `Cliente: Ana
+        output: `Cliente: Revisar correo
+Cliente: Ana
 Atención: Revisar correo`,
       },
       callout: {
@@ -482,6 +683,41 @@ ana@example.com`,
         title: "Rojo-verde-refactor",
         content:
           "Si no tienes ejemplos, no refactorices. El gate de normalizadores exige idempotencia demostrada.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un assert desaparece con -O",
+      paragraphs: [
+      "`assert` comprueba una condición mientras desarrollas, pero Python la elimina cuando ejecutas con la opción `-O`, es decir, en modo optimizado. El mismo archivo `valida.py` se ejecuta dos veces. Sin `-O`, el `assert` rechaza el monto negativo; con `-O`, la comprobación desaparece y el monto `-50` se acepta.",
+      "La versión corregida usa `if` y `raise ValueError`, que Python ejecuta con o sin `-O`, así que las dos ejecuciones terminan con el mismo rechazo. Usa `assert` en tus ejemplos y pruebas, y escribe con `if` la validación de los datos que llegan de afuera.",
+      ],
+      code: {
+        language: 'bash',
+        title: "Transcripci\u00f3n: assert frente a if con -O",
+        code: `# Error: la validación vive solo en un assert
+$ cat valida.py
+def validar_monto(monto: int) -> int:
+    assert monto >= 0, "monto negativo"
+    return monto
+
+print("aceptado:", validar_monto(-50))
+$ python valida.py
+AssertionError: monto negativo
+$ python -O valida.py
+aceptado: -50
+
+# Corrección: la validación usa if + raise
+$ cat valida_ok.py
+def validar_monto(monto: int) -> int:
+    if monto < 0:
+        raise ValueError("monto negativo")
+    return monto
+
+print("aceptado:", validar_monto(-50))
+$ python valida_ok.py
+ValueError: monto negativo
+$ python -O valida_ok.py
+ValueError: monto negativo`,
       },
     },
   ],
@@ -581,6 +817,15 @@ print(normalize_email("  X@Y.COM "))
           title: "S05-T2-B-DEMO — hints_tel",
           code: `from typing import Optional, Tuple
 
+# Error: con raise, la primera fila inválida detiene el lote.
+# def norm_tel_estricto(raw): ... raise ValueError("se esperan 9 dígitos: " + raw)
+# for v in ["999000111", "123", "999-000-111"]:
+#     print(v, norm_tel_estricto(v))
+# imprimiría «999000111 999000111» y terminaría con:
+# ValueError: se esperan 9 dígitos: 123
+# La fila "999-000-111" nunca se procesa. Capturar el error llega en S09 (D10).
+
+# Corrección: la tupla devuelve un resultado por fila y el lote sigue.
 def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]:
     d = "".join(c for c in raw if c.isdigit())
     if len(d) != 9:
