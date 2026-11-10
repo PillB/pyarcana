@@ -705,3 +705,25 @@ decision.
     (MIT's notice condition; Apache-2.0 §4(a) and §4(d));
   - the D4 cost is accepted, not denied: raster images have no dark variant and will drift
     as the products change. The dated credit and the guide link are the mitigation.
+
+## D24 — Every warning is shown with a runnable counterexample and its fix (owner, 2026-11-09)
+- **Decision:** owner's words, PR #136 review: «each counterindications must be accompanied by
+  the counter example showcasing the effects of the error and the corresponding fix», «not just
+  remove the old example […] because now you only mention not to use it but the student would be
+  left with the confusion of what your warning is supposed to prevent».
+- **Rule:** writing rule B8. A counterindication in learner-facing text gets a runnable block,
+  `# Error` half then `# Corrección` half, same inputs, both outputs pinned. A defective example
+  that a fix removes is kept as that counterexample, not deleted.
+- **Scope:** every section, from batch 1 (S01–S13) on, and the live-class slides built from them.
+- **Enforced by:** per-section tests where the defect is detectable (first: S03,
+  `tests/adversarial/test_s03_allowlist_is_whole_element.py`), and an inventory of warnings
+  without a counterexample that ratchets to zero.
+
+## D2 addendum — the point of D2 is a global audience (owner, 2026-11-09)
+- Owner's words: «the spirit of the no DNI rule is to have a more global example and not use DNI
+  which is a very regional acronym for the national id so you could replace it in S11 such as
+  "DNI 12345678 PE" to "ID 12345678 UK" for example. it is mostly so you don't show only peruvian
+  examples for a global audience.»
+- Effect: replace regional DNI examples with neutral, internationally varied ones (`ID`, a country
+  code). D2's collision concern still applies to the values themselves.
+
