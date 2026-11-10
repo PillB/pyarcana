@@ -24,6 +24,21 @@ def load():
     return module
 
 
+class ExerciseIdQuotingTests(unittest.TestCase):
+    def test_single_quoted_ids_are_found(self) -> None:
+        import tempfile
+
+        block = (
+            "id: 'S03-T1-A-E1',\n starterCode: {\n code: `# DEFECT\nprint(1)`,\n},\n"
+            " solutionCode: {\n code: `print(2)`,\n},\n"
+        )
+        with tempfile.NamedTemporaryFile("w", suffix=".ts", delete=False, encoding="utf-8") as handle:
+            handle.write(block)
+        found = load().exercises(Path(handle.name))
+        Path(handle.name).unlink()
+        self.assertEqual([row["id"] for row in found], ["S03-T1-A-E1"])
+
+
 class PlantedDefectMarkerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.declares_defect = load().declares_defect
