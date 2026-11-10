@@ -9,6 +9,7 @@ stale pin, so a green check cannot be vacuous.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import unittest
@@ -52,7 +53,7 @@ CLUSTERS = {
     "S11-C5": ("S11", "Contraejemplo: el documento como identidad fusiona a dos personas", "por documento → set {E1, E7}: 1 entidad(es)"),
     "S11-C6": ("S11", "Contraejemplo: la clase base abstracta rechaza un fake válido", "ABC acepta FakeStore: False"),
     "S11-C7": ("S11", "Contraejemplo: el documento vacío forma un grupo falso", "comparten documento: [('C002', 'C003'), ('C002', 'C004'), ('C003', 'C004')]"),
-    "S11-C8": ("S11", "Contraejemplo: el repr de la dataclass escribe datos personales en el log", "INFO registrado ClientRecord(client_id='C001', document_id='UK-12345678', full_name='Ana Pérez'"),
+    "S11-C8": ("S11", "Contraejemplo: el repr de la dataclass escribe datos personales en el log", "INFO registrado ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez'"),
     "S11-C9": ("S11", "Contraejemplo: el test que escribe en disco ve el resultado del anterior", "acoplado → segundo test ve 2 fila(s)"),
     "S11-C10": ("S11", "Contraejemplo: un campo derivado guardado queda desactualizado", "guardado → Ana Pérez"),
     "S11-C11": ("S11", "Contraejemplo: la misma señal contada dos veces en una lista", "lista → señales: 3 | suma de scores: 0.5"),
@@ -124,6 +125,18 @@ def exercise_items(section: str) -> dict:
     if completed.returncode != 0:
         raise AssertionError(completed.stderr[-2000:])
     return json.loads(completed.stdout)
+
+
+# A document-like field (document_id, doc, dni, identificación) holding seven or more digits, with
+# or without a short country prefix. Phone fixtures are out of scope: S13 on main already uses them.
+DOCUMENT_SHAPED = re.compile(
+    r"(?i)(?:doc\w*|dni|identificaci\w*)\W{0,4}['\"]?(?:[A-Z]{1,3}-?)?\d{7,}"
+)
+
+
+def identifier_shaped(text: str) -> bool:
+    """A document field carrying a value shaped like a national ID (D2)."""
+    return DOCUMENT_SHAPED.search(text) is not None
 
 
 def run_py(code: str) -> subprocess.CompletedProcess:
@@ -199,6 +212,25 @@ class CounterexampleS09toS13(unittest.TestCase):
                 run = run_py(item["solution"])
                 self.assertEqual(run.returncode, 0, run.stderr[-200:])
                 self.assertEqual(run.stdout.rstrip("\n"), item["expected"].rstrip("\n"))
+
+    def test_no_cluster_block_carries_an_identifier_shaped_value(self) -> None:
+        # D2 and src/lib/course/sections/AGENTS.md: synthetic records use opaque ids such as
+        # CLI-0001, never a run of digits shaped like a national document. Codex review on #147
+        # found UK-12345678 in S11-C8; a country prefix does not change the shape.
+        offenders = []
+        for cid, (section, heading, _effect) in CLUSTERS.items():
+            block = find_by_heading(theory_blocks(section), heading)
+            text = (block.get("code") or "") + (block.get("output") or "")
+            if identifier_shaped(text):
+                offenders.append(cid)
+        self.assertEqual(offenders, [])
+
+    def test_negative_control_identifier_shape(self) -> None:
+        self.assertTrue(identifier_shaped("document_id='UK-12345678'"))
+        self.assertTrue(identifier_shaped('ClientRecord("C001", "UK-12345678")'.replace('"C001", ', 'document_id=')))
+        self.assertTrue(identifier_shaped("dni='12345678'"))
+        self.assertFalse(identifier_shaped("document_id='DOC-0001' amount=2500.50"))
+        self.assertFalse(identifier_shaped('{"phone": "014000000"}'))
 
     def test_negative_control_crashing_starter_fails_the_run_check(self) -> None:
         # A starter that dies at definition (the 'unhashable type' case) must fail the returncode check.
