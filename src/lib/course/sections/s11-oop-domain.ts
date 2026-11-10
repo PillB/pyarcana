@@ -22,7 +22,7 @@ export const section11: CourseSection = {
   icon: "Boxes",
   accentColor: "bg-gradient-to-br from-cyan-500 to-blue-600",
   jobRelevance:
-    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí aprendes a construir un núcleo orientado a objetos: tipos con invariantes (esto es, reglas que el objeto siempre cumple, como «un cliente válido tiene email y DNI»), composición y puertos testeables. Es la base sobre la que luego monta cualquier dashboard de evidencia que respete la privacidad de las personas.",
+    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí aprendes a construir un núcleo orientado a objetos: tipos con invariantes (esto es, reglas que el objeto siempre cumple, como «un cliente válido tiene email y documento»), composición y puertos testeables. Es la base sobre la que luego monta cualquier dashboard de evidencia que respete la privacidad de las personas.",
   learningOutcomes: [
     { text: "Modelar entidades con class/dataclass e instancias válidas" },
     { text: "Imponer invariantes en construcción sin side-effects externos" },
@@ -97,7 +97,7 @@ C001`,
       paragraphs: [
         "Una **clase** define el molde; una **instancia** es un objeto concreto hecho a partir de ese molde. `@dataclass`, que es un decorador que genera por ti el constructor `__init__` y la representación `__repr__`, reduce el código repetitivo sin perder el nombre del dominio. En familiaridad, `ClientRecord` es el borde de onboarding sintético — la frontera donde el dict crudo del CLI se vuelve un objeto con tipo —, no una fila de pandas.",
         "Forma canónica en S11: `ClientRecord(client_id, document_id, full_name, emails)`. Campos con **type hints** (anotaciones de tipo, que le dicen al lector y al verificador qué valores admite cada campo) y `default_factory` (una función constructora que se ejecuta una vez por instancia) para listas mutables evitan el clásico bug del default compartido. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed, que significa 'fallar cerrando la puerta': no construyas con `None` silencioso donde el esquema exige un string no vacío.",
-        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes (reglas que el objeto siempre cumple, sin importar desde dónde se le llame) en T1-B, donde `from_dict` construye la dataclass desde un dict. Caso sintético: `ClientRecord(\"C001\", \"DNI-1\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII sintética (información personal identificable de mentira, inventada para la demo) y cuáles son ids estables de sistema."
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes (reglas que el objeto siempre cumple, sin importar desde dónde se le llame) en T1-B, donde `from_dict` construye la dataclass desde un dict. Caso sintético: `ClientRecord(\"C001\", \"DOC-0001\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII sintética (información personal identificable de mentira, inventada para la demo) y cuáles son ids estables de sistema."
       ],
       code: {
         language: 'python',
@@ -111,10 +111,10 @@ class ClientRecord:
     full_name: str
     emails: list[str] = field(default_factory=list)
 
-c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+c = ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"])
 print(c)
 print(type(c).__name__, c.client_id)`,
-        output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
+        output: `ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 ClientRecord C001`,
       },
       callout: {
@@ -194,12 +194,12 @@ class ClientRecord:
     def __post_init__(self) -> None:
         self.validate()
 
-print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"]))
+print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"]))
 try:
     ClientRecord("C002", "  ", "X")
 except ValueError as e:
     print("reject", e)`,
-        output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
+        output: `ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 reject document_id vacío`,
       },
       callout: {
@@ -241,7 +241,7 @@ reject document_id vacío`,
       paragraphs: [
         "`@property` (un decorador que convierte un método en un atributo calculado, accesible sin paréntesis) expone campos derivados como `display_name` y `masked_email` **sin** mutación peligrosa desde afuera. La UI (interfaz de usuario), los logs (registros de ejecución) y el dashboard de evidencia (el panel donde se muestra la evidencia) deben preferir la máscara; el email raw (el dato en bruto, sin enmascarar) queda en el campo interno solo para el borde autorizado (export legal, backoffice interno).",
         "Métodos de instancia encapsulan consultas puras (funciones que solo leen, sin modificar), como `age_days_since(as_of)`. Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed o sentinel documentado (un valor marcador que indica 'no hay dato', como `(sin email)`) si `emails` está vacío o el primer email no tiene `@` al calcular `masked_email` — nunca un `IndexError` (una excepción que ocurre al acceder a un índice que no existe) en el pipeline de matching (el flujo de procesamiento del matching).",
-        "Setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio (p. ej. un score en [0, 1]); si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DNI-3\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime `display_name` y el email enmascarado sin PII completa (información personal identificable) en stdout (la salida estándar, que es lo que se imprime en la consola)."
+        "Setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio (p. ej. un score en [0, 1]); si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DOC-0003\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime `display_name` y el email enmascarado sin PII completa (información personal identificable) en stdout (la salida estándar, que es lo que se imprime en la consola)."
       ],
       code: {
         language: 'python',
@@ -268,9 +268,9 @@ class ClientRecord:
             return "(email inválido)"
         return f"{local[:1]}***@{domain}"
 
-c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+c = ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"])
 print(c.display_name, c.masked_email)
-print(ClientRecord("C002", "DNI-2", "Sin mail").masked_email)`,
+print(ClientRecord("C002", "DOC-0002", "Sin mail").masked_email)`,
         output: `Ana Pérez a***@ejemplo.pe
 (sin email)`,
       },
@@ -500,8 +500,8 @@ True`,
       subtopicId: "S11-T4-A",
       paragraphs: [
         "**Repository** light (un patrón que aísla el acceso al almacén de datos detrás de métodos `get`/`save`). **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` (métodos que convierten entre el objeto de dominio y un diccionario plano) viven en el **borde** de serialización (la frontera donde el objeto entra o sale del sistema), no mezclados con invariantes de negocio (las reglas que el objeto siempre cumple).",
-        "Serializa sin secretos ni PII innecesaria en logs. Notas internas de backoffice (el panel interno de operación, como `internal_note`) no van al export de dashboard. DTOs (objetos de transferencia de datos, que son diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
-        "La CLI de S10 llama al service; el service **no** imprime ni parsea argparse (el módulo de Python que parsea argumentos de línea de comandos). Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"DNI-1\", \"Ana Pérez\", \"a@ejemplo.pe\")` → dict de borde (el diccionario que sale del dominio hacia afuera) sin decidir fraude."
+        "Serializa sin secretos ni PII innecesaria en logs. El `to_dict` del ejemplo es el registro completo que guarda el repositorio; un export para un tablero o una línea de log usa otro diccionario, solo con `client_id` y los campos que ese destino necesita. Notas internas de backoffice (el panel interno de operación, como `internal_note`) no van al export de dashboard. DTOs (objetos de transferencia de datos, que son diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
+        "La CLI de S10 llama al service; el service **no** imprime ni parsea argparse (el módulo de Python que parsea argumentos de línea de comandos). Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"DOC-0001\", \"Ana Pérez\", \"a@ejemplo.pe\")` → dict de borde (el diccionario que sale del dominio hacia afuera) sin decidir fraude."
       ],
       code: {
         language: 'python',
@@ -543,8 +543,8 @@ class ClientService:
         return c.to_dict()  # no decide fraude
 
 svc = ClientService(InMemoryClientRepository())
-print(svc.register("C001", "DNI-1", "Ana Pérez", "a@ejemplo.pe"))`,
-        output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
+print(svc.register("C001", "DOC-0001", "Ana Pérez", "a@ejemplo.pe"))`,
+        output: `{'client_id': 'C001', 'document_id': 'DOC-0001', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
       },
       callout: {
         type: "info",
@@ -636,13 +636,13 @@ class ClientRecord:
 
 raw = {
     "client_id": "C001",
-    "document_id": "DNI-1",
+    "document_id": "DOC-0001",
     "full_name": "Ana Pérez",
     "emails": ["ana@ejemplo.pe"],
 }
 c = ClientRecord.from_dict(raw)
 print(c)`,
-          output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
+          output: `ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
         why: "El factory vive en la clase (`@classmethod`), no en la instancia. El CLI/JSON no inventa campos sueltos. La función `list(d.get(...))` copia emails y evita el alias del dict crudo (que ambos objetos apunten a la misma lista). El método `from_dict` nombra el borde dict→dominio con la forma canónica de ClientRecord.",
         retrospective:
@@ -674,12 +674,12 @@ class ClientRecord:
     def __post_init__(self) -> None:
         self.validate()
 
-print(ClientRecord("C001", "DNI-100", "Ana Pérez", ["ana@ejemplo.pe"]))
+print(ClientRecord("C001", "DOC-0100", "Ana Pérez", ["ana@ejemplo.pe"]))
 try:
     ClientRecord("C002", "", "X")
 except ValueError as e:
     print("rejected", e)`,
-          output: `ClientRecord(client_id='C001', document_id='DNI-100', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
+          output: `ClientRecord(client_id='C001', document_id='DOC-0100', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 rejected document_id vacío`,
         },
         why: "Fail-on-construct (fallar al construir) centraliza reglas junto al tipo: no hay instancia inválida en el set de resolución (el conjunto donde se agrupan entidades únicas). El mismo `validate()` sirve en factories (constructores alternativos) y en la rehidratación desde JSON o CLI. Fail-closed es más seguro que “arreglar” el id en silencio en el borde.",
@@ -718,7 +718,7 @@ class ClientRecord:
             return "(email inválido)"
         return f"{local[:1]}***@{domain}"
 
-c = ClientRecord("C003", "DNI-3", "Lucía Méndez", ["lucia@ejemplo.pe"])
+c = ClientRecord("C003", "DOC-0003", "Lucía Méndez", ["lucia@ejemplo.pe"])
 print(c.display_name)
 print(c.masked_email)`,
           output: `Lucía Méndez
@@ -896,10 +896,10 @@ class ClientService:
         return c.to_dict()
 
 print(ClientService(InMemoryClientRepository()).register(
-    "C001", "DNI-1", "Ana Pérez", "a@ejemplo.pe"
+    "C001", "DOC-0001", "Ana Pérez", "a@ejemplo.pe"
 ))
 print("has_is_fraud", hasattr(ClientService, "is_fraud"))`,
-          output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}
+          output: `{'client_id': 'C001', 'document_id': 'DOC-0001', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}
 has_is_fraud False`,
         },
         why: "El service orquesta construcción y persistencia, y devuelve un dict de borde (lo que sale del dominio hacia afuera). No imprime ni parsea argparse porque eso es CLI. `to_dict` elige el export, no es el invariante del tipo. La ausencia de `is_fraud` en el service no es detalle de estilo: es el límite del núcleo CP-N1-C antes de los tests éticos de T4-B.",
@@ -956,11 +956,11 @@ pass`,
         preamble:
           "- **Contexto:** en el registro de cliente del matching local, cada `ClientRecord` necesita su propia lista de emails.\n- **Meta:** completar la dataclass canónica y eliminar el default mutable.\n- **Éxito:** un `repr` `ClientRecord(...)` con `emails=['ana@ejemplo.pe']`.\n- **Límites:** solo stdlib; no uses `emails=[]` como default; datos sintéticos `C001` / `@ejemplo.pe`.",
         instruction:
-          "1. Ejecuta el starter: Python no llega a crear la clase y muestra `ValueError: mutable default … use default_factory`. Lee el mensaje, porque ya te dice la solución.\n2. Importa `field` y tipa `emails: list[str] = field(default_factory=list)`.\n3. Instancia con `C001`, `DNI-1`, `Ana Pérez` y el email de demo.\n4. Imprime el objeto (sin texto extra).",
+          "1. Ejecuta el starter: Python no llega a crear la clase y muestra `ValueError: mutable default … use default_factory`. Lee el mensaje, porque ya te dice la solución.\n2. Importa `field` y tipa `emails: list[str] = field(default_factory=list)`.\n3. Instancia con `C001`, `DOC-0001`, `Ana Pérez` y el email de demo.\n4. Imprime el objeto (sin texto extra).",
         hint: "Usa field(default_factory=list) para emails.",
         hints: [
           "Usa field(default_factory=list) para emails.",
-          "Instancia con C001, DNI-1, Ana Pérez y un email @ejemplo.pe.",
+          "Instancia con C001, DOC-0001, Ana Pérez y un email @ejemplo.pe.",
         ],
         edgeCases: ["`@dataclass` rechaza `= []`; en una clase escrita a mano, `def __init__(self, emails=[])` sí compartiría la lista sin avisar."],
         tests: "Salida: un repr `ClientRecord(...)` con emails=['ana@ejemplo.pe']; no uses emails=[].",
@@ -982,7 +982,7 @@ class ClientRecord:
     full_name: str
     emails: list = []
 
-print(ClientRecord("C001", "DNI-1", "Ana Pérez"))
+print(ClientRecord("C001", "DOC-0001", "Ana Pérez"))
 `,
         },
         solutionCode: {
@@ -997,8 +997,8 @@ class ClientRecord:
     full_name: str
     emails: list[str] = field(default_factory=list)
 
-print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"]))`,
-          output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
+print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"]))`,
+          output: `ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
       },
       {
@@ -1094,7 +1094,7 @@ class ClientRecord:
 
 raw = {
     "client_id": "C007",
-    "document_id": "DNI-7",
+    "document_id": "DOC-0007",
     "full_name": "Luis Ramos",
     "emails": ["luis@ejemplo.pe"],
 }
@@ -1125,7 +1125,7 @@ class ClientRecord:
 
 raw = {
     "client_id": "C007",
-    "document_id": "DNI-7",
+    "document_id": "DOC-0007",
     "full_name": "Luis Ramos",
     "emails": ["luis@ejemplo.pe"],
 }
@@ -1826,7 +1826,7 @@ design=composition`,
           language: 'python',
           title: "casefile_add.py",
           code: `# CASO-LIM-011 · CaseFile evidences
-# DEFECT: default mutable list (CF2 hereda evidencias de CF1)
+# DEFECT: evidences: list = []; @dataclass lo rechaza con ValueError antes de crear un expediente
 from dataclasses import dataclass
 
 @dataclass
@@ -2170,7 +2170,7 @@ class ClientRecord:
             "internal_note": self.internal_note,
         }
 
-print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())
+print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())
 `,
         },
         solutionCode: {
@@ -2194,8 +2194,8 @@ class ClientRecord:
             "emails": list(self.emails),
         }
 
-print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())`,
-          output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
+print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())`,
+          output: `{'client_id': 'C001', 'document_id': 'DOC-0001', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
         },
       },
       {
@@ -2672,12 +2672,12 @@ class InMemoryClientRepository:
 
 def test_domain() -> None:
     """Oráculo honesto: debe imprimir tests_pass solo si todo está correcto."""
-    c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+    c = ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"])
     assert c.to_dict()["client_id"] == "C001"
     assert c.to_dict()["full_name"] == "Ana Pérez"
 
     try:
-        ClientRecord("", "DNI-1", "X", [])
+        ClientRecord("", "DOC-0001", "X", [])
         raise AssertionError("debía fallar client_id vacío")
     except ValueError:
         pass

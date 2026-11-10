@@ -157,7 +157,7 @@ region in REGIONES_PERMITIDAS → True
     {
       heading: 'Contraejemplo: `== None` puede responder que sí a un objeto que no es `None`',
       paragraphs: [
-        'Con `None`, `0` y `""`, `== None` e `is None` dan el mismo resultado, así que esos valores no muestran la diferencia. La diferencia aparece cuando el objeto de la izquierda decide por sí mismo qué significa `==`. `ANY`, de la biblioteca estándar `unittest.mock`, es un marcador que se declara igual a cualquier valor. Aquí lo usamos como si fuera un monto presente.',
+        'Con `None`, `0` y `""`, `== None` e `is None` dan el mismo resultado, así que esos valores no muestran la diferencia. La diferencia aparece cuando el objeto de la izquierda decide por sí mismo qué significa `==`. `ANY`, de la biblioteca estándar `unittest.mock`, es un marcador que se declara igual a cualquier valor. Aquí lo usamos como si fuera un monto presente. `ANY` existe para las pruebas, donde sirve para decir «aquí vale cualquier valor». Bibliotecas que usarás más adelante, como pandas, también redefinen `==`, así que `is None` es la pregunta que no depende del objeto.',
         'Lee la salida por parejas. El bloque de error clasifica `ANY` como `review: ausente`, porque `==` le pregunta al objeto y el objeto responde que sí. El bloque de corrección lo clasifica como `accept: presente`, porque `is` pregunta si el valor es el propio `None`, el único objeto que representa la ausencia en Python. Por eso el curso escribe `is None`. Ruff, la herramienta de revisión que usa el curso, marca `== None` con E711 antes de que ejecutes nada.',
       ],
       code: {

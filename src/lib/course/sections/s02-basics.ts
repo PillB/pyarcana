@@ -202,12 +202,12 @@ None`,
       heading: 'Inspección, conversión y validación',
       subtopicId: 'S02-T1-B',
       paragraphs: [
-        'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. **Puente desde T1-A:** reconocer el tipo describe el presente; convertir y validar decide si ese dato puede cruzar la puerta del sistema.',
+        'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. Su tipo dice qué es ahora; convertirlo y validarlo decide si el programa puede usarlo como edad.',
         '**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** comprueba si `x` pertenece al tipo `int` o a uno de sus subtipos. Por eso `isinstance(True, int)` produce `True`: en Python, `bool` es subtipo de `int`. Conserva ese dato como una advertencia; los ejemplos de conversión que siguen trabajan con texto y no usan `isinstance` para aceptar edades.',
-        'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona.',
-        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Ejecuta cada caso por separado para observar el mensaje de Python. En S09 aprenderás qué clase de error es y cómo continuar después de encontrarlo. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
+        'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona, porque `int` tolera espacios en los bordes; una comparación como `" 19 " == "19"` no los tolera y da `False`. Por eso el texto se limpia una vez, antes de usarlo.',
+        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
         'Avanza con ejemplos separados. Primero convierte `" 19 "`: `strip` produce `"19"` e `int` produce `19`. Después ejecuta `int("abc")` por separado y observa el `ValueError`: la ejecución se detiene en esa línea. En S09 aprenderás a capturar ese error y continuar; S02 se limita a distinguir una conversión válida de una inválida sin ocultar el fallo.',
-        '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Predice el resultado de `int("19")` y el error de `int("diecinueve")` antes de probarlos. En T2 aprenderás a dar nombres claros a los valores.',
+        '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Antes de probar, predice qué devuelve `int("19")` y si `int("diecinueve")` detiene la ejecución. En T2 aprenderás a dar nombres claros a los valores.',
       ],
       code: {
         language: 'python',
@@ -347,7 +347,7 @@ print("edad comprobada:", edad)
       heading: 'Asignación y convenciones de nombres',
       subtopicId: 'S02-T2-A',
       paragraphs: [
-        'Un programa pequeño puede sobrevivir a `x`, `dato2` y `AP`; un equipo distribuido no debería tener que adivinarlos. **Puente desde T1:** una vez que el valor tiene un tipo, necesita un nombre estable que conserve su significado durante la lectura, la prueba y la revisión.',
+        'Un programa pequeño puede funcionar con nombres como `x`, `dato2` y `AP`, pero quien lo lee después tiene que adivinar qué guardan. Cuando un valor ya tiene su tipo, también necesita un nombre que diga qué significa al leer, al probar y al revisar el código.',
         'Una **variable** es un nombre ligado a un valor; sirve para volver a usar ese valor y cambiarlo sin reescribirlo en cada lugar. El nombre no es el valor, y Python no exige declarar de antemano un tipo para ese nombre: **`=` asigna** `25` a `edad` en `edad = 25`, y `edad = 26` asigna otro valor al mismo nombre. **`==` compara** dos valores y produce un `bool`: `edad == 25` produce `True`. No son intercambiables: en esta sección asignas con `=` y comparas con `==`.',
         'PEP 8 (guía de estilo): **`snake_case`** para variables y funciones (`apellido_paterno`, `parse_client`); **`UPPER_CASE`** para constantes (`EDAD_MINIMA`, `IGV_TASA`); **`CapWords`** para clases (más adelante). `UPPER_CASE` es una convención de lectura: Python sí permite reasignar ese nombre. Evita nombres de una sola letra confusos: **`l`, `O`, `I`** se confunden con `1` y `0`. Prefiere `longitud`, `indice`, `columna`.',
         'Para los campos de la captura inicial usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si Python encuentra un nombre que aún no has asignado, muestra **`NameError`**, un error que suele señalar un nombre mal escrito o usado demasiado pronto.',
@@ -518,7 +518,7 @@ a + b * c = 16
         type: 'tip',
         title: 'Paréntesis antes que memoria de precedencia',
         content:
-          'Si un programador junior tiene que reabrir el manual de precedencia para entender tu línea, reescribe con paréntesis. En una revisión de código (code review) peruana de data, la claridad gana a la “línea ingeniosa”.',
+          'Si un programador junior tiene que reabrir el manual de precedencia para entender tu línea, reescribe con paréntesis. En una revisión de código (code review) peruana de data, una línea que se entiende a la primera vale más que una más corta que obliga a abrir el manual.',
       },
     },
     {
@@ -526,18 +526,18 @@ a + b * c = 16
       figure: {
         id: "S02-decimal-rounding",
         caption:
-          "Redondear una sola vez, al final. Hacerlo en cada paso acumula el error y con float ni siquiera es reproducible.",
+          "Se redondea cada monto que el comprobante muestra: primero el IGV y después el total, que suma valores ya redondeados. Así las líneas impresas siempre cuadran.",
         alt:
-          "Un eje de cuatro pasos con una línea vertical en el tercero marcada como la única vez que se redondea.",
+          "Un eje de tres pasos: subtotal exacto, IGV redondeado y total calculado con el IGV ya redondeado.",
       },
 
       subtopicId: 'S02-T3-B',
       paragraphs: [
-        'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. La lección no exige dramatismo: **representar dinero es elegir qué errores aceptas**. **Puente desde T3-A:** la fórmula puede ser correcta y, sin embargo, el tipo numérico puede traicionarla.',
+        'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. Cada tipo numérico acepta algunos errores y evita otros, así que elegir el tipo es parte del cálculo: una fórmula correcta puede dar un monto equivocado si el tipo no representa bien los decimales.',
         'Los valores `float` representan muchos decimales mediante aproximaciones binarias: por eso `0.1 + 0.2` produce `0.30000000000000004`. Para montos decimales en **soles (S/)** usa **`Decimal`**, un tipo numérico incluido en el módulo `decimal`. Un **módulo** es una parte reutilizable de Python; la **biblioteca estándar** es el conjunto de herramientas que viene con Python. Construye `Decimal` desde **`str`**: `Decimal("0.1")`, no desde `Decimal(0.1)`, porque ese `float` ya contiene una aproximación.',
         'Para expresar un monto en céntimos, **`quantize(Decimal("0.01"))`** ajusta el resultado a dos posiciones decimales. La instrucción `from decimal import Decimal, ROUND_HALF_EVEN` hace disponibles esos dos nombres en este archivo. `Decimal` usa **`ROUND_HALF_EVEN`** por defecto; ante una mitad exacta, ese modo elige el resultado cuyo último dígito es par. Una regla contable, tributaria o contractual puede exigir otro modo. En este ejemplo elegimos `ROUND_HALF_EVEN` como convención del curso y redondeamos en cada límite de negocio cuya regla exija mostrar o guardar un monto.',
         'En una captura inicial, el campo monto puede llegar como **texto** (`"150.50"`). `Decimal(texto.strip())` convierte un texto decimal válido. Si el texto no representa un decimal, Python informa un error; aprenderás a recuperarte de ese error en S09. **Convención S02: punto decimal** (`150.50`), no coma; si el archivo CSV trae coma, documenta la normalización antes de usar `Decimal`.',
-        '**Comprueba la causa:** predice si `Decimal(0.1)` y `Decimal("0.1")` serán idénticos; luego imprime ambos. El segundo nace de la representación decimal que escribiste; el primero hereda una aproximación binaria ya creada. En T4 llevarás este valor confiable a un mensaje legible sin devolverlo a `float`.',
+        '**Comprueba la causa:** predice si `Decimal(0.1)` y `Decimal("0.1")` serán idénticos; luego imprime ambos. El segundo se construye desde el texto que escribiste y vale exactamente 0.1; el primero copia la aproximación binaria que el `float` ya tenía. En T4 llevarás este valor confiable a un mensaje legible sin devolverlo a `float`.',
       ],
       code: {
         language: 'python',
@@ -562,14 +562,14 @@ subtotal 100.00 IGV 18.00 total 118.00`,
         type: 'danger',
         title: 'Nunca Decimal(0.1) ni float para soles',
         content:
-          'Decimal(0.1) hereda la aproximación binaria ya contenida en ese `float`. Decimal("0.1") parte del texto decimal escrito. Multiplicar montos con `float` y “arreglar” el resultado con `round()` al final sigue siendo frágil en reportes contables.',
+          'Decimal(0.1) copia la aproximación binaria ya contenida en ese `float`. Decimal("0.1") parte del texto decimal escrito. Multiplicar montos con `float` y “arreglar” el resultado con `round()` al final sigue siendo frágil en reportes contables.',
       },
     },
     {
       heading: "Contraejemplo: un Decimal construido desde un float",
       paragraphs: [
         "`Decimal(0.1)` recibe un `float`, y ese `float` ya guarda la aproximación binaria de 0.1; `Decimal` la copia completa, como muestra la primera línea. Con `2.675` el efecto llega al redondeo. El `float` vale un poco menos que 2.675, así que `quantize` lo baja a `2.67`. El texto `\"2.675\"` es un empate exacto, y `ROUND_HALF_EVEN` lo lleva a `2.68`, el vecino par.",
-        "La última línea traduce ese céntimo al negocio: en 1000 unidades vendidas, el precio construido desde un `float` cobra S/ 10.00 menos. Por eso cada monto nace de su texto, como en `Decimal(\"2.675\")`, y nunca de un número escrito sin comillas.",
+        "La última línea traduce ese céntimo al negocio: en 1000 unidades vendidas, el precio construido desde un `float` cobra S/ 10.00 menos. Por eso cada monto se construye desde su texto, como en `Decimal(\"2.675\")`, y nunca de un número escrito sin comillas.",
       ],
       code: {
         language: 'python',
@@ -644,7 +644,7 @@ raw=' 42 '`,
       },
       subtopicId: 'S02-T4-A',
       paragraphs: [
-        '**Puente desde T3:** ya sabes aplicar operadores y usar `Decimal` para calcular montos decimales. T4 añade una secuencia comprobable: capturar, interpretar y presentar. **`input()`**, la función que lee lo que escribe una persona, siempre devuelve ese contenido como texto; en muchos campos de formulario, la entrada también llega como texto, aunque otras fuentes pueden entregar tipos distintos.',
+        'Con operadores y `Decimal` ya calculas montos. T4 los usa en una secuencia comprobable: capturar, interpretar y presentar. **`input()`**, la función que lee lo que escribe una persona, siempre devuelve ese contenido como texto; en muchos campos de formulario, la entrada también llega como texto, aunque otras fuentes pueden entregar tipos distintos.',
         '**`input(mensaje)`** siempre devuelve **`str`**, aunque la persona escriba dígitos; `mensaje` es el texto que se muestra antes de esperar la respuesta. En las demostraciones asignaremos entradas de ejemplo a variables para repetir la misma comprobación sin escribirlas de nuevo. Para mostrar varios valores usa argumentos concretos, por ejemplo `print("a", "b", sep=" | ")`; `sep` indica qué texto coloca `print` entre ellos.',
         'Las **f-strings** son textos precedidos por `f` que incrustan valores entre llaves, como `f"Monto: {monto:.2f}"`. La parte `.2f` muestra dos posiciones decimales. Después de T3-B, todo monto de negocio continúa como `Decimal`: formatearlo con `.2f` no requiere convertirlo a `float`. Las preguntas mostradas por `input()` y los mensajes para la persona van en **español claro**.',
         'Primero **captura** el texto recibido. Luego **interpreta** ese texto al convertirlo al tipo necesario. Por último, **reporta** el resultado en un mensaje. Así puedes comprobar cada conversión con valores conocidos, sin depender de lo que alguien escriba en la consola. Un resumen de cliente con cuatro o cinco campos permite practicar la secuencia completa.',
@@ -699,7 +699,7 @@ con Decimal: S/ 2.68`,
       heading: 'Del texto original al valor interpretado',
       subtopicId: 'S02-T4-B',
       paragraphs: [
-        '**Puente desde T4-A:** ya estableciste la secuencia de capturar la entrada como texto, interpretarla al convertirla al tipo necesario y presentar el resultado con una f-string. T4-B añade cómo conservar el texto original mientras trabajas con el texto limpio y cómo explicar, con un mensaje, qué conversión no pudo completarse.',
+        'T4-A estableció la secuencia: capturar la entrada como texto, convertirla al tipo necesario y presentar el resultado con una f-string. T4-B añade cómo conservar el texto original mientras trabajas con el texto limpio y cómo explicar, con un mensaje, qué conversión no pudo completarse.',
         'Un **parser** es el código que transforma el texto capturado en campos interpretados. Un buen parser conserva lo recibido y explica qué no pudo interpretar. En S02 seguirás conversiones concretas; en S09 aprenderás a recuperarte de una conversión inválida para continuar con los demás campos.',
         'Para una captura inicial, conserva cada texto original en un nombre terminado en **`_raw`** y guarda el texto limpio en otro nombre terminado en **`_clean`**. Así puedes comparar lo recibido con lo interpretado sin sobrescribir el original.',
         'Comprueba por separado tres casos: texto con espacios alrededor, texto vacío y texto que no representa un entero. Los nombres `García`, `Ñahui` y `María` deben conservar sus tildes y la letra `ñ`; Python representa ese texto con **Unicode**, el estándar que permite escribir caracteres de muchos idiomas. En S02 observas el `ValueError` de una conversión inválida; en S09 aprenderás a capturarlo y producir un mensaje por campo.',

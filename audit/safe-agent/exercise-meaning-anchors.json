@@ -9625,9 +9625,9 @@
     },
     "S11-T1-A-E1": {
       "section": "S11",
-      "sha256": "5bf5304c18b5069b9e48d9c0475eb0ca082b27169520d0ea9f824da4e4621c80",
+      "sha256": "5a209e6f0969590aa7bd1427b7265bb4957b85200129fa363e73f945cfb4062c",
       "tokens": [
-        "1",
+        "0001",
         "ana",
         "c001",
         "class",
@@ -9637,7 +9637,7 @@
         "dataclass",
         "dataclasses",
         "default_factory",
-        "dni",
+        "doc",
         "document_id",
         "ejemplo",
         "emails",
@@ -9695,9 +9695,9 @@
     },
     "S11-T1-A-E3": {
       "section": "S11",
-      "sha256": "0e0359b4c2f5abe967a2acf28619a845991ae19bf7af081505607d63e15d2744",
+      "sha256": "c4898062ad5665ccf4f6282113f37b7b3ac1cdc602463b3d369e3dcf732a01fe",
       "tokens": [
-        "7",
+        "0007",
         "__name__",
         "c",
         "c007",
@@ -9714,7 +9714,7 @@
         "default_factory",
         "devuelve",
         "dict",
-        "dni",
+        "doc",
         "document_id",
         "ejemplo",
         "el",
@@ -10439,9 +10439,9 @@
     },
     "S11-T4-A-E1": {
       "section": "S11",
-      "sha256": "bd153c2e8546168470d67f66b422c8cb2898e361ba0919d08daddaf4d2d8ef48",
+      "sha256": "11cbfcbe6400c00bf7750c895b136a8787f9d45f0fe4bdba85661b2d39cdbd90",
       "tokens": [
-        "1",
+        "0001",
         "a",
         "al",
         "ana",
@@ -10460,7 +10460,7 @@
         "default_factory",
         "del",
         "dict",
-        "dni",
+        "doc",
         "document_id",
         "ejemplo",
         "emails",

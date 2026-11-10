@@ -76,7 +76,7 @@ export const section01: CourseSection = {
       paragraphs: [
         'La **terminal** es una aplicación con una ventana de texto. Allí escribes una **orden**, una línea que indica una acción. Dentro de la terminal funciona la **shell**: el programa que recibe esa orden, busca el programa indicado y lo pone en marcha.',
         'Por ejemplo, Ana abre Terminal en macOS y ve `$`, la señal de que la shell espera una orden. Escribe `python3 --version`; la shell inicia Python y Python responde `Python 3.12.3`. La terminal muestra el intercambio, pero la shell es quien inicia el programa.',
-        'Ahora abre la terminal de tu computadora. En Windows prueba `python --version` o `py --version`; en macOS o Linux prueba `python3 --version`. El resultado correcto muestra `Python` y un número de versión. Si una forma no existe, prueba la otra indicada para tu sistema.',
+        'Ahora abre la terminal de tu computadora. En Windows prueba `python --version` o `py --version`; en macOS o Linux prueba `python3 --version`. El resultado correcto muestra `Python` y un número de versión. Si una forma no existe, prueba la otra indicada para tu sistema. Si ninguna forma responde, todavía no tienes Python: lo instalarás en «Componentes del stack que vamos a instalar», y después vuelves a esta prueba.',
         'Comprueba la relación con `python -c "print(2 + 2)"`, usando el nombre de Python que te respondió. La opción `-c` le pide a Python ejecutar la instrucción entre comillas. Si aparece `4`, la shell encontró Python, lo inició y la terminal mostró su respuesta.',
       ],
     },
@@ -250,7 +250,7 @@ $ echo $?
       },
       subtopicId: 'S01-T1-B',
       paragraphs: [
-        'Piensa en **cwd** y **PATH** como dos respuestas a preguntas distintas: «¿en qué habitación estoy?» y «¿en qué directorios busca herramientas el sistema?». Ya viste `sys.exit` dentro de Python; ahora comprobarás desde la shell que cambiar de habitación no instala una herramienta y que encontrar la herramienta no garantiza encontrar tu archivo. El código de salida confirma el resultado sin depender del color o del texto de la consola.',
+        'Piensa en **cwd** y **PATH** como dos respuestas a preguntas distintas: «¿en qué habitación estoy?» y «¿en qué directorios busca herramientas el sistema?». Un programa de Python puede terminar con `sys.exit(código)`, y la shell recibe ese número; con él comprobarás desde la shell que cambiar de habitación no instala una herramienta y que encontrar la herramienta no garantiza encontrar tu archivo. El código de salida confirma el resultado sin depender del color o del texto de la consola.',
         'El **PATH** es la lista de carpetas donde el sistema busca ejecutables (`python`, `git`, `code`). No es la carpeta de tu proyecto: puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese binario no está en el PATH. Al revés: Python en el PATH y un `FileNotFoundError` al abrir un script casi siempre es **cwd incorrecto** o ruta mal escrita. Diagnostica en este orden: (1) ¿el ejecutable responde (`python3 --version`)? (2) ¿`pwd` / `Get-Location` es la carpeta del repo? (3) ¿el proceso salió con 0?',
         'Los bloques de abajo son la misma lección en **comandos reales**: `pwd` ancla el cwd; un one-liner con `sys.exit(0)` y otro con `sys.exit(1)` te dejan ver el contrato 0/no-cero; un comando inexistente suele devolver **127** en bash/zsh (en PowerShell el número puede diferir — anota el de tu shell). Cuando una secuencia automática de órdenes o un colega indiquen que la tarea falló, el primer dato útil es ese entero, no solo el color del mensaje en pantalla.',
       ],
@@ -332,7 +332,7 @@ Python 3.12.3`,
         'Python trae una **biblioteca estándar** con módulos como `sys`, `datetime`, `os` y `json`; se importan sin `pip install`. Paquetes de terceros como `pandas`, `numpy` o `matplotlib` se distribuyen por separado y deben instalarse en el entorno activo. Ante `ModuleNotFoundError`, no instales por reflejo: identifica primero si el nombre pertenece a la biblioteca estándar, a un paquete externo ausente o a un módulo de tu propio proyecto.',
         '**Antes de instalar nada, abre la terminal**, porque es donde comprobarás cada pieza. En **Windows** pulsa la tecla Windows, escribe `PowerShell` y ábrelo. En **macOS** pulsa Command + Espacio, escribe `Terminal` y pulsa Enter. En **Linux** (Ubuntu y derivados) usa Ctrl + Alt + T, o busca «Terminal» en el menú de aplicaciones. Se abrirá una ventana con una línea de texto esperando: eso es el **prompt**, el punto donde escribes un comando y pulsas Enter. No necesitas configurarla; solo tenerla abierta a un lado mientras avanzas.',
         '**Instalar Git y GitHub CLI.** Git no viene preinstalado en Windows y en macOS puede pedirte las herramientas de desarrollo. Descarga el instalador desde `https://git-scm.com/downloads`, acepta las opciones por defecto y **cierra y vuelve a abrir la terminal** para que reconozca el comando nuevo. En macOS con Homebrew basta `brew install git`; en Ubuntu, `sudo apt install git`. **GitHub CLI** (el comando `gh`) es una herramienta aparte que sirve para iniciar sesión en GitHub desde la terminal: instálala desde `https://cli.github.com/` (o con `brew install gh` / `sudo apt install gh`). Necesitarás además una **cuenta gratuita** en `https://github.com/signup`. Verifica ambas con `git --version` y `gh --version` antes de continuar: si el sistema responde «comando no encontrado», la instalación no terminó o la terminal sigue siendo la anterior.',
-        'Después de instalar, **verifica en la terminal**: no des por hecho que el instalador terminó bien. El bloque siguiente es la lista de comprobación del día 1. Python debe responder con 3.12.x o una versión superior. Git debe mostrar su versión y el editor debe abrir desde `code` o desde el menú de VS Code. Solo entonces crea `.venv` y usa `python -m pip`. Si un comando falla, repara esa pieza antes de seguir. No encadenes instalaciones a ciegas.',
+        'Después de instalar, **verifica en la terminal**: no des por hecho que el instalador terminó bien. El bloque siguiente es la lista de comprobación del día 1. Python debe responder con 3.12.x o una versión superior. Los números de las demás herramientas en el bloque son un ejemplo: los tuyos pueden ser otros, y basta con que cada comando responda con una versión. Git debe mostrar su versión y el editor debe abrir desde `code` o desde el menú de VS Code. Solo entonces crea `.venv` y usa `python -m pip`. Si un comando falla, repara esa pieza antes de seguir. No encadenes instalaciones a ciegas.',
         'Un **notebook** es un archivo que alterna explicaciones con espacios de código que puedes ejecutar uno por uno y cuyo resultado aparece junto a cada espacio. Jupyter es el complemento que permite trabajar con esos archivos en VS Code. No tendrás que crear un notebook en S01; solo reconocer el nombre cuando aparezca en una opción o en una regla de Ruff.',
       ],
       screenshots: [
@@ -590,7 +590,7 @@ docs: explicar cómo crear el entorno virtual`,
         'Imagina abrir dentro de seis meses un análisis cuyo resultado cambió y necesitar saber cuándo, cómo y por qué. Una carpeta con archivos finales no responde; Git sí puede hacerlo si el historial está bien narrado. Git es un **sistema de control de versiones** local: `status` muestra el presente, `add` selecciona lo que entrará en la próxima fotografía y `commit` conserva esa fotografía con una explicación. GitHub o GitLab publican el historial, pero no lo sustituyen.',
         'En este curso usamos **Conventional Commits**: un prefijo + una descripción concreta, en minúsculas tras el prefijo (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`). Ejemplos: `feat: agregar script hello_env`, `docs: documentar instalación del venv`, `fix: corregir ruta en README`. Evita «cambios», «wip» o «arreglé algo»: obligan a abrir el diff para descubrir la intención.',
         '**Antes del primer commit, elige conscientemente la identidad que Git guardará.** Cada commit conserva dos **metadatos**, es decir, dos datos que lo describen: un nombre y un correo. Si publicas el repositorio, esa dirección puede quedar visible. GitHub ofrece en la configuración de correo de cada cuenta una dirección `noreply` para no exponer la personal. Copia esa dirección si deseas privacidad. Usa `git config --local` dentro del repositorio cuando separas identidades personales y laborales; usa `--global` solo si decidiste aplicar la misma identidad a todos los repositorios de la computadora.',
-        'Leer un **diff** es tan importante como escribir el commit. `git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit. Con un archivo recién creado no verás nada en ninguno de los dos: Git aún no lo sigue, y solo aparece en `git status` hasta que hagas `git add` (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`. Antes de `commit`, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega.',
+        'Leer un **diff** es tan importante como escribir el commit. `git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit. Un archivo recién creado no aparece en `git diff` ni en `git diff --staged`, porque Git aún no lo sigue: `git status` lo lista como no rastreado. Después de `git add`, aparece en `git diff --staged`. Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`. Antes de `commit`, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega.',
       ],
       code: {
         language: 'bash',
@@ -686,7 +686,9 @@ git push -u origin feat/hello-env
 # git stash pop                  # recupera lo guardado
 `,
         output: `feat/hello-env
-# El push/PR requiere un remoto origin configurado`,
+...
+remote: Create a pull request for 'feat/hello-env' on GitHub by visiting:
+remote:      https://github.com/TU-USUARIO/python-ds-journey/pull/new/feat/hello-env`,
       },
       callout: {
         type: 'danger',
@@ -790,7 +792,7 @@ versión 2, sin commit`,
       subtopicId: 'S01-T4-A',
       paragraphs: [
         'En una imprenta, la corrección tipográfica no decide si una idea es verdadera, pero evita que errores baratos distraigan de ella. VS Code y **Ruff** cumplen ese papel: no sustituyen pensar, pero detectan imports sin usar, sintaxis sospechosa y orden inconsistente antes de pedir tiempo a un revisor. La meta del día 1 no es una configuración perfecta; es un ciclo compartido y repetible: comprobar, corregir y comprobar otra vez.',
-        'La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = ["E", "F", "I"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**.',
+        'La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = ["E", "F", "I"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**. Con este archivo en la raíz, `python -m ruff check .` sobre un proyecto sin problemas responde `All checks passed!`, la línea que muestra el panel.',
         'Flujo: escribes código → `ruff check` reporta (ej. **F401** import sin usar) → corriges o, en casos justificados avanzados, documentas un `noqa` (en S01 prefiere corregir). No habilites `select = ["ALL"]` el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran.',
       ],
       screenshots: [
@@ -806,7 +808,7 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 `,
-        output: 'All checks passed!  (tras corregir violaciones con: python -m ruff check .)',
+        output: 'All checks passed!',
       },
       callout: {
         type: 'tip',
@@ -847,7 +849,7 @@ git check-ignore -v .env
         type: 'warning',
         title: 'Secretos, PII y datos sintéticos',
         content:
-          'En el esqueleto CP-N1-A usa solo datos sintéticos (nombres inventados, DNI ficticios). No subas extractos reales de clientes, ni dumps de producción, ni capturas con información personal. El uso responsable de los datos pesa en la rúbrica tanto como “que el script corra”.',
+          'En el esqueleto CP-N1-A usa solo datos sintéticos (nombres inventados e identificadores opacos como `CLI-0001`; un DNI inventado puede coincidir con el de una persona real). No subas extractos reales de clientes, ni dumps de producción, ni capturas con información personal. El uso responsable de los datos pesa en la rúbrica tanto como “que el script corra”.',
       },
     },
     {
@@ -895,7 +897,7 @@ feat: primer commit`,
   ],
   iDo: {
     intro:
-      'Te muestro paso a paso cómo configuro un entorno desde cero. Los bloques son comandos **copy-paste reales**: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
+      'Te muestro paso a paso cómo configuro un entorno desde cero. Los bloques son comandos reales que puedes copiar. Después de abrir el REPL con `python3`, escribe solo lo que sigue a `# >>> ` en cada línea, porque el REPL ya muestra su propio `>>>`; las demás líneas con `#` son la respuesta que verás: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
     steps: [
       {
         demoId: 'S01-T1-A-DEMO',
@@ -1059,8 +1061,7 @@ git branch --show-current
 # gh pr create   # o abre el PR en la UI de GitHub
 # Nunca: git push --force origin main
 `,
-          output: `feat/hello-env
-# El push/PR requiere un remoto origin configurado`,
+          output: `feat/hello-env`,
         },
         why: 'La rama de feature + PR es el circuito de confianza del equipo: el diff se revisa antes de tocar `main`. `git push -u` solo aplica si ya hay remoto; el hábito de la rama vale igual en local. `restore` / `stash` recuperan trabajo sin reescribir historial compartido. `git push --force` a `main` está prohibido en este curso: puede borrar commits ajenos y no “arregla” un push rechazado.',
         retrospective:
@@ -2648,7 +2649,7 @@ LOG_LEVEL=INFO
 # | full_name       | texto  | Maria Quispe | Nombre sintetico, no persona real   |
 # | country         | texto  | PE           | Codigo de pais de dos letras        |
 # | signup_date     | fecha  | 2026-01-15   | Fecha de alta en formato AAAA-MM-DD |
-# | monthly_amount  | numero | 150.50       | Monto mensual en soles              |
+# | monthly_amount  | numero | 150.50       | Monto mensual facturado en soles (S/), sea cual sea el pais |
 # ---------------------------------------------------------------------------
 #
 # scripts/hello_env.py — smoke del entorno
