@@ -2,7 +2,7 @@
 
 Trabajo independiente.
 
-1) Agrega un campo 'phone' opcional y valídalo. 2) Agrega un caso de prueba para email con espacios. 3) Calcula y muestra warn_rate.
+1) Agrega un campo 'phone' opcional y valídalo. 2) Agrega un caso de prueba para un monto `Decimal("NaN")`: debe ir a reject sin detener el lote. 3) Calcula y muestra review_rate.
 
 ## Criterios de éxito
 - El código corre desde un entorno limpio.

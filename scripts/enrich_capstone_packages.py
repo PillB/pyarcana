@@ -3,6 +3,9 @@
 set. CP-N4-C and CP-FINAL are enriched separately by subagents."""
 from __future__ import annotations
 import json
+import datetime
+import subprocess
+import sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PKG = ROOT / "course-state" / "capstones"
@@ -134,9 +137,32 @@ def starter_readme(s, cid): return f"""# {cid} — STARTER\n\nCopia este directo
 def final_iface_md(s): return f"""# Interfaz de integración final\n\n**Interfaz:** `{s['iface']}`\n\n{s['iface_detail']}\n\n## Contrato de versión\n- Versión del paquete: {s['version']}\n- La interfaz es estable dentro de la misma versión mayor.\n- CP-FINAL invoca esta interfaz a través del contrato declarado en `capstone_validation/architecture/final_integration_contracts.json`.\n\n## Prohibiciones\n- No exponer PII real a través de la interfaz.\n- No realizar efectos secundarios externos sin aprobación humana (cuando aplica).\n- No inferir relaciones, fraude ni causalidad automáticamente (cuando aplica).\n"""
 def run_md(s, cid): return f"""# Cómo ejecutar\n\n```bash\npython3 data/generate.py  # dataset sintético\npython3 demo.py            # debe imprimir METRICS_JSON y salir 0\npython3 tests/test_demo.py # tests\n```\n\nRequisitos: Python 3.10+. Solo stdlib. Sin claves, sin red, sin PII real.\n"""
 
+# Packages whose files are written by hand and must not be regenerated here. CP-N1-A was
+# rewritten to the S04 contract (BRIEF, demo, tests); this script only refreshes its execution.json.
+HAND_MAINTAINED = {"CP-N1-A"}
+
+
+def execution_record(pkg: Path, cid: str, version: str) -> dict:
+    """Run the package's demo and tests and report what they did. Never a literal True."""
+    demo = subprocess.run([sys.executable, "demo.py"], cwd=pkg, capture_output=True, text=True)
+    tests = subprocess.run([sys.executable, str(Path("tests") / "test_demo.py")], cwd=pkg,
+                           capture_output=True, text=True)
+    demo_ok = demo.returncode == 0 and "METRICS_JSON:" in demo.stdout
+    tests_ok = tests.returncode == 0
+    return {"capstone_id": cid, "version": version,
+            "execution_status": "pass" if demo_ok and tests_ok else "fail",
+            "demo_exits_zero": demo_ok, "tests_pass": tests_ok,
+            "verified_at": datetime.date.today().isoformat()}
+
+
 def main():
     for cid, s in SPECS.items():
         pkg = PKG / cid
+        if cid in HAND_MAINTAINED:
+            ex = execution_record(pkg, cid, s['version'])
+            (pkg/"execution.json").write_text(json.dumps(ex,ensure_ascii=False,indent=2))
+            print(f"  execution refreshed {cid}: tests_pass={ex['tests_pass']}")
+            continue
         (pkg/"data").mkdir(exist_ok=True)
         (pkg/"tests").mkdir(exist_ok=True)
         (pkg/"STARTER").mkdir(exist_ok=True)
@@ -158,7 +184,7 @@ def main():
         # update meta
         em={"capstone_id":cid,"version":s['version'],"artifacts":["BRIEF.md","RUBRIC.json","demo.py","data/generate.py","tests/test_demo.py","SECURITY.md","PRIVACY.md","ACCESSIBILITY.md","RESPONSIBLE_USE.md","IDO.md","WEDO.md","YOUDO.md","STARTER/","FINAL_INTERFACE.md","RUN.md"],"synthetic_data_only":True,"no_secrets":True,"no_network":True}
         (pkg/"evidence_manifest.json").write_text(json.dumps(em,ensure_ascii=False,indent=2))
-        ex={"capstone_id":cid,"version":s['version'],"execution_status":"pass","demo_exits_zero":True,"tests_pass":True,"verified_at":"2026-07-29"}
+        ex = execution_record(pkg, cid, s['version'])
         (pkg/"execution.json").write_text(json.dumps(ex,ensure_ascii=False,indent=2))
         gpath=pkg/"gate.json"
         if gpath.exists():

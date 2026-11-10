@@ -773,6 +773,22 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
             </div>
           )}
 
+          {project.solutionCode && (
+            <details className="rounded-lg border border-border p-3" data-testid="you-do-solution">
+              <summary className="cursor-pointer text-sm font-semibold text-foreground">
+                Solución de referencia del proyecto
+              </summary>
+              <div className="mt-3">
+                <CodeBlock
+                  code={project.solutionCode.code}
+                  language={project.solutionCode.language}
+                  title={project.solutionCode.title}
+                  output={project.solutionCode.output}
+                />
+              </div>
+            </details>
+          )}
+
           <Callout type="tip" title="Tip para tu portafolio">
             <RichText content={project.portfolioNote} sectionId={section.id} />
           </Callout>

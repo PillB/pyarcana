@@ -39,9 +39,9 @@
   "package_version": "2.0.0",
   "tests_required": [
     "registro válido → status ok",
-    "amount=0 → warn",
-    "id faltante → error",
-    "email mal → error",
-    "amount negativo → error"
+    "monto_ingreso=0 → accept",
+    "edad ausente → review",
+    "region fuera del catálogo → review",
+    "monto_ingreso negativo → reject"
   ]
 }

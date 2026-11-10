@@ -2,7 +2,7 @@
 
 **Interfaz:** `intake_cli.run(records) -> IntakeResult`
 
-Recibe una lista de registros (dicts). Devuelve IntakeResult con: results, n_total, n_ok, n_warn, n_error, error_rate. Determinista.
+Recibe una lista de registros (dicts con `edad`, `region`, `monto_ingreso`, `raw_line`). Devuelve IntakeResult con: `results`, `n_total`, `n_accept`, `n_reject`, `n_review`, `tasa_reject` (None si el lote está vacío). Determinista.
 
 ## Contrato de versión
 - Versión del paquete: 2.0.0

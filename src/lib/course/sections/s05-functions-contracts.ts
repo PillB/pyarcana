@@ -1114,11 +1114,11 @@ post OK`,
         subtopicId: "S05-T2-B",
         title: "Hints no validan en runtime",
         preamble:
-          "- **Contexto:** anotar `-> int` en un helper de intake no convierte ni chequea tipos al ejecutar.\n- **Meta:** devolver un `int` real y dejar explícito que el hint es contrato estático.\n- **Éxito:** `3` y la línea exacta `hint no valida en runtime`.\n- **Límites:** no uses `isinstance` mágico “porque el hint lo pide”; no cambies el texto de la nota.",
+          "- **Contexto:** anotar `-> int` en un helper de intake no convierte ni chequea tipos al ejecutar.\n- **Meta:** devolver un `int` real y dejar explícito que el hint es contrato estático.\n- **Éxito:** `3` (sin comillas, porque ya es un `int`) y la línea exacta `hint no valida en runtime`.\n- **Límites:** no uses `isinstance` mágico “porque el hint lo pide”; no cambies el texto de la nota.",
         id: "S05-T2-B-E1",
         kind: "guided",
         instruction:
-          "1. El starter retorna `str(len(s))` pese al hint `-> int`.\n2. Corrige el return a `len(s)`.\n3. Imprime el resultado de `'abc'`.\n4. Imprime la nota exacta pedida (demo de humildad del hint).",
+          "1. El starter retorna `str(len(s))` pese al hint `-> int`.\n2. Corrige el return a `len(s)`.\n3. Imprime `repr(...)` del resultado de `'abc'`, para que el tipo se vea en la salida.\n4. Imprime la nota exacta pedida (demo de humildad del hint).",
         hint: "hints no ejecutan isinstance mágicamente",
         hints: [
           "hints no ejecutan isinstance mágicamente",
@@ -1137,14 +1137,14 @@ post OK`,
 # FALLO: no imprime nota; retorna str en vez de int
 def len_campo_raw(s: str) -> int:
     return str(len(s))
-print(len_campo_raw('abc'))`,
+print(repr(len_campo_raw('abc')))`,
         },
         solutionCode: {
           language: 'python',
           title: "hint_len_raw.py",
           code: `def len_campo_raw(s: str) -> int:
     return len(s)
-print(len_campo_raw('abc'))
+print(repr(len_campo_raw('abc')))
 print('hint no valida en runtime')`,
           output: `3
 hint no valida en runtime`,
@@ -1384,18 +1384,18 @@ print(normalize_contact('  luis ', '  L@E.COM '))`,
         subtopicId: "S05-T3-A",
         title: "Descomponer el monstruo de tres campos",
         preamble:
-          "- **Contexto:** tres políticas (nombre, email, tel) mezcladas en un solo `def` son deuda que un revisor de CP-N1-B rechaza.\n- **Meta:** tres funciones + orquestador delgado, misma salida.\n- **Éxito:** dict `nombre`/`email`/`tel` canónicos.\n- **Límites:** no dejes reglas de negocio dentro del orquestador final.",
+          "- **Contexto:** tres políticas (nombre, email, tel) mezcladas en un solo `def` son deuda que un revisor de CP-N1-B rechaza.\n- **Meta:** tres funciones + orquestador delgado, misma salida.\n- **Éxito:** dict `nombre`/`email`/`tel` canónicos y, después, la línea `Ana a@b.com 9991` con los tres helpers.\n- **Límites:** no dejes reglas de negocio dentro del orquestador final.",
         id: "S05-T3-A-E3",
         kind: "transfer",
         instruction:
-          "1. Lee el monstruo: tres políticas inline.\n2. Extrae `n_nombre`, `n_email`, `n_tel` (nombres libres si son claros).\n3. `normalize_all` solo llama y arma el dict.\n4. Misma salida que el starter al imprimir.",
+          "1. Lee el monstruo: tres políticas inline.\n2. Extrae `n_nombre`, `n_email`, `n_tel` con esos nombres exactos.\n3. `normalize_all` solo llama y arma el dict.\n4. Imprime el dict como el starter.\n5. Llama a cada helper con `'  ana '`, `' A@B.COM'` y `'999-1'` e imprime sus tres resultados separados por espacio.",
         hint: "Cada campo = una función; el orquestador solo llama",
         hints: [
           "Cada campo = una función; el orquestador solo llama",
           "Salida dict con 3 claves; no dejes reglas en el monstruo",
         ],
         edgeCases: ["descomposición"],
-        tests: "exact dict {'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}",
+        tests: "dict exacto y la línea 'Ana a@b.com 9991'",
         feedback:
           "Si el monstruo vuelve, el PR se rechaza: no por estética, sino porque no puedes testear ni reutilizar políticas. Misma salida, diseño distinto: eso es descomposición real.",
         retrospective:
@@ -1429,8 +1429,10 @@ def n_tel(t):
     return ''.join(c for c in t if c.isdigit())
 def normalize_all(n, e, t):
     return {'nombre': n_nombre(n), 'email': n_email(e), 'tel': n_tel(t)}
-print(normalize_all('  Ana ', 'A@B.COM', '999-1'))`,
-          output: `{'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}`,
+print(normalize_all('  Ana ', 'A@B.COM', '999-1'))
+print(n_nombre('  ana '), n_email(' A@B.COM'), n_tel('999-1'))`,
+          output: `{'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}
+Ana a@b.com 9991`,
         },
       },
       {
@@ -1479,18 +1481,18 @@ print(once, normalize_tel(once) == once)`,
         subtopicId: "S05-T3-B",
         title: "Print al borde, email puro",
         preamble:
-          "- **Contexto:** un `print` dentro del normalizador contamina tests y logs del ETL; el core de email del gate debe ser pure strip+lower con `@`.\n- **Meta:** core puro + reporte solo en `print_report`.\n- **Éxito:** línea exacta `email= z@w.com`.\n- **Límites:** sin `print` en `normalize_email`; valida `@` con `raise`; no inventes PII.",
+          "- **Contexto:** un `print` dentro del normalizador contamina tests y logs del ETL; el core de email del gate debe ser pure strip+lower con `@`.\n- **Meta:** core puro + reporte solo en `print_report`.\n- **Éxito:** línea exacta `email= z@w.com` y, después, `'q@r.com'` (el `repr` de `normalize_email(' Q@R.COM ')`).\n- **Límites:** sin `print` en `normalize_email`; valida `@` con `raise`; no inventes PII.",
         id: "S05-T3-B-E2",
         kind: "independent",
         instruction:
-          "1. Saca el `print` del core.\n2. Añade validación de `@` con `ValueError` si falta.\n3. `print_report` debe imprimir el valor **retornado** por el core.\n4. Ejecuta el call del starter y compara con `email= z@w.com`.",
+          "1. Saca el `print` del core.\n2. Añade validación de `@` con `ValueError` si falta.\n3. `print_report` debe imprimir el valor **retornado** por el core.\n4. Ejecuta el call del starter y compara con `email= z@w.com`.\n5. Imprime `repr(normalize_email(' Q@R.COM '))` y comprueba que sale `'q@r.com'`.",
         hint: "print solo en print_report",
         hints: [
           "print solo en print_report",
           "Core testeable sin capturar stdout; valida @ en el pure core.",
         ],
         edgeCases: ["efecto al borde"],
-        tests: "email= z@w.com",
+        tests: "email= z@w.com y 'q@r.com'",
         feedback:
           "Un print en el core contamina tests y logs: el core se testea con asserts, el borde formatea. Efectos al borde, pureza al centro — y no olvides el raise de `@`.",
         retrospective:
@@ -1518,8 +1520,9 @@ print_report('  Z@W.COM ')`,
     return s
 def print_report(raw):
     print('email=', normalize_email(raw))
-print_report('  Z@W.COM ')`,
-          output: `email= z@w.com`,
+print_report('  Z@W.COM ')
+print(repr(normalize_email(' Q@R.COM ')))`,
+          output: `email= z@w.com\n'q@r.com'`,
         },
       },
       {

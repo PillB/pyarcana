@@ -390,6 +390,46 @@
       "reason": "C2 follow-up: the recovery exercise called its own procedure 'no destructiva'; it now says it avoids destroying history ('sin destruir historial'). The task, starter and expected outcome are unchanged.",
       "decided_by": "owner 2026-11-09 (proposals-03 C2)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 40,
+      "id": "S05-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "f8c7ed893226271c09ac6cefed62802a3507ddfce86d995faa59212684cf6663",
+      "to_fp": "2993d98e15c73979c942376768d15b78cb23bc89a66ef37a8b63b9d940767ed2",
+      "reason": "Starter and solution print repr() of the result, so str versus int is visible in the output; the return fix and the note line are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 41,
+      "id": "S05-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "d0d196d1f2897ce2136f5df5f050cb25d6477c92ea087a0910fc1ff032ed76a6",
+      "to_fp": "6753851798244782b2b97a6c4cd977fb9368f72e9e6fa9029f87dadd1e6a49d4",
+      "reason": "The solution adds a line that calls the three helpers by name, so the learner can see whether the split happened and the starter output is unchanged. Same decomposition goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 42,
+      "id": "S05-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "8f3c72a29d99ecf1af7c14cfbc54511873cb2df54fc06d305d5163f061eb6c5d",
+      "to_fp": "148e93db69a5593224e7f0cefd77bfc5ea48d89d370ea66ece343056456561ce",
+      "reason": "The starter now prints one line and the solution adds a repr line from a second normalize_email call, so the starter output no longer equals the expected output. Same purity goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 43,
+      "id": "S06-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "7816a421b29fd2c6769f77e0b7f4f8c044340d8b7db13d3c45810286aa783626",
+      "to_fp": "105cc0c2e122fe34d637e58d85fe615cd0df3d0df96d32fe44de9ec660f2a26e",
+      "reason": "The fixture now makes id order and monto order disagree, so sorting by id gives a different output than sorting by monto. Same goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
     }
   ]
 }
