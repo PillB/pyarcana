@@ -121,15 +121,14 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S02-decimal-rounding': {
     kind: 'timeline',
-    headline: 'Dónde se redondea cambia el total',
+    headline: 'Cada monto que va al comprobante se redondea una vez',
     from: 0, to: 4, axisLabel: 'pasos del cálculo',
-    boundaryAt: 3, boundaryLabel: 'única vez que se redondea',
     events: [
-      { at: 1, label: 'precio', sub: 'Decimal exacto', tint: 2 },
-      { at: 2, label: 'IGV', sub: 'sigue exacto', tint: 2 },
-      { at: 3, label: 'total', sub: 'quantize aquí', tint: 4 },
+      { at: 1, label: 'subtotal', sub: 'Decimal desde texto', tint: 2 },
+      { at: 2, label: 'IGV', sub: 'quantize: se imprime', tint: 4 },
+      { at: 3, label: 'total', sub: 'subtotal + IGV ya redondeado', tint: 4 },
     ],
-    note: 'Redondear en cada paso acumula el error; con float, además, ni siquiera es reproducible.',
+    note: 'Con subtotal 0.25, redondear solo el total da 0.30, pero las líneas impresas suman 0.25 + 0.04 = 0.29.',
   },
 
   // ------------------------------------------------------------------- stack

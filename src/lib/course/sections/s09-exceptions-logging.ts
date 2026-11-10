@@ -477,7 +477,7 @@ correlation_id=corr-9c2e stage=validar id=C001`,
       paragraphs: [
         "Un `correlation_id` viaja como argumento explícito: `process_row` lo recibe y se lo pasa a `validate_row`, que lo añade al evento. Repetir el mismo valor en cada capa permite unir los eventos de una corrida sin usar una variable global.",
         "Nunca registres email, teléfono o dirección completos. `mask_email`, `mask_phone` y `mask_address` reducen la exposición antes de construir el evento; la máscara de dirección de este ejemplo devuelve `***` porque el log no necesita la calle. Aun enmascarado, el evento sigue siendo sensible y requiere acceso limitado, conservación definida y solo los campos necesarios.",
-        "`log.exception` adjunta los frames y el mensaje de la excepción. Por eso el código lanza `ValueError('campo requerido inválido')`, un motivo seguro, y mantiene cualquier valor completo fuera de la excepción y del log. Si se necesita conservar evidencia completa, debe ir a un almacenamiento separado y protegido.",
+        "`log.exception` adjunta los frames y el mensaje de la excepción. Por eso el código lanza `ValueError(\"valor vacío o N/A\")`, un motivo que describe el problema sin copiar el valor, y mantiene cualquier valor completo fuera de la excepción y del log. Si se necesita conservar evidencia completa, debe ir a un almacenamiento separado y protegido.",
       ],
       code: {
         language: 'python',
@@ -878,7 +878,7 @@ root_symptom nombre incompleto: 'Solo'`,
         },
         why: "Reducir a una sola entrada hace el assert de regresión de una línea y evita arrastrar PII o ruido de columnas. Un bug silencioso de 3+ tokens (truncar mal sin lanzar) es **otro** repro e hipótesis distinta; aquí el síntoma es el ValueError de nombre incompleto.",
         retrospective:
-          "Si puedes defender por qué el test usa `'Solo'` y no el CSV entero, ya internalizaste minimal repro. We Do: recortar fixtures de DNI, hipótesis de teléfono y rojo→verde en nombres latam.",
+          "Si puedes defender por qué el test usa `'Solo'` y no el CSV entero, ya internalizaste minimal repro. We Do: recortar fixtures de documentos, hipótesis de teléfono y rojo→verde en nombres latam.",
       },
       {
         demoId: "S09-T3-A-DEMO",
