@@ -52,6 +52,16 @@ skimmed; a numbered rule you can hold a sentence against does not.
   sentence. It does not apply to exam options or one-line feedback. *(owner, 2026-10-16/17;
   S12-T3-B: `PRIMARY KEY` and `UNIQUE` were used before any prose defined them)*
 
+- **B8 — A warning comes with its counterexample, running.** Every counterindication
+  ("no uses…", "evita…", "nunca…", "no confundas…") is shown, not only stated: a runnable
+  block that does the wrong thing and prints its effect, then the fix with the same inputs,
+  so the learner sees what the warning prevents. Label the halves `# Error` and
+  `# Corrección`; pin both outputs. A warning with no example leaves the learner unable to
+  recognise the mistake when they make it. Removing a defective example is not a fix for
+  it: keep it as the counterexample. *(owner, 2026-11-09, PR #136 review: the S03 warning
+  against a `|`-separated catalogue removed the old example and left "the student with the
+  confusion of what your warning is supposed to prevent")*
+
 ## C. Repair
 
 - **C1 — Repair the defect, not the paragraph.** Do not rewrite more than the finding
