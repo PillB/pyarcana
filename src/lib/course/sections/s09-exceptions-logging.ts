@@ -541,6 +541,13 @@ phone=***4567`,
     },
     {
       heading: "Contraejemplo: la excepción filtra lo que el log enmascaró",
+      figure: {
+        id: "S09-fstring-in-raise",
+        caption:
+          "Si una f-string mete el correo en el mensaje de la excepción, log.exception lo copia en la última línea de la traza, aunque el mensaje del log vaya enmascarado.",
+        alt:
+          "Tres etapas en fila: un raise cuya f-string incluye el correo, la llamada a log.exception con el correo enmascarado y la traza final, que repite el texto completo del error.",
+      },
       paragraphs: [
         "El ejemplo registra dos veces el mismo fallo de validación con `log.exception`, y en las dos el mensaje del log lleva el correo enmascarado. Cambia solo el texto de la excepción. En el error, `ValueError` incluye el correo completo; en la corrección, lleva un motivo sin valores. `log.exception` copia ese texto en la última línea de la traza, así que la máscara del mensaje no alcanza a protegerlo.",
         "Compara las dos líneas `última:`. La primera termina en `ana.rojas@ejemplo.pe` y por eso `correo completo en el log` da `True`, aunque la línea `primera:` muestre `a***@ejemplo.pe`. Con el motivo seguro, la traza termina en `correo no verificado` y la comprobación da `False`. Al revisar un log, busca el dato también en la traza y no solo en el mensaje.",

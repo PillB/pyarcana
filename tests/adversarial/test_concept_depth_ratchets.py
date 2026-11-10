@@ -88,13 +88,20 @@ NEVER_EXPLAINED_OWED = 6
 UNEXEMPLIFIED_CONCEPTS_OWED = 33
 # The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
 # are short; they owe 274 figures between them. Counting concepts hid a lost figure.
-FIGURES_OWED = 274
+# 2026-11-10, proposal 05 (owner-approved): 274 -> 271. The S12-C1 example made `f-string`
+# load-bearing (target 1 -> 5, debt +4); five f-string figures in S02, S09, S11 and S12 pay all
+# five, and their captions also give `repr` and `exception` one figure each.
+FIGURES_OWED = 271
 #: The total the deficit is measured AGAINST, as a floor rather than a ratchet. It may rise
 #: freely; a fall means a concept stopped being load-bearing, which is a content loss
 #: wearing the shape of a repair. 51 concepts are load-bearing today (target 5 each) and 57
 #: are not (target 1): 312. Lower it only with a dated line naming what was consolidated.
-FIGURE_TARGET_FLOOR = 312
-D3_SUBTOPIC_OWED = 30
+#: 2026-11-10, proposal 05: 312 -> 316, `f-string` became load-bearing (target 1 -> 5).
+FIGURE_TARGET_FLOOR = 316
+# 2026-11-10, proposal 05: 30 -> 29. `f-string` (heading "Construir un mensaje con una
+# f-string" plus its figures) and `repr` (the S11 figure) reach L3; f-string had become an
+# offender when the S12 example made it load-bearing, so the net change is one.
+D3_SUBTOPIC_OWED = 29
 
 
 @functools.cache

@@ -431,7 +431,14 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       },
     },
     {
-      heading: 'Construir un mensaje con valores',
+      heading: 'Construir un mensaje con una f-string',
+      figure: {
+        id: "S02-fstring-parts",
+        caption:
+          "Una f-string separa el texto fijo de los huecos entre llaves. Cada hueco se reemplaza por su valor, y lo que va después de los dos puntos solo cambia cómo se muestra.",
+        alt:
+          "Cuatro etapas en fila: la letra f, el texto fijo «Cliente:», el hueco {nombre}, que se convierte en José, y el hueco {monto:.2f}, que se convierte en 99.50.",
+      },
       paragraphs: [
         'Un mensaje suele mezclar texto fijo con valores que cambian. Escribir cada parte por separado vuelve difícil ver el resultado completo. Una **f-string** es un texto que comienza con `f` y contiene espacios entre llaves donde Python coloca valores.',
         'En `f"Cliente: {nombre} | Monto: S/ {monto:.2f}"`, `Cliente:` y `Monto:` permanecen iguales. Python sustituye `{nombre}` por `José` y muestra `{monto:.2f}` con dos posiciones decimales. La f-string resuelve un problema de presentación: no cambia el valor guardado en `nombre` ni en `monto`.',
@@ -463,6 +470,13 @@ raw=' 42 '`,
     },
     {
       heading: 'Entrada/salida: input, print y f-strings',
+      figure: {
+        id: "S02-capture-interpret-report",
+        caption:
+          "La secuencia de T4 en tres pasos: input() entrega texto, la conversión produce el valor y la f-string lo presenta en un mensaje.",
+        alt:
+          "Tres etapas en fila: capturar con input(), que devuelve str; interpretar con una conversión; reportar con una f-string. Una línea vertical separa el texto recibido del valor convertido.",
+      },
       subtopicId: 'S02-T4-A',
       paragraphs: [
         '**Puente desde T3:** ya sabes aplicar operadores y usar `Decimal` para calcular montos decimales. T4 añade una secuencia comprobable: capturar, interpretar y presentar. **`input()`**, la función que lee lo que escribe una persona, siempre devuelve ese contenido como texto; en muchos campos de formulario, la entrada también llega como texto, aunque otras fuentes pueden entregar tipos distintos.',

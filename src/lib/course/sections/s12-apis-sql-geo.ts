@@ -440,6 +440,13 @@ print(try_batch_unique_doc())`,
     },
     {
       heading: "Contraejemplo: un id con SQL devuelve todas las filas",
+      figure: {
+        id: "S12-fstring-sql",
+        caption:
+          "Una f-string pega el id dentro del texto SQL, y su comilla cambia la consulta; el marcador ? entrega el mismo id como un valor.",
+        alt:
+          "Un id con un fragmento de SQL entra por dos ramas. Pegado con una f-string, la consulta termina en OR '1'='1' y devuelve tres filas; con el marcador ?, devuelve una lista vacía.",
+      },
       paragraphs: [
         "La tabla tiene tres clientes, y el id que llega, `C999' OR '1'='1`, no existe pero trae un fragmento de SQL. El error lo pega con una f-string y el ejemplo imprime la consulta que resulta; la corrección pasa el mismo texto por el marcador `?`.",
         "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`.",
