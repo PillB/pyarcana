@@ -122,7 +122,7 @@ monto None review revisa: falta el monto`,
         'En una plataforma de alquiler de bicicletas de Ámsterdam, una regla puede preguntar si la edad declarada supera un mínimo y si la estación pertenece al catálogo activo. Antes de escribir una sola rama, el sistema necesita respuestas elementales: `True` o `False`. Piensa en cada comparación como una pregunta cerrada que el código puede contestar sin ambigüedad.',
         'Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a exigir que se cumplan las dos comparaciones; Python calcula `edad` una sola vez en la cadena. En T1-B conocerás `and`, el operador que permite escribir esa exigencia con dos comparaciones separadas.',
         '**Pertenencia**: en S03, `in` y `not in` comprueban si un valor coincide con un elemento de un catálogo. Un **`set`** reúne valores distintos y sin repetir, escrito entre llaves. `REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}` crea un catálogo con tres regiones; `region in REGIONES_PERMITIDAS` pregunta si `region` coincide con uno de esos elementos completos. Por eso `"R-N"`, `"R-"` y `""` no pertenecen al catálogo. Atención a las **mayúsculas**: `"r-norte" in REGIONES_PERMITIDAS` es `False` porque el catálogo conserva `R-NORTE` en mayúsculas. Normaliza antes o documenta el contrato.',
-        '**`is` vs. `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”.',
+        '**`is` vs. `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”. Si lo pruebas, Python 3.12 imprime antes del resultado un aviso, `SyntaxWarning: "is" with \'int\' literal. Did you mean "=="?`: no es un error, sino Python señalando el mismo problema que esta regla.',
         '**Modelo mental.** `==` y los operadores de rango miran el **valor**; `in` pregunta si ese valor pertenece a un catálogo; `is None` comprueba la señal especial de ausencia. Son preguntas distintas. Si las fundes en una expresión larga antes de poder predecirlas por separado, el error queda escondido dentro de un `if` aparentemente razonable.',
         '**Predice y comprueba.** Sin ejecutar el ejemplo, decide qué línea cambiaría si `region = "R-OESTE"` y cuál cambiaría si `monto = 2000`. Después ejecútalo. Si esperabas que 2000 quedara fuera, revisa la palabra *inclusive*: `<=` contiene la frontera; `<` la excluye. En T1-B verás por qué obtener `False` tampoco significa automáticamente “dato ausente”.',
       ],
@@ -319,6 +319,37 @@ is None: None → review`,
       },
     },
     {
+      heading: "Contraejemplo: `or` con un texto suelto acepta cualquier región",
+      paragraphs: [
+        "En `region == \"R-NORTE\" or \"R-SUR\"`, el lado derecho de `or` no es una comparación: es el texto `\"R-SUR\"`. Como la comparación de la izquierda da `False`, `or` entrega el operando de la derecha, y un texto no vacío es truthy. Por eso `R-OESTE` entra en la rama `accept`.",
+        "La corrección escribe una comparación completa a cada lado de `or`. Con un catálogo, `in` hace la misma pregunta en una sola expresión. Ruff no avisa de este error con las reglas que usa el curso, así que la predicción tiene que hacerla quien lee.",
+      ],
+      code: {
+        language: 'python',
+        title: 'or_suelto.py',
+        code: `# Error: or une una comparación con un texto suelto, y un texto no vacío es truthy
+region = "R-OESTE"
+if region == "R-NORTE" or "R-SUR":
+    estado = "accept"
+else:
+    estado = "reject"
+print("or suelto →", estado)
+print("valor de la condición →", region == "R-NORTE" or "R-SUR")
+
+# Corrección: cada lado de or es una comparación completa
+if region == "R-NORTE" or region == "R-SUR":
+    estado = "accept"
+else:
+    estado = "reject"
+print("dos comparaciones →", estado)
+print("catálogo con in →", region in {"R-NORTE", "R-SUR"})`,
+        output: `or suelto → accept
+valor de la condición → R-SUR
+dos comparaciones → reject
+catálogo con in → False`,
+      },
+    },
+    {
       heading: 'Ramas de decisión con if/elif/else',
       figure: {
         id: "S03-tri-state",
@@ -394,6 +425,34 @@ print("50 →", resultado_50)`,
         title: 'Una rama dominante',
         content:
           'Escribe primero una fila por intervalo y una sola etiqueta por fila. Luego traduce esas filas, en el mismo orden, a `if`, `elif` y `else`. Si dos bloques independientes pueden asignar el resultado, todavía no has expresado una decisión exclusiva.',
+      },
+    },
+    {
+      heading: "Contraejemplo: `=` en lugar de `==`, y una rama sin sangría",
+      paragraphs: [
+        "Los dos errores más comunes al escribir un `if` ni siquiera dejan arrancar el programa. Python lee el archivo completo antes de ejecutar la primera línea, así que la salida no muestra nada del programa: solo el error. En tu terminal, el nombre del archivo aparece con su ruta completa.",
+        "`SyntaxError` aparece cuando escribes `=` (asignar) donde va `==` (comparar). El mensaje menciona también `:=`, un operador que este curso no usa; la corrección que buscas es `==`. `IndentationError` aparece cuando la línea que sigue a `if ...:` no tiene sangría: Python necesita al menos una línea dentro de la rama.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'Transcripción: dos errores que detienen el programa antes de empezar',
+        code: `# Error: = asigna; en un if hace falta == para comparar
+$ python3 edad_igual.py
+  File "edad_igual.py", line 2
+    if edad = 18:
+       ^^^^^^^^^
+SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?
+
+# Error: la línea que sigue a if ...: no tiene sangría
+$ python3 sin_sangria.py
+  File "sin_sangria.py", line 3
+    print("tiene 18 años")
+    ^
+IndentationError: expected an indented block after 'if' statement on line 2
+
+# Corrección: == compara, y la rama lleva cuatro espacios de sangría
+$ python3 edad_ok.py
+tiene 18 años`,
       },
     },
     {
@@ -749,7 +808,7 @@ FOO → review`,
         'Un equipo de logística de Copenhague puede escribir cien líneas impecables y aun discutir qué significa “dirección válida”. El problema no es de sintaxis: falta una promesa compartida. Un invariante convierte esa expectativa borrosa en una frase que admite ejemplos y contraejemplos.',
         'Ya armaste booleanos, control de flujo y tablas de decisión. Ahora debes decir qué promete el motor y probar cada rama. Un **invariante** de campo declara una condición para una etapa concreta: “después de validar, una edad aceptada es un `int` entre 0 y 120”. La entrada original todavía puede ser `None`, tener otro tipo o quedar fuera del rango. El validador debe clasificar cada posibilidad. Una **especificación** describe con precisión el comportamiento requerido; todavía no es código. Los ejemplos de cada rama muestran si la condición puede aplicarse sin ambigüedad.',
         'Para esta lección, prueba **al menos una vez cada rama distinta**. Varias ramas pueden terminar con el mismo status y aun así necesitar casos propios. Por ejemplo, un tipo incorrecto y un valor fuera de rango producen `reject` por causas diferentes. Después confirma que la suite contiene todos los estados esperados: `accept`, `reject` y `review`.',
-        '`assert` sirve en desarrollo y tests, pero **no** como única validación de intake en producción (`python -O` desactiva asserts). Usa returns con `status`/`code`/`message` para reglas de negocio.',
+        '`assert` sirve en desarrollo y en pruebas, pero **no** como única validación de intake en producción. La opción `-O` de Python desactiva todos los `assert`: el contraejemplo de abajo muestra cómo el mismo archivo deja pasar una edad negativa. Para las reglas de negocio, guarda el resultado en `estado`, `codigo` y `mensaje`, como en el resto de la sección. En «Una regla con nombre» verás cómo una función se los entrega a quien la llama.',
         '**Especificar no es describir el código.** “El código usa un `if`” no es un invariante; “una edad aceptada está entre 0 y 120, incluidos ambos extremos” sí puede discutirse con una persona responsable de la regla. Los ejemplos vuelven observable esa frontera: uno que cumple, uno que la viola y uno que requiere `review`.',
         '**Busca el contraejemplo.** Antes de ejecutar, pregunta qué debería ocurrir con `30`, `-1`, `121` y `None`. Si la frase no permite decidir uno de ellos, no agregues otra rama todavía: reescribe el invariante. En T4-B cada caso se convertirá en un mensaje accionable y una comparación explícita con el resultado esperado.',
       ],
@@ -800,6 +859,30 @@ None → review esperado review → True`,
         title: 'Ejemplos = especificación ejecutable',
         content:
           'Si otra persona no puede proponer un valor que cumpla y otro que rompa tu invariante, la frase aún es demasiado vaga. Reescríbela antes de programar: una condición precisa ahorra ramas defensivas y discusiones posteriores.',
+      },
+    },
+    {
+      heading: "Contraejemplo: `python -O` deja pasar lo que `assert` detenía",
+      paragraphs: [
+        "Los dos archivos reciben la misma edad negativa. `assert_edad.py` la detiene con `assert edad >= 0, \"edad negativa\"`; `validar_edad.py` la rechaza con un `if` y deja el resultado en la salida.",
+        "Sin opciones, `assert` detiene el programa con `AssertionError`. Con `-O`, Python ni siquiera evalúa el `assert`, así que la edad `-5` llega a la línea siguiente. El `if` no depende de esa opción: rechaza la edad en los dos modos.",
+      ],
+      code: {
+        language: 'bash',
+        title: 'Transcripción: -O desactiva assert',
+        code: `# Error: la única validación es un assert, y -O lo desactiva
+$ python3 assert_edad.py
+Traceback (most recent call last):
+  File "assert_edad.py", line 2, in <module>
+    assert edad >= 0, "edad negativa"
+           ^^^^^^^^^
+AssertionError: edad negativa
+$ python3 -O assert_edad.py
+edad aceptada: -5
+
+# Corrección: la regla de negocio es un if, que -O no toca
+$ python3 -O validar_edad.py
+reject: edad negativa`,
       },
     },
     {

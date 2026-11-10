@@ -88,7 +88,7 @@ print(valores)`,
       subtopicId: "S06-T1-A",
       paragraphs: [
         "Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una `list` permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una `tuple` conserva posiciones fijas; úsala para encabezados o claves que varias funciones auxiliares deban leer sin reemplazarlas. Esa regla afecta a las posiciones, no necesariamente a su contenido: si una posición guarda una lista, esa lista interior todavía puede cambiar. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
-        "Un recorte (`slice`) es una ventana sobre esa fila, no una operación sobre cada elemento. `txs[-3:]` crea una lista exterior nueva con las tres últimas transacciones y no cambia la lista original por sí solo. Sin embargo, ambas listas apuntan a los mismos diccionarios interiores: cambiar `ventana[0][\"monto\"]` también cambia ese campo en la fila correspondiente de `txs`. Predice los bordes antes de ejecutar. Una lista vacía produce `[]`. Si `n == 0`, necesitas un caso explícito porque `rows[-0:]` equivale a copiar todo. La función exige que `n >= 0`. Esta precondición es un requisito que debe cumplirse antes de llamarla.",
+        "Un recorte (`slice`) es una ventana sobre esa fila, no una operación sobre cada elemento. `txs[-3:]` crea una lista exterior nueva con las tres últimas transacciones y no cambia la lista original por sí solo. Sin embargo, ambas listas apuntan a los mismos diccionarios interiores: cambiar `ventana[0][\"monto\"]` también cambia ese campo en la fila correspondiente de `txs`. Predice los bordes antes de ejecutar. Una lista vacía produce `[]`. Si `n == 0`, necesitas un caso explícito porque `rows[-0:]` equivale a copiar todo. La función no comprueba `n`: con `n = -1`, `rows[1:]` devolvería todas las filas menos la primera, sin ningún error. Por eso `n >= 0` es una precondición, un requisito que debe cumplir quien la llama. En el I Do, `window_rows` sí lo comprueba y lanza `ValueError`.",
         "Buscar con `x in una_lista` obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un `set` o un `dict` cambia la pregunta de «recorrer» a «consultar un índice».",
       ],
       code: {
@@ -400,16 +400,16 @@ C002 review: falta txs`,
       heading: "Acceso seguro: campos ausentes y campos vacíos",
       subtopicId: "S06-T3-B",
       paragraphs: [
-        "En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar `profile`, faltar `phone` dentro del perfil o existir `phone` con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper `dig` convierte esa suposición en una política visible.",
+        "En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar `profile`, faltar `phone` dentro del perfil o existir `phone` con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper `get_nested` convierte esa suposición en una política visible.",
         "Los valores que se evalúan como falsos (`falsy`) no significan automáticamente ausencia. `0` puede ser un monto legítimo; `''` puede ser un campo presente pero inválido; `[]` puede representar una colección válida sin elementos. Si usas `if not valor` para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa que un valor esté ausente (`missing`) en el dominio y después escribe la condición.",
-        "`get_nested` recorre la ruta nivel por nivel. Si falta una clave o aparece un valor que ya no es diccionario, devuelve un objeto marcador (`sentinel`); si la clave existe con `None`, conserva `None`. En el ejemplo, `MISSING = object()` crea un objeto único que ningún valor ordinario comparte. La comparación `valor is MISSING` comprueba identidad, es decir, si ambos nombres apuntan exactamente al mismo objeto; por eso no confunde una ausencia con el texto legítimo `\"MISSING\"`. `get_nested` concentra esta regla en un solo lugar. La capa siguiente puede entonces decidir si rechaza, completa o acepta. Las pruebas de borde también quedan reunidas en un solo contrato.",
+        "`get_nested` recorre la ruta nivel por nivel. Si falta una clave o aparece un valor que ya no es diccionario, devuelve un objeto marcador (`sentinel`); si la clave existe con `None`, conserva `None`. En el ejemplo, `MISSING = object()` crea un objeto único que ningún valor ordinario comparte. La comparación `valor is MISSING` comprueba identidad, es decir, si ambos nombres apuntan exactamente al mismo objeto; por eso no confunde una ausencia con el texto legítimo `\"MISSING\"`. El asterisco de `*keys` recoge en una tupla todas las claves que pases después del diccionario; por eso la llamada es `get_nested(c1, \"profile\", \"phone\")`, sin paréntesis extra. `get_nested` concentra esta regla en un solo lugar. La capa siguiente puede entonces decidir si rechaza, completa o acepta. Las pruebas de borde también quedan reunidas en un solo contrato.",
       ],
       code: {
         language: 'python',
         title: "safe_access.py",
         code: `MISSING = object()
 
-def get_nested(d, keys, default=MISSING):
+def get_nested(d, *keys, default=MISSING):
     """Recorre una ruta de claves; si falta un nivel, devuelve default."""
     cur = d
     for key in keys:
@@ -422,11 +422,11 @@ c1 = {"id": "C001", "profile": {"phone": "999111222"}, "email": ""}
 c2 = {"id": "C002", "profile": {"phone": None}}
 c3 = {"id": "C003", "profile": {}}
 c4 = {"id": "C004", "profile": {"phone": "MISSING"}}
-print("ok phone:", get_nested(c1, ("profile", "phone")))
+print("ok phone:", get_nested(c1, "profile", "phone"))
 print("email empty:", repr(c1.get("email")))  # clave presente, valor ''
-print("phone None:", get_nested(c2, ("profile", "phone")))
-text_missing = get_nested(c4, ("profile", "phone"))
-phone_missing = get_nested(c3, ("profile", "phone"))
+print("phone None:", get_nested(c2, "profile", "phone"))
+text_missing = get_nested(c4, "profile", "phone")
+phone_missing = get_nested(c3, "profile", "phone")
 print("text MISSING:", text_missing)
 print("text is sentinel:", text_missing is MISSING)
 print("missing is sentinel:", phone_missing is MISSING)`,
@@ -855,13 +855,15 @@ flat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 
         environment: "browser-pyodide",
         description: "Extraer teléfono opcional de contacto anidado",
         preamble:
-          "Cuatro fichas parecen carecer de teléfono por razones distintas. Antes de ejecutar, clasifica C001–C004 como valor, ruta ausente o campo vacío. Sigue `cur` en cada nivel de `dig`: la función devuelve el default cuando no puede continuar, pero conserva `''` cuando la clave existe. Esa distinción es la materia prima del reporte de calidad.",
+          "Cuatro fichas parecen carecer de teléfono por razones distintas. Antes de ejecutar, clasifica C001–C004 como valor, ruta ausente o campo vacío. Sigue `cur` en cada nivel de `get_nested`: la función devuelve el default cuando no puede continuar, pero conserva `''` cuando la clave existe. Esa distinción es la materia prima del reporte de calidad.",
         code: {
           language: 'python',
-          title: "S06-T3-B-DEMO — dig",
-          code: `def dig(d, *path, default=None):
+          title: "S06-T3-B-DEMO — get_nested",
+          code: `MISSING = object()
+
+def get_nested(d, *keys, default=MISSING):
     cur = d
-    for k in path:
+    for k in keys:
         if not isinstance(cur, dict) or k not in cur:
             return default
         cur = cur[k]
@@ -872,20 +874,20 @@ c2 = {"id": "C002", "profile": {}}
 c3 = {"id": "C003", "profile": {"phone": ""}}
 c4 = {"id": "C004"}
 for c in (c1, c2, c3, c4):
-    phone = dig(c, "profile", "phone", default="MISSING")
-    if phone == "MISSING":
+    phone = get_nested(c, "profile", "phone")
+    if phone is MISSING:
         flag = "missing"
     elif phone == "":
         flag = "empty"
     else:
         flag = "ok"
-    print(c["id"], phone, flag)`,
-          output: `C001 999111222 ok
-C002 MISSING missing
-C003  empty
-C004 MISSING missing`,
+    print(c["id"], flag)`,
+          output: `C001 ok
+C002 missing
+C003 empty
+C004 missing`,
         },
-        why: "`dig` separa navegación de interpretación. Navega hasta encontrar una ruta rota y devuelve un sentinel; después, la clasificación decide si el valor es missing, empty u ok. Si usáramos `if not phone`, tanto el sentinel mal elegido como `''` podrían caer en la misma rama. La política explícita evita esa pérdida de información.",
+        why: "`get_nested` separa navegación de interpretación. Navega hasta encontrar una ruta rota y devuelve el marcador `MISSING`; después, la clasificación decide si el valor es missing, empty u ok. Como el marcador es un objeto único, ningún teléfono real puede confundirse con él; `if not phone` sí juntaría `''` con la ausencia. La política explícita evita esa pérdida de información.",
         retrospective:
           "Explica por qué C002 y C004 reciben la misma etiqueta aunque su estructura difiera, y por qué C003 no debe acompañarlos. Después sustituye `phone: ''` por `phone: None`: ¿tu política lo llamaría vacío, ausente o inválido? No hay respuesta universal; en T3-B deberás declarar el contrato antes de escribir la condición.",
       },
@@ -1725,7 +1727,7 @@ N/A`,
         kind: "independent",
         title: "Marcar email missing o present",
         preamble:
-          "- **Contexto:** reporte de completitud de emails en un lote sintético.\n- **Meta:** missing solo si clave ausente o valor `None`.\n- **Éxito:** `C001: present`, `C002: missing`, `C003: missing`, `C004: present` (string vacío cuenta present).\n- **Límites:** no uses solo `if not c.get('email')` (trataría `''` como missing).",
+          "- **Contexto:** reporte de completitud de emails en un lote sintético.\n- **Meta:** missing solo si clave ausente o valor `None`.\n- **Éxito:** `C001: present`, `C002: missing`, `C003: missing`, `C004: present` (string vacío cuenta present). Este reporte solo separa missing de present, así que `''` cuenta como present. Si el vacío necesitara su propia etiqueta, usarías la política de tres estados del I Do: ok, empty y missing.\n- **Límites:** no uses solo `if not c.get('email')` (trataría `''` como missing).",
         id: "S06-T3-B-E2",
         instruction:
           "1. Revisa la política del enunciado.\n2. Corrige la condición del starter.\n3. Imprime `id: flag` por cliente.\n4. No borres C004: su email `''` debe quedar present.",

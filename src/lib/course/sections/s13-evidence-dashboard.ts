@@ -39,7 +39,7 @@ export const section13: CourseSection = {
       paragraphs: [
         "«Ana María Quispe Rojas, Lima, ana.quispe@ejemplo.pe». «Ana M. Quispe R., Lima, aquispe@ejemplo.pe». ¿Es la misma persona? Un revisor humano dudaría, y esa duda es información. El error que cierra esta sección es querer eliminarla: forzar una respuesta binaria donde la evidencia solo alcanza para un «probablemente». Lo que vas a construir no resuelve la duda, la hace visible y la pone en manos de alguien que pueda decidir.",
         "Decidir si dos filas hablan de la misma entidad se llama **resolución de identidad**. Comparar todas las filas contra todas es inviable en cuanto crecen los datos, así que primero se acota: solo se comparan en detalle los pares que comparten algo barato de mirar, como la ciudad o la inicial del apellido. Ese recorte previo se llama **bloqueo**, y es la diferencia entre un proceso que termina y uno que no.",
-        "Sobre los pares que sobreviven al recorte se aplican reglas explícitas, y el resultado no es un sí o un no, sino tres caminos: unir, rechazar, o mandar a la **cola clerical** —la bandeja donde una persona revisa lo que el programa no puede afirmar—. Cada caso llega ahí con su nivel de **incertidumbre** declarado, baja, media o alta, porque un revisor necesita saber cuánto pesar lo que está leyendo.",
+        "Sobre los pares que sobreviven al recorte se aplican reglas explícitas, y el resultado no es un sí o un no, sino tres caminos. El par se une (`accept_pair`), no se une (`abstain`) o va a la **cola clerical** (`needs_review`) —la bandeja donde una persona revisa lo que el programa no puede afirmar—. Un cuarto estado, `invalid_input`, aparta los pares cuya entrada no permite calcular nada. Cada caso llega ahí con su nivel de **incertidumbre** declarado, baja, media o alta, porque un revisor necesita saber cuánto pesar lo que está leyendo.",
         "Hay una separación que el producto tiene que mostrar y no solo respetar. El puntaje que dice «estas dos filas son la misma persona» y el puntaje que dice «estas dos personas están relacionadas» son cosas distintas, se calculan por separado y se muestran por separado. Confundirlos convierte una coincidencia de apellido en una acusación. Ninguna parte de esta sección concluye parentesco ni fraude: si falta evidencia, no se une nada.",
         "La pregunta que ordena todo el trabajo es la de quien recibirá la ficha: **¿podría alguien que no escribió este código reconstruir la decisión en cinco minutos?** Eso obliga a que cada puntaje muestre de qué señales salió y qué le faltó. La sección cierra el Nivel 1, así que el trabajo se hace con la biblioteca estándar y las reglas deterministas de S01 a S12; la automatización de navegador, el reconocimiento de texto en imágenes y la orquestación avanzada llegan después.",
       ],
@@ -91,18 +91,32 @@ def norm_name(n: str) -> str:
     return re.sub(r"\\s+", " ", n.casefold().strip())
 
 def block_key(rec):
-    parts = norm_name(rec["name"]).split()
+    parts = norm_name(rec.get("name") or "").split()
+    if not parts:
+        return None
     ap = parts[1] if len(parts) >= 2 else parts[0]
     return f"{ap}|{rec['region'].casefold()}"
 
+def er_score(a, b):
+    doc_a = norm_doc(a.get("document_id") or "")
+    doc_b = norm_doc(b.get("document_id") or "")
+    if not doc_a or not doc_b or block_key(a) is None or block_key(b) is None:
+        return None  # falta evidencia: ni 1.0 ni 0.0, el par va a revisión
+    if doc_a != doc_b:
+        return 0.0
+    if block_key(a) == block_key(b):
+        return 1.0
+    return 0.5
+
 a = {"name": "Ana Quispe", "document_id": "D-12.34", "region": "Lima"}
 b = {"name": "ANA  QUISPE", "document_id": "d1234", "region": "Lima"}
-score = 1.0 if norm_doc(a["document_id"]) and norm_doc(a["document_id"]) == norm_doc(b["document_id"]) and block_key(a) == block_key(b) else 0.0
 print("block", block_key(a), block_key(b))
-print("entity_resolution_score", score)
+print("entity_resolution_score", er_score(a, b))
+print("sin documento", er_score(a, {"name": "Ana Quispe", "region": "Lima"}))
 print("relationship_signal_score", "SEPARATE")`,
         output: `block quispe|lima quispe|lima
 entity_resolution_score 1.0
+sin documento None
 relationship_signal_score SEPARATE`,
       },
       callout: {
@@ -116,7 +130,7 @@ relationship_signal_score SEPARATE`,
       heading: "Contraejemplo: un bloque mal elegido separa a la misma persona",
       paragraphs: [
         "Los tres registros son la misma persona sintética: `R2` llegó sin apellido materno y `R3` con otra región tras una mudanza. `pares_candidatos` agrupa por las claves que recibe y devuelve los pares que comparten bloque, que son los únicos que luego se comparan.",
-        "Con el último token no sale ningún par, porque ese token es `soto` en un registro y `huamán` en el otro. Con el apellido paterno y la región aparece `R1–R2`, pero `R3` queda solo en su bloque de Lima. Al sumar una segunda clave por documento normalizado aparecen los tres pares, y el caso «solo coincide el documento» llega a evaluarse.",
+        "Con el último token y la región no sale ningún par: `R1` y `R2` terminan en `soto` y `huamán`, y `R1` y `R3`, que sí terminan en `soto`, están en regiones distintas. Con el apellido paterno y la región aparece `R1–R2`, pero `R3` queda solo en su bloque de `R-SUR`. Al sumar una segunda clave por documento normalizado aparecen los tres pares, y el caso «solo coincide el documento» llega a evaluarse.",
       ],
       code: {
         language: "python",
@@ -248,14 +262,15 @@ corrección precision 0.667 recall 0.667`,
       paragraphs: [
         "**Ancla:** el score de **relación** responde *¿hay indicios de familiaridad operativa entre dos entidades?* (contacto compartido, cercanía, apellido). **No** responde *¿son parientes?* ni *¿hay colusión?* Esas inferencias quedan fuera de N1 y de la UI automática. Cada señal es un booleano o parcial con traza legible: `shared_phone` (teléfono compartido), `geo_close` (cercanía geográfica), `surname_jaccard` (similitud de apellidos).",
         "**Mecanismo — fórmula canónica N1:** `rel = 0.5*shared_phone + 0.3*geo_close + 0.2*surname_jaccard` (pesos fijos en el memo del curso). La distancia de par es **bilateral**: ambos registros deben reportar el mismo `km` sintético y `km ≤ 2.0` (reutiliza la geoseñal de S12). En ejercicios de práctica puedes usar una **variante** (p. ej. solo geo+apellido 0.6/0.4) **si** la consigna del ejercicio lo declara; no inventes una tercera fórmula sin etiquetarla.",
-        "**Caso trabajado:** teléfono compartido + `km=1.2` en ambos + Jaccard de tokens de apellido 0.2 → `relationship_signal_score` 0.84. La ficha lista las tres señales en la explicación y fija `kinship_verdict=None`. Si solo imprimes el número 0.84 sin bullets, el revisor no sabe *por qué* subió el score.",
+        "**Caso trabajado:** teléfono compartido + `km=1.2` en ambos + Jaccard 0.2 entre los tokens del nombre completo (solo `quispe` se repite, de cinco tokens distintos) → `relationship_signal_score` 0.84. La función recibe el nombre completo, así que el nombre de pila también cuenta: con solo los apellidos, `Quispe Rojas` y `Quispe Díaz`, el resultado sería 1/3. La ficha lista las tres señales en la explicación y fija `kinship_verdict=None`. Si solo imprimes el número 0.84 sin bullets, el revisor no sabe *por qué* subió el score.",
         "**Borde / fail-closed:** si falta el campo de una señal con peso no cero, **no** inventes `True` ni un km «promedio». Apellido compartido + teléfono **no** autoriza `is_family=true`. La salida del demo y del portfolio debe poder afirmar en voz alta: *señal ≠ parentesco*.",
       ],
       code: {
         language: 'python',
         title: "rel_signals.py",
         code: `def shared_contact(a, b, field):
-    return a.get(field) and a.get(field) == b.get(field)
+    # Un campo ausente o vacío no es evidencia: dos teléfonos "" no son el mismo teléfono
+    return bool(a.get(field)) and a.get(field) == b.get(field)
 
 def surname_overlap(a, b):
     sa = set(a.casefold().split())
@@ -470,7 +485,7 @@ nan low invalid_input auto_fraud False`,
         "**Mecanismo de privacidad en UI:** **pseudonimiza** nombres (por ejemplo `A*** Q***`). Reutiliza la política de egress de S12 (egress es lo que sale del sistema): no mandes PII cruda (datos personales identificables) a un geocoder público (servicio de coordenadas). La ficha muestra `entity_resolution_score` **y** `relationship_signal_score` en campos **separados**. Si los mezclas en un solo número sin etiqueta, rompes el gate ético: el revisor ya no sabe si «0.7» es identidad o familiaridad operativa.",
         "**Casos trabajados (mínimo tres):**",
         "- **CASE-1** `A*** Q***` — ER 0.92, REL 0.41: identidad fuerte, relación moderada.",
-        "- **CASE-2** `L*** H***` — ER medio, REL más alto: el revisor ve la tensión **sin** autoetiqueta de parentesco.",
+        "- **CASE-2** `L*** H***` — ER 0.55, REL 0.6: el revisor ve la tensión **sin** autoetiqueta de parentesco.",
         "- **CASE-3** `M*** R***` — ER 0.77, REL 0.22: banda de duda / cola clerical.",
         "Los tres aparecen en el demo I Do y en el scaffold de teoría.",
         "**Borde:** si un caso no tiene coords o no puede pseudonimizarse, **no** inventes un nombre real ni un lat/lon de un domicilio real. Fuente del tooltip siempre explícita (`mock` / `synthetic`). El portfolio captura pantalla con los tres case_id visibles y scores etiquetados.",
@@ -695,7 +710,7 @@ clerical_queue ['P4', 'P5', 'P9', 'P11', 'P14']`,
     surname = 1.0 if a.get("surname") and a["surname"] == b.get("surname") else 0.0
     if surname:
         signals.append("surname_match")
-    # N1 canónico: 0.5 phone + 0.3 geo + 0.2 surname (match binario aquí)
+    # Variante declarada: pesos N1, pero el apellido cuenta como coincidencia binaria (0 o 1), no como Jaccard
     rel = round(0.5 * phone + 0.3 * geo + 0.2 * surname, 3)
     return signals, rel
 
@@ -727,8 +742,9 @@ kinship_verdict None`,
           title: "graphlet_demo.py",
           code: `def graphlet_evidence(txs, a="A", b="B", c="C"):
     evidence = []
-    if any({x, y} == {a, b} for x, y, _ in txs):
-        evidence.append({"type": "direct_tx", "nodes": [a, b]})
+    direct = [t for t in txs if {t[0], t[1]} == {a, b}]
+    if direct:
+        evidence.append({"type": "direct_tx", "pair": (a, b), "n": len(direct)})
     def neighbors(node):
         s = set()
         for x, y, _ in txs:
@@ -738,13 +754,13 @@ kinship_verdict None`,
                 s.add(x)
         return s
     shared = sorted(neighbors(a) & neighbors(c))
-    evidence.append({"type": "common_counterparty", "nodes": [a, c], "via": shared})
+    evidence.append({"type": "common_counterparty", "entities": (a, c), "via": shared})
     return evidence
 
 txs = [("A", "B", 1), ("B", "A", 1), ("A", "D", 2), ("C", "D", 2)]
 print(graphlet_evidence(txs))
 print("collusion_claim", False)`,
-          output: `[{'type': 'direct_tx', 'nodes': ['A', 'B']}, {'type': 'common_counterparty', 'nodes': ['A', 'C'], 'via': ['D']}]
+          output: `[{'type': 'direct_tx', 'pair': ('A', 'B'), 'n': 2}, {'type': 'common_counterparty', 'entities': ('A', 'C'), 'via': ['D']}]
 collusion_claim False`,
         },
         why: "Graphlet mínimo con disclaimers operativos: reutiliza el espíritu de RelationshipEvidence de S11. El campo `via` nombra la contraparte compartida sin ambigüedad; `collusion_claim` queda en False de forma fija.",
@@ -806,12 +822,13 @@ def decide(score, unc):
         return "needs_review"
     return "accept_pair"
 
-samples = [(0.55, "med"), (0.9, "low"), (0.15, "low"), (float("nan"), "low")]
+samples = [(0.55, "med"), (0.9, "low"), (0.15, "low"), (0.85, "high"), (float("nan"), "low")]
 for sc, u in samples:
     print({"score": sc, "uncertainty": u, "status": decide(sc, u), "auto_fraud": False, "is_family": False})`,
           output: `{'score': 0.55, 'uncertainty': 'med', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}
 {'score': 0.9, 'uncertainty': 'low', 'status': 'accept_pair', 'auto_fraud': False, 'is_family': False}
 {'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}
+{'score': 0.85, 'uncertainty': 'high', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}
 {'score': nan, 'uncertainty': 'low', 'status': 'invalid_input', 'auto_fraud': False, 'is_family': False}`,
         },
         why: "Política de abstención y revisión protege al estudiante y al usuario final. Los límites 0.40 y 0.80 son exactos; la matriz es total (sin huecos). Estados de par de datos, no veredictos legales ni lista negra.",
@@ -832,8 +849,8 @@ for sc, u in samples:
     return " ".join(p[0] + "***" for p in n.split())
 
 cases = [
-    ("CASE-1", "Ana Quispe", 0.91, 0.4, -12.0464, -77.0428),
-    ("CASE-2", "Luis Huamán", 0.52, 0.66, -16.4090, -71.5375),
+    ("CASE-1", "Ana Quispe", 0.92, 0.41, -12.0464, -77.0428),
+    ("CASE-2", "Luis Huamán", 0.55, 0.6, -16.4090, -71.5375),
     ("CASE-3", "María Rojas", 0.77, 0.22, -12.05, -77.12),
 ]
 for cid, name, er, rel, lat, lon in cases:
@@ -844,8 +861,8 @@ for cid, name, er, rel, lat, lon in cases:
         "relationship_signal_score": rel,
         "map": (lat, lon),
     })`,
-          output: `{'case_id': 'CASE-1', 'display': 'A*** Q***', 'entity_resolution_score': 0.91, 'relationship_signal_score': 0.4, 'map': (-12.0464, -77.0428)}
-{'case_id': 'CASE-2', 'display': 'L*** H***', 'entity_resolution_score': 0.52, 'relationship_signal_score': 0.66, 'map': (-16.409, -71.5375)}
+          output: `{'case_id': 'CASE-1', 'display': 'A*** Q***', 'entity_resolution_score': 0.92, 'relationship_signal_score': 0.41, 'map': (-12.0464, -77.0428)}
+{'case_id': 'CASE-2', 'display': 'L*** H***', 'entity_resolution_score': 0.55, 'relationship_signal_score': 0.6, 'map': (-16.409, -71.5375)}
 {'case_id': 'CASE-3', 'display': 'M*** R***', 'entity_resolution_score': 0.77, 'relationship_signal_score': 0.22, 'map': (-12.05, -77.12)}`,
         },
         why: "Producto mínimo auditable: tres casos + mapa. Fusionar ER y REL en un solo número sin etiqueta rompe el gate ético — el revisor ya no sabe si «0.7» es identidad o familiaridad operativa.",

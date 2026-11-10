@@ -196,6 +196,9 @@ name = "familiarity-core"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = []
+
+[project.scripts]
+familiarity = "familiarity_core.cli:entrypoint"
 '''
     print(toml.strip())
     print("layout", "src/familiarity_core/__init__.py")
@@ -210,6 +213,9 @@ name = "familiarity-core"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = []
+
+[project.scripts]
+familiarity = "familiarity_core.cli:entrypoint"
 layout src/familiarity_core/__init__.py`,
       },
       callout: {
@@ -279,7 +285,7 @@ print("1.0.0 + rename API", bump("1.0.0", "major"))`,
     {
       heading: "Contraejemplo: clasificar el cambio por subcadenas del texto",
       paragraphs: [
-        "`classify_change` es la función de la demo de T2-B: busca palabras dentro de la descripción. El error le pasa tres descripciones reales; la corrección guarda el tipo del cambio en un campo `kind` que quien registra el cambio declara, y deja el texto solo para leer.",
+        "`classify_change` es la función que verás en la demo de T2-B: busca palabras dentro de la descripción. El error le pasa tres descripciones reales; la corrección guarda el tipo del cambio en un campo `kind` que quien registra el cambio declara, y deja el texto solo para leer.",
         "`fix address parsing` sale como `minor` porque `address` contiene `add`, y `renombrar normalize` sale como `patch` porque la regla busca `rename api` en inglés: un cambio incompatible publicado como parche. Con el campo `kind`, los tres cambios reciben su nivel sin depender de cómo se redactó el label.",
       ],
       code: {
@@ -293,7 +299,7 @@ print("1.0.0 + rename API", bump("1.0.0", "major"))`,
       heading: "argparse, subcomandos y exit codes",
       subtopicId: "S10-T3-A",
       paragraphs: [
-        "`argparse.ArgumentParser` + **subparsers** — sub-analizadores que modelan cada subcomando del CLI, p. ej. `ingest|normalize|compare|report` — modelan las acciones del paquete. Cada subcomando tiene flags propios (opciones como `--field`) y `help=` en español claro para operadores.",
+        "`argparse.ArgumentParser` + **subparsers** — sub-analizadores que modelan cada subcomando del CLI, p. ej. `ingest|normalize|compare|report` — modelan las acciones del paquete. Cada subcomando tiene flags propios (opciones como `--field`) y `help=` en español claro para operadores. Este parser es mínimo: muestra los cuatro subcomandos y dos opciones. Las que aparecen más adelante, `--input` y `--log-level`, las define el parser del You Do.",
         "Exit codes — códigos numéricos que devuelve el proceso al terminar: **0** = éxito; **2** = uso/CLI inválido (default de argparse); **1** = error de runtime/negocio. Los scripts y el CI — *Continuous Integration*, el sistema que ejecuta pruebas automáticamente — **dependen** de esto: no devuelvas siempre 0.",
         "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`. Así puedes unit-testear `main([...])` sin spawn de proceso y simular usage errors (código 2) con argv inválidos.",
       ],
@@ -347,7 +353,7 @@ code 2`,
       paragraphs: [
         "**stdout** — *standard output*, la salida estándar donde van los datos (JSON, CSV). **stderr** — *standard error*, la salida de error donde van logs y progreso. Así `cmd > out.json` **no** contamina el archivo. Un `print('ok')` extra en stdout rompe el *pipe* — la cadena de comandos conectados con `|` — de quien parsea JSON.",
         "Soportar path o **`-`** para stdin — *standard input*, la entrada estándar — habilita pipes: `cat data.json | familiarity normalize`. Si el schema de entrada no cuadra, aborta (fail-closed).",
-        "Soporta **`-`** como path de entrada para pipes (`cat data.json | familiarity normalize -`). En el lab, si capturas stderr a un `StringIO` (un objeto que simula un archivo en memoria), no uses `print` para el progreso: escribe en el stream. En CLI real: `print(..., file=sys.stderr)`.",
+        "Un CLI puede aceptar **`-`** como ruta de entrada para leer de un pipe (`cat data.json | familiarity normalize -`); el de esta sección todavía no lo hace. En el lab, si capturas stderr a un `StringIO` (un objeto que simula un archivo en memoria), no uses `print` para el progreso: escribe en el stream. En CLI real: `print(..., file=sys.stderr)`.",
       ],
       code: {
         language: 'python',
@@ -467,7 +473,7 @@ config: falta input_path para ingest`,
     {
       heading: "Contraejemplo: validar la configuración al final procesa miles de filas",
       paragraphs: [
-        "La configuración tiene `input_path` pero le falta `manifest_path`, que `ingest` necesita al final. En el error, `ingest` recorre las 10 000 filas y solo después busca la clave. En la corrección, `validate_config` revisa la clave antes de tocar una fila.",
+        "Aquí `ingest` escribe un manifiesto al terminar, así que su contrato pide `manifest_path` además del `input_path` de la tabla anterior. La configuración trae `input_path` pero no `manifest_path`. En el error, `ingest` recorre las 10 000 filas y solo después busca la clave. En la corrección, `validate_config` revisa la clave antes de tocar una fila.",
         "La primera línea es un `KeyError: 'manifest_path'` que llega con `10000` filas ya procesadas: todo ese trabajo se descarta y el mensaje no dice qué subcomando necesitaba la clave. La segunda falla con `0` filas procesadas y nombra la clave y el subcomando.",
       ],
       code: {
@@ -579,7 +585,7 @@ print(report([ingest_row({"name": " Luis "})]))`,
         environment: "local-python",
         description: "Layout src + claves del pyproject mínimo que harán `pip install -e .` usable.",
         preamble:
-          "El gate de **CP-N1-B** pide un paquete instalable, no un script suelto en la carpeta del curso. Observa el layout sintético: código bajo `src/familiarity_core/`, metadata en `pyproject.toml`, y el comando `pip install -e .`. Predice el orden de paths y el dict `pyproject.project` antes de leer la salida. No escribas aún; fija mentalmente name, version y requires-python. Esta demo lista el *contrato de layout* (simulación), no un install real en el playground.",
+          "El gate de **CP-N1-B** pide un paquete instalable, no un script suelto en la carpeta del curso. Observa el layout sintético: código bajo `src/familiarity_core/`, metadata en `pyproject.toml`, y el comando `pip install -e .`. Predice el orden de paths y el dict `pyproject.project` antes de leer la salida. No escribas aún; fija mentalmente name, version y requires-python. Esta demo lista el *contrato de layout* (simulación), no un install real en el playground. `__main__.py` es la puerta que usa `python -m familiarity_core`; sin ella, el comando responde `No module named familiarity_core.__main__`.",
         code: {
           language: 'python',
           title: "src_layout.py",
@@ -588,6 +594,7 @@ print(report([ingest_row({"name": " Luis "})]))`,
 
     layout = [
         "src/familiarity_core/__init__.py",
+        "src/familiarity_core/__main__.py",
         "src/familiarity_core/normalize.py",
         "src/familiarity_core/cli.py",
         "pyproject.toml",
@@ -606,6 +613,7 @@ print(report([ingest_row({"name": " Luis "})]))`,
 
 s10_ido_3()`,
           output: `src/familiarity_core/__init__.py
+src/familiarity_core/__main__.py
 src/familiarity_core/normalize.py
 src/familiarity_core/cli.py
 pyproject.toml
@@ -1677,7 +1685,7 @@ examples = [
 ]
 for cmd, note in examples:
     print(format_help(cmd, note))
-print("HELP: buen luck")
+print("HELP: pendiente")
 print('ok', True)`,
         },
         solutionCode: {
