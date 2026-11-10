@@ -643,6 +643,36 @@
     },
     {
       "row": 65,
+      "id": "S12-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "6c46f267ccea2c9155a8ec61a28d3a13d4aeab3343a64e04992854bb28d28561",
+      "to_fp": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
+      "reason": "Starter and solution now insert three client rows, and the starter prints fetchall(): the injected id returns the other clients' rows, the leak the exercise names. The solution is parametrized and still prints None.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S12-C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 66,
+      "id": "S11-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "to_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "reason": "Starter is now frozen=True with display_name in the comparison, so the set stays hashable and shows the named defect (no collapse, prints False False and 3) instead of a TypeError: unhashable type. The instruction step 2 is adjusted to match. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 67,
+      "id": "S11-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "to_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "reason": "Starter is @dataclass(eq=False), hashable by identity, so the set keeps the duplicate and prints 3 (the named defect) instead of a TypeError: unhashable type. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 68,
       "id": "S06-T1-A-E2",
       "kind": "changed",
       "from_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
@@ -652,7 +682,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 66,
+      "row": 69,
       "id": "S06-T2-B-E1",
       "kind": "changed",
       "from_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
@@ -662,7 +692,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 67,
+      "row": 70,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "b42cdb911ada43b6ff6d88f800859fa7595762ea5ab4329bb4c5dd52780a22fb",
@@ -672,7 +702,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 68,
+      "row": 71,
       "id": "S08-T3-A-E1",
       "kind": "changed",
       "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
@@ -682,7 +712,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 69,
+      "row": 72,
       "id": "S08-T4-A-E2",
       "kind": "changed",
       "from_fp": "6c02b7f040d2949438d69c51ce74191f91ec44ba2b64d372adf13b54d638bb53",
@@ -692,7 +722,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 70,
+      "row": 73,
       "id": "S08-T4-B-E1",
       "kind": "changed",
       "from_fp": "a63013cbcf8679b2fa660756ae222b4d4be04484652fdf21e30f764ed3ee26f8",
@@ -702,7 +732,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 71,
+      "row": 74,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
@@ -712,7 +742,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 72,
+      "row": 75,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
@@ -722,7 +752,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 73,
+      "row": 76,
       "id": "S08-T3-A-E1",
       "kind": "changed",
       "from_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
@@ -732,7 +762,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 74,
+      "row": 77,
       "id": "S08-T4-B-E1",
       "kind": "changed",
       "from_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",

@@ -90,6 +90,19 @@ Infinity finito= False`,
       },
     },
     {
+      heading: "Contraejemplo: un faltante convertido en cero cambia el promedio",
+      paragraphs: [
+        "Cuatro filas traen monto, pero dos llegaron vacías o con `N/A`. El error cambia cada faltante por `Decimal(\"0\")` y calcula el promedio sobre las cuatro; la corrección cuenta los faltantes aparte y promedia solo los montos que sí llegaron.",
+        "El total es `200.00` en los dos casos, por eso el error pasa desapercibido. El promedio no coincide: `50.00` con ceros y `100.00` sin ellos. Además, la corrección informa `faltantes: 2`, un dato que la versión con ceros había borrado.",
+      ],
+      code: {
+        language: "python",
+        title: "faltante_vs_cero.py",
+        code: "# Error: cada faltante se convierte en cero\nfrom decimal import Decimal\n\nmontos_texto = [\"120.00\", \"\", \"80.00\", \"N/A\"]\nFALTANTES = {\"\", \"N/A\"}\n\nmontos = []\nfor texto in montos_texto:\n    if texto in FALTANTES:\n        montos.append(Decimal(\"0\"))\n    else:\n        montos.append(Decimal(texto))\ntotal = sum(montos, Decimal(\"0\"))\nprint(\"con ceros → filas:\", len(montos), \"total:\", total,\n      \"promedio:\", (total / len(montos)).quantize(Decimal(\"0.01\")))\n\n# Corrección: se cuentan aparte y no entran en la suma\nconocidos = []\nfaltantes = 0\nfor texto in montos_texto:\n    if texto in FALTANTES:\n        faltantes += 1\n    else:\n        conocidos.append(Decimal(texto))\ntotal = sum(conocidos, Decimal(\"0\"))\nprint(\"sin ceros → filas con monto:\", len(conocidos), \"faltantes:\", faltantes,\n      \"total:\", total,\n      \"promedio:\", (total / len(conocidos)).quantize(Decimal(\"0.01\")))",
+        output: "con ceros → filas: 4 total: 200.00 promedio: 50.00\nsin ceros → filas con monto: 2 faltantes: 2 total: 200.00 promedio: 100.00",
+      },
+    },
+    {
       heading: "Tipos específicos, raise y chaining",
       subtopicId: "S09-T1-A",
       paragraphs: [
@@ -204,6 +217,19 @@ el proceso real debe propagar este error`,
       },
     },
     {
+      heading: "Contraejemplo: except Exception convierte una errata en filas malas",
+      paragraphs: [
+        "`convertir` tiene una errata a propósito: escribe `textp` en lugar de `texto`, de modo que cada llamada lanza `NameError`. El procesamiento amplio captura `Exception` y aparta cada fila como si su monto estuviera mal. El estrecho captura solo `InvalidOperation`, la excepción que lanza `Decimal` con un texto que no es número, y deja pasar todo lo demás.",
+        "La primera línea muestra `0` filas buenas y las tres en cuarentena, incluidas `C001` y `C003`, que traen montos válidos; quien está de guardia vería un problema de datos que no existe. La segunda línea muestra que la captura estrecha detiene el lote con `NameError` y señala la errata. Una vez corregida, solo `C002` va a cuarentena, que es el único monto inválido del lote.",
+      ],
+      code: {
+        language: "python",
+        title: "except_amplio_vs_estrecho.py",
+        code: "# Error: except Exception convierte una errata en «filas malas»\nfrom decimal import Decimal, InvalidOperation\n\nfilas = [\n    {\"id\": \"C001\", \"monto\": \"10.50\"},\n    {\"id\": \"C002\", \"monto\": \"abc\"},\n    {\"id\": \"C003\", \"monto\": \"7.25\"},\n]\n\n\ndef convertir(fila: dict) -> Decimal:\n    texto = fila[\"monto\"].strip()\n    return Decimal(textp)  # errata: el nombre correcto es texto\n\n\ndef procesar_amplio(filas: list[dict]) -> tuple[int, list[str]]:\n    ok, cuarentena = 0, []\n    for fila in filas:\n        try:\n            convertir(fila)\n            ok += 1\n        except Exception:\n            cuarentena.append(fila[\"id\"])\n    return ok, cuarentena\n\n\nprint(\"amplio → ok, cuarentena:\", procesar_amplio(filas))\n\n\n# Corrección: captura solo el error de datos que sabes tratar\ndef procesar_estrecho(filas: list[dict]) -> tuple[int, list[str]]:\n    ok, cuarentena = 0, []\n    for fila in filas:\n        try:\n            convertir(fila)\n            ok += 1\n        except InvalidOperation:\n            cuarentena.append(fila[\"id\"])\n    return ok, cuarentena\n\n\ntry:\n    procesar_estrecho(filas)\nexcept NameError as e:\n    print(\"estrecho → se detiene:\", type(e).__name__, e)\n\n\n# Consecuencia: con la errata corregida, solo C002 va a cuarentena\ndef convertir(fila: dict) -> Decimal:\n    texto = fila[\"monto\"].strip()\n    return Decimal(texto)\n\n\nprint(\"corregido → ok, cuarentena:\", procesar_estrecho(filas))",
+        output: "amplio → ok, cuarentena: (0, ['C001', 'C002', 'C003'])\nestrecho → se detiene: NameError name 'textp' is not defined\ncorregido → ok, cuarentena: (2, ['C002'])",
+      },
+    },
+    {
       heading: "Traceback y debugger",
       figure: {
         id: "S09-error-boundary",
@@ -250,6 +276,19 @@ KeyError: 'email'`,
         title: "Frame útil",
         content:
           "Empieza por la última línea de tu módulo; sube solo si el bug está en un helper compartido.",
+      },
+    },
+    {
+      heading: "Contraejemplo: el debugger vuelca la fila completa con datos personales",
+      paragraphs: [
+        "En una sesión de `pdb`, el depurador de Python, el comando `p fila` imprime lo mismo que `print(fila)`: el diccionario entero. El ejemplo hace esa inspección sin abrir `pdb` para que puedas ver su salida, y después repite la inspección con solo el identificador interno.",
+        "La primera línea contiene el correo y el teléfono completos; si la terminal se comparte o la sesión queda en un log de CI, esos datos salen con ella. La segunda línea muestra `id = C009`, que basta para localizar el registro en la fuente protegida.",
+      ],
+      code: {
+        language: "python",
+        title: "debug_fila.py",
+        code: "# Error: inspeccionar el registro completo (es lo que muestra `p fila` en pdb)\nfila = {\n    \"id\": \"C009\",\n    \"email\": \"lucia.mendez@ejemplo.pe\",\n    \"telefono\": \"+34 600 123 456\",\n}\n\nprint(\"debug:\", fila)\n\n# Corrección: inspeccionar solo el identificador interno\nprint(\"debug: id =\", fila[\"id\"])",
+        output: "debug: {'id': 'C009', 'email': 'lucia.mendez@ejemplo.pe', 'telefono': '+34 600 123 456'}\ndebug: id = C009",
       },
     },
     {
@@ -308,6 +347,7 @@ caso vecino: sigue rechazado`,
         "Niveles: **DEBUG** (detalle dev), **INFO** (progreso del job), **WARNING** (anomalía recuperable: fila opcional rara), **ERROR** (fallo de una unidad que cuarentenarás o reintentarás), **CRITICAL** (el proceso o el lote entero está en peligro: config rota, disco lleno). No loguees ERROR para filas esperables de cuarentena si WARNING basta: el ruido entierra el incidente real en el dashboard de ops.",
         "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. Handlers y formatters se arman **una vez** en el entrypoint del CLI (preview suave de S10, Módulos y CLI). En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
         "Un log tiene campos estructurados cuando cada dato ocupa un atributo propio del evento, no solo una parte de la frase. En `logging`, `extra={...}` añade esos atributos al registro interno que crea la biblioteca; el `Formatter` decide después cómo emitirlos. Así un recolector puede conservar `stage` o `record_id` sin depender de analizar la redacción del mensaje.",
+        "Desde el siguiente ejemplo, los mensajes llevan marcadores `%s`, como en `log.warning(\"record_id=%s event=quarantine\", record_id)`: cada `%s` marca el hueco donde irá un valor, en el orden de los argumentos. `logging` recibe la plantilla y los valores por separado y solo los une cuando la línea se va a emitir; con el nivel en `WARNING`, una llamada a `log.debug` no arma ningún texto. Una f-string, en cambio, arma el texto antes de llamar a `log`, aunque la línea se descarte. Además, el registro guarda la plantilla aparte de los valores, de modo que un recolector puede contar cuántas veces ocurrió `record_id=%s event=quarantine` sin separar el id de cada fila. En el `Formatter`, `%(levelname)s` funciona igual, pero nombra un campo del registro en lugar de tomar el siguiente argumento. Para los mensajes que lee una persona en pantalla, la f-string sigue siendo la herramienta.",
         "Caso sintético CASO-LIM-009: el job `ingest_clientes` falla a las 02:10. Sin campos `stage`/`record_id`, el on-call no une el WARNING de la fila C014 con el ERROR del provider. Con mensajes `stage=normalize record_id=C014 event=parse_fail` y nivel correcto, el triage tarda minutos, no horas — y aún no has tocado PII (eso es T3-B).",
       ],
       code: {
@@ -350,6 +390,45 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
       },
     },
     {
+      heading: "Contraejemplo: el ERROR de cada fila apartada entierra la alerta",
+      paragraphs: [
+        "El lote tiene cinco filas que van a cuarentena, algo que el pipeline espera, y un timeout del proveedor, que sí es un incidente. El error registra todo con `log.error`; la corrección registra las filas apartadas con `log.warning` y deja `ERROR` solo para el proveedor. Una alerta típica filtra las líneas `ERROR` y muestra la primera.",
+        "En el error hay seis líneas `ERROR` y la alerta abre con `record_id=C014`, una fila esperable, mientras el timeout queda al final de la lista. En la corrección hay una sola línea `ERROR` y es la del proveedor, que es lo que la persona de guardia necesita ver primero.",
+      ],
+      code: {
+        language: "python",
+        title: "niveles_error_vs_warning.py",
+        code: "# Error: cada fila apartada se registra como ERROR\nimport io\nimport logging\n\n\ndef nuevo_log(nombre: str) -> tuple[logging.Logger, io.StringIO]:\n    buf = io.StringIO()\n    log = logging.getLogger(nombre)\n    log.handlers.clear()\n    log.setLevel(logging.INFO)\n    log.propagate = False\n    handler = logging.StreamHandler(buf)\n    handler.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\n    log.addHandler(handler)\n    return log, buf\n\n\nfilas_malas = [\"C014\", \"C022\", \"C031\", \"C047\", \"C058\"]\n\nlog, buf = nuevo_log(\"cx.niveles.error\")\nfor record_id in filas_malas:\n    log.error(\"stage=normalize record_id=%s event=quarantine\", record_id)\nlog.error(\"stage=provider event=timeout\")\nerrores = [ln for ln in buf.getvalue().splitlines() if ln.startswith(\"ERROR\")]\nprint(\"líneas ERROR:\", len(errores))\nprint(\"primera alerta:\", errores[0])\n\n# Corrección: la fila apartada es WARNING; el proveedor caído es ERROR\nlog, buf = nuevo_log(\"cx.niveles.ok\")\nfor record_id in filas_malas:\n    log.warning(\"stage=normalize record_id=%s event=quarantine\", record_id)\nlog.error(\"stage=provider event=timeout\")\nerrores = [ln for ln in buf.getvalue().splitlines() if ln.startswith(\"ERROR\")]\nprint(\"líneas ERROR:\", len(errores))\nprint(\"primera alerta:\", errores[0])",
+        output: "líneas ERROR: 6\nprimera alerta: ERROR stage=normalize record_id=C014 event=quarantine\nlíneas ERROR: 1\nprimera alerta: ERROR stage=provider event=timeout",
+      },
+    },
+    {
+      heading: "Contraejemplo: configurar dos veces el logger duplica cada línea",
+      paragraphs: [
+        "Un *handler*, el objeto que escribe cada evento en un destino, se acumula cada vez que llamas a `addHandler`, y `propagate` decide si el evento sube también al logger raíz, el que está en la cima de la jerarquía. El error llama dos veces a `configurar` sin limpiar y deja la propagación activa, algo que ocurre al rehacer una demo o importar dos veces un módulo que configura logging. La corrección limpia los handlers y desactiva la propagación.",
+        "Un solo `log.info` produce tres líneas en el error: dos del handler repetido y una de la raíz. En la corrección produce una. Si un log muestra cada evento dos o tres veces, revisa primero estas dos causas.",
+      ],
+      code: {
+        language: "python",
+        title: "handlers_duplicados.py",
+        code: "# Error: se configura dos veces, sin limpiar, y el logger propaga a la raíz\nimport io\nimport logging\n\nbuf = io.StringIO()\nraiz = logging.getLogger()\nraiz.handlers.clear()\nh_raiz = logging.StreamHandler(buf)\nh_raiz.setFormatter(logging.Formatter(\"raíz   %(levelname)s %(message)s\"))\nraiz.addHandler(h_raiz)\n\n\ndef configurar(nombre: str, limpiar: bool, propagar: bool) -> logging.Logger:\n    log = logging.getLogger(nombre)\n    if limpiar:\n        log.handlers.clear()\n    log.setLevel(logging.INFO)\n    handler = logging.StreamHandler(buf)\n    handler.setFormatter(logging.Formatter(\"módulo %(levelname)s %(message)s\"))\n    log.addHandler(handler)\n    log.propagate = propagar\n    return log\n\n\nconfigurar(\"cx.dup\", limpiar=False, propagar=True)\nlog = configurar(\"cx.dup\", limpiar=False, propagar=True)\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\nprint(\"líneas para un solo evento:\", len(buf.getvalue().splitlines()))\n\n# Corrección: limpia los handlers y corta la propagación\nbuf.seek(0)\nbuf.truncate()\nconfigurar(\"cx.ok\", limpiar=True, propagar=False)\nlog = configurar(\"cx.ok\", limpiar=True, propagar=False)\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\nprint(\"líneas para un solo evento:\", len(buf.getvalue().splitlines()))\nraiz.handlers.clear()",
+        output: "módulo INFO stage=ingest event=start\nmódulo INFO stage=ingest event=start\nraíz   INFO stage=ingest event=start\nlíneas para un solo evento: 3\nmódulo INFO stage=ingest event=start\nlíneas para un solo evento: 1",
+      },
+    },
+    {
+      heading: "Contraejemplo: el progreso en la salida rompe al consumidor",
+      paragraphs: [
+        "`consumidor` hace de otro programa que lee la salida estándar y espera un número. En el error, la CLI escribe el progreso (`empezando`, `sumando`) en la misma salida que el resultado; en la corrección, el progreso va al logger y la salida lleva solo `3`.",
+        "La primera línea muestra que `int` recibe `'empezando\\nsumando\\n3'` y falla, aunque la cuenta era correcta. Con la corrección, el consumidor recibe `3` y la bitácora conserva los dos eventos por su cuenta.",
+      ],
+      code: {
+        language: "python",
+        title: "progreso_en_stdout.py",
+        code: "# Error: el progreso viaja por la misma salida que el dato\nimport io\nimport logging\n\n\ndef consumidor(stdout_texto: str) -> int:\n    # Otro programa lee la salida estándar y espera solo un número\n    return int(stdout_texto)\n\n\ndef cli_mal(n: int) -> str:\n    salida = [\"empezando\", \"sumando\", str(n + 1)]\n    return \"\\n\".join(salida)\n\n\ntry:\n    consumidor(cli_mal(2))\nexcept ValueError as e:\n    print(\"consumidor falla:\", e)\n\n# Corrección: el progreso va al logger; la salida solo lleva el dato\nbuf = io.StringIO()\nlog = logging.getLogger(\"cx.cli\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nlog.propagate = False\nlog.addHandler(logging.StreamHandler(buf))\n\n\ndef cli_bien(n: int) -> str:\n    log.info(\"event=start op=inc\")\n    resultado = n + 1\n    log.info(\"event=done op=inc\")\n    return str(resultado)\n\n\nprint(\"consumidor recibe:\", consumidor(cli_bien(2)))\nprint(\"bitácora aparte:\", buf.getvalue().strip().replace(\"\\n\", \" | \"))",
+        output: "consumidor falla: invalid literal for int() with base 10: 'empezando\\nsumando\\n3'\nconsumidor recibe: 3\nbitácora aparte: event=start op=inc | event=done op=inc",
+      },
+    },
+    {
       heading: "Cómo viaja un identificador de correlación",
       paragraphs: [
         "Un **identificador de correlación** es el mismo texto corto que varias funciones reciben para señalar que sus registros pertenecen a una sola ejecución. Existe porque dos ejecuciones pueden producir mensajes parecidos al mismo tiempo; el identificador permite reunir solo los de una de ellas. Identifica el trabajo, no a una persona, y no debe contener datos personales.",
@@ -377,6 +456,19 @@ correlation_id=corr-9c2e stage=validar id=C001`,
         title: "El mismo valor en cada función",
         content:
           "Créalo una vez al comenzar el trabajo y pásalo como argumento; no inventes uno nuevo en cada función.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un identificador armado con un correo",
+      paragraphs: [
+        "`procesar_lote` es la función del bloque anterior. En el error, quien lanza el trabajo arma el identificador con su correo; en la corrección, usa un texto corto que nombra la corrida. La función propaga el valor sin mirarlo, así que todo lo que contenga llega a cada línea.",
+        "Las tres primeras líneas repiten `lucia.mendez@ejemplo.pe`: una sola decisión al arrancar puso el correo en todo el log. Las tres últimas cuentan la misma historia con `job-7f3a` y siguen permitiendo reunir los eventos de la corrida.",
+      ],
+      code: {
+        language: "python",
+        title: "correlation_id_personal.py",
+        code: "# Error: el identificador se arma con el correo de quien lanzó el trabajo\ndef procesar_lote(rows: list[dict], correlation_id: str) -> None:\n    print(f\"correlation_id={correlation_id} stage=inicio\")\n    for row in rows:\n        print(f\"correlation_id={correlation_id} stage=validar id={row['id']}\")\n\n\nrows = [{\"id\": \"C001\"}, {\"id\": \"C002\"}]\nemail_operador = \"lucia.mendez@ejemplo.pe\"\n\nprocesar_lote(rows, f\"job-{email_operador}\")\n\n# Corrección: un valor que nombra la corrida y no a una persona\nprocesar_lote(rows, \"job-7f3a\")",
+        output: "correlation_id=job-lucia.mendez@ejemplo.pe stage=inicio\ncorrelation_id=job-lucia.mendez@ejemplo.pe stage=validar id=C001\ncorrelation_id=job-lucia.mendez@ejemplo.pe stage=validar id=C002\ncorrelation_id=job-7f3a stage=inicio\ncorrelation_id=job-7f3a stage=validar id=C001\ncorrelation_id=job-7f3a stage=validar id=C002",
       },
     },
     {
@@ -446,6 +538,26 @@ phone=***4567`,
         title: "PII en logs",
         content:
           "Un ERROR con el registro completo puede filtrar datos personales a CloudWatch o Slack. Enmascara siempre.",
+      },
+    },
+    {
+      heading: "Contraejemplo: la excepción filtra lo que el log enmascaró",
+      figure: {
+        id: "S09-fstring-in-raise",
+        caption:
+          "Si una f-string mete el correo en el mensaje de la excepción, log.exception lo copia en la última línea de la traza, aunque el mensaje del log vaya enmascarado.",
+        alt:
+          "Tres etapas en fila: un raise cuya f-string incluye el correo, la llamada a log.exception con el correo enmascarado y la traza final, que repite el texto completo del error.",
+      },
+      paragraphs: [
+        "El ejemplo registra dos veces el mismo fallo de validación con `log.exception`, y en las dos el mensaje del log lleva el correo enmascarado. Cambia solo el texto de la excepción. En el error, `ValueError` incluye el correo completo; en la corrección, lleva un motivo sin valores. `log.exception` copia ese texto en la última línea de la traza, así que la máscara del mensaje no alcanza a protegerlo.",
+        "Compara las dos líneas `última:`. La primera termina en `ana.rojas@ejemplo.pe` y por eso `correo completo en el log` da `True`, aunque la línea `primera:` muestre `a***@ejemplo.pe`. Con el motivo seguro, la traza termina en `correo no verificado` y la comprobación da `False`. Al revisar un log, busca el dato también en la traza y no solo en el mensaje.",
+      ],
+      code: {
+        language: "python",
+        title: "excepcion_vs_log.py",
+        code: "# Error: el mensaje del log va enmascarado, pero la excepción lleva el correo\nimport io\nimport logging\n\n\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{local[:1]}***@{domain}\" if domain else \"***\"\n\n\ndef nuevo_log() -> tuple[logging.Logger, io.StringIO]:\n    buf = io.StringIO()\n    log = logging.getLogger(\"cx.pii\")\n    log.handlers.clear()\n    log.propagate = False\n    handler = logging.StreamHandler(buf)\n    handler.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\n    log.addHandler(handler)\n    return log, buf\n\n\nemail = \"ana.rojas@ejemplo.pe\"\n\nlog, buf = nuevo_log()\ntry:\n    raise ValueError(f\"correo no verificado: {email}\")\nexcept ValueError:\n    log.exception(\"record_id=C001 email=%s\", mask_email(email))\nlineas = buf.getvalue().splitlines()\nprint(\"primera:\", lineas[0])\nprint(\"última: \", lineas[-1])\nprint(\"correo completo en el log:\", email in buf.getvalue())\n\n# Corrección: la excepción lleva un motivo seguro, sin el valor\nlog, buf = nuevo_log()\ntry:\n    raise ValueError(\"correo no verificado\")\nexcept ValueError:\n    log.exception(\"record_id=C001 email=%s\", mask_email(email))\nlineas = buf.getvalue().splitlines()\nprint(\"primera:\", lineas[0])\nprint(\"última: \", lineas[-1])\nprint(\"correo completo en el log:\", email in buf.getvalue())",
+        output: "primera: ERROR record_id=C001 email=a***@ejemplo.pe\núltima:  ValueError: correo no verificado: ana.rojas@ejemplo.pe\ncorreo completo en el log: True\nprimera: ERROR record_id=C001 email=a***@ejemplo.pe\núltima:  ValueError: correo no verificado\ncorreo completo en el log: False",
       },
     },
     {
@@ -556,6 +668,32 @@ no-retry: dato malo`,
         title: "La clave no aplica la política por sí sola",
         content:
           "El receptor debe comprobar la clave y reutilizar el resultado anterior o actualizar la misma entrada. Añadir la clave a un `INSERT` común todavía puede duplicar filas.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un tope de reintentos en cero termina en raise None",
+      paragraphs: [
+        "Con `max_attempts=0` el bucle no corre ni una vez, así que `ultimo` conserva su valor inicial, `None`, y `raise ultimo` intenta lanzar algo que no es una excepción. La corrección rechaza ese tope antes del bucle con un `ValueError` que dice qué está mal.",
+        "La primera línea es un `TypeError` sobre `BaseException` que no menciona el tope ni el proveedor. La segunda nombra la causa, y la tercera confirma que con un tope válido vuelve a llegar el `TimeoutError` original.",
+      ],
+      code: {
+        language: "python",
+        title: "tope_reintentos.py",
+        code: "# Error: sin comprobar el tope, cero intentos deja `ultimo` en None\ndef lectura():\n    raise TimeoutError(\"proveedor lento\")\n\n\ndef retry_mal(fn, max_attempts):\n    ultimo = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            ultimo = e\n    raise ultimo\n\n\ntry:\n    retry_mal(lectura, 0)\nexcept TypeError as e:\n    print(\"max_attempts=0 →\", type(e).__name__ + \":\", e)\n\n\n# Corrección: rechaza el tope inválido antes del bucle\ndef retry_bien(fn, max_attempts):\n    if max_attempts < 1:\n        raise ValueError(\"max_attempts debe ser >= 1\")\n    ultimo = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            ultimo = e\n    raise ultimo\n\n\ntry:\n    retry_bien(lectura, 0)\nexcept ValueError as e:\n    print(\"max_attempts=0 →\", type(e).__name__ + \":\", e)\ntry:\n    retry_bien(lectura, 2)\nexcept TimeoutError as e:\n    print(\"max_attempts=2 →\", type(e).__name__ + \":\", e)",
+        output: "max_attempts=0 → TypeError: exceptions must derive from BaseException\nmax_attempts=0 → ValueError: max_attempts debe ser >= 1\nmax_attempts=2 → TimeoutError: proveedor lento",
+      },
+    },
+    {
+      heading: "Contraejemplo: una clave solo con el id descarta una corrección",
+      paragraphs: [
+        "Llegan tres envíos: `v3`, el reintento de `v3` y una corrección `v4` con otro monto. `guardar` ignora un envío si su clave ya está en el almacén. El error usa como clave solo `C001`; la corrección suma la fuente, la versión y una huella del payload.",
+        "Con la clave corta, el almacén guarda una entrada y la versión es `[3]`: el reintento se descartó bien, pero la corrección `v4` también, así que el monto nuevo nunca llega. Con la clave completa quedan `[3, 4]`, porque el reintento repite la clave de `v3` y `v4` trae una clave propia.",
+      ],
+      code: {
+        language: "python",
+        title: "clave_idempotente.py",
+        code: "# Error: la clave solo usa el id\nimport hashlib\nimport json\n\nv3 = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"monto\": \"10.00\"}}\nv4 = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 4, \"payload\": {\"monto\": \"12.50\"}}\nenvios = [v3, v3, v4]  # el segundo v3 es un reintento; v4 es una corrección real\n\n\ndef clave_solo_id(r: dict) -> str:\n    return r[\"id\"]\n\n\ndef clave_completa(r: dict) -> str:\n    texto = json.dumps(r[\"payload\"], sort_keys=True)\n    huella = hashlib.sha256(texto.encode()).hexdigest()[:12]\n    return f\"{r['source']}:{r['id']}:v{r['version']}:{huella}\"\n\n\ndef guardar(envios: list[dict], clave) -> dict:\n    almacen = {}\n    for r in envios:\n        k = clave(r)\n        if k not in almacen:\n            almacen[k] = r\n    return almacen\n\n\nalmacen = guardar(envios, clave_solo_id)\nprint(\"solo id → entradas:\", len(almacen),\n      \"versiones:\", [r[\"version\"] for r in almacen.values()])\n\n# Corrección: la clave incluye fuente, versión y huella del payload\nalmacen = guardar(envios, clave_completa)\nprint(\"completa → entradas:\", len(almacen),\n      \"versiones:\", [r[\"version\"] for r in almacen.values()])",
+        output: "solo id → entradas: 1 versiones: [3]\ncompleta → entradas: 2 versiones: [3, 4]",
       },
     },
   ],
