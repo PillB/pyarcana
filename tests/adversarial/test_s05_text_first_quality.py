@@ -30,7 +30,21 @@ class TestSection05TextFirstQuality(unittest.TestCase):
         theory = _between(self.source, "  theory: [", "  iDo: {")
 
         self.assertIn("En S04 aprendiste a recorrer datos", theory)
-        self.assertEqual(theory.count("**Puente desde"), 8)
+        # 2026-11-10, proposal 08 item 6: the eight "**Puente desde …:**" labels went
+        # (writing rules 13, 15, 27). Each bridge sentence stays and is pinned, so a
+        # subtopic cannot lose its link to the one before.
+        self.assertEqual(theory.count("**Puente desde"), 0)
+        for bridge in (
+            "La primera promesa que harás es sencilla: si entra texto de nombre, debe salir texto normalizado",
+            "Ya sabes entregar un resultado; ahora aprenderás a recibir parámetros sin crear estado compartido por accidente.",
+            "Los parámetros y los defaults describen qué recibe la función",
+            "El docstring narra el contrato; los hints hacen visible su forma",
+            "Cada contrato que ya nombraste puede vivir en una pieza que se pruebe y se cambie sin tocar las demás.",
+            "Separar responsabilidades permite dejar la transformación en el centro",
+            "La pureza evita el estado oculto. El orden LEGB permite localizar cada nombre",
+            "Ya sabes dónde vive cada nombre; ahora fijarás qué conducta debe mantenerse",
+        ):
+            self.assertIn(bridge, theory)
         for anchor in (
             "**Detente y predice:**",
             "**Dibuja la memoria:**",

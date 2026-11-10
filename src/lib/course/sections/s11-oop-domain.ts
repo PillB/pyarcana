@@ -37,11 +37,11 @@ export const section11: CourseSection = {
     {
             heading: "Un diccionario no promete nada",
       paragraphs: [
-        "Hasta aquí un cliente ha sido un diccionario: `{'id': 'C001', 'nombre': 'Ana', 'monto': '150.00'}`. Es cómodo y no protege nada. Nadie impide escribir `registro['nombe']` con la letra cambiada; nadie impide que a mitad del programa aparezca un registro sin `monto`; nadie impide que el mismo campo sea texto en una función y número en la siguiente. El error no se nota donde se comete, sino tres funciones más adelante, cuando ya perdiste el rastro.",
+        "Hasta aquí un cliente ha sido un diccionario: `{'id': 'C001', 'nombre': 'Ana', 'monto': '150.00'}`. Es cómodo y no protege nada. Nadie impide escribir `registro['nombe']` con la letra cambiada. Tampoco impide que a mitad del programa aparezca un registro sin `monto`, ni que el mismo campo sea texto en una función y número en la siguiente. El error no se nota donde se comete, sino tres funciones más adelante, cuando ya perdiste el rastro.",
         "La alternativa es darle nombre a la cosa. Un diccionario es una hoja en blanco donde cabe cualquier anotación; un tipo con nombre es un formulario impreso: tiene casillas fijas, y las casillas obligatorias no se pueden dejar vacías. `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence` son esos formularios, y a partir de ahora son el vocabulario del programa.",
         "Lo que un formulario aporta de verdad son los **invariantes**: las condiciones que tienen que ser ciertas siempre para que ese objeto tenga sentido. Un `Transaction` no puede tener monto negativo; su moneda tiene que ser una de las permitidas; un `CaseFile` no puede sostener una relación sin al menos una `RelationshipEvidence` que la respalde. Fíjate en que ese último invariante es del expediente, no de la entidad: `ResolvedEntity` se construye con identificador y nombre, y las evidencias viven en el agregado que las agrupa. La decisión que ordena la sección es *dónde* se comprueba eso, y la respuesta es: al construir el objeto. Si un campo obligatorio falta, la construcción falla ahí mismo en lugar de rellenar en silencio y contaminar todo lo que venga después.",
         "Hay una frontera ética que estos tipos hacen visible. `RelationshipEvidence` guarda señales de relación y un puntaje; ninguna clase de esta sección emite un veredicto. Un puntaje es un dato con incertidumbre, no una conclusión legal sobre una persona. Por eso no existe ninguna función que se llame `is_fraud` ni `is_family`: no es un olvido, es el diseño.",
-        "La pregunta que se repite en cada tipo que escribas es corta: **¿qué tiene que ser verdad para que este objeto pueda existir?** Contestarla te da las validaciones, los mensajes de error y las pruebas casi gratis. Trabajarás con `dataclass`, propiedades, composición y `Protocol` de la biblioteca estándar; los frameworks web y los ORM —las bibliotecas que traducen objetos a tablas de base de datos— llegan más adelante, cuando ya sepas qué es lo que estarías traduciendo.",
+        "Cada tipo que escribas responde la misma pregunta. **¿Qué tiene que ser verdad para que este objeto pueda existir?** La respuesta te da las validaciones, los mensajes de error y las pruebas casi gratis. Trabajarás con `dataclass`, propiedades, composición y `Protocol` de la biblioteca estándar. Los frameworks web y los ORM, las bibliotecas que traducen objetos a tablas de base de datos, llegan más adelante, cuando ya sepas qué estarías traduciendo.",
       ],
       callout: {
         type: "info",
@@ -96,8 +96,8 @@ C001`,
       subtopicId: "S11-T1-A",
       paragraphs: [
         "Una **clase** define el molde; una **instancia** es un objeto concreto hecho a partir de ese molde. `@dataclass`, que es un decorador que genera por ti el constructor `__init__` y la representación `__repr__`, reduce el código repetitivo sin perder el nombre del dominio. En familiaridad, `ClientRecord` es el borde de onboarding sintético — la frontera donde el dict crudo del CLI se vuelve un objeto con tipo —, no una fila de pandas.",
-        "Forma canónica en S11: `ClientRecord(client_id, document_id, full_name, emails)`. Campos con **type hints** (anotaciones de tipo, que le dicen al lector y al verificador qué valores admite cada campo) y `default_factory` (una función constructora que se ejecuta una vez por instancia) para listas mutables evitan el clásico bug del default compartido. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed, que significa 'fallar cerrando la puerta': no construyas con `None` silencioso donde el esquema exige un string no vacío.",
-        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes (reglas que el objeto siempre cumple, sin importar desde dónde se le llame) en T1-B, donde `from_dict` construye la dataclass desde un dict. Caso sintético: `ClientRecord(\"C001\", \"DOC-0001\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII sintética (información personal identificable de mentira, inventada para la demo) y cuáles son ids estables de sistema."
+        "Forma canónica en S11: `ClientRecord(client_id, document_id, full_name, emails)`. Los campos llevan **type hints**, anotaciones de tipo que le dicen al lector y al verificador qué valores admite cada campo. Para las listas mutables, `default_factory` (una función constructora que se ejecuta una vez por instancia) evita el bug clásico del default compartido. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed, que significa 'fallar cerrando la puerta': no construyas con `None` silencioso donde el esquema exige un string no vacío.",
+        "Pasar de dicts anónimos a tipos le pone nombre al dominio. También prepara los invariantes de T1-B, reglas que el objeto siempre cumple sin importar desde dónde se le llame; allí `from_dict` construye la dataclass desde un dict. Caso sintético: `ClientRecord(\"C001\", \"DOC-0001\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII sintética (información personal identificable de mentira, inventada para la demo) y cuáles son ids estables de sistema."
       ],
       code: {
         language: 'python',
@@ -127,7 +127,7 @@ ClientRecord C001`,
     {
       heading: "Contraejemplo: el default mutable se comparte entre instancias",
       paragraphs: [
-        "El error de S05 con `def f(x, acc=[])` reaparece en una clase común: la lista por defecto se crea una sola vez y todas las instancias que no reciben una la comparten. `CaseFileComun` lo muestra con dos expedientes; luego el ejemplo intenta lo mismo con `@dataclass` y, al final, usa `field(default_factory=list)`, que llama a `list()` para cada instancia.",
+        "El error de S05 con `def f(x, acc=[])` reaparece en una clase común. La lista por defecto se crea una sola vez, y todas las instancias que no reciben una la comparten. `CaseFileComun` lo muestra con dos expedientes; luego el ejemplo intenta lo mismo con `@dataclass` y, al final, usa `field(default_factory=list)`, que llama a `list()` para cada instancia.",
         "La primera línea muestra que `CF2` nace con `['E1-E2']`, la evidencia de otro expediente. La segunda es la respuesta de `dataclass`: rechaza la clase al definirla y sugiere `default_factory`. La tercera muestra que, con esa corrección, `CF2` nace vacío.",
       ],
       code: {
@@ -168,10 +168,10 @@ ClientRecord C001`,
       },
       subtopicId: "S11-T1-B",
       paragraphs: [
-        "`__post_init__` (el gancho que ejecuta la dataclass justo después de construir el objeto) valida al instante. Si el estado es inválido, **falla al crear** — un `ClientRecord` a medias en el set de resolución (el conjunto donde se agrupan entidades únicas) es peor que un `ValueError` temprano (una excepción de Python que indica un valor inválido). Las reglas viven junto al tipo, no en un script suelto del CLI.",
-        "Un método `validate()` reutilizable ayuda en factories (constructores alternativos que producen instancias ya validadas) como `from_dict` y en la rehidratación desde JSON, que es reconstruir el objeto desde un JSON guardado: centraliza las reglas y las invoca desde `__post_init__` o desde el borde de serialización (la frontera donde el objeto se convierte a o desde un formato plano).",
+        "`__post_init__` (el gancho que ejecuta la dataclass justo después de construir el objeto) valida al instante. Si el estado es inválido, **falla al crear**. Un `ClientRecord` a medias en el set de resolución (el conjunto donde se agrupan entidades únicas) hace más daño que un `ValueError` temprano, la excepción de Python que indica un valor inválido. Las reglas viven junto al tipo, no en un script suelto del CLI.",
+        "Un método `validate()` reutilizable centraliza las reglas. Lo llaman los factories, constructores alternativos como `from_dict` que producen instancias ya validadas, y también la rehidratación, que reconstruye el objeto desde un JSON guardado. Las reglas se invocan desde `__post_init__` o desde el borde de serialización, la frontera donde el objeto se convierte a un formato plano o se lee desde él.",
         "Al validar, **sin side-effects de negocio** (efectos colaterales, que son cambios en el mundo exterior al objeto): no llames APIs, no escribas a disco, no apliques “arreglos” silenciosos de moneda. Stack: stdlib (la biblioteca estándar de Python) + `Decimal`; sin ORM (un mapeador objeto-relacional, que es lo que conecta clases con tablas de base de datos).",
-        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` (el tipo de Python para números decimales exactos, sin el ruido binario de `float`) **positivo** y `currency` ∈ allowlist `{'PEN','USD'}` (una lista de valores permitidos). Nunca conviertas PEN → USD en el constructor. Caso sintético PE: `Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\")` acepta; `\"EUR\"` o `amount<=0` rechaza."
+        "Ejemplo: `document_id` no puede estar vacío. En `Transaction`, `amount` es un `Decimal` **positivo**, el tipo de Python para decimales exactos sin el ruido binario de `float`. Además, `currency` pertenece a la allowlist `{'PEN','USD'}`, una lista de valores permitidos. Nunca conviertas PEN → USD en el constructor. Caso sintético PE: `Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\")` acepta; `\"EUR\"` o `amount<=0` rechaza."
       ],
       code: {
         language: 'python',
@@ -213,7 +213,7 @@ reject document_id vacío`,
       heading: "Contraejemplo: el constructor que arregla el dato cambia el total",
       paragraphs: [
         "El lote trae una transacción válida en soles, una en euros y una con monto negativo. `TransactionArreglada` cambia la moneda no admitida por `PEN` y el monto no positivo por `0.01`; `Transaction` rechaza las dos con un `ValueError` que nombra la regla.",
-        "Con el arreglo, `T2` aparece como `200.00 PEN` y el total en soles sube a `350.50`, aunque en el lote solo había `150.50` soles: doscientos euros se contaron como soles sin conversión ni aviso. Con el rechazo, el total es `150.50` y las dos transacciones problemáticas quedan visibles para que alguien decida qué hacer con ellas.",
+        "Con el arreglo, `T2` aparece como `200.00 PEN` y el total en soles sube a `350.50`, aunque el lote solo tenía `150.50` soles. Doscientos euros se contaron como soles, sin conversión ni aviso. Con el rechazo, el total es `150.50` y las dos transacciones problemáticas quedan visibles para que alguien decida qué hacer con ellas.",
       ],
       code: {
         language: "python",
@@ -226,7 +226,7 @@ reject document_id vacío`,
       heading: "Contraejemplo: el documento vacío forma un grupo falso",
       paragraphs: [
         "Tres clientes llegaron con el documento vacío o hecho solo de espacios. En el error, el índice aplica `strip` y acepta lo que queda, aunque sea `\"\"`. En la corrección, el borde aplica el mismo `strip` y rechaza el vacío antes de indexar.",
-        "El índice del error agrupa a `C002`, `C003` y `C004` bajo la clave vacía y produce tres pares que «comparten documento»: el matching vería tres coincidencias entre clientes que no tienen nada en común. En la corrección, esos tres quedan en `rechazados` y no se forma ningún par.",
+        "El índice del error agrupa a `C002`, `C003` y `C004` bajo la clave vacía y produce tres pares que «comparten documento». El matching vería tres coincidencias entre clientes que no tienen nada en común. En la corrección, esos tres quedan en `rechazados` y no se forma ningún par.",
       ],
       code: {
         language: "python",
@@ -239,9 +239,9 @@ reject document_id vacío`,
       heading: "Propiedades y métodos",
       subtopicId: "S11-T2-A",
       paragraphs: [
-        "`@property` (un decorador que convierte un método en un atributo calculado, accesible sin paréntesis) expone campos derivados como `display_name` y `masked_email` **sin** mutación peligrosa desde afuera. La UI (interfaz de usuario), los logs (registros de ejecución) y el dashboard de evidencia (el panel donde se muestra la evidencia) deben preferir la máscara; el email raw (el dato en bruto, sin enmascarar) queda en el campo interno solo para el borde autorizado (export legal, backoffice interno).",
-        "Métodos de instancia encapsulan consultas puras (funciones que solo leen, sin modificar), como `age_days_since(as_of)`. Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed o sentinel documentado (un valor marcador que indica 'no hay dato', como `(sin email)`) si `emails` está vacío o el primer email no tiene `@` al calcular `masked_email` — nunca un `IndexError` (una excepción que ocurre al acceder a un índice que no existe) en el pipeline de matching (el flujo de procesamiento del matching).",
-        "Setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio (p. ej. un score en [0, 1]); si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DOC-0003\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime `display_name` y el email enmascarado sin PII completa (información personal identificable) en stdout (la salida estándar, que es lo que se imprime en la consola)."
+        "`@property` (un decorador que convierte un método en un atributo calculado, accesible sin paréntesis) expone campos derivados como `display_name` y `masked_email` **sin** mutación peligrosa desde afuera. La UI (interfaz de usuario), los logs (registros de ejecución) y el dashboard de evidencia (el panel donde se muestra la evidencia) deben preferir la máscara. El email raw, el dato en bruto sin enmascarar, queda en el campo interno solo para el borde autorizado: export legal o backoffice interno.",
+        "Métodos de instancia encapsulan consultas puras (funciones que solo leen, sin modificar), como `age_days_since(as_of)`. Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Si `emails` está vacío o el primer email no tiene `@`, `masked_email` falla de forma cerrada o devuelve un sentinel documentado, un valor marcador como `(sin email)` que indica que no hay dato. Nunca debe aparecer un `IndexError`, la excepción que ocurre al acceder a un índice que no existe, en el flujo de matching.",
+        "Setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio (p. ej. un score en [0, 1]); si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DOC-0003\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime `display_name` y el email enmascarado. En stdout (la salida estándar, lo que se imprime en la consola) no aparece la PII completa, la información personal identificable."
       ],
       code: {
         language: 'python',
@@ -325,9 +325,9 @@ print(ClientRecord("C002", "DOC-0002", "Sin mail").masked_email)`,
       subtopicId: "S11-T2-B",
       paragraphs: [
         "La identidad de `ResolvedEntity` (lo que hace que dos objetos sean 'el mismo') usa su **`entity_id` estable**, no `document_id`. Un documento es PII (información personal identificable) y puede corregirse o reemitirse; usarlo como identidad fusionaría entidades por accidente en el set de resolución (el conjunto donde se agrupan entidades únicas).",
-        "**`frozen=True`** (congelar el objeto al construirlo, impidiendo mutarlo después) habilita hash seguro —con una condición que conviene conocer antes de que falle: el hash se calcula sobre los campos que entran en la comparación, así que si uno guarda una lista o un dict, `hash()` lanza `TypeError` pese al `frozen`; para campos así usa una tupla o exclúyelos con `field(compare=False)`— (un número fijo que Python usa para ubicar el objeto en sets y diccionarios) para sets y dicts de matching local.",
-        "Entidades mutables como keys de dict (claves de diccionario) son una fuente clásica de bugs: el hash cambia si mutas un campo que entra en `__eq__`/`__hash__` (los métodos que definen igualdad y hash). Usa `field(compare=False)` (una directiva que excluye un campo de `__eq__` y del hash) para etiquetas visibles como `display_name`. Ojo con lo que eso permite exactamente: si el objeto es `frozen`, seguirás sin poder reasignar el campo — corregir una etiqueta es construir una copia con `dataclasses.replace(...)`. Lo que `compare=False` te da es que esa copia corregida siga siendo **igual** a la original y conserve su hash, de modo que arreglar un nombre mal escrito no convierta la entidad en otra distinta dentro de un `set` o de un dict. Fail-closed: `entity_id` vacío o solo espacios → `ValueError` al construir.",
-        "Value objects (objetos-valor, que son tipos pequeños sin identidad propia más allá de sus campos), como `RelationshipEvidence`, suelen ser frozen; agregados (raíces que agrupan varios objetos relacionados), como `CaseFile` con listas de evidencias, pueden ser mutables con métodos `add` controlados. Caso sintético PE: si creas `ResolvedEntity(\"E1\", \"Ana\")` y luego `ResolvedEntity(\"E1\", \"Ana actualizada\")`, el set `{e1, e1b, e2}` tiene tamaño **2** porque la igualdad es solo por `entity_id` — el relabel (cambio de etiqueta) del nombre no inventa una tercera entidad."
+        "**`frozen=True`** congela el objeto al construirlo e impide mutarlo después. Eso habilita un hash seguro, el número fijo que Python usa para ubicar el objeto en sets y diccionarios de matching local. Hay una condición que conviene conocer antes de que falle: el hash se calcula sobre los campos que entran en la comparación. Si uno de ellos guarda una lista o un dict, `hash()` lanza `TypeError` pese al `frozen`; para esos campos usa una tupla o exclúyelos con `field(compare=False)`.",
+        "Usar entidades mutables como keys de dict (claves de diccionario) es una fuente clásica de bugs. El hash cambia si mutas un campo que entra en `__eq__` y `__hash__`, los métodos que definen la igualdad y el hash. Usa `field(compare=False)` (una directiva que excluye un campo de `__eq__` y del hash) para etiquetas visibles como `display_name`. Ojo con lo que eso permite exactamente: si el objeto es `frozen`, seguirás sin poder reasignar el campo — corregir una etiqueta es construir una copia con `dataclasses.replace(...)`. Con `compare=False`, esa copia corregida sigue siendo **igual** a la original y conserva su hash. Así, arreglar un nombre mal escrito no convierte la entidad en otra distinta dentro de un `set` o de un dict. Fail-closed: `entity_id` vacío o solo espacios → `ValueError` al construir.",
+        "Los value objects (objetos-valor: tipos pequeños sin identidad propia más allá de sus campos), como `RelationshipEvidence`, suelen ser frozen. Los agregados, raíces que agrupan varios objetos relacionados, pueden ser mutables con métodos `add` controlados; `CaseFile`, con sus listas de evidencias, es uno. Caso sintético PE: crea `ResolvedEntity(\"E1\", \"Ana\")` y luego `ResolvedEntity(\"E1\", \"Ana actualizada\")`. El set `{e1, e1b, e2}` tiene tamaño **2**, porque la igualdad es solo por `entity_id`: el relabel (cambio de etiqueta) del nombre no inventa una tercera entidad."
       ],
       code: {
         language: 'python',
@@ -390,10 +390,10 @@ E1 in set True`,
       heading: "Composición antes que herencia",
       subtopicId: "S11-T3-A",
       paragraphs: [
-        "Tras fijar la identidad frozen en T2-B, el diseño pasa a **cómo se agrupan** los objetos. La relación **has-a** (tiene-un), también llamada composición (un objeto contiene a otros, en lugar de heredar de ellos), modela el caso de familiaridad: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`.",
+        "Tras fijar la identidad frozen en T2-B, el diseño pasa a **cómo se agrupan** los objetos. La relación **has-a** (tiene-un), también llamada composición, describe un objeto que contiene a otros en lugar de heredar de ellos. Así se modela el caso de familiaridad: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`.",
         "No fuerces `Client(PersonInfo(BaseEntity))` solo para reutilizar un campo de nombre.",
         "Una evidencia usa un **par canónico** (una forma única de ordenar el par de ids, con `left_id < right_id`), ids distintos y `signal_score` (la puntuación de la señal) finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén de matching. Fail-closed si el par no es canónico o el score es NaN o está fuera de rango — no “recortes” silenciosos.",
-        "La herencia, que es cuando una clase deriva de otra, solo procede si hay **subtipo real** (is-a, es-un). Mixins (clases pequeñas que añaden comportamiento a otras) con cautela: añaden complejidad invisible en el MRO (el orden de resolución de métodos, que es la ruta que sigue Python para buscar métodos en una jerarquía). Prefiere funciones puras (sin side-effects) o colaboración entre objetos tipados. Caso sintético PE: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
+        "La herencia, que es cuando una clase deriva de otra, solo procede si hay **subtipo real** (is-a, es-un). Usa los mixins (clases pequeñas que añaden comportamiento a otras) con cautela. Añaden complejidad invisible en el MRO, el orden de resolución de métodos: la ruta que sigue Python para buscar un método en una jerarquía. Prefiere funciones puras (sin side-effects) o colaboración entre objetos tipados. Caso sintético PE: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
         "La composición mantiene el dominio auditable: puedes serializar (convertir a un formato plano) el grafo de evidencias (la red de relaciones entre evidencias) sin arrastrar jerarquías frágiles. Documenta en el README del gate que `signal_score` es **dato de matching**, no parentesco legal ni veredicto de fraude."
       ],
       code: {
@@ -442,9 +442,9 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       heading: "Protocolos y polimorfismo con propósito",
       subtopicId: "S11-T3-B",
       paragraphs: [
-        "`typing.Protocol` (la clase Protocol del módulo typing) describe un **puerto** (un punto de extensión del dominio, donde se conectan adaptadores externos) como `EntityStore` con `get`/`save` sin forzar una jerarquía de herencia. Es duck typing estructural (si camina como pato y nada como pato, es pato, sin pedir herencia): cualquier objeto con esos métodos cumple el contrato en chequeo estático (la verificación que hace el analizador de tipos antes de ejecutar) y, con `@runtime_checkable` (un decorador que habilita la verificación en tiempo de ejecución), también en `isinstance` (la función que verifica si un objeto es de un tipo) en runtime (tiempo de ejecución).",
-        "Sirve para **fakes en tests del dominio** (implementaciones de mentira, útiles para tests sin red ni DB) y para no acoplar el núcleo a SQLite, HTTP o un ORM. Evita ABC pesados (clases base abstractas, una alternativa más rígida al Protocol) si el Protocol basta. Fail-closed en el **adaptador real** (la implementación concreta que habla con la base de datos) si la DB no responde: el dominio no captura excepciones de I/O; el borde de infraestructura (la frontera técnica con el mundo exterior) sí.",
-        "No introduzcas Protocol “por si acaso” con una sola implementación y sin fakes de test — YAGNI (You Aren't Gonna Need It, un principio que aconseja no añadir abstracciones hasta que hacen falta). Caso sintético PE: `FakeStore` en memoria para los tests de T4; el adapter SQL/HTTP (el adaptador que habla con SQL o HTTP) llega en **S12** sin reescribir `ClientService` ni las invariantes del dominio."
+        "`typing.Protocol` describe un **puerto**, un punto de extensión del dominio donde se conectan adaptadores externos. `EntityStore`, con `get` y `save`, es un puerto, y no obliga a nadie a heredar de una clase. Es duck typing estructural: si camina como pato y nada como pato, es pato, sin pedir herencia. Cualquier objeto con esos métodos cumple el contrato en el chequeo estático, la verificación que hace el analizador de tipos antes de ejecutar. Con `@runtime_checkable`, un decorador que habilita la verificación al ejecutar, también lo cumple en `isinstance`, la función que comprueba si un objeto es de un tipo.",
+        "Sirve para **fakes en tests del dominio** (implementaciones de mentira, útiles para tests sin red ni DB) y para no acoplar el núcleo a SQLite, HTTP o un ORM. Evita ABC pesados (clases base abstractas, una alternativa más rígida al Protocol) si el Protocol basta. Si la base de datos no responde, el **adaptador real** (la implementación concreta que habla con ella) falla de forma cerrada. El dominio no captura excepciones de I/O; las captura el borde de infraestructura, la frontera técnica con el mundo exterior.",
+        "No introduzcas un Protocol «por si acaso» cuando hay una sola implementación y ningún fake de test. Es el principio YAGNI (You Aren't Gonna Need It): no añadir abstracciones hasta que hacen falta. Caso sintético PE: los tests de T4 usan un `FakeStore` en memoria. El adaptador que habla con SQL o HTTP llega en **S12**, sin reescribir `ClientService` ni los invariantes del dominio."
       ],
       code: {
         language: 'python',
@@ -499,8 +499,8 @@ True`,
       heading: "Repositorios, servicios y serialización",
       subtopicId: "S11-T4-A",
       paragraphs: [
-        "**Repository** light (un patrón que aísla el acceso al almacén de datos detrás de métodos `get`/`save`). **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` (métodos que convierten entre el objeto de dominio y un diccionario plano) viven en el **borde** de serialización (la frontera donde el objeto entra o sale del sistema), no mezclados con invariantes de negocio (las reglas que el objeto siempre cumple).",
-        "Serializa sin secretos ni PII innecesaria en logs. El `to_dict` del ejemplo es el registro completo que guarda el repositorio; un export para un tablero o una línea de log usa otro diccionario, solo con `client_id` y los campos que ese destino necesita. Notas internas de backoffice (el panel interno de operación, como `internal_note`) no van al export de dashboard. DTOs (objetos de transferencia de datos, que son diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
+        "**Repository** light (un patrón que aísla el acceso al almacén de datos detrás de métodos `get`/`save`). **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict` y `from_dict` convierten entre el objeto de dominio y un diccionario plano. Viven en el **borde** de serialización, la frontera donde el objeto entra o sale del sistema, separados de los invariantes de negocio.",
+        "Serializa sin secretos ni PII innecesaria en logs. El `to_dict` del ejemplo es el registro completo que guarda el repositorio. Un export para un tablero o una línea de log usa otro diccionario, solo con `client_id` y los campos que ese destino necesita. Notas internas de backoffice (el panel interno de operación, como `internal_note`) no van al export de dashboard. DTOs (objetos de transferencia de datos, que son diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
         "La CLI de S10 llama al service; el service **no** imprime ni parsea argparse (el módulo de Python que parsea argumentos de línea de comandos). Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"DOC-0001\", \"Ana Pérez\", \"a@ejemplo.pe\")` → dict de borde (el diccionario que sale del dominio hacia afuera) sin decidir fraude."
       ],
       code: {
@@ -558,7 +558,7 @@ print(svc.register("C001", "DOC-0001", "Ana Pérez", "a@ejemplo.pe"))`,
       subtopicId: "S11-T4-B",
       paragraphs: [
         "Tests del dominio son **puros** (sin efectos externos: sin red, sin DB real, sin reloj de red). Fakes del `Protocol` (implementaciones de mentira del puerto) bastan para ejercitar repos y servicios. Eso permite CI rápida (integración continua rápida, que ejecuta tests en cada cambio), demos offline del gate **CP-N1-C** y feedback inmediato en local-python (Python corriendo en tu máquina).",
-        "Assert de invariantes (verificaciones con `assert` que confirman las reglas que el objeto siempre cumple) y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de “no existe el método” (una prueba que verifica que un método peligroso no está disponible) documenta la ética del producto en código — no es adorno: protege el límite legal del matching. Fail-closed: score fuera de [0, 1] no se “recorta” en silencio en el constructor.",
+        "Assert de invariantes (verificaciones con `assert` que confirman las reglas que el objeto siempre cumple) y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de «no existe el método», una prueba que verifica que un método peligroso no está disponible, deja escrita en código la ética del producto. Protege el límite legal del matching. Fail-closed: score fuera de [0, 1] no se “recorta” en silencio en el constructor.",
         "Scores de resolución/relación son **campos**; un test verifica finitud (que el valor es finito, no NaN ni infinito), rango, par canónico y que no hay veredictos. Caso sintético: `test_no_fraud_api()` pasa si `RelationshipEvidence` solo expone ids + score. Nunca PII real en fixtures (datos de prueba predefinidos, como `@ejemplo.pe` o ids `C00x`/`E0x`)."
       ],
       code: {
@@ -612,7 +612,7 @@ print(test_no_fraud_api())`,
         environment: "local-python",
         description: "ClientRecord.from_dict: borde dict sintético → dataclass canónica",
         preamble:
-          "Tras la CLI de S10, el onboarding sintético deja de ser un dict anónimo y pasa a un **tipo con nombre**. En esta demo un payload JSON-like (`C001`, `@ejemplo.pe`) se convierte con `from_dict` en `ClientRecord`. No escribas aún: sigue el `classmethod` (un método que pertenece a la clase, no a una instancia), observa que `emails` se copia a una lista nueva, y predice el `repr` final (la representación textual del objeto, generada por `__repr__`). Sin PII real (información personal identificable); solo stdlib (la biblioteca estándar de Python).",
+          "Tras la CLI de S10, el onboarding sintético deja de ser un dict anónimo y pasa a un **tipo con nombre**. En esta demo un payload JSON-like (`C001`, `@ejemplo.pe`) se convierte con `from_dict` en `ClientRecord`. No escribas aún. Sigue el `classmethod`, un método que pertenece a la clase y no a una instancia, y observa que `emails` se copia a una lista nueva. Luego predice el `repr` final, la representación textual que genera `__repr__`. Sin PII real (información personal identificable); solo stdlib (la biblioteca estándar de Python).",
         code: {
           language: 'python',
           title: "client_from_dict.py",
@@ -692,7 +692,7 @@ rejected document_id vacío`,
         environment: "local-python",
         description: "display_name y masked_email como properties sobre ClientRecord canónico.",
         preamble:
-          "En logs (registros de ejecución) y dashboard de evidencia el email completo no debe ser la superficie por defecto. Sigue las properties (atributos calculados accesibles sin paréntesis): `display_name` es lectura simple; `masked_email` particiona en `@`, enmascara el local y devuelve `(sin email)` si la lista está vacía — nunca un `IndexError` (una excepción que ocurre al acceder a un índice que no existe). Datos sintéticos `Lucía` / `lucia@ejemplo.pe`. No escribas; predice las dos líneas de salida.",
+          "En logs (registros de ejecución) y dashboard de evidencia el email completo no debe ser la superficie por defecto. Sigue las properties, atributos calculados que se leen sin paréntesis. `display_name` es lectura simple; `masked_email` parte el texto en `@`, enmascara la parte local y devuelve `(sin email)` si la lista está vacía, nunca un `IndexError`. Datos sintéticos `Lucía` / `lucia@ejemplo.pe`. No escribas; predice las dos líneas de salida.",
         code: {
           language: 'python',
           title: "display_props.py",
@@ -734,7 +734,7 @@ l***@ejemplo.pe`,
         environment: "local-python",
         description: "ResolvedEntity frozen por entity_id; set de entidades; id vacío rechazado.",
         preamble:
-          "Cuando un `set` reúne objetos que representan clientes, la identidad estable (lo que hace que dos objetos sean 'el mismo') es `entity_id`, no el nombre visible ni el documento. Observa `frozen=True` (congelar el objeto al construirlo, impidiendo mutarlo después), `display_name` con `compare=False` (una directiva que excluye ese campo de la igualdad), y el set `{e1, e1b, e2}`: el relabel (cambio de etiqueta) de Ana **no** inventa una tercera entidad. También el reject de id en blanco. Predice `size 2` y `e1==e1b True` antes de mirar la salida.",
+          "Cuando un `set` reúne objetos que representan clientes, la identidad estable (lo que hace que dos objetos sean 'el mismo') es `entity_id`, no el nombre visible ni el documento. Observa `frozen=True`, que congela el objeto al construirlo, y `display_name` con `compare=False`, que deja ese campo fuera de la igualdad. En el set `{e1, e1b, e2}`, el relabel (cambio de etiqueta) de Ana **no** inventa una tercera entidad. También el reject de id en blanco. Predice `size 2` y `e1==e1b True` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "frozen_set.py",
@@ -812,7 +812,7 @@ print("scores", [e.signal_score for e in cf.evidences])`,
           output: `E1 n_ev 2
 scores [0.31, 0.12]`,
         },
-        why: "Composición con invariantes reales (reglas que el objeto siempre cumple): `add` no revalida el mundo; el invariante vive en el value object (objeto-valor, un tipo pequeño sin identidad propia más allá de sus campos) al construir. Solo acepta evidencias ya validadas (par canónico + score en rango).",
+        why: "Composición con invariantes reales: `add` no revalida todo el caso. El invariante vive en el value object, el tipo pequeño sin identidad propia que se valida al construirse. Solo acepta evidencias ya validadas (par canónico + score en rango).",
         retrospective:
           "Composición mantiene el grafo auditable: el expediente **tiene** entidades y evidencias, no hereda “Persona base”. El par canónico evita duplicar (E1,E2)/(E2,E1); el score es **dato**, no parentesco. Pregunta de auto-chequeo: ¿dónde vivirías un `is_family()` si te lo pidieran? (fuera del value object). We Do: reemplazar herencia, arreglar default mutable en CaseFile y codificar el par canónico.",
       },
@@ -822,7 +822,7 @@ scores [0.31, 0.12]`,
         environment: "local-python",
         description: "Protocol EntityStore con get/save; FakeStore en memoria.",
         preamble:
-          "El servicio de dominio no debe importar SQLite ni HTTP para guardar una entidad. Observa el `Protocol EntityStore` (un puerto: un punto de extensión del dominio, descrito por sus métodos `get`/`save`) y un `FakeStore` (una implementación de mentira, útil para tests) en memoria que cumple el contrato por forma. Sigue `upsert`: depende del puerto, no de una clase base pesada. Predice el dict de `E9` en la salida. El adapter real (la implementación concreta que habla con la base de datos) llega en S12.",
+          "El servicio de dominio no debe importar SQLite ni HTTP para guardar una entidad. Observa el `Protocol EntityStore`, un puerto descrito por sus métodos `get` y `save`. A su lado, un `FakeStore` en memoria, una implementación de mentira útil para tests, cumple el contrato solo por tener esa forma. Sigue `upsert`: depende del puerto, no de una clase base pesada. Predice el dict de `E9` en la salida. El adapter real (la implementación concreta que habla con la base de datos) llega en S12.",
         code: {
           language: 'python',
           title: "fake_store.py",
@@ -857,7 +857,7 @@ print(upsert(FakeStore(), {"entity_id": "E9", "name": "Demo"}))`,
         environment: "local-python",
         description: "InMemoryClientRepository + service que no decide fraude.",
         preamble:
-          "La CLI de S10 no debe cargar las reglas de negocio: un `ClientService` (una capa que orquesta reglas de dominio) orquesta `register` sobre un repo en memoria (un repositorio, que es un patrón que aísla el acceso al almacén de datos) y devuelve un dict de borde. Observa que **no** existe `is_fraud` en el service. Predice el dict de Ana y `has_is_fraud False`. I/O de archivos (entrada/salida) y argparse (el módulo de Python que parsea argumentos de línea de comandos) quedan fuera del núcleo.",
+          "La CLI de S10 no debe cargar las reglas de negocio. Un `ClientService`, la capa que orquesta las reglas de dominio, ejecuta `register` sobre un repositorio en memoria y devuelve un dict de borde. Un repositorio es el patrón que aísla el acceso al almacén de datos. Observa que **no** existe `is_fraud` en el service. Predice el dict de Ana y `has_is_fraud False`. I/O de archivos (entrada/salida) y argparse (el módulo de Python que parsea argumentos de línea de comandos) quedan fuera del núcleo.",
         code: {
           language: 'python',
           title: "client_service.py",
@@ -1018,9 +1018,9 @@ print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"]))`,
         edgeCases: ["currency PEN", "dos decimales", "sin float"],
         tests: "Contrato exacto: repr con amount=Decimal('150.50') y currency='PEN'; el código no llama float().",
         feedback:
-          "Money de negocio se construye con `Decimal(\"150.50\")` desde texto. Pasar por `float` introduce ruido binario que luego rompe comparaciones y quantize en las invariantes de T1-B. Los campos obligatorios sin default obligan a nombrar moneda y monto en cada alta.",
+          "Money de negocio se construye con `Decimal(\"150.50\")` desde texto. Pasar por `float` introduce ruido binario que luego rompe comparaciones y quantize en los invariantes de T1-B. Los campos obligatorios sin default obligan a nombrar moneda y monto en cada alta.",
         retrospective:
-          "Money en dominio se construye desde texto para evitar ruido binario. El mismo rigor de tipo prepara las invariantes de T1-B (positivo, 2 decimales, allowlist PEN/USD).",
+          "Money en dominio se construye desde texto para evitar ruido binario. El mismo rigor de tipo prepara los invariantes de T1-B (positivo, 2 decimales, allowlist PEN/USD).",
         starterCode: {
           language: 'python',
           title: "transaction.py",
@@ -2572,7 +2572,7 @@ DESPUES signal_score 0.95 has_decide_fraud False`,
   youDo: {
     title: "Modelo de dominio Cliente–Transacción–Evidencia",
     context:
-      "Implementas el núcleo de **CP-N1-C**: `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence` con invariantes (reglas que el objeto siempre cumple), serialización (conversión a dict plano) y repo en memoria (un repositorio que guarda los objetos en un diccionario). **Ninguna clase decide fraude o parentesco.**",
+      "Implementas el núcleo de **CP-N1-C**: `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence`. Cada uno lleva invariantes (reglas que el objeto siempre cumple), serialización a dict plano y un repositorio en memoria que guarda los objetos en un diccionario. **Ninguna clase decide fraude o parentesco.**",
     objectives: [
       "Implementar ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence",
       "Invariantes en construcción y equality consciente (igualdad que decide si dos objetos son 'el mismo')",
