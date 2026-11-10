@@ -38,6 +38,30 @@
       "reason_contains": "out/ is produced by npm run build:static",
       "why": "The unit job does not build the site; the source half of this contract runs here.",
       "covered_by": "CI job 'Platform build (static)' runs this file as __main__ after the build, where a missing out/ fails"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_starter_is_not_the_answer.BatchOneStartersAreNotTheAnswer.test_enough_exercises_were_run",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_starter_is_not_the_answer.BatchOneStartersAreNotTheAnswer.test_no_new_starter_prints_the_answer",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_starter_is_not_the_answer.BatchOneStartersAreNotTheAnswer.test_owed_list_only_shrinks",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }

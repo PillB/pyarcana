@@ -101,6 +101,19 @@ ana perez`,
       },
     },
     {
+      heading: "Contraejemplo: importar el módulo ejecuta el CLI",
+      paragraphs: [
+        "Los dos módulos definen la misma `normalizar`; los distingue la línea que arranca el CLI. En `limpieza_sin_guarda` esa línea está suelta en el módulo, y en `limpieza_con_guarda` está dentro de `if __name__ == '__main__':`. El ejemplo importa cada uno, como haría otro módulo que solo quiere la función.",
+        "Después del primer `antes del import` aparece `CLI: procesando data/clientes.csv ...`, aunque nadie pidió ejecutar el CLI. Con la guarda, el import solo carga la función y `normalizar` responde igual.",
+      ],
+      code: {
+        language: "python",
+        title: "import_sin_guarda.py",
+        code: "# Error: el arranque del CLI está suelto en el módulo\nimport sys\nimport tempfile\nfrom pathlib import Path\n\ncarpeta = Path(tempfile.mkdtemp())\nsys.path.insert(0, str(carpeta))\n\ncuerpo = \"def normalizar(t):\\n    return ' '.join(t.split()).casefold()\\n\\n\"\n\n(carpeta / \"limpieza_sin_guarda.py\").write_text(\n    cuerpo + \"print('CLI: procesando data/clientes.csv ...')\\n\", encoding=\"utf-8\")\nprint(\"antes del import\")\nimport limpieza_sin_guarda\nprint(\"normalizar →\", limpieza_sin_guarda.normalizar(\"  Ana  PEREZ \"))\n\n# Corrección: el arranque solo corre cuando el archivo se ejecuta como script\n(carpeta / \"limpieza_con_guarda.py\").write_text(\n    cuerpo + \"if __name__ == '__main__':\\n\"\n             \"    print('CLI: procesando data/clientes.csv ...')\\n\", encoding=\"utf-8\")\nprint(\"antes del import\")\nimport limpieza_con_guarda\nprint(\"normalizar →\", limpieza_con_guarda.normalizar(\"  Ana  PEREZ \"))",
+        output: "antes del import\nCLI: procesando data/clientes.csv ...\nnormalizar → ana perez\nantes del import\nnormalizar → ana perez",
+      },
+    },
+    {
       heading: "Dependencias cíclicas y API pública",
       figure: {
         id: "S10-package-layout",
@@ -138,6 +151,19 @@ True`,
         title: "No exportes _internals",
         content:
           "Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperlo.",
+      },
+    },
+    {
+      heading: "Contraejemplo: dos módulos que se importan entre sí fallan al cargar",
+      paragraphs: [
+        "El ejemplo escribe módulos reales en una carpeta temporal y la pone al inicio de `sys.path` solo mientras dura la prueba. En el error, `clientes` importa `validar` de `reglas` y `reglas` importa `normalizar` de `clientes`. En la corrección, la función compartida vive en `texto_util` y los otros dos la importan de allí.",
+        "La primera línea es el `ImportError` del ciclo: `reglas` pide `normalizar` cuando `clientes` todavía no terminó de ejecutarse, y Python lo llama *partially initialized module*, es decir, un módulo a medio cargar. La segunda línea muestra que, sin ciclo, `normalizar` y `validar` funcionan desde `clientes`.",
+      ],
+      code: {
+        language: "python",
+        title: "ciclo_importacion.py",
+        code: "# Error: clientes importa de reglas y reglas importa de clientes\nimport sys\nimport tempfile\nfrom pathlib import Path\n\n\ndef crear_paquete(archivos: dict[str, str]) -> Path:\n    # Carpeta temporal que hace de proyecto; solo existe durante el ejemplo\n    carpeta = Path(tempfile.mkdtemp())\n    for nombre, codigo in archivos.items():\n        (carpeta / nombre).write_text(codigo, encoding=\"utf-8\")\n    return carpeta\n\n\ncarpeta = crear_paquete({\n    \"clientes.py\": \"from reglas import validar\\n\"\n                   \"def normalizar(t):\\n    return t.strip().casefold()\\n\",\n    \"reglas.py\": \"from clientes import normalizar\\n\"\n                 \"def validar(t):\\n    return normalizar(t) != ''\\n\",\n})\nsys.path.insert(0, str(carpeta))\ntry:\n    import clientes\nexcept ImportError as e:\n    print(\"ciclo →\", type(e).__name__ + \":\", str(e).rsplit(\" (\", 1)[0])\nsys.path.remove(str(carpeta))\nfor nombre in (\"clientes\", \"reglas\"):\n    sys.modules.pop(nombre, None)\n\n# Corrección: lo compartido vive en un tercer módulo\ncarpeta = crear_paquete({\n    \"texto_util.py\": \"def normalizar(t):\\n    return t.strip().casefold()\\n\",\n    \"clientes.py\": \"from texto_util import normalizar\\nfrom reglas import validar\\n\",\n    \"reglas.py\": \"from texto_util import normalizar\\n\"\n                 \"def validar(t):\\n    return normalizar(t) != ''\\n\",\n})\nsys.path.insert(0, str(carpeta))\nimport clientes\nprint(\"sin ciclo →\", clientes.normalizar(\"  ANA \"), clientes.validar(\"  ANA \"))",
+        output: "ciclo → ImportError: cannot import name 'normalizar' from partially initialized module 'clientes' (most likely due to a circular import)\nsin ciclo → ana True",
       },
     },
     {
@@ -194,6 +220,19 @@ layout src/familiarity_core/__init__.py`,
       },
     },
     {
+      heading: "Contraejemplo: el layout plano importa la copia local en lugar de lo instalado",
+      paragraphs: [
+        "La carpeta `instalado/` hace de lo que `pip` instaló, con la versión `0.2.0`. Al ejecutar desde la raíz de un repo, esa raíz va primero en `sys.path`; el ejemplo reproduce ese orden para dos repos. El de layout plano tiene una copia vieja de `familiarity_core` en la raíz y el de layout src la tiene dentro de `src/`.",
+        "Con layout plano, Python encuentra primero la copia local y responde `0.1.0-copia-local`: tus pruebas pasan contra un código que el usuario no instaló. Con layout src, la raíz ya no contiene el paquete y el import llega a `0.2.0`. Lo mismo pasa si agregas la raíz a mano con `PYTHONPATH=.` o con `sys.path`.",
+      ],
+      code: {
+        language: "python",
+        title: "layout_plano_vs_src.py",
+        code: "# Error: layout plano; una copia vieja del paquete queda en la raíz del repo\nimport sys\nimport tempfile\nfrom pathlib import Path\n\nbase = Path(tempfile.mkdtemp())\n\n\ndef escribir(ruta: Path, version: str) -> None:\n    ruta.mkdir(parents=True)\n    (ruta / \"__init__.py\").write_text(f\"__version__ = '{version}'\\n\", encoding=\"utf-8\")\n\n\n# Lo instalado con pip vive en otra carpeta (aquí, «instalado/»)\nescribir(base / \"instalado\" / \"familiarity_core\", \"0.2.0\")\n\n\ndef importar_desde(carpeta_actual: Path) -> str:\n    # Al ejecutar desde la raíz del repo, esa carpeta va primero en sys.path\n    sys.modules.pop(\"familiarity_core\", None)\n    sys.path[:0] = [str(carpeta_actual), str(base / \"instalado\")]\n    import familiarity_core\n    del sys.path[:2]\n    return familiarity_core.__version__\n\n\nescribir(base / \"repo_plano\" / \"familiarity_core\", \"0.1.0-copia-local\")\nprint(\"layout plano →\", importar_desde(base / \"repo_plano\"))\n\n# Corrección: layout src; la raíz del repo ya no contiene el paquete\nescribir(base / \"repo_src\" / \"src\" / \"familiarity_core\", \"0.1.0-copia-local\")\nprint(\"layout src   →\", importar_desde(base / \"repo_src\"))",
+        output: "layout plano → 0.1.0-copia-local\nlayout src   → 0.2.0",
+      },
+    },
+    {
       heading: "Qué hace `pytest` y por qué es una dependencia de desarrollo",
       paragraphs: [
         "`pytest` es una herramienta que ejecuta comprobaciones escritas en Python y muestra cuáles pasan o fallan. Existe para repetir esas comprobaciones con un solo comando después de cada cambio. Quien usa el paquete no la necesita para ejecutar el CLI; quien desarrolla el paquete sí la necesita para comprobarlo.",
@@ -235,6 +274,19 @@ print("1.0.0 + rename API", bump("1.0.0", "major"))`,
         title: "Hacia S11",
         content:
           "En S11 modelarás entidades de dominio (p. ej. un futuro `ClientRecord`). Si renombras un tipo o firma pública del paquete, es breaking: documenta migración y sube major.",
+      },
+    },
+    {
+      heading: "Contraejemplo: clasificar el cambio por subcadenas del texto",
+      paragraphs: [
+        "`classify_change` es la función de la demo de T2-B: busca palabras dentro de la descripción. El error le pasa tres descripciones reales; la corrección guarda el tipo del cambio en un campo `kind` que quien registra el cambio declara, y deja el texto solo para leer.",
+        "`fix address parsing` sale como `minor` porque `address` contiene `add`, y `renombrar normalize` sale como `patch` porque la regla busca `rename api` en inglés: un cambio incompatible publicado como parche. Con el campo `kind`, los tres cambios reciben su nivel sin depender de cómo se redactó el label.",
+      ],
+      code: {
+        language: "python",
+        title: "classify_subcadenas.py",
+        code: "# Error: el tipo de cambio se adivina buscando trozos de texto\ndef classify_change(description: str) -> str:\n    d = description.lower()\n    if \"breaking\" in d or \"rename api\" in d:\n        return \"major\"\n    if \"add\" in d or \"subcomando\" in d or \"feature\" in d:\n        return \"minor\"\n    return \"patch\"\n\n\nprint(\"texto → fix address parsing:\", classify_change(\"fix address parsing\"))\nprint(\"texto → rename api normalize:\", classify_change(\"rename api normalize\"))\nprint(\"texto → renombrar normalize:\", classify_change(\"renombrar normalize\"))\n\n# Corrección: quien registra el cambio declara su tipo en un campo propio\nNIVEL = {\"fix\": \"patch\", \"feature\": \"minor\", \"breaking\": \"major\"}\ncambios = [\n    {\"kind\": \"fix\", \"label\": \"fix address parsing\"},\n    {\"kind\": \"breaking\", \"label\": \"rename api normalize\"},\n    {\"kind\": \"breaking\", \"label\": \"renombrar normalize\"},\n]\nfor cambio in cambios:\n    print(\"kind →\", cambio[\"label\"] + \":\", NIVEL[cambio[\"kind\"]])",
+        output: "texto → fix address parsing: minor\ntexto → rename api normalize: major\ntexto → renombrar normalize: patch\nkind → fix address parsing: patch\nkind → rename api normalize: major\nkind → renombrar normalize: major",
       },
     },
     {
@@ -362,6 +414,19 @@ print(cfg)`,
       },
     },
     {
+      heading: "Contraejemplo: un flag sin valor pisa la variable de entorno",
+      paragraphs: [
+        "El operador exportó `FAMILIARITY_LOG_LEVEL=DEBUG` y no pasó `--log-level`, así que argparse deja ese flag en `None`. `combinar_ingenuo` aplica las capas con `update` tal como llegan, y `combinar` salta los valores `None`.",
+        "El resultado ingenuo es `{'log_level': None}`: la capa más alta borró el `DEBUG` del entorno con un valor que significaba «no pasado». Al aplicarlo, `setLevel` lanza `TypeError`. La versión corregida conserva `DEBUG` y el logger queda en ese nivel.",
+      ],
+      code: {
+        language: "python",
+        title: "flag_none_pisa_env.py",
+        code: "# Error: update copia también los None de las capas altas\nimport logging\n\ndefaults = {\"log_level\": \"INFO\"}\nenv_cfg = {\"log_level\": \"DEBUG\"}  # FAMILIARITY_LOG_LEVEL=DEBUG\nflags = {\"log_level\": None}       # el operador no pasó --log-level\n\n\ndef combinar_ingenuo(defaults, env_cfg, flags):\n    out = dict(defaults)\n    out.update(env_cfg)\n    out.update(flags)\n    return out\n\n\ncfg = combinar_ingenuo(defaults, env_cfg, flags)\nprint(\"ingenuo  →\", cfg)\ntry:\n    logging.getLogger(\"cx.cfg\").setLevel(cfg[\"log_level\"])\nexcept TypeError as e:\n    print(\"al aplicarla →\", type(e).__name__ + \":\", e)\n\n\n# Corrección: None significa «no pasado» y no pisa la capa anterior\ndef combinar(defaults, env_cfg, flags):\n    out = dict(defaults)\n    for capa in (env_cfg, flags):\n        out.update({k: v for k, v in capa.items() if v is not None})\n    return out\n\n\ncfg = combinar(defaults, env_cfg, flags)\nprint(\"corregido →\", cfg)\nlogging.getLogger(\"cx.cfg\").setLevel(cfg[\"log_level\"])\nprint(\"al aplicarla → nivel\", logging.getLevelName(logging.getLogger(\"cx.cfg\").level))",
+        output: "ingenuo  → {'log_level': None}\nal aplicarla → TypeError: Level not an integer or a valid string: None\ncorregido → {'log_level': 'DEBUG'}\nal aplicarla → nivel DEBUG",
+      },
+    },
+    {
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
@@ -397,6 +462,44 @@ config: falta input_path para ingest`,
         title: "Secretos",
         content:
           "No agregues secretos que el comando local no usa. Si un adaptador remoto usa token, valídalo solo allí y jamás lo incluyas en traceback/log.",
+      },
+    },
+    {
+      heading: "Contraejemplo: validar la configuración al final procesa miles de filas",
+      paragraphs: [
+        "La configuración tiene `input_path` pero le falta `manifest_path`, que `ingest` necesita al final. En el error, `ingest` recorre las 10 000 filas y solo después busca la clave. En la corrección, `validate_config` revisa la clave antes de tocar una fila.",
+        "La primera línea es un `KeyError: 'manifest_path'` que llega con `10000` filas ya procesadas: todo ese trabajo se descarta y el mensaje no dice qué subcomando necesitaba la clave. La segunda falla con `0` filas procesadas y nombra la clave y el subcomando.",
+      ],
+      code: {
+        language: "python",
+        title: "validar_tarde.py",
+        code: "# Error: se procesa primero y la configuración se mira al final\nfilas = [{\"id\": f\"C{i:05d}\"} for i in range(1, 10_001)]\nprogreso = {\"procesadas\": 0}\n\n\ndef validate_config(cfg: dict, command: str) -> None:\n    required = {\"ingest\": \"manifest_path\"}.get(command)\n    if required and not cfg.get(required):\n        raise RuntimeError(f\"config: falta {required} para {command}\")\n\n\ndef ingest(cfg: dict, filas: list[dict]) -> str:\n    for _fila in filas:\n        progreso[\"procesadas\"] += 1\n    return cfg[\"manifest_path\"]  # recién aquí se usa la clave\n\n\ncfg = {\"input_path\": \"data/clientes.csv\"}  # falta manifest_path\n\ntry:\n    ingest(cfg, filas)\nexcept KeyError as e:\n    print(\"falla tarde: KeyError\", e, \"| filas ya procesadas:\", progreso[\"procesadas\"])\n\n# Corrección: se valida al arrancar, antes de tocar una sola fila\nprogreso[\"procesadas\"] = 0\ntry:\n    validate_config(cfg, \"ingest\")\n    ingest(cfg, filas)\nexcept RuntimeError as e:\n    print(\"falla al arrancar:\", e, \"| filas ya procesadas:\", progreso[\"procesadas\"])",
+        output: "falla tarde: KeyError 'manifest_path' | filas ya procesadas: 10000\nfalla al arrancar: config: falta manifest_path para ingest | filas ya procesadas: 0",
+      },
+    },
+    {
+      heading: "Contraejemplo: el mensaje de error publica el token",
+      paragraphs: [
+        "La configuración tiene un `timeout_s` inválido y un `api_token` sintético. El error arma el mensaje con el diccionario entero porque «así se ve todo»; la corrección nombra la clave y el subcomando. `traceback.format_exc()` devuelve la traza que vería quien lee el log.",
+        "La primera `última línea` contiene `'api_token': 'tok-demo-0000-no-real'`, y la comprobación da `True`: el token queda en cualquier log, ticket o captura que copie esa traza. La segunda dice qué corregir y no contiene el token.",
+      ],
+      code: {
+        language: "python",
+        title: "traza_con_token.py",
+        code: "# Error: el mensaje vuelca toda la configuración, token incluido\nimport traceback\n\ncfg = {\n    \"api_url\": \"https://api.example.com\",\n    \"api_token\": \"tok-demo-0000-no-real\",\n    \"timeout_s\": 0,\n}\n\ntry:\n    if cfg[\"timeout_s\"] <= 0:\n        raise RuntimeError(f\"config inválida: {cfg}\")\nexcept RuntimeError:\n    traza = traceback.format_exc()\n    print(\"última línea:\", traza.splitlines()[-1])\n    print(\"token en la traza:\", cfg[\"api_token\"] in traza)\n\n# Corrección: el mensaje nombra la clave y el subcomando, nunca el valor secreto\ntry:\n    if cfg[\"timeout_s\"] <= 0:\n        raise RuntimeError(\"config: timeout_s debe ser > 0 para fetch\")\nexcept RuntimeError:\n    traza = traceback.format_exc()\n    print(\"última línea:\", traza.splitlines()[-1])\n    print(\"token en la traza:\", cfg[\"api_token\"] in traza)",
+        output: "última línea: RuntimeError: config inválida: {'api_url': 'https://api.example.com', 'api_token': 'tok-demo-0000-no-real', 'timeout_s': 0}\ntoken en la traza: True\núltima línea: RuntimeError: config: timeout_s debe ser > 0 para fetch\ntoken en la traza: False",
+      },
+    },
+    {
+      heading: "Contraejemplo: un .env con el token commiteado queda en el historial",
+      paragraphs: [
+        "La transcripción muestra dos repos. En el primero, `git add .` incluye el `.env` y el commit lo guarda; borrarlo después con `git rm --cached` y agregarlo a `.gitignore` solo cambia los commits siguientes. En el segundo, `.gitignore` existe desde el inicio y el repo guarda únicamente `.env.example`, una plantilla sin valores.",
+        "`git log -p` encuentra el token en el historial del primer repo aunque el archivo ya no esté en la carpeta: quien clone el repo puede leerlo, y la única salida segura es rotar el token. En el segundo repo, `git status --ignored` marca `.env` con `!!`, es decir, ignorado, y el commit no lo contiene.",
+      ],
+      code: {
+        language: "bash",
+        title: "git_env_historial",
+        code: "# Error: el .env entra en el primer commit\n$ echo \"API_TOKEN=syn-token-000-no-real\" > .env\n$ git add . && git commit -m \"config inicial\"\n$ git show --stat --format= HEAD\n .env   | 1 +\n app.py | 1 +\n 2 files changed, 2 insertions(+)\n$ git rm --cached .env && echo \".env\" > .gitignore\n$ git add .gitignore && git commit -m \"ignorar .env\"\n$ git log --all -p -- .env | grep API_TOKEN\n-API_TOKEN=syn-token-000-no-real\n+API_TOKEN=syn-token-000-no-real\n\n# Corrección: .gitignore antes del primer commit; se versiona solo la plantilla\n$ echo \".env\" > .gitignore\n$ echo \"API_TOKEN=syn-token-000-no-real\" > .env\n$ echo \"API_TOKEN=\" > .env.example\n$ git add . && git commit -m \"config inicial\"\n$ git show --stat --format= HEAD\n .env.example | 1 +\n .gitignore   | 1 +\n app.py       | 1 +\n 3 files changed, 3 insertions(+)\n$ git status --ignored --short\n!! .env",
       },
     },
   ],
@@ -525,10 +628,10 @@ editable_install pip install -e .`,
           language: 'python',
           title: "version_bump_demo.py",
           code: `def classify_change(description: str) -> str:
-    d = description.lower()
-    if "breaking" in d or "rename api" in d:
+    palabras = description.lower().split()
+    if "breaking" in palabras or ("rename" in palabras and "api" in palabras):
         return "major"
-    if "add" in d or "subcomando" in d or "feature" in d:
+    if "add" in palabras or "subcomando" in palabras or "feature" in palabras:
         return "minor"
     return "patch"
 

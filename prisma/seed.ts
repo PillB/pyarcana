@@ -650,9 +650,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En un registro sintético de intake, `region = "Lima"` y `ALLOWED = {"Lima", "Arequipa", "Cusco"}`. ¿Qué devuelve `region in ALLOWED` y por qué usas `in` aquí?',
       options: [
         'True; in prueba pertenencia en el set de regiones permitidas',
+        'True; pero solo porque "Lima" es el primer elemento del set',
+        'False; in compara region con el set completo, no con cada región por separado',
         'False; in solo sirve con listas',
-        'Error; hay que usar == con cada elemento a mano',
-        'None; in no devuelve booleano',
       ],
       correctIndex: 0,
       explanation:
@@ -663,10 +663,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para comprobar que un monto está entre 1000 y 2000 inclusive, ¿cuál expresión es idiomática y correcta?',
       options: [
-        'monto > 1000 or monto < 2000',
+        'monto >= 1000 or monto <= 2000',
         '1000 <= monto <= 2000',
-        'monto = 1000 and monto = 2000',
-        'monto in 1000..2000',
+        '1000 < monto < 2000, porque el encadenamiento ya incluye las fronteras',
+        'monto in 1000..2000, como un rango cerrado',
       ],
       correctIndex: 1,
       explanation:
@@ -677,10 +677,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un validador, `valor` puede faltar. ¿Cuál es la forma correcta de preguntar ausencia vs igualdad de valor?',
       options: [
-        'if valor is 0: para ausencia; if valor == None: para cero',
-        'if valor is None y if valor is 0 son intercambiables',
+        'if valor == None: ausencia; if valor is 0: el valor cero',
+        'if not valor: para ausencia, porque None y 0 son falsy y significan lo mismo',
         'if valor is None: para ausencia; if valor == 0: para el valor cero',
-        'if not valor: siempre distingue None de 0',
+        'if valor is None or valor == 0: para ausencia, y else para el cero válido',
       ],
       correctIndex: 2,
       explanation:
@@ -692,10 +692,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En el motor de reglas, ¿por qué es un bug usar solo `if monto:` para validar un monto de intake?',
       options: [
-        'Porque if no acepta int',
+        'Porque if monto: lanza TypeError cuando monto es un int en lugar de un bool',
         'Porque 0 es falsy y un cero válido se trataría como “sin monto”, confundiendo ausencia con valor',
-        'Porque monto siempre es str',
-        'Porque and/or no funcionan con números',
+        'Porque un monto negativo es falsy, así que if monto: no detecta los negativos',
+        'Porque 0 es truthy, así que un monto vacío pasaría como si tuviera valor',
       ],
       correctIndex: 1,
       explanation:
@@ -705,10 +705,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'truthiness-shortcircuit',
       question: '¿Qué imprime la expresión `"" or "default"` en Python y por qué?',
       options: [
-        'True, porque or siempre devuelve bool',
-        'False, porque la cadena vacía gana',
+        'True, porque or convierte su resultado en bool antes de devolverlo',
+        '"", porque or devuelve siempre el primer operando aunque sea falsy',
         '"default", porque or con short-circuit devuelve el primer operando truthy (o el último)',
-        'None, porque or no evalúa strings',
+        'False, porque la cadena vacía es falsy y or se detiene en el primer valor falsy que encuentra',
       ],
       correctIndex: 2,
       explanation:
@@ -719,9 +719,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Con la política `None → review`, `0 → accept`, negativo → reject: si `m = 0`, ¿cuál rama es correcta?',
       options: [
-        'if m: return "accept" (porque 0 “existe”)',
-        'if not m: return "reject" siempre',
-        'if m == False: accept',
+        'if m: return "accept"; else: return "review", porque 0 cuenta como dato presente',
+        'if not m: return "review"; elif m < 0: return "reject"; y lo demás accept',
+        'if m is None or m == 0: review; elif m < 0: reject; else: accept',
         'if m is None: review; elif m == 0: accept; elif m < 0: reject',
       ],
       correctIndex: 3,
@@ -734,10 +734,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para clasificar un score en accept (≥80), review (≥50) o reject, ¿por qué prefieres `if/elif/else` a tres `if` independientes?',
       options: [
-        'Porque elif es más rápido en el intérprete',
-        'Porque else es obligatorio en Python',
+        'Porque elif evalúa todas las condiciones y se queda con la última verdadera',
+        'Porque tres if independientes no pueden comparar el mismo score dos veces',
         'Porque la primera condición verdadera gana y las ramas son excluyentes; tres if pueden sobrescribir el status',
-        'Porque if no puede comparar enteros',
+        'Porque con elif el intérprete ejecuta las ramas en paralelo y termina antes, así que el motor responde más rápido',
       ],
       correctIndex: 2,
       explanation:
@@ -748,9 +748,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Con `def classify(score): if score >= 80: return "accept"; elif score >= 50: return "review"; else: return "reject"`, ¿qué devuelve `classify(80)` y `classify(50)`?',
       options: [
-        'review y reject (las fronteras se excluyen)',
-        'reject y accept',
-        'Error de sintaxis en elif',
+        'review y reject, porque >= excluye la frontera en el primer match',
+        'accept y accept, porque 50 ≥ 50',
+        'review y review, porque elif se evalúa antes que el if cuando hay empate en la frontera',
         'accept y review (fronteras inclusive en el primer match)',
       ],
       correctIndex: 3,
@@ -763,9 +763,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un colega escribe dos `if` seguidos que asignan `status` (sin elif). Score=90 termina en "review" aunque el primer if era accept. ¿Qué falló?',
       options: [
         'El segundo if también se evaluó y sobrescribió status; no hay exclusión mutua',
-        'Python ignora el primer if siempre',
-        'Falta un match/case obligatorio',
-        'score >= 80 es inválido en Python',
+        'Python evaluó solo el segundo if: el último if reemplaza a los anteriores',
+        'El primer if no se cumplió porque score >= 80 es falso cuando score vale 90',
+        'Faltó un else al final; sin else, Python descarta el primer resultado',
       ],
       correctIndex: 0,
       explanation:
@@ -777,9 +777,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Cuál es el orden típico de guard clauses en un validador de edad de intake?',
       options: [
-        'Rango → tipo → is None → accept',
-        'accept primero y luego los errores',
-        'Solo if anidados de 4 niveles sin return',
+        'rango/allowlist → tipo → is None → accept, en ese orden',
+        'tipo → is None → rango/allowlist → accept, porque el tipo se valida antes que todo',
+        'accept primero → is None → tipo → rango/allowlist',
         'is None → tipo → rango/allowlist → accept',
       ],
       correctIndex: 3,
@@ -792,9 +792,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si escribes `if edad < 18: ...` antes de `if edad is None:`, ¿qué riesgo concreto hay?',
       options: [
         'TypeError al comparar None con int; la guard de ausencia debe ir primero',
-        'Ninguno; None es menor que 18',
-        'SyntaxError por el orden de if',
-        'edad se convierte sola a 0',
+        'Ninguno; None vale 0 al comparar',
+        'Ninguno grave: el if de ausencia que viene después corrige el resultado del primero',
+        'SyntaxError: Python exige que el if de ausencia aparezca antes que cualquier comparación numérica',
       ],
       correctIndex: 0,
       explanation:
@@ -805,10 +805,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Tras `if x >= 0: return "ok"` un `elif x > 5:` nunca se ejecuta para positivos. ¿Cómo se llama ese problema de diseño?',
       options: [
-        'Short-circuit de or',
+        'Cortocircuito de elif: Python deja de leer ramas cuando encuentra un return',
         'Rama muerta / inalcanzable por el orden de condiciones',
-        'Allowlist incompleta',
-        'Falsy de strings',
+        'Guard clause invertida por usar >= en lugar de >',
+        'Allowlist incompleta en el rango de x',
       ],
       correctIndex: 1,
       explanation:
@@ -821,9 +821,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En S03, `ALLOWED_REG = {"Lima", "Arequipa", "Cusco"}` y `region = "Tacna"`. Con política “desconocido → review”, ¿qué status corresponde?',
       options: [
         'review, porque no está en la allowlist (dato desconocido)',
-        'accept, porque es un str no vacío',
-        'reject automático sin código de error',
-        'Error de sintaxis al usar set',
+        'accept, porque "Tacna" es un str no vacío',
+        'reject: fuera de la allowlist siempre es fallo duro',
+        'review, pero solo si además la edad está fuera de rango',
       ],
       correctIndex: 0,
       explanation:
@@ -834,10 +834,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Combinas región en allowlist y `18 <= edad <= 65`. Si región es válida pero edad=15, ¿qué status hard-fail es el más coherente en el demo del curso?',
       options: [
-        'accept',
+        'review por edad, porque la región válida compensa el rango',
         'reject por fuera de rango de edad',
-        'review solo por región',
-        'None como status',
+        'accept, porque la región válida basta para aprobar',
+        'reject por región, porque cualquier fallo marca la región como desconocida',
       ],
       correctIndex: 1,
       explanation:
@@ -848,10 +848,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Por qué conviene nombrar la allowlist en `UPPER_CASE` (p. ej. `ALLOWED_DOC_TYPES`) en el motor de reglas?',
       options: [
-        'Porque Python exige mayúsculas para sets',
-        'Porque in no funciona con nombres en minúsculas',
+        'Porque Python convierte en constante, de solo lectura, cualquier nombre escrito en mayúsculas',
+        'Porque in solo busca dentro de variables cuyo nombre está en UPPER_CASE',
         'Por convención de constantes de módulo: deja claro que es política de dominio estable',
-        'Porque el linter borra las minúsculas',
+        'Para que el linter lo trate como set, ya que no sabe qué tipo tienen los nombres en minúsculas',
       ],
       correctIndex: 2,
       explanation:
@@ -863,10 +863,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué es una decision table en el contexto del motor de reglas de intake?',
       options: [
-        'Un CSV obligatorio de pandas',
+        'La sintaxis match/case de Python, que reemplaza a la tabla escrita por el negocio',
         'Una tabla de negocio: filas de condiciones → acción, que luego implementas con if o match',
-        'Solo la sintaxis match/case de Python',
-        'Un dict vacío sin ejemplos',
+        'Un CSV de entrada que el motor lee para inferir las reglas sin escribir if',
+        'Un dict de Python que guarda cada status con su mensaje, sin condiciones ni ejemplos',
       ],
       correctIndex: 1,
       explanation:
@@ -877,10 +877,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Con `match code: case "MISSING" | "NEEDS_REVIEW": return "review"`, ¿qué expresa el patrón con `|`?',
       options: [
-        'AND lógico de dos códigos a la vez',
-        'Que code debe ser una lista',
+        'AND de los dos códigos: code debe coincidir con ambos a la vez',
+        'Que code debe ser una lista que contenga los dos códigos',
         'OR pattern: cualquiera de esos literales mapea a review',
-        'Un default obligatorio',
+        'Una alternativa de bits: compara los códigos como números con el operador |',
       ],
       correctIndex: 2,
       explanation:
@@ -891,9 +891,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Cuándo prefieres `if/elif` frente a `match/case` para una regla de intake?',
       options: [
-        'Siempre match; if está deprecado',
-        'Solo si Python es 2.7',
-        'Nunca; match cubre todos los rangos con case _',
+        'Siempre match/case, porque if/elif quedó obsoleto desde Python 3.10',
+        'Nunca: match/case cubre rangos numéricos con case _ igual que if/elif',
+        'Cuando los estados son literales finitos y estables, como códigos de error fijos que no cambian entre versiones',
         'Cuando hay rangos numéricos o combinaciones de varios campos que no son literales finitos',
       ],
       correctIndex: 3,
@@ -906,10 +906,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un invariante de campo dice: “`contacto` es str de 9 dígitos, o None si aún no se capturó”. ¿Qué falta para que sea usable en el gate?',
       options: [
-        'Solo un comentario TODO',
-        'Convertirlo a float',
+        'Convertir contacto a int para que la validación sea numérica y no dependa del formato del texto',
+        'Quitar el caso None, porque un invariante no puede admitir ausencia',
         'Ejemplos canónicos por estado (accept / reject / review) que demuestren el contrato',
-        'Borrar el caso None',
+        'Un comentario TODO que explique el formato a quien lo implemente',
       ],
       correctIndex: 2,
       explanation:
@@ -920,9 +920,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Por qué no debes usar solo `assert` como validación de negocio en el intake de producción?',
       options: [
-        'assert no existe en Python 3',
-        'assert solo funciona con str',
-        'assert siempre lanza KeyError',
+        'assert solo acepta comparaciones de str y no puede validar montos',
+        'assert lanza KeyError en lugar de un error con mensaje, y el gate no lo puede leer',
+        'assert solo se ejecuta dentro de los tests, así que en el intake nunca se evalúa',
         'python -O desactiva asserts; las reglas de negocio deben devolver status/code/message',
       ],
       correctIndex: 3,
@@ -935,9 +935,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para `validate_contacto`, ¿cuál trío de ejemplos cubre bien el invariante de 9 dígitos o None?',
       options: [
         '"999000111"→accept, "12345"→reject, None→review (y vacío "  "→reject)',
-        'Solo "999000111" → accept',
-        'None→accept y "abc"→accept',
-        'Cualquier truthy → accept',
+        '"999000111"→accept y "123456789"→accept: dos ejemplos válidos bastan para fijar el formato',
+        'None→accept, "abc"→reject y "999000111"→accept, porque ausencia no es un error',
+        'Cualquier valor truthy→accept y cualquier falsy→reject',
       ],
       correctIndex: 0,
       explanation:
@@ -949,9 +949,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Cuál mensaje es accionable al rechazar edad=-5 en el validador?',
       options: [
-        'Error',
-        'inválido',
-        'fail',
+        'Error: el valor de edad no es válido.',
+        'Campo inválido; revisa los datos de entrada.',
+        'Rechazado por la regla de edad del motor.',
         "Campo 'edad'=-5 fuera de rango; usa 0–120.",
       ],
       correctIndex: 3,
@@ -964,9 +964,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si el validador de edad tiene 4 caminos (None, tipo mal, rango, OK), ¿cuántos casos de prueba mínimos necesitas?',
       options: [
         'Al menos 4: un test por rama, incluyendo el default',
-        '1 (solo el camino feliz)',
-        '0 si el código “se ve bien”',
-        'Solo tests de match/case',
+        '1: solo el camino feliz',
+        '3: el default no necesita test porque es el camino feliz',
+        'Al menos 4, pero solo de las ramas que devuelven reject',
       ],
       correctIndex: 0,
       explanation:
@@ -977,10 +977,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Al depurar `edad >= 18` vs `edad > 18` en el motor de reglas, ¿qué práctica del curso aplica?',
       options: [
-        'Loguear PII real del cliente en producción',
+        'Probar con datos reales del cliente para ver la frontera en producción',
         'Ciclo test rojo → ajustar frontera → verde, con datos sintéticos y códigos estables',
-        'Silenciar el else con except: pass',
-        'Usar solo print sin asserts',
+        'Silenciar el else con except: pass hasta que la frontera se estabilice',
+        'Imprimir edad con print en cada ejecución y ajustar la frontera a ojo, sin tests',
       ],
       correctIndex: 1,
       explanation:

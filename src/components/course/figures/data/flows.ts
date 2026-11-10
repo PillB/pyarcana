@@ -284,4 +284,38 @@ export const FLOW_FIGURES: Record<string, FigureData> = {
     outcome: 'Un par cross_split se reporta aparte y nunca cuenta como test.',
   },
 
+  // Proposal 05 (owner 2026-11-09): f-string is load-bearing once S12 gives it a worked example.
+  'S02-fstring-parts': {
+    kind: 'flow',
+    headline: 'Una f-string deja fijo el texto y rellena los huecos entre llaves',
+    stages: [
+      { label: 'f"…"', sub: 'la f activa las llaves', tint: 3 },
+      { label: 'Cliente: ', sub: 'texto fijo', tint: 1 },
+      { label: '{nombre}', sub: '→ José', tint: 2 },
+      { label: '{monto:.2f}', sub: '→ 99.50', tint: 2 },
+    ],
+    outcome: 'Resultado: «Cliente: José | Monto: S/ 99.50». Sin la f, Python imprime las llaves tal como están.',
+  },
+  'S02-capture-interpret-report': {
+    kind: 'flow',
+    headline: 'Capturar, interpretar, reportar: la f-string entra en el último paso',
+    stages: [
+      { label: 'capturar', sub: 'input() → str', tint: 3 },
+      { label: 'interpretar', sub: 'int(), Decimal()', tint: 1 },
+      { label: 'reportar', sub: 'f-string → mensaje', tint: 2 },
+    ],
+    boundaryAfter: 1,
+    boundaryLabel: 'desde aquí trabajas con el valor convertido',
+    outcome: 'Cada paso se comprueba por separado con valores conocidos, sin esperar a que alguien escriba en la consola.',
+  },
+  'S09-fstring-in-raise': {
+    kind: 'flow',
+    headline: 'Lo que la f-string mete en el raise reaparece en la traza',
+    stages: [
+      { label: 'raise', sub: 'f"…: {email}"', tint: 4 },
+      { label: 'log.exception', sub: 'mensaje enmascarado', tint: 2 },
+      { label: 'traza', sub: 'repite el texto del error', tint: 4 },
+    ],
+    outcome: 'La máscara del mensaje no llega al texto de la excepción. El motivo seguro se escribe sin el valor.',
+  },
 }
