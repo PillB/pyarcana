@@ -897,7 +897,7 @@ feat: primer commit`,
   ],
   iDo: {
     intro:
-      'Te muestro paso a paso cómo configuro un entorno desde cero. Los bloques son comandos reales que puedes copiar. Las líneas que empiezan con `# >>>` se escriben dentro del REPL, sin `# `, después de abrirlo con `python3`: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
+      'Te muestro paso a paso cómo configuro un entorno desde cero. Los bloques son comandos reales que puedes copiar. Después de abrir el REPL con `python3`, escribe solo lo que sigue a `# >>> ` en cada línea, porque el REPL ya muestra su propio `>>>`; las demás líneas con `#` son la respuesta que verás: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows puedes usar `python` o `py` y activar con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Mantén la laptop abierta, predice cada resultado y **repite cada comprobación** en tu shell. Empezamos por identificar el intérprete y leer códigos de salida antes de crear entornos virtuales.',
     steps: [
       {
         demoId: 'S01-T1-A-DEMO',

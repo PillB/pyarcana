@@ -118,7 +118,7 @@ class S01LearnerText(unittest.TestCase):
         for sentence in (
             "Si ninguna forma responde, todavía no tienes Python",
             "los tuyos pueden ser otros, y basta con que cada comando responda con una versión",
-            "Las líneas que empiezan con `# >>>` se escriben dentro del REPL",
+            "escribe solo lo que sigue a `# >>> ` en cada línea, porque el REPL ya muestra su propio `>>>`",
             "Monto mensual facturado en soles (S/), sea cual sea el pais",
         ):
             self.assertIn(sentence, self.s01)
