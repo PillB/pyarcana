@@ -147,7 +147,7 @@ ClientRecord C001`,
           "Una entrada, la f-string con el objeto c, se divide en dos ramas. Con el repr automático salen todos los campos; con repr=False en los campos personales sale solo client_id.",
       },
       paragraphs: [
-        "`@dataclass` genera un `__repr__` con todos los campos, y una f-string como `f\"registrado {c}\"` lo usa. La corrección declara `repr=False` en los campos personales: siguen en el objeto, pero no aparecen en su representación.",
+        "`@dataclass` genera un `__repr__` con todos los campos. Una f-string como `f\"registrado {c}\"` pide a `c` su texto con `str(c)`, y la dataclass responde con ese mismo `repr`. La corrección declara `repr=False` en los campos personales: siguen en el objeto, pero no aparecen en su representación.",
         "La primera línea de log lleva documento, nombre y correo de un registro que solo había que identificar. La segunda muestra `ClientRecordSeguro(client_id='C001')`, y la tercera confirma que el nombre sigue disponible para el código que lo necesite.",
       ],
       code: {

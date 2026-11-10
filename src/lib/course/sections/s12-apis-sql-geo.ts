@@ -449,7 +449,7 @@ print(try_batch_unique_doc())`,
       },
       paragraphs: [
         "La tabla tiene tres clientes, y el id que llega, `C999' OR '1'='1`, no existe pero trae un fragmento de SQL. El error lo pega con una f-string y el ejemplo imprime la consulta que resulta; la corrección pasa el mismo texto por el marcador `?`.",
-        "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`.",
+        "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`. Quitar o duplicar la comilla con `replace` arregla este id y deja abierto el siguiente; con el marcador, SQLite nunca lee el dato como parte de la consulta.",
       ],
       code: {
         language: "python",
