@@ -83,7 +83,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'basics', 'career-strategy', 'collections',
   'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
-  'dbt-bigquery', 'decisions-rules', 'exceptions-logging', 'fastapi',
+  'dbt-bigquery', 'exceptions-logging', 'fastapi',
   'files-ingestion', 'functions-contracts', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
@@ -99,7 +99,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // prints the banks near the line on every run.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
-  'collections', 'databases-orm', 'dbt-bigquery', 'decisions-rules',
+  'collections', 'databases-orm', 'dbt-bigquery',
   'fastapi', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
   'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
 ]
