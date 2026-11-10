@@ -54,14 +54,11 @@ BATCH_1 = [
 EXERCISE_ID = re.compile(r"""\bid:\s*["'](S\d\d-T\d-[AB]-E\d)["']""")
 
 #: Starters that still print the answer. Owed a real starter; remove an id when it is fixed.
-OWED: set[str] = {
-    # Refactor exercises: the starter already behaves like the solution, so stdout can't show the work.
-    "S05-T3-A-E3", "S05-T3-B-E2",
-    "S06-T4-A-E1",
-    "S07-T1-A-E2", "S07-T3-A-E1", "S07-T3-B-E1",
-    "S08-T1-B-E2", "S08-T3-A-E1",
-    "S11-T3-B-E1", "S11-T4-B-E1", "S11-T4-B-E2",
-}
+# 2026-11-10: emptied. The eleven ids listed here (S05-T3-A-E3, S05-T3-B-E2, S06-T4-A-E1,
+# S07-T1-A-E2, S07-T3-A-E1, S07-T3-B-E1, S08-T1-B-E2, S08-T3-A-E1, S11-T3-B-E1, S11-T4-B-E1,
+# S11-T4-B-E2) got real starters in the batch-1 section PRs (#141-#143, item C14), so the
+# two-sided check asked for them to leave. Any new offender now fails the suite outright.
+OWED: set[str] = set()
 
 #: Exercises whose success is not stdout, so equal output is by design. Each says why.
 NOT_AN_OUTPUT_EXERCISE = {
