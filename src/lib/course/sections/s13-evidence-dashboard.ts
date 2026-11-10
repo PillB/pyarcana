@@ -97,7 +97,7 @@ def block_key(rec):
 
 a = {"name": "Ana Quispe", "document_id": "D-12.34", "region": "Lima"}
 b = {"name": "ANA  QUISPE", "document_id": "d1234", "region": "Lima"}
-score = 1.0 if norm_doc(a["document_id"]) == norm_doc(b["document_id"]) and block_key(a) == block_key(b) else 0.0
+score = 1.0 if norm_doc(a["document_id"]) and norm_doc(a["document_id"]) == norm_doc(b["document_id"]) and block_key(a) == block_key(b) else 0.0
 print("block", block_key(a), block_key(b))
 print("entity_resolution_score", score)
 print("relationship_signal_score", "SEPARATE")`,
@@ -110,6 +110,32 @@ relationship_signal_score SEPARATE`,
         title: "Dos scores, dos historias",
         content:
           "entity_resolution_score ≠ relationship_signal_score. La UI debe mostrarlos aparte. Blocking N1: apellido paterno (parts[1]) + región.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un bloque mal elegido separa a la misma persona",
+      paragraphs: [
+        "Los tres registros son la misma persona sintética: `R2` llegó sin apellido materno y `R3` con otra región tras una mudanza. `pares_candidatos` agrupa por las claves que recibe y devuelve los pares que comparten bloque, que son los únicos que luego se comparan.",
+        "Con el último token no sale ningún par, porque ese token es `soto` en un registro y `huamán` en el otro. Con el apellido paterno y la región aparece `R1–R2`, pero `R3` queda solo en su bloque de Lima. Al sumar una segunda clave por documento normalizado aparecen los tres pares, y el caso «solo coincide el documento» llega a evaluarse.",
+      ],
+      code: {
+        language: "python",
+        title: "bloques_ER.py",
+        code: "# Error 1: el bloque usa el último token, que a veces es el materno y a veces falta\nimport re\n\nregistros = [\n    {\"id\": \"R1\", \"name\": \"Luis Huamán Soto\", \"region\": \"R-NORTE\", \"doc\": \"D-55\"},\n    {\"id\": \"R2\", \"name\": \"Luis Huamán\", \"region\": \"R-NORTE\", \"doc\": \"d55\"},\n    {\"id\": \"R3\", \"name\": \"Luis Huamán Soto\", \"region\": \"R-SUR\", \"doc\": \"D.55\"},\n]\n\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\n\ndef clave_ultimo(r):\n    return r[\"name\"].casefold().split()[-1] + \"|\" + r[\"region\"].casefold()\n\n\ndef clave_paterno(r):\n    parts = r[\"name\"].casefold().split()\n    return (parts[1] if len(parts) >= 2 else parts[0]) + \"|\" + r[\"region\"].casefold()\n\n\ndef clave_doc(r):\n    return \"doc|\" + norm_doc(r[\"doc\"])\n\n\ndef pares_candidatos(registros, claves):\n    bloques = {}\n    for r in registros:\n        for clave in claves:\n            k = clave(r)\n            if k not in bloques:\n                bloques[k] = []\n            bloques[k].append(r[\"id\"])\n    pares = set()\n    for ids in bloques.values():\n        for i in range(len(ids)):\n            for j in range(i + 1, len(ids)):\n                pares.add((ids[i], ids[j]))\n    return sorted(pares)\n\n\nprint(\"último token        →\", pares_candidatos(registros, [clave_ultimo]))\n# Error 2: una sola clave; R3 cambió de región y queda en otro bloque\nprint(\"solo paterno|región →\", pares_candidatos(registros, [clave_paterno]))\n# Corrección: paterno|región más una segunda clave por documento normalizado\nprint(\"paterno + documento →\", pares_candidatos(registros, [clave_paterno, clave_doc]))",
+        output: "último token        → []\nsolo paterno|región → [('R1', 'R2')]\npaterno + documento → [('R1', 'R2'), ('R1', 'R3'), ('R2', 'R3')]",
+      },
+    },
+    {
+      heading: "Contraejemplo: dos documentos vacíos parecen la misma persona",
+      paragraphs: [
+        "Las dos filas tienen el mismo nombre y el documento vacío, o hecho solo de espacios. `norm_doc` deja cada documento en `\"\"`, y dos cadenas vacías son iguales. Sin una regla de borde, la comparación da 1.0 y el par se trata como la misma persona aunque no haya ningún documento que la sostenga. La regla de esta sección es fail-closed: sin dato, no hay coincidencia.",
+        "Lee la salida por parejas. La primera línea muestra el error: el score es 1.0 aunque ningún documento se comparó. La segunda muestra la corrección: una cadena normalizada vacía nunca coincide, y el score vuelve a 0.0. Lo que cambia es la comparación; los nombres y el bloque son los mismos en las dos versiones.",
+      ],
+      code: {
+        language: "python",
+        title: "documento_vacio_no_coincide.py",
+        code: "# Error: dos documentos vacíos tras normalizar se toman como el mismo documento\nimport re\n\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"\", \"region\": \"R-SUR\"}\nb = {\"name\": \"ANA QUISPE\", \"document_id\": \"  \", \"region\": \"R-SUR\"}\n\nscore = 1.0 if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) else 0.0\nprint(\"sin regla de vacío →\", score)\n\n# Corrección: un documento vacío nunca coincide\nscore = 1.0 if norm_doc(a[\"document_id\"]) and norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) else 0.0\nprint(\"con regla de vacío →\", score)",
+        output: "sin regla de vacío → 1.0\ncon regla de vacío → 0.0",
       },
     },
     {
@@ -204,6 +230,19 @@ corrección precision 0.667 recall 0.667`,
       },
     },
     {
+      heading: "Contraejemplo: el umbral de 0.5 funde a dos personas",
+      paragraphs: [
+        "Cada par sintético tiene una etiqueta `y` (1 si es la misma persona) y un score. El error une todo par con score de 0.5 o más. La corrección usa los umbrales de T3-B: acepta desde 0.80 y manda a revisión humana la banda de 0.40 a 0.80.",
+        "Con 0.5, `P2` y `P4` se unen aunque son dos personas, así que dos clientes quedarían con una sola cuenta y un solo historial. Con el umbral y la cola, solo se unen `P1` y `P5`; `P2`, `P3` y `P4` esperan a un revisor, y ninguna persona queda fundida con otra. El costo es que `P3`, un par verdadero, también espera revisión.",
+      ],
+      code: {
+        language: "python",
+        title: "auto_merge_umbral.py",
+        code: "# Error: se une automáticamente todo par con score >= 0.5\n# Pares sintéticos etiquetados: y=1 es la misma persona, y=0 son dos personas\npares = [\n    {\"id\": \"P1\", \"y\": 1, \"score\": 0.92},\n    {\"id\": \"P2\", \"y\": 0, \"score\": 0.55},\n    {\"id\": \"P3\", \"y\": 1, \"score\": 0.55},\n    {\"id\": \"P4\", \"y\": 0, \"score\": 0.62},\n    {\"id\": \"P5\", \"y\": 1, \"score\": 0.85},\n    {\"id\": \"P6\", \"y\": 0, \"score\": 0.20},\n]\n\nunidos = [p[\"id\"] for p in pares if p[\"score\"] >= 0.5]\nmal_unidos = [p[\"id\"] for p in pares if p[\"score\"] >= 0.5 and p[\"y\"] == 0]\nprint(\"unión automática ≥ 0.5 → unidos:\", unidos, \"| dos personas fundidas:\", mal_unidos)\n\n# Corrección: solo ≥ 0.80 se acepta; la banda [0.40, 0.80) va a revisión humana\nunidos = [p[\"id\"] for p in pares if p[\"score\"] >= 0.8]\nrevision = [p[\"id\"] for p in pares if 0.4 <= p[\"score\"] < 0.8]\nmal_unidos = [p[\"id\"] for p in pares if p[\"score\"] >= 0.8 and p[\"y\"] == 0]\nprint(\"umbral + cola     → unidos:\", unidos, \"| a revisión:\", revision,\n      \"| dos personas fundidas:\", mal_unidos)",
+        output: "unión automática ≥ 0.5 → unidos: ['P1', 'P2', 'P3', 'P4', 'P5'] | dos personas fundidas: ['P2', 'P4']\numbral + cola     → unidos: ['P1', 'P5'] | a revisión: ['P2', 'P3', 'P4'] | dos personas fundidas: []",
+      },
+    },
+    {
       heading: "Email/teléfono/dirección compartidos, distancia y apellidos",
       subtopicId: "S13-T2-A",
       paragraphs: [
@@ -252,6 +291,19 @@ kinship_verdict None`,
         title: "Señal ≠ parentesco",
         content:
           "Prohibido establecer `is_family` automáticamente en N1. Canónico N1: rel = 0.5*phone + 0.3*geo + 0.2*jaccard.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un umbral de relación etiqueta a compañeros como familia",
+      paragraphs: [
+        "Cuatro empleados sintéticos comparten la centralita de la oficina y el edificio, y ninguno comparte apellido. `rel_score` aplica la fórmula N1 de esta sección. El error convierte `score >= 0.8` en etiqueta de parentesco; la corrección arma la ficha con el score, las señales que lo produjeron, `kinship_verdict=None` y `needs_review`.",
+        "El umbral marca los seis pares posibles como familia, porque un teléfono y una dirección compartidos describen también a compañeros de trabajo. La ficha corregida muestra el mismo `0.8` y deja visible de dónde salió, y la decisión queda en manos de un revisor.",
+      ],
+      code: {
+        language: "python",
+        title: "umbral_familia.py",
+        code: "# Error: un umbral sobre la señal se convierte en etiqueta de parentesco\n# Cuatro empleados sintéticos de la misma oficina: comparten la centralita y el edificio\nempleados = [\n    {\"id\": \"E1\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"quispe\"},\n    {\"id\": \"E2\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"rojas\"},\n    {\"id\": \"E3\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"silva\"},\n    {\"id\": \"E4\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"torres\"},\n]\n\n\ndef rel_score(a, b):\n    phone = 1.0 if a[\"phone\"] == b[\"phone\"] else 0.0\n    geo = 1.0 if a[\"km\"] <= 2.0 and b[\"km\"] <= 2.0 else 0.0\n    surname = 1.0 if a[\"surname\"] == b[\"surname\"] else 0.0\n    return round(0.5 * phone + 0.3 * geo + 0.2 * surname, 3)\n\n\npares = []\nfor i in range(len(empleados)):\n    for j in range(i + 1, len(empleados)):\n        pares.append((empleados[i], empleados[j]))\n\nmarcados = [(a[\"id\"], b[\"id\"]) for a, b in pares if rel_score(a, b) >= 0.8]\nprint(\"is_family por umbral →\", len(marcados), \"pares:\", marcados)\n\n# Corrección: la señal se muestra con su traza y la decisión queda en revisión\na, b = pares[0]\nficha = {\"pair\": (a[\"id\"], b[\"id\"]), \"relationship_signal_score\": rel_score(a, b),\n         \"signals\": [\"shared_phone\", \"geo_close\"], \"kinship_verdict\": None,\n         \"status\": \"needs_review\"}\nprint(\"ficha →\", ficha)",
+        output: "is_family por umbral → 6 pares: [('E1', 'E2'), ('E1', 'E3'), ('E1', 'E4'), ('E2', 'E3'), ('E2', 'E4'), ('E3', 'E4')]\nficha → {'pair': ('E1', 'E2'), 'relationship_signal_score': 0.8, 'signals': ['shared_phone', 'geo_close'], 'kinship_verdict': None, 'status': 'needs_review'}",
       },
     },
     {
@@ -343,6 +395,19 @@ print(explain(0.9, 0.4, ["phone"]))`,
         title: "Explicación primero",
         content:
           "Si no puedes listar 3 bullets honestos, no publiques el score.",
+      },
+    },
+    {
+      heading: "Contraejemplo: la mezcla de ER y relación decide la identidad",
+      paragraphs: [
+        "El par tiene un ER de `0.70`, que por sí solo cae en revisión, y una relación de `1.00` por teléfono, cercanía y apellido. El error pasa la mezcla de la ficha a `decide_ops_status`; la corrección le pasa el ER, que es el score que mide si son la misma persona.",
+        "La mezcla vale `0.82` y sale `accept_pair`: la relación empujó la identidad por encima del umbral, aunque nada nuevo indicaba que fueran la misma persona. Con el ER, el par queda en `needs_review`, y la mezcla sigue sirviendo para ordenar la cola.",
+      ],
+      code: {
+        language: "python",
+        title: "mezcla_er_rel.py",
+        code: "# Error: la mezcla 0.6·ER + 0.4·REL decide si es la misma persona\nfrom math import isfinite\n\n\ndef decide_ops_status(score, uncertainty):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0:\n        return \"invalid_input\"\n    if uncertainty not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if uncertainty == \"high\":\n        return \"needs_review\"\n    if score < 0.4:\n        return \"abstain\"\n    if score < 0.8:\n        return \"needs_review\"\n    return \"accept_pair\"\n\n\ner, rel = 0.70, 1.00  # identidad dudosa; relación fuerte (teléfono, cercanía, apellido)\n\nmezcla = round(0.6 * er + 0.4 * rel, 3)\nprint(\"con la mezcla\", mezcla, \"→\", decide_ops_status(mezcla, \"low\"))\n\n# Corrección: la identidad se decide sobre ER; la mezcla solo ordena la cola\nprint(\"con ER\", er, \"→\", decide_ops_status(er, \"low\"))",
+        output: "con la mezcla 0.82 → accept_pair\ncon ER 0.7 → needs_review",
       },
     },
     {
@@ -539,7 +604,7 @@ def block_key(r):
 
 r1 = {"name": "Ana Quispe", "document_id": "D-7788", "region": "Lima"}
 r2 = {"name": "ANA QUISPE", "document_id": "d7788", "region": "Lima"}
-match = norm_doc(r1["document_id"]) == norm_doc(r2["document_id"]) and block_key(r1) == block_key(r2)
+match = bool(norm_doc(r1["document_id"])) and norm_doc(r1["document_id"]) == norm_doc(r2["document_id"]) and block_key(r1) == block_key(r2)
 print("block", block_key(r1))
 print("match", match)
 print("entity_resolution_score", 1.0 if match else 0.0)`,
