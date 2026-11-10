@@ -125,7 +125,7 @@ print(demo_path_write())`,
       subtopicId: "S08-T1-B",
       paragraphs: [
         "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al releer el clean.",
-        "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribes el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad. Dos detalles del patrón que no son adorno: el temporal va en el **mismo** directorio porque `os.replace` solo es atómico dentro de un sistema de archivos, y el nombre del temporal debería ser **único por corrida** —`clean.csv.{run_id}.tmp`, o el que devuelve `tempfile.mkstemp` en ese directorio—. Con un `.tmp` fijo, dos ejecuciones simultáneas escriben sobre el mismo archivo y una publica el contenido a medias de la otra: el fallo que la escritura atómica venía a evitar, reintroducido por el nombre.",
+        "**Escritura atómica** (contrato único del curso, no hay otro): creas un temporal **único** en el **mismo** directorio que el destino con `tempfile.mkstemp(dir=path.parent, prefix=path.name + \".\", suffix=\".tmp\")`, cierras su descriptor, escribes el contenido completo y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad. El temporal va en el **mismo** directorio porque `os.replace` solo es atómico dentro de un sistema de archivos, y el nombre debe ser **único por corrida**: `mkstemp` lo garantiza. Un `.tmp` con nombre fijo, como `clean.csv.tmp`, parece equivalente, pero dos ejecuciones simultáneas escriben sobre el mismo archivo y una publica una mezcla de ambas. El contraejemplo de este tema lo muestra paso a paso.",
         "Si el lote cabe en memoria, `write_atomic` puede acumularlo y publicarlo una vez al final. Quien lea el destino verá la versión anterior completa o la nueva completa. Si el proceso se interrumpe antes de `os.replace`, seguirá viendo la anterior y puede quedar un temporal que una tarea de mantenimiento deberá retirar. Añadir JSONL línea por línea muestra el progreso sin guardar todo el lote en memoria, pero una interrupción puede dejar incompleta la última línea. La escritura atómica tampoco asegura por sí sola que los datos sobrevivan a un corte de energía. `flush` entrega al sistema operativo el texto pendiente y `fsync` le pide persistir los bytes. Según el sistema de archivos, también debes sincronizar el directorio. En el laboratorio publicamos la versión completa porque el lote cabe en memoria; el bloque ejecutable muestra solo ese camino lineal.",
         "Detectar `\\r\\n` o `\\n` en los bytes de entrada permite registrar `newline_style='CRLF'`, `newline_style='LF'` o `newline_style='mixed'` como una propiedad observada del archivo. Ese dato no demuestra qué sistema operativo produjo el archivo. Tampoco lo arregla ni reescribe el crudo: solo deja evidencia útil para investigar exportaciones irregulares. El You Do reutilizará el mismo `write_atomic` para `clean`, `quarantine` y `manifest`.",
       ],
@@ -161,6 +161,52 @@ tiene CRLF True`,
         title: "No dejes dest truncado",
         content:
           "Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: temporal unico por corrida (mkstemp en el mismo directorio) + os.replace.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un .tmp fijo mezcla dos escrituras",
+      paragraphs: [
+        "Con un temporal de nombre fijo, dos escritores comparten el mismo archivo. Cada uno empieza a escribir desde su propia posición, así que sus bytes se pisan y `os.replace` publica una mezcla. El bloque reproduce el choque sin hilos ni azar: dos descriptores abiertos sobre el mismo `clean.csv.tmp`.",
+        "Lee la salida por parejas. La primera línea muestra el error: el destino contiene `BBAA`, que no es el contenido de ninguno de los dos escritores. La segunda muestra la corrección: cada escritor recibe su propio temporal con `mkstemp`, y el destino queda con `BB`, el contenido completo del último que publica, sin mezcla. La tercera confirma que no sobra ningún temporal.",
+      ],
+      code: {
+        language: 'python',
+        title: "tmp_fijo_vs_mkstemp.py",
+        code: `from pathlib import Path
+import os, tempfile
+td = Path(tempfile.mkdtemp())
+
+# Error: dos escritores comparten el mismo temporal fijo
+dest_fijo = td / "clean_fijo.csv"
+tmp_fijo = dest_fijo.with_name(dest_fijo.name + ".tmp")
+a = open(tmp_fijo, "w", encoding="utf-8")
+b = open(tmp_fijo, "w", encoding="utf-8")
+a.write("AAAA"); a.flush()
+b.write("BB"); b.flush()
+a.close(); b.close()
+os.replace(tmp_fijo, dest_fijo)
+print("error: publicado =", dest_fijo.read_text(encoding="utf-8"))
+
+# Corrección: cada escritor tiene su temporal único en el mismo directorio
+dest = td / "clean.csv"
+fa, ta = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + ".", suffix=".tmp")
+fb, tb = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + ".", suffix=".tmp")
+os.write(fa, b"AAAA")
+os.write(fb, b"BB")
+os.close(fa); os.close(fb)
+os.replace(ta, dest)
+os.replace(tb, dest)
+print("corrección: publicado =", dest.read_text(encoding="utf-8"))
+print("sobran temporales:", any(p.suffix == ".tmp" for p in td.iterdir()))`,
+        output: `error: publicado = BBAA
+corrección: publicado = BB
+sobran temporales: False`,
+      },
+      callout: {
+        type: "warning",
+        title: "Nombre fijo = carrera",
+        content:
+          "`clean.csv.tmp` fijo no es un temporal: es un archivo compartido. Usa `mkstemp` en el mismo directorio y cierra el descriptor antes de escribir por ruta.",
       },
     },
     {
@@ -558,7 +604,7 @@ broken = [
       paragraphs: [
         "En S08 cerraste el **contrato de ingesta local**: Path + UTF-8, escritura atómica, CSV con dialecto/cast, cuarentena con `reason`, JSON/JSONL, schema/nulls, hash del crudo y manifest reconciliado por fuente. El You Do es la evidencia de **CP-N1-B** — no un ejercicio decorativo al final.",
         "En **S09** profundizas **excepciones y logging**: cómo registrar `UnicodeDecodeError`, fallos de cast y reconcile **sin silenciar**, y cómo un log estructurado complementa (no reemplaza) el manifest. Lleva contigo el vocabulario fail-closed: cuarentena con motivo, no relleno mágico, exit ≠ 0 cuando los conteos no cierran.",
-        "Checklist mental antes del You Do (si fallas una, vuelve al We Do de ese tema): ¿tmp es `name + \".tmp\"`? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
+        "Checklist mental antes del You Do (si fallas una, vuelve al We Do de ese tema): ¿el temporal es único (`mkstemp` en el mismo directorio)? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
       ],
       callout: {
         type: "info",
@@ -603,7 +649,7 @@ print(write_utf8_demo())`,
         environment: "local-python",
         description: "write_atomic: tmp + os.replace sin dejar basura",
         preamble:
-          "El clean del gate se relee por otros procesos o por ti en la siguiente corrida. Si escribes directo a `clean.csv` y el proceso muere a medias, el consumidor ve basura. Observa la demo: se escribe a `clean.csv.tmp`, luego `os.replace` al destino, y el tmp **desaparece**. Predice la salida (`id,nombre` / `C001,Ana` / `tmp gone True`) antes de contrastar. Contrato único del curso: `path.with_name(path.name + '.tmp')` en el mismo directorio.",
+          "El clean del gate se relee por otros procesos o por ti en la siguiente corrida. Si escribes directo a `clean.csv` y el proceso muere a medias, el consumidor ve basura. Observa la demo: se escribe a un temporal único del mismo directorio, luego `os.replace` al destino, y el temporal **desaparece**. Predice la salida (`id,nombre` / `C001,Ana` / `tmp gone True`) antes de contrastar. Contrato único del curso: `tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')` en el mismo directorio.",
         code: {
           language: 'python',
           title: "S08-T1-B-DEMO — atomic",
@@ -612,7 +658,9 @@ import os, tempfile
 
 def write_atomic(path: Path, text: str) -> None:
     path = Path(path)
-    tmp = path.with_name(path.name + ".tmp")
+    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")
+    os.close(fd)
+    tmp = Path(tmp_name)
     tmp.write_text(text, encoding="utf-8")
     os.replace(tmp, path)
 
@@ -620,12 +668,12 @@ td = Path(tempfile.mkdtemp())
 dest = td / "clean.csv"
 write_atomic(dest, "id,nombre\\nC001,Ana\\n")
 print(dest.read_text(encoding="utf-8"), end="")
-print("tmp gone", not (td / "clean.csv.tmp").exists())`,
+print("tmp gone", not any(p.suffix == ".tmp" for p in td.iterdir()))`,
           output: `id,nombre
 C001,Ana
 tmp gone True`,
         },
-        why: "os.replace hace el swap atómico del artefacto de salida. El tmp en el mismo directorio evita renames cross-device. Contrato único del curso: `tmp = dest.with_name(dest.name + '.tmp')`; al terminar no queda basura. Este helper se reutiliza en You Do para clean, quarantine y manifest.",
+        why: "os.replace hace el swap atómico del artefacto de salida. El tmp en el mismo directorio evita renames cross-device. Contrato único del curso: temporal único con `tempfile.mkstemp(dir=dest.parent, ...)`; al terminar no queda basura. Este helper se reutiliza en You Do para clean, quarantine y manifest.",
         retrospective:
           "Temp completo + replace = el destino solo cambia cuando el contenido está listo. No confundas “escribí el string” con “el consumidor ve el estado final”. We Do: detectar CRLF, implementar atomic y simular mid-write.",
       },
@@ -1013,13 +1061,13 @@ False`,
         kind: "independent",
         title: "Implementar write_atomic con tmp y replace",
         preamble:
-          "- **Contexto:** clean, quarantine y manifest del CP-N1-B deben publicarse sin estados a medias.\n- **Meta:** implementar `write_atomic(path, text)` con el contrato del curso.\n- **Éxito:** tras escribir `'ok\\n'`, el contenido final es la línea `ok`.\n- **Límites:** `tmp = path.with_name(path.name + '.tmp')` + `os.replace`; UTF-8; no dejes el tmp.",
+          "- **Contexto:** clean, quarantine y manifest del CP-N1-B deben publicarse sin estados a medias.\n- **Meta:** implementar `write_atomic(path, text)` con el contrato del curso.\n- **Éxito:** tras escribir `'ok\\n'`, el contenido final es la línea `ok`.\n- **Límites:** temporal único con `tempfile.mkstemp(dir=path.parent, ...)` + `os.replace`; UTF-8; no dejes el tmp.",
         id: "S08-T1-B-E2",
         instruction:
-          "1. El starter escribe directo al destino: corrígelo.\n2. Escribe el texto completo al `.tmp` en el mismo directorio.\n3. Haz `os.replace(tmp, path)`.\n4. Escribe `'ok\\n'`, relee e imprime el contenido (sin basura extra).",
+          "1. El starter escribe directo al destino y con un borrador: corrígelo.\n2. Escribe el texto completo a un temporal único (`mkstemp`) en el mismo directorio.\n3. Haz `os.replace(tmp, path)`.\n4. Escribe `'ok\\n'`, relee e imprime el contenido (sin basura extra).",
         hint: "tmp + os.replace",
         hints: [
-          "tmp = path.with_name(path.name + '.tmp')",
+          "tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')",
           "mismo directorio que dest; os.replace(tmp, path)",
         ],
         edgeCases: ["atomic"],
@@ -1031,7 +1079,7 @@ False`,
         starterCode: {
           language: 'python',
           title: "atomic_impl.py",
-          code: `# DEFECT: write directo sin tmp/replace
+          code: `# DEFECT: write directo sin tmp/replace, y con un borrador
 from pathlib import Path
 import os, tempfile
 
@@ -1040,7 +1088,7 @@ def write_atomic(path, text):
 
 td = Path(tempfile.mkdtemp())
 p = td / 'out.txt'
-write_atomic(p, 'ok\\n')
+write_atomic(p, 'borrador\\n')
 print(p.read_text(encoding='utf-8'), end='')`,
         },
         solutionCode: {
@@ -1051,7 +1099,9 @@ import os, tempfile
 
 def write_atomic(path, text):
     path = Path(path)
-    tmp = path.with_name(path.name + '.tmp')
+    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')
+    os.close(fd)
+    tmp = Path(tmp_name)
     tmp.write_text(text, encoding='utf-8')
     os.replace(tmp, path)
 td = Path(tempfile.mkdtemp())
@@ -1068,13 +1118,13 @@ print(p.read_text(encoding='utf-8'), end='')`,
         kind: "transfer",
         title: "Simular mid-write y cerrar con atomic",
         preamble:
-          "- **Contexto:** un consumidor lee `f.txt` mientras el pipeline aún escribe.\n- **Meta:** mostrar estado parcial y luego un replace atómico a estado completo.\n- **Éxito:** `mid PARCIAL` y `final COMPLETO`.\n- **Límites:** el segundo paso debe ser tmp + `os.replace`, no otro `write_text` directo.",
+          "- **Contexto:** un consumidor lee `f.txt` mientras el pipeline aún escribe.\n- **Meta:** mostrar estado parcial y luego un replace atómico a estado completo.\n- **Éxito:** `mid PARCIAL` y `final COMPLETO`.\n- **Límites:** el segundo paso debe ser un temporal único (`mkstemp`) + `os.replace`, no otro `write_text` directo.",
         instruction:
           "1. Deja el primer write de `'PARCIAL'` e imprime `mid …`.\n2. Sustituye el segundo write directo por tmp + `os.replace` a `'COMPLETO'`.\n3. Imprime `final` (no `end`) con el contenido final.\n4. No borres el paso mid: es la evidencia del problema.",
         hint: "Primero write no atómico parcial; luego tmp + os.replace",
         hints: [
           "Primero write no atómico parcial; luego write_atomic",
-          "tmp = dest.with_name(dest.name + '.tmp')",
+          "tempfile.mkstemp(dir=dest.parent, prefix=dest.name + '.', suffix='.tmp')",
         ],
         edgeCases: ["mid-write vs. atomic"],
         tests: "mid PARCIAL\\nfinal COMPLETO",
@@ -1104,7 +1154,9 @@ td = Path(tempfile.mkdtemp())
 dest = td / 'f.txt'
 dest.write_text('PARCIAL', encoding='utf-8')
 print('mid', dest.read_text(encoding='utf-8'))
-tmp = dest.with_name(dest.name + '.tmp')
+fd, tmp_name = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + '.', suffix='.tmp')
+os.close(fd)
+tmp = Path(tmp_name)
 tmp.write_text('COMPLETO', encoding='utf-8')
 os.replace(tmp, dest)
 print('final', dest.read_text(encoding='utf-8'))`,
@@ -1392,7 +1444,7 @@ schema 1`,
         preamble:
           "- **Contexto:** `transactions.json` del gate llega como texto; el slice manual es frágil.\n- **Meta:** usar `json.loads` y leer `id`.\n- **Éxito:** imprime `C001`.\n- **Límites:** solo stdlib; no indexar caracteres del string crudo.",
         instruction:
-          "1. El starter hace `raw[7:11]`: se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']`.\n4. No uses expresiones regulares sobre el JSON.",
+          "1. El starter hace `raw[7:10]`: un corte manual que pierde el último carácter del id y se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']`.\n4. No uses expresiones regulares sobre el JSON.",
         hint: "json.loads",
         hints: [
           "json.loads",
@@ -1407,10 +1459,10 @@ schema 1`,
         starterCode: {
           language: 'python',
           title: "loads_fix.py",
-          code: `# DEFECT: slice manual; no usa loads
+          code: `# DEFECT: slice manual con índice incorrecto; no usa loads
 import json
 raw = '{"id":"C001"}'
-print(raw[7:11])`,
+print(raw[7:10])`,
         },
         solutionCode: {
           language: 'python',
@@ -1942,7 +1994,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B). Si una fuente no cuadra, `run` termina con exit 1 **antes** de publicar nada.\n5. `write_atomic` de clean, quarantine y manifest (T1-B), solo cuando todo reconcilia.\n6. `run` retorna 0 solo si todo reconcilia y todo se publicó; si no, exit 1 (E3 de T4-B). Ojo: `write_atomic` es atómico por archivo, no por corrida. Publicar clean, quarantine y manifest son tres reemplazos separados, no una transacción de varios archivos; si el proceso muere entre dos `os.replace`, pueden quedar versiones de corridas distintas. Por eso el manifest va al final y lleva el `run_id`.\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1960,7 +2012,7 @@ exit_code 1`,
       "Cada fuente cumple n_in == n_clean + n_quarantine o el pipeline termina con exit != 0",
       "Los totales del manifest se derivan de sources; una compensación entre fuentes nunca oculta un error",
       "Montos entran como texto, se convierten con Decimal y se serializan como texto decimal",
-      "write_atomic usa tmp = path.with_name(path.name + '.tmp') + os.replace",
+      "write_atomic usa un temporal único (tempfile.mkstemp en el mismo directorio) + os.replace",
       "Al abrir CSV en disco: encoding utf-8 (o utf-8-sig si hay BOM) y newline=''",
       "Empaquetado CLI diferido a S10",
     ],
@@ -1996,7 +2048,7 @@ def sha256_file(path: Path) -> str:
 
 
 def write_atomic(path: Path, text: str) -> None:
-    # Contrato: tmp = path.with_name(path.name + ".tmp") en el mismo dir; luego os.replace
+    # Contrato: temporal único con tempfile.mkstemp(dir=path.parent, ...) en el mismo dir; luego os.replace
     # Corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
@@ -2058,10 +2110,10 @@ raise SystemExit(code)
       },
       {
         question: "¿Cuál es la escritura atómica típica en este curso?",
-        options: ["open(dest,'w') y escribir directo siempre", "escribir a temp (name + '.tmp') y os.replace al destino", "solo print al stdout", "append eterno al mismo file"],
+        options: ["open(dest,'w') y escribir directo siempre", "escribir a un temporal único del mismo directorio (mkstemp) y os.replace al destino", "solo print al stdout", "append eterno al mismo file"],
         correctIndex: 1,
         explanation:
-          "temp + replace evita dejar dest truncado si hay crash mid-write. Contrato: path.with_name(path.name + '.tmp').",
+          "temp + replace evita dejar dest truncado si hay crash mid-write. Contrato: temporal único con tempfile.mkstemp(dir=path.parent, ...) y os.replace; un nombre fijo como name + '.tmp' comparte archivo entre escritores.",
       },
       {
         question: "Una fila CSV con columnas de más debe…",
