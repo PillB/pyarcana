@@ -26,11 +26,14 @@ class TestSection02TextFirstQuality(unittest.TestCase):
         theory = _between(self.source, "  theory: [", "  iDo: {")
 
         self.assertIn("En S01 preparaste el taller", theory)
-        # 2026-11-10, proposal 07 item 12: five of the eight bridges lost their
+        # 2026-11-10, proposals 07 (item 12) and 08 (item 6): all eight bridges lost their
         # "**Puente desde …:**" label (writing rules 13, 15, 27). The bridge itself stays:
-        # each of the five content sentences below still links the subtopic to the one before.
-        self.assertEqual(theory.count("**Puente desde"), 3)
+        # each of the eight content sentences below still links the subtopic to the one before.
+        self.assertEqual(theory.count("**Puente desde"), 0)
         for bridge in (
+            "Antes de convertir nada, conviene reconocer qué clase de objeto tienes delante.",
+            "Asignar un segundo nombre no siempre crea una segunda cosa.",
+            "Con los nombres ya claros, falta hacer explícita la relación matemática entre sus valores.",
             "Su tipo dice qué es ahora; convertirlo y validarlo decide si el programa puede usarlo como edad.",
             "Cuando un valor ya tiene su tipo, también necesita un nombre que diga qué significa",
             "Cada tipo numérico acepta algunos errores y evita otros, así que elegir el tipo es parte del cálculo",

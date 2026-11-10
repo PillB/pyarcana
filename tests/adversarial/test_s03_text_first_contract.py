@@ -32,7 +32,9 @@ class Section03TextFirstContractTests(unittest.TestCase):
         theory = _between(source, "  theory: [", "  iDo: {")
 
         required_learner_visible_anchors = (
-            "**Puente desde S02.**",
+            # 2026-11-10, proposal 08 item 6: the "**Puente desde S02.**" label went (writing
+            # rules 13, 15, 27); the bridge sentence it introduced is pinned instead.
+            "En S02 aprendiste a convertir texto a `int`",
             # CAMP-20260821: the up-front "Diccionario de navegación" term dump was
             # dissolved into glosses at the point of need (protocol §3.6). The
             # anchor now pins the sentence that carries the section's core idea,

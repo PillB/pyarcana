@@ -142,7 +142,8 @@ class DocumentIdsAreOpaque(unittest.TestCase):
     def test_s11_says_who_the_full_record_is_for(self) -> None:
         s11 = _read("s11-oop-domain.ts")
         self.assertIn("'document_id': 'DOC-0001'", s11)
-        self.assertIn("un export para un tablero o una línea de log usa otro diccionario", s11)
+        # Proposal 08 (S11 row 28) split this sentence, so the clause now starts with a capital.
+        self.assertIn("Un export para un tablero o una línea de log usa otro diccionario", s11)
 
 
 class ProseMatchesCode(unittest.TestCase):
