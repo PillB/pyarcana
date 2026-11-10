@@ -303,6 +303,18 @@ class S13(unittest.TestCase):
         probe = hits[0]["code"]["code"] + '\nprint(0.5 * shared_contact({}, {"phone": "1"}, "phone"))'
         self.assertEqual(stdout_of(probe).splitlines()[-1], "0.0")
 
+    def test_two_empty_phones_are_not_a_shared_phone(self) -> None:
+        # Review finding on #153: `is not None` let "" == "" count as a shared contact.
+        hits = [b for b in section(self.F, self.N)["theory"] if b.get("code") and "def shared_contact" in b["code"]["code"]]
+        code = hits[0]["code"]["code"]
+        probe = code + '\nprint(shared_contact({"phone": ""}, {"phone": ""}, "phone"),' \
+            ' shared_contact({"phone": "9"}, {"phone": "9"}, "phone"))'
+        self.assertEqual(stdout_of(probe).splitlines()[-1], "False True")
+        # Negative control: the `is not None` version does call two empty phones shared.
+        broken = code.replace("bool(a.get(field))", "a.get(field) is not None")
+        self.assertNotEqual(broken, code)
+        self.assertEqual(stdout_of(broken + '\nprint(shared_contact({"phone": ""}, {"phone": ""}, "phone"))').splitlines()[-1], "True")
+
     def test_demo_cases_match_the_prose(self) -> None:
         s = text(self.F)
         self.assertIn('("CASE-1", "Ana Quispe", 0.92, 0.41,', s)

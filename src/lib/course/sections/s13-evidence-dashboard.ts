@@ -269,7 +269,8 @@ corrección precision 0.667 recall 0.667`,
         language: 'python',
         title: "rel_signals.py",
         code: `def shared_contact(a, b, field):
-    return a.get(field) is not None and a.get(field) == b.get(field)
+    # Un campo ausente o vacío no es evidencia: dos teléfonos "" no son el mismo teléfono
+    return bool(a.get(field)) and a.get(field) == b.get(field)
 
 def surname_overlap(a, b):
     sa = set(a.casefold().split())
