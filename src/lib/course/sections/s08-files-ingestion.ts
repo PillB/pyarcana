@@ -121,11 +121,64 @@ print(demo_path_write())`,
       },
     },
     {
+      heading: "Contraejemplo: pegar rutas como texto",
+      paragraphs: [
+        "Si pegas la carpeta y el archivo como textos, es fácil olvidar el separador y obtener `dataclients.csv`. Si escribes `\\` a mano, la ruta funciona en Windows, pero en Linux esa barra es un carácter más del nombre: `parts` muestra un solo elemento, un archivo llamado `data\\clients.csv`.",
+        "`PurePosixPath` y `PureWindowsPath` representan rutas de Linux o macOS y de Windows sin tocar el disco, así que sirven para comparar. Con el operador `/`, cada una pone su separador y la ruta queda dividida en carpeta y archivo; en tu código, `Path` elige el separador del sistema donde corre.",
+      ],
+      code: {
+        language: 'python',
+        title: "rutas_como_texto.py",
+        code: `# Error: armar la ruta pegando textos
+from pathlib import PurePosixPath, PureWindowsPath
+
+carpeta = "data"
+
+print(carpeta + "clients.csv")
+print("partes en Linux:", PurePosixPath(carpeta + "\\\\" + "clients.csv").parts)
+
+# Corrección: el operador / pone el separador de cada sistema
+print("partes en Linux:", (PurePosixPath(carpeta) / "clients.csv").parts)
+print(PurePosixPath(carpeta) / "clients.csv", "|", PureWindowsPath(carpeta) / "clients.csv")`,
+        output: `dataclients.csv
+partes en Linux: ('data\\\\clients.csv',)
+partes en Linux: ('data', 'clients.csv')
+data/clients.csv | data\\clients.csv`,
+      },
+    },
+    {
+      heading: "Contraejemplo: leer UTF-8 con otra codificación",
+      paragraphs: [
+        "El archivo se escribe en UTF-8, donde la `ñ` ocupa dos bytes. El error lo lee con `cp1252`, la codificación regional que muchas instalaciones de Windows usan por omisión, y cada uno de esos dos bytes se convierte en un carácter: `Muñoz` aparece como `MuÃ±oz` sin ningún error.",
+        "Aquí la codificación equivocada está escrita a propósito para que el resultado sea igual en cualquier máquina. Si omites `encoding`, Python usa la del sistema y el mismo daño aparece solo en algunos equipos. Con `encoding=\"utf-8\"` al escribir y al leer, la segunda lectura devuelve `Muñoz`.",
+      ],
+      code: {
+        language: 'python',
+        title: "mojibake.py",
+        code: `# Error: leer con la codificación regional de otra máquina (cp1252, común en Windows)
+from pathlib import Path
+import tempfile
+
+td = Path(tempfile.mkdtemp())
+p = td / "clientes.txt"
+p.write_text("id;apellido\\nC001;Muñoz\\n", encoding="utf-8")
+
+print(p.read_text(encoding="cp1252"), end="")
+
+# Corrección: el contrato declara UTF-8 al escribir y al leer
+print(p.read_text(encoding="utf-8"), end="")`,
+        output: `id;apellido
+C001;MuÃ±oz
+id;apellido
+C001;Muñoz`,
+      },
+    },
+    {
       heading: "Newlines y escritura atómica",
       subtopicId: "S08-T1-B",
       paragraphs: [
         "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al releer el clean.",
-        "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribes el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad. Dos detalles del patrón que no son adorno: el temporal va en el **mismo** directorio porque `os.replace` solo es atómico dentro de un sistema de archivos, y el nombre del temporal debería ser **único por corrida** —`clean.csv.{run_id}.tmp`, o el que devuelve `tempfile.mkstemp` en ese directorio—. Con un `.tmp` fijo, dos ejecuciones simultáneas escriben sobre el mismo archivo y una publica el contenido a medias de la otra: el fallo que la escritura atómica venía a evitar, reintroducido por el nombre.",
+        "**Escritura atómica** (contrato único del curso, no hay otro): creas un temporal **único** en el **mismo** directorio que el destino con `tempfile.mkstemp(dir=path.parent, prefix=path.name + \".\", suffix=\".tmp\")`, cierras su descriptor, escribes el contenido completo y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad. El temporal va en el **mismo** directorio porque `os.replace` solo es atómico dentro de un sistema de archivos, y el nombre debe ser **único por corrida**: `mkstemp` lo garantiza. Un `.tmp` con nombre fijo, como `clean.csv.tmp`, parece equivalente, pero dos ejecuciones simultáneas escriben sobre el mismo archivo y una publica una mezcla de ambas. El contraejemplo de este tema lo muestra paso a paso.",
         "Si el lote cabe en memoria, `write_atomic` puede acumularlo y publicarlo una vez al final. Quien lea el destino verá la versión anterior completa o la nueva completa. Si el proceso se interrumpe antes de `os.replace`, seguirá viendo la anterior y puede quedar un temporal que una tarea de mantenimiento deberá retirar. Añadir JSONL línea por línea muestra el progreso sin guardar todo el lote en memoria, pero una interrupción puede dejar incompleta la última línea. La escritura atómica tampoco asegura por sí sola que los datos sobrevivan a un corte de energía. `flush` entrega al sistema operativo el texto pendiente y `fsync` le pide persistir los bytes. Según el sistema de archivos, también debes sincronizar el directorio. En el laboratorio publicamos la versión completa porque el lote cabe en memoria; el bloque ejecutable muestra solo ese camino lineal.",
         "Detectar `\\r\\n` o `\\n` en los bytes de entrada permite registrar `newline_style='CRLF'`, `newline_style='LF'` o `newline_style='mixed'` como una propiedad observada del archivo. Ese dato no demuestra qué sistema operativo produjo el archivo. Tampoco lo arregla ni reescribe el crudo: solo deja evidencia útil para investigar exportaciones irregulares. El You Do reutilizará el mismo `write_atomic` para `clean`, `quarantine` y `manifest`.",
       ],
@@ -161,6 +214,85 @@ tiene CRLF True`,
         title: "No dejes dest truncado",
         content:
           "Evita open(dest,'w') largos sin temp: un crash mid-write deja basura a consumidores del clean. Contrato del curso: temporal unico por corrida (mkstemp en el mismo directorio) + os.replace.",
+      },
+    },
+    {
+      heading: "Contraejemplo: escribir directo sobre clean.csv",
+      paragraphs: [
+        "El código simula una corrida que se corta a la mitad: escribe solo los primeros 15 caracteres de la versión nueva y se detiene. En el error, esa escritura ocurre directamente sobre `clean.csv`, que `open` en modo `w` ya había vaciado. Por eso el consumidor lee `'id,nombre\\nC001,'`, que no es ni la versión anterior ni la nueva.",
+        "En la corrección, el mismo corte ocurre dentro del temporal y `os.replace` nunca llega a ejecutarse. El consumidor sigue leyendo la versión anterior completa, con C001 y C002, y el temporal que quedó lo retira después una tarea de mantenimiento.",
+      ],
+      code: {
+        language: 'python',
+        title: "escritura_directa.py",
+        code: `# Error: escribir directo sobre el destino; la corrida se corta a la mitad
+from pathlib import Path
+import os, tempfile
+
+td = Path(tempfile.mkdtemp())
+dest = td / "clean.csv"
+anterior = "id,nombre\\nC001,Ana\\nC002,Luis\\n"
+nueva = "id,nombre\\nC001,Ana\\nC002,Luis\\nC003,Rosa\\n"
+
+dest.write_text(anterior, encoding="utf-8")
+with dest.open("w", encoding="utf-8") as f:
+    f.write(nueva[:15])  # aquí se detiene el proceso (simulado)
+print("el consumidor lee:", repr(dest.read_text(encoding="utf-8")))
+
+# Corrección: temporal único + os.replace; el mismo corte ocurre antes de publicar
+dest.write_text(anterior, encoding="utf-8")
+fd, tmp_name = tempfile.mkstemp(dir=td, prefix="clean.csv.", suffix=".tmp")
+os.close(fd)
+Path(tmp_name).write_text(nueva[:15], encoding="utf-8")  # corte: os.replace nunca llega
+print("el consumidor lee:", repr(dest.read_text(encoding="utf-8")))`,
+        output: `el consumidor lee: 'id,nombre\\nC001,'
+el consumidor lee: 'id,nombre\\nC001,Ana\\nC002,Luis\\n'`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un .tmp fijo mezcla dos escrituras",
+      paragraphs: [
+        "Con un temporal de nombre fijo, dos escritores comparten el mismo archivo. Cada uno empieza a escribir desde su propia posición, así que sus bytes se pisan y `os.replace` publica una mezcla. El bloque reproduce el choque sin hilos ni azar: dos descriptores abiertos sobre el mismo `clean.csv.tmp`.",
+        "Lee la salida por parejas. La primera línea muestra el error: el destino contiene `BBAA`, que no es el contenido de ninguno de los dos escritores. La segunda muestra la corrección: cada escritor recibe su propio temporal con `mkstemp`, y el destino queda con `BB`, el contenido completo del último que publica, sin mezcla. La tercera confirma que no sobra ningún temporal.",
+      ],
+      code: {
+        language: 'python',
+        title: "tmp_fijo_vs_mkstemp.py",
+        code: `from pathlib import Path
+import os, tempfile
+td = Path(tempfile.mkdtemp())
+
+# Error: dos escritores comparten el mismo temporal fijo
+dest_fijo = td / "clean_fijo.csv"
+tmp_fijo = dest_fijo.with_name(dest_fijo.name + ".tmp")
+a = open(tmp_fijo, "w", encoding="utf-8")
+b = open(tmp_fijo, "w", encoding="utf-8")
+a.write("AAAA"); a.flush()
+b.write("BB"); b.flush()
+a.close(); b.close()
+os.replace(tmp_fijo, dest_fijo)
+print("error: publicado =", dest_fijo.read_text(encoding="utf-8"))
+
+# Corrección: cada escritor tiene su temporal único en el mismo directorio
+dest = td / "clean.csv"
+fa, ta = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + ".", suffix=".tmp")
+fb, tb = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + ".", suffix=".tmp")
+os.write(fa, b"AAAA")
+os.write(fb, b"BB")
+os.close(fa); os.close(fb)
+os.replace(ta, dest)
+os.replace(tb, dest)
+print("corrección: publicado =", dest.read_text(encoding="utf-8"))
+print("sobran temporales:", any(p.suffix == ".tmp" for p in td.iterdir()))`,
+        output: `error: publicado = BBAA
+corrección: publicado = BB
+sobran temporales: False`,
+      },
+      callout: {
+        type: "warning",
+        title: "Nombre fijo = carrera",
+        content:
+          "`clean.csv.tmp` fijo no es un temporal: es un archivo compartido. Usa `mkstemp` en el mismo directorio y cierra el descriptor antes de escribir por ruta.",
       },
     },
     {
@@ -253,6 +385,81 @@ utf-8-sig quita BOM: id`,
       },
     },
     {
+      heading: "Contraejemplo: “parece número” no es número",
+      paragraphs: [
+        "`Decimal` lee más formas de las que acepta el contrato del curso: notación científica (`1e3`), el valor especial `NaN` (es decir, «no es un número») y dígitos de otros sistemas de escritura, como los de ancho completo `１２`. Si aceptas todo lo que `Decimal` entiende, esos valores entran a clean.",
+        "La línea `total: NaN` muestra la consecuencia: un solo `NaN` convierte toda la suma en `NaN`. La corrección aplica primero el predicado de formato de T2-A (solo ASCII, un punto como máximo y dígitos) y manda las otras tres entradas a cuarentena con `cast_monto`.",
+      ],
+      code: {
+        language: 'python',
+        title: "parece_numero.py",
+        code: `# Error: aceptar todo lo que Decimal sabe leer
+from decimal import Decimal
+
+valores = ["10.5", "1e3", "NaN", "１２"]
+
+for v in valores:
+    print(repr(v), "→", Decimal(v))
+print("total:", Decimal("10.5") + Decimal("NaN"))
+
+# Corrección: el formato acordado decide antes que Decimal
+for v in valores:
+    digits = v.replace(".", "", 1)
+    if v.isascii() and v.count(".") <= 1 and digits.isdecimal():
+        print(repr(v), "→", Decimal(v).quantize(Decimal("0.01")))
+    else:
+        print(repr(v), "→ cuarentena: cast_monto")`,
+        output: `'10.5' → 10.5
+'1e3' → 1E+3
+'NaN' → NaN
+'１２' → 12
+total: NaN
+'10.5' → 10.50
+'1e3' → cuarentena: cast_monto
+'NaN' → cuarentena: cast_monto
+'１２' → cuarentena: cast_monto`,
+      },
+    },
+    {
+      heading: "Contraejemplo: columnas por posición",
+      paragraphs: [
+        "Un `dict` conserva el orden en que se insertaron sus claves, y dos fuentes pueden armar la misma fila en órdenes distintos. Si escribes `fila.values()` con `csv.writer`, cada valor cae en la columna que le toca por posición, no por nombre.",
+        "La tercera línea muestra el error: `20.00` quedó bajo `id` y `C002` bajo `nombre`, sin ningún aviso. `DictWriter` con `fieldnames=[\"id\", \"nombre\", \"monto\"]` busca cada valor por su clave, y la salida corregida pone el monto de Luis en su columna aunque el dict llegara en otro orden.",
+      ],
+      code: {
+        language: 'python',
+        title: "columnas_por_posicion.py",
+        code: `# Error: escribir los valores en el orden en que vienen
+import csv, io
+
+filas = [
+    {"id": "C001", "nombre": "Ana", "monto": "10.50"},
+    {"monto": "20.00", "id": "C002", "nombre": "Luis"},  # otra fuente armó el dict en otro orden
+]
+
+out = io.StringIO()
+w = csv.writer(out, lineterminator="\\n")
+w.writerow(list(filas[0].keys()))
+for fila in filas:
+    w.writerow(list(fila.values()))
+print(out.getvalue(), end="")
+
+# Corrección: DictWriter con fieldnames declarados
+out = io.StringIO()
+w = csv.DictWriter(out, fieldnames=["id", "nombre", "monto"], lineterminator="\\n")
+w.writeheader()
+for fila in filas:
+    w.writerow(fila)
+print(out.getvalue(), end="")`,
+        output: `id,nombre,monto
+C001,Ana,10.50
+20.00,C002,Luis
+id,nombre,monto
+C001,Ana,10.50
+C002,Luis,20.00`,
+      },
+    },
+    {
       heading: "Filas irregulares y cuarentena",
       subtopicId: "S08-T2-B",
       paragraphs: [
@@ -308,6 +515,42 @@ print(quarantine_irregular(text))`,
         title: "Silenciar irregular = deuda",
         content:
           "La fila extra se pierde o desalinea columnas y corrompe n_in del manifest. Siempre quarantine + reason; nunca “arreglar” a ciegas.",
+      },
+    },
+    {
+      heading: "Contraejemplo: zip descarta columnas sin aviso",
+      paragraphs: [
+        "`zip` empareja elementos hasta que se acaba la lista más corta y descarta el resto sin aviso. Si armas el dict de cada fila con `dict(zip(header, row))`, una fila corta pierde columnas y una fila larga pierde lo que sobra.",
+        "Las tres primeras líneas lo muestran: C002 sale sin `monto` y C003 sale sin `'extra'`, y las dos parecen filas normales. La corrección compara el largo antes de armar el dict, así que C002 y C003 van a cuarentena con `col_count` y `clean` solo contiene la fila que coincide con el encabezado.",
+      ],
+      code: {
+        language: 'python',
+        title: "zip_descarta.py",
+        code: `# Error: zip arma el dict aunque falten o sobren columnas
+header = ["id", "nombre", "monto"]
+filas = [
+    ["C001", "Ana", "10.50"],
+    ["C002", "Luis"],
+    ["C003", "Rosa", "7.00", "extra"],
+]
+
+for row in filas:
+    print(dict(zip(header, row)))
+
+# Corrección: comprobar el largo antes de armar el dict
+clean, quarantine = [], []
+for record_number, row in enumerate(filas, start=1):
+    if len(row) != len(header):
+        quarantine.append({"record_number": record_number, "reason": "col_count"})
+    else:
+        clean.append(dict(zip(header, row)))
+print("clean:", clean)
+print("quarantine:", quarantine)`,
+        output: `{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}
+{'id': 'C002', 'nombre': 'Luis'}
+{'id': 'C003', 'nombre': 'Rosa', 'monto': '7.00'}
+clean: [{'id': 'C001', 'nombre': 'Ana', 'monto': '10.50'}]
+quarantine: [{'record_number': 2, 'reason': 'col_count'}, {'record_number': 3, 'reason': 'col_count'}]`,
       },
     },
     {
@@ -378,6 +621,65 @@ print(montos)`,
       },
     },
     {
+      heading: "Contraejemplo: default=str convierte sin avisar",
+      paragraphs: [
+        "`default=str` le pide a `json.dumps` que convierta en texto cualquier valor que no sepa serializar. Con el `Decimal` el resultado parece correcto, pero el `set` de etiquetas se convierte en el texto `\"{'vip'}\"`, que al releer ya no es una lista sino un string.",
+        "La corrección convierte cada campo a propósito: el monto con `str` y las etiquetas con `sorted`, que devuelve una lista, de modo que al releer `tags` vuelve como `['vip']`. Sin ninguna conversión, `dumps` se detiene con el `TypeError` del comentario, y ese error te dice qué campo falta tratar.",
+      ],
+      code: {
+        language: 'python',
+        title: "default_str.py",
+        code: `# Error: default=str convierte cualquier cosa en texto sin avisar
+import json
+from decimal import Decimal
+
+fila = {"id": "T1", "monto": Decimal("10.50"), "tags": {"vip"}}
+
+texto = json.dumps(fila, default=str)
+print(texto)
+print("tags al releer:", repr(json.loads(texto)["tags"]))
+
+# Corrección: convertir cada campo a propósito antes de dumps
+salida = {"id": fila["id"], "monto": str(fila["monto"]), "tags": sorted(fila["tags"])}
+texto = json.dumps(salida)
+print(texto)
+print("tags al releer:", repr(json.loads(texto)["tags"]))
+# json.dumps(fila) sin default terminaría con:
+# TypeError: Object of type Decimal is not JSON serializable`,
+        output: `{"id": "T1", "monto": "10.50", "tags": "{'vip'}"}
+tags al releer: "{'vip'}"
+{"id": "T1", "monto": "10.50", "tags": ["vip"]}
+tags al releer: ['vip']`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un monto JSON como número pierde el cero",
+      paragraphs: [
+        "Si el JSON trae el monto como número, `json.loads` lo convierte en `float`, que guarda muchas fracciones decimales de forma aproximada. La suma de `0.10` y `0.20` da `0.30000000000000004` y la comparación con `0.30` falla; además, el cero final de `0.10` se perdió al leer.",
+        "Cuando el monto viaja como texto, `Decimal` lo reconstruye exacto: la suma da `0.30` y la comparación da `True`. Por eso la regla del curso para JSON es escribir el monto como string y leerlo con `Decimal`.",
+      ],
+      code: {
+        language: 'python',
+        title: "monto_float.py",
+        code: `# Error: el monto viaja como número JSON y vuelve como float
+import json
+from decimal import Decimal
+
+texto = '[{"id": "T1", "monto": 0.10}, {"id": "T2", "monto": 0.20}]'
+filas = json.loads(texto)
+total = filas[0]["monto"] + filas[1]["monto"]
+print("float:", filas[0]["monto"], "+", filas[1]["monto"], "=", total, "| igual a 0.30:", total == 0.30)
+
+# Corrección: el monto viaja como texto y se reconstruye con Decimal
+texto = '[{"id": "T1", "monto": "0.10"}, {"id": "T2", "monto": "0.20"}]'
+filas = json.loads(texto)
+total = Decimal(filas[0]["monto"]) + Decimal(filas[1]["monto"])
+print("Decimal:", filas[0]["monto"], "+", filas[1]["monto"], "=", total, "| igual a 0.30:", total == Decimal("0.30"))`,
+        output: `float: 0.1 + 0.2 = 0.30000000000000004 | igual a 0.30: False
+Decimal: 0.10 + 0.20 = 0.30 | igual a 0.30: True`,
+      },
+    },
+    {
       heading: "Schema, nulls y evolución compatible",
       subtopicId: "S08-T3-B",
       paragraphs: [
@@ -421,6 +723,29 @@ print(obj)`,
         title: "null ≠ missing siempre",
         content:
           "Documenta en el contrato si null borra el valor o significa unknown. En Python: 'email' in obj distingue clave presente (aunque sea None) de clave ausente.",
+      },
+    },
+    {
+      heading: "Contraejemplo: get no distingue null de clave ausente",
+      paragraphs: [
+        "`get` devuelve `None` tanto si la clave llegó con `null` como si no llegó, así que las dos primeras líneas no permiten distinguir los casos. Si el contrato dice que `null` significa «borrar el correo», tratar ambos casos igual borra o conserva datos por error.",
+        "`in` pregunta por la clave y no por el valor. La tercera línea muestra `True` para el registro que trae `email: None` y `False` para el que no la trae.",
+      ],
+      code: {
+        language: 'python',
+        title: "null_vs_ausente.py",
+        code: `# Error: get devuelve None en los dos casos
+llego_null = {"id": "C1", "email": None}
+sin_clave = {"id": "C2"}
+
+print(llego_null.get("email"), sin_clave.get("email"))
+print("indistinguibles:", llego_null.get("email") == sin_clave.get("email"))
+
+# Corrección: in pregunta por la clave
+print("email" in llego_null, "email" in sin_clave)`,
+        output: `None None
+indistinguibles: True
+True False`,
       },
     },
     {
@@ -469,6 +794,95 @@ print(len(run_id), info["bak_rel"] == f"backups/{run_id}/clients.csv")`,
         title: "Hash del input",
         content:
           "El manifest referencia el hash del archivo crudo, no del clean. Si el clean cambia por una regla nueva, el hash del input debe seguir identificando la misma evidencia.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un hex copiado deja de coincidir",
+      paragraphs: [
+        "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
+        "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+      ],
+      code: {
+        language: 'python',
+        title: "hex_obsoleto.py",
+        code: `# Error: comparar contra un hex copiado de un fixture anterior
+import hashlib
+
+esperado = "b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9"  # sha256 de b"id\\nC1\\n"
+fixture = b"id\\r\\nC1\\r\\n"  # el fixture se guardó con CRLF
+print("coincide con el hex copiado:", hashlib.sha256(fixture).hexdigest() == esperado)
+
+# Corrección: recalcular la huella desde los bytes que la prueba usa
+esperado = hashlib.sha256(fixture).hexdigest()
+print("recalculado:", esperado[:12], len(esperado))
+print("coincide:", hashlib.sha256(fixture).hexdigest() == esperado)`,
+        output: `coincide con el hex copiado: False
+recalculado: 676f62e9fc51 64
+coincide: True`,
+      },
+    },
+    {
+      heading: "Contraejemplo: hash() cambia entre procesos",
+      paragraphs: [
+      "`hash()` es la función que Python usa para diccionarios y sets, y para textos y bytes cambia de valor en cada proceso. La transcripción ejecuta lo mismo con dos semillas distintas (`PYTHONHASHSEED`) y obtiene dos números distintos para `b'abc'`, mientras que `hashlib.sha256` da siempre el mismo hex de 64 caracteres.",
+      "El bloque de Python muestra otro descuido: comparar contra un hex copiado de un fixture anterior. Basta guardar el fixture con `\\r\\n` para que la huella cambie y la comparación dé `False`; recalcular el hash desde los bytes que usa la prueba lo resuelve.",
+      ],
+      code: {
+        language: 'bash',
+        title: "Transcripci\u00f3n: PYTHONHASHSEED frente a sha256",
+        code: `# Error: hash() cambia entre procesos
+$ PYTHONHASHSEED=1 python -c "print(hash(b'abc'))"
+7831159276781462151
+$ PYTHONHASHSEED=2 python -c "print(hash(b'abc'))"
+9213337458927266479
+
+# Corrección: sha256 da la misma huella en cualquier proceso
+$ PYTHONHASHSEED=1 python -c "import hashlib; print(hashlib.sha256(b'abc').hexdigest())"
+ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+$ PYTHONHASHSEED=2 python -c "import hashlib; print(hashlib.sha256(b'abc').hexdigest())"
+ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un respaldo con nombre fijo pisa la corrida anterior",
+      paragraphs: [
+        "Con un respaldo de nombre fijo, cada corrida copia encima de la anterior. El martes, `input.bak` guardó una fila; el miércoles la fuente cambió y la segunda copia reemplazó a la primera, así que la evidencia del martes ya no existe.",
+        "Con una carpeta por `run_id`, cada corrida conserva su copia, y las dos líneas siguientes muestran ambos contenidos; aquí los `run_id` son fijos para que la salida no cambie, pero en el pipeline salen de `uuid`. La última línea explica por qué la hora no sirve como `run_id`: dos corridas lanzadas en el mismo segundo producirían la misma carpeta, así que la hora se guarda como metadata.",
+      ],
+      code: {
+        language: 'python',
+        title: "respaldo_run_id.py",
+        code: `# Error: un respaldo con nombre fijo
+from pathlib import Path
+import shutil, tempfile
+
+td = Path(tempfile.mkdtemp())
+src = td / "clients.csv"
+
+src.write_text("id\\nC1\\n", encoding="utf-8")       # corrida del martes
+shutil.copy2(src, td / "input.bak")
+src.write_text("id\\nC1\\nC2\\n", encoding="utf-8")   # corrida del miércoles: la fuente cambió
+shutil.copy2(src, td / "input.bak")
+print("input.bak:", repr((td / "input.bak").read_text(encoding="utf-8")))
+
+# Corrección: una carpeta por run_id (aquí fijos para que la salida sea estable)
+for run_id, contenido in [("run-001", "id\\nC1\\n"), ("run-002", "id\\nC1\\nC2\\n")]:
+    src.write_text(contenido, encoding="utf-8")
+    bak = td / "backups" / run_id / src.name
+    bak.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, bak)
+for run_id in ["run-001", "run-002"]:
+    bak = td / "backups" / run_id / "clients.csv"
+    print(run_id, repr(bak.read_text(encoding="utf-8")))
+
+# Consecuencia: el momento de inicio no sirve como identidad
+inicio_a = "2026-01-15T10:00:00"
+inicio_b = "2026-01-15T10:00:00"  # dos corridas lanzadas en el mismo segundo
+print("misma carpeta si el nombre es la hora:", f"backups/{inicio_a}" == f"backups/{inicio_b}")`,
+        output: `input.bak: 'id\\nC1\\nC2\\n'
+run-001 'id\\nC1\\n'
+run-002 'id\\nC1\\nC2\\n'
+misma carpeta si el nombre es la hora: True`,
       },
     },
     {
@@ -558,7 +972,7 @@ broken = [
       paragraphs: [
         "En S08 cerraste el **contrato de ingesta local**: Path + UTF-8, escritura atómica, CSV con dialecto/cast, cuarentena con `reason`, JSON/JSONL, schema/nulls, hash del crudo y manifest reconciliado por fuente. El You Do es la evidencia de **CP-N1-B** — no un ejercicio decorativo al final.",
         "En **S09** profundizas **excepciones y logging**: cómo registrar `UnicodeDecodeError`, fallos de cast y reconcile **sin silenciar**, y cómo un log estructurado complementa (no reemplaza) el manifest. Lleva contigo el vocabulario fail-closed: cuarentena con motivo, no relleno mágico, exit ≠ 0 cuando los conteos no cierran.",
-        "Checklist mental antes del You Do (si fallas una, vuelve al We Do de ese tema): ¿tmp es `name + \".tmp\"`? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
+        "Checklist mental antes del You Do (si fallas una, vuelve al We Do de ese tema): ¿el temporal es único (`mkstemp` en el mismo directorio)? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
       ],
       callout: {
         type: "info",
@@ -603,7 +1017,7 @@ print(write_utf8_demo())`,
         environment: "local-python",
         description: "write_atomic: tmp + os.replace sin dejar basura",
         preamble:
-          "El clean del gate se relee por otros procesos o por ti en la siguiente corrida. Si escribes directo a `clean.csv` y el proceso muere a medias, el consumidor ve basura. Observa la demo: se escribe a `clean.csv.tmp`, luego `os.replace` al destino, y el tmp **desaparece**. Predice la salida (`id,nombre` / `C001,Ana` / `tmp gone True`) antes de contrastar. Contrato único del curso: `path.with_name(path.name + '.tmp')` en el mismo directorio.",
+          "El clean del gate se relee por otros procesos o por ti en la siguiente corrida. Si escribes directo a `clean.csv` y el proceso muere a medias, el consumidor ve basura. Observa la demo: se escribe a un temporal único del mismo directorio, luego `os.replace` al destino, y el temporal **desaparece**. Predice la salida (`id,nombre` / `C001,Ana` / `tmp gone True`) antes de contrastar. Contrato único del curso: `tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')` en el mismo directorio.",
         code: {
           language: 'python',
           title: "S08-T1-B-DEMO — atomic",
@@ -612,7 +1026,9 @@ import os, tempfile
 
 def write_atomic(path: Path, text: str) -> None:
     path = Path(path)
-    tmp = path.with_name(path.name + ".tmp")
+    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")
+    os.close(fd)
+    tmp = Path(tmp_name)
     tmp.write_text(text, encoding="utf-8")
     os.replace(tmp, path)
 
@@ -620,12 +1036,12 @@ td = Path(tempfile.mkdtemp())
 dest = td / "clean.csv"
 write_atomic(dest, "id,nombre\\nC001,Ana\\n")
 print(dest.read_text(encoding="utf-8"), end="")
-print("tmp gone", not (td / "clean.csv.tmp").exists())`,
+print("tmp gone", not any(p.suffix == ".tmp" for p in td.iterdir()))`,
           output: `id,nombre
 C001,Ana
 tmp gone True`,
         },
-        why: "os.replace hace el swap atómico del artefacto de salida. El tmp en el mismo directorio evita renames cross-device. Contrato único del curso: `tmp = dest.with_name(dest.name + '.tmp')`; al terminar no queda basura. Este helper se reutiliza en You Do para clean, quarantine y manifest.",
+        why: "os.replace hace el swap atómico del artefacto de salida. El tmp en el mismo directorio evita renames cross-device. Contrato único del curso: temporal único con `tempfile.mkstemp(dir=dest.parent, ...)`; al terminar no queda basura. Este helper se reutiliza en You Do para clean, quarantine y manifest.",
         retrospective:
           "Temp completo + replace = el destino solo cambia cuando el contenido está listo. No confundas “escribí el string” con “el consumidor ve el estado final”. We Do: detectar CRLF, implementar atomic y simular mid-write.",
       },
@@ -758,18 +1174,20 @@ print(obj)`,
         environment: "local-python",
         description: "sha256 de input CSV + backup `.bak`",
         preamble:
-          "El auditor pregunta: “¿sobre qué bytes corriste esta ingesta?”. Observa: se escribe un CSV sintético, se copia a `.bak` con `shutil.copy2`, y se calcula `sha256` de `read_bytes`. La demo imprime 12 hex del digest y `True` si el backup existe. No mutes el crudo después de hashearlo sin registrar un nuevo run. Solo sintéticos.",
+          "El auditor pregunta: “¿sobre qué bytes corriste esta ingesta?”. Observa: se escribe un CSV sintético, se copia a `backups/<run_id>/clients.csv` con `shutil.copy2`, y se calcula `sha256` de `read_bytes`. La demo imprime 12 hex del digest y `True` si el backup existe. No mutes el crudo después de hashearlo sin registrar un nuevo run. Solo sintéticos.",
         code: {
           language: 'python',
           title: "S08-T4-A-DEMO — hash",
           code: `from pathlib import Path
-import hashlib, shutil, tempfile
+import hashlib, shutil, tempfile, uuid
 
 def hash_and_backup(content="id\\nC1\\n"):
     td = Path(tempfile.mkdtemp())
     src = td / "clients.csv"
     src.write_text(content, encoding="utf-8")
-    bak = td / "clients.csv.bak"
+    run_id = uuid.uuid4().hex
+    bak = td / "backups" / run_id / "clients.csv"
+    bak.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, bak)
     dig = hashlib.sha256(src.read_bytes()).hexdigest()
     return dig[:12], bak.exists()
@@ -1013,13 +1431,13 @@ False`,
         kind: "independent",
         title: "Implementar write_atomic con tmp y replace",
         preamble:
-          "- **Contexto:** clean, quarantine y manifest del CP-N1-B deben publicarse sin estados a medias.\n- **Meta:** implementar `write_atomic(path, text)` con el contrato del curso.\n- **Éxito:** tras escribir `'ok\\n'`, el contenido final es la línea `ok`.\n- **Límites:** `tmp = path.with_name(path.name + '.tmp')` + `os.replace`; UTF-8; no dejes el tmp.",
+          "- **Contexto:** clean, quarantine y manifest del CP-N1-B deben publicarse sin estados a medias.\n- **Meta:** implementar `write_atomic(path, text)` con el contrato del curso.\n- **Éxito:** tras escribir `'ok\\n'`, el contenido final es la línea `ok`.\n- **Límites:** temporal único con `tempfile.mkstemp(dir=path.parent, ...)` + `os.replace`; UTF-8; no dejes el tmp.",
         id: "S08-T1-B-E2",
         instruction:
-          "1. El starter escribe directo al destino: corrígelo.\n2. Escribe el texto completo al `.tmp` en el mismo directorio.\n3. Haz `os.replace(tmp, path)`.\n4. Escribe `'ok\\n'`, relee e imprime el contenido (sin basura extra).",
+          "1. El starter escribe directo al destino y con un borrador: corrígelo.\n2. Escribe el texto completo a un temporal único (`mkstemp`) en el mismo directorio.\n3. Haz `os.replace(tmp, path)`.\n4. Escribe `'ok\\n'`, relee e imprime el contenido (sin basura extra).",
         hint: "tmp + os.replace",
         hints: [
-          "tmp = path.with_name(path.name + '.tmp')",
+          "tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')",
           "mismo directorio que dest; os.replace(tmp, path)",
         ],
         edgeCases: ["atomic"],
@@ -1031,7 +1449,7 @@ False`,
         starterCode: {
           language: 'python',
           title: "atomic_impl.py",
-          code: `# DEFECT: write directo sin tmp/replace
+          code: `# DEFECT: write directo sin tmp/replace, y con un borrador
 from pathlib import Path
 import os, tempfile
 
@@ -1040,7 +1458,7 @@ def write_atomic(path, text):
 
 td = Path(tempfile.mkdtemp())
 p = td / 'out.txt'
-write_atomic(p, 'ok\\n')
+write_atomic(p, 'borrador\\n')
 print(p.read_text(encoding='utf-8'), end='')`,
         },
         solutionCode: {
@@ -1051,7 +1469,9 @@ import os, tempfile
 
 def write_atomic(path, text):
     path = Path(path)
-    tmp = path.with_name(path.name + '.tmp')
+    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + '.', suffix='.tmp')
+    os.close(fd)
+    tmp = Path(tmp_name)
     tmp.write_text(text, encoding='utf-8')
     os.replace(tmp, path)
 td = Path(tempfile.mkdtemp())
@@ -1068,13 +1488,13 @@ print(p.read_text(encoding='utf-8'), end='')`,
         kind: "transfer",
         title: "Simular mid-write y cerrar con atomic",
         preamble:
-          "- **Contexto:** un consumidor lee `f.txt` mientras el pipeline aún escribe.\n- **Meta:** mostrar estado parcial y luego un replace atómico a estado completo.\n- **Éxito:** `mid PARCIAL` y `final COMPLETO`.\n- **Límites:** el segundo paso debe ser tmp + `os.replace`, no otro `write_text` directo.",
+          "- **Contexto:** un consumidor lee `f.txt` mientras el pipeline aún escribe.\n- **Meta:** mostrar estado parcial y luego un replace atómico a estado completo.\n- **Éxito:** `mid PARCIAL` y `final COMPLETO`.\n- **Límites:** el segundo paso debe ser un temporal único (`mkstemp`) + `os.replace`, no otro `write_text` directo.",
         instruction:
           "1. Deja el primer write de `'PARCIAL'` e imprime `mid …`.\n2. Sustituye el segundo write directo por tmp + `os.replace` a `'COMPLETO'`.\n3. Imprime `final` (no `end`) con el contenido final.\n4. No borres el paso mid: es la evidencia del problema.",
         hint: "Primero write no atómico parcial; luego tmp + os.replace",
         hints: [
           "Primero write no atómico parcial; luego write_atomic",
-          "tmp = dest.with_name(dest.name + '.tmp')",
+          "tempfile.mkstemp(dir=dest.parent, prefix=dest.name + '.', suffix='.tmp')",
         ],
         edgeCases: ["mid-write vs. atomic"],
         tests: "mid PARCIAL\\nfinal COMPLETO",
@@ -1104,7 +1524,9 @@ td = Path(tempfile.mkdtemp())
 dest = td / 'f.txt'
 dest.write_text('PARCIAL', encoding='utf-8')
 print('mid', dest.read_text(encoding='utf-8'))
-tmp = dest.with_name(dest.name + '.tmp')
+fd, tmp_name = tempfile.mkstemp(dir=dest.parent, prefix=dest.name + '.', suffix='.tmp')
+os.close(fd)
+tmp = Path(tmp_name)
 tmp.write_text('COMPLETO', encoding='utf-8')
 os.replace(tmp, dest)
 print('final', dest.read_text(encoding='utf-8'))`,
@@ -1118,7 +1540,7 @@ final COMPLETO`,
         kind: "guided",
         title: "Leer filas CSV con DictReader",
         preamble:
-          "- **Contexto:** el clean del gate trabaja por **nombre de columna**, no por posición frágil.\n- **Meta:** usar `csv.DictReader` sobre un StringIO sintético.\n- **Éxito:** imprime `{'id': 'C001', 'nombre': 'Ana'}`.\n- **Límites:** solo stdlib; no hagas `split(',')` manual del cuerpo.",
+          "- **Contexto:** el clean del gate trabaja por **nombre de columna**, no por posición frágil.\n- **Meta:** usar `csv.DictReader` sobre un StringIO sintético.\n- **Éxito:** imprime `{'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}`: la coma entre comillas queda dentro de `nombre`.\n- **Límites:** solo stdlib; no hagas `split(',')` manual del cuerpo.",
         instruction:
           "1. El starter parte líneas a mano: rompe si hay comas en campos.\n2. Envuélvelo en `io.StringIO` y recorre con `DictReader`.\n3. Imprime cada fila (dict).\n4. Confirma mentalmente que el header define las claves.",
         hint: "csv.DictReader",
@@ -1127,7 +1549,7 @@ final COMPLETO`,
           "io.StringIO",
         ],
         edgeCases: ["header"],
-        tests: "print dict C001 Ana",
+        tests: "print dict C001, 'Pérez, Ana', Porto",
         feedback:
           "`DictReader` usa la primera línea como fieldnames y entrega dicts. El split manual desalinea columnas y es el camino a métricas corruptas del gate.",
         retrospective:
@@ -1137,7 +1559,7 @@ final COMPLETO`,
           title: "dictreader.py",
           code: `# DEFECT: split manual rompe comas en campos
 import csv, io
-raw = 'id,nombre\\nC001,Ana\\n'
+raw = 'id,nombre,ciudad\\nC001,"Pérez, Ana",Porto\\n'
 for line in raw.strip().split('\\n')[1:]:
     print(line.split(','))`,
         },
@@ -1145,10 +1567,10 @@ for line in raw.strip().split('\\n')[1:]:
           language: 'python',
           title: "dictreader.py",
           code: `import csv, io
-raw = 'id,nombre\\nC001,Ana\\n'
+raw = 'id,nombre,ciudad\\nC001,"Pérez, Ana",Porto\\n'
 for row in csv.DictReader(io.StringIO(raw)):
     print(row)`,
-          output: `{'id': 'C001', 'nombre': 'Ana'}`,
+          output: `{'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}`,
         },
       },
       {
@@ -1390,16 +1812,16 @@ schema 1`,
         kind: "guided",
         title: "Parsear JSON con loads e id C001",
         preamble:
-          "- **Contexto:** `transactions.json` del gate llega como texto; el slice manual es frágil.\n- **Meta:** usar `json.loads` y leer `id`.\n- **Éxito:** imprime `C001`.\n- **Límites:** solo stdlib; no indexar caracteres del string crudo.",
+          "- **Contexto:** `transactions.json` del gate llega como texto; el slice manual es frágil.\n- **Meta:** usar `json.loads` y leer `id`.\n- **Éxito:** imprime `C001` y luego `C002`, aunque el segundo texto lleve un espacio después de los dos puntos.\n- **Límites:** solo stdlib; no indexar caracteres del string crudo.",
         instruction:
-          "1. El starter hace `raw[7:11]`: se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']`.\n4. No uses expresiones regulares sobre el JSON.",
+          "1. El starter hace `raw[7:10]`: un corte manual que pierde el último carácter del id y se rompe al cambiar espacios o comillas.\n2. Sustituye por `json.loads(...)`.\n3. Imprime `obj['id']` para cada uno de los dos textos.\n4. No uses expresiones regulares sobre el JSON.",
         hint: "json.loads",
         hints: [
           "json.loads",
           "dict access",
         ],
         edgeCases: ["loads"],
-        tests: "C001",
+        tests: "C001 y C002",
         feedback:
           "`loads` parsea **string**; `load` parsea **file**. El slice asume posiciones fijas y falla en el primer cambio de formato del export.",
         retrospective:
@@ -1407,18 +1829,22 @@ schema 1`,
         starterCode: {
           language: 'python',
           title: "loads_fix.py",
-          code: `# DEFECT: slice manual; no usa loads
+          code: `# DEFECT: slice manual con índice incorrecto; no usa loads
 import json
 raw = '{"id":"C001"}'
-print(raw[7:11])`,
+con_espacio = '{"id": "C002"}'
+print(raw[7:10])
+print(con_espacio[7:10])`,
         },
         solutionCode: {
           language: 'python',
           title: "loads_fix.py",
           code: `import json
-obj = json.loads('{"id":"C001"}')
-print(obj['id'])`,
-          output: `C001`,
+for raw in ['{"id":"C001"}', '{"id": "C002"}']:
+    obj = json.loads(raw)
+    print(obj['id'])`,
+          output: `C001
+C002`,
         },
       },
       {
@@ -1671,12 +2097,13 @@ print(dig[:8], len(dig))`,
         kind: "independent",
         title: "Backup in.csv con copy2 e igualdad",
         preamble:
-          "- **Contexto:** antes de cualquier transformación, el gate preserva el crudo.\n- **Meta:** copiar `in.csv` a `in.csv.bak` y verificar igualdad de bytes.\n- **Éxito:** imprime `True`.\n- **Límites:** `shutil.copy2`; comparar con `read_bytes`, no solo `exists`.",
+          "- **Contexto:** antes de cualquier transformación, el gate preserva el crudo.\n- **Meta:** copiar `in.csv` a `backups/<run_id>/in.csv` y verificar igualdad de bytes.\n- **Éxito:** imprime `True`.\n- **Límites:** `shutil.copy2`; comparar con `read_bytes`, no solo `exists`.",
         instruction:
-          "1. El starter solo imprime `bak.exists()` (False).\n2. Tras escribir `in.csv`, haz `shutil.copy2(src, bak)`.\n3. Imprime `bak.read_bytes() == src.read_bytes()`.\n4. No reescribas el bak a mano con otro contenido.",
+          "1. El starter solo imprime `bak.exists()` (False).\n2. Tras escribir `in.csv`, crea la carpeta de la corrida con `bak.parent.mkdir(parents=True, exist_ok=True)`; sin ella, `copy2` falla con `FileNotFoundError`.\n3. Haz `shutil.copy2(src, bak)`.\n4. Imprime `bak.read_bytes() == src.read_bytes()`.\n5. No reescribas el bak a mano con otro contenido.",
         hint: "shutil.copy2",
         hints: [
           "shutil.copy2",
+          "bak.parent.mkdir(parents=True, exist_ok=True)",
           "read_bytes compare",
         ],
         edgeCases: ["backup"],
@@ -1694,7 +2121,9 @@ import shutil, tempfile
 td = Path(tempfile.mkdtemp())
 src = td / 'in.csv'
 src.write_text('a\\n', encoding='utf-8')
-bak = td / 'in.csv.bak'
+import uuid
+run_id = uuid.uuid4().hex
+bak = td / 'backups' / run_id / 'in.csv'
 print(bak.exists())`,
         },
         solutionCode: {
@@ -1705,7 +2134,10 @@ import shutil, tempfile
 td = Path(tempfile.mkdtemp())
 src = td / 'in.csv'
 src.write_text('a\\n', encoding='utf-8')
-bak = td / 'in.csv.bak'
+import uuid
+run_id = uuid.uuid4().hex
+bak = td / 'backups' / run_id / 'in.csv'
+bak.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(src, bak)
 print(bak.read_bytes() == src.read_bytes())`,
           output: `True`,
@@ -1766,7 +2198,7 @@ print(prov)`,
         kind: "guided",
         title: "Manifest multi-fuente con totales derivados",
         preamble:
-          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `5 4 1`, ambas fuentes True, manifest True.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
+          "- **Contexto:** `clients.csv` + `transactions.json` pertenecen a una sola corrida: genera un `run_id` nuevo al iniciarla y usa ese mismo valor para ambas fuentes y su manifiesto.\n- **Meta:** derivar `reconcile_ok` y totales con `sum` (sin hardcode).\n- **Éxito:** imprime `6 4 1`, luego `('clients.csv', True)` y `('transactions.json', False)`, y al final `False`: la segunda fuente no cuadra, porque 3 ≠ 2 + 0.\n- **Límites:** no pongas `reconcile_ok = True` a ciegas ni escribas un `run_id` fijo; calcula la igualdad por fuente.",
         instruction:
           "1. Corrige el loop: `reconcile_ok = n_in == n_clean + n_quarantine`.\n2. Antes de armar el manifiesto, crea una sola vez `run_id = uuid.uuid4().hex`.\n3. Arma el dict manifest con ese `run_id`, `sources` y totales sumados.\n4. `reconcile_ok` global = `all` por fuente.\n5. Imprime totales, lista (`name`, `ok`) y el booleano global.",
         hint: "Calcula reconcile_ok por fuente antes de sumar",
@@ -1775,7 +2207,7 @@ print(prov)`,
           "sources contiene clients.csv y transactions.json.",
         ],
         edgeCases: ["dos fuentes", "totales derivados"],
-        tests: "totales 5/4/1; ambas reconcile_ok True; manifest True",
+        tests: "totales 6/4/1; clients.csv True, transactions.json False; manifest False",
         feedback:
           "Hardcodear True es mentir al auditor. Los totales se **derivan** de sources para que una edición de conteos no deje el resumen inconsistente.",
         retrospective:
@@ -1786,7 +2218,7 @@ print(prov)`,
           code: `# DEFECT: always reconcile_ok True; no totales derivados
 sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
-    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = True
@@ -1800,7 +2232,7 @@ for source in sources:
 run_id = uuid.uuid4().hex
 sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
-    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 0},
 ]
 for source in sources:
     source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']
@@ -1815,9 +2247,9 @@ manifest = {
 print(manifest['n_in'], manifest['n_clean'], manifest['n_quarantine'])
 print([(s['name'], s['reconcile_ok']) for s in sources])
 print(manifest['reconcile_ok'])`,
-          output: `5 4 1
-[('clients.csv', True), ('transactions.json', True)]
-True`,
+          output: `6 4 1
+[('clients.csv', True), ('transactions.json', False)]
+False`,
         },
       },
       {
@@ -1942,7 +2374,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. Crea una sola vez `run_id = uuid.uuid4().hex`; calcula `sha256_file`, guarda el backup del crudo dentro de `backups/{run_id}/` y reutiliza ese mismo valor en el manifest (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B). Si una fuente no cuadra, `run` termina con exit 1 **antes** de publicar nada.\n5. `write_atomic` de clean, quarantine y manifest (T1-B), solo cuando todo reconcilia.\n6. `run` retorna 0 solo si todo reconcilia y todo se publicó; si no, exit 1 (E3 de T4-B). Ojo: `write_atomic` es atómico por archivo, no por corrida. Publicar clean, quarantine y manifest son tres reemplazos separados, no una transacción de varios archivos; si el proceso muere entre dos `os.replace`, pueden quedar versiones de corridas distintas. Por eso el manifest va al final y lleva el `run_id`.\n\n**Éxito de corrida observable:** demo con filas sanas → exit 0 y manifest `reconcile_ok`; demo con fila irregular → exit 0 y `n_quarantine ≥ 1`; demo con conteos rotos (o fuente que no cuadra) → exit 1.\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1960,7 +2392,7 @@ exit_code 1`,
       "Cada fuente cumple n_in == n_clean + n_quarantine o el pipeline termina con exit != 0",
       "Los totales del manifest se derivan de sources; una compensación entre fuentes nunca oculta un error",
       "Montos entran como texto, se convierten con Decimal y se serializan como texto decimal",
-      "write_atomic usa tmp = path.with_name(path.name + '.tmp') + os.replace",
+      "write_atomic usa un temporal único (tempfile.mkstemp en el mismo directorio) + os.replace",
       "Al abrir CSV en disco: encoding utf-8 (o utf-8-sig si hay BOM) y newline=''",
       "Empaquetado CLI diferido a S10",
     ],
@@ -1996,7 +2428,7 @@ def sha256_file(path: Path) -> str:
 
 
 def write_atomic(path: Path, text: str) -> None:
-    # Contrato: tmp = path.with_name(path.name + ".tmp") en el mismo dir; luego os.replace
+    # Contrato: temporal único con tempfile.mkstemp(dir=path.parent, ...) en el mismo dir; luego os.replace
     # Corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
@@ -2058,10 +2490,10 @@ raise SystemExit(code)
       },
       {
         question: "¿Cuál es la escritura atómica típica en este curso?",
-        options: ["open(dest,'w') y escribir directo siempre", "escribir a temp (name + '.tmp') y os.replace al destino", "solo print al stdout", "append eterno al mismo file"],
+        options: ["open(dest,'w') y escribir directo siempre", "escribir a un temporal único del mismo directorio (mkstemp) y os.replace al destino", "solo print al stdout", "append eterno al mismo file"],
         correctIndex: 1,
         explanation:
-          "temp + replace evita dejar dest truncado si hay crash mid-write. Contrato: path.with_name(path.name + '.tmp').",
+          "temp + replace evita dejar dest truncado si hay crash mid-write. Contrato: temporal único con tempfile.mkstemp(dir=path.parent, ...) y os.replace; un nombre fijo como name + '.tmp' comparte archivo entre escritores.",
       },
       {
         question: "Una fila CSV con columnas de más debe…",

@@ -149,6 +149,38 @@ print({"raw": full_raw, "normalized": full_normalized, "components": None, "stat
       },
     },
     {
+      heading: "Contraejemplo: sobrescribir raw destruye el original",
+      paragraphs: [
+        "La política v1 de este ejemplo toma el primer y el último token, y el código guarda el resultado encima del valor recibido. `María Pérez de la Cruz` queda como `María Cruz`, y el texto original ya no está en el registro.",
+        "La segunda línea muestra la consecuencia: si mañana una política v2 debe reconocer apellidos compuestos, solo podrá partir de `María Cruz`. En la corrección, `raw` conserva el texto completo, `normalized` guarda el resultado de v1 y `transforms` dice qué se hizo, así que v2 puede reprocesar desde el original.",
+      ],
+      code: {
+        language: 'python',
+        title: "raw_intacto.py",
+        code: `# Error: la heurística sobrescribe el valor recibido
+registro = {"nombre": "María Pérez de la Cruz"}
+toks = registro["nombre"].split()
+registro["nombre"] = toks[0] + " " + toks[-1]  # política v1: primer y último token
+print(registro)
+print("la política v2 parte de:", registro["nombre"])
+
+# Corrección: raw queda intacto; normalized y transforms van aparte
+raw = "María Pérez de la Cruz"
+toks = raw.split()
+registro = {
+    "raw": raw,
+    "normalized": toks[0] + " " + toks[-1],
+    "transforms": ["primer_y_ultimo_token"],
+}
+print(registro)
+print("la política v2 parte de:", registro["raw"])`,
+        output: `{'nombre': 'María Cruz'}
+la política v2 parte de: María Cruz
+{'raw': 'María Pérez de la Cruz', 'normalized': 'María Cruz', 'transforms': ['primer_y_ultimo_token']}
+la política v2 parte de: María Pérez de la Cruz`,
+      },
+    },
+    {
       heading: "split / join / search / replace",
       subtopicId: "S07-T2-A",
       paragraphs: [
@@ -179,6 +211,33 @@ print(parts)`,
         title: "str primero",
         content:
           "Si un replace/split basta, no escribas regex. Más legible y más seguro.",
+      },
+    },
+    {
+      heading: "Contraejemplo: find usado como booleano",
+      paragraphs: [
+        "`find` devuelve una posición: `0` si el texto empieza con lo buscado y `-1` si no lo encuentra. Como `0` cuenta como falso y `-1` como verdadero, un `if texto.find(...)` responde al revés justo en esos dos casos.",
+        "Las dos primeras líneas lo muestran: `Av.` está al inicio y el `if` dice que no aparece, mientras que `Jr.` no está y el `if` dice que sí. La corrección compara con `-1`, o usa `in` cuando solo quieres saber si aparece, y entonces las dos respuestas coinciden con el texto.",
+      ],
+      code: {
+        language: 'python',
+        title: "find_booleano.py",
+        code: `# Error: usar el índice de find como si fuera True o False
+texto = "Av. Central 123"
+
+for buscado in ["Av.", "Jr."]:
+    if texto.find(buscado):
+        print("con find:", buscado, "aparece")
+    else:
+        print("con find:", buscado, "no aparece")
+
+# Corrección: comparar con -1, o preguntar con in
+for buscado in ["Av.", "Jr."]:
+    print("find != -1:", buscado, texto.find(buscado) != -1, "| in:", buscado in texto)`,
+        output: `con find: Av. no aparece
+con find: Jr. aparece
+find != -1: Av. True | in: True
+find != -1: Jr. False | in: False`,
       },
     },
     {
@@ -265,6 +324,28 @@ anchors exact: True`,
       },
     },
     {
+      heading: "Contraejemplo: el punto de un patrón no es un punto",
+      paragraphs: [
+        "En una expresión regular, el punto significa «cualquier carácter», así que el patrón `Av.` también encuentra `Avd` dentro de `Avda.`. `re.sub` reemplaza las dos apariciones, y la segunda dirección termina como `Avenidaa. Grau 45`.",
+        "`str.replace` busca el texto exacto `Av.`, con el punto incluido, así que cambia solo la abreviatura que querías y deja `Avda. Grau 45` intacto. Cuando el texto que buscas es fijo, `replace` evita esta trampa; con regex, tendrías que escribir `Av\\.` para que el punto fuera literal.",
+      ],
+      code: {
+        language: 'python',
+        title: "punto_en_regex.py",
+        code: `# Error: en un patrón, el punto significa «cualquier carácter»
+import re
+
+direccion = "Av. Central 123, Avda. Sur 45"
+
+print(re.sub("Av.", "Avenida", direccion))
+
+# Corrección: replace busca el texto literal
+print(direccion.replace("Av.", "Avenida"))`,
+        output: `Avenida Central 123, Avenidaa. Sur 45
+Avenida Central 123, Avda. Sur 45`,
+      },
+    },
+    {
       heading: "Compilación, extracción y límites",
       subtopicId: "S07-T3-B",
       paragraphs: [
@@ -292,6 +373,41 @@ span (29, 38) 988777666`,
         title: "Backtracking",
         content:
           "Patrones tipo (a+)+b sobre strings hostiles pueden colgar el proceso. `re` no ofrece timeout: mantén regex simples, limita la entrada y aísla cualquier patrón no confiable.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un patrón de dos palabras rechaza partículas",
+      paragraphs: [
+        "Un patrón de dos palabras describe `Ana Quispe`, pero no `María del Carmen Quispe`: con las partículas, `fullmatch` devuelve `None`. Si lo aflojas con `.+`, el patrón acepta cualquier nombre, y el reparto que produce, con `María del Carmen Quispe` como nombre y `Ríos` como apellido, parece válido aunque está mal.",
+        "La corrección usa el `split` de T1-B y solo acepta el caso de dos tokens. El nombre con partículas va a `review` junto con su `raw`, de modo que ninguna regla inventa dónde termina el nombre y dónde empieza el apellido.",
+      ],
+      code: {
+        language: 'python',
+        title: "nombre_con_particula.py",
+        code: `# Error 1: el patrón de dos palabras no admite partículas
+import re
+
+dos = re.compile(r"(?P<nom>\\w+) (?P<ap>\\w+)")
+for raw in ["Ana Quispe", "María del Carmen Quispe"]:
+    m = dos.fullmatch(raw)
+    print(raw, "→", m.groupdict() if m else None)
+
+# Error 2: aflojarlo con .+ produce un reparto que parece válido
+flojo = re.compile(r"(?P<nom>.+) (?P<ap>.+)")
+print(flojo.fullmatch("María del Carmen Quispe Ríos").groupdict())
+
+# Corrección: tokenizar con str y mandar lo ambiguo a review
+for raw in ["Ana Quispe", "María del Carmen Quispe Ríos"]:
+    toks = raw.split()
+    if len(toks) == 2:
+        print(raw, "→", {"nom": toks[0], "ap": toks[1], "status": "ok"})
+    else:
+        print(raw, "→", {"raw": raw, "status": "review"})`,
+        output: `Ana Quispe → {'nom': 'Ana', 'ap': 'Quispe'}
+María del Carmen Quispe → None
+{'nom': 'María del Carmen Quispe', 'ap': 'Ríos'}
+Ana Quispe → {'nom': 'Ana', 'ap': 'Quispe', 'status': 'ok'}
+María del Carmen Quispe Ríos → {'raw': 'María del Carmen Quispe Ríos', 'status': 'review'}`,
       },
     },
     {
@@ -334,6 +450,56 @@ sin tokens: None`,
         title: "Sin afirmaciones de identidad",
         content:
           "Score ≠ identidad. El pipeline de *match* solo sugiere revisión humana.",
+      },
+    },
+    {
+      heading: "Contraejemplo: fusionar por score borra un registro",
+      paragraphs: [
+        "Un score de 0.667 dice que dos nombres comparten dos de sus tres tokens, pero no dice que los registros sean de la misma persona. El código compara `Juan Perez` con `Juan P Perez`, dos registros sintéticos con correos distintos, y aplica primero una fusión automática con umbral `0.5`.",
+        "La salida del error muestra que `CLI-0002` desapareció y con él el correo `jp.ventas@example.org`. Si eran dos personas, una de ellas perdió su ficha sin que nadie la revisara. La corrección conserva los dos registros y produce un paquete de evidencia con `decision: 'review'`, que una persona puede revisar antes de decidir.",
+      ],
+      code: {
+        language: 'python',
+        title: "fusion_por_score.py",
+        code: `# Error: un score parcial fusiona dos registros
+import unicodedata
+
+def tokens(s: str) -> set[str]:
+    return set(unicodedata.normalize("NFC", s).casefold().split())
+
+def token_jaccard(a: str, b: str):
+    A, B = tokens(a), tokens(b)
+    if not A or not B:
+        return None
+    return len(A & B) / len(A | B)
+
+r1 = {"id": "CLI-0001", "nombre": "Juan Perez", "email": "juan.perez@example.com"}
+r2 = {"id": "CLI-0002", "nombre": "Juan P Perez", "email": "jp.ventas@example.org"}
+score = token_jaccard(r1["nombre"], r2["nombre"])
+print("score:", round(score, 3))
+
+registros = {"CLI-0001": r1, "CLI-0002": r2}
+if score >= 0.5:
+    registros.pop("CLI-0002")
+print("tras auto-fusión:", sorted(registros))
+print("emails que quedan:", [r["email"] for r in registros.values()])
+
+# Corrección: los dos registros siguen; el par va a review con su evidencia
+registros = {"CLI-0001": r1, "CLI-0002": r2}
+evidencia = {
+    "raw_a": r1["nombre"],
+    "raw_b": r2["nombre"],
+    "score": round(score, 3),
+    "decision": "review",
+    "reason": "score parcial",
+}
+print("con review:", sorted(registros))
+print(evidencia)`,
+        output: `score: 0.667
+tras auto-fusión: ['CLI-0001']
+emails que quedan: ['juan.perez@example.com']
+con review: ['CLI-0001', 'CLI-0002']
+{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', 'score': 0.667, 'decision': 'review', 'reason': 'score parcial'}`,
       },
     },
     {
@@ -391,6 +557,46 @@ José/Jose da 0.0: NFC y casefold no eliminan tildes`,
         title: "Evidencia > etiqueta",
         content:
           "Guarda `raw`, `score` y `reason`. El humano decide fusiones sensibles; el sistema no etiqueta parentesco ni fraude.",
+      },
+    },
+    {
+      heading: "Contraejemplo: un umbral elegido después de ver los scores",
+      paragraphs: [
+        "Si eliges el umbral después de ver el score del par que querías aceptar, el umbral queda hecho a la medida de ese par. Aquí `Juan Perez` frente a `Juan P Perez` da 0.667 y el umbral de `exact` se fija en ese valor. Entonces un par nuevo que la referencia marca como distinto, `Ana Rojas` frente a `Ana Rojas Torres`, obtiene el mismo 0.667 y pasa como `exact`.",
+        "Con los umbrales declarados antes de calcular, `exact` exige 1.0 y la franja desde 0.4 va a `review`. El mismo par nuevo termina en `review`, donde una persona puede examinarlo.",
+      ],
+      code: {
+        language: 'python',
+        title: "umbral_a_posteriori.py",
+        code: `# Error: el umbral se elige después de ver el score del par conocido
+def token_jaccard(a: str, b: str):
+    A, B = set(a.casefold().split()), set(b.casefold().split())
+    if not A or not B:
+        return None
+    return len(A & B) / len(A | B)
+
+conocido = ("Juan Perez", "Juan P Perez")   # el par que «queríamos» aceptar
+nuevo = ("Ana Rojas", "Ana Rojas Torres")   # expected_match = False
+s_conocido = round(token_jaccard(conocido[0], conocido[1]), 3)
+s_nuevo = round(token_jaccard(nuevo[0], nuevo[1]), 3)
+print("scores:", s_conocido, s_nuevo)
+
+umbral_exact = s_conocido
+print("nuevo con umbral a posteriori:", "exact" if s_nuevo >= umbral_exact else "review")
+
+# Corrección: umbrales declarados antes de calcular
+UMBRAL_EXACT = 1.0
+UMBRAL_REVIEW = 0.4
+if s_nuevo >= UMBRAL_EXACT:
+    decision = "exact"
+elif s_nuevo >= UMBRAL_REVIEW:
+    decision = "review"
+else:
+    decision = "no_match"
+print("nuevo con umbral declarado:", decision)`,
+        output: `scores: 0.667 0.667
+nuevo con umbral a posteriori: exact
+nuevo con umbral declarado: review`,
       },
     },
     {
@@ -609,22 +815,37 @@ riesgo: evita patrones con cuantificadores anidados ambiguos`,
           title: "S07-T4-A-DEMO — jaccard",
           code: `import unicodedata
 
-def token_jaccard(a: str, b: str) -> float:
+def norm(s: str) -> str:
+    s = unicodedata.normalize("NFC", s)
+    return " ".join(s.casefold().split())
+
+def token_jaccard(a: str, b: str) -> float | None:
     def toks(s: str) -> set[str]:
-        s = unicodedata.normalize("NFC", s.replace(".", " "))
-        return set(s.casefold().split())
+        return set(norm(s.replace(".", " ")).split())
     A, B = toks(a), toks(b)
-    if not A and not B:
-        return 1.0
     if not A or not B:
-        return 0.0
+        return None
     return len(A & B) / len(A | B)
+
+def decide(a: str, b: str) -> str:
+    s = token_jaccard(a, b)
+    if s is None:
+        return "review"
+    if s == 1.0 and norm(a) == norm(b):
+        return "exact"
+    if s >= 0.4:
+        return "review"
+    return "no_match"
 
 s = token_jaccard("Juan Perez", "Juan P. Perez")
 print("score", round(s, 3))
-print("decision", "review" if 0.4 <= s < 1.0 else ("exact" if s == 1.0 else "no_match"))`,
+print("decision", decide("Juan Perez", "Juan P. Perez"))
+print("Error: el orden ignorado da", token_jaccard("Juan Perez", "Perez Juan"))
+print("Corrección:", decide("Juan Perez", "Perez Juan"))`,
           output: `score 0.667
-decision review`,
+decision review
+Error: el orden ignorado da 1.0
+Corrección: review`,
         },
         why: "Un score medio cae en `review`: es evidencia para un humano, no veredicto. Exact solo con igualdad plena tras el mismo pipeline de normalización. Nunca auto-fusionar ni afirmar identidad legal a partir de Jaccard.",
         retrospective:
@@ -742,9 +963,9 @@ for n in names:
           language: 'python',
           title: "casefold_match.py",
           code: `# TAREA: matching case-insensitive con casefold (política del normalizador)
-# DEFECT: usa lower por hábito; aquí lower también da True, pero el contrato pide casefold
+# DEFECT: compara tal cual, sin política de mayúsculas; el contrato pide casefold
 a, b = 'MAÑANA', 'mañana'
-match = a.lower() == b.lower()  # funciona en este par; reescribe con casefold
+match = a == b
 print(match)`,
         },
         solutionCode: {
@@ -1071,17 +1292,17 @@ print(''.join(c for c in raw if c.isdigit()))`,
         kind: "guided",
         title: "normalize_email modesto con fail-closed",
         preamble:
-          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok a@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
+          "- **Contexto:** el campo email del registro sintético debe ser usable o ir a review, sin fingir que el buzón existe.\n- **Meta:** implementar strip+casefold, un `@`, local/dominio no vacíos, cero espacios.\n- **Éxito:** `ok A@b.com` y tres líneas `review_error …` para `@b.com`, `a@@b.com`, `a b@c.com`.\n- **Límites:** no regex; no exijas `.com`; plus addressing debe seguir válido en el contrato (aunque no se prueba en este loop).",
         id: "S07-T2-B-E1",
         instruction:
-          "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Usa `casefold`, exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",
+          "1. Crea `validar_email(raw)` para devolver `(ok, valor, motivo)`; el starter aprueba todo por error.\n2. Haz `casefold` solo sobre el dominio y conserva la parte local; exige un solo `@`, partes no vacías y cero espacios.\n3. Conserva `normalize_email` como núcleo estricto que usa la misma comprobación.\n4. En el loop, llama al normalizador solo cuando `ok` sea verdadero; en los demás casos imprime `review_error` y el motivo devuelto.",
         hint: "Devuelve `(False, None, motivo)` para una fila inválida y llama al normalizador solo cuando `ok` sea verdadero.",
         hints: [
           "Comprueba `s.count('@') == 1`, cero espacios y partes no vacías.",
           "Acumula la decisión en `(ok, valor, motivo)` antes de llamar a `normalize_email`.",
         ],
         edgeCases: ["local vacío", "doble @", "espacios", "plus válido"],
-        tests: "Contrato exacto: ok a@b.com; tres review_error; user+tag@example.com sigue válido.",
+        tests: "Contrato exacto: ok A@b.com; tres review_error; user+tag@example.com sigue válido.",
         feedback:
           "Un `@` al inicio deja local vacío; dos `@` rompen el conteo; un espacio en medio es inválido. No estás verificando entregabilidad: solo estructura mínima.",
         retrospective:
@@ -1108,13 +1329,13 @@ for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
           language: 'python',
           title: "email_lower.py",
           code: `def validar_email(raw):
-    s = raw.strip().casefold()
+    s = raw.strip()
     if s.count('@') != 1 or any(ch.isspace() for ch in s):
         return False, None, 'email requiere un @ y cero espacios'
     local, domain = s.split('@')
     if not local or not domain:
         return False, None, 'email requiere local y dominio'
-    return True, s, None
+    return True, local + '@' + domain.casefold(), None
 
 def normalize_email(raw):
     ok, valor, motivo = validar_email(raw)
@@ -1127,11 +1348,17 @@ for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
     if ok:
         print('ok', normalize_email(valor))
     else:
-        print('review_error', motivo)`,
-          output: `ok a@b.com
+        print('review_error', motivo)
+# Error: casefold sobre todo el texto borra la mayúscula de la parte local
+print('Error:', '  Ana+X@Example.COM '.strip().casefold())
+# Corrección: solo el dominio pasa a casefold
+print('Corrección:', validar_email('  Ana+X@Example.COM ')[1])`,
+          output: `ok A@b.com
 review_error email requiere local y dominio
 review_error email requiere un @ y cero espacios
-review_error email requiere un @ y cero espacios`,
+review_error email requiere un @ y cero espacios
+Error: ana+x@example.com
+Corrección: Ana+X@example.com`,
         },
       },
       {
@@ -1234,7 +1461,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         edgeCases: ["anclas"],
         tests: "True False",
         feedback:
-          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede coincidir con `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
+          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas: `search` halla «Lim» dentro de la palabra, y por eso pasa. `fullmatch` exige que **toda** la cadena cumpla el patrón.",
         retrospective:
           "`fullmatch` rechaza letras minúsculas, guiones y texto alrededor porque el contrato describe el campo entero. Si hubieras usado `search`, una cadena con basura podría parecer válida gracias a un fragmento interno. Transfiere la prueba a un código de pedido: construye un caso feliz, un prefijo extra y un sufijo extra; los dos últimos deben fallar por la misma causa.",
         starterCode: {
@@ -1243,7 +1470,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
           code: `# TAREA: fullmatch de código de región de 3 letras
 # DEFECT: search no fullmatch; Lima pasa
 import re
-pat = r'[A-Z]{3}'
+pat = r'[A-Za-z]{3}'
 print(bool(re.search(pat, 'LIM')))
 print(bool(re.search(pat, 'Lima')))`,
         },
@@ -1284,7 +1511,7 @@ False`,
           code: `# TAREA: groupdict con nom y ap
 # DEFECT: groups posicionales mal
 import re
-pat = re.compile(r'^(\w+) (\w+)$')
+pat = re.compile(r'^(\\w+) (\\w+)$')
 m = pat.fullmatch('Ana Quispe')
 print({'nom': m.group(2), 'ap': m.group(1)} if m else None)`,
         },
@@ -1366,10 +1593,10 @@ usar search para extraer; fullmatch para validar campo exacto`,
           language: 'python',
           title: "compile_reuse.py",
           code: `# TAREA: compile + findall de teléfonos 9xxxxxxxx
-# DEFECT: patrón \d{9} sin ancla 9
+# DEFECT: patrón \\d{9} sin ancla 9
 import re
-pat = re.compile(r'\b\d{9}\b')
-for s in ['tel 999000111', 'no match 123']:
+pat = re.compile(r'\\b\\d{9}\\b')
+for s in ['tel 999000111', 'no match 123', 'fijo 123456789']:
     print(s, '→', pat.findall(s))`,
         },
         solutionCode: {
@@ -1377,10 +1604,11 @@ for s in ['tel 999000111', 'no match 123']:
           title: "compile_reuse.py",
           code: `import re
 pat = re.compile(r'\\b9\\d{8}\\b')
-for s in ['tel 999000111', 'no match 123']:
+for s in ['tel 999000111', 'no match 123', 'fijo 123456789']:
     print(s, '→', pat.findall(s))`,
           output: `tel 999000111 → ['999000111']
-no match 123 → []`,
+no match 123 → []
+fijo 123456789 → []`,
         },
       },
       {
@@ -1410,7 +1638,7 @@ no match 123 → []`,
 # DEFECT: lower case codes
 import re
 log = 'ok LIM-01 y CUS-02 fin'
-codes = re.findall(r'[a-z]{3}-\d{2}', log)
+codes = re.findall(r'[a-z]{3}-\\d{2}', log)
 print(codes)`,
         },
         solutionCode: {
@@ -1514,7 +1742,7 @@ print(norm('  Juan  PEREZ ') == norm('juan perez'))`,
           "- **Contexto:** si el exact normalizado falla, un score de solapamiento de tokens es señal **débil** para review.\n- **Meta:** implementar Jaccard |A∩B|/|A∪B| tras NFC + casefold + split.\n- **Éxito:** `0.667` redondeado a 3 decimales para Juan Perez / Juan P Perez.\n- **Límites:** no uses `min` de longitudes; no auto-fusionar; no afirmes identidad.",
         id: "S07-T4-A-E2",
         instruction:
-          "1. Tokeniza con NFC previo.\n2. Corrige el denominador: unión de conjuntos, no `min`.\n3. Maneja vacíos (ambos vacíos → 1.0; uno vacío → 0.0) como en el contrato de la demo.\n4. Imprime `round(..., 3)`.",
+          "1. Tokeniza con NFC previo.\n2. Corrige el denominador: unión de conjuntos, no `min`.\n3. Maneja vacíos: si un lado no tiene tokens, devuelve `None` (sin score, va a review), como en la teoría.\n4. Imprime `round(..., 3)`.",
         hint: "|A∩B|/|A∪B| tras NFC",
         hints: [
           "NFC → set(casefold().split())",
@@ -1549,10 +1777,8 @@ def tokens(s):
 
 def token_jaccard(a, b):
     A, B = tokens(a), tokens(b)
-    if not A and not B:
-        return 1.0
     if not A or not B:
-        return 0.0
+        return None
     return len(A & B) / len(A | B)
 print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
           output: `0.667`,
@@ -1563,10 +1789,10 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         kind: "transfer",
         title: "Umbrales exact / review / no_match",
         preamble:
-          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: 1.0 → exact; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** si la decisión es `review`, no conviertas dos registros en uno automáticamente ni digas «es la misma persona».",
+          "- **Contexto:** el pipeline de matching emite una decisión de **proceso**, no un veredicto legal.\n- **Meta:** aplicar umbrales: exact solo con score 1.0 e igualdad normalizada; [0.4, 1.0) → review; <0.4 → no_match.\n- **Éxito:** `review Juan Perez Juan P Perez 0.67`.\n- **Límites:** si la decisión es `review`, no conviertas dos registros en uno automáticamente ni digas «es la misma persona».",
         id: "S07-T4-A-E3",
         instruction:
-          "1. Con score `0.67`, corrige la rama que hoy cae en `exact`.\n2. Exact solo si `score == 1.0`.\n3. Imprime `decision a b score` en una línea.\n4. Superficie: política de umbrales, no el cálculo de Jaccard.",
+          "1. Con score `0.67`, corrige la rama que hoy cae en `exact`.\n2. Exact solo si `score == 1.0` **y** las cadenas normalizadas son iguales; un 1.0 sin igualdad va a review.\n3. Imprime `decision a b score` en una línea.\n4. Superficie: política de umbrales, no el cálculo de Jaccard.",
         hint: "Umbrales explícitos",
         hints: [
           "Umbrales explícitos",
@@ -1577,7 +1803,7 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         feedback:
           "Un umbral flojo que convierte 0.67 en `exact` fabrica fusiones. Review es el default honesto ante ambigüedad: no digas «misma persona» por un score medio.",
         retrospective:
-          "Cambiar la primera condición de `>= 0.5` a `== 1.0` evita que una similitud parcial se disfrace de exactitud. Si pensabas que 0.67 «parece alto», estabas sustituyendo una política explícita por intuición. Transfiere el diseño a otro dominio: documenta umbrales, casos frontera y acción humana antes de calcular scores; nunca después de verlos.",
+          "Cambiar la primera condición de `>= 0.5` a `== 1.0` y a igualdad normalizada evita que una similitud parcial se disfrace de exactitud. Si pensabas que 0.67 «parece alto», estabas sustituyendo una política explícita por intuición. Transfiere el diseño a otro dominio: documenta umbrales, casos frontera y acción humana antes de calcular scores; nunca después de verlos.",
         starterCode: {
           language: 'python',
           title: "score_review.py",
@@ -1595,8 +1821,13 @@ print(decision, a, b, score)`,
         solutionCode: {
           language: 'python',
           title: "score_review.py",
-          code: `a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
-if score == 1.0:
+          code: `import unicodedata
+
+def norm(s):
+    return ' '.join(unicodedata.normalize('NFC', s).casefold().split())
+
+a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
+if score == 1.0 and norm(a) == norm(b):
     decision = 'exact'
 elif score >= 0.4:
     decision = 'review'
@@ -1796,7 +2027,7 @@ def normalize_nombre(raw: str) -> tuple[str, list[str]]:
 
 
 def normalize_email(raw: str) -> tuple[str, list[str]]:
-    # Contrato: strip/casefold; exactamente un @, local+domain, sin espacios
+    # Contrato: strip; la parte local conserva sus mayúsculas; solo el dominio en casefold; exactamente un @, sin espacios
     raise NotImplementedError
 
 

@@ -12,6 +12,27 @@ import type { FigureData } from '../archetypes/types'
  */
 export const MISC_FIGURES: Record<string, FigureData> = {
   // ---------------------------------------------------------------- decision
+  // Proposal 05 (owner 2026-11-09): the two f-string counterexamples with one input and two outcomes.
+  'S11-fstring-dataclass-repr': {
+    kind: 'decision',
+    headline: 'f"registrado {c}" muestra lo que permita la representación de la clase',
+    input: 'f"registrado {c}"',
+    branches: [
+      { test: 'repr automático', result: 'todos los campos, también los personales', tint: 4 },
+      { test: 'repr=False en los personales', result: 'solo client_id', tint: 2 },
+    ],
+    note: 'La f-string es la misma en las dos ramas. Lo que llega al log se decide al declarar los campos.',
+  },
+  'S12-fstring-sql': {
+    kind: 'decision',
+    headline: 'El mismo id da tres filas o ninguna según cómo entra en la consulta',
+    input: "C999' OR '1'='1",
+    branches: [
+      { test: 'pegado con f-string', result: "WHERE … OR '1'='1' → 3 filas", tint: 4 },
+      { test: 'marcador ?', result: 'busca ese texto exacto → []', tint: 2 },
+    ],
+    note: 'Con la f-string, la comilla del dato cierra la de la consulta. Con ?, SQLite recibe el dato como un valor.',
+  },
   'S28-golden-drift': {
     kind: 'decision',
     headline: 'Un diff contra el golden no se resuelve actualizando el golden',

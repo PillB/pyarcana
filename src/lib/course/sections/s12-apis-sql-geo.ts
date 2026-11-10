@@ -123,6 +123,19 @@ good_json {'id': 'C001'}`,
       },
     },
     {
+      heading: "Contraejemplo: contar el body sin mirar el status cuenta un error como dato",
+      paragraphs: [
+        "`get_signals` devuelve la lista de señales con un 200 y un diccionario de error con un 404. El error cuenta lo que trae el body sin mirar el status; la corrección mira primero el status y solo cuenta cuando es 2xx.",
+        "Sin mirar el status, `C999` aparece con `1` señal: `len` contó la única clave del diccionario de error. Ese número llegaría al dashboard como evidencia de un cliente que no existe. Con el status primero, `C999` queda como `missing (404)`.",
+      ],
+      code: {
+        language: "python",
+        title: "status_antes_de_body.py",
+        code: "# Error: se cuenta el cuerpo sin mirar el status\nclass MockResponse:\n    def __init__(self, status_code, payload):\n        self.status_code = status_code\n        self._payload = payload\n\n    def json(self):\n        return self._payload\n\n\nSTORE = {\"C001\": [{\"kind\": \"shared_phone\"}, {\"kind\": \"geo\"}]}\n\n\ndef get_signals(entity_id):\n    if entity_id not in STORE:\n        return MockResponse(404, {\"error\": \"not_found\"})\n    return MockResponse(200, STORE[entity_id])\n\n\nfor entity_id in (\"C001\", \"C999\"):\n    cuerpo = get_signals(entity_id).json()\n    print(\"sin status →\", entity_id, \"señales:\", len(cuerpo))\n\n# Corrección: primero el status; solo un 2xx trae datos del caso\nfor entity_id in (\"C001\", \"C999\"):\n    resp = get_signals(entity_id)\n    if 200 <= resp.status_code < 300:\n        print(\"con status →\", entity_id, \"señales:\", len(resp.json()))\n    elif resp.status_code == 404:\n        print(\"con status →\", entity_id, \"missing (404)\")",
+        output: "sin status → C001 señales: 2\nsin status → C999 señales: 1\ncon status → C001 señales: 2\ncon status → C999 missing (404)",
+      },
+    },
+    {
       heading: "Timeout, paginación, retry/backoff y rate limit",
       figure: {
         id: "S12-retry-or-not",
@@ -168,6 +181,19 @@ print("items", all_items, "rate_limit_pauses", delays)`,
         title: "No reintentes 400",
         content:
           "Retry ciego en 4xx de cliente amplifica abuso y no arregla el request. En N1: reintenta solo 429 y 503.",
+      },
+    },
+    {
+      heading: "Contraejemplo: reintentar cada 4xx gasta cuota sin cambiar el resultado",
+      paragraphs: [
+        "`pedir` cuenta cada llamada, como haría la cuota del proveedor, y responde 404 para un id que no existe. `con_reintento` repite mientras el status esté en el conjunto `reintentar`. El error mete ahí todo el rango 400–599; la corrección usa la política N1, `{429, 503}`.",
+        "El error gasta `4` llamadas para llegar al mismo `404`, porque un id que no existe no aparece al insistir. La corrección se detiene en la primera llamada: un 404 es una respuesta del servidor que dice «no está», no un fallo de red que convenga repetir.",
+      ],
+      code: {
+        language: "python",
+        title: "reintento_4xx.py",
+        code: "# Error: todo status >= 400 se trata como un fallo pasajero de red\nllamadas = {\"n\": 0}\nCLIENTES = {\"C001\"}\n\n\ndef pedir(entity_id: str) -> int:\n    llamadas[\"n\"] += 1  # cada llamada gasta cuota del proveedor\n    return 200 if entity_id in CLIENTES else 404\n\n\ndef con_reintento(entity_id: str, reintentar: set[int], max_intentos: int = 4):\n    for intento in range(1, max_intentos + 1):\n        status = pedir(entity_id)\n        if status not in reintentar:\n            return status, intento\n    return status, max_intentos\n\n\nllamadas[\"n\"] = 0\nprint(\"reintenta 4xx →\", con_reintento(\"C999\", set(range(400, 600))),\n      \"| llamadas:\", llamadas[\"n\"])\n\n# Corrección: solo 429 y 503 se reintentan (política N1); un 404 es una respuesta\nllamadas[\"n\"] = 0\nprint(\"política N1  →\", con_reintento(\"C999\", {429, 503}),\n      \"| llamadas:\", llamadas[\"n\"])",
+        output: "reintenta 4xx → (404, 4) | llamadas: 4\npolítica N1  → (404, 1) | llamadas: 1",
       },
     },
     {
@@ -228,6 +254,31 @@ second_hit True`,
       },
     },
     {
+      heading: "Contraejemplo: el log del pedido publica el token",
+      paragraphs: [
+        "El pedido lleva un header `Authorization` con un token sintético. El error registra la URL con el diccionario de headers, que es lo más cómodo al depurar; la corrección registra el esquema de autenticación y un booleano que dice si había token.",
+        "La primera línea contiene `Bearer syn-token-000-no-real`, y quien lea el log puede reutilizarlo. La línea corregida conserva lo que necesita un auditor, `auth_scheme` y `token_present`, y la comprobación da `False`.",
+      ],
+      code: {
+        language: "python",
+        title: "log_headers_token.py",
+        code: "# Error: se registra el pedido tal como sale, con sus headers\nimport json\n\ntoken = \"syn-token-000-no-real\"\nurl = \"https://api.example.com/v1/signals\"\nheaders = {\"Accept\": \"application/json\", \"Authorization\": f\"Bearer {token}\"}\n\nlinea = f\"GET {url} headers={headers}\"\nprint(linea)\nprint(\"token en el log:\", token in linea)\n\n# Corrección: el log describe la autenticación sin copiar el secreto\nevento = {\"url\": url, \"auth_scheme\": \"bearer\", \"token_present\": bool(token)}\nlinea = json.dumps(evento, sort_keys=True)\nprint(linea)\nprint(\"token en el log:\", token in linea)",
+        output: "GET https://api.example.com/v1/signals headers={'Accept': 'application/json', 'Authorization': 'Bearer syn-token-000-no-real'}\ntoken en el log: True\n{\"auth_scheme\": \"bearer\", \"token_present\": true, \"url\": \"https://api.example.com/v1/signals\"}\ntoken en el log: False",
+      },
+    },
+    {
+      heading: "Contraejemplo: un token pegado en el código queda en el historial",
+      paragraphs: [
+        "Un token pegado en `adapter.py` sigue el mismo camino que el `.env` de la transcripción de S10: entra en el historial con el primer commit y quitarlo después no lo saca de allí. Por eso el adaptador lo lee de `os.environ` y falla cerrado si falta.",
+        "En el primer repo, el `git log -p` muestra la línea con el token aunque el archivo ya no esté en la carpeta. En el segundo, `adapter.py` solo contiene la referencia a la variable, y la búsqueda no encuentra el token en ningún commit.",
+      ],
+      code: {
+        language: "bash",
+        title: "token_en_codigo_historial",
+        code: "# Error: el token va en adapter.py y entra en el primer commit\n$ echo 'TOKEN = \"syn-token-000-no-real\"' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep TOKEN\n+TOKEN = \"syn-token-000-no-real\"\n\n# Corrección: en un repo nuevo, el adaptador lee el token de os.environ\n$ echo 'TOKEN = os.environ[\"API_TOKEN\"]' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep -c syn-token\n0",
+      },
+    },
+    {
       heading: "Contract tests y fallback",
       subtopicId: "S12-T2-B",
       paragraphs: [
@@ -265,6 +316,43 @@ offline offline_fallback`,
         title: "Falla suave, traza dura (fail soft, trace hard)",
         content:
           "El fallback no oculta el fallo: deja `mode=offline` y la razón en provenance (traza de origen). El auditor debe ver la verdad.",
+      },
+    },
+    {
+      heading: "Contraejemplo: el corte binario da éxito a un 404 y a un 429",
+      paragraphs: [
+        "Un corte que solo pregunta `status >= 500` trata todo lo demás como éxito. Así, un 404 (el recurso no existe) o un 429 (demasiadas peticiones) producen un body `online` que nunca llegó del proveedor. El código compara los dos cortes con las mismas entradas.",
+        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout (no tiene status, así que llega como `None`) y un 429 que sigue llegando después de los reintentos de la política N1. Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
+      ],
+      code: {
+        language: 'python',
+        title: 'fallback_binario_vs_tres_ramas.py',
+        code: `# Error: corte binario; solo >= 500 es offline
+def fallback_binario(status, local_body):
+    if status >= 500:
+        return local_body, "offline"
+    return {"online": True}, "online"
+
+# Corrección: tres ramas; un 429 llega aquí solo si los reintentos se agotaron
+def fallback_tres_ramas(status, local_body):
+    if status is None or status == 429 or status >= 500:
+        return local_body, "offline"
+    if 200 <= status < 300:
+        return {"online": True}, "online"
+    return None, "fail_client"
+
+for status in (200, 503, 404, 429):
+    print("binario", status, fallback_binario(status, {"lat": -12.0}))
+for status in (200, 503, 404, 429):
+    print("tres ramas", status, fallback_tres_ramas(status, {"lat": -12.0}))`,
+        output: `binario 200 ({'online': True}, 'online')
+binario 503 ({'lat': -12.0}, 'offline')
+binario 404 ({'online': True}, 'online')
+binario 429 ({'online': True}, 'online')
+tres ramas 200 ({'online': True}, 'online')
+tres ramas 503 ({'lat': -12.0}, 'offline')
+tres ramas 404 (None, 'fail_client')
+tres ramas 429 ({'lat': -12.0}, 'offline')`,
       },
     },
     {
@@ -351,11 +439,31 @@ print(try_batch_unique_doc())`,
       },
     },
     {
+      heading: "Contraejemplo: un id con SQL devuelve todas las filas",
+      figure: {
+        id: "S12-fstring-sql",
+        caption:
+          "Una f-string pega el id dentro del texto SQL, y su comilla cambia la consulta; el marcador ? entrega el mismo id como un valor.",
+        alt:
+          "Un id con un fragmento de SQL entra por dos ramas. Pegado con una f-string, la consulta termina en OR '1'='1' y devuelve tres filas; con el marcador ?, devuelve una lista vacía.",
+      },
+      paragraphs: [
+        "La tabla tiene tres clientes, y el id que llega, `C999' OR '1'='1`, no existe pero trae un fragmento de SQL. El error lo pega con una f-string y el ejemplo imprime la consulta que resulta; la corrección pasa el mismo texto por el marcador `?`.",
+        "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`. Quitar o duplicar la comilla con `replace` arregla este id y deja abierto el siguiente; con el marcador, SQLite nunca lee el dato como parte de la consulta.",
+      ],
+      code: {
+        language: "python",
+        title: "sql_fstring_vs_marcador.py",
+        code: "# Error: el texto del usuario se pega dentro de la consulta\nimport sqlite3\n\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.executemany(\n    \"INSERT INTO clients VALUES (?, ?)\",\n    [(\"C001\", \"Ana Demo\"), (\"C002\", \"Luis Demo\"), (\"C003\", \"Marta Demo\")],\n)\nuser_id = \"C999' OR '1'='1\"  # id sintético que no existe, con un fragmento de SQL\n\nconsulta = f\"SELECT id, name FROM clients WHERE id = '{user_id}'\"\nprint(\"SQL armado:\", consulta)\nprint(\"con f-string:\", con.execute(consulta).fetchall())\n\n# Corrección: el marcador ? recibe el texto como un valor, no como SQL\nprint(\"con marcador:\", con.execute(\n    \"SELECT id, name FROM clients WHERE id = ?\", (user_id,)).fetchall())\ncon.close()",
+        output: "SQL armado: SELECT id, name FROM clients WHERE id = 'C999' OR '1'='1'\ncon f-string: [('C001', 'Ana Demo'), ('C002', 'Luis Demo'), ('C003', 'Marta Demo')]\ncon marcador: []",
+      },
+    },
+    {
       heading: "Normalización y geocoding autorizado",
       subtopicId: "S12-T4-A",
       paragraphs: [
         "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
-        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es ciudad/dirección sintética autorizada. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"address\", \"city\", \"country\"}`. Si aparece `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es solo la ciudad (y el país, si hace falta). La dirección exacta no sale del sistema. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"city\", \"country\"}`. Si aparece `address` o `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
         "`MockGeocoder` devuelve lat/lon fijos para las dos ciudades que tiene en su tabla, y así las demos offline son reproducibles; cualquier ciudad fuera de esa tabla → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
       code: {
@@ -391,7 +499,7 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
         type: "warning",
         title: "Política de egress (salida de datos)",
         content:
-          "Checklist: ¿el payload al proveedor incluye solo dirección/ciudad sintética autorizada? Si no, bloquea.",
+          "Checklist: ¿el payload al proveedor incluye solo la ciudad (y el país)? Si trae una dirección exacta o un document_id, bloquea.",
       },
     },
     {
@@ -437,6 +545,19 @@ signal_only relationship_signal not kinship`,
           "1.2 km entre entidades es geoseñal; jamás autoetiqueta is_family o fraude.",
       },
     },
+    {
+      heading: "Contraejemplo: corregir coordenadas a (0, 0) crea distancias falsas",
+      paragraphs: [
+        "`C011` tiene una latitud imposible (`91`) y `C012` no tiene coordenadas. El error las reemplaza por `(0, 0)`, un punto en el golfo de Guinea; la corrección devuelve `None` cuando alguna coordenada del par es inválida.",
+        "Con el arreglo, `C011` y `C012` quedan a `0.0 km`, la cercanía más fuerte posible para el score de relación, aunque ninguno de los dos tiene ubicación conocida. `C010`, con coordenadas válidas, aparece a unos 8 599 km de `C011`, un número que no describe nada. Con la validación, ninguno de esos pares produce una distancia.",
+      ],
+      code: {
+        language: "python",
+        title: "coordenada_invalida.py",
+        code: "# Error: lo inválido se «arregla» a (0, 0)\nimport math\n\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2\n    return 2 * R * math.asin(math.sqrt(h))\n\n\ndef valid_coord(c):\n    return c is not None and -90 <= c[0] <= 90 and -180 <= c[1] <= 180\n\n\ncoords = {\"C010\": (-12.0464, -77.0428), \"C011\": (91.0, -77.10), \"C012\": None}\n\n\ndef arreglar(c):\n    return c if valid_coord(c) else (0.0, 0.0)\n\n\nprint(\"arreglado → C011–C012:\",\n      round(haversine_km(arreglar(coords[\"C011\"]), arreglar(coords[\"C012\"])), 2), \"km\")\nprint(\"arreglado → C010–C011:\",\n      round(haversine_km(arreglar(coords[\"C010\"]), arreglar(coords[\"C011\"])), 1), \"km\")\n\n\n# Corrección: un par con una coordenada inválida no produce distancia\ndef distancia_o_none(a, b):\n    if not (valid_coord(a) and valid_coord(b)):\n        return None\n    return round(haversine_km(a, b), 2)\n\n\nprint(\"validado  → C011–C012:\", distancia_o_none(coords[\"C011\"], coords[\"C012\"]))\nprint(\"validado  → C010–C011:\", distancia_o_none(coords[\"C010\"], coords[\"C011\"]))",
+        output: "arreglado → C011–C012: 0.0 km\narreglado → C010–C011: 8599.0 km\nvalidado  → C011–C012: None\nvalidado  → C010–C011: None",
+      },
+    },
   ],
   iDo: {
     intro: "Ocho demos locales del hilo CP-N1-C (la historia del capstone) en orden de pipeline (la cadena de pasos). El recorrido cubre:\n\n1. mock HTTP status→JSON\n2. paginación con rate-limit conceptual\n3. provenance sin token\n4. contract/fallback offline\n5. join de caso SQLite\n6. batch atómico con rollback\n7. MockGeocoder fail-closed\n8. Haversine Lima–Callao como geoseñal (no parentesco).\n\nLee `description` y `why` de cada demo: modelan el razonamiento del experto (status antes que body, traza honesta, atomicidad, ética geo) antes de los micro-defectos del We Do.",
@@ -468,6 +589,8 @@ def list_signals():
 
 resp = list_signals()
 # 1) status → acción; 2) solo si 2xx, parsea items
+if not 200 <= resp.status_code < 300:
+    raise RuntimeError(f"status {resp.status_code}")
 data = resp.json()
 print("status", resp.status_code)
 print("count", data["count"])
@@ -567,21 +690,24 @@ token_logged False`,
           language: 'python',
           title: "geocoder_contract_demo.py",
           code: `REQUIRED = {"lat", "lon", "provider"}
-PRECALC = {"Lima": {"lat": -12.0464, "lon": -77.0428, "provider": "precalc"}}
+COORDS = {"Lima": (-12.0464, -77.0428)}
 
 def contract_ok(d):
     return not (REQUIRED - set(d.keys()))
 
 def geocode(city, fail_online=False):
-    if fail_online:
-        return {**PRECALC[city], "mode": "offline_fallback"}
-    online = {"lat": -12.0464, "lon": -77.0428, "provider": "mock", "mode": "online"}
-    assert contract_ok(online)
-    return online
+    # Clave por ciudad: una ciudad sin dato devuelve None, no las coords de otra
+    if city not in COORDS:
+        return None
+    lat, lon = COORDS[city]
+    provider, mode = ("precalc", "offline_fallback") if fail_online else ("mock", "online")
+    result = {"lat": lat, "lon": lon, "provider": provider, "mode": mode}
+    assert contract_ok(result)
+    return result
 
 print("online", geocode("Lima"))
 print("fallback", geocode("Lima", fail_online=True))
-print("contract_precalc", contract_ok(PRECALC["Lima"]))`,
+print("contract_precalc", contract_ok(geocode("Lima", fail_online=True)))`,
           output: `online {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}
 fallback {'lat': -12.0464, 'lon': -77.0428, 'provider': 'precalc', 'mode': 'offline_fallback'}
 contract_precalc True`,
@@ -1245,20 +1371,20 @@ missing keys: ['lon']`,
         id: "S12-T2-B-E2",
         subtopicId: "S12-T2-B",
         kind: "independent",
-        title: "Fallback offline ante 5xx",
+        title: "Fallback offline ante 5xx y fallo de cliente",
         preamble:
-          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`.\n- **Límites:** solo status ≥ 500 dispara offline; no reescribas el status a 200.",
+          "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo. Un 404 no es un éxito: el body no llegó, así que no puedes presentarlo como online. Un 429 (demasiadas peticiones) es transitorio: si sigue llegando después de los reintentos, lo tratas como un 503.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo. Un timeout llega como `status` `None`.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`; `None` → `(local_body, 'offline')`; 429 → `(local_body, 'offline')`; 404 → `(None, 'fail_client')`.\n- **Límites:** 2xx es online; 5xx, 429 y timeout son offline; el resto es `fail_client`; no reescribas el status a 200.",
         instruction:
-          "1. El starter ignora status y siempre devuelve online.\n2. Si `status >= 500`, devuelve `(local_body, 'offline')`.\n3. En caso contrario, body online y modo `'online'`.\n4. Imprime ambos casos del starter.",
-        hint: "5xx dispara el body local y el modo offline.",
+          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None`, `status == 429` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (un 4xx de cliente, como 404), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del solution: 200, 503, `None`, 404 y 429.",
+        hint: "5xx, 429 y timeout disparan el body local y el modo offline; los demás 4xx no.",
         hints: [
           "Compara status con 500 para decidir el modo.",
           "Retorna siempre una tupla (body, mode).",
         ],
-        edgeCases: ["5xx → offline"],
-        tests: "online/offline modes",
+        edgeCases: ["5xx → offline", "timeout (None) → offline", "429 tras los reintentos → offline", "404 → fail_client"],
+        tests: "online/offline/fail_client modes",
         feedback:
-          "Fallback degradado mantiene el demo del dashboard vivo. El modo offline es la verdad del origen: no finjas éxito online cuando leíste precalculados.",
+          "Fallback degradado mantiene el demo del dashboard vivo. El modo offline es la verdad del origen: no finjas éxito online cuando leíste precalculados. Un 404 o un 429 no es un éxito del proveedor: si devuelves `'online'`, inventas una respuesta que nunca llegó.",
         retrospective:
           "El modo offline es la verdad del origen, no un detalle de UI. En E3 formalizas el runbook `live_api` / `local_file` para el flag de operación.",
         starterCode: {
@@ -1270,18 +1396,29 @@ def fetch_with_fallback(status, local_body):
     return {"online": True}, "online"
 print(fetch_with_fallback(200, {"lat": 0}))
 print(fetch_with_fallback(503, {"lat": -12.0}))
+print(fetch_with_fallback(None, {"lat": -12.0}))
+print(fetch_with_fallback(404, {"lat": -12.0}))
+print(fetch_with_fallback(429, {"lat": -12.0}))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "fallback_5xx.py",
           code: `def fetch_with_fallback(status, local_body):
-    if status >= 500:
+    if status is None or status == 429 or status >= 500:
         return local_body, "offline"
-    return {"online": True}, "online"
+    if 200 <= status < 300:
+        return {"online": True}, "online"
+    return None, "fail_client"
 print(fetch_with_fallback(200, {"lat": 0}))
-print(fetch_with_fallback(503, {"lat": -12.0}))`,
+print(fetch_with_fallback(503, {"lat": -12.0}))
+print(fetch_with_fallback(None, {"lat": -12.0}))
+print(fetch_with_fallback(404, {"lat": -12.0}))
+print(fetch_with_fallback(429, {"lat": -12.0}))`,
           output: `({'online': True}, 'online')
+({'lat': -12.0}, 'offline')
+({'lat': -12.0}, 'offline')
+(None, 'fail_client')
 ({'lat': -12.0}, 'offline')`,
         },
       },
@@ -1511,13 +1648,13 @@ con.close()`,
           language: 'python',
           title: "safe_sql.py",
           code: `# CASO-LIM-012 · SQL injection safe
-# DEFECT: f-string concat (vulnerable)
+# DEFECT: f-string concat (vulnerable); con 3 filas, el id con SQL trae las de los demás
 import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+con.execute("INSERT INTO clients VALUES ('C001','Ana'),('C002','Luis'),('C003','Marta')")
 user_id = "C001' OR '1'='1"
-print(con.execute(f"SELECT name FROM clients WHERE id = '{user_id}'").fetchone())
+print(con.execute(f"SELECT name FROM clients WHERE id = '{user_id}'").fetchall())
 con.close()
 print('ok', True)`,
         },
@@ -1527,7 +1664,7 @@ print('ok', True)`,
           code: `import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+con.execute("INSERT INTO clients VALUES ('C001','Ana'),('C002','Luis'),('C003','Marta')")
 user_id = "C001' OR '1'='1"
 print(con.execute("SELECT name FROM clients WHERE id = ?", (user_id,)).fetchone())
 con.close()`,
@@ -1736,9 +1873,9 @@ None`,
         kind: "transfer",
         title: "Allowlist de egress al geocoder público",
         preamble:
-          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{address, city, country}`.\n- **Éxito:** payload limpio → `True`; con `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
+          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{city, country}`.\n- **Éxito:** `{'city': 'Quito'}` → `True`; con `address` o `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
         instruction:
-          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime ambos casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
+          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime los tres casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
         hint: "Todas las claves del payload deben estar en la allowlist.",
         hints: [
           "Comprueba que el set de claves del payload está contenido en ALLOWED.",
@@ -1755,22 +1892,25 @@ None`,
           title: "egress_checklist.py",
           code: `# CASO-LIM-012 · allowlist payload
 # DEFECT: siempre True
-ALLOWED = {"address", "city", "country"}
+ALLOWED = {"city", "country"}
 def allowed_for_public_geocoder(payload):
     return True
-print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))
+print(allowed_for_public_geocoder({"city": "Quito"}))
+print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
+print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "egress_checklist.py",
-          code: `ALLOWED = {"address", "city", "country"}
+          code: `ALLOWED = {"city", "country"}
 def allowed_for_public_geocoder(payload):
     return set(payload) <= ALLOWED
-print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
+print(allowed_for_public_geocoder({"city": "Quito"}))
+print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
+print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))`,
           output: `True
+False
 False`,
         },
       },
@@ -1985,7 +2125,7 @@ def normalize_address(s: str) -> str:
 
 
 def allowed_for_public_geocoder(payload: dict) -> bool:
-    # DEFECT: NotImplemented — allowlist {address, city, country}
+    # DEFECT: NotImplemented — allowlist {city, country}
     raise NotImplementedError
 
 
@@ -2034,7 +2174,7 @@ def main() -> None:
     print("cache_hits", hit1, hit2)
     print("prov", min_provenance("https://api.example.com/s", 200, hit2))
     print("norm", normalize_address("  av  larco  1 "))
-    print("egress_ok", allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+    print("egress_ok", allowed_for_public_geocoder({"city": "Lima"}))
     print("egress_bad", allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
     print("geo", MockGeocoder().geocode("Lima"))
     km = round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2)
@@ -2089,7 +2229,7 @@ if __name__ == "__main__":
         options: ["Viola la política de egress de CP-N1-C", "Está permitido si hay timeout", "Mejora el Haversine", "Es requerido por SQLite"],
         correctIndex: 0,
         explanation:
-          "La política de egress (qué sale al proveedor) permite solo dirección/ciudad sintética; nunca PII bancaria como `document_id`.",
+          "La política de egress (qué sale al proveedor) permite solo la ciudad y el país; ni la dirección exacta ni PII bancaria como `document_id`.",
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",

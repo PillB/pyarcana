@@ -143,7 +143,10 @@ D9_OWED = 0
 # 2026-10-03: the starter half of the 2026-09-21 widening had read nothing - gate.json holds SXX
 # tags and the lookup used slug ids, so "(both clean)" above was never measured. Fixed; the 12
 # starters now scanned add no site to D9 or D10, so both numbers stand.
-D10_OWED = 10
+# 2026-11-09 (proposal 04 side defects): 10 -> 1. S04-T1-B-DEMO and S04-T1-B-E3 are rewritten with
+# len() checks and if/else, and S04-T3-A-E2 with a loop, so the try/except sites they carried are gone.
+# The one site left is the English word "except" in the prose of an S04 `why`, which this scan counts.
+D10_OWED = 1
 
 
 class ForwardDependencyTests(unittest.TestCase):

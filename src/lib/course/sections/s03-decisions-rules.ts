@@ -155,6 +155,35 @@ region in REGIONES_PERMITIDAS → True
       },
     },
     {
+      heading: 'Contraejemplo: `== None` puede responder que sí a un objeto que no es `None`',
+      paragraphs: [
+        'Con `None`, `0` y `""`, `== None` e `is None` dan el mismo resultado, así que esos valores no muestran la diferencia. La diferencia aparece cuando el objeto de la izquierda decide por sí mismo qué significa `==`. `ANY`, de la biblioteca estándar `unittest.mock`, es un marcador que se declara igual a cualquier valor. Aquí lo usamos como si fuera un monto presente.',
+        'Lee la salida por parejas. El bloque de error clasifica `ANY` como `review: ausente`, porque `==` le pregunta al objeto y el objeto responde que sí. El bloque de corrección lo clasifica como `accept: presente`, porque `is` pregunta si el valor es el propio `None`, el único objeto que representa la ausencia en Python. Por eso el curso escribe `is None`. Ruff, la herramienta de revisión que usa el curso, marca `== None` con E711 antes de que ejecutes nada.',
+      ],
+      code: {
+        language: 'python',
+        title: 'none_igualdad_vs_identidad.py',
+        code: `# Error: == pregunta al objeto, y ANY responde que es igual a cualquier valor
+from unittest.mock import ANY
+
+valor = ANY
+if valor == None:
+    estado = "review: ausente"
+else:
+    estado = "accept: presente"
+print("== None →", estado)
+
+# Corrección: is pregunta si valor es el propio None
+if valor is None:
+    estado = "review: ausente"
+else:
+    estado = "accept: presente"
+print("is None →", estado)`,
+        output: `== None → review: ausente
+is None → accept: presente`,
+      },
+    },
+    {
       heading: 'Una regla visible: condición, resultado e impresión',
       paragraphs: [
         'Una regla no necesita una estructura nueva para ser legible. Primero asignas el dato, después recorres una sola cadena `if`/`elif`/`else`, guardas la decisión en una variable y al final la imprimes.',
@@ -245,6 +274,48 @@ cadena vacía or alternativa → alternativa
         title: 'La pregunta que evita falsos positivos',
         content:
           'Antes de escribir `if campo:`, pregunta: “¿quiero comprobar cómo Python trata el valor o quiero comprobar ausencia?”. Para montos y conteos, ausente (`None`) no equivale a un cero válido. Escribe ambas políticas por separado.',
+      },
+    },
+    {
+      heading: "Contraejemplo: if monto: trata el cero como ausencia",
+      paragraphs: [
+        "Con `if monto:`, Python elige la rama por truthiness, y tanto `0` como `None` son falsy. Por eso las dos primeras líneas envían a `review` un monto cero válido y un monto ausente, y la regla ya no distingue a quien declaró cero de quien no contestó.",
+        "La corrección pregunta primero `monto is None`. El cero deja de confundirse con la ausencia: no es `None`, así que cae en la rama `else` y queda `accept`. `None` sigue en `review`, como pide la política. (La regla `monto < 0` para rechazar negativos se verá en el bloque de `if/elif/else`.)",
+      ],
+      code: {
+        language: 'python',
+        title: 'if_monto_cero.py',
+        code: `# Error: if monto: trata el cero igual que la ausencia
+monto = 0
+if monto:
+    estado_cero = "accept"
+else:
+    estado_cero = "review"
+monto = None
+if monto:
+    estado_none = "accept"
+else:
+    estado_none = "review"
+print("if monto: 0 →", estado_cero)
+print("if monto: None →", estado_none)
+
+# Corrección: is None aparta la ausencia y el cero llega a la regla
+monto = 0
+if monto is None:
+    estado_cero = "review"
+else:
+    estado_cero = "accept"
+monto = None
+if monto is None:
+    estado_none = "review"
+else:
+    estado_none = "accept"
+print("is None: 0 →", estado_cero)
+print("is None: None →", estado_none)`,
+        output: `if monto: 0 → review
+if monto: None → review
+is None: 0 → accept
+is None: None → review`,
       },
     },
     {
@@ -385,6 +456,34 @@ x > 5 es una rama muerta`,
       },
     },
     {
+      heading: "Contraejemplo: comparar un None antes de preguntar por la ausencia",
+      paragraphs: [
+        "Si la comparación de rango va primero, Python intenta evaluar `None < 0` antes de llegar a la pregunta por la ausencia. Esa comparación no tiene respuesta: el comentario del bloque muestra el `TypeError` que obtendrías al ejecutarla sola, y el programa nunca llega a imprimir un estado. La rama `edad is None` existía, pero la entrada no llegó a ella.",
+        "La corrección usa la misma entrada y solo cambia el orden: la guarda `edad is None` aparta la ausencia, y la comparación de rango recibe únicamente edades presentes. La salida muestra `None → review`. Ejecuta el fragmento de error por separado; en S09 aprenderás a capturar ese error, pero aquí basta con impedir que ocurra.",
+      ],
+      code: {
+        language: 'python',
+        title: 'orden_none_rango.py',
+        code: `# Error: el rango se pregunta antes que la ausencia
+edad = None
+# Ejecuta estas líneas por separado: la comparación con None lanza un error.
+# if edad < 0 or edad > 120:
+#     estado = "reject"
+# TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+# Corrección: la ausencia se aparta primero, con la misma entrada
+edad = None
+if edad is None:
+    estado = "review"
+elif edad < 0 or edad > 120:
+    estado = "reject"
+else:
+    estado = "accept"
+print("None →", estado)`,
+        output: `None → review`,
+      },
+    },
+    {
       heading: 'Reglas de dominio: rangos y listas permitidas',
       subtopicId: 'S03-T3-A',
       paragraphs: [
@@ -502,6 +601,64 @@ set: '' → False
 set: 'NORTE|R-SUR' → False
 región vacía con texto → accept
 región vacía con set → review`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un solo código para dos fallos distintos",
+      paragraphs: [
+        "Con una sola condición unida por `or`, una región nueva que el catálogo todavía no conoce y una edad imposible reciben el mismo código, `INVALIDO`. Las dos primeras líneas quedan idénticas, así que quien revisa el lote no puede saber qué registro espera una actualización del catálogo y cuál trae un dato que hay que rechazar.",
+        "La corrección separa la condición en dos ramas: `R-ESTE` va a `review` con `NOT_IN_ALLOWLIST`, y `R-NORTE 15` va a `reject` con `OUT_OF_RANGE`. Cuando el catálogo incorpore `R-ESTE`, bastará con volver a procesar los registros que llevan el primer código.",
+      ],
+      code: {
+        language: 'python',
+        title: 'codigo_unico_dos_fallos.py',
+        code: `# Error: un solo código para dos fallos distintos
+REGIONES_PERMITIDAS = {"R-NORTE", "R-SUR", "R-CENTRO"}
+
+region = "R-ESTE"
+edad = 30
+if region not in REGIONES_PERMITIDAS or not (18 <= edad <= 65):
+    codigo_1 = "INVALIDO"
+else:
+    codigo_1 = "OK"
+region = "R-NORTE"
+edad = 15
+if region not in REGIONES_PERMITIDAS or not (18 <= edad <= 65):
+    codigo_2 = "INVALIDO"
+else:
+    codigo_2 = "OK"
+print("R-ESTE 30 →", codigo_1)
+print("R-NORTE 15 →", codigo_2)
+
+# Corrección: una rama y un código por causa
+region = "R-ESTE"
+edad = 30
+if region not in REGIONES_PERMITIDAS:
+    estado_1 = "review"
+    codigo_1 = "NOT_IN_ALLOWLIST"
+elif not (18 <= edad <= 65):
+    estado_1 = "reject"
+    codigo_1 = "OUT_OF_RANGE"
+else:
+    estado_1 = "accept"
+    codigo_1 = "OK"
+region = "R-NORTE"
+edad = 15
+if region not in REGIONES_PERMITIDAS:
+    estado_2 = "review"
+    codigo_2 = "NOT_IN_ALLOWLIST"
+elif not (18 <= edad <= 65):
+    estado_2 = "reject"
+    codigo_2 = "OUT_OF_RANGE"
+else:
+    estado_2 = "accept"
+    codigo_2 = "OK"
+print("R-ESTE 30 →", estado_1, codigo_1)
+print("R-NORTE 15 →", estado_2, codigo_2)`,
+        output: `R-ESTE 30 → INVALIDO
+R-NORTE 15 → INVALIDO
+R-ESTE 30 → review NOT_IN_ALLOWLIST
+R-NORTE 15 → reject OUT_OF_RANGE`,
       },
     },
     {
@@ -744,6 +901,56 @@ CASO 120: OK — Campo 'edad' aceptado.`,
       },
     },
     {
+      heading: "Contraejemplo: el mismo mensaje para dos problemas distintos",
+      paragraphs: [
+        "Con el mensaje `Error`, la ausencia y la edad 130 producen la misma línea, y quien corrige el formulario no sabe si debe escribir un valor o cambiar el que puso. El programa sí separó los dos casos, porque entró en ramas distintas, pero el mensaje no lo transmite.",
+        "En la corrección, cada mensaje nombra el campo, el problema y la acción: el primero pide escribir una edad y el segundo pide un número dentro del rango. Las ramas son las mismas; lo único que cambia es lo que cada una le dice a la persona.",
+      ],
+      code: {
+        language: 'python',
+        title: 'mensaje_generico.py',
+        code: `# Error: el mismo mensaje para dos problemas distintos
+edad = None
+if edad is None:
+    mensaje_1 = "Error"
+elif edad < 0 or edad > 120:
+    mensaje_1 = "Error"
+else:
+    mensaje_1 = "OK"
+edad = 130
+if edad is None:
+    mensaje_2 = "Error"
+elif edad < 0 or edad > 120:
+    mensaje_2 = "Error"
+else:
+    mensaje_2 = "OK"
+print("None →", mensaje_1)
+print("130 →", mensaje_2)
+
+# Corrección: cada mensaje nombra el campo, el problema y la acción
+edad = None
+if edad is None:
+    mensaje_1 = "Campo 'edad' ausente; escribe un número de 0 a 120."
+elif edad < 0 or edad > 120:
+    mensaje_1 = "Campo 'edad' fuera de rango; usa un número de 0 a 120."
+else:
+    mensaje_1 = "Campo 'edad' aceptado."
+edad = 130
+if edad is None:
+    mensaje_2 = "Campo 'edad' ausente; escribe un número de 0 a 120."
+elif edad < 0 or edad > 120:
+    mensaje_2 = "Campo 'edad' fuera de rango; usa un número de 0 a 120."
+else:
+    mensaje_2 = "Campo 'edad' aceptado."
+print("None →", mensaje_1)
+print("130 →", mensaje_2)`,
+        output: `None → Error
+130 → Error
+None → Campo 'edad' ausente; escribe un número de 0 a 120.
+130 → Campo 'edad' fuera de rango; usa un número de 0 a 120.`,
+      },
+    },
+    {
       heading: 'Una regla con nombre: `def`, llamada y `return`',
       figure: {
         id: "S03-call-return",
@@ -850,13 +1057,13 @@ monto_cero = 0
 nota = ""
 monto_ok = 150
 
-print("monto_none == None →", monto_none == None)
+print("monto_none is None →", monto_none is None)
 print("monto_cero == 0 →", monto_cero == 0)
 print('nota == "" →', nota == "")
 print("monto_ok > 0 →", monto_ok > 0)
 
 monto = None
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -867,7 +1074,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = 0
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -878,7 +1085,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = -5
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -889,7 +1096,7 @@ else:
 print("policy", monto, "→", estado)
 
 monto = 150
-if monto == None:
+if monto is None:
     estado = "review: ausente"
 elif monto == 0:
     estado = "accept: cero válido"
@@ -898,7 +1105,7 @@ elif monto < 0:
 else:
     estado = "accept: positivo"
 print("policy", monto, "→", estado)`,
-          output: `monto_none == None → True
+          output: `monto_none is None → True
 monto_cero == 0 → True
 nota == "" → True
 monto_ok > 0 → True
@@ -1130,7 +1337,7 @@ print(200, "→", status, code)`,
           title: 'S03-T3-A-DEMO — region_edad',
           code: `region = "R-NORTE"
 edad = 30
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1142,7 +1349,7 @@ print("R-NORTE", 30, "→", status)
 
 region = "R-FUERA"
 edad = 30
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1154,7 +1361,7 @@ print("R-FUERA", 30, "→", status)
 
 region = "R-COSTA"
 edad = 15
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1166,7 +1373,7 @@ print("R-COSTA", 15, "→", status)
 
 region = None
 edad = 40
-if region == None or edad == None:
+if region is None or edad is None:
     status = "review"
 elif not (region == "R-NORTE" or region == "R-SUR" or region == "R-CENTRO" or region == "R-COSTA"):
     status = "review"
@@ -1318,7 +1525,7 @@ NEEDS_REVIEW review review same= True`,
           code: `print('contacto debe ser "telefono" o "correo"; None va a review')
 
 contacto = "telefono"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1328,7 +1535,7 @@ esperado = "accept"
 print("telefono →", status, "ok=", status == esperado)
 
 contacto = "correo"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1338,7 +1545,7 @@ esperado = "accept"
 print("correo →", status, "ok=", status == esperado)
 
 contacto = None
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1348,7 +1555,7 @@ esperado = "review"
 print("None →", status, "ok=", status == esperado)
 
 contacto = "fax"
-if contacto == None:
+if contacto is None:
     status = "review"
 elif contacto == "telefono" or contacto == "correo":
     status = "accept"
@@ -1614,10 +1821,10 @@ nota = ""
 monto = 0
 print(valor_ausente == 0)
 print(nota == "pendiente")
-print(monto == None)
+print(monto is None)
 if monto == 0:
     estado = "review"
-elif monto == None:
+elif monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1631,10 +1838,10 @@ print(monto, "→", estado)`,
           code: `valor_ausente = None
 nota = ""
 monto = 0
-print(valor_ausente == None)
+print(valor_ausente is None)
 print(nota == "")
 print(monto == 0)
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto == 0:
     estado = "accept"
@@ -1662,7 +1869,7 @@ True
         hint: 'Compara cada variable con el valor que realmente contiene.',
         hints: [
           'Compara cada variable con el valor que realmente contiene.',
-          'Las preguntas correctas terminan en `== None`, `== 0` y `== ""`.',
+          'Las preguntas correctas terminan en `is None`, `== 0` y `== ""`.',
         ],
         edgeCases: ['Cero y texto vacío no son `None`.'],
         tests: 'La salida debe ser: `ausente → True`, `cero → True`, `vacío → True`.',
@@ -1678,7 +1885,7 @@ valor_ausente = None
 monto_cero = 0
 nota = ""
 print("ausente →", valor_ausente == 0)
-print("cero →", monto_cero == None)
+print("cero →", monto_cero is None)
 print("vacío →", nota == "pendiente")`,
         },
         solutionCode: {
@@ -1687,7 +1894,7 @@ print("vacío →", nota == "pendiente")`,
           code: `valor_ausente = None
 monto_cero = 0
 nota = ""
-print("ausente →", valor_ausente == None)
+print("ausente →", valor_ausente is None)
 print("cero →", monto_cero == 0)
 print("vacío →", nota == "")`,
           output: `ausente → True
@@ -1746,9 +1953,9 @@ False`,
         id: 'S03-T1-B-E3',
         instruction:
           'Repara el mismo DEFECT en los cuatro casos. Primero comprueba ausencia; después rechaza números negativos; cualquier otro monto se acepta.',
-        hint: 'La primera condición debe ser `monto == None`, no `monto == 0`.',
+        hint: 'La primera condición debe ser `monto is None`, no `monto == 0`.',
         hints: [
-          'La primera condición debe ser `monto == None`, no `monto == 0`.',
+          'La primera condición debe ser `monto is None`, no `monto == 0`.',
           'Después usa `elif monto < 0`; el `else` acepta cero y positivos.',
         ],
         edgeCases: ['Cero debe llegar a `accept`.'],
@@ -1801,7 +2008,7 @@ print(monto, "→", estado)`,
           language: 'python',
           title: 'monto_cero.py',
           code: `monto = None
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1810,7 +2017,7 @@ else:
 print(monto, "→", estado)
 
 monto = 0
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1819,7 +2026,7 @@ else:
 print(monto, "→", estado)
 
 monto = -1
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -1828,7 +2035,7 @@ else:
 print(monto, "→", estado)
 
 monto = 100
-if monto == None:
+if monto is None:
     estado = "review"
 elif monto < 0:
     estado = "reject"
@@ -3764,10 +3971,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO None:", estado, codigo, "—", mensaje)
 assert estado == "review"
 assert codigo == "MISSING"
 assert mensaje == "Campo 'edad' ausente; escribe un número de 0 a 120 o déjalo para revisión."
-print("CASO None:", estado, codigo, "—", mensaje)
+
 
 edad = "x"
 edad_ausente = False
@@ -3788,10 +3996,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO x:", estado, codigo, "—", mensaje)
 assert estado == "reject"
 assert codigo == "BAD_TYPE"
 assert mensaje == "Campo 'edad' no es numérico; escribe un número de 0 a 120."
-print("CASO x:", estado, codigo, "—", mensaje)
+
 
 edad = -5
 edad_ausente = False
@@ -3812,10 +4021,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO -5:", estado, codigo, "—", mensaje)
 assert estado == "reject"
 assert codigo == "OUT_OF_RANGE"
 assert mensaje == "Campo 'edad' fuera de rango; usa un número de 0 a 120."
-print("CASO -5:", estado, codigo, "—", mensaje)
+
 
 edad = 35
 edad_ausente = False
@@ -3836,10 +4046,11 @@ else:
     estado = "accept"
     codigo = "OK"
     mensaje = "Campo 'edad' aceptado."
+print("CASO 35:", estado, codigo, "—", mensaje)
 assert estado == "accept"
 assert codigo == "OK"
 assert mensaje == "Campo 'edad' aceptado."
-print("CASO 35:", estado, codigo, "—", mensaje)`,
+`,
         },
         solutionCode: {
           language: 'python',

@@ -131,6 +131,8 @@ export interface YouDoProject {
   objectives: string[]
   requirements: string[]
   starterCode?: string
+  /** Reference program, shown behind a closed reveal after the starter; never the starter itself. */
+  solutionCode?: CodeExample
   portfolioNote: string
   rubric: { criterion: string; weight: string }[]
   /**

@@ -773,6 +773,22 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
             </div>
           )}
 
+          {project.solutionCode && (
+            <details className="rounded-lg border border-border p-3" data-testid="you-do-solution">
+              <summary className="cursor-pointer text-sm font-semibold text-foreground">
+                Solución de referencia del proyecto
+              </summary>
+              <div className="mt-3">
+                <CodeBlock
+                  code={project.solutionCode.code}
+                  language={project.solutionCode.language}
+                  title={project.solutionCode.title}
+                  output={project.solutionCode.output}
+                />
+              </div>
+            </details>
+          )}
+
           <Callout type="tip" title="Tip para tu portafolio">
             <RichText content={project.portfolioNote} sectionId={section.id} />
           </Callout>
@@ -1264,7 +1280,8 @@ def monto_usable(row):
         return False, "cast_monto"
     return True, None
 
-for row in csv.DictReader(io.StringIO(raw)):
+parsed_rows = list(csv.DictReader(io.StringIO(raw)))
+for row in parsed_rows:
     usable, reason = monto_usable(row)
     if usable:
         clean.append({
@@ -1272,11 +1289,11 @@ for row in csv.DictReader(io.StringIO(raw)):
             "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
         })
     else:
-        quarantine.append({"raw": row, "reason": reason})
+        quarantine.append({"parsed_row": row, "reason": reason})
 
 manifest = {
     "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
-    "n_in": len(clean) + len(quarantine),
+    "n_in": len(parsed_rows),
     "n_clean": len(clean),
     "n_quarantine": len(quarantine),
 }
@@ -1288,7 +1305,7 @@ print("clean", json.dumps(clean, ensure_ascii=False, sort_keys=True))
 print("quarantine", json.dumps(quarantine, ensure_ascii=False, sort_keys=True))
 print("manifest", json.dumps(manifest, sort_keys=True))`,
       expectedOutput: `clean [{"id": "C001", "monto": "10.50"}, {"id": "C003", "monto": "3.00"}]
-quarantine [{"raw": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
+quarantine [{"parsed_row": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
 manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha256_12": "0181876342b5"}`,
       hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },

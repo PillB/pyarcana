@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useId } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Loader2, RotateCcw, Terminal, CheckCircle2, XCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PYODIDE_CDN } from '@/lib/pyodide'
+import { resolveEditorKey } from '@/components/course/code-playground-keys'
 
 // Pyodide is loaded from CDN — only once per session
 let pyodidePromise: Promise<any> | null = null
@@ -106,6 +107,8 @@ export function CodePlayground({
   const [showHint, setShowHint] = useState(false)
   const [passed, setPassed] = useState<boolean | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const escapeArmedRef = useRef(false)
+  const keyboardHelpId = useId()
   const lineNumbersRef = useRef<HTMLDivElement>(null)
   const pyodideRef = useRef<any>(null)
 
@@ -241,20 +244,21 @@ export function CodePlayground({
     }
   }
 
-  // Tab key support
+  // Tab inserts four spaces; Shift+Tab, or Escape then Tab, leaves the editor (code-playground-keys.ts).
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Tab') {
-      e.preventDefault()
-      const start = e.currentTarget.selectionStart
-      const end = e.currentTarget.selectionEnd
-      const newCode = code.substring(0, start) + '    ' + code.substring(end)
-      setCode(newCode)
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + 4
-        }
-      }, 0)
-    }
+    const { action, escapeArmed } = resolveEditorKey(e.key, e.shiftKey, escapeArmedRef.current)
+    escapeArmedRef.current = escapeArmed
+    if (action !== 'indent') return
+    e.preventDefault()
+    const start = e.currentTarget.selectionStart
+    const end = e.currentTarget.selectionEnd
+    const newCode = code.substring(0, start) + '    ' + code.substring(end)
+    setCode(newCode)
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + 4
+      }
+    }, 0)
   }
 
   const lineCount = code.split('\n').length
@@ -340,6 +344,7 @@ export function CodePlayground({
         <textarea
           data-initial-code={initialCode}
           aria-label="Editor de código Python"
+          aria-describedby={keyboardHelpId}
           ref={textareaRef}
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -349,6 +354,9 @@ export function CodePlayground({
           className="code-block flex-1 resize-none bg-transparent py-4 pl-2 pr-4 text-[0.875rem] leading-[1.65] text-[var(--code-fg)] outline-none"
           style={{ fontFamily: 'var(--font-geist-mono), monospace', tabSize: 4, minHeight: '120px' }}
         />
+        <span id={keyboardHelpId} className="sr-only">
+          Tab inserta cuatro espacios. Para salir del editor con el teclado, usa Mayús+Tab, o pulsa Escape y luego Tab.
+        </span>
       </div>
 
       {/* Output area */}

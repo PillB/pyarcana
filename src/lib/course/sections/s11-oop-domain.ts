@@ -125,6 +125,39 @@ ClientRecord C001`,
       },
     },
     {
+      heading: "Contraejemplo: el default mutable se comparte entre instancias",
+      paragraphs: [
+        "El error de S05 con `def f(x, acc=[])` reaparece en una clase común: la lista por defecto se crea una sola vez y todas las instancias que no reciben una la comparten. `CaseFileComun` lo muestra con dos expedientes; luego el ejemplo intenta lo mismo con `@dataclass` y, al final, usa `field(default_factory=list)`, que llama a `list()` para cada instancia.",
+        "La primera línea muestra que `CF2` nace con `['E1-E2']`, la evidencia de otro expediente. La segunda es la respuesta de `dataclass`: rechaza la clase al definirla y sugiere `default_factory`. La tercera muestra que, con esa corrección, `CF2` nace vacío.",
+      ],
+      code: {
+        language: "python",
+        title: "default_mutable.py",
+        code: "# Error: una clase común con una lista como valor por defecto\nfrom dataclasses import dataclass, field\n\n\nclass CaseFileComun:\n    def __init__(self, case_id: str, evidences: list = []):\n        self.case_id = case_id\n        self.evidences = evidences\n\n\ncf1 = CaseFileComun(\"CF1\")\ncf1.evidences.append(\"E1-E2\")\ncf2 = CaseFileComun(\"CF2\")\nprint(\"CF2 nace con:\", cf2.evidences)\n\n# dataclass rechaza ese mismo default al definir la clase\ntry:\n    @dataclass\n    class CaseFileMal:\n        case_id: str\n        evidences: list = []\nexcept ValueError as e:\n    print(\"dataclass:\", e)\n\n\n# Corrección: default_factory crea una lista nueva por instancia\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list[str] = field(default_factory=list)\n\n\ncf1 = CaseFile(\"CF1\")\ncf1.evidences.append(\"E1-E2\")\ncf2 = CaseFile(\"CF2\")\nprint(\"CF2 nace con:\", cf2.evidences)",
+        output: "CF2 nace con: ['E1-E2']\ndataclass: mutable default <class 'list'> for field evidences is not allowed: use default_factory\nCF2 nace con: []",
+      },
+    },
+    {
+      heading: "Contraejemplo: el repr de la dataclass escribe datos personales en el log",
+      figure: {
+        id: "S11-fstring-dataclass-repr",
+        caption:
+          "La misma f-string escribe datos personales o solo el identificador, según cómo se declaren los campos de la dataclass.",
+        alt:
+          "Una entrada, la f-string con el objeto c, se divide en dos ramas. Con el repr automático salen todos los campos; con repr=False en los campos personales sale solo client_id.",
+      },
+      paragraphs: [
+        "`@dataclass` genera un `__repr__` con todos los campos. Una f-string como `f\"registrado {c}\"` pide a `c` su texto con `str(c)`, y la dataclass responde con ese mismo `repr`. La corrección declara `repr=False` en los campos personales: siguen en el objeto, pero no aparecen en su representación.",
+        "La primera línea de log lleva documento, nombre y correo de un registro que solo había que identificar. La segunda muestra `ClientRecordSeguro(client_id='C001')`, y la tercera confirma que el nombre sigue disponible para el código que lo necesite.",
+      ],
+      code: {
+        language: "python",
+        title: "repr_personal.py",
+        code: "# Error: el repr automático incluye todos los campos\nfrom dataclasses import dataclass, field\n\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\n\nc = ClientRecord(\"C001\", \"DOC-0001\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])\nprint(f\"INFO registrado {c}\")\n\n\n# Corrección: los campos personales quedan fuera del repr\n@dataclass\nclass ClientRecordSeguro:\n    client_id: str\n    document_id: str = field(repr=False)\n    full_name: str = field(repr=False)\n    emails: list[str] = field(default_factory=list, repr=False)\n\n\nc = ClientRecordSeguro(\"C001\", \"DOC-0001\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])\nprint(f\"INFO registrado {c}\")\nprint(\"el dato sigue disponible:\", c.full_name)",
+        output: "INFO registrado ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])\nINFO registrado ClientRecordSeguro(client_id='C001')\nel dato sigue disponible: Ana Pérez",
+      },
+    },
+    {
       heading: "Invariantes y estados válidos",
       figure: {
         id: "S11-invariant-where",
@@ -177,6 +210,32 @@ reject document_id vacío`,
       },
     },
     {
+      heading: "Contraejemplo: el constructor que arregla el dato cambia el total",
+      paragraphs: [
+        "El lote trae una transacción válida en soles, una en euros y una con monto negativo. `TransactionArreglada` cambia la moneda no admitida por `PEN` y el monto no positivo por `0.01`; `Transaction` rechaza las dos con un `ValueError` que nombra la regla.",
+        "Con el arreglo, `T2` aparece como `200.00 PEN` y el total en soles sube a `350.50`, aunque en el lote solo había `150.50` soles: doscientos euros se contaron como soles sin conversión ni aviso. Con el rechazo, el total es `150.50` y las dos transacciones problemáticas quedan visibles para que alguien decida qué hacer con ellas.",
+      ],
+      code: {
+        language: "python",
+        title: "constructor_arregla.py",
+        code: "# Error: el constructor «arregla» en silencio lo que no le gusta\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\nlote = [(\"T1\", \"150.50\", \"PEN\"), (\"T2\", \"200.00\", \"EUR\"), (\"T3\", \"-40.00\", \"USD\")]\n\n\n@dataclass\nclass TransactionArreglada:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            self.currency = \"PEN\"\n        if self.amount <= 0:\n            self.amount = Decimal(\"0.01\")\n\n\ntxs = [TransactionArreglada(t, Decimal(a), c) for t, a, c in lote]\nfor tx in txs:\n    print(\"arreglada:\", tx.tx_id, tx.amount, tx.currency)\ntotal = sum((tx.amount for tx in txs if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)\n\n\n# Corrección: el constructor rechaza; nadie cambia el dato de origen\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(f\"{self.tx_id}: currency no soportada\")\n        if self.amount <= 0:\n            raise ValueError(f\"{self.tx_id}: amount debe ser > 0\")\n\n\naceptadas = []\nfor t, a, c in lote:\n    try:\n        aceptadas.append(Transaction(t, Decimal(a), c))\n    except ValueError as e:\n        print(\"rechazada:\", e)\ntotal = sum((tx.amount for tx in aceptadas if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)",
+        output: "arreglada: T1 150.50 PEN\narreglada: T2 200.00 PEN\narreglada: T3 0.01 USD\ntotal PEN: 350.50\nrechazada: T2: currency no soportada\nrechazada: T3: amount debe ser > 0\ntotal PEN: 150.50",
+      },
+    },
+    {
+      heading: "Contraejemplo: el documento vacío forma un grupo falso",
+      paragraphs: [
+        "Tres clientes llegaron con el documento vacío o hecho solo de espacios. En el error, el índice aplica `strip` y acepta lo que queda, aunque sea `\"\"`. En la corrección, el borde aplica el mismo `strip` y rechaza el vacío antes de indexar.",
+        "El índice del error agrupa a `C002`, `C003` y `C004` bajo la clave vacía y produce tres pares que «comparten documento»: el matching vería tres coincidencias entre clientes que no tienen nada en común. En la corrección, esos tres quedan en `rechazados` y no se forma ningún par.",
+      ],
+      code: {
+        language: "python",
+        title: "documento_vacio.py",
+        code: "# Error: se normaliza con strip, pero el vacío se acepta como documento\nclientes = [(\"C001\", \"D-100\"), (\"C002\", \" \"), (\"C003\", \"\"), (\"C004\", \"  \")]\n\n\ndef pares_por_documento(indice: dict) -> list[tuple[str, str]]:\n    pares = []\n    for ids in indice.values():\n        for i in range(len(ids)):\n            for j in range(i + 1, len(ids)):\n                pares.append((ids[i], ids[j]))\n    return pares\n\n\nindice = {}\nfor client_id, doc in clientes:\n    clave = doc.strip()\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(client_id)\nprint(\"índice:\", indice)\nprint(\"comparten documento:\", pares_por_documento(indice))\n\n# Corrección: strip en el borde y rechazo del vacío antes de indexar\nindice, rechazados = {}, []\nfor client_id, doc in clientes:\n    clave = doc.strip()\n    if not clave:\n        rechazados.append(client_id)\n        continue\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(client_id)\nprint(\"índice:\", indice, \"| rechazados:\", rechazados)\nprint(\"comparten documento:\", pares_por_documento(indice))",
+        output: "índice: {'D-100': ['C001'], '': ['C002', 'C003', 'C004']}\ncomparten documento: [('C002', 'C003'), ('C002', 'C004'), ('C003', 'C004')]\níndice: {'D-100': ['C001']} | rechazados: ['C002', 'C003', 'C004']\ncomparten documento: []",
+      },
+    },
+    {
       heading: "Propiedades y métodos",
       subtopicId: "S11-T2-A",
       paragraphs: [
@@ -223,6 +282,45 @@ print(ClientRecord("C002", "DNI-2", "Sin mail").masked_email)`,
       },
     },
     {
+      heading: "Contraejemplo: una property con efecto colateral envía el aviso al leerla",
+      paragraphs: [
+        "En `ClientRecordRuidoso`, leer `masked_email` registra además un aviso enviado al correo, que es el tipo de efecto colateral que la teoría desaconseja. El código lee la property dos veces, una para la ficha y otra para el log. `ClientRecord` deja la property como cálculo y pasa el envío a un método explícito, `enviar_aviso`.",
+        "Tras dos lecturas, el primer objeto acumula dos avisos al mismo correo, y nadie llamó a nada que pareciera enviar. Además, el aviso guarda el correo completo. El segundo objeto devuelve la misma máscara y su lista de avisos sigue vacía hasta que alguien llame a `enviar_aviso`.",
+      ],
+      code: {
+        language: "python",
+        title: "property_efecto.py",
+        code: "# Error: leer la property también «envía» un aviso\nfrom dataclasses import dataclass, field\n\n\n@dataclass\nclass ClientRecordRuidoso:\n    client_id: str\n    emails: list[str]\n    avisos: list[str] = field(default_factory=list)\n\n    @property\n    def masked_email(self) -> str:\n        self.avisos.append(f\"aviso enviado a {self.emails[0]}\")\n        local, _, domain = self.emails[0].partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\n\nc = ClientRecordRuidoso(\"C001\", [\"ana@ejemplo.pe\"])\nprint(\"ficha:\", c.masked_email)\nprint(f\"log: email={c.masked_email}\")\nprint(\"avisos:\", c.avisos)\n\n\n# Corrección: la property solo calcula; el envío es un método explícito\n@dataclass\nclass ClientRecord:\n    client_id: str\n    emails: list[str]\n    avisos: list[str] = field(default_factory=list)\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.emails[0].partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\n    def enviar_aviso(self) -> None:\n        self.avisos.append(f\"aviso enviado a {self.client_id}\")\n\n\nc = ClientRecord(\"C001\", [\"ana@ejemplo.pe\"])\nprint(\"ficha:\", c.masked_email)\nprint(f\"log: email={c.masked_email}\")\nprint(\"avisos:\", c.avisos)",
+        output: "ficha: a***@ejemplo.pe\nlog: email=a***@ejemplo.pe\navisos: ['aviso enviado a ana@ejemplo.pe', 'aviso enviado a ana@ejemplo.pe']\nficha: a***@ejemplo.pe\nlog: email=a***@ejemplo.pe\navisos: []",
+      },
+    },
+    {
+      heading: "Contraejemplo: una property sin correo detiene el lote",
+      paragraphs: [
+        "`ClientSinSentinel` toma siempre el primer correo. El lote tiene tres clientes y el del medio no tiene correo. `ClientRecord` devuelve `(sin email)`, un valor marcador documentado, cuando la lista está vacía.",
+        "La salida del error imprime `C001` y se detiene en `C002` con `list index out of range`; `C003`, que estaba bien, nunca se procesa. La corrección recorre los tres y deja el caso sin correo identificado con el marcador.",
+      ],
+      code: {
+        language: "python",
+        title: "property_sin_correo.py",
+        code: "# Error: la property supone que siempre hay un primer email\nfrom dataclasses import dataclass, field\n\n\n@dataclass\nclass ClientSinSentinel:\n    client_id: str\n    emails: list[str] = field(default_factory=list)\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.emails[0].partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\n\nlote = [ClientSinSentinel(\"C001\", [\"ana@ejemplo.pe\"]), ClientSinSentinel(\"C002\"),\n        ClientSinSentinel(\"C003\", [\"luis@ejemplo.pe\"])]\ntry:\n    for c in lote:\n        print(c.client_id, c.masked_email)\nexcept IndexError as e:\n    print(\"el lote se detiene en\", c.client_id, \"→ IndexError:\", e)\n\n\n# Corrección: un valor marcador documentado para «no hay dato»\n@dataclass\nclass ClientRecord:\n    client_id: str\n    emails: list[str] = field(default_factory=list)\n\n    @property\n    def masked_email(self) -> str:\n        if not self.emails:\n            return \"(sin email)\"\n        local, _, domain = self.emails[0].partition(\"@\")\n        if not domain:\n            return \"(email inválido)\"\n        return f\"{local[:1]}***@{domain}\"\n\n\nlote = [ClientRecord(\"C001\", [\"ana@ejemplo.pe\"]), ClientRecord(\"C002\"),\n        ClientRecord(\"C003\", [\"luis@ejemplo.pe\"])]\nfor c in lote:\n    print(c.client_id, c.masked_email)",
+        output: "C001 a***@ejemplo.pe\nel lote se detiene en C002 → IndexError: list index out of range\nC001 a***@ejemplo.pe\nC002 (sin email)\nC003 l***@ejemplo.pe",
+      },
+    },
+    {
+      heading: "Contraejemplo: un campo derivado guardado queda desactualizado",
+      paragraphs: [
+        "`PersonNameGuardado` calcula `full_name` una vez, al construir el objeto, y lo guarda como campo. `PersonName` lo expone como property y lo calcula en cada lectura. En los dos casos el código cambia después el apellido.",
+        "El campo guardado sigue diciendo `Ana Pérez` aunque el apellido ya es `Pérez Soto`, así que la ficha y el registro discrepan. La property devuelve `Ana Pérez Soto` porque lee las partes actuales.",
+      ],
+      code: {
+        language: "python",
+        title: "campo_derivado.py",
+        code: "# Error: full_name se guarda como campo y se calcula una sola vez\nfrom dataclasses import dataclass\n\n\n@dataclass\nclass PersonNameGuardado:\n    first_name: str\n    last_name: str\n    full_name: str = \"\"\n\n    def __post_init__(self) -> None:\n        self.full_name = f\"{self.first_name} {self.last_name}\"\n\n\np = PersonNameGuardado(\"Ana\", \"Pérez\")\np.last_name = \"Pérez Soto\"\nprint(\"guardado →\", p.full_name)\n\n\n# Corrección: full_name es una property que se calcula en cada lectura\n@dataclass\nclass PersonName:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\n\np = PersonName(\"Ana\", \"Pérez\")\np.last_name = \"Pérez Soto\"\nprint(\"property →\", p.full_name)",
+        output: "guardado → Ana Pérez\nproperty → Ana Pérez Soto",
+      },
+    },
+    {
       heading: "Igualdad, hash y mutabilidad consciente",
       subtopicId: "S11-T2-B",
       paragraphs: [
@@ -260,6 +358,32 @@ E1 in set True`,
         title: "Igualdad personalizada",
         content:
           "`field(compare=False)` excluye display_name de eq/hash. No uses document_id como identidad de ResolvedEntity.",
+      },
+    },
+    {
+      heading: "Contraejemplo: el documento como identidad fusiona a dos personas",
+      paragraphs: [
+        "`EntidadPorDocumento` compara solo `document_id`, y `ResolvedEntity` compara solo `entity_id`. Los datos tienen dos casos sintéticos: `E1` y `E7` son personas distintas con el mismo documento por un error de digitación, y `E1` vuelve con su documento reemitido.",
+        "Con el documento como identidad, el conjunto `{E1, E7}` guarda una sola entidad, así que `E7` desaparece fusionada con otra persona. A la vez, `E1` deja de ser igual a sí misma tras la corrección. Con `entity_id`, el conjunto conserva dos entidades y `E1` sigue siendo `E1`.",
+      ],
+      code: {
+        language: "python",
+        title: "identidad_documento.py",
+        code: "# Error: la identidad se compara por document_id\nfrom dataclasses import dataclass, field\n\n\n@dataclass(frozen=True)\nclass EntidadPorDocumento:\n    entity_id: str = field(compare=False)\n    document_id: str = \"\"\n\n\ne1 = EntidadPorDocumento(\"E1\", \"D-100\")\ne7 = EntidadPorDocumento(\"E7\", \"D-100\")      # otra persona; el documento se tecleó repetido\ne1_corregida = EntidadPorDocumento(\"E1\", \"D-100-R\")  # E1 tras reemitir su documento\nprint(\"por documento → set {E1, E7}:\", len({e1, e7}), \"entidad(es)\")\nprint(\"por documento → E1 == E1 corregida:\", e1 == e1_corregida)\n\n\n# Corrección: la identidad es el entity_id estable\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    document_id: str = field(default=\"\", compare=False)\n\n\ne1 = ResolvedEntity(\"E1\", \"D-100\")\ne7 = ResolvedEntity(\"E7\", \"D-100\")\ne1_corregida = ResolvedEntity(\"E1\", \"D-100-R\")\nprint(\"por entity_id → set {E1, E7}:\", len({e1, e7}), \"entidad(es)\")\nprint(\"por entity_id → E1 == E1 corregida:\", e1 == e1_corregida)",
+        output: "por documento → set {E1, E7}: 1 entidad(es)\npor documento → E1 == E1 corregida: False\npor entity_id → set {E1, E7}: 2 entidad(es)\npor entity_id → E1 == E1 corregida: True",
+      },
+    },
+    {
+      heading: "Contraejemplo: la misma señal contada dos veces en una lista",
+      paragraphs: [
+        "La señal `E1–E2` con score `0.2` llegó dos veces, por ejemplo por un reintento del proveedor. El error la acumula en una lista; la corrección construye un `set`, que funciona porque `Evidence` es `frozen` y por eso se puede usar como elemento de un conjunto.",
+        "La lista cuenta `3` señales y suma `0.5`; el set cuenta `2` y suma `0.3`. La diferencia es justamente la señal repetida, que en la lista inflaba la evidencia del par.",
+      ],
+      code: {
+        language: "python",
+        title: "senal_duplicada.py",
+        code: "# Error: acumular en una lista cuenta el duplicado\nfrom dataclasses import dataclass\n\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\n\n# La misma señal llegó dos veces (por ejemplo, un reintento del proveedor)\nrecibidas = [\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E3\", 0.1),\n]\n\nprint(\"lista → señales:\", len(recibidas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in recibidas), 2))\n\n# Corrección: un set de objetos frozen guarda cada señal una vez\nunicas = set(recibidas)\nprint(\"set   → señales:\", len(unicas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in unicas), 2))",
+        output: "lista → señales: 3 | suma de scores: 0.5\nset   → señales: 2 | suma de scores: 0.3",
       },
     },
     {
@@ -359,6 +483,19 @@ True`,
       },
     },
     {
+      heading: "Contraejemplo: la clase base abstracta rechaza un fake válido",
+      paragraphs: [
+        "`FakeStore` es un fake de test con `get` y `save`. El ejemplo pregunta con `isinstance` si cumple dos puertos con los mismos métodos: `EntityStoreABC`, una clase base abstracta, y `EntityStore`, un `Protocol` marcado con `runtime_checkable`.",
+        "La ABC responde `False`, porque solo reconoce a quien herede de ella; para aceptarlo, el fake tendría que importar y heredar esa clase del dominio. El `Protocol` responde `True` porque solo mira que los métodos existan.",
+      ],
+      code: {
+        language: "python",
+        title: "abc_vs_protocol.py",
+        code: "# Error: el puerto es una clase base abstracta; solo acepta a quien herede de ella\nfrom abc import ABC, abstractmethod\nfrom typing import Protocol, runtime_checkable\n\n\nclass FakeStore:\n    # Un fake de test: tiene get y save, pero no hereda de nada del dominio\n    def __init__(self):\n        self.d = {}\n\n    def get(self, entity_id):\n        return self.d.get(entity_id)\n\n    def save(self, entity):\n        self.d[entity[\"entity_id\"]] = entity\n\n\nclass EntityStoreABC(ABC):\n    @abstractmethod\n    def get(self, entity_id): ...\n\n    @abstractmethod\n    def save(self, entity): ...\n\n\nprint(\"ABC acepta FakeStore:\", isinstance(FakeStore(), EntityStoreABC))\n\n\n# Corrección: el Protocol acepta a cualquiera que tenga los métodos\n@runtime_checkable\nclass EntityStore(Protocol):\n    def get(self, entity_id): ...\n\n    def save(self, entity): ...\n\n\nprint(\"Protocol acepta FakeStore:\", isinstance(FakeStore(), EntityStore))",
+        output: "ABC acepta FakeStore: False\nProtocol acepta FakeStore: True",
+      },
+    },
+    {
       heading: "Repositorios, servicios y serialización",
       subtopicId: "S11-T4-A",
       paragraphs: [
@@ -450,6 +587,19 @@ print(test_no_fraud_api())`,
         title: "Ética de producto",
         content:
           "El software de familiaridad no declara parentesco legal ni fraude; solo organiza evidencia.",
+      },
+    },
+    {
+      heading: "Contraejemplo: el test que escribe en disco ve el resultado del anterior",
+      paragraphs: [
+        "`ServicioAcoplado` escribe cada alta en `clientes.jsonl`, y su test cuenta las líneas del archivo. `Servicio` recibe el repositorio en su constructor, y el test le pasa uno en memoria nuevo cada vez.",
+        "El test acoplado ve `1` fila la primera vez y `2` la segunda, aunque el test no cambió: el archivo arrastró el resultado anterior. Con el repositorio inyectado, cada ejecución ve `1` fila.",
+      ],
+      code: {
+        language: "python",
+        title: "test_archivo_fijo.py",
+        code: "# Error: el servicio escribe directamente en un archivo fijo\nimport json\nimport tempfile\nfrom pathlib import Path\n\nARCHIVO = Path(tempfile.mkdtemp()) / \"clientes.jsonl\"\n\n\nclass ServicioAcoplado:\n    def register(self, client_id: str) -> None:\n        with open(ARCHIVO, \"a\", encoding=\"utf-8\") as f:\n            f.write(json.dumps({\"client_id\": client_id}) + \"\\n\")\n\n\ndef test_register_acoplado() -> int:\n    ServicioAcoplado().register(\"C001\")\n    return len(ARCHIVO.read_text(encoding=\"utf-8\").splitlines())\n\n\nprint(\"acoplado → primer test ve\", test_register_acoplado(), \"fila(s)\")\nprint(\"acoplado → segundo test ve\", test_register_acoplado(), \"fila(s)\")\n\n\n# Corrección: el servicio recibe el repositorio; el test le pasa uno en memoria\nclass RepoEnMemoria:\n    def __init__(self):\n        self.d = {}\n\n    def save(self, row: dict) -> None:\n        self.d[row[\"client_id\"]] = row\n\n\nclass Servicio:\n    def __init__(self, repo):\n        self.repo = repo\n\n    def register(self, client_id: str) -> None:\n        self.repo.save({\"client_id\": client_id})\n\n\ndef test_register() -> int:\n    repo = RepoEnMemoria()\n    Servicio(repo).register(\"C001\")\n    return len(repo.d)\n\n\nprint(\"inyectado → primer test ve\", test_register(), \"fila(s)\")\nprint(\"inyectado → segundo test ve\", test_register(), \"fila(s)\")",
+        output: "acoplado → primer test ve 1 fila(s)\nacoplado → segundo test ve 2 fila(s)\ninyectado → primer test ve 1 fila(s)\ninyectado → segundo test ve 1 fila(s)",
       },
     },
   ],
@@ -1406,7 +1556,7 @@ reject_nan score fuera de rango`,
         preamble:
           "- **Contexto:** el set de resolución local colapsa entidades por id estable, no por el nombre mostrado.\n- **Meta:** `frozen=True` + `display_name` con `compare=False`.\n- **Éxito:** `True False` y tamaño de set `2`.\n- **Límites:** no uses `document_id` en la igualdad; solo stdlib; id vacío se rechaza.",
         instruction:
-          "1. El starter compara también el nombre — por eso el set no colapsa bien.\n2. Aplica `frozen=True` y `field(compare=False)` en `display_name`.\n3. Opcional: `__post_init__` que rechace id vacío.\n4. Imprime `a == b, a == c` y `len({a, b, c})`.",
+          "1. El starter compara también el nombre — por eso el set no colapsa bien.\n2. El starter ya es `frozen=True`; aplica `field(compare=False)` en `display_name`.\n3. Opcional: `__post_init__` que rechace id vacío.\n4. Imprime `a == b, a == c` y `len({a, b, c})`.",
         hint: "dataclass(frozen=True) + field(compare=False) en display_name.",
         hints: [
           "dataclass(frozen=True) + field(compare=False) en display_name.",
@@ -1421,10 +1571,10 @@ reject_nan score fuera de rango`,
           language: 'python',
           title: "entity_identity.py",
           code: `# CASO-LIM-011 · frozen equality
-# DEFECT: no frozen; name en compare
+# DEFECT: display_name entra en la igualdad; el set no colapsa la misma entidad
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
     display_name: str
@@ -1482,10 +1632,10 @@ print(len({a, b, c}))`,
           language: 'python',
           title: "frozen_evidence.py",
           code: `# CASO-LIM-011 · frozen set dedup
-# DEFECT: no frozen; len wrong
+# DEFECT: sin frozen ni eq por valor; el set no colapsa duplicados (len 3, debía ser 2)
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(eq=False)
 class Evidence:
     left_id: str
     right_id: str
@@ -1809,7 +1959,7 @@ reject par no canónico`,
         preamble:
           "- **Contexto:** un fake (implementación de mentira) de scoring solo sirve si expone el **mismo** método que el puerto.\n- **Meta:** implementar `score` (no `compute`) para el par `(\"E1\",\"E2\")`.\n- **Éxito:** una línea `0.5`.\n- **Límites:** no instancies el Protocol; solo stdlib.",
         instruction:
-          "1. El starter llama `compute` — renombra al contrato `score`.\n2. Tipa opcionalmente `s: Scorer = FakeScorer()`.\n3. Imprime `s.score((\"E1\", \"E2\"))`.\n4. No cambies la firma del Protocol.",
+          "1. El starter define `compute`, pero el contrato pide `score`: renombra el método.\n2. Tipa opcionalmente `s: Scorer = FakeScorer()`.\n3. Imprime `s.score((\"E1\", \"E2\"))`.\n4. No cambies la firma del Protocol.",
         hint: "Imprime el score de un par sintético.",
         hints: [
           "Imprime el score de un par sintético.",
@@ -1835,8 +1985,8 @@ class FakeScorer:
     def compute(self, pair: tuple[str, str]) -> float:
         return 0.5
 
-s = FakeScorer()
-print(s.compute(("E1", "E2")))
+s: Scorer = FakeScorer()
+print(s.score(("E1", "E2")))
 `,
         },
         solutionCode: {
@@ -2188,7 +2338,7 @@ LAYER: domain print=False cli=False inv=True`,
         preamble:
           "- **Contexto:** los tests del dominio demuestran invariantes, no imprimen `pass` por cortesía.\n- **Meta:** rechazar `document_id` en blanco y hacer que el test solo pase si hay `ValueError`.\n- **Éxito:** una línea `pass`.\n- **Límites:** sin red/DB; forma reducida client_id+document_id; solo stdlib.",
         instruction:
-          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, usa try/except: si no lanza, `assert False`.\n3. Devuelve `\"pass\"` solo en el except correcto.\n4. Imprime el resultado del test.",
+          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, envuelve la creación en try/except ValueError; si no lanza, deja el `assert False`.\n3. Devuelve `\"pass\"` solo en el except correcto.\n4. Imprime el resultado del test.",
         hint: "Usa try/except ValueError y return 'pass'.",
         hints: [
           "Usa try/except ValueError y return 'pass'.",
@@ -2204,7 +2354,7 @@ LAYER: domain print=False cli=False inv=True`,
           language: 'python',
           title: "test_invariant.py",
           code: `# CASO-LIM-011 · test empty document
-# DEFECT: no post_init; test always pass
+# DEFECT: no post_init; el test falla hasta que exista el rechazo
 from dataclasses import dataclass
 
 @dataclass
@@ -2214,7 +2364,7 @@ class ClientRecord:
 
 def test_empty_document_rejected():
     ClientRecord("C1", " ")
-    return "pass"
+    assert False, "debía fallar"
 
 print(test_empty_document_rejected())
 `,
@@ -2267,7 +2417,7 @@ print(test_empty_document_rejected())`,
           language: 'python',
           title: "fake_repo_tests.py",
           code: `# CASO-LIM-011 · FakeRepo service tests
-# DEFECT: tests no ejecutan asserts reales
+# DEFECT: save no guarda y get no devuelve nada
 class FakeRepo:
     def __init__(self):
         self.d = {}
@@ -2283,12 +2433,18 @@ class Service:
         return {"id": id, "name": name}
 
 def test_register():
+    s = Service(FakeRepo())
+    assert s.register("C1", "Ana")["name"] == "Ana"
     print("pass")
 
 def test_get():
+    repo = FakeRepo()
+    Service(repo).register("C1", "Ana")
+    assert repo.get("C1")["id"] == "C1"
     print("pass")
 
 def test_missing():
+    assert Service(FakeRepo()).repo.get("X") is None
     print("pass")
 
 test_register(); test_get(); test_missing()
@@ -2341,7 +2497,7 @@ pass`,
         preamble:
           "- **Contexto:** un método `decide_fraud` en el dominio de familiaridad es un riesgo de producto y de ética.\n- **Meta:** mostrar el ANTES, modelar evidencia con score, y assert de ausencia de APIs de veredicto (métodos que emiten un fallo legal o de parentesco).\n- **Éxito:** `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.\n- **Límites:** no implementes `is_family`; umbrales de producto viven fuera; solo stdlib.",
         instruction:
-          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Assert `not hasattr` de decide_fraud/is_fraud/is_related_family.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre la clase de evidencia.",
+          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Quita `decide_fraud` de `Client` y haz `assert not hasattr` de decide_fraud/is_fraud/is_related_family sobre `Client`.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre `Client`.",
         hint: "Borra el método de veredicto; el score vive en el value object de evidencia.",
         hints: [
           "Borra el método de veredicto; el score vive en el value object de evidencia.",
@@ -2350,7 +2506,7 @@ pass`,
         edgeCases: ["Umbrales de producto y revisión humana viven fuera del modelo de dominio"],
         tests: "Dos líneas: `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.",
         feedback:
-          "Scores son datos de matching; `decide_fraud` / `is_family` no viven en el dominio de familiaridad. El print ANTES documenta el anti-patrón; el DESPUES debe mirar `hasattr` sobre la evidencia (o el diseño final), no dejar el veredicto colgando del mismo tipo.",
+          "Scores son datos de matching; `decide_fraud` / `is_family` no viven en el dominio de familiaridad. El print ANTES documenta el anti-patrón; el DESPUES debe mirar `hasattr` sobre `Client` después de quitar el método: el veredicto no puede seguir colgando de ese tipo.",
         retrospective:
           "Scores son datos; veredictos son frontera humana/producto. Ese límite es el gate CP-N1-C. En You Do integrarás los cuatro tipos con tests que lo demuestren de punta a punta.",
         starterCode: {
@@ -2385,6 +2541,11 @@ class Client:
 
 print("ANTES has_decide_fraud", hasattr(Client, "decide_fraud"))
 
+# Extraer: Client se redefine sin el método de veredicto; el score vive en la evidencia.
+@dataclass
+class Client:
+    client_id: str
+
 # Anti-patrón extraído: el dominio solo guarda señales, no veredictos.
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -2392,15 +2553,15 @@ class RelationshipEvidence:
     right_id: str
     signal_score: float  # dato, no veredicto
 
-assert not hasattr(RelationshipEvidence, "decide_fraud")
-assert not hasattr(RelationshipEvidence, "is_fraud")
-assert not hasattr(RelationshipEvidence, "is_related_family")
+assert not hasattr(Client, "decide_fraud")
+assert not hasattr(Client, "is_fraud")
+assert not hasattr(Client, "is_related_family")
 ev = RelationshipEvidence("E1", "E2", 0.95)
 print(
     "DESPUES signal_score",
     ev.signal_score,
     "has_decide_fraud",
-    hasattr(RelationshipEvidence, "decide_fraud"),
+    hasattr(Client, "decide_fraud"),
 )`,
           output: `ANTES has_decide_fraud True
 DESPUES signal_score 0.95 has_decide_fraud False`,

@@ -350,6 +350,446 @@
       "reason": "The reference solution now keeps the exercise's own contract: 1,234 is rejected as ambiguous and messages no longer repeat the input; the demo list adds 1,234 and NaN. Same exercise, same goal.",
       "decided_by": "owner: Pablo approved batch-1 proposal 01 item 2 (2026-11-09)",
       "date": "2026-11-09"
+    },
+    {
+      "row": 36,
+      "id": "S03-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "3db0f06132d7432a646d4b7433bf87395c3cefb65364aef57c7934287a729347",
+      "to_fp": "eff13bb707f9d74624f0000bb96fa794feda1927c7f1019fba79fa3ac93364d0",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 37,
+      "id": "S03-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "965f66c8861700952fec2b6afb490eb708a05e5ecde5bc7a9faffc54851e1722",
+      "to_fp": "e66b7ca0fa7e25dff259b84796671c907dfc197dd3f515c6640d4628a72ab8f8",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 38,
+      "id": "S03-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "b8d051fda6c19e1e52fc05691bf400df43b848a2914bf03a5e4a239a787d9921",
+      "to_fp": "156134171dac7771764858f98724d3d5686ac65f62eeb088d856de9d47cf6c51",
+      "reason": "C1 replaces == None with is None (theory and both quizzes teach is None). Token-level meaning is the same: the comparison answers the same question for None, 0 and \"\". Outputs unchanged except labels.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 39,
+      "id": "S01-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "6242b2a46c98a0708b6b2a60a8d752953b636e83d8f4ec5857e36d78c6bc6fdd",
+      "to_fp": "8a89db3be71142c7c49bfeb3e61c0d53efc2d01a40e59ebbf457260786e64805",
+      "reason": "C2 follow-up: the recovery exercise called its own procedure 'no destructiva'; it now says it avoids destroying history ('sin destruir historial'). The task, starter and expected outcome are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C2)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 40,
+      "id": "S05-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "f8c7ed893226271c09ac6cefed62802a3507ddfce86d995faa59212684cf6663",
+      "to_fp": "2993d98e15c73979c942376768d15b78cb23bc89a66ef37a8b63b9d940767ed2",
+      "reason": "Starter and solution print repr() of the result, so str versus int is visible in the output; the return fix and the note line are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 41,
+      "id": "S05-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "d0d196d1f2897ce2136f5df5f050cb25d6477c92ea087a0910fc1ff032ed76a6",
+      "to_fp": "6753851798244782b2b97a6c4cd977fb9368f72e9e6fa9029f87dadd1e6a49d4",
+      "reason": "The solution adds a line that calls the three helpers by name, so the learner can see whether the split happened and the starter output is unchanged. Same decomposition goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 42,
+      "id": "S05-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "8f3c72a29d99ecf1af7c14cfbc54511873cb2df54fc06d305d5163f061eb6c5d",
+      "to_fp": "148e93db69a5593224e7f0cefd77bfc5ea48d89d370ea66ece343056456561ce",
+      "reason": "The starter now prints one line and the solution adds a repr line from a second normalize_email call, so the starter output no longer equals the expected output. Same purity goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 43,
+      "id": "S06-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "7816a421b29fd2c6769f77e0b7f4f8c044340d8b7db13d3c45810286aa783626",
+      "to_fp": "105cc0c2e122fe34d637e58d85fe615cd0df3d0df96d32fe44de9ec660f2a26e",
+      "reason": "The fixture now makes id order and monto order disagree, so sorting by id gives a different output than sorting by monto. Same goal.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 44,
+      "id": "S07-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "90964cbcd10f536af37b5b8ce6619e62543e467afcc514ec83cf66384c2efc53",
+      "to_fp": "bfa7b85f5380c2d4b11e956825328bfe9e5a629c1535a1e5dd10e0fb379f3ee1",
+      "reason": "Email: only the domain is casefolded; the local part keeps its case (proposals-03 C5, S07-005). Starter unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C5)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 45,
+      "id": "S07-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "8329881d25ff7c996e2b222c90edb79e8d99f777903246c782427ddd07eb5f5b",
+      "to_fp": "14a04d07105b7a3d312313e1987adaaa99a22e0611171daec42418d8c8c2b10a",
+      "reason": "Backslashes restored in the starter (A1, NEW-S07-1). Input fijo 123456789 added to starter and solution so the leading-9 defect shows (C14). Starter output no longer equals the expected output.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1+C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 46,
+      "id": "S07-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "192be56f621c05cd8b85fc78263ad198069ffbd9cdd228527395d89c60f1ebc4",
+      "to_fp": "2dfb3c5167c74313fbc5b71d3007bcedfe364a2a5393d9dacba864efbf3e47c1",
+      "reason": "Jaccard: a side without tokens returns None (review), as the theory says; the 1.0 for both-empty is removed (C4, S07-003).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C4)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 47,
+      "id": "S07-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "ae7a8050c9aba15a7b48f8c41ee792ceefcc7fa84f2f8231ebeb1eacd7f1e521",
+      "to_fp": "dbb533e5b4f68b91878a09a91a99982ac5285ba6438a7d0c37eaadc640cb84e4",
+      "reason": "Exact needs score 1.0 and equal normalised strings; 1.0 without equality is review (C4, S07-004).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C4)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 48,
+      "id": "S08-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "23fb25b5baee6999ecf0c179d217e401a8c920af8576a61f9d81feedb566e0c9",
+      "to_fp": "bc527e52ba20723834e4af7ffc236e09f5f97329e62327118d128a492c6baa1f",
+      "reason": "Temporary file is unique (mkstemp in the same folder) (C6, S08-001). Starter writes a draft, so its output no longer equals the expected output (C14).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C6+C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 49,
+      "id": "S08-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "15b764159e909d1904b283d813078c118b2bb66d3d9fc6826864b99697be3a44",
+      "to_fp": "1059c5b2a13af5e1eee1353d538270e3f6c5c9df7a063f0741119676f364fec4",
+      "reason": "Second write uses a unique mkstemp temporary in the same folder (C6, S08-001).",
+      "decided_by": "owner 2026-11-09 (proposals-03 C6)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 50,
+      "id": "S07-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "24de4827763e698babc9018def0b1cabf6def6e217d45af7f64d76dfae9a6bb6",
+      "to_fp": "24de4827763e698babc9018def0b1cabf6def6e217d45af7f64d76dfae9a6bb6",
+      "reason": "Starter compares raw strings and prints False; the expected True comes from casefold (C14). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 51,
+      "id": "S07-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "e809e94ab1e1a9a205d3862f74164a438825d52b11977a9fe0969548716328a1",
+      "to_fp": "e809e94ab1e1a9a205d3862f74164a438825d52b11977a9fe0969548716328a1",
+      "reason": "Starter pattern [A-Za-z]{3} lets Lima pass through search; the feedback claim about Lim is corrected (C14, NEW-S07-2). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 52,
+      "id": "S07-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "577cd573f5638682037ac91c8460b93ac54fb6126461aea27e440469b3f83284",
+      "to_fp": "577cd573f5638682037ac91c8460b93ac54fb6126461aea27e440469b3f83284",
+      "reason": "Backslashes restored in the starter (NEW-S07-1). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 53,
+      "id": "S07-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "aacdc58daedabb4edacb060a47da10ea9b0e90e5aaeedf39275da881c30b58f9",
+      "to_fp": "aacdc58daedabb4edacb060a47da10ea9b0e90e5aaeedf39275da881c30b58f9",
+      "reason": "Backslashes restored in the starter (NEW-S07-1). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 54,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "to_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "reason": "Starter slices raw[7:10], so it prints C00 instead of the expected C001 (C14). Anchor unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 55,
+      "id": "S11-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "523e518d4a99d01a3f2bbe00abed593c5c47431a33b39544b3e7ac9ff27888a4",
+      "to_fp": "c0b4422ccdbd6d71feb17db6f3669033b8ad79a1dab7d03010e1a087e01f0b6c",
+      "reason": "C8: the solution removes decide_fraud from the real Client (redefined without the verdict method) and asserts not hasattr(Client, ...). The ANTES line is kept as the counterexample. Same goal: extract the verdict, keep scores.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 56,
+      "id": "S11-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "bd889ff2002592fd0abf357044e7881d67e1bdc632197bc8e0298979a4d37d17",
+      "to_fp": "bd889ff2002592fd0abf357044e7881d67e1bdc632197bc8e0298979a4d37d17",
+      "reason": "C14: the starter used to print the expected 0.5 unchanged. It now calls score on a FakeScorer that only defines compute, so it fails with AttributeError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 57,
+      "id": "S11-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "to_fp": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "reason": "C14: the starter used to return \"pass\" from a test that never rejects. It now runs an unguarded assert False, so it fails with AssertionError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 58,
+      "id": "S11-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "ff9abe0556b66d858ad80fc1498fdaf0308b07ecbeb1697ab37e26b26fc65763",
+      "to_fp": "ff9abe0556b66d858ad80fc1498fdaf0308b07ecbeb1697ab37e26b26fc65763",
+      "reason": "C14: the starter used to print pass three times without asserts. It now has real asserts over a FakeRepo that does not save, so it fails with TypeError. Solution, tests, title and output are unchanged; only the starter changed.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A3/C3/C8/C14)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 59,
+      "id": "S12-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "acd601175dc5d4a13bdac69dd9bfd97dc518d001769859c36b4d18edd8945db3",
+      "to_fp": "d7d5e301b8358058c951eddc6853be0fbc972ca4b20f7ff2a09752145c180a04",
+      "reason": "The fallback now has three branches: 2xx is online, 5xx and timeout (None) are offline, and any other status (404, 429) is fail_client. The old binary split is kept as the counterexample in the T2-B theory. Same exercise, same goal: the offline fallback for 5xx.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C10, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 60,
+      "id": "S12-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "d4912ab8f3eaa61e34afce22a341c1ed14446052af82090581efeee522486d5c",
+      "to_fp": "cc487309b7f390fb608e90db32500143fcd8d6cbc9afaaa8539a3d3248a0eb56",
+      "reason": "The egress allowlist is {city, country}. The exact address is no longer allowed, which matches the intro and the T4-A paragraph. The payload in the exercise is city only; the solution also checks that an address is refused. Same exercise, same goal: keep PII out of the public geocoder.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C9, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 61,
+      "id": "S13-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "3752d26bc307329799a356c903defc7a2eace29c93f834db2e24aec056d27b39",
+      "to_fp": "e6c02b8b17a68667e66beea233e84d4140e062db1a28496c60dd39cc8b6b6e2f",
+      "reason": "Two documents that are empty after normalisation no longer match, so the score is 0.0. Outputs are unchanged (1.0 0.5 0.0). Same exercise, same goal: the three-level entity resolution score.",
+      "decided_by": "owner 2026-11-09 (proposals-03 A6, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 62,
+      "id": "S13-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "cbce9d91295c68bdecf6634d8b76a26f7c4566622dfa23e07de33fa335719f45",
+      "to_fp": "ca909230111e699791b6c2de46e7a997e6d0f07c63ff2b16c985ec3b146cd1c7",
+      "reason": "The clerical band is [0.4, 0.8), the same policy as the T1-B theory, the decision matrix and T3-B. The fixture and the expected ['P2', 'P3'] are unchanged. Same exercise, same goal: the clerical queue.",
+      "decided_by": "owner 2026-11-09 (proposals-03 C12, batch-1 approval)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 63,
+      "id": "S12-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "d7d5e301b8358058c951eddc6853be0fbc972ca4b20f7ff2a09752145c180a04",
+      "to_fp": "36008ac183ee0fb379ba27d469716a0d9657bdabcf1af88802742cf08d328a64",
+      "reason": "Owner decision 2026-11-09 (decision card on HTTP 429): a 429 is transient. When it survives the N1 retries it falls back to the local copy like a 503, instead of fail_client. Preamble, steps, hint, edge cases and the fifth output line follow.",
+      "decided_by": "owner 2026-11-09 (decision: 429 transient, wait, retry, then offline)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 64,
+      "id": "S09-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "c748d5a9cb1fb9e3772dec10b2716a54cb7f096d169c5e90be6dc94a8499b91d",
+      "to_fp": "2e2cd75b1d9d369010b755b8e2c75fcfd558391c13a754e15562dc91890c6054",
+      "reason": "R2 instance: the reconcile assert now also compares with len(rows), so a process_batch that drops a row and reports one fewer fails. The task, data and printed output are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposals-03 R2)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 65,
+      "id": "S12-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "6c46f267ccea2c9155a8ec61a28d3a13d4aeab3343a64e04992854bb28d28561",
+      "to_fp": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
+      "reason": "Starter and solution now insert three client rows, and the starter prints fetchall(): the injected id returns the other clients' rows, the leak the exercise names. The solution is parametrized and still prints None.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S12-C1)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 66,
+      "id": "S11-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "to_fp": "8f8367daeec657050e36f15ab9e4b464358111bb9081a5ffa179f34e1d1dbefb",
+      "reason": "Starter is now frozen=True with display_name in the comparison, so the set stays hashable and shows the named defect (no collapse, prints False False and 3) instead of a TypeError: unhashable type. The instruction step 2 is adjusted to match. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 67,
+      "id": "S11-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "to_fp": "db65a0667548be9d6396ee510cf5e84a103a9afb10658e9e04278fd0df5abf58",
+      "reason": "Starter is @dataclass(eq=False), hashable by identity, so the set keeps the duplicate and prints 3 (the named defect) instead of a TypeError: unhashable type. Title, tests, solution and output are unchanged, so the anchor is unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S11-C11)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 68,
+      "id": "S04-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "0f893f5f13f6842c16d47410f0f0f57e9a088865f6b8ffe892cb4693dcbdc298",
+      "to_fp": "4a74aea0d1e55c54cb6736f4601c2b7f4146664d7e77dcdc475569df9ffdf53d",
+      "reason": "Side defect of proposal 04: the exercise used def, raise and try/except before S05/S09 (D9/D10). Rewritten with S04 tools (len check, if, print); the task (detect 3 vs 2 misalignment, then accept 2 vs 2) and the printed DESALINEADO/OK output are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T1-B-E3)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 69,
+      "id": "S04-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "ce719f52c3d765b6ba835533e75bad685b2a79a147501327f9065b22579a3647",
+      "to_fp": "8693458a8567237f60d9cd495cf5dd8b0009a58a3b24daef745f1203f4df0eee",
+      "reason": "Side defect of proposal 04: the exercise used def, return and a generator expression before S05 (D9). Rewritten as a loop with an if for the empty batch; the task (reject rate over reject count, None for an empty batch) and the printed output 0.3333 and None are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T3-A-E2)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 70,
+      "id": "S06-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
+      "to_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
+      "reason": "Starter only: `more = KEYS + ['canal']` becomes `KEYS.append('canal')` so the starter shows the alias defect it names; the second print shows headers. The solution, tests and printed solution output are unchanged, and the anchor covers no starter text, so the anchor stays the same.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S06-ALIAS)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 71,
+      "id": "S06-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
+      "to_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
+      "reason": "Preamble wording only: the limit \"no dependas del orden de inserción del set\" becomes \"un set no tiene orden; si el informe necesita orden, usa sorted\", because a set has no insertion order. Task, solution and output are unchanged; the anchor covers no preamble text.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S06-ORDEN)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 72,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "b42cdb911ada43b6ff6d88f800859fa7595762ea5ab4329bb4c5dd52780a22fb",
+      "to_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
+      "reason": "Starter and solution fixture now have a quoted field with a comma (`\"Pérez, Ana\"`): the starter split shows its named defect, the solution is the DictReader row with the same meaning. The solution output changes accordingly.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-SPLIT)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 73,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
+      "to_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "reason": "Starter gets a second entry with a space after the colon, so the slice `raw[7:10]` fails visibly; the solution now parses both entries with json.loads and prints both ids. Output updated to C001 and C002.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-JSONSLICE)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 74,
+      "id": "S08-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "6c02b7f040d2949438d69c51ce74191f91ec44ba2b64d372adf13b54d638bb53",
+      "to_fp": "21b68ef6d9d0821ff87df720ce653af8cc491ce7dee6dffe5b8e72d33ac54dd2",
+      "reason": "Backup moves from the fixed name `in.csv.bak` to `backups/<run_id>/in.csv`, the run_id-scoped contract of the T4-A theory. Starter and solution both changed; the printed result stays True.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-RUNID)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 75,
+      "id": "S08-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "a63013cbcf8679b2fa660756ae222b4d4be04484652fdf21e30f764ed3ee26f8",
+      "to_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "reason": "transactions.json gets n_in 3 with 2 clean and 0 quarantined, so the starter always-True reconcile shows a real mismatch. The solution now prints 6 4 1, the per-source reconcile list with transactions.json False, and False overall.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-RECONCILE)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 76,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
+      "to_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "reason": "Same exercise as row 70: the fixture city in the quoted-comma row is Porto instead of a Peruvian city (ratchet and neutral-data rule D2). The solution output pin follows the fixture.",
+      "decided_by": "owner 2026-11-09 (proposal 04 S08-SPLIT)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 77,
+      "id": "S08-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
+      "to_fp": "eb6ce0297b0519f0a6b0514a5df1cdc59430c0c6003df5f8c2d2b6c292fef6c3",
+      "reason": "Learner text follows the row-71 fixture (Codex review on #149): the Éxito line and tests now promise {'id': 'C001', 'nombre': 'Pérez, Ana', 'ciudad': 'Porto'}, which is what the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 78,
+      "id": "S08-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
+      "to_fp": "93c3b0fbbcc4eddcf05acb4a1a653a147a7187b37801545160ac80e718a72bbb",
+      "reason": "Learner text follows the two-input fixture (Codex review on #149): the Éxito line, step 3 and tests now name C002 as well as C001, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 79,
+      "id": "S08-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",
+      "to_fp": "69c3b7deca01d1133bc17878031ffe19c3feaf26df1c3f5c3a6d3e1e0410d273",
+      "reason": "Learner text follows the RECONCILE fixture (Codex review on #149): the Éxito line and tests now promise 6 4 1, clients.csv True, transactions.json False and manifest False, as the solution prints. Same exercise, same solution.",
+      "decided_by": "owner 2026-11-09 (proposal 04); Codex review on #149",
+      "date": "2026-11-09"
     }
   ]
 }
