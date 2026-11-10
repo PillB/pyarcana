@@ -673,6 +673,26 @@
     },
     {
       "row": 68,
+      "id": "S04-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "0f893f5f13f6842c16d47410f0f0f57e9a088865f6b8ffe892cb4693dcbdc298",
+      "to_fp": "4a74aea0d1e55c54cb6736f4601c2b7f4146664d7e77dcdc475569df9ffdf53d",
+      "reason": "Side defect of proposal 04: the exercise used def, raise and try/except before S05/S09 (D9/D10). Rewritten with S04 tools (len check, if, print); the task (detect 3 vs 2 misalignment, then accept 2 vs 2) and the printed DESALINEADO/OK output are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T1-B-E3)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 69,
+      "id": "S04-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "ce719f52c3d765b6ba835533e75bad685b2a79a147501327f9065b22579a3647",
+      "to_fp": "8693458a8567237f60d9cd495cf5dd8b0009a58a3b24daef745f1203f4df0eee",
+      "reason": "Side defect of proposal 04: the exercise used def, return and a generator expression before S05 (D9). Rewritten as a loop with an if for the empty batch; the task (reject rate over reject count, None for an empty batch) and the printed output 0.3333 and None are unchanged.",
+      "decided_by": "owner 2026-11-09 (proposal 04 side defect S04-T3-A-E2)",
+      "date": "2026-11-09"
+    },
+    {
+      "row": 70,
       "id": "S06-T1-A-E2",
       "kind": "changed",
       "from_fp": "78ccdc6799865693e2372801f770785f6e9fce4f1583e89fb16a9626bd271322",
@@ -682,7 +702,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 69,
+      "row": 71,
       "id": "S06-T2-B-E1",
       "kind": "changed",
       "from_fp": "0dec4f5fb66dafe8b092cfbdd590e01b8e5ca8b8a0880009c07db8eddc24715d",
@@ -692,7 +712,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 70,
+      "row": 72,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "b42cdb911ada43b6ff6d88f800859fa7595762ea5ab4329bb4c5dd52780a22fb",
@@ -702,7 +722,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 71,
+      "row": 73,
       "id": "S08-T3-A-E1",
       "kind": "changed",
       "from_fp": "a49ab1c731b018d1b6d75d0128a1b66e113b13e1de46840ffb8744221f1e324a",
@@ -712,7 +732,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 72,
+      "row": 74,
       "id": "S08-T4-A-E2",
       "kind": "changed",
       "from_fp": "6c02b7f040d2949438d69c51ce74191f91ec44ba2b64d372adf13b54d638bb53",
@@ -722,7 +742,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 73,
+      "row": 75,
       "id": "S08-T4-B-E1",
       "kind": "changed",
       "from_fp": "a63013cbcf8679b2fa660756ae222b4d4be04484652fdf21e30f764ed3ee26f8",
@@ -732,7 +752,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 74,
+      "row": 76,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "8d16153397642004e16533909406eacf1b8e232b0fee73a5abb87141eb8bcab4",
@@ -742,7 +762,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 75,
+      "row": 77,
       "id": "S08-T2-A-E1",
       "kind": "changed",
       "from_fp": "dc009304f394233651bdf55fedfbe40d70588118263d72893b927a022c4b62b4",
@@ -752,7 +772,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 76,
+      "row": 78,
       "id": "S08-T3-A-E1",
       "kind": "changed",
       "from_fp": "f5aaaa6d7c24c38748b55b0d87b57e3ba51e556b477564ea53fafa803ab79071",
@@ -762,7 +782,7 @@
       "date": "2026-11-09"
     },
     {
-      "row": 77,
+      "row": 79,
       "id": "S08-T4-B-E1",
       "kind": "changed",
       "from_fp": "e203457b148072028f3fba5e0de4914c84d407cbbd252d029c99ceb42f2cc622",

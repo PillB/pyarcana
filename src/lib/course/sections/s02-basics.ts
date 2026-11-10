@@ -235,6 +235,91 @@ edad: 19
       },
     },
     {
+      heading: "Contraejemplo: eval ejecuta lo que llega en la entrada",
+      paragraphs: [
+        "`eval()` le entrega el texto a Python para que lo ejecute como si fuera parte de tu programa. Por eso `eval(\"17 + 2\")` devuelve `19` aunque nadie escribió una edad, y con la segunda entrada imprime una línea que venía escrita dentro del dato. En una entrada real, esa línea podría borrar archivos o leer una contraseña.",
+        "Las tres primeras líneas de la salida muestran el error: una fórmula aceptada como edad y una orden ajena ejecutada. La cuarta muestra la corrección, porque `int` convierte `\" 19 \"` después de `strip()`. Con la entrada `\"17 + 2\"`, en cambio, se detiene con un `ValueError`: es justo lo que quieres ante un texto que no es un entero.",
+      ],
+      code: {
+        language: 'python',
+        title: 'eval_vs_int.py',
+        code: `# Error: eval trata la entrada como código de Python
+edad_raw = "17 + 2"
+edad = eval(edad_raw)
+print("edad con eval:", edad)
+
+comando_raw = "print('código escrito en la entrada, ejecutado')"
+resultado = eval(comando_raw)
+print("resultado con eval:", resultado)
+
+# Corrección: int solo acepta texto que representa un entero
+edad_raw = " 19 "
+edad = int(edad_raw.strip())
+print("edad con int:", edad)
+
+# Ejecuta esta línea por separado: int rechaza la fórmula.
+# int("17 + 2")`,
+        output: `edad con eval: 19
+código escrito en la entrada, ejecutado
+resultado con eval: None
+edad con int: 19`,
+      },
+    },
+    {
+      heading: "Contraejemplo: un código postal convertido en número",
+      paragraphs: [
+        "Un código postal o un código de producto se escribe con dígitos, pero nadie suma ni promedia esos valores: funcionan como etiquetas. `int(\"007\")` produce `7` y el cero inicial desaparece sin aviso, así que al volver a texto el valor ya no coincide con lo recibido.",
+        "La consecuencia aparece con dos códigos distintos, `\"007\"` y `\"07\"`: como enteros ambos valen `7`, y el programa los trataría como el mismo lugar. Antes de convertir un campo, pregúntate si alguna operación aritmética tiene sentido con él; si ninguna lo tiene, el campo se queda como texto.",
+      ],
+      code: {
+        language: 'python',
+        title: 'codigo_postal_int.py',
+        code: `# Error: el código postal se convierte en número
+codigo_postal_raw = "007"
+codigo_postal = int(codigo_postal_raw)
+print("como int:", codigo_postal)
+print("¿coincide con lo recibido?", str(codigo_postal) == codigo_postal_raw)
+
+# Corrección: el código sigue siendo texto; solo se limpian los bordes
+codigo_postal = codigo_postal_raw.strip()
+print("como texto:", codigo_postal)
+print("¿coincide con lo recibido?", codigo_postal == codigo_postal_raw)
+
+# Consecuencia: dos códigos distintos se vuelven el mismo número
+print('int("007") == int("07") →', int("007") == int("07"))
+print('"007" == "07" →', "007" == "07")`,
+        output: `como int: 7
+¿coincide con lo recibido? False
+como texto: 007
+¿coincide con lo recibido? True
+int("007") == int("07") → True
+"007" == "07" → False`,
+      },
+    },
+    {
+      heading: "Contraejemplo: isinstance acepta True como si fuera un entero",
+      paragraphs: [
+        "`isinstance(edad, int)` responde `True` cuando `edad` vale `True`, porque `bool` es un subtipo de `int`. Si usas esa pregunta para aceptar edades, una bandera que llegó por error al campo pasa la comprobación y además opera como el número 1: `edad + 1` da `2`.",
+        "`type(edad) == int` pregunta por el tipo exacto y responde `False`. La última línea nombra el tipo que llegó, `bool`, que es el dato que necesita un mensaje de error cuando, en S03, la regla rechace el valor.",
+      ],
+      code: {
+        language: 'python',
+        title: 'isinstance_bool.py',
+        code: `# Error: isinstance acepta una bandera True como si fuera una edad
+edad = True
+print("isinstance(edad, int) →", isinstance(edad, int))
+print("edad + 1 →", edad + 1)
+
+# Corrección: preguntar por el tipo exacto
+print("type(edad) == int →", type(edad) == int)
+print("tipo recibido:", type(edad).__name__)`,
+        output: `isinstance(edad, int) → True
+edad + 1 → 2
+type(edad) == int → False
+tipo recibido: bool`,
+      },
+    },
+    {
       heading: 'Comprobar una expectativa con `assert`',
       paragraphs: [
         'Después de convertir un valor, necesitas comprobar que el resultado coincide con lo que esperabas. **`assert`** comprueba la comparación que escribes después de la palabra mientras practicas.',
@@ -295,6 +380,32 @@ False`,
       },
     },
     {
+      heading: "Contraejemplo: l y O se leen como 1 y 0",
+      paragraphs: [
+        "En muchas fuentes, `l` se confunde con `1` y `O` con `0`. Quien lee `print(l + 1)` puede predecir `2`, y quien lee `10 - O` puede predecir `10`. Python imprime `6` y `7` porque usa los valores asignados, no lo que el ojo cree ver.",
+        "La corrección imprime las mismas cifras, porque el defecto estaba en la lectura y no en el cálculo. `longitud` y `ajuste` dicen qué guardan y no se parecen a ningún dígito.",
+      ],
+      code: {
+        language: 'python',
+        title: 'l_y_O.py',
+        code: `# Error: l y O se leen como 1 y 0 en muchas fuentes
+l = 5
+O = 3
+print(l + 1)
+print(10 - O)
+
+# Corrección: nombres que dicen qué guardan
+longitud = 5
+ajuste = 3
+print(longitud + 1)
+print(10 - ajuste)`,
+        output: `6
+7
+6
+7`,
+      },
+    },
+    {
       heading: 'Identidad, mutabilidad y copias superficiales',
       figure: {
         id: "S02-truthiness",
@@ -345,6 +456,30 @@ True`,
         title: 'Alias en listas de errores o campos',
         content:
           'Si haces `clean = raw` cuando `raw` es una lista y luego modificas `clean`, también cambia el contenido que ves mediante `raw`. Usa `raw.copy()` antes de modificar la lista de trabajo y comprueba que ambos nombres ya no señalan el mismo objeto.',
+      },
+    },
+    {
+      heading: "Contraejemplo: reasignar el texto recibido pierde el original",
+      paragraphs: [
+        "Cuando `strip()` guarda su resultado en el mismo nombre, el texto recibido desaparece. La primera línea dice `recibido: '19 años'`, pero eso no fue lo que llegó: llegó con dos espacios delante y uno detrás, y ya no queda forma de comprobarlo.",
+        "Con dos nombres, `edad_raw` conserva `'  19 años '` tal como llegó y `edad_clean` guarda la versión limpia. Cuando `int(edad_clean)` falle por la palabra `años`, el mensaje podrá mostrar el valor original, y quien lo lea sabrá qué corregir en el formulario.",
+      ],
+      code: {
+        language: 'python',
+        title: 'strip_mismo_nombre.py',
+        code: `# Error: el texto limpio reemplaza al recibido en el mismo nombre
+edad = "  19 años "
+edad = edad.strip()
+print("recibido:", repr(edad))
+
+# Corrección: un nombre para lo recibido y otro para lo limpio
+edad_raw = "  19 años "
+edad_clean = edad_raw.strip()
+print("recibido:", repr(edad_raw))
+print("limpio:", repr(edad_clean))`,
+        output: `recibido: '19 años'
+recibido: '  19 años '
+limpio: '19 años'`,
       },
     },
     {
@@ -431,6 +566,36 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       },
     },
     {
+      heading: "Contraejemplo: un Decimal construido desde un float",
+      paragraphs: [
+        "`Decimal(0.1)` recibe un `float`, y ese `float` ya guarda la aproximación binaria de 0.1; `Decimal` la copia completa, como muestra la primera línea. Con `2.675` el efecto llega al redondeo. El `float` vale un poco menos que 2.675, así que `quantize` lo baja a `2.67`. El texto `\"2.675\"` es un empate exacto, y `ROUND_HALF_EVEN` lo lleva a `2.68`, el vecino par.",
+        "La última línea traduce ese céntimo al negocio: en 1000 unidades vendidas, el precio construido desde un `float` cobra S/ 10.00 menos. Por eso cada monto nace de su texto, como en `Decimal(\"2.675\")`, y nunca de un número escrito sin comillas.",
+      ],
+      code: {
+        language: 'python',
+        title: 'decimal_desde_float.py',
+        code: `# Error: el Decimal nace de un float
+from decimal import Decimal, ROUND_HALF_EVEN
+
+print("Decimal(0.1) =", Decimal(0.1))
+precio_float = Decimal(2.675).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+print("precio desde float:", precio_float)
+
+# Corrección: el Decimal nace del texto escrito
+print('Decimal("0.1") =', Decimal("0.1"))
+precio_texto = Decimal("2.675").quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+print("precio desde texto:", precio_texto)
+
+# Consecuencia: la diferencia en 1000 unidades vendidas
+print("diferencia en 1000 unidades:", (precio_texto - precio_float) * 1000)`,
+        output: `Decimal(0.1) = 0.1000000000000000055511151231257827021181583404541015625
+precio desde float: 2.67
+Decimal("0.1") = 0.1
+precio desde texto: 2.68
+diferencia en 1000 unidades: 10.00`,
+      },
+    },
+    {
       heading: 'Construir un mensaje con una f-string',
       figure: {
         id: "S02-fstring-parts",
@@ -504,6 +669,30 @@ campos | a | b`,
         title: 'input → str siempre',
         content:
           'Si necesitas int/Decimal, convierte después de strip. Nunca asumas que “el usuario escribió un número” = tipo numérico en Python.',
+      },
+    },
+    {
+      heading: "Contraejemplo: convertir a float solo para mostrar dos decimales",
+      paragraphs: [
+        "`Decimal(\"5.35\") / 2` vale exactamente `2.675`. Si conviertes ese monto a `float` solo para darle formato, el `float` guarda un valor algo menor y `.2f` muestra `2.67`. El mismo `.2f` aplicado al `Decimal` muestra `2.68`, porque redondea el valor exacto con `ROUND_HALF_EVEN`, el modo por defecto de `Decimal`.",
+        "Las dos líneas formatean la misma variable `monto`, así que la diferencia nace solo de la conversión. Un reporte que pasa por `float` puede no cuadrar con el total calculado en `Decimal`, y alguien tendrá que explicar después ese céntimo.",
+      ],
+      code: {
+        language: 'python',
+        title: 'formato_float.py',
+        code: `# Error: convertir a float solo para mostrar dos decimales
+from decimal import Decimal
+
+monto = Decimal("5.35") / 2
+print("monto:", monto)
+
+print(f"con float: S/ {float(monto):.2f}")
+
+# Corrección: el formato .2f funciona directamente sobre Decimal
+print(f"con Decimal: S/ {monto:.2f}")`,
+        output: `monto: 2.675
+con float: S/ 2.67
+con Decimal: S/ 2.68`,
       },
     },
     {
