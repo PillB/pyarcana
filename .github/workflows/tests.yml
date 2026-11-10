@@ -371,6 +371,13 @@ jobs:
         with:
           node-version: '20'
 
+      # Gate B1 (owner, 2026-11-09): a We Do starter must not already print its solution's output.
+      # It runs lesson code, so it needs the teaching environment installed above.
+      - name: Starters that print the answer (S01-S13)
+        run: python3 -m unittest -v tests/adversarial/test_starter_is_not_the_answer.py
+        env:
+          PYARCANA_PINNED_CONTENT_ENV: '1'
+
       - name: Python content runtime audit (all 52 sections)
         run: npm run test:python-content
         env:

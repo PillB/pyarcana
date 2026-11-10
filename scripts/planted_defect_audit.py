@@ -81,7 +81,9 @@ def code_of(block: str, field: str) -> str | None:
 def exercises(path: Path) -> list[dict]:
     src = path.read_text(encoding="utf-8")
     out = []
-    ids = list(re.finditer(r'id: "(S\d\d-T\d-[AB]-E\d)"', src))
+    # Both quote styles: S01–S03 write `id: 'S03-T1-A-E1'`, and a double-quote-only pattern skipped
+    # them silently (found by the 2026-11-09 batch-1 recheck).
+    ids = list(re.finditer(r"""\bid:\s*["'](S\d\d-T\d-[AB]-E\d)["']""", src))
     for i, m in enumerate(ids):
         end = ids[i + 1].start() if i + 1 < len(ids) else len(src)
         block = src[m.start() : end]
