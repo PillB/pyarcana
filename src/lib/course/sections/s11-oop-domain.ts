@@ -1809,7 +1809,7 @@ reject par no canónico`,
         preamble:
           "- **Contexto:** un fake (implementación de mentira) de scoring solo sirve si expone el **mismo** método que el puerto.\n- **Meta:** implementar `score` (no `compute`) para el par `(\"E1\",\"E2\")`.\n- **Éxito:** una línea `0.5`.\n- **Límites:** no instancies el Protocol; solo stdlib.",
         instruction:
-          "1. El starter llama `compute` — renombra al contrato `score`.\n2. Tipa opcionalmente `s: Scorer = FakeScorer()`.\n3. Imprime `s.score((\"E1\", \"E2\"))`.\n4. No cambies la firma del Protocol.",
+          "1. El starter define `compute`, pero el contrato pide `score`: renombra el método.\n2. Tipa opcionalmente `s: Scorer = FakeScorer()`.\n3. Imprime `s.score((\"E1\", \"E2\"))`.\n4. No cambies la firma del Protocol.",
         hint: "Imprime el score de un par sintético.",
         hints: [
           "Imprime el score de un par sintético.",
@@ -1835,8 +1835,8 @@ class FakeScorer:
     def compute(self, pair: tuple[str, str]) -> float:
         return 0.5
 
-s = FakeScorer()
-print(s.compute(("E1", "E2")))
+s: Scorer = FakeScorer()
+print(s.score(("E1", "E2")))
 `,
         },
         solutionCode: {
@@ -2188,7 +2188,7 @@ LAYER: domain print=False cli=False inv=True`,
         preamble:
           "- **Contexto:** los tests del dominio demuestran invariantes, no imprimen `pass` por cortesía.\n- **Meta:** rechazar `document_id` en blanco y hacer que el test solo pase si hay `ValueError`.\n- **Éxito:** una línea `pass`.\n- **Límites:** sin red/DB; forma reducida client_id+document_id; solo stdlib.",
         instruction:
-          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, usa try/except: si no lanza, `assert False`.\n3. Devuelve `\"pass\"` solo en el except correcto.\n4. Imprime el resultado del test.",
+          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, envuelve la creación en try/except ValueError; si no lanza, deja el `assert False`.\n3. Devuelve `\"pass\"` solo en el except correcto.\n4. Imprime el resultado del test.",
         hint: "Usa try/except ValueError y return 'pass'.",
         hints: [
           "Usa try/except ValueError y return 'pass'.",
@@ -2204,7 +2204,7 @@ LAYER: domain print=False cli=False inv=True`,
           language: 'python',
           title: "test_invariant.py",
           code: `# CASO-LIM-011 · test empty document
-# DEFECT: no post_init; test always pass
+# DEFECT: no post_init; el test falla hasta que exista el rechazo
 from dataclasses import dataclass
 
 @dataclass
@@ -2214,7 +2214,7 @@ class ClientRecord:
 
 def test_empty_document_rejected():
     ClientRecord("C1", " ")
-    return "pass"
+    assert False, "debía fallar"
 
 print(test_empty_document_rejected())
 `,
@@ -2267,7 +2267,7 @@ print(test_empty_document_rejected())`,
           language: 'python',
           title: "fake_repo_tests.py",
           code: `# CASO-LIM-011 · FakeRepo service tests
-# DEFECT: tests no ejecutan asserts reales
+# DEFECT: save no guarda y get no devuelve nada
 class FakeRepo:
     def __init__(self):
         self.d = {}
@@ -2283,12 +2283,18 @@ class Service:
         return {"id": id, "name": name}
 
 def test_register():
+    s = Service(FakeRepo())
+    assert s.register("C1", "Ana")["name"] == "Ana"
     print("pass")
 
 def test_get():
+    repo = FakeRepo()
+    Service(repo).register("C1", "Ana")
+    assert repo.get("C1")["id"] == "C1"
     print("pass")
 
 def test_missing():
+    assert Service(FakeRepo()).repo.get("X") is None
     print("pass")
 
 test_register(); test_get(); test_missing()
@@ -2341,7 +2347,7 @@ pass`,
         preamble:
           "- **Contexto:** un método `decide_fraud` en el dominio de familiaridad es un riesgo de producto y de ética.\n- **Meta:** mostrar el ANTES, modelar evidencia con score, y assert de ausencia de APIs de veredicto (métodos que emiten un fallo legal o de parentesco).\n- **Éxito:** `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.\n- **Límites:** no implementes `is_family`; umbrales de producto viven fuera; solo stdlib.",
         instruction:
-          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Assert `not hasattr` de decide_fraud/is_fraud/is_related_family.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre la clase de evidencia.",
+          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Quita `decide_fraud` de `Client` y haz `assert not hasattr` de decide_fraud/is_fraud/is_related_family sobre `Client`.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre `Client`.",
         hint: "Borra el método de veredicto; el score vive en el value object de evidencia.",
         hints: [
           "Borra el método de veredicto; el score vive en el value object de evidencia.",
@@ -2350,7 +2356,7 @@ pass`,
         edgeCases: ["Umbrales de producto y revisión humana viven fuera del modelo de dominio"],
         tests: "Dos líneas: `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.",
         feedback:
-          "Scores son datos de matching; `decide_fraud` / `is_family` no viven en el dominio de familiaridad. El print ANTES documenta el anti-patrón; el DESPUES debe mirar `hasattr` sobre la evidencia (o el diseño final), no dejar el veredicto colgando del mismo tipo.",
+          "Scores son datos de matching; `decide_fraud` / `is_family` no viven en el dominio de familiaridad. El print ANTES documenta el anti-patrón; el DESPUES debe mirar `hasattr` sobre `Client` después de quitar el método: el veredicto no puede seguir colgando de ese tipo.",
         retrospective:
           "Scores son datos; veredictos son frontera humana/producto. Ese límite es el gate CP-N1-C. En You Do integrarás los cuatro tipos con tests que lo demuestren de punta a punta.",
         starterCode: {
@@ -2385,6 +2391,11 @@ class Client:
 
 print("ANTES has_decide_fraud", hasattr(Client, "decide_fraud"))
 
+# Extraer: Client se redefine sin el método de veredicto; el score vive en la evidencia.
+@dataclass
+class Client:
+    client_id: str
+
 # Anti-patrón extraído: el dominio solo guarda señales, no veredictos.
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -2392,15 +2403,15 @@ class RelationshipEvidence:
     right_id: str
     signal_score: float  # dato, no veredicto
 
-assert not hasattr(RelationshipEvidence, "decide_fraud")
-assert not hasattr(RelationshipEvidence, "is_fraud")
-assert not hasattr(RelationshipEvidence, "is_related_family")
+assert not hasattr(Client, "decide_fraud")
+assert not hasattr(Client, "is_fraud")
+assert not hasattr(Client, "is_related_family")
 ev = RelationshipEvidence("E1", "E2", 0.95)
 print(
     "DESPUES signal_score",
     ev.signal_score,
     "has_decide_fraud",
-    hasattr(RelationshipEvidence, "decide_fraud"),
+    hasattr(Client, "decide_fraud"),
 )`,
           output: `ANTES has_decide_fraud True
 DESPUES signal_score 0.95 has_decide_fraud False`,
