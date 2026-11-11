@@ -16,10 +16,7 @@
 
 ## Non-claims (what this badge does NOT say)
 
-- This is a motivational marker. It is NOT proof of proficiency.
-- It does not certify any industry role, level, or job-readiness.
-- It does not require independent (un-guided) exercise performance above the section-level self-check floor.
-- Section completion alone does not satisfy any applied-skill, cross-section, or capstone credential requirement.
+- Marcador de progreso local. No constituye evidencia de competencia profesional.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

@@ -16,9 +16,8 @@
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Senior AI/ML Engineer.
-- Does not include multimodal model training or GPU-compute tuning.
-- Does not claim the LLM is 'safe' or 'aligned' — only that the production LLMOps pipeline is sound.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

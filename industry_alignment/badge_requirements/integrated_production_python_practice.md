@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently synthesized Python data foundations, production Python delivery foundations, reliable async Python development, and production Python hardening practice into a single integrated Production-Python-style service with containerized deployment, observability, security review, and an audience-tuned handoff document.
+> El aprendiz demostró transferencia integrada de Production Python mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Senior Production Python Engineer or Senior Software Engineer.
-- Does NOT include static type-safety evidence (pilot badge until Phase 4 closes the gap).
-- Does not include Kubernetes operation at scale (deferred to Container Platform Engineering Practice).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

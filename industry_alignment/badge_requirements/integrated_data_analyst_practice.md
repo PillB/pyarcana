@@ -1,7 +1,7 @@
-# Badge Requirements — Integrated Data Analyst Practice
+# Badge Requirements — Integrated Data Analysis Practice
 
 **Badge ID:** `integrated_data_analyst_practice`  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Family:** cross_section_capability  
 **Credential type:** `competency_badge`  
 **Capability level:** `independent_practitioner`  
@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently synthesized Python data foundations, independent data preparation, applied analytical reasoning, and applied SQL query development into a single integrated Data Analyst-style project with a documented business framing, a reproducible pipeline, and an audience-tuned writeup.
+> El aprendiz demostró transferencia integrada de Data Analysis mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Data Analyst at any seniority level (Junior, Mid, Senior, Lead, etc.).
-- Does not include production BI deployment or experimental design.
-- SQL performance tuning is NOT included (curriculum gap; the Applied SQL Query Development badge is at pilot status).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

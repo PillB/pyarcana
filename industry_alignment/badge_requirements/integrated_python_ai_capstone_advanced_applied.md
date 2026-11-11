@@ -5,20 +5,19 @@
 **Family:** capstone_credential  
 **Credential type:** `verified_credential`  
 **Capability level:** `advanced_applied`  
-**Verification mode:** `server_verified`  
+**Verification mode:** `server_authoritative`  
 **Status:** `active`  
 **Issuer:** PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)  
 **Generated:** 2026-07-28T22:08:04Z
 
 ## Public claim
 
-> The learner has completed and defended the three Phase 2 capstones (CP-N3-A, CP-N3-B, CP-N3-C) at rubric performance above the provisional floor, with a synthesis writeup demonstrating advanced-applied-level capability across async Python, MLOps, security infrastructure, microservices, system design, and post-mortem practice.
+> El aprendiz demostró independientemente Python and AI Capstone — Advanced Applied mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Senior Engineer, Staff Engineer, or any role at any seniority level.
-- Advanced-applied level means 'can diagnose and design within an existing system'; it does NOT mean 'can set technical strategy for an organization'.
-- Leakage prevention and python_type_safety remain curriculum gaps; relevant badges remain at pilot status.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

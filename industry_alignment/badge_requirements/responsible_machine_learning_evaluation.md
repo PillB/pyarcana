@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated responsible ML evaluation — training and evaluating classical and deep learning models with appropriate metrics and a written evaluation memo — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente Responsible Machine Learning Evaluation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Data Scientist or AI/ML Engineer.
-- Does NOT include data leakage prevention as a graded skill. `leakage_prevention` is a known curriculum gap; the badge is issued at 'pilot' status until Phase 4 closes the gap. Holders must not represent leakage-prevention competency.
-- Does not include production deployment, drift monitoring, or uncertainty quantification at this level.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

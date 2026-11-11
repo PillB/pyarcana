@@ -1,7 +1,7 @@
-# Badge Requirements — Integrated Automation Engineering Practice
+# Badge Requirements — Integrated Automation Systems Practice
 
 **Badge ID:** `integrated_automation_engineering_practice`  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Family:** cross_section_capability  
 **Credential type:** `competency_badge`  
 **Capability level:** `independent_practitioner`  
@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently synthesized Python data foundations, reliable automation development, and RAG/LLM service development into a single integrated Automation-Engineering-style project with a process-decomposition memo, a UI-change-resilient bot, and an audience-tuned handoff document.
+> El aprendiz demostró transferencia integrada de Automation Systems mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as an RPA Developer at any seniority level (Junior, Mid, Senior, Lead).
-- Does not include UiPath, Automation Anywhere, Power Automate, or REFramework (PyArcana's RPA track is Python-based).
-- Selector resilience is assessed against a documented UI change scenario, not against enterprise-scale deployment.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

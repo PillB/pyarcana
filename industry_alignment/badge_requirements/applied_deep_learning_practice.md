@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated applied deep-learning practice — training deep neural networks, evaluating uncertainty, comparing to classical baselines — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente Deep Learning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as an AI/ML Engineer.
-- Does NOT include data leakage prevention as a graded skill (pilot badge; see curriculum gap).
-- Does not include LLM fine-tuning or production serving.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
