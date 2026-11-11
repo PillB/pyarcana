@@ -39,7 +39,7 @@ console.log(JSON.stringify([...pick(section01), ...pick(section02), ...pick(sect
 # cluster id -> (heading, language, effect). The effect must appear in stdout (python) or in the code (shell).
 CLUSTERS = {
     "S01-N1": ("Contraejemplo: un push --force tras un rechazo borra el commit de un colega", "bash", "(forced update)"),
-    "S01-N7": ("Contraejemplo: unir un repositorio de GitHub con README a uno local", "bash", "# Git se niega a unir dos historias sin antecesor común."),
+    "S01-N7": ("Contraejemplo: unir un repositorio de GitHub con README a uno local", "bash", "fatal: Need to specify how to reconcile divergent branches."),
     "S01-N2": ("Contraejemplo: git add . sin .gitignore versiona el secreto", "bash", "A  .env"),
     "S01-N6": ("Contraejemplo: mensajes de commit que no dicen qué cambió", "bash", "arreglé algo"),
     "S01-N8": ("Contraejemplo: pip del sistema con PEP 668", "bash", "externally-managed-environment"),
