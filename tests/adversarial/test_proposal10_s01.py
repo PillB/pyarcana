@@ -306,6 +306,8 @@ class Consistency(unittest.TestCase):
         stack = " ".join(block("Componentes del stack que vamos a instalar")["paragraphs"])
         self.assertIn("**Instalar Python 3.12.**", stack)
         self.assertIn("brew install python@3.12", stack)
+        # Homebrew's versioned formula links python3.12, not python3 (Codex review on #155).
+        self.assertIn("python3.12 -m venv .venv", stack)
 
     def test_english_labels_are_gone(self):
         joined = "\n".join(visible_strings()).lower()
