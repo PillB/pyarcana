@@ -108,8 +108,8 @@ Infinity finito= False`,
       paragraphs: [
         "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (fallo al leer o escribir). Un `except Exception` amplio no borra por sí solo el traceback, pero mezcla políticas distintas. Si lo usas en el borde del proceso, registra el fallo y vuelve a lanzarlo.",
         "`decimal`, `io`, `traceback`, `logging` y `time` son herramientas incluidas con Python; `import` hace disponibles aquí los nombres que cada ejemplo usa. La organización general de estas herramientas se estudia en S10.",
-        "Primero practica `raise` y el encadenamiento con excepciones incorporadas. `raise RuntimeError('fila C001: monto inválido') from e` conserva como causa el `ValueError` original. El mensaje contiene un identificador interno y un motivo, nunca un correo, teléfono, dirección ni otro valor sensible que pueda reaparecer en un traceback.",
-        "Después usamos una excepción personalizada. `class ParseError(Exception): pass` crea un tipo de excepción llamado `ParseError` a partir del tipo general `Exception`; S11 explicará la sintaxis general de clases. Aquí solo necesitas reconocer que ese nombre permite distinguir el fallo de conversión.",
+        "`raise RuntimeError('fila C001: monto inválido') from e` lanza un error nuevo y guarda en su `__cause__` la excepción `e` que atrapaste, así el traceback muestra las dos. El mensaje contiene un identificador interno y un motivo, nunca un correo, teléfono, dirección ni otro valor sensible que pueda reaparecer en un traceback.",
+        "Después usamos una excepción personalizada. `class ParseError(Exception): pass` crea un tipo de excepción llamado `ParseError` a partir del tipo general `Exception`; S11 explicará la sintaxis general de clases. Aquí solo necesitas reconocer que ese nombre permite distinguir el fallo de conversión. En la salida, la causa del `RuntimeError` es ese `ParseError`, y la causa del `ParseError` es el `InvalidOperation` que lanzó `Decimal` al leer `abc`: la cadena se lee desde el error de fuera hasta el original.",
         "Este ejemplo acepta punto decimal o una coma seguida por exactamente dos decimales; no acepta separadores de miles ni mezcla punto y coma. Así `12,50` significa doce con cincuenta, mientras `1,234` se rechaza en lugar de interpretarse en silencio.",
       ],
       code: {
@@ -148,9 +148,11 @@ try:
     validate_row({"id": "C001", "monto": "abc"})
 except RuntimeError as e:
     print(type(e).__name__, e)
-    print("cause:", type(e.__cause__).__name__, e.__cause__)`,
+    print("cause:", type(e.__cause__).__name__, e.__cause__)
+    print("cause of cause:", type(e.__cause__.__cause__).__name__)`,
         output: `RuntimeError fila C001: monto inválido
-cause: ParseError monto no parseable`,
+cause: ParseError monto no parseable
+cause of cause: InvalidOperation`,
       },
       callout: {
         type: "tip",
@@ -1795,21 +1797,21 @@ GREEN`,
       {
         subtopicId: "S09-T3-A",
         kind: "guided",
-        title: "Asignar niveles DEBUG a ERROR a eventos",
+        title: "Asignar niveles de DEBUG a CRITICAL a eventos",
         preamble:
-          "- **Contexto:** si todo es INFO/ERROR, el dashboard de ops entierra el incidente real.\n- **Meta:** etiquetar cada evento del starter con el nivel correcto.\n- **Éxito:** seis líneas `evento: NIVEL` (INFO, DEBUG, WARNING, ERROR, ERROR, INFO) en orden.\n- **Límites:** WARNING si el job continúa con anomalía recuperable; no uses CRITICAL aquí salvo que el starter lo pida (usa ERROR para config ilegible).",
+          "- **Contexto:** si todo es INFO/ERROR, el dashboard de ops entierra el incidente real.\n- **Meta:** etiquetar cada evento del starter con el nivel correcto.\n- **Éxito:** seis líneas `evento: NIVEL` (INFO, DEBUG, WARNING, ERROR, CRITICAL, INFO) en orden.\n- **Límites:** cada evento es de una corrida distinta, no una secuencia. WARNING si el job continúa con una anomalía recuperable; ERROR si falla una unidad (una fila) y el job sigue; CRITICAL si el job entero no puede seguir, como una config que no se puede leer al arrancar.",
         id: "S09-T3-A-E1",
         instruction:
-          "Paso 1: El starter imprime todo como INFO.\nPaso 2: Progreso de job → INFO; detalle de loop → DEBUG.\nPaso 3: Fila opcional rara → WARNING; parse/config ilegible → ERROR.\nPaso 4: Imprime sin reordenar.",
-        hint: "Mapea cada evento al nivel correcto (INFO/WARNING/ERROR).",
+          "Paso 1: El starter imprime todo como INFO.\nPaso 2: Progreso de job → INFO; detalle de loop → DEBUG.\nPaso 3: Fila opcional rara → WARNING; monto que no se puede parsear → ERROR; config ilegible al arrancar → CRITICAL.\nPaso 4: Imprime sin reordenar.",
+        hint: "Pregunta por cada evento: ¿el job puede seguir? Si sigue, el nivel depende de si falló una unidad; si no puede seguir, es CRITICAL.",
         hints: [
-          "Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR.",
-          "Config inválida al arrancar también ERROR (o CRITICAL; usa ERROR aquí).",
+          "Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR; job detenido → CRITICAL.",
+          "Sin config no se puede procesar ninguna fila: el job entero se detiene, y eso es CRITICAL, como dice T3-A.",
         ],
-        edgeCases: ["WARNING no es ERROR si el job continúa."],
-        tests: "Contrato exacto: 6 líneas `…: DEBUG|INFO|WARNING|ERROR` en el orden del starter; exit 0.",
+        edgeCases: ["WARNING no es ERROR si el job continúa.", "Un monto ilegible detiene una fila (ERROR); una config ilegible detiene el job (CRITICAL)."],
+        tests: "Contrato exacto: 6 líneas `…: DEBUG|INFO|WARNING|ERROR|CRITICAL` en el orden del starter; exit 0.",
         feedback:
-          "El starter pone **todo** en INFO: el dashboard no prioriza. Fila opcional rara = WARNING (el job sigue); parse/config ilegible = ERROR; detalle de loop = DEBUG, no INFO de progreso.",
+          "El starter pone **todo** en INFO: el dashboard no prioriza. Fila opcional rara = WARNING (el job sigue); monto ilegible = ERROR (falla una fila); config ilegible al arrancar = CRITICAL (no se puede procesar nada); detalle de loop = DEBUG, no INFO de progreso.",
         retrospective:
           "Nivel = severidad operativa, no «cuánto texto quiero». El error clásico es ERROR en cada fila de cuarentena esperable. Siguiente (E2): configurar el logger de módulo de verdad.",
         starterCode: {
@@ -1821,7 +1823,7 @@ eventos = [
     "valor de variable i en loop",
     "fila sin email opcional",
     "no se pudo parsear monto",
-    "archivo de config ilegible",
+    "config ilegible al arrancar",
     "lote terminado con conteos",
 ]
 for e in eventos:
@@ -1836,7 +1838,7 @@ for e in eventos:
     "valor de variable i en loop": "DEBUG",
     "fila sin email opcional": "WARNING",
     "no se pudo parsear monto": "ERROR",
-    "archivo de config ilegible": "ERROR",
+    "config ilegible al arrancar": "CRITICAL",
     "lote terminado con conteos": "INFO",
 }
 for e, n in niveles.items():
@@ -1845,7 +1847,7 @@ for e, n in niveles.items():
 valor de variable i en loop: DEBUG
 fila sin email opcional: WARNING
 no se pudo parsear monto: ERROR
-archivo de config ilegible: ERROR
+config ilegible al arrancar: CRITICAL
 lote terminado con conteos: INFO`,
         },
       },

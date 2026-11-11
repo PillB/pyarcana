@@ -75,14 +75,11 @@ class TestS07TextContract(unittest.TestCase):
 
     def test_assessment_contract_matches_empty_jaccard_policy(self) -> None:
         text = exam_bank.learner_text(s07_bank())
-        self.assertIn(
-            "si ambos conjuntos están vacíos, el contrato de esta sección devuelve 1.0",
-            text,
-        )
-        self.assertIn(
-            "si solo una está vacía, devuelve 0.0",
-            text,
-        )
+        # Proposal 10 (S07-EXAM-20): the section's token_jaccard returns None when a side has no
+        # tokens. The 1.0 / 0.0 contract this test used to pin was never what the section's code does.
+        self.assertIn("y None si un lado no tiene tokens", text)
+        self.assertNotIn("el contrato de esta sección devuelve 1.0", text)
+        self.assertNotIn("si solo una está vacía, devuelve 0.0", text)
         self.assertNotIn("unión vacía → política 0 o N/A", text)
         self.assertNotIn("¿Cuándo pasar de str methods a regex en S07?", text)
         self.assertNotIn("S07 V3", text)

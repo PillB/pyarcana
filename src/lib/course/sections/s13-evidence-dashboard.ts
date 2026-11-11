@@ -2165,14 +2165,15 @@ def er_score(a: dict, b: dict) -> float:
 
 
 def relationship_signal_score(a: dict, b: dict) -> float:
-    # DEFECT: suma pesos mal (0.4*n_signals) — usa canónico 0.5 phone + 0.3 geo + 0.2 surname
+    # DEFECT: suma pesos mal (0.4*n_signals) — usa canónico 0.5 phone + 0.3 geo + 0.2 surname_jaccard
+    # (surname_jaccard = Jaccard de los tokens del nombre completo, como en T2-A)
     n = 0
     if a.get("phone") and a.get("phone") == b.get("phone"):
         n += 1
     if a.get("km") is not None and b.get("km") is not None and a["km"] == b["km"] and a["km"] <= 2.0:
         n += 1
     if a.get("name") and b.get("name"):
-        # surname token overlap simplificado: primer apellido si hay ≥2 tokens
+        # DEFECT: compara solo el segundo token; T2-A usa Jaccard sobre todos los tokens
         pa = a["name"].casefold().split()
         pb = b["name"].casefold().split()
         if len(pa) >= 2 and len(pb) >= 2 and pa[1] == pb[1]:
@@ -2217,9 +2218,10 @@ PAIR_CASES = [
     # negativo: otro documento, otro apellido y otra región; ninguna señal
     ({"name": "Ana Quispe", "document_id": "D-1", "region": "Lima"},
      {"name": "Luis Rojas", "document_id": "D-9", "region": "Cusco"}, 0.0, 0.0),
-    # tres tokens: el bloque usa el apellido paterno, así que coincide; solo el apellido suma 0.2
+    # tres tokens: el bloque usa el apellido paterno, así que er coincide; en rel solo suma el
+    # Jaccard de tokens: {ana, quispe} de {ana, quispe, rojas, díaz} = 0.5, por peso 0.2 = 0.1
     ({"name": "Ana Quispe Rojas", "document_id": "d-1", "region": "Lima"},
-     {"name": "Ana Quispe Díaz", "document_id": "D1", "region": "Lima"}, 1.0, 0.2),
+     {"name": "Ana Quispe Díaz", "document_id": "D1", "region": "Lima"}, 1.0, 0.1),
     # una sola señal (teléfono): 0.5, no 0.4
     ({"name": "Eva Mamani", "document_id": "X7", "region": "Puno", "phone": "955"},
      {"name": "Luis Rojas", "document_id": "X8", "region": "Lima", "phone": "955"}, 0.0, 0.5),

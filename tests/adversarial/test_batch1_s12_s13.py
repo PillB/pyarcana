@@ -208,10 +208,9 @@ FIXED_REL = (
     '    if a.get("km") is not None and b.get("km") is not None and a["km"] == b["km"] and a["km"] <= 2.0:\n'
     "        n += 0.3\n"
     '    if a.get("name") and b.get("name"):\n'
-    '        pa = a["name"].casefold().split()\n'
-    '        pb = b["name"].casefold().split()\n'
-    "        if len(pa) >= 2 and len(pb) >= 2 and pa[1] == pb[1]:\n"
-    "            n += 0.2\n"
+    '        ta = set(a["name"].casefold().split())\n'
+    '        tb = set(b["name"].casefold().split())\n'
+    "        n += 0.2 * len(ta & tb) / len(ta | tb)  # surname_jaccard of T2-A (proposal 10)\n"
     "    return min(1.0, round(n, 2))\n\n\n"
 )
 FIXED_DECIDE = (
@@ -290,8 +289,8 @@ class A7YouDoChecksTheFourHiddenDefects(unittest.TestCase):
 
     def test_the_pair_expectations_are_the_rules_in_the_text(self) -> None:
         # Checked against the rules, not against the code: a negative pair scores 0.0 on ER and REL,
-        # a three-token pair with the same paternal surname scores 1.0 ER and 0.2 REL, and one shared
-        # phone scores 0.5 REL.
+        # a three-token pair with the same paternal surname scores 1.0 ER and 0.1 REL (T2-A's
+        # surname_jaccard: 2 shared tokens of 4, times 0.2; proposal 10), and one shared phone 0.5 REL.
         code = you_do_variant(
             self.starter,
             ("norm_doc", "blocking_key", "er_score", "relationship_signal_score", "decide_ops_status", "pseudonymize"),
@@ -301,7 +300,7 @@ class A7YouDoChecksTheFourHiddenDefects(unittest.TestCase):
             "RESULT = [(er_score(a, b), relationship_signal_score(a, b)) for a, b, _, _ in PAIR_CASES]",
         )
         self.assertIsNone(out["error"])
-        self.assertEqual(out["result"], [[1.0, 1.0], [0.0, 0.0], [1.0, 0.2], [0.0, 0.5]])
+        self.assertEqual(out["result"], [[1.0, 1.0], [0.0, 0.0], [1.0, 0.1], [0.0, 0.5]])
 
 
 # ---------------------------------------------------------------------------------------------
