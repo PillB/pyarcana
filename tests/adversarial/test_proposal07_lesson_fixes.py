@@ -119,7 +119,9 @@ class S01LearnerText(unittest.TestCase):
             "Si ninguna forma responde, todavía no tienes Python",
             "los tuyos pueden ser otros, y basta con que cada comando responda con una versión",
             "escribe solo lo que sigue a `# >>> ` en cada línea, porque el REPL ya muestra su propio `>>>`",
-            "Monto mensual facturado en soles (S/), sea cual sea el pais",
+            # Proposal 10 (S01-YOUDO-01) replaced the soles claim: a US and a Brazilian client
+            # cannot all pay in soles, so the dictionary now says the file carries no currency.
+            "Monto mensual sintetico; el archivo no indica la moneda",
         ):
             self.assertIn(sentence, self.s01)
         self.assertNotIn("copy-paste reales", self.s01)

@@ -196,10 +196,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'commit-message',
       question: '¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?',
       options: [
-        'feat: agregar cálculo de churn por segmento',
+        'feat: agregar cálculo de totales por segmento',
         'cambios',
         'wip',
-        'arreglé el bug',
+        'arreglé el bug que salió ayer en el reporte final',
       ],
       correctIndex: 0,
       explanation:
@@ -222,9 +222,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'commit-message',
       question:
-        'Corregiste un fallo que devolvía NaN en el total de una factura. ¿Qué mensaje es el más adecuado?',
+        'Corregiste un fallo que devolvía un total inválido (NaN, «no es un número») en una factura. ¿Qué mensaje es el más adecuado?',
       options: [
-        'feat: nueva app de facturación completa',
+        'feat: nueva app de facturación completa con reportes y exportación',
         'wip',
         'fix: corregir total NaN cuando el ítem viene vacío',
         'update stuff',

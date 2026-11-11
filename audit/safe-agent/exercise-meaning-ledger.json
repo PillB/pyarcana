@@ -860,6 +860,96 @@
       "reason": "The candidate '.env.*' became '.env.local', because the pattern '.env.*' also ignores '.env.example', the template the exercise says must be committed. Same exercise: choose which secret files go to .gitignore.",
       "decided_by": "owner 2026-11-11 (proposal 10, P1 fixes)",
       "date": "2026-11-11"
+    },
+    {
+      "row": 87,
+      "id": "S01-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "ae374151c49af8d515212fb725be8cc79b084cbf05b72c54300d3ddfc966903a",
+      "to_fp": "01dbe09b252c12b54dc655b3a3658687bd701b123648dd8e194e52144e77bbd0",
+      "reason": "The tests line now says exactly what the second line must be ('Python 3.x.y' with only the version number), so printing the whole sys.version no longer passes. Same exercise: print a synthetic name and the short Python version.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 88,
+      "id": "S01-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "b8296ef2f7799ff1003856ddbf6243eb4ea688fdca1e48328cb6b823af60a2aa",
+      "to_fp": "c2aadd4a18451d249cff572852403a1ae5ca4f979dd99b7caad76a288ae1e23a",
+      "reason": "The hint and the model answer now say what the Microsoft Store alias is and where Windows turns it off. Same exercise: write a procedure for a missing interpreter.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 89,
+      "id": "S01-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "92c2a4ee916cd0daa804792ad566fec0647303df618ac2bc69d2ef3e65ff1449",
+      "to_fp": "e72a377a538c3aad802366ddf760cb386a4d2c3f15a4203c2bcd75cfb64e043e",
+      "reason": "PowerShell does not change $LASTEXITCODE for a command that does not exist, so the starter, model answer and tests now say to read $? there. Same exercise: read exit codes and the stdout/stderr channel of four commands.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 90,
+      "id": "S01-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "da5d2dfafb6f1940ef49e7022d6369d92347fcca49b4ce49f6f3ed4ca027865d",
+      "to_fp": "4f94aea795199c1b5d0fa528193cbc63786d46d90f76e1c1fab7c81b5936083c",
+      "reason": "A comment now says why the deactivate line, and only it, keeps '|| true', since the theory warns against that pattern. Same exercise: recreate a broken .venv.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 91,
+      "id": "S01-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "2c1f450b93aea2b0f5164a5f4e5b1592d35c06962086080aa495a708afe4b3a5",
+      "to_fp": "8b3753000e75e23057e3226314285b150d0de1c7b3737adaf57a1f2ecaaee280",
+      "reason": "The model answer said venv needs no extra download; it now says venv is in the standard library but Debian/Ubuntu can lack python3-venv, as the theory callout says. Same exercise: argue against a global pip.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 92,
+      "id": "S01-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "4ffef78a2d832b1c3877d0c624e14d672bc57e3847906ad6fe14cf7dfc80b3db",
+      "to_fp": "2e2ee4daab6b39be04ca9198ed3797d75008cbc5f71bb32c652a18a63d98f3dd",
+      "reason": "The model answer said the diff header holds an insertion count; it now names the hunk header @@ -1,2 +1,3 @@ that git really prints, and the instruction says how to leave the pager. Same exercise: read git show and narrate the diff.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 93,
+      "id": "S01-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "1516d8ba126a54cd0121dd3ccbdc9cc4394fbe279973ec5938129e2b8c84059a",
+      "to_fp": "5934ff4483bc29ca042bafd390e6c06cc2964531dfcc6415a89df55a178e4f93",
+      "reason": "The model answer said ALL turns on 'decenas' of rules; Ruff 0.16.9 has hundreds. Same exercise: defend a minimal select.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 94,
+      "id": "S01-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "1c4b6d7aec4c3ef5730896a8f03b4effe1f8680aa678e964a7aa9c24fd5260c0",
+      "to_fp": "caed42a03bf50c4d6d1072519979c49a16218894a488950be439f29016df5173",
+      "reason": "The solution printed .gitignore:8 for a file whose .env rule is on line 10 (checked with git check-ignore), and the tests now also require .env.example to stay unignored, so the '.env*' shortcut fails here instead of two exercises later. Same exercise: write the minimal .gitignore.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 95,
+      "id": "S01-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "1f1c20f1c9903487b8736077bb221cb603bf5156e04f157bd14b86dcffa1bc0c",
+      "to_fp": "1a33d16d1a7cfe81f79d3b5faadd7d15bb4c720e8d661b530c84644bbc9fd241",
+      "reason": "The tests now require each checklist item to hold a command in backticks and its expected result, so vague items no longer pass. Same exercise: write the clean-machine checklist.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
+      "date": "2026-11-11"
     }
   ]
 }
