@@ -549,6 +549,11 @@ describe('evidence', () => {
   it('fails closed when the grading fields were not selected', () => {
     assert.equal(isEvidence({ completedAt: done }), false)
     assert.equal(isEvidence({ completedAt: done, gradingVersion: 1 }), false)
+    // gradingVersion missing or null, exposedItems selected as 0: an unknown version is not the current one.
+    assert.equal(isEvidence({ completedAt: done, exposedItems: 0 }), false)
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: null, exposedItems: 0 }), false)
+    // exposedItems selected as null: an unknown count is not "the key was never seen".
+    assert.equal(isEvidence({ completedAt: done, gradingVersion: 1, exposedItems: null }), false)
   })
 
   it('counts sections passed, once each, under the id the app reads today', () => {
