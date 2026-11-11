@@ -23,7 +23,6 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   AlertTriangle,
   ArrowUpRight,
-  Award,
   BookOpen,
   Boxes,
   ClipboardList,
@@ -256,14 +255,6 @@ function CapstoneCard({
           <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
             v{cap.version}
           </Badge>
-          <Badge
-            variant="outline"
-            className={cn('ml-auto gap-1 border-amber-500/30', accent.chip)}
-            title={tr('capstones.badge')}
-          >
-            <Award className="h-3 w-3" aria-hidden="true" />
-            {cap.badgeId}
-          </Badge>
         </div>
         <CardTitle className="text-base leading-snug sm:text-lg">
           {cap.name}
@@ -423,10 +414,6 @@ function FinalCapstoneCard({
           </Badge>
           <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
             v{cap.version}
-          </Badge>
-          <Badge variant="outline" className="ml-auto gap-1 border-amber-500/40 text-amber-800 dark:text-amber-300">
-            <Award className="h-3 w-3" aria-hidden="true" />
-            {cap.badgeId}
           </Badge>
         </div>
         <CardTitle className="text-lg leading-snug sm:text-xl">

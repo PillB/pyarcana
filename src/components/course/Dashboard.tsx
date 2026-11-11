@@ -21,7 +21,6 @@ import {
   Trophy,
   CheckCircle2,
   ShieldCheck,
-  Lock,
   Compass,
   Database,
   Brain,
@@ -305,8 +304,8 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
           value={english ? 'Step by step' : 'Avanza a tu ritmo'}
           sublabel={
             english
-              ? 'Pick the next section; badges mark what you have practised.'
-              : 'Sigue con la siguiente sección; los badges marcan lo que has practicado.'
+              ? 'Continue with the section marked “Next”; “Done” means you finished its steps.'
+              : 'Continúa con la sección marcada «Siguiente»; «Hecho» indica que terminaste sus pasos.'
           }
           color="sky"
           delay={0.2}
@@ -343,7 +342,7 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
       <DashboardTrialCard sections={sections} />
 
       {/* Badges — what they prove and what they don't */}
-      <BadgeExplainer isSignedIn={isSignedIn} english={english} />
+      <BadgeExplainer english={english} />
 
       {/* Curriculum grid */}
       <section className="mt-10">
@@ -537,8 +536,8 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
                   title={english ? 'Self-paced learning' : 'Aprendizaje autoguiado'}
                   desc={
                     english
-                      ? 'You advance at your own pace and can ask for external review when you need it. In the public edition, progress is stored only in your browser.'
-                      : 'Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador.'
+                      ? 'You advance at your own pace and can ask for external review when you need it. In the public edition, progress is stored in your browser.'
+                      : 'Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda en tu navegador.'
                   }
                 />
               </div>
@@ -662,8 +661,8 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" />
             <span>
               {english
-                ? 'Badges show what you practised. Verified credentials show what you demonstrated. See:'
-                : 'Los badges muestran lo que practicaste. Las credenciales verificadas muestran lo que demostraste. Lee:'}
+                ? '“Done” and “Next” show your section progress. Neither label shows an earned competency badge. See:'
+                : '«Hecho» y «Siguiente» muestran tu progreso por secciones. Ninguna de las dos etiquetas muestra una insignia de competencia obtenida. Consulta:'}
             </span>
             <Link href="/credential-policy" className="font-medium text-foreground underline-offset-2 hover:underline">Política de credenciales</Link>·
             <Link href="/privacy" className="font-medium text-foreground underline-offset-2 hover:underline">Privacidad</Link>·
@@ -683,10 +682,9 @@ export function Dashboard({ animateEntrance, meta, sections, onSelectSection, on
 }
 
 /**
- * Badge explainer — answers the two learner questions:
- *   "What does a badge prove?" / "What does it NOT prove?"
+ * Badge explainer: what the course labels show, and that no page shows a competence badge as earned.
  */
-function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english: boolean }) {
+export function BadgeExplainer({ english }: { english: boolean }) {
   return (
     <section className="mt-10" aria-labelledby="badge-explainer-title">
       <Card className="overflow-hidden border-gold/30 bg-gradient-to-br from-amber-500/5 to-transparent">
@@ -699,31 +697,31 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
           </div>
           <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
             {english
-              ? 'A badge is a small marker that you completed an exercise or section independently. This is, it confirms you practised a specific skill — it is not a professional certification.'
-              : 'Un badge es un pequeño marcador de que completaste un ejercicio o sección de forma independiente. Esto es, confirma que practicaste una habilidad concreta — no es una certificación profesional.'}
+              ? 'On the section cards, “Done” and “Next” form a guide to your progress; it is not a professional certification.'
+              : 'En las tarjetas de sección, «Hecho» y «Siguiente» forman una guía de tu progreso; no es una certificación profesional.'}
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                 <CheckCircle2 className="h-4 w-4" />
-                {english ? 'What a badge proves' : 'Lo que un badge sí prueba'}
+                {english ? 'What “Done” and “Next” show' : 'Lo que indican «Hecho» y «Siguiente»'}
               </h3>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
                 <li>
                   {english
-                    ? 'You completed an exercise or section under your own effort.'
-                    : 'Completaste un ejercicio o sección con tu propio esfuerzo.'}
+                    ? '“Done” appears on a section whose steps you marked as finished; it is your own record.'
+                    : '«Hecho» aparece en una sección cuyos pasos marcaste como terminados; es tu propio registro.'}
                 </li>
                 <li>
                   {english
-                    ? 'You produced the requested evidence (code, tests, decisions, limits).'
-                    : 'Produciste la evidencia pedida (código, pruebas, decisiones, límites).'}
+                    ? '“Next” marks the next section in your progress.'
+                    : '«Siguiente» indica la sección que sigue en tu progreso.'}
                 </li>
                 <li>
                   {english
-                    ? 'You met the rubric threshold (70% or higher).'
-                    : 'Alcanzaste el umbral de la rúbrica (70% o más).'}
+                    ? 'Nobody checks “Done”; that label does not measure your mastery of the topic.'
+                    : 'Nadie comprueba «Hecho»; esa etiqueta no mide tu dominio del tema.'}
                 </li>
               </ul>
             </div>
@@ -731,63 +729,28 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
             <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-rose-700 dark:text-rose-300">
                 <HelpCircle className="h-4 w-4" />
-                {english ? 'Credential boundaries' : 'Límites de la credencial'}
+                {english ? 'Limits of the displayed progress' : 'Límites del progreso mostrado'}
               </h3>
               <p className="mt-2 text-xs text-muted-foreground">
                 {english
-                  ? 'Badges and verified credentials describe evidence demonstrated within the course. They do not constitute accredited professional certification or guarantee employment. See the '
-                  : 'Los badges y credenciales verificadas describen evidencia demostrada dentro del curso. No constituyen certificación profesional acreditada ni garantizan empleo. Consulta la '}
+                  ? 'No learner receives a competency badge or verified credential. See the '
+                  : 'Ningún estudiante recibe una insignia de competencia ni una credencial verificada. Consulta la '}
                 <Link href="/credential-policy" className="font-medium text-foreground underline-offset-2 hover:underline">
                   {english ? 'credential policy' : 'política de credenciales'}
                 </Link>
-                {english ? ' for details.' : ' para más detalles.'}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-3 text-xs text-muted-foreground sm:grid-cols-2">
-            <div className="rounded-lg border border-border bg-card p-3">
-              <div className="flex items-center gap-2">
-                <Lock className="h-3.5 w-3.5 text-muted-foreground" />
-                <strong className="text-foreground">
-                  {english ? 'Local preview' : 'Vista previa local'}
-                </strong>
-              </div>
-              <p className="mt-1">
-                {english
-                  ? 'When you finish an exercise without an account, the badge is a local preview stored only in this browser. Nobody else can see or verify it.'
-                  : 'Cuando terminas un ejercicio sin cuenta, el badge es una vista previa local guardada solo en este navegador. Nadie más puede verlo ni verificarlo.'}
-              </p>
-            </div>
-            <div className="rounded-lg border border-border bg-card p-3">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" />
-                <strong className="text-foreground">
-                  {english ? 'Verified award' : 'Insignia verificada'}
-                </strong>
-              </div>
-              <p className="mt-1">
-                {isSignedIn
-                  ? english
-                    ? 'When you are signed in, a supervisor in your cohort can verify a badge. The verification step is what turns a preview into a verified award.'
-                    : 'Cuando tienes sesión iniciada, un supervisor de tu cohorte puede verificar un badge. La verificación es lo que convierte una vista previa en una insignia verificada.'
-                  : english
-                    ? 'Sign in to invite a supervisor to verify your badges. Verification is what turns a preview into a verified award.'
-                    : 'Inicia sesión para invitar a un supervisor a verificar tus badges. La verificación es lo que convierte una vista previa en una insignia verificada.'}
+                .
               </p>
             </div>
           </div>
 
           <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground/80">
             {english
-              ? 'See the full '
-              : 'Lee el '}
+              ? 'See the '
+              : 'Consulta el '}
             <Link href="/badge-notice" className="font-medium text-foreground underline-offset-2 hover:underline">
               {english ? 'Badge and Credential Notice' : 'Aviso de badges y credenciales'}
-            </Link>{' '}
-            {english
-              ? 'for criteria, limitations and revocation policy.'
-              : 'para criterios, limitaciones y política de revocación.'}
+            </Link>
+            .
           </p>
         </div>
       </Card>

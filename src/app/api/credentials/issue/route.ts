@@ -11,6 +11,7 @@ import {
   unverifiedRequirements,
 } from '@/lib/credential-gates'
 import { issuanceBlockers } from '@/lib/credential-blockers'
+import { capabilityStatement } from '@/lib/credential-statement'
 import { SERVER_VERIFIERS } from '@/lib/credential-verifiers'
 import { EDITION_DYNAMIC } from '@/lib/eligibility/types'
 import { GRADED_AS_EVIDENCE } from '@/lib/exam-scoring'
@@ -165,7 +166,7 @@ export async function POST(req: NextRequest) {
       badgeName: badgeId.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
       specificationVersion: spec.version,
       credentialClass: 'D',
-      capabilityStatement: `The holder independently demonstrated ${badgeId} by completing the capstone assessment under PyArcana Assessment Specification ${spec.version}, including critical evidence, hidden validation, and independent review.`,
+      capabilityStatement: capabilityStatement(spec),
       issuedAt,
       expiresAt: null,
       revocationStatus: 'active',

@@ -55,7 +55,7 @@ function VerifyContent() {
           valid: false,
           unavailable: true,
           error: IS_STATIC_SITE
-            ? 'La verificación de credenciales no está disponible en la edición pública (estática). El LMS dinámico no está desplegado. Para verificar una credencial de forma autoritativa, contacta al titular o al equipo de PyArcana para obtener la URL del LMS dinámico.'
+            ? 'La verificación de credenciales no está disponible en la edición pública (estática). Todos los sitios actuales de PyArcana son ediciones estáticas. El servicio existe solo en el LMS dinámico, que no está desplegado hoy.'
             : 'El servicio de verificación no está disponible en este momento.',
         })
         return
@@ -68,12 +68,11 @@ function VerifyContent() {
         unavailable: true,
         error:
           'No se pudo contactar al servicio de verificación (error de red). ' +
-          'Si estás viendo esto en la edición pública (pillb.github.io/pyarcana), ' +
-          'el LMS dinámico no está desplegado y la verificación no está disponible. ' +
+          'En una edición pública (estática), la verificación no está disponible ' +
+          'porque el servicio existe solo en el LMS dinámico, que no está desplegado hoy. ' +
           'Importante: un resultado mostrado en esta página NO puede considerarse ' +
           'válido si la petición fue interceptada (p. ej. con DevTools o una ' +
-          'extensión). Para verificar una credencial de forma autoritativa, ' +
-          'visita la URL del LMS dinámico directamente o contacta al equipo de PyArcana.',
+          'extensión).',
       })
     } finally {
       setLoading(false)
@@ -95,11 +94,10 @@ function VerifyContent() {
           <div>
             <p className="font-semibold">Edición pública (estática)</p>
             <p className="mt-1">
-              Estás en la edición pública de GitHub Pages. El endpoint de
-              verificación (<code>/api/credentials/verify</code>) no está
-              desplegado aquí, por lo que cualquier intento mostrará un error
-              de red. Para una verificación autoritativa, usa la URL del LMS
-              dinámico.
+              Todos los sitios actuales de PyArcana son ediciones estáticas. El
+              servicio de verificación (<code>/api/credentials/verify</code>)
+              existe solo en el LMS dinámico, que no está desplegado hoy. Por eso,
+              la comprobación no está disponible en esta edición.
             </p>
           </div>
         </div>
