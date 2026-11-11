@@ -92,9 +92,21 @@ describe('the exam attempt mirror', () => {
     assert.doesNotMatch(JSON.stringify(data), /venv/)
   })
 
-  it('carries no key whatever the stored answers hold', async () => {
+  it('turns a JSON non-array into an empty list and passes a null answers field through as null', async () => {
+    // graded('not json') stores the JSON string "not json": valid JSON, but not an array.
     await syncExamAttempt(graded('not json'))
     await syncExamAttempt({ ...graded([]), answers: null })
     assert.deepEqual(written.map((w) => w.data.answers), ['[]', null])
+  })
+
+  it('carries no key whatever the stored answers hold, when they do not parse as JSON', async () => {
+    // Raw strings, not JSON.stringify'd: JSON.stringify would wrap them in quotes, which parse, and
+    // the case above already covers that. The truncated string still carries the key and the
+    // explanation; the empty string is one more text that JSON.parse rejects.
+    await syncExamAttempt({ ...graded([]), answers: 'not json' })
+    await syncExamAttempt({ ...graded([]), answers: '[{"questionId":"q1","correctIndex":0,"explanation":"porque"' })
+    await syncExamAttempt({ ...graded([]), answers: '' })
+    assert.deepEqual(written.map((w) => w.data.answers), ['[]', '[]', '[]'])
+    assert.doesNotMatch(JSON.stringify(written), /correctIndex|explanation|porque/)
   })
 })
