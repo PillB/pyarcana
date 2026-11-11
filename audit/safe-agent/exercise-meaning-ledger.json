@@ -830,6 +830,36 @@
       "reason": "The solution's rate now has the len(rows) > 0 guard the theory says is mandatory; on the exercise's data the output is unchanged. Same exercise, same solution logic.",
       "decided_by": "owner 2026-11-10 (proposal 09, item S04-2)",
       "date": "2026-11-10"
+    },
+    {
+      "row": 84,
+      "id": "S09-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "b91de78971db8a92b6468791be76dd3dc736f71c231656031d1ed9e1c65b2c1f",
+      "to_fp": "a3d29c5c4454d548fbab8fe19c9a563f468f192f8ab4d9b9228ab1976df8c180",
+      "reason": "The config event now says it is read at startup and is keyed CRITICAL, as theory T3-A ('config rota') and self-check 10 key it; the hint no longer offers ERROR or CRITICAL. Same exercise: label six events with the level the lesson defines.",
+      "decided_by": "owner 2026-11-11 (proposal 10, P1 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 85,
+      "id": "S10-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "1f6528647170dd06f30b0b076a205ccd7ebb228698745ce4d0f31a6938a99329",
+      "to_fp": "accc8e76bf586f75dc75c98db04d9ea3417444652ff22c14cb7c7f8d1af30645",
+      "reason": "The level now comes from a declared kind field instead of words in the label, the method the T2-B counterexample refutes; the fourth change is written 'quitar' so a word rule would print patch. Same exercise: compute the SemVer bump from the change.",
+      "decided_by": "owner 2026-11-11 (proposal 10, P1 fixes)",
+      "date": "2026-11-11"
+    },
+    {
+      "row": 86,
+      "id": "S10-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "cee2eace67569cf4d5b2487840d8649762e3c521dbf8d41627128101d134790b",
+      "to_fp": "300d1247a1d391c12566699cdcd98ae63ddc25bf22be210bbcb20b1e3895912d",
+      "reason": "The candidate '.env.*' became '.env.local', because the pattern '.env.*' also ignores '.env.example', the template the exercise says must be committed. Same exercise: choose which secret files go to .gitignore.",
+      "decided_by": "owner 2026-11-11 (proposal 10, P1 fixes)",
+      "date": "2026-11-11"
     }
   ]
 }

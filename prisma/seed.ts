@@ -268,12 +268,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'git push --force a main',
         'Borrar la carpeta .git y clonar de nuevo siempre',
-        'Cambiar el mensaje del último commit ajeno con rebase público',
-        'git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main',
+        'Cambiar con rebase público el mensaje del último commit de otra persona',
+        'git restore del archivo, o git stash si quizá lo necesitas después',
       ],
       correctIndex: 3,
       explanation:
-        '`git restore` / `stash` recuperan el working tree sin reescribir historial compartido. Force-push a main está prohibido como práctica segura.',
+        '`git restore archivo` devuelve el archivo a su versión del último commit: tu cambio local se pierde y git no guarda copia. Si dudas, `git stash` lo aparta y `git stash pop` lo recupera. Ninguno de los dos toca el historial remoto; force-push a main sí lo reescribe.',
     },
     // --- ruff-config (3) ---
     {
@@ -863,8 +863,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué es una decision table en el contexto del motor de reglas de intake?',
       options: [
-        'La sintaxis match/case de Python, que reemplaza a la tabla escrita por el negocio',
-        'Una tabla de negocio: filas de condiciones → acción, que luego implementas con if o match',
+        'Una cadena de if/elif escrita primero en el código, que reemplaza a la tabla del negocio',
+        'Una tabla de negocio: filas de condiciones → acción, que luego implementas con if/elif',
         'Un CSV de entrada que el motor lee para inferir las reglas sin escribir if',
         'Un dict de Python que guarda cada status con su mensaje, sin condiciones ni ejemplos',
       ],
@@ -875,30 +875,30 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'decision-tables-match',
       question:
-        'Con `match code: case "MISSING" | "NEEDS_REVIEW": return "review"`, ¿qué expresa el patrón con `|`?',
+        'Con `if code in {"MISSING", "NEEDS_REVIEW"}: status = "review"`, ¿qué expresa la condición?',
       options: [
-        'AND de los dos códigos: code debe coincidir con ambos a la vez',
-        'Que code debe ser una lista que contenga los dos códigos',
-        'OR pattern: cualquiera de esos literales mapea a review',
-        'Una alternativa de bits: compara los códigos como números con el operador |',
+        'Que code debe coincidir con los dos códigos a la vez',
+        'Que code debe ser un set que contenga los dos códigos',
+        'Que cualquiera de los dos códigos lleva a review',
+        'Lo mismo que `code == "MISSING" or "NEEDS_REVIEW"`',
       ],
       correctIndex: 2,
       explanation:
-        'En match/case, A | B es un patrón OR. Útil para estados finitos del validador (códigos estables).',
+        '`in` sobre un set es verdadero si code coincide con alguno de sus elementos: equivale a `code == "MISSING" or code == "NEEDS_REVIEW"`. La forma `code == "MISSING" or "NEEDS_REVIEW"` no es equivalente: si code no es MISSING, el resultado es el texto "NEEDS_REVIEW", que cuenta como verdadero, y la rama se abre con cualquier código.',
     },
     {
       concept: 'decision-tables-match',
       question:
-        '¿Cuándo prefieres `if/elif` frente a `match/case` para una regla de intake?',
+        'En el motor de intake, ¿qué distingue una tabla de códigos de una regla de rango de edad?',
       options: [
-        'Siempre match/case, porque if/elif quedó obsoleto desde Python 3.10',
-        'Nunca: match/case cubre rangos numéricos con case _ igual que if/elif',
-        'Cuando los estados son literales finitos y estables, como códigos de error fijos que no cambian entre versiones',
-        'Cuando hay rangos numéricos o combinaciones de varios campos que no son literales finitos',
+        'Ninguna: las dos preguntan lo mismo, así que el orden de las ramas nunca cambia el resultado final',
+        'El rango se resuelve con `or` entre sus fronteras y la tabla con `and` entre sus códigos',
+        'La tabla necesita un `else` final; el rango no, porque toda edad cae en alguna frontera',
+        'La tabla busca nombres exactos con `in`; el rango compara fronteras tras revisar la ausencia',
       ],
       correctIndex: 3,
       explanation:
-        'match brilla con literales/estados finitos. Rangos y multi-campo suelen ser más claros con if. El curso asume 3.12+ para match.',
+        'Una tabla de códigos pregunta por nombres exactos, y `in` sobre un set lo resuelve. Un rango pregunta por fronteras: `MIN_EDAD <= edad <= MAX_EDAD`. La ausencia va primero, porque `None < 18` lanza `TypeError`; y una edad ausente no cae en ninguna frontera, así que el `else` también hace falta.',
     },
     // --- invariants-examples (3) ---
     {
@@ -1175,7 +1175,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 0,
       explanation:
-        'Denominador = procesados/intentados. Usar solo aceptados infla la tasa y miente al dashboard de calidad.',
+        'El denominador son las filas intentadas: todas las que entraron al lote, también las que fallaron antes de procesarse. Usar solo aceptados (o solo procesadas) infla la tasa y miente al dashboard de calidad.',
     },
     {
       concept: 'counters-accumulators',
@@ -1325,14 +1325,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para contar rejects en un lote de resultados, ¿qué diseño alinea con el gate CP-N1-A?',
       options: [
-        'Doble bucle que re-escanea todo el lote por cada fila',
+        'Doble bucle que vuelve a recorrer todo el lote por cada fila para contar sus rejects',
         'Comprehension de tres niveles anidados por estética',
         'Recalcular len(results) dentro de while True',
-        'Un solo pase O(n) con contadores; tasa = rejects/procesados',
+        'Un solo pase O(n) con contadores; tasa = rejects/intentados',
       ],
       correctIndex: 3,
       explanation:
-        'Un pase lineal con denominador correcto produce demostraciones rápidas y métricas honestas. Evita un O(n²) cosmético.',
+        'Un pase lineal con el denominador de la lección: todas las filas intentadas, también las que fallaron antes de procesarse. Dividir entre procesadas infla la tasa cada vez que una fila falla temprano. Evita además un O(n²) cosmético.',
     },
   ],
   // S05 V3 — Funciones, contratos y descomposición (platform id: oop)
@@ -3415,14 +3415,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Jaccard simple de tokens entre conjuntos A y B se define como:',
       options: [
-        '|A∪B| / |A∩B|',
+        '|A∪B| / |A∩B|, y 1.0 si los dos lados están vacíos',
         '|A| - |B|',
         'len(A)+len(B)',
-        '|A∩B| / |A∪B| (si ambos conjuntos están vacíos, el contrato de esta sección devuelve 1.0)',
+        '|A∩B| / |A∪B|, y None si un lado no tiene tokens',
       ],
       correctIndex: 3,
       explanation:
-        'Intersección sobre unión. Para dos entradas vacías, el contrato de la sección devuelve 1.0; si solo una está vacía, devuelve 0.0.',
+        'Intersección sobre unión. Si un lado no tiene tokens, la sección devuelve None: no hay evidencia para comparar, así que no hay score y el par va a revisión. Dos nombres vacíos no cuentan como iguales.',
     },
     {
       concept: 'exact-token-similarity',

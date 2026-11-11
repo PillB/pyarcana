@@ -1481,11 +1481,12 @@ None 40 → review`,
         environment: 'browser-pyodide',
         description: 'Misma tabla en if/elif y en match',
         preamble:
-          'El título nombra una comparación que se completará cuando el curso enseñe `match`. En S03 comprobamos primero la idea necesaria: dos lecturas de la misma tabla de decisión deben producir el mismo `status`. Ambas usan `if` / `elif` / `else`, la herramienta disponible ahora. El contrato declarado promete `accept` para `OK`, `reject` para los códigos estrictos y `review` para los demás. `same= True` compara los resultados escalares. Antes de ejecutar, predice las cinco etiquetas usando solo ese contrato.',
+          'El título nombra una comparación que se completará cuando el curso enseñe `match`. En S03 comprobamos primero la idea necesaria: dos lecturas de la misma tabla de decisión deben producir el mismo `status`. Ambas usan `if` / `elif` / `else`, la herramienta disponible ahora, pero no son copias: la lectura A nombra cada código con `==`; la lectura B agrupa los códigos estrictos con `in` y deja todo lo demás, salvo `OK`, en `review`. El contrato declarado promete `accept` para `OK`, `reject` para los códigos estrictos y `review` para los demás; cada bloque lo escribe en `esperado` antes de ejecutar. Antes de ejecutar, predice las cinco etiquetas usando solo ese contrato.',
         code: {
           language: 'python',
           title: 'S03-T3-B-DEMO — if_vs_match',
           code: `code = "OK"
+esperado = "accept"  # del contrato, escrito antes de ejecutar
 if code == "OK":
     status_a = "accept"
 elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
@@ -1494,18 +1495,18 @@ elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
     status_a = "reject"
 else:
     status_a = "review"
-if code == "OK":
-    status_b = "accept"
-elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
-    status_b = "review"
-elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
+if code in {"OUT_OF_RANGE", "BAD_TYPE"}:
     status_b = "reject"
+elif code == "OK":
+    status_b = "accept"
 else:
     status_b = "review"
-assert status_a == status_b
+assert status_a == esperado
+assert status_b == esperado
 print(code, status_a, status_b, "same=", status_a == status_b)
 
 code = "MISSING"
+esperado = "review"  # del contrato, escrito antes de ejecutar
 if code == "OK":
     status_a = "accept"
 elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
@@ -1514,18 +1515,18 @@ elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
     status_a = "reject"
 else:
     status_a = "review"
-if code == "OK":
-    status_b = "accept"
-elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
-    status_b = "review"
-elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
+if code in {"OUT_OF_RANGE", "BAD_TYPE"}:
     status_b = "reject"
+elif code == "OK":
+    status_b = "accept"
 else:
     status_b = "review"
-assert status_a == status_b
+assert status_a == esperado
+assert status_b == esperado
 print(code, status_a, status_b, "same=", status_a == status_b)
 
 code = "OUT_OF_RANGE"
+esperado = "reject"  # del contrato, escrito antes de ejecutar
 if code == "OK":
     status_a = "accept"
 elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
@@ -1534,18 +1535,18 @@ elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
     status_a = "reject"
 else:
     status_a = "review"
-if code == "OK":
-    status_b = "accept"
-elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
-    status_b = "review"
-elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
+if code in {"OUT_OF_RANGE", "BAD_TYPE"}:
     status_b = "reject"
+elif code == "OK":
+    status_b = "accept"
 else:
     status_b = "review"
-assert status_a == status_b
+assert status_a == esperado
+assert status_b == esperado
 print(code, status_a, status_b, "same=", status_a == status_b)
 
 code = "FOO"
+esperado = "review"  # del contrato, escrito antes de ejecutar
 if code == "OK":
     status_a = "accept"
 elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
@@ -1554,18 +1555,18 @@ elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
     status_a = "reject"
 else:
     status_a = "review"
-if code == "OK":
-    status_b = "accept"
-elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
-    status_b = "review"
-elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
+if code in {"OUT_OF_RANGE", "BAD_TYPE"}:
     status_b = "reject"
+elif code == "OK":
+    status_b = "accept"
 else:
     status_b = "review"
-assert status_a == status_b
+assert status_a == esperado
+assert status_b == esperado
 print(code, status_a, status_b, "same=", status_a == status_b)
 
 code = "NEEDS_REVIEW"
+esperado = "review"  # del contrato, escrito antes de ejecutar
 if code == "OK":
     status_a = "accept"
 elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
@@ -1574,15 +1575,14 @@ elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
     status_a = "reject"
 else:
     status_a = "review"
-if code == "OK":
-    status_b = "accept"
-elif code == "MISSING" or code == "NEEDS_REVIEW" or code == "NOT_IN_ALLOWLIST":
-    status_b = "review"
-elif code == "OUT_OF_RANGE" or code == "BAD_TYPE":
+if code in {"OUT_OF_RANGE", "BAD_TYPE"}:
     status_b = "reject"
+elif code == "OK":
+    status_b = "accept"
 else:
     status_b = "review"
-assert status_a == status_b
+assert status_a == esperado
+assert status_b == esperado
 print(code, status_a, status_b, "same=", status_a == status_b)`,
           output: `OK accept accept same= True
 MISSING review review same= True
@@ -1591,7 +1591,7 @@ FOO review review same= True
 NEEDS_REVIEW review review same= True`,
         },
         why:
-          '**Tapa una implementación** —el código que aplica la regla— y razona desde el contrato declarado: `OK` debe dar `accept`; `OUT_OF_RANGE`, `reject`; `MISSING`, `FOO` y `NEEDS_REVIEW`, `review`. Solo después destapa el código. La columna `same=` y cada `assert` comprueban que ambas lecturas cumplen esas promesas. Este orden impide justificar la política por lo que el programa hizo por casualidad.',
+          '**Tapa una implementación** —el código que aplica la regla— y razona desde el contrato declarado: `OK` debe dar `accept`; `OUT_OF_RANGE`, `reject`; `MISSING`, `FOO` y `NEEDS_REVIEW`, `review`. Solo después destapa el código. `same=` solo dice que las dos lecturas coinciden, y dos lecturas pueden coincidir y estar ambas mal. Por eso cada `assert` compara cada lectura con `esperado`, el valor que el contrato promete: si una rama de `OK` dijera `review` en las dos lecturas, `same=` seguiría en `True` y el `assert` detendría el programa. Este orden impide justificar la política por lo que el programa hizo por casualidad.',
         retrospective:
           'Tapa una de las dos lecturas y predice sus cinco resultados desde las reglas escritas. Quien revisa empieza por el contrato, no por recordar las líneas: `FOO` no coincide con ningún código nombrado y por eso llega al `else`, que promete `review`. Luego destapa la lectura y comprueba cada predicción con su `assert`. Describe qué regla tendría que romper una segunda escritura para dejar de ser equivalente. Cuando aprendas otra forma de expresar decisiones, podrás contrastarla con las mismas salidas sin cambiar la política.',
       },

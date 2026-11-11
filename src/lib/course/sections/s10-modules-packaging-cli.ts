@@ -518,7 +518,7 @@ config: falta input_path para ingest`,
         environment: "local-python",
         description: "Separar `normalize` del entrypoint `main` (sin *side-effects* al importar)",
         preamble:
-          "Antes de empaquetar el CLI de **familiarity_core**, la lógica de normalizar nombres debe vivir en una función pura (que solo devuelve un valor, sin efectos afuera) y el *entrypoint* — la función que arranca el CLI — solo orquesta. En esta demo (datos sintéticos, sin PII) observa tres cosas sin escribir aún: (1) `__all__` declara solo `normalize`; (2) `main` imprime el nombre limpio y devuelve `0`; (3) al «importar» se puede llamar `normalize` con un `assert`, y el CLI se invoca **explícito** vía `main([...])`. Predice la salida de `\"  José Pérez \"` y compárala con el panel.",
+          "Antes de empaquetar el CLI de **familiarity_core**, la lógica de normalizar nombres debe vivir en una función pura (que solo devuelve un valor, sin efectos afuera) y el *entrypoint* — la función que arranca el CLI — solo orquesta. En esta demo (datos sintéticos, sin PII) observa tres cosas sin escribir aún: (1) `__all__` declara solo `normalize`; (2) `main` imprime el nombre limpio y devuelve `0`; (3) la llamada a `main` vive bajo `if __name__ == \"__main__\":`. Python pone `__name__` en `\"__main__\"` solo cuando ejecutas el archivo directamente; cuando otro módulo lo importa, `__name__` es el nombre del módulo y esa línea no corre. Predice la salida de `\"  José Pérez \"` y compárala con el panel.",
         code: {
           language: 'python',
           title: "normalize_cli_split.py",
@@ -533,12 +533,14 @@ def main(argv=None) -> int:
     print(normalize(args[0]))
     return 0
 
-# al importar no corre main; lo invocamos explícito
 assert normalize("X") == "x"
-raise SystemExit(main(["  José Pérez "]))`,
+
+# solo al ejecutar el archivo; un import no llega aquí
+if __name__ == "__main__":
+    raise SystemExit(main(["  José Pérez "]))`,
           output: `josé pérez`,
         },
-        why: "La lógica vive en `normalize`; el *entrypoint* solo orquesta. La guarda de entrada (aquí simulada con llamada explícita a `main`) evita que un `import familiarity_core` ejecute el CLI. En el paquete real usa `if __name__ == \"__main__\"` o un archivo `__main__.py` para el mismo contrato: API usable sin *side-effects* (efectos colaterales al importar).",
+        why: "La lógica vive en `normalize`; el *entrypoint* solo orquesta. La guarda `if __name__ == \"__main__\"` evita que un `import familiarity_core` ejecute el CLI: sin ella, cada import imprimiría el nombre y el `SystemExit` cerraría el programa que importa. Un archivo `__main__.py` cumple el mismo contrato para `python -m`: API usable sin *side-effects* (efectos colaterales al importar).",
         retrospective:
           "Si puedes explicar por qué `normalize` debe ser usable sin imprimir nada al importar, ya internalizaste el contrato de módulo. El error clásico es meter `print` o `parse_args` a nivel de módulo. En We Do T1-A practicarás API pública, util compartido anti-ciclo y estilos de import.",
       },
@@ -1316,34 +1318,26 @@ cause: se ejecuta un script que tapa el paquete en sys.path`,
         kind: "guided",
         title: "Clasificar cambio y bumpear SemVer",
         preamble:
-          "- **Contexto:** el CHANGELOG del CLI habla en español («renombrar», «añadir», «corregir»).\n- **Meta:** clasificar y **calcular** la nueva versión desde `1.0.0`, no inventar el string a mano.\n- **Éxito:** cuatro líneas `descripción: kind -> versión` del contrato.\n- **Límites:** major debe resetear minor/patch a 0; orden de classify: renombrar/eliminar → añadir → typo.",
+          "- **Contexto:** el CHANGELOG del CLI habla en español («renombrar», «añadir», «quitar»), y cada persona lo redacta a su manera.\n- **Meta:** calcular la nueva versión desde `1.0.0` con el nivel que sale del campo `kind` de cada cambio, como en el contraejemplo de T2-B; el `label` solo se imprime.\n- **Éxito:** cuatro líneas `label: nivel -> versión` del contrato.\n- **Límites:** major debe resetear minor/patch a 0; no busques palabras dentro del `label`.",
         instruction:
-          "1. Corrige `classify_change` (breaking no es patch).\n2. Corrige `bump` en major a `X.0.0`.\n3. Deja `bump_from_description` como orquestador.\n4. Imprime el formato del contrato; quita `ok`.",
-        hint: "Primero classify (orden: renombrar/eliminar → añadir → typo), luego bump numérico; no inventes el string de versión a mano.",
+          "1. Corrige `NIVEL` (breaking no es patch).\n2. Corrige `bump` en major a `X.0.0`.\n3. Deja `bump_change` como orquestador: nivel desde `cambio[\"kind\"]`, nunca desde el texto.\n4. Imprime el formato del contrato; quita `ok`.",
+        hint: "El nivel sale de `NIVEL[cambio[\"kind\"]]`; luego bump numérico. No inventes el string de versión a mano.",
         hints: [
-          "classify_change: renombrar/eliminar → major; añadir/agregar → minor; typo/corregir → patch.",
-          "bump('1.0.0','major')→'2.0.0'; minor→'1.1.0'; patch→'1.0.1'. Imprime f'{cambio}: {kind} -> {new}'.",
+          "NIVEL: breaking → major; feature → minor; fix → patch.",
+          "bump('1.0.0','major')→'2.0.0'; minor→'1.1.0'; patch→'1.0.1'. Imprime f'{cambio[\"label\"]}: {nivel} -> {nueva}'.",
         ],
-        edgeCases: ["Deprecar un minor antes del major reduce el dolor del breaking"],
+        edgeCases: ["«quitar subcomando compare» es major aunque no diga «eliminar»: lo decide `kind`, no la palabra", "Deprecar un minor antes del major reduce el dolor del breaking"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "Renombrar o eliminar API/CLI pública es major: subes el primer número y vuelves a cero el resto. Si solo sumas el major dejando residual (p. ej. `1.1.0`→`2.1.0`), mientes el SemVer. Añadir un flag compatible es minor; un typo de help es patch.",
+          "Renombrar o eliminar API/CLI pública es major: subes el primer número y vuelves a cero el resto. Si solo sumas el major dejando residual (p. ej. `1.1.0`→`2.1.0`), mientes el SemVer. Añadir un flag compatible es minor; un typo de help es patch. Si buscaras «eliminar» en el texto, «quitar subcomando compare» saldría como patch: por eso el nivel sale de `kind`.",
         retrospective:
-          "Classify y bump son dos pasos: primero política, luego aritmética. El error clásico es sumar major y dejar residual (`2.1.0` tras un breaking). Pregunta: ¿«añadir flag --format» es major? E2: dónde vive pytest (dev, no runtime).",
+          "Classify y bump son dos pasos: primero política, luego aritmética. El error clásico es sumar major y dejar residual (`2.1.0` tras un breaking). Pregunta: ¿«añadir flag --format» es major? ¿Y qué nivel saldría para «quitar» si clasificaras por palabras? E2: dónde vive pytest (dev, no runtime).",
         starterCode: {
           language: 'python',
-          title: "semver_bump_from_desc.py",
-          code: `# classify + bump (no solo etiquetas)
-# DEFECT: classify invierte niveles; bump major no resetea; quita print('ok', True)
-def classify_change(descripcion: str) -> str:
-    d = descripcion.casefold()
-    if "renombrar" in d or "eliminar" in d:
-        return "patch"
-    if "añadir" in d or "agregar" in d:
-        return "major"
-    if "typo" in d or "corregir" in d:
-        return "minor"
-    return "patch"
+          title: "semver_bump_from_kind.py",
+          code: `# nivel desde kind + bump (no solo etiquetas)
+# DEFECT: NIVEL invierte niveles; bump major no resetea; quita print('ok', True)
+NIVEL = {"breaking": "patch", "feature": "major", "fix": "minor"}
 
 def bump(version: str, level: str) -> str:
     maj, minor, patch = map(int, version.split("."))
@@ -1355,33 +1349,26 @@ def bump(version: str, level: str) -> str:
         return f"{maj}.{minor}.{patch+1}"
     raise ValueError(level)
 
-def bump_from_description(version: str, descripcion: str) -> tuple[str, str]:
-    level = classify_change(descripcion)
-    return level, bump(version, level)
+def bump_change(version: str, cambio: dict) -> tuple[str, str]:
+    nivel = NIVEL[cambio["kind"]]  # kind desconocido: KeyError, no un patch silencioso
+    return nivel, bump(version, nivel)
 
 BASE = "1.0.0"
-for cambio in [
-    "renombrar normalize a clean_name (API pública)",
-    "añadir flag --format a report",
-    "corregir typo en help",
-    "eliminar subcomando compare",
-]:
-    kind, new = bump_from_description(BASE, cambio)
-    print(f"{cambio}: {kind} -> {new}")
+CAMBIOS = [
+    {"kind": "breaking", "label": "renombrar normalize a clean_name (API pública)"},
+    {"kind": "feature", "label": "añadir flag --format a report"},
+    {"kind": "fix", "label": "corregir typo en help"},
+    {"kind": "breaking", "label": "quitar subcomando compare"},
+]
+for cambio in CAMBIOS:
+    nivel, nueva = bump_change(BASE, cambio)
+    print(f"{cambio['label']}: {nivel} -> {nueva}")
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "semver_bump_from_desc.py",
-          code: `def classify_change(descripcion: str) -> str:
-    d = descripcion.casefold()
-    if "renombrar" in d or "eliminar" in d:
-        return "major"
-    if "añadir" in d or "agregar" in d:
-        return "minor"
-    if "typo" in d or "corregir" in d:
-        return "patch"
-    return "patch"
+          title: "semver_bump_from_kind.py",
+          code: `NIVEL = {"breaking": "major", "feature": "minor", "fix": "patch"}
 
 def bump(version: str, level: str) -> str:
     maj, minor, patch = map(int, version.split("."))
@@ -1393,23 +1380,24 @@ def bump(version: str, level: str) -> str:
         return f"{maj}.{minor}.{patch+1}"
     raise ValueError(level)
 
-def bump_from_description(version: str, descripcion: str) -> tuple[str, str]:
-    level = classify_change(descripcion)
-    return level, bump(version, level)
+def bump_change(version: str, cambio: dict) -> tuple[str, str]:
+    nivel = NIVEL[cambio["kind"]]  # kind desconocido: KeyError, no un patch silencioso
+    return nivel, bump(version, nivel)
 
 BASE = "1.0.0"
-for cambio in [
-    "renombrar normalize a clean_name (API pública)",
-    "añadir flag --format a report",
-    "corregir typo en help",
-    "eliminar subcomando compare",
-]:
-    kind, new = bump_from_description(BASE, cambio)
-    print(f"{cambio}: {kind} -> {new}")`,
+CAMBIOS = [
+    {"kind": "breaking", "label": "renombrar normalize a clean_name (API pública)"},
+    {"kind": "feature", "label": "añadir flag --format a report"},
+    {"kind": "fix", "label": "corregir typo en help"},
+    {"kind": "breaking", "label": "quitar subcomando compare"},
+]
+for cambio in CAMBIOS:
+    nivel, nueva = bump_change(BASE, cambio)
+    print(f"{cambio['label']}: {nivel} -> {nueva}")`,
           output: `renombrar normalize a clean_name (API pública): major -> 2.0.0
 añadir flag --format a report: minor -> 1.1.0
 corregir typo en help: patch -> 1.0.1
-eliminar subcomando compare: major -> 2.0.0`,
+quitar subcomando compare: major -> 2.0.0`,
         },
       },
       {
@@ -2018,11 +2006,11 @@ print(combinar_config(
         preamble:
           "- **Contexto:** `FAMILIARITY_LOG_LEVEL=DEBUG` choca con `--log-level INFO`, o el flag no se pasó.\n- **Meta:** devolver `(valor, razón)` con la regla «flag gana solo si no es None».\n- **Éxito:** dos líneas `result=… razón=…` del contrato.\n- **Límites:** no inventes default INFO en esta función; no dejes que env gane siempre.",
         instruction:
-          "1. Implementa `resolve_with_reason(env, flag)` devolviendo `(valor, razón)`.\n2. Regla de negocio: el flag solo gana si **no** es `None`; si el flag está ausente, gana env.\n3. Imprime ambos conflictos del bucle en el formato del contrato (`result=… razón=…`).\n4. Quita `ok` y no inventes un default INFO aquí.",
+          "1. Implementa `resolve_with_reason(env, flag)` devolviendo `(valor, razón)`.\n2. Regla de negocio: el flag solo gana si **no** es `None`; si el flag está ausente, gana env.\n3. Imprime ambos conflictos del bucle en el formato del contrato (`result=… razón=…`). Las dos razones son textos fijos: `flag gana a env (flag no es None)` cuando hay flag, y `sin flag; gana env` cuando el flag es `None`.\n4. Quita `ok` y no inventes un default INFO aquí.",
         hint: "Distingue «flag pasado con valor» de «flag no pasado (`None`)».",
         hints: [
           "Distingue «flag pasado con valor» de «flag no pasado (`None`)».",
-          "Las razones del contrato son fijas en texto; no improvises redacciones nuevas.",
+          "Copia las dos razones de la instrucción tal cual: la salida se compara carácter por carácter.",
         ],
         edgeCases: ["Si el flag no se pasó (None), gana env — no inventes un default INFO aquí."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -2072,10 +2060,10 @@ result=DEBUG razón=sin flag; gana env`,
           "Devuelve False para .env.example y README.md.",
           "Imprime solo los que should_ignore_secret marca True, con prefijo ignore:.",
         ],
-        edgeCases: [".env.example SÍ se commitea sin secretos"],
+        edgeCases: [".env.example SÍ se commitea sin secretos", "El patrón `.env.*` coincide con `.env.example`: nombra los archivos (`.env.local`) o reincluye el template con `!.env.example`"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "`.env.example` documenta variables sin valores secretos; si lo ignoras, el onboarding pierde el mapa. `.env`, PEM y `credentials.json` sí son basura peligrosa en git. Si aparece `.env.example` en la salida, bloqueaste el template del equipo.",
+          "`.env.example` documenta variables sin valores secretos; si lo ignoras, el onboarding pierde el mapa. `.env`, PEM y `credentials.json` sí son basura peligrosa en git. Si aparece `.env.example` en la salida, bloqueaste el template del equipo. Ojo con los patrones: una línea `.env.*` en `.gitignore` también atrapa `.env.example`; si la usas, añade después `!.env.example` para volver a incluir el template.",
         retrospective:
           "Secretos fuera del repo es parte de la rúbrica del You Do (20% privacidad). El template se versiona; el valor real no. E2: validar config con mensajes de clave faltante.",
         starterCode: {
@@ -2083,7 +2071,7 @@ result=DEBUG razón=sin flag; gana env`,
           title: "gitignore_secrets.py",
           code: `# gitignore secrets
 # DEFECT: ignora todo o casi nada; no distingue .env.example; quita print('ok', True)
-CANDIDATES = [".env", ".env.example", ".env.*", "*.pem", "credentials.json", "README.md"]
+CANDIDATES = [".env", ".env.example", ".env.local", "*.pem", "credentials.json", "README.md"]
 
 def should_ignore_secret(path: str) -> bool:
     return path == ".env"
@@ -2096,8 +2084,8 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "gitignore_secrets.py",
-          code: `CANDIDATES = [".env", ".env.example", ".env.*", "*.pem", "credentials.json", "README.md"]
-SECRETS = {".env", ".env.*", "*.pem", "credentials.json"}
+          code: `CANDIDATES = [".env", ".env.example", ".env.local", "*.pem", "credentials.json", "README.md"]
+SECRETS = {".env", ".env.local", "*.pem", "credentials.json"}
 
 def should_ignore_secret(path: str) -> bool:
     if path.endswith(".example") or path == "README.md":
@@ -2108,7 +2096,7 @@ for x in CANDIDATES:
     if should_ignore_secret(x):
         print("ignore:", x)`,
           output: `ignore: .env
-ignore: .env.*
+ignore: .env.local
 ignore: *.pem
 ignore: credentials.json`,
         },

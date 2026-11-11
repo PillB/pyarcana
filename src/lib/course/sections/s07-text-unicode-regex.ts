@@ -564,6 +564,7 @@ José/Jose da 0.0: NFC y casefold no eliminan tildes`,
       paragraphs: [
         "Si eliges el umbral después de ver el score del par que querías aceptar, el umbral queda hecho a la medida de ese par. Aquí `Juan Perez` frente a `Juan P Perez` da 0.667 y el umbral de `exact` se fija en ese valor. Entonces un par nuevo que la referencia marca como distinto, `Ana Rojas` frente a `Ana Rojas Torres`, obtiene el mismo 0.667 y pasa como `exact`.",
         "Con los umbrales declarados antes de calcular, `exact` exige 1.0 y la franja desde 0.4 va a `review`. El mismo par nuevo termina en `review`, donde una persona puede examinarlo.",
+        "Un 1.0 tampoco basta solo. Jaccard ignora el orden de los tokens, así que `Perez Juan` frente a `Juan Perez` también da 1.0. Por eso la corrección exige además que los textos normalizados sean iguales, la misma regla de `decide` en la demo de T4-A; el par con el orden cambiado va a `review`.",
       ],
       code: {
         language: 'python',
@@ -584,19 +585,26 @@ print("scores:", s_conocido, s_nuevo)
 umbral_exact = s_conocido
 print("nuevo con umbral a posteriori:", "exact" if s_nuevo >= umbral_exact else "review")
 
-# Corrección: umbrales declarados antes de calcular
+# Corrección: umbrales declarados antes de calcular; exact pide además textos iguales
 UMBRAL_EXACT = 1.0
 UMBRAL_REVIEW = 0.4
-if s_nuevo >= UMBRAL_EXACT:
-    decision = "exact"
-elif s_nuevo >= UMBRAL_REVIEW:
-    decision = "review"
-else:
-    decision = "no_match"
-print("nuevo con umbral declarado:", decision)`,
+
+def decidir(a: str, b: str) -> str:
+    s = token_jaccard(a, b)
+    if s is None:
+        return "review"
+    if s >= UMBRAL_EXACT and " ".join(a.casefold().split()) == " ".join(b.casefold().split()):
+        return "exact"
+    if s >= UMBRAL_REVIEW:
+        return "review"
+    return "no_match"
+
+print("nuevo con umbral declarado:", decidir(nuevo[0], nuevo[1]))
+print("orden cambiado, score", token_jaccard("Juan Perez", "Perez Juan"), "->", decidir("Juan Perez", "Perez Juan"))`,
         output: `scores: 0.667 0.667
 nuevo con umbral a posteriori: exact
-nuevo con umbral declarado: review`,
+nuevo con umbral declarado: review
+orden cambiado, score 1.0 -> review`,
       },
     },
     {

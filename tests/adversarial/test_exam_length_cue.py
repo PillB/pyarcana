@@ -73,7 +73,9 @@ import exam_bank  # noqa: E402
 #: 2026-11-09: 1068 -> 1051. Batch-1 item D (owner-approved proposals-02/03): the S03 bank's wrong
 #: options rewritten as S03-level misconceptions, lengths balanced so no length rank passes the bank
 #: (exam-strategy-simulation.test.ts: decisions-rules leaves the "longest" and "clang" owed lists).
-LONGEST_IS_CORRECT_OWED = 1051
+#: 2026-11-11: 1051 -> 1047. Proposal 10 P1 fixes: the rewritten items in setup, decisions-rules,
+#: iteration-summaries and text-unicode-regex got distractors at least as long as the key.
+LONGEST_IS_CORRECT_OWED = 1047
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

@@ -788,7 +788,7 @@ print("count", n)`,
 count 0`,
         },
         why:
-          "`executemany` dentro de una transacción hace que el UNIQUE roto revierta **todo** el batch: el status `atomic_rollback` es la promesa de atomicidad. Reporta la fila ofensora en el log de aplicación, no interpolada en el SQL. Compliance prefiere un fallo ruidoso a dos filas «casi ok».",
+          "El UNIQUE roto detiene `executemany` en la tercera fila, pero no borra las dos que ya entraron: siguen dentro de la transacción abierta. Lo que revierte **todo** el batch es el `con.rollback()` del `except`; sin él, el count da 2. El status `atomic_rollback` es la promesa de atomicidad. Reporta la fila ofensora en el log de aplicación, no interpolada en el SQL. Compliance prefiere un fallo ruidoso a dos filas «casi ok».",
         retrospective:
           "Si ves count 2, olvidaste el rollback. Atomicidad = todo o nada. We Do: placeholders contra inyección, rollback manual y CREATE INDEX.",
       },
