@@ -79,9 +79,12 @@ const PASSABLE = 0.05
 //
 // Every bank: the key is the longest option in 1165 of 1248 questions, and every bank passes all
 // 1000 learners. The fix is distractors as long and as specific as the key, never a trimmed key.
+//
+// Paid 2026-11-17 by proposal 10 S02: nine basics items got distractors at least as long as the
+// key, and basics leaves the "longest" list. 48 -> 47.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
-  'architecture-ddd-decisions', 'async-concurrency', 'basics', 'career-strategy', 'collections',
+  'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
   'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
   'dbt-bigquery', 'exceptions-logging', 'fastapi',
   'files-ingestion', 'functions-contracts', 'gpu-computing', 'graph-rag', 'iac',

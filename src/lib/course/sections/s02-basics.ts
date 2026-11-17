@@ -22,7 +22,7 @@ export const section02: CourseSection = {
   icon: 'Code2',
   accentColor: 'bg-gradient-to-br from-sky-500 to-cyan-600',
   jobRelevance:
-    'Imagina un formulario internacional: una edad llega como "42", un código postal conserva un cero inicial y un monto exige céntimos exactos. En bancos, fintech, salud o retail, ese detalle separa un registro auditable de uno que falla en silencio. Aquí aprenderás a leer campos de un formulario o de un archivo CSV. Un archivo CSV es una tabla guardada como texto. Distinguirás el texto de las cantidades, verás cuándo falla una conversión y conservarás el original para explicar el problema.',
+    'Imagina un formulario internacional: una edad llega como "42", un código postal conserva un cero inicial y un monto exige céntimos exactos. En bancos, fintech, salud o retail, ese detalle separa un registro auditable de uno que falla en silencio. Aquí aprenderás a leer los campos de un formulario, es decir, texto escrito por una persona. Leer un archivo CSV, una tabla guardada como texto, llega en S08. Distinguirás el texto de las cantidades, verás cuándo falla una conversión y conservarás el original para explicar el problema.',
   learningOutcomes: [
     { text: 'Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples' },
     { text: 'Inspeccionar con type/isinstance y convertir/validar valores de forma explícita' },
@@ -48,7 +48,7 @@ export const section02: CourseSection = {
         type: 'info',
         title: 'Qué NO es el foco de esta sección',
         content:
-          'Todavía no elegiremos entre caminos ni repetiremos instrucciones. Tampoco definiremos funciones; una función es un bloque reutilizable de instrucciones. En S02 reconoces tipos, asignas nombres, aplicas operadores, trabajas con `Decimal` y practicas entrada/salida. Más adelante reunirás esas piezas en código que interprete los textos recibidos.',
+          'Todavía no elegiremos entre caminos ni repetiremos instrucciones. Tampoco definiremos funciones; una función es un bloque reutilizable de instrucciones, y escribirás las tuyas en S05. En S02 todo el código es una secuencia de líneas. En S02 reconoces tipos, asignas nombres, aplicas operadores, trabajas con `Decimal` y practicas entrada/salida. Más adelante reunirás esas piezas en código que interprete los textos recibidos.',
       },
      },
      {
@@ -56,7 +56,7 @@ export const section02: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, ritmo y alcance.",
-        "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con valores incrustados— y la lectura de datos. La recuperación de errores se estudia en S09.",
+        "**Orden de los subtemas.** T1 trata los valores: literales, inspección y conversión. T2 pasa a los nombres: asignación, convenciones PEP 8, identidad y copias. T3 cubre los operadores: precedencia y `Decimal` para dinero. T4 cierra con la entrada y salida: f-strings —cadenas con valores incrustados— y la lectura del texto que escribe una persona con `input()`. La recuperación de errores se estudia en S09.",
         "**Ritmo orientativo (unas 9 horas).** De esas, dos o tres para el núcleo: al terminarlo ya sabes leer un valor y decir de qué tipo es antes de operar con él. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre.** Puedes explicar el tipo de un valor, convertir texto válido, conservar el texto original, calcular con `Decimal` y presentar el resultado. En S02 observarás qué ocurre al intentar una conversión inválida; en S09 aprenderás a impedir que ese fallo detenga el resto del trabajo.",
         "**Fuera de alcance por ahora.** En S02 ejecutarás cada ejemplo con valores concretos. Las secciones posteriores enseñarán a elegir caminos, repetir instrucciones y reunir pasos para volver a usarlos.",
@@ -205,7 +205,7 @@ None`,
         'En una hoja de inscripción, `" 19 "` no es todavía una edad: es una secuencia de caracteres que *podría* representar una edad. Su tipo dice qué es ahora; convertirlo y validarlo decide si el programa puede usarlo como edad.',
         '**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** comprueba si `x` pertenece al tipo `int` o a uno de sus subtipos. Por eso `isinstance(True, int)` produce `True`: en Python, `bool` es subtipo de `int`. Conserva ese dato como una advertencia; los ejemplos de conversión que siguen trabajan con texto y no usan `isinstance` para aceptar edades.',
         'La conversión explícita usa **`int()`**, **`float()`** y **`str()`** para intentar producir un valor del tipo indicado. El texto de formularios puede traer espacios en los bordes: **`valor.strip()`** produce el texto sin esos espacios. La forma `x.metodo()` pide al valor `x` ejecutar una operación propia. `int(" 19 ")` funciona, porque `int` tolera espacios en los bordes; una comparación como `" 19 " == "19"` no los tolera y da `False`. Por eso el texto se limpia una vez, antes de usarlo.',
-        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
+        'En cambio, `int("19.5")` e `int("abc")` detienen la ejecución porque ninguno de esos textos representa un entero válido. `"19.5"` contiene una parte decimal y `"abc"` contiene letras. Ojo con el caso contrario: `int(19.5)`, con un número `float` y no un texto, no falla; devuelve `19` y descarta la parte decimal sin avisar. Por eso `int()` se aplica al texto recibido. Además, `int()` ya ignora los espacios de los bordes (`int(" 19 ")` da `19`); `strip()` sirve para guardar el texto limpio y para detectar un campo que solo tiene espacios. Nunca uses `eval()` con texto recibido de una persona: podría ejecutar código incluido en esa entrada.',
         'Avanza con ejemplos separados. Primero convierte `" 19 "`: `strip` produce `"19"` e `int` produce `19`. Después ejecuta `int("abc")` por separado y observa el `ValueError`: la ejecución se detiene en esa línea. En S09 aprenderás a capturar ese error y continuar; S02 se limita a distinguir una conversión válida de una inválida sin ocultar el fallo.',
         '**Modelo mental:** `strip` limpia los extremos; `int` intenta interpretar el contenido como entero. Antes de probar, predice qué devuelve `int("19")` y si `int("diecinueve")` detiene la ejecución. En T2 aprenderás a dar nombres claros a los valores.',
       ],
@@ -238,7 +238,7 @@ edad: 19
       heading: "Contraejemplo: eval ejecuta lo que llega en la entrada",
       paragraphs: [
         "`eval()` le entrega el texto a Python para que lo ejecute como si fuera parte de tu programa. Por eso `eval(\"17 + 2\")` devuelve `19` aunque nadie escribió una edad, y con la segunda entrada imprime una línea que venía escrita dentro del dato. En una entrada real, esa línea podría borrar archivos o leer una contraseña.",
-        "Las tres primeras líneas de la salida muestran el error: una fórmula aceptada como edad y una orden ajena ejecutada. La cuarta muestra la corrección, porque `int` convierte `\" 19 \"` después de `strip()`. Con la entrada `\"17 + 2\"`, en cambio, se detiene con un `ValueError`: es justo lo que quieres ante un texto que no es un entero.",
+        "Las tres primeras líneas de la salida muestran el error: una fórmula aceptada como edad y una orden ajena ejecutada. La tercera termina en `None` porque `eval` ejecutó un `print`, y `print` no devuelve ningún valor. La cuarta muestra la corrección, porque `int` convierte `\" 19 \"` después de `strip()`. Con la entrada `\"17 + 2\"`, en cambio, se detiene con un `ValueError`: es justo lo que quieres ante un texto que no es un entero.",
       ],
       code: {
         language: 'python',
@@ -455,14 +455,14 @@ True`,
         type: 'danger',
         title: 'Alias en listas de errores o campos',
         content:
-          'Si haces `clean = raw` cuando `raw` es una lista y luego modificas `clean`, también cambia el contenido que ves mediante `raw`. Usa `raw.copy()` antes de modificar la lista de trabajo y comprueba que ambos nombres ya no señalan el mismo objeto.',
+          'Si haces `clean = raw` cuando `raw` es una lista y luego modificas `clean`, también cambia el contenido que ves mediante `raw`. Usa `clean = raw.copy()` antes de modificar la lista de trabajo y comprueba que ambos nombres ya no señalan el mismo objeto.',
       },
     },
     {
       heading: "Contraejemplo: reasignar el texto recibido pierde el original",
       paragraphs: [
         "Cuando `strip()` guarda su resultado en el mismo nombre, el texto recibido desaparece. La primera línea dice `recibido: '19 años'`, pero eso no fue lo que llegó: llegó con dos espacios delante y uno detrás, y ya no queda forma de comprobarlo.",
-        "Con dos nombres, `edad_raw` conserva `'  19 años '` tal como llegó y `edad_clean` guarda la versión limpia. Cuando `int(edad_clean)` falle por la palabra `años`, el mensaje podrá mostrar el valor original, y quien lo lea sabrá qué corregir en el formulario.",
+        "Con dos nombres, `edad_raw` conserva `'  19 años '` tal como llegó y `edad_clean` guarda la versión limpia. Cuando `int(edad_clean)` falle por la palabra `años`, el `ValueError` mostrará solo `'19 años'`, el texto ya limpio. Como `edad_raw` sigue intacto, un mensaje propio podrá mostrar el valor original; S09 enseña a construirlo.",
       ],
       code: {
         language: 'python',
@@ -518,7 +518,7 @@ a + b * c = 16
         type: 'tip',
         title: 'Paréntesis antes que memoria de precedencia',
         content:
-          'Si un programador junior tiene que reabrir el manual de precedencia para entender tu línea, reescribe con paréntesis. En una revisión de código (code review) peruana de data, una línea que se entiende a la primera vale más que una más corta que obliga a abrir el manual.',
+          'Si un programador junior tiene que reabrir el manual de precedencia para entender tu línea, reescribe con paréntesis. En una revisión de código (code review), una línea que se entiende a la primera vale más que una más corta que obliga a abrir el manual.',
       },
     },
     {
@@ -526,7 +526,7 @@ a + b * c = 16
       figure: {
         id: "S02-decimal-rounding",
         caption:
-          "Se redondea cada monto que el comprobante muestra: primero el IGV y después el total, que suma valores ya redondeados. Así las líneas impresas siempre cuadran.",
+          "Se redondea cada monto que el comprobante muestra: primero el IGV (Impuesto General a las Ventas, el 18% que se suma al precio en Perú) y después el total, que suma valores ya redondeados. Así las líneas impresas siempre cuadran.",
         alt:
           "Un eje de tres pasos: subtotal exacto, IGV redondeado y total calculado con el IGV ya redondeado.",
       },
@@ -536,7 +536,7 @@ a + b * c = 16
         'Una diferencia de redondeo puede parecer invisible en una operación y volverse material al repetirse miles de veces. Cada tipo numérico acepta algunos errores y evita otros, así que elegir el tipo es parte del cálculo. Una fórmula correcta puede dar un monto equivocado si el tipo no representa bien los decimales.',
         'Los valores `float` representan muchos decimales mediante aproximaciones binarias: por eso `0.1 + 0.2` produce `0.30000000000000004`. Para montos decimales en **soles (S/)** usa **`Decimal`**, un tipo numérico incluido en el módulo `decimal`. Un **módulo** es una parte reutilizable de Python; la **biblioteca estándar** es el conjunto de herramientas que viene con Python. Construye `Decimal` desde **`str`**: `Decimal("0.1")`, no desde `Decimal(0.1)`, porque ese `float` ya contiene una aproximación.',
         'Para expresar un monto en céntimos, **`quantize(Decimal("0.01"))`** ajusta el resultado a dos posiciones decimales. La instrucción `from decimal import Decimal, ROUND_HALF_EVEN` hace disponibles esos dos nombres en este archivo. `Decimal` usa **`ROUND_HALF_EVEN`** por defecto; ante una mitad exacta, ese modo elige el resultado cuyo último dígito es par. Una regla contable, tributaria o contractual puede exigir otro modo. En este ejemplo elegimos `ROUND_HALF_EVEN` como convención del curso y redondeamos en cada límite de negocio cuya regla exija mostrar o guardar un monto.',
-        'En una captura inicial, el campo monto puede llegar como **texto** (`"150.50"`). `Decimal(texto.strip())` convierte un texto decimal válido. Si el texto no representa un decimal, Python informa un error; aprenderás a recuperarte de ese error en S09. **Convención S02: punto decimal** (`150.50`), no coma; si el archivo CSV trae coma, documenta la normalización antes de usar `Decimal`.',
+        'En una captura inicial, el campo monto puede llegar como **texto** (`"150.50"`). `Decimal(texto.strip())` convierte un texto decimal válido. Si el texto no representa un decimal, Python lanza `decimal.InvalidOperation`, no `ValueError` como `int()`; aprenderás a recuperarte de ese error en S09. **Convención S02: punto decimal** (`150.50`), no coma; si el archivo CSV trae coma, documenta la normalización antes de usar `Decimal`.',
         '**Comprueba la causa:** predice si `Decimal(0.1)` y `Decimal("0.1")` serán idénticos; luego imprime ambos. El segundo se construye desde el texto que escribiste y vale exactamente 0.1; el primero copia la aproximación binaria que el `float` ya tenía. En T4 llevarás este valor confiable a un mensaje legible sin devolverlo a `float`.',
       ],
       code: {
@@ -702,7 +702,7 @@ con Decimal: S/ 2.68`,
         'T4-A estableció la secuencia: capturar la entrada como texto, convertirla al tipo necesario y presentar el resultado con una f-string. T4-B añade cómo conservar el texto original mientras trabajas con el texto limpio y cómo explicar, con un mensaje, qué conversión no pudo completarse.',
         'Un **parser** es el código que transforma el texto capturado en campos interpretados. Un buen parser conserva lo recibido y explica qué no pudo interpretar. En S02 seguirás conversiones concretas; en S09 aprenderás a recuperarte de una conversión inválida para continuar con los demás campos.',
         'Para una captura inicial, conserva cada texto original en un nombre terminado en **`_raw`** y guarda el texto limpio en otro nombre terminado en **`_clean`**. Así puedes comparar lo recibido con lo interpretado sin sobrescribir el original.',
-        'Comprueba por separado tres casos: texto con espacios alrededor, texto vacío y texto que no representa un entero. Los nombres `García`, `Ñahui` y `María` deben conservar sus tildes y la letra `ñ`; Python representa ese texto con **Unicode**, el estándar que permite escribir caracteres de muchos idiomas. En S02 observas el `ValueError` de una conversión inválida; en S09 aprenderás a capturarlo y producir un mensaje por campo.',
+        'Comprueba por separado tres casos: texto con espacios alrededor, texto vacío y texto que no representa un entero. Un campo vacío es el texto `""`, no la ausencia `None`, y `int("")` lanza el mismo `ValueError` que `int("abc")`; decidir si un vacío cuenta como ausencia llega en S03. Los nombres como `Ñahui` deben conservar sus tildes y la letra `ñ`; Python representa ese texto con **Unicode**, el estándar que permite escribir caracteres de muchos idiomas. En S02 observas el `ValueError` de una conversión inválida; en S09 aprenderás a capturarlo y producir un mensaje por campo.',
         'Un mensaje accionable indica **qué campo**, **qué valor se recibió** y **qué se esperaba**. No afirmes parentesco real a partir de dos apellidos: son campos de texto de la captura, no una afirmación genealógica.',
         '**Cierre de la cadena:** sigue `" 34 "` desde `edad_raw` hasta `edad_clean` y `edad = 34`. Después prueba `int("abc")` por separado y señala dónde aparece `ValueError`. Si puedes narrar ambos recorridos sin mirar el código, distingues limpieza, conversión y fallo observable.',
       ],
@@ -844,7 +844,7 @@ apellido_paterno= García`,
         },
         why: '`=` liga un nombre a un valor y `==` compara dos valores. La palabra `if` abre una decisión: ejecuta un bloque solo cuando una comparación produce `True`. S03 enseñará a construir y seguir esas decisiones; aquí solo haces visible el resultado de `==`.',
         retrospective:
-          'Asignar es `=`; preguntar igualdad es `==`. Predice el resultado antes de ejecutar y después cambia `edad` a `18`. Comprueba que solo cambia la primera línea. Si aparece `NameError`, rastrea cada nombre desde su asignación hasta el `print` que intenta leerlo.',
+          'Asignar es `=`; preguntar igualdad es `==`. Predice el resultado antes de ejecutar y después cambia `edad` a `18`. Comprueba que solo cambian dos líneas: la comparación y el valor de `edad`. Si aparece `NameError`, rastrea cada nombre desde su asignación hasta el `print` que intenta leerlo.',
       },
       {
         demoId: 'S02-T2-B-DEMO',
@@ -893,7 +893,7 @@ x is None → True`,
         environment: 'browser-pyodide',
         description: 'Evaluar // % ** y corregir expresión con precedencia',
         preamble:
-          'Antes de confiar en un cálculo, verifica `//`, `%`, `**` y paréntesis. **Predicción:** escribe los resultados de `a + b * c`, `(a + b) * c`, `-3**2` y `(-3)**2` sin ejecutar. Después compara línea por línea y corrige tu modelo de precedencia, no solo la cifra. El total con IGV usa `float` a propósito; la siguiente demo mostrará por qué debes cambiar de tipo.',
+          'Antes de confiar en un cálculo, verifica `//`, `%`, `**` y paréntesis. **Predicción:** escribe los resultados de `a + b * c`, `(a + b) * c`, `-3**2` y `(-3)**2` sin ejecutar. Después compara línea por línea y corrige tu modelo de precedencia, no solo la cifra. El total con IGV usa `float` a propósito y aquí sale exacto; la siguiente demo muestra con `0.1 + 0.2` por qué `float` falla en una suma de céntimos.',
         code: {
           language: 'python',
           title: 'S02-T3-A-DEMO — operadores_precedencia',
@@ -976,15 +976,15 @@ print("OK", "intake", sep=" · ")
           output: `Cliente: María José | Monto: S/ 150.50
 OK · intake`,
         },
-        why: '`input()` siempre devuelve `str`; en demos y tests se simula con variables para poder ejecutar en Pyodide/CI. El reporte usa f-strings y `:.2f` sobre `Decimal` sin convertir a `float`. Separar captura, parse y formato es lo que hace testeable el intake.',
+        why: '`input()` siempre devuelve `str`; en demos y pruebas automáticas se simula con variables, porque nadie está frente a la consola para escribir. El reporte usa f-strings y `:.2f` sobre `Decimal` sin convertir a `float`. Separar captura, parse y formato es lo que hace testeable el intake.',
         retrospective:
-          'Si el resumen se arma sin consola real, los tests del parser no dependen del teclado. El error clásico es formatear con `float(monto)` “por comodidad”. We Do: saludo, reporte multi-línea y función que simula prompts.',
+          'Si el resumen se arma sin consola real, los tests del parser no dependen del teclado. El error clásico es formatear con `float(monto)` “por comodidad”. We Do: saludo, reporte multi-línea y tres textos conocidos que simulan las respuestas, comprobados con `assert`.',
       },
       {
         demoId: 'S02-T4-B-DEMO',
         subtopicId: 'S02-T4-B',
         environment: 'browser-pyodide',
-        description: 'Recorrido visible: original, limpio, convertido y fallo observado',
+        description: 'Recorrido visible: original, limpio y convertido; el fallo se observa al ejecutar sola la última línea',
         preamble:
           'Esta demostración sigue una captura sin esconder ninguna etapa. **Predicción:** decide qué originales conservarán espacios o un cero inicial, qué textos cambiarán con `strip()` y qué valor terminará como `int`. El texto vacío y la edad inválida se muestran sin intentar continuar después del fallo.',
         code: {
@@ -1167,7 +1167,7 @@ Nota: bool es subtipo de int; en intake no trates True/False como montos.`,
         feedback:
           'Si las seis líneas terminan en `True`, elegiste cada tipo por el significado del campo. Un teléfono sigue siendo texto aunque contenga solo dígitos, porque no representa una cantidad.',
         retrospective:
-          'Predice qué ocurriría con el contacto `"007"` si quitaras las comillas. Perderías los ceros que forman parte del identificador y además permitirías sumarlo como si fuera una cantidad. Explica después por qué nombres y apellidos son textos, por qué edad es un entero y por qué activo solo admite `True` o `False`.',
+          'Predice qué ocurriría con el contacto `"007"` si quitaras las comillas. Python no ejecutaría la línea: `007` lanza `SyntaxError` porque un entero no puede empezar con cero. Y si el contacto fuera `"700"`, sin comillas se volvería una cantidad que se puede sumar. Por eso el contacto va entre comillas. Explica después por qué nombres y apellidos son textos, por qué edad es un entero y por qué activo solo admite `True` o `False`.',
         starterCode: {
           language: 'python',
           title: 'campos_intake_tipados.py',
@@ -1220,14 +1220,14 @@ activo: True`,
           '- **Contexto:** en CSV/formularios la edad llega con espacios (`" 21 "`).\n- **Meta:** hábito `strip` → constructor `int`.\n- **Éxito:** imprime `21 int` (`edad == 21` y tipo `int`).\n- **Límites:** no uses `eval`; no ignores espacios (aplica `strip` aunque a veces `int` tolere whitespace).',
         id: 'S02-T1-B-E1',
         instruction:
-          '1. A partir de `raw`, construye `edad` con `strip` e `int`.\n2. Imprime valor y `type(edad).__name__`.\n3. Verifica mentalmente: no debe quedar `str`.',
+          '1. A partir de `raw`, guarda el texto limpio en `edad_clean` con `strip` y construye `edad` con `int`.\n2. Imprime valor y `type(edad).__name__`.\n3. Verifica mentalmente: no debe quedar `str`.',
         hint: '`int(raw.strip())`: limpia primero y construye después.',
         hints: [
           '`int(raw.strip())`: limpia primero y construye después.',
           'Si haces int(raw) sin strip, en " 21 " también funciona en Python 3, pero el hábito strip es obligatorio para vacíos y mensajes; úsalo siempre en parsers.',
         ],
         edgeCases: ['espacios alrededor del número'],
-        tests: 'assert edad == 21 and type(edad) is int',
+        tests: 'assert edad_clean == "21" and edad == 21 and type(edad) is int',
         feedback:
           '`int` sin `strip` a veces “funciona” con espacios, pero el hábito falla en vacíos y en mensajes. Orden: limpiar → construir → reportar tipo. Sin `eval`.',
         retrospective:
@@ -1238,6 +1238,7 @@ activo: True`,
           code: `# CASO-LIM-002 · T1-B-E1
 # Construye edad a partir de raw con strip + int, luego imprime valor y tipo.
 raw = " 21 "
+edad_clean = ____
 edad = ____
 print(edad, type(edad).__name__)
 `,
@@ -1246,7 +1247,8 @@ print(edad, type(edad).__name__)
           language: 'python',
           title: 'int_con_strip.py',
           code: `raw = " 21 "
-edad = int(raw.strip())
+edad_clean = raw.strip()
+edad = int(edad_clean)
 print(edad, type(edad).__name__)`,
           output: `21 int`,
         },
@@ -1317,7 +1319,7 @@ total 25`,
           '- **Contexto:** una captura trae un código postal, una cantidad y un precio como texto.\n- **Meta:** elegir qué texto debe seguir siendo texto y qué valores sí representan cantidades.\n- **Éxito:** el código conserva `007`, la cantidad es `12`, el precio es `3.5` y el subtotal es `42.0`.\n- **Límites:** conserva cada nombre `_raw`; no conviertas el código postal en número.',
         id: 'S02-T1-B-E3',
         instruction:
-          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`.\n3. Calcula el subtotal y ejecuta las cuatro comprobaciones impresas.',
+          '1. Conserva `codigo_postal_raw` como texto.\n2. Limpia y convierte la cantidad con `int()` y el precio con `float()`. Aquí `float` sirve para practicar la conversión; un precio real en soles irá en `Decimal`, como verás en «Decimal para dinero y redondeo».\n3. Calcula el subtotal y ejecuta las cuatro comprobaciones impresas.',
         hint: 'Una cantidad admite aritmética; un código postal identifica una zona y puede empezar con cero.',
         hints: [
           'Usa `int(cantidad_raw.strip())` y `float(precio_raw.strip())`.',
@@ -1428,7 +1430,7 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
           '- **Contexto:** tres líneas intentan preguntar si un valor coincide, pero usan el signo que asigna.\n- **Meta:** distinguir asignación de comparación sin adelantar decisiones de S03.\n- **Éxito:** el archivo corre e imprime `True` tres veces.\n- **Límites:** cambia solo el operador equivocado; no cambies los valores.',
         id: 'S02-T2-A-E2',
         instruction:
-          '1. Ejecuta el archivo y lee el mensaje y la línea que Python señala. En este archivo, Python se detiene en la primera comparación rota antes de ejecutar nada.\n2. Sustituye ese `=` por `==`, sin cambiar los valores.\n3. Vuelve a ejecutar y repite el proceso hasta obtener tres resultados `True`.',
+          '1. Ejecuta el archivo y lee el mensaje y la línea que Python señala. En este archivo, Python se detiene en la primera comparación rota antes de ejecutar nada. El mensaje puede sugerir `:=`; ignóralo: aquí solo necesitas `==`.\n2. Sustituye ese `=` por `==`, sin cambiar los valores.\n3. Vuelve a ejecutar y repite el proceso hasta obtener tres resultados `True`.',
         hint:
           '`=` guarda un valor en un nombre; `==` compara dos valores. En cada ejecución, este archivo muestra primero una sola comparación rota.',
         hints: [
@@ -1495,6 +1497,7 @@ nivel tres? True`,
           title: 'campos_snake_case.py',
           code: `# CASO-LIM-002 · T2-A-E3
 # Sustituye cada ____ por un nombre Python estable.
+# Encabezados de la tabla: Nombres | Apellido paterno | Apellido materno | Teléfono / Cel | Dirección | Edad
 ____ = "Ana"
 ____ = "Quispe"
 ____ = "Ñahui"
@@ -1542,7 +1545,7 @@ edad: 28`,
           '- **Contexto:** en el parser usarás `is None` y evitarás `is` para igualdad numérica.\n- **Meta:** contrastar identidad y valor con cinco expresiones.\n- **Éxito:** resultados `True`, `True`, `False`, `True`, `False` en ese orden, más un comentario de cuándo usar cada operador.\n- **Límites:** no “arregles” con conversiones; evalúa las expresiones tal cual.',
         id: 'S02-T2-B-E1',
         instruction:
-          '1. Completa cada `____` con la expresión correspondiente.\n2. Ejecuta y verifica la tabla de bools.\n3. Escribe un comentario de una línea: cuándo `is` vs cuándo `==`.',
+          '1. Completa cada `____` con la expresión correspondiente.\n2. Ejecuta y verifica la tabla de bools. Python 3.12 escribe antes un aviso, `SyntaxWarning: "is" with \'int\' literal. Did you mean "=="?`: es Python diciendo lo mismo que este ejercicio, que `is` no sirve para comparar números.\n3. Escribe un comentario de una línea: cuándo `is` vs cuándo `==`.',
         hint: 'Listas nuevas no son el mismo objeto: `[] is []` es `False`. Usa `is` para `None`.',
         hints: [
           'Listas nuevas no son el mismo objeto: `[] is []` es `False`. Usa `is` para `None`.',
@@ -1574,7 +1577,7 @@ print("[] == [] →", [] == [])
 print("[] is [] →", [] is [])
 print("1 == True →", 1 == True)
 print("1 is True →", 1 is True)
-# is → identidad (None, singletons); == → igualdad de valor`,
+# is → identidad (objetos únicos como None); == → igualdad de valor`,
           output: `None is None → True
 [] == [] → True
 [] is [] → False
@@ -1591,9 +1594,9 @@ print("1 is True →", 1 is True)
         id: 'S02-T2-B-E2',
         instruction:
           '1. Asigna `trabajo` como copia de `original`.\n2. Haz `append("c")` solo en `trabajo`.\n3. Imprime ambas listas y si son el mismo objeto.',
-        hint: 'trabajo = original.copy()  o  trabajo = original[:]',
+        hint: 'trabajo = original.copy()',
         hints: [
-          'trabajo = original.copy()  o  trabajo = original[:]',
+          'trabajo = original.copy()',
           'Si haces trabajo = original, append mutará ambos. Verifica con print y con `original is trabajo` → False.',
         ],
         edgeCases: ['copia vs. segundo nombre', 'alias accidental'],
@@ -1711,7 +1714,7 @@ trabajo: ['  María  ', ' 999 ', 'revisado']`,
           language: 'python',
           title: 'tabla_operadores.py',
           code: `# CASO-LIM-002 · T3-A-E1
-# Imprime n//d, n%d, 2**4 y n/d. Explica en un print por qué / devuelve float.
+# Imprime n//d, n%d, 2**4 y n/d. Explica en un print qué tipo devuelve / y por qué (es división verdadera).
 n = 17
 d = 5
 print("//", ____)
@@ -1754,7 +1757,6 @@ nota: / devuelve float en Python 3`,
         ],
         edgeCases: [
           'paréntesis obligatorios para (-3)**2',
-          'no uses pow con float si buscas int exacto aquí',
         ],
         tests: 'assert -3**2 == -9; assert (-3)**2 == 9',
         feedback:
@@ -1883,7 +1885,7 @@ assert OK`,
         kind: 'independent',
         title: 'Propina 10% con `quantize` a céntimos',
         preamble:
-          '- **Contexto:** ticket sintético de restaurante en soles; necesitas céntimos estables.\n- **Meta:** propina 10% y total con `ROUND_HALF_EVEN` y `quantize(0.01)`.\n- **Éxito:** `propina == Decimal("8.55")` y `total == Decimal("94.05")`, print `OK`.\n- **Límites:** sin `float`; multiplica por `Decimal("0.10")`; quantize en cada monto a persistir.',
+          '- **Contexto:** ticket sintético de restaurante en soles; necesitas céntimos estables.\n- **Meta:** propina 10% y total con `ROUND_HALF_EVEN` y `quantize(0.01)`.\n- **Éxito:** `propina == Decimal("8.54")` y `total == Decimal("93.99")`, print `OK`. La propina exacta es `8.545`: con `ROUND_HALF_EVEN`, un empate exacto va al céntimo par, `8.54`.\n- **Límites:** sin `float`; multiplica por `Decimal("0.10")`; quantize en cada monto a persistir.',
         id: 'S02-T3-B-E2',
         instruction:
           '1. Calcula `propina` quantizada a dos decimales.\n2. Calcula `total` quantizado.\n3. Ejecuta asserts del starter.',
@@ -1893,9 +1895,9 @@ assert OK`,
           'propina = (cuenta * Decimal("0.10")).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN); total = (cuenta + propina).quantize(...).',
         ],
         edgeCases: ['no float', 'quantize a 2 decimales', 'ROUND_HALF_EVEN'],
-        tests: 'propina==Decimal("8.55"); total==Decimal("94.05")',
+        tests: 'propina==Decimal("8.54"); total==Decimal("93.99"); sin quantize, 8.5450 no es igual a 8.54 y el assert falla',
         feedback:
-          '`8.55` y `94.05` con `ROUND_HALF_EVEN` demuestran céntimos estables sin `float`. Quantize en propina y en total, no solo “al final por suerte”.',
+          '`8.54` y `93.99` con `ROUND_HALF_EVEN` demuestran céntimos estables sin `float`: `ROUND_HALF_UP` habría dado `8.55`. Quantize en propina y en total, no solo “al final por suerte”.',
         retrospective:
           'Propina y total con dos decimales demuestran una política de redondeo, no un adorno visual. Si solo cuantizas el total, pregunta qué valor de propina guardarías o auditarías por separado. La regla debe aplicarse donde el monto adquiere significado persistible. E3 generaliza el patrón a texto incierto de CSV.',
         starterCode: {
@@ -1905,12 +1907,12 @@ assert OK`,
 # Calcula propina 10% y total con quantize a 0.01 (ROUND_HALF_EVEN). Sin float.
 from decimal import Decimal, ROUND_HALF_EVEN
 
-cuenta = Decimal("85.50")
+cuenta = Decimal("85.45")
 propina = ____
 total = ____
 print(propina, total)
-assert propina == Decimal("8.55")
-assert total == Decimal("94.05")
+assert propina == Decimal("8.54")
+assert total == Decimal("93.99")
 print("OK")`,
         },
         solutionCode: {
@@ -1918,7 +1920,7 @@ print("OK")`,
           title: 'propina_soles.py',
           code: `from decimal import Decimal, ROUND_HALF_EVEN
 
-cuenta = Decimal("85.50")
+cuenta = Decimal("85.45")
 propina = (cuenta * Decimal("0.10")).quantize(
     Decimal("0.01"), rounding=ROUND_HALF_EVEN
 )
@@ -1926,10 +1928,10 @@ total = (cuenta + propina).quantize(
     Decimal("0.01"), rounding=ROUND_HALF_EVEN
 )
 print(propina, total)
-assert propina == Decimal("8.55")
-assert total == Decimal("94.05")
+assert propina == Decimal("8.54")
+assert total == Decimal("93.99")
 print("OK")`,
-          output: `8.55 94.05
+          output: `8.54 93.99
 OK`,
         },
       },
@@ -1952,7 +1954,7 @@ OK`,
         feedback:
           'Las tres cantidades siguen una sola regla visible. Si aparece una cola de dígitos, revisa que no hayas construido un `Decimal` desde `float`.',
         retrospective:
-          'Un formato válido produce un monto cuantizado. `Decimal("150,50")` no acepta la coma en este ejercicio y detiene la ejecución. S09 enseñará a continuar después de ese fallo. Antes de convertir, el texto debe tener la forma que `Decimal` acepta; cambiar la coma por un punto cambia el formato, no el monto. Predice qué ocurre con `Decimal("150.50")` y comprueba la respuesta.',
+          'Un formato válido produce un monto cuantizado. `Decimal("150,50")` no acepta la coma en este ejercicio y detiene la ejecución con `decimal.InvalidOperation`, que no es un `ValueError`. S09 enseñará a continuar después de ese fallo. Antes de convertir, el texto debe tener la forma que `Decimal` acepta; cambiar la coma por un punto cambia el formato, no el monto. Predice qué ocurre con `Decimal("150.50")` y comprueba la respuesta.',
         starterCode: {
           language: 'python',
           title: 'tres_montos.py',
@@ -2020,7 +2022,7 @@ True`,
           'No concatenes con + salvo que practiques; f-string es el estilo S02.',
         ],
         edgeCases: ['acentos en str Unicode', 'f-string con llaves'],
-        tests: 'stdout contiene José y intake',
+        tests: 'stdout es exactamente `Hola, José. Bienvenido al intake.`, con la coma y el punto final',
         feedback:
           'Sin la `f` verías llaves literales; con ella el acento de José se interpola limpio en Unicode. El mensaje exacto del éxito evita “casi igual” en el reporte de intake.',
         retrospective:
@@ -2116,7 +2118,7 @@ monto: S/ 99.50`,
         hint: 'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
         hints: [
           'No uses `input()`. Los tres textos ya están asignados a nombres para que puedas repetir exactamente la misma comprobación.',
-          'Para obtener el nombre del tipo de `nombres`, escribe `type(nombres).__name__`. Repite la misma forma con los otros dos valores.',
+          'El nombre de un tipo se obtiene con la misma forma que usaste en T1: `type(valor).__name__`.',
         ],
         edgeCases: ['espacios conservados', 'edad escrita como texto', 'tres comprobaciones explícitas'],
         tests: 'Los tres valores permanecen intactos y cada nombre terminado en `_tipo` contiene `"str"`.',
@@ -2235,19 +2237,19 @@ raw intactos: True`,
         kind: 'independent',
         title: 'Conservar raw Unicode (`Ñahui`)',
         preamble:
-          '- **Contexto:** apellidos peruanos con ñ y tildes no pueden “romperse” a ASCII en el pipeline.\n- **Meta:** separar raw (con espacios) y clean (`strip`) sin perder Unicode.\n- **Éxito:** `raw == original`, `clean == "Ñahui"`, print `Unicode OK`.\n- **Límites:** no encodes a ASCII; no mutes el string original (son inmutables de todos modos).',
+          '- **Contexto:** apellidos peruanos con ñ y tildes no pueden “romperse” a ASCII en el pipeline.\n- **Meta:** separar raw (con espacios) y clean (`strip`) sin perder Unicode.\n- **Éxito:** `raw == original`, `clean == "Ñahui"`, print `Unicode OK`.\n- **Límites:** no conviertas el texto a ASCII; no mutes el string original (son inmutables de todos modos).',
         id: 'S02-T4-B-E2',
         instruction:
           '1. Asigna `raw` al original (con espacios).\n2. Asigna `clean` con `strip` (sin tocar codificación).\n3. Corre los asserts: raw idéntico al original; clean es `"Ñahui"`.',
-        hint: 'No encodes a ascii. Python 3 str es Unicode.',
+        hint: 'No conviertas el texto a otra codificación: en Python 3, `str` ya es Unicode.',
         hints: [
-          'No encodes a ascii. Python 3 str es Unicode.',
+          'No conviertas el texto a otra codificación: en Python 3, `str` ya es Unicode.',
           'raw = original; clean = original.strip(); assert raw == original.',
         ],
         edgeCases: ['no ascii errors', 'Ñ y acentos'],
         tests: 'caso unicode: raw con espacios; clean == "Ñahui"',
         feedback:
-          'Si `Ñahui` sobrevive con ñ intacta, tu pipeline no es del siglo ASCII. Obligatorio en datos peruanos; no hace falta `encode`/`decode` aquí.',
+          'Si `Ñahui` sobrevive con ñ intacta, tu pipeline no es del siglo ASCII. No hace falta convertir el texto a otra codificación.',
         retrospective:
           'Unicode no es un caso ornamental: nombres, direcciones y ciudades reales exceden ASCII en muchos idiomas. Si `Ñahui` cambia, no “simplifiques” el dato para que pase; elimina la conversión destructiva. Raw con espacios y clean con `strip` conservan dos hechos distintos. Siguiente: probar esa garantía dentro del cliente completo.',
         starterCode: {
@@ -2285,14 +2287,14 @@ Unicode OK`,
           '- **Contexto:** una captura combina texto con espacios, Unicode, un contacto con cero inicial y una edad escrita como texto.\n- **Meta:** conservar cada original, limpiar los textos y convertir solo la edad.\n- **Éxito:** el resumen conserva `Ñahui`, el contacto sigue siendo texto, la edad es `int` y las cuatro comprobaciones imprimen `True`.\n- **Límites:** usa nombres separados; una edad inválida se observa por separado porque S02 todavía no recupera la ejecución.',
         id: 'S02-T4-B-E3',
         instruction:
-          '1. Completa los cuatro nombres `_clean` sin cambiar los originales.\n2. Convierte `edad_clean` con `int()` y construye el resumen con una f-string.\n3. Ejecuta las cuatro comprobaciones. Después prueba la conversión comentada por separado.',
+          '1. Completa los cuatro nombres `_clean` sin cambiar los originales.\n2. Convierte `edad_clean` con `int()` y construye el resumen con una f-string.\n3. Ejecuta las cinco comprobaciones. Después prueba la conversión comentada por separado.',
         hint: 'Los campos de texto usan `strip()`; solo `edad_clean` pasa por `int()`.',
         hints: [
           'El contacto debe seguir siendo `str` para conservar el cero inicial.',
           'Compara cada original con su texto inicial para demostrar que no lo sobrescribiste.',
         ],
         edgeCases: ['Unicode', 'cero inicial', 'espacios', 'edad inválida observada por separado'],
-        tests: 'Resumen exacto y cuatro comprobaciones `True`.',
+        tests: 'Resumen exacto y cinco comprobaciones `True`; la quinta compara el resumen con el texto esperado.',
         feedback:
           'El recorrido es correcto cuando cada nombre cuenta una etapa: recibido, limpio o convertido. Si el contacto pierde el cero, convertiste un identificador como si fuera una cantidad.',
         retrospective:
@@ -2318,6 +2320,7 @@ print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  �
 print("Unicode intacto", apellido_clean == "Ñahui")
 print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
 print("edad int", type(edad).__name__ == "int" and edad == 34)
+print("resumen exacto", resumen == "Cliente: María José Ñahui | contacto=0999000111 | edad=34")
 
 edad_invalida_raw = "abc"
 # Ejecuta por separado para observar ValueError:
@@ -2342,12 +2345,14 @@ print(resumen)
 print("raw intactos", nombres_raw == "  María José  " and apellido_raw == "  Ñahui  ")
 print("Unicode intacto", apellido_clean == "Ñahui")
 print("contacto str", type(contacto_clean).__name__ == "str" and contacto_clean == "0999000111")
-print("edad int", type(edad).__name__ == "int" and edad == 34)`,
+print("edad int", type(edad).__name__ == "int" and edad == 34)
+print("resumen exacto", resumen == "Cliente: María José Ñahui | contacto=0999000111 | edad=34")`,
           output: `Cliente: María José Ñahui | contacto=0999000111 | edad=34
 raw intactos True
 Unicode intacto True
 contacto str True
-edad int True`,
+edad int True
+resumen exacto True`,
         },
       },
     ],
@@ -2369,7 +2374,7 @@ edad int True`,
       'Cada texto limpio usa otro nombre terminado en `_clean`',
       'El contacto sigue siendo `str` y conserva su cero inicial',
       'La edad convertida es `int` y el monto usa `quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)`',
-      'Las comprobaciones con `assert` —instrucciones que detienen la ejecución cuando una comparación es falsa— demuestran que los originales siguen intactos',
+      'Las comprobaciones con `assert` —instrucciones que detienen la ejecución cuando una comparación es falsa— demuestran dos cosas: que los originales `_raw` siguen intactos y que los valores convertidos son los esperados',
       'El archivo muestra una entrada problemática sin intentar ocultar su fallo',
       'Solo se usan datos sintéticos; nunca información personal real',
       'Al ejecutar el archivo aparecen el resumen y cinco comprobaciones correctas',
@@ -2409,6 +2414,8 @@ print("monto", monto == Decimal("150.50"))
 
 assert nombres_raw == "  María José  "
 assert apellido_materno_raw == " Ñahui  "
+assert edad_raw == " 28 "
+assert monto_raw == " 150.505 "
 assert contacto_clean == "0999000111"
 assert edad == 28
 assert monto == Decimal("150.50")
@@ -2447,7 +2454,7 @@ print("entrada problemática:", edad_invalida_raw)
       },
       {
         question: '¿Por qué el teléfono de un cliente de intake se modela como str?',
-        options: ['Porque no es una cantidad aritmética y puede necesitar ceros o formato', 'Porque int no existe en Python', 'Porque str es más rápido que int', 'Porque PEP 8 lo prohíbe como int'],
+        options: ['Porque no es una cantidad aritmética y puede necesitar ceros o formato', 'Porque int no existe en Python y todos los números se guardan como texto', 'Porque str es más rápido que int al guardar un número de nueve dígitos', 'Porque PEP 8 prohíbe usar int para cualquier campo que tenga dígitos'],
         correctIndex: 0,
         explanation:
           'Teléfonos y códigos identifican; no miden. Modelarlos como `int` invita a perder ceros iniciales y permite operaciones absurdas como sumarlos. La velocidad o PEP 8 no decide el tipo: lo decide la semántica.',
@@ -2457,7 +2464,7 @@ print("entrada problemática:", edad_invalida_raw)
         options: ['1, 2 (lista original)', '3 (solo el nuevo)', '1, 2, 3 (ambos nombres ven el cambio)', 'Error'],
         correctIndex: 2,
         explanation:
-          '`b = a` crea otro nombre para la misma lista, no una copia. Por eso `append` aparece al mirar desde ambos nombres. `copy()` o `[:]` crea una lista independiente cuando esa es la intención.',
+          '`b = a` crea otro nombre para la misma lista, no una copia. Por eso `append` aparece al mirar desde ambos nombres. `copy()` crea una lista independiente cuando esa es la intención.',
       },
       {
         question: '¿Qué expresión comprueba específicamente que `x` contiene el valor ausente `None`?',
@@ -2506,7 +2513,7 @@ print("entrada problemática:", edad_invalida_raw)
         options: ['S/ 99.50', 'S/ 99.5', 'S/ 100', 'Error: Decimal no admite :.2f'],
         correctIndex: 0,
         explanation:
-          'El especificador `:.2f` muestra dos decimales, por eso aparece `S/ 99.50`. `Decimal` admite ese formato directamente: convertir a `float` sería innecesario y reintroduciría la representación que evitaste en T3-B.',
+          'El especificador `:.2f` muestra dos decimales, por eso aparece `S/ 99.50`. `Decimal` admite ese formato directamente: convertir a `float` sería innecesario y reintroduciría la representación binaria que evitaste en «Decimal para dinero y redondeo».',
       },
     ],
   },
@@ -2573,7 +2580,7 @@ print("entrada problemática:", edad_invalida_raw)
           id: 'S02-T3-TE-1',
           title: 'Precedencia: `-3**2` vs `(-3)**2` e IGV con paréntesis',
           authentic: true,
-          deliverable: 'Prints de potencia + total = subtotal * (1 + 0.18) documentando el error de float',
+          deliverable: 'Prints de potencia + total = subtotal * (1 + 0.18) con subtotal 80, mostrando el valor impreso (94.39999999999999) y el esperado (94.40)',
         },
         {
           id: 'S02-T3-TE-2',
