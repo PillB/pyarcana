@@ -656,7 +656,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 0,
       explanation:
-        'in/not in evalúan pertenencia. Un set de literales es el patrón de allowlist O(1) para códigos y regiones.',
+        'in/not in evalúan pertenencia. Un set de literales es el patrón de allowlist para códigos y regiones: la comprobación con in sigue siendo directa aunque el catálogo crezca.',
     },
     {
       concept: 'comparisons-membership',
@@ -703,16 +703,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'truthiness-shortcircuit',
-      question: '¿Qué imprime la expresión `"" or "default"` en Python y por qué?',
+      question: '¿Qué devuelve la expresión `0 or 5` en Python y por qué?',
       options: [
-        'True, porque or convierte su resultado en bool antes de devolverlo',
-        '"", porque or devuelve siempre el primer operando aunque sea falsy',
-        '"default", porque or con short-circuit devuelve el primer operando truthy (o el último)',
-        'False, porque la cadena vacía es falsy y or se detiene en el primer valor falsy que encuentra',
+        'True, porque or convierte su resultado en bool antes de devolverlo al código',
+        '0, porque or devuelve siempre el primer operando aunque ese operando sea falsy',
+        '5, porque or devuelve el primer operando truthy, o el último si no hay ninguno',
+        'False, porque 0 es falsy y or se detiene en el primer valor falsy que encuentra',
       ],
       correctIndex: 2,
       explanation:
-        'and/or devuelven un operando, no siempre True/False. "" es falsy, así que or evalúa y devuelve "default".',
+        'and/or devuelven un operando, no siempre True/False. 0 es falsy, así que or evalúa el segundo operando y devuelve 5. Un monto 0 escrito como `monto or 5` se perdería por la misma razón.',
     },
     {
       concept: 'truthiness-shortcircuit',
@@ -832,7 +832,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'allowlists-ranges',
       question:
-        'Combinas región en allowlist y `18 <= edad <= 65`. Si región es válida pero edad=15, ¿qué status hard-fail es el más coherente en el demo del curso?',
+        'Combinas región en allowlist y `18 <= edad <= 65`. Si región es válida pero edad=15, ¿qué status (reject o review) es el más coherente en el demo del curso?',
       options: [
         'review por edad, porque la región válida compensa el rango',
         'reject por fuera de rango de edad',
@@ -861,7 +861,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'decision-tables-match',
       question:
-        '¿Qué es una decision table en el contexto del motor de reglas de intake?',
+        '¿Qué es una tabla de decisión en el contexto del motor de reglas de intake?',
       options: [
         'Una cadena de if/elif escrita primero en el código, que reemplaza a la tabla del negocio',
         'Una tabla de negocio: filas de condiciones → acción, que luego implementas con if/elif',
@@ -904,7 +904,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'invariants-examples',
       question:
-        'Un invariante de campo dice: “`contacto` es str de 9 dígitos, o None si aún no se capturó”. ¿Qué falta para que sea usable en el gate?',
+        'Un invariante de campo dice: “`contacto` es str de 9 dígitos, o None si aún no se capturó”. ¿Qué falta para que sirva para comprobar la regla?',
       options: [
         'Convertir contacto a int para que la validación sea numérica y no dependa del formato del texto',
         'Quitar el caso None, porque un invariante no puede admitir ausencia',
@@ -921,7 +921,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué no debes usar solo `assert` como validación de negocio en el intake de producción?',
       options: [
         'assert solo acepta comparaciones de str y no puede validar montos',
-        'assert lanza KeyError en lugar de un error con mensaje, y el gate no lo puede leer',
+        'assert lanza KeyError en lugar de un error con mensaje, y quien llama no puede leerlo',
         'assert solo se ejecuta dentro de los tests, así que en el intake nunca se evalúa',
         'python -O desactiva asserts; las reglas de negocio deben devolver status/code/message',
       ],
@@ -932,7 +932,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'invariants-examples',
       question:
-        'Para `validate_contacto`, ¿cuál trío de ejemplos cubre bien el invariante de 9 dígitos o None?',
+        'Para `validate_contacto`, ¿qué ejemplos cubren bien el invariante de 9 dígitos o None?',
       options: [
         '"999000111"→accept, "12345"→reject, None→review (y vacío "  "→reject)',
         '"999000111"→accept y "123456789"→accept: dos ejemplos válidos bastan para fijar el formato',
@@ -941,7 +941,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 0,
       explanation:
-        'Mínimo: un ejemplo por estado que la regla produce. El camino feliz solo no basta para el gate CP-N1-A.',
+        'Mínimo: un ejemplo por estado que la regla produce. El camino feliz solo no basta para comprobar la regla.',
     },
     // --- actionable-messages-branch-tests (3) ---
     {
@@ -963,9 +963,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si el validador de edad tiene 4 caminos (None, tipo mal, rango, OK), ¿cuántos casos de prueba mínimos necesitas?',
       options: [
-        'Al menos 4: un test por rama, incluyendo el default',
-        '1: solo el camino feliz',
-        '3: el default no necesita test porque es el camino feliz',
+        'Al menos 4: un test por rama, incluido el camino OK del else',
+        '1: solo el camino feliz, porque las otras ramas solo rechazan',
+        '3: el camino OK del else no necesita test porque es el camino feliz',
         'Al menos 4, pero solo de las ramas que devuelven reject',
       ],
       correctIndex: 0,
@@ -979,7 +979,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Probar con datos reales del cliente para ver la frontera en producción',
         'Ciclo test rojo → ajustar frontera → verde, con datos sintéticos y códigos estables',
-        'Silenciar el else con except: pass hasta que la frontera se estabilice',
+        'Dejar `edad >= 18` sin probar y ajustar la frontera cuando falle en producción',
         'Imprimir edad con print en cada ejecución y ajustar la frontera a ojo, sin tests',
       ],
       correctIndex: 1,
