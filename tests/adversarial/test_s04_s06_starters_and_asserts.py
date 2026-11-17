@@ -127,7 +127,7 @@ class S04YouDoAssertsCatchWrongCode(unittest.TestCase):
 
     def test_the_reference_solution_passes_its_own_asserts(self):
         code, stdout = run_python(self.item["solution"])
-        self.assertEqual((code, stdout.strip()), (0, "resumen 4 1 1 2 0.25\ntests OK"))
+        self.assertEqual((code, stdout.strip()), (0, "resumen 4 1 1 2 0.25\nlimites 6 2 2 2 0.3333\ntests OK"))
 
     def test_every_wrong_implementation_fails_the_you_do(self):
         survivors = []
@@ -137,7 +137,7 @@ class S04YouDoAssertsCatchWrongCode(unittest.TestCase):
                 self.assertEqual(source.count(old), 1, f"{name}: text not found exactly once")
                 source = source.replace(old, new)
             code, stdout = run_python(source)
-            if code == 0 and stdout.strip() == "resumen 4 1 1 2 0.25\ntests OK":
+            if code == 0 and stdout.strip() == "resumen 4 1 1 2 0.25\nlimites 6 2 2 2 0.3333\ntests OK":
                 survivors.append(name)
         self.assertEqual(survivors, [], "these wrong implementations still pass the You Do")
 

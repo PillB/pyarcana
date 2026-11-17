@@ -482,9 +482,9 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     bars: [
       { label: 'filas intentadas', value: 6, tint: 2, display: '6' },
       { label: 'filas procesadas', value: 5, tint: 4, display: '5' },
-      { label: 'aceptadas', value: 4, tint: 3, display: '4' },
+      { label: 'aceptadas', value: 3, tint: 3, display: '3' },
     ],
-    note: 'Dividir entre procesadas da 0.80; entre intentadas, 0.67. La tasa mejora sola cada vez que una fila falla antes de tiempo.',
+    note: 'Dividir las 3 aceptadas entre las 5 procesadas da 0.60; entre las 6 intentadas, 0.50. La tasa mejora sola cada vez que una fila falla antes de tiempo.',
   },
   'S09-error-boundary': {
     kind: 'stack',
