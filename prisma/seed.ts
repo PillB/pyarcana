@@ -1400,7 +1400,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'params-safe-defaults',
-      question: 'En `def normalize_telefono(raw, *, country="PE")`, ¿qué obliga a hacer el `*`?',
+      question: 'En `def normalize_telefono_intl(raw, *, country="PE")`, ¿qué obliga a hacer el `*`?',
       options: [
         '`raw` debe escribirse siempre como argumento por nombre.',
         '`raw` pasa a ser un parámetro opcional de la función.',
@@ -1618,10 +1618,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'examples-refactor',
       question: 'Al fijar ejemplos de un normalizador de texto sintético, ¿qué fronteras conviene cubrir?',
       options: [
-        'Solo una entrada válida que ya esté normalizada.',
+        'Una entrada válida ya normalizada, como `"Ana"`, y ningún caso más.',
         'Vacío, espacios, Unicode, doble aplicación y `None` permitido.',
-        'Solo datos personales tomados de clientes reales.',
-        'Solo un caso que produzca el resultado esperado.',
+        'Datos personales copiados de clientes reales para que sean realistas.',
+        'Un único caso feliz que produzca el resultado esperado por el test.',
       ],
       correctIndex: 1,
       explanation: 'S05 propone vacío, solo espacios, Unicode y doble aplicación. `None` se incluye únicamente cuando el contrato admite esa ausencia; los datos deben ser sintéticos.',

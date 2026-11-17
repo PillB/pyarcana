@@ -40,7 +40,7 @@ FEATURES = {"code": CODE, "an absolute": ABSOLUTE}
 KEY_ODD_FEATURE_OWED = {
     "advanced-models": 1, "ai-apis-advanced": 1, "async-concurrency": 3, "collections": 1,
     "data-engineering": 2, "databases-orm": 1, "exceptions-logging": 2,
-    "fastapi": 2, "files-ingestion": 3, "functions-contracts": 3, "gpu-computing": 1,
+    "fastapi": 2, "files-ingestion": 3, "functions-contracts": 2, "gpu-computing": 1,
     "integrator-phase1": 1, "integrator-phase2": 1, "iteration-summaries": 4, "llmops": 2,
     "microservices": 1, "modules-packaging-cli": 3, "packaging": 1, "performance-extreme": 1,
     "rapidfuzz-entity": 1, "security-infra": 2, "setup": 6, "stdlib-deep": 1,

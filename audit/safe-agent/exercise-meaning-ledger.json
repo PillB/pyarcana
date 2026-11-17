@@ -1120,6 +1120,106 @@
       "reason": "The learner now also adds the boundary pair 50000 (accept) and 50001 (review), so a >= at the threshold no longer passes. Same exercise: add the missing branch test.",
       "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
       "date": "2026-11-17"
+    },
+    {
+      "row": 113,
+      "id": "S05-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "7198f9fc932b46bf289ebf1430e2646e9e8db7610d5bf8fe3ce1a7b6eddcc236",
+      "to_fp": "b39f599980447c9afd9e3cf5f5a6e74f72bf783a3eca0aa01e2583bd25f19716",
+      "reason": "The tests line reads as a Spanish check (exactamente una línea impresa: 2). Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 114,
+      "id": "S05-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "2b370fbecfe0f914b7b46bf9f8fa847bb25f348cafe4f548e756cdb6eec39eae",
+      "to_fp": "a2803711135e4d064a9753c2f4bdc55478d67bb9032409057f612ab1fe5873ab",
+      "reason": "The tests line reads as a Spanish check (exactamente una línea impresa: nombre: Ana). Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 115,
+      "id": "S05-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "23a54c656d4fba9ab45391c9f412955cf88119e16624295434555ef507afba2c",
+      "to_fp": "a5b3922fb8179508210fdcffee8ab0ef371f04db3f6305c91026fcc91adec3cf",
+      "reason": "The function is renamed formatear_telefono, so the practice variant with a flag no longer shares a name with the gate's normalize_telefono (always digits only). Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 116,
+      "id": "S05-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "8144f59056b8c91891cd3e248020e94eda4c809042a21d9b9f25ce54d487a585",
+      "to_fp": "3ab3cd3c648a5c22beaeae92393a1f085eba3e9545c743a031cf4e6438a1bd23",
+      "reason": "A fifth step has the learner append normalize_email('x') once and read ValueError: email sin @, so the documented rejection is checked, not only written. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 117,
+      "id": "S05-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "1df63aeb02e268dfe984e48c89a32f6aedc01eccb1fc75904b2fc2f202446c42",
+      "to_fp": "685e547ff2281bbce7b22b9c31280fdc1fa038a937a2baf4d1e6af07f8d7cdfb",
+      "reason": "The input is '  ana  MARÍA  ', so a solution without title() no longer passes. Same exercise and same output (Ana María, post OK).",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 118,
+      "id": "S05-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "3c0f1373780887d32df4aa3c74d0c88a681fccca9b418661fb75c632d6b0a299",
+      "to_fp": "3c61e8a1e7fc0e8519c55c78498007f538276eeb15d79dd2d3626a12e4def1e3",
+      "reason": "A second input, '(999) 000', so a filter that removes only spaces and dashes now fails. Expected output gains a second 999000 True line.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 119,
+      "id": "S05-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "148e93db69a5593224e7f0cefd77bfc5ea48d89d370ea66ece343056456561ce",
+      "to_fp": "485050b725e584dad71bbfdae5c52c75e66343b973c651871658c0d8eb6cc329",
+      "reason": "The tests line states the exact two lines and the ValueError the learner checks by appending normalize_email('sin-arroba'). Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 120,
+      "id": "S05-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "d78d7d4371b93a1adb8ec1a34cc376ae38db6f4898817dc7b9e286a94cf5b73f",
+      "to_fp": "ee49a14578fba5d94a9a023cb5b3c360db3b862720ea5d34bf7ec9d768d16656",
+      "reason": "The unknown-mode error names the mode (ValueError: modo desconocido: ...). Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 121,
+      "id": "S05-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "9ad7aa87b493f65f6efa39a3cce97b5804dbdb58d77bf03313cd538acbefa918",
+      "to_fp": "9e3fe4c366a8091ee6193a37d76826977b5f47da0bb00cb61f62f69fa3978c08",
+      "reason": "A fifth step has the learner swap lower() for upper() and see the AssertionError, so the alarm is observed once. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 122,
+      "id": "S05-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "a04d87e3b844efdf209e458e122aef8607c6fee0734f00420eadf99332f2d0b8",
+      "to_fp": "6b3bc715d1d10931dcaae9e138a92b017881909e4a0c296797ec0cd53d0647fc",
+      "reason": "A fifth step has the learner change one expected and see the AssertionError before all PASS. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S05 P2/P3 fixes)",
+      "date": "2026-11-17"
     }
   ]
 }
