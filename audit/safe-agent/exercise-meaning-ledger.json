@@ -1120,6 +1120,46 @@
       "reason": "The learner now also adds the boundary pair 50000 (accept) and 50001 (review), so a >= at the threshold no longer passes. Same exercise: add the missing branch test.",
       "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
       "date": "2026-11-17"
+    },
+    {
+      "row": 113,
+      "id": "S06-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "2c6356cc116f64e3805f6550300122327f08007da0f83e8fc83856ca8b88f9db",
+      "to_fp": "e0a04cfe8f4b4cf6d3ec696a64eb2273e2c80facc8b154a9f19fdc714447ed4e",
+      "reason": "When the ids already arrive as a list, the solution now copies them with ids.copy() instead of aliasing the caller's list, so the append no longer changes the caller's data. Same exercise: check the type, copy, append to the copy.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S06 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 114,
+      "id": "S06-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "0baa42467d45e90cb2279319f3eae9346acfc6f47e5b6428afc13e6fb1f80a22",
+      "to_fp": "90810dcd9f721fd716a3e2725f4ebf3da0f118fed5783dc5269cd0aca223aa4e",
+      "reason": "Each conflict now uses the theory's record shape {'id', 'kept', 'other'} (it was 'key'), and the instruction states that shape. Same exercise: unique plus conflicts, with identical rows not counted.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S06 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 115,
+      "id": "S06-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "bd93a6b1d9ffd64d3163e0d9262cca6f3aca69efc8b32bdd7928fcf8b8d7f001",
+      "to_fp": "7dd35868f23e17b705fc8ee5c0b618430c6ac4941a4efb81059a1ded4796b3e1",
+      "reason": "'missing' now keeps the meaning learning outcome 5 gives it (the key does not exist). A None value gets its own label, 'nulo', so C002 prints 'nulo'. Same exercise: replace the falsy test with an explicit policy.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S06 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 116,
+      "id": "S06-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "e154aa61e6ad2150247d4b86135df2935005c71e3bbf49f20e14780df972f880",
+      "to_fp": "2e51c9b819092f51f1a5b10a2f7cb15460e255a0d899a3292271969c02740dc9",
+      "reason": "The flag for v is None is now labelled 'nulo=' instead of 'missing=', matching T3-B-E2 and learning outcome 5. Same exercise: falsy is not the same as None.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S06 P2/P3 fixes)",
+      "date": "2026-11-17"
     }
   ]
 }

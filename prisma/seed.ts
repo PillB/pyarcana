@@ -1677,7 +1677,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Tras `a, b = ("C001", "Lima")`, ¿qué ocurre si la fila tiene 3 campos y haces unpacking a 2 variables?',
       options: [
         'Se ignoran campos extra en silencio',
-        'ValueError: el largo no calza — útil para detectar shape roto',
+        'ValueError: el largo no calza — útil para detectar una forma de fila rota',
         'Se crea None para el faltante',
         'Se convierte a dict automáticamente',
       ],
@@ -1746,14 +1746,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un dict de conteos por región, ¿qué patrón es idiomático para incrementar?',
       options: [
-        'counts[r] = counts.get(r, 0) + 1  (o defaultdict/Counter)',
+        'counts[r] = counts.get(r, 0) + 1',
         'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts.append(r)',
         'counts + r',
       ],
       correctIndex: 0,
       explanation:
-        'get con default 0 (o Counter) evita KeyError en la primera ocurrencia.',
+        'get con default 0 evita KeyError en la primera ocurrencia.',
     },
     {
       concept: 'sets-dedup',
@@ -1817,13 +1817,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué el curso modela list[dict] anidado antes de CSV/JSON en S08?',
       options: [
         'Porque pandas es obligatorio en S06',
-        'El modelo en memoria es el contrato que luego serializas; shape claro evita bugs de ingesta',
+        'El modelo en memoria es el contrato que luego serializas; una forma clara evita bugs de ingesta',
         'Porque set no puede anidarse nunca',
         'Porque NumPy broadcasting reemplaza dicts',
       ],
       correctIndex: 1,
       explanation:
-        'CP-N1-B parte del modelo tabular en RAM; S08 conecta ese shape a archivos.',
+        'CP-N1-B parte del modelo tabular en RAM; S08 conecta esa forma a archivos.',
     },
     {
       concept: 'nested-traversal',
@@ -1845,7 +1845,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En intake, ¿en qué se diferencia un campo missing (ausente) de un valor vacío ""?',
       options: [
         'Son idénticos para el dashboard',
-        'Missing = clave no presente / None según contrato; vacío = presente pero sin contenido — se tratan distinto en cuarentena',
+        'Missing = clave no presente / None según contrato; vacío = presente pero sin contenido — se reportan en listas distintas',
         'Vacío siempre es error de sintaxis',
         'Missing solo existe en SQL',
       ],
@@ -1907,7 +1907,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 3,
       explanation:
-        'Orden estable hace salidas reproducibles para CP-N1-B y comparación de manifests.',
+        'Orden estable hace salidas reproducibles para CP-N1-B y comparación de salidas entre corridas.',
     },
     {
       concept: 'sort-key',
