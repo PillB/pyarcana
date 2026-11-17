@@ -1003,6 +1003,126 @@
     },
     {
       "row": 101,
+      "id": "S03-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "dec638b34af31a22dbbbeb90e4b066281b35e3126b2d8bf5350ae47840294fda",
+      "to_fp": "807054577a57e4c67ce8d9ff25ff8178f6e2d482fee68b66d7e0363f818ca729",
+      "reason": "Three boundary lines were added (edad 18 and 65), so a learner who writes edad > 18 or an exclusive interval no longer passes. Same exercise: repair inverted comparisons.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 102,
+      "id": "S03-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "e3a46a2fa5adcde31a905d03001673fc5e25fee70a9c2ff525063acd7e5741b2",
+      "to_fp": "06ea442e280c9db4d5b873671bf4303e5b56ea5058b1b0e61e6ce62b8b7b0334",
+      "reason": "A fourth code, CE, was added; an == comparison against a single code no longer prints the expected output, so the exercise now requires in. Same exercise: check codes with in.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 103,
+      "id": "S03-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "eff13bb707f9d74624f0000bb96fa794feda1927c7f1019fba79fa3ac93364d0",
+      "to_fp": "483514b43797c4e76628adf9d36c2ef21b176e999c578f3060e4c0bc62f95209",
+      "reason": "The learner now copies the repaired chain for monto = None and monto = -1, so the None and negative rules the instruction asks for are run. Same exercise: separate absence, empty and zero.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 104,
+      "id": "S03-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "e66b7ca0fa7e25dff259b84796671c907dfc197dd3f515c6640d4628a72ab8f8",
+      "to_fp": "ae0739a5cee0dcdbb3836502f122d5376a02e954110d3f98426309b7004d1fa9",
+      "reason": "A fourth value, ANY, was added; == None prints True for it, so only is None passes. Same exercise: separate absence, zero and empty text.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 105,
+      "id": "S03-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "5b7bd2bf958bc22ea44f615ccd95d46637715bc27f34e823f22441bc5136dbfa",
+      "to_fp": "c33d9e960f8e61de7826d6dd053d8a630f93012bd43df44ae4ccf87cc0b5692a",
+      "reason": "Two threshold cases were added (100 and 0), so a learner who uses >= at either threshold no longer passes. Same exercise: order numeric thresholds.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 106,
+      "id": "S03-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "bc29c8ae3043ec696a341c1ec4bb053d2bbe33e98bf3e448d6be426367ea5222",
+      "to_fp": "601a092f66c651ada3aec8ace3b92e759190ef1d50d9e3c4f8eaf09ad0712a14",
+      "reason": "A third case, 130, was added, so the range guard the instruction names is run. Same exercise: order the age guards.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 107,
+      "id": "S03-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "3459d1b1635c49797a5212268047dd1ae27d26127d5b7f90971ef1330fb1ab26",
+      "to_fp": "736a86130c6d96d1d90c29129e8bc5c66d1deaa6fd83da25bb5d62b40bfcc150",
+      "reason": "The nested and flat versions are now compared at 20000, 10000 and -1 with an assert each, so a moved boundary or a dropped negative rule fails. Same exercise: flatten a nested decision.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 108,
+      "id": "S03-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "120b33a1e397a1429f5e099b623de65ac168ab9b06477d1335e726b0f76cd29d",
+      "to_fp": "3095cf1bfab00cdf3ea9703c83f160aa31e2b07033c73cca4e7ff1c2d5cf167a",
+      "reason": "Two boundary cases were added (50000.00 with a planted >= defect, and 50000.01), so the review threshold is run on both sides. Same exercise: zero and high-amount boundaries with Decimal.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 109,
+      "id": "S03-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "8579d9e1ff04d8c1af0a6fba003168a84d546bf2f05c7fac9dc669f5d53ffd73",
+      "to_fp": "3f8de51b2f83c041873c513ef08f59609058d03b4356c1e328806f643067fa97",
+      "reason": "Two edge ages were added (18 with a planted exclusive-bound defect, and 65), so the stated inclusive interval is run; the match promise was removed. Same exercise: code table and age range with if.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 110,
+      "id": "S03-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "49e424242e1406d4e129639ea74c4e4504cecb66ea5187e1be0d6c38fa49128f",
+      "to_fp": "00043fc046a9ef2b32b6a8ee77d61e5deb1a848e5f709170d20f71a6c1bbe6df",
+      "reason": "A fourth case, edad = 0, was added with a planted exclusive-bound defect, so the inclusive lower bound of the invariant is run. Same exercise: one age, three branches of the invariant.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 111,
+      "id": "S03-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "6b70290224557d1f989cf33f28db0ad3ae87321655d89f7f696429f01902bdb9",
+      "to_fp": "66a1f8f78f00d00ca729d440df816a16528cda00011fbd8853a2080b0a02cfc2",
+      "reason": "Two cases in the 66 to 120 band were added (66 to fill in, 120 prefilled), so the third band of the corrected invariant is run. Same exercise: a counterexample forces a new invariant.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 112,
+      "id": "S03-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "08ddeada16c265fcdb1b910fdda119369e722e3ce18aad63428788aee4b72f99",
+      "to_fp": "6f69ddb3b412c9f20b1438040a1768cedd8ad5a81dc7f9c8a23b033294b67fb7",
+      "reason": "The learner now also adds the boundary pair 50000 (accept) and 50001 (review), so a >= at the threshold no longer passes. Same exercise: add the missing branch test.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 113,
       "id": "S04-T1-A-E2",
       "kind": "changed",
       "from_fp": "d3578399a1e0bdeceefd40f0e537b0e884238a33ebfbfe7b236b2b1cc6c7994d",
@@ -1012,7 +1132,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 102,
+      "row": 114,
       "id": "S04-T1-B-E3",
       "kind": "changed",
       "from_fp": "4a74aea0d1e55c54cb6736f4601c2b7f4146664d7e77dcdc475569df9ffdf53d",
@@ -1022,7 +1142,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 103,
+      "row": 115,
       "id": "S04-T2-B-E1",
       "kind": "changed",
       "from_fp": "2fc6c66aad817b4b7b5a8a5f42879038851b1fa39f8d94577cfbf7c1004237a6",
@@ -1032,7 +1152,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 104,
+      "row": 116,
       "id": "S04-T2-B-E3",
       "kind": "changed",
       "from_fp": "5814dee4608941e318c052676800a608dceea7d8046fce88968b8ac3dc3e9cb0",
@@ -1042,7 +1162,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 105,
+      "row": 117,
       "id": "S04-T3-A-E2",
       "kind": "changed",
       "from_fp": "8693458a8567237f60d9cd495cf5dd8b0009a58a3b24daef745f1203f4df0eee",
@@ -1052,7 +1172,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 106,
+      "row": 118,
       "id": "S04-T3-B-E1",
       "kind": "changed",
       "from_fp": "0a1dd7ce8d5e984f4dd0927b237cc6805c22071a5fd33bfc86fce77748e73414",
@@ -1062,7 +1182,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 107,
+      "row": 119,
       "id": "S04-T3-B-E3",
       "kind": "changed",
       "from_fp": "284e6f76aaac0d0f924cf29384e72b37db22bfe378fee57a1d554faeea18a9b3",
@@ -1072,7 +1192,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 108,
+      "row": 120,
       "id": "S04-T4-A-E2",
       "kind": "changed",
       "from_fp": "33b59364d9016836b03049cf2cce2acf8658775ef417cf1ad92449ca721fe847",
@@ -1082,7 +1202,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 109,
+      "row": 121,
       "id": "S04-T4-A-E3",
       "kind": "changed",
       "from_fp": "11157b52c74d7cdd9648f2b93c4d6482ca529e725ec6849c8e21cb3b76f1c2a2",
@@ -1092,7 +1212,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 110,
+      "row": 122,
       "id": "S04-T4-B-E3",
       "kind": "changed",
       "from_fp": "ceb06d5f91b6e965369700bb482c36657f17db3a94477c51f5f834213c66228d",
