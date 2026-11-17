@@ -47,7 +47,7 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   },
   'S02-truthiness': {
     kind: 'decision',
-    headline: 'Qué es falso en un if, y por qué eso no significa «ausente»',
+    headline: 'Ausente, cero y vacío son tres valores distintos',
     input: 'valor',
     branches: [
       { test: 'valor is None', result: 'ausente', tint: 4 },
@@ -55,7 +55,7 @@ export const MISC_FIGURES: Record<string, FigureData> = {
       { test: 'valor == ""', result: 'presente, vacío', tint: 2 },
       { test: 'resto', result: 'presente', tint: 2 },
     ],
-    note: 'Un if desnudo funde las tres primeras ramas en una. Por eso la ausencia se pregunta con `is None`, nunca con truthiness.',
+    note: 'Solo `is None` detecta la ausencia; `0` y `""` son datos presentes. S03 mostrará por qué una decisión que no compara confunde los tres casos.',
   },
   'S12-retry-or-not': {
     kind: 'decision',

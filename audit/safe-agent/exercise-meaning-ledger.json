@@ -950,6 +950,56 @@
       "reason": "The tests now require each checklist item to hold a command in backticks and its expected result, so vague items no longer pass. Same exercise: write the clean-machine checklist.",
       "decided_by": "owner 2026-11-11 (proposal 10, S01 P2/P3 fixes)",
       "date": "2026-11-11"
+    },
+    {
+      "row": 96,
+      "id": "S02-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "b970e9727f975069fd79b3ff6e0476f6df87961f4f45fec38442fc80c9260ec7",
+      "to_fp": "7253f66da5217408eff421658bb0fc6e97e739e5a9128e1d321f9f923eaddb4f",
+      "reason": "The answer now keeps the stripped text in edad_clean and the tests check it, because int() already tolerates the spaces and the old tests passed an answer with no strip. Same exercise: convert an age with strip and int.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 97,
+      "id": "S02-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "e805634cd273c64995ebb4c77ae006f6f69dbadcfb1f270f0e371d0832d76009",
+      "to_fp": "babb41ce35c43711b079f927221409f910c0ab7beeb9214c277f078e03f9192c",
+      "reason": "The model answer said 'singletons', a term S02 never teaches; it now says 'objetos únicos como None', and the instruction explains the SyntaxWarning Python 3.12 prints for 1 is True. Same exercise: the is versus == table.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 98,
+      "id": "S02-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "ff1ffac3f118c2a5a63b4264409dc7d329939b1411fd5918bc724f7dfafe14c6",
+      "to_fp": "8ed16ce8d3c47cbf55cc6a29669105d1b4c464ec3721e025d0008b13fef16aaa",
+      "reason": "The bill changed from 85.50 to 85.45 (tip 8.54, total 93.99), so an answer without quantize, or with ROUND_HALF_UP, now fails the asserts; with 85.50 both passed. Same exercise: a 10% tip with quantize to cents.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 99,
+      "id": "S02-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "50e34a002a5ac0c9a7e22a7b4cb99bec8abef1673060d815f4adae47e2aa3a12",
+      "to_fp": "8149ccd96f4a75092d2ee71daa07273f2ad8a13290a595db07dc8c6eb8a2ff17",
+      "reason": "The tests now require the exact line 'Hola, José. Bienvenido al intake.' instead of any output containing José and intake. Same exercise: a greeting with an f-string.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 100,
+      "id": "S02-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "dbc6468d9c7fd7991a84f1c96c176ca05abc80a37bbee8f75723f2069edfdcef",
+      "to_fp": "a21f1ace1d689e58ca808319ab7f494426f87b11747fcd52195ba9f778865052",
+      "reason": "A fifth check compares the summary with the expected text, so any summary no longer passes, and the tests say five checks. Same exercise: the full capture walkthrough.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
     }
   ]
 }
