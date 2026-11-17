@@ -330,9 +330,12 @@ class WordsAreTaughtBeforeUse(unittest.TestCase):
     def test_default_goes_by_name(self) -> None:
         b = block("Acceso seguro: campos ausentes y campos vacíos")
         self.assertTrue(any("el default va con nombre, `default=None`" in p for p in b["paragraphs"]))
-        mistake = block_by_title("safe_access.py")["code"]["code"] + \
-            '\nprint(get_nested(c3, "profile", "phone", None) is MISSING)'
-        self.assertEqual(stdout_of(mistake).splitlines()[-1], "True")
+        # c2's phone exists and holds None. By name, default=None leaves that value alone;
+        # without the name, None becomes a third key, the walk stops at it and returns MISSING.
+        code = block_by_title("safe_access.py")["code"]["code"] + (
+            '\nprint(get_nested(c2, "profile", "phone", default=None) is MISSING)'
+            '\nprint(get_nested(c2, "profile", "phone", None) is MISSING)')
+        self.assertEqual(stdout_of(code).splitlines()[-2:], ["False", "True"])
 
     def test_split_paragraphs_have_one_focus(self) -> None:
         checks = {
