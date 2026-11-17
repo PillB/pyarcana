@@ -953,6 +953,56 @@
     },
     {
       "row": 96,
+      "id": "S02-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "b970e9727f975069fd79b3ff6e0476f6df87961f4f45fec38442fc80c9260ec7",
+      "to_fp": "7253f66da5217408eff421658bb0fc6e97e739e5a9128e1d321f9f923eaddb4f",
+      "reason": "The answer now keeps the stripped text in edad_clean and the tests check it, because int() already tolerates the spaces and the old tests passed an answer with no strip. Same exercise: convert an age with strip and int.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 97,
+      "id": "S02-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "e805634cd273c64995ebb4c77ae006f6f69dbadcfb1f270f0e371d0832d76009",
+      "to_fp": "babb41ce35c43711b079f927221409f910c0ab7beeb9214c277f078e03f9192c",
+      "reason": "The model answer said 'singletons', a term S02 never teaches; it now says 'objetos únicos como None', and the instruction explains the SyntaxWarning Python 3.12 prints for 1 is True. Same exercise: the is versus == table.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 98,
+      "id": "S02-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "ff1ffac3f118c2a5a63b4264409dc7d329939b1411fd5918bc724f7dfafe14c6",
+      "to_fp": "8ed16ce8d3c47cbf55cc6a29669105d1b4c464ec3721e025d0008b13fef16aaa",
+      "reason": "The bill changed from 85.50 to 85.45 (tip 8.54, total 93.99), so an answer without quantize, or with ROUND_HALF_UP, now fails the asserts; with 85.50 both passed. Same exercise: a 10% tip with quantize to cents.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 99,
+      "id": "S02-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "50e34a002a5ac0c9a7e22a7b4cb99bec8abef1673060d815f4adae47e2aa3a12",
+      "to_fp": "8149ccd96f4a75092d2ee71daa07273f2ad8a13290a595db07dc8c6eb8a2ff17",
+      "reason": "The tests now require the exact line 'Hola, José. Bienvenido al intake.' instead of any output containing José and intake. Same exercise: a greeting with an f-string.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 100,
+      "id": "S02-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "dbc6468d9c7fd7991a84f1c96c176ca05abc80a37bbee8f75723f2069edfdcef",
+      "to_fp": "a21f1ace1d689e58ca808319ab7f494426f87b11747fcd52195ba9f778865052",
+      "reason": "A fifth check compares the summary with the expected text, so any summary no longer passes, and the tests say five checks. Same exercise: the full capture walkthrough.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S02 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 101,
       "id": "S03-T1-A-E1",
       "kind": "changed",
       "from_fp": "dec638b34af31a22dbbbeb90e4b066281b35e3126b2d8bf5350ae47840294fda",
@@ -962,7 +1012,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 97,
+      "row": 102,
       "id": "S03-T1-A-E2",
       "kind": "changed",
       "from_fp": "e3a46a2fa5adcde31a905d03001673fc5e25fee70a9c2ff525063acd7e5741b2",
@@ -972,7 +1022,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 98,
+      "row": 103,
       "id": "S03-T1-A-E3",
       "kind": "changed",
       "from_fp": "eff13bb707f9d74624f0000bb96fa794feda1927c7f1019fba79fa3ac93364d0",
@@ -982,7 +1032,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 99,
+      "row": 104,
       "id": "S03-T1-B-E1",
       "kind": "changed",
       "from_fp": "e66b7ca0fa7e25dff259b84796671c907dfc197dd3f515c6640d4628a72ab8f8",
@@ -992,7 +1042,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 100,
+      "row": 105,
       "id": "S03-T2-A-E3",
       "kind": "changed",
       "from_fp": "5b7bd2bf958bc22ea44f615ccd95d46637715bc27f34e823f22441bc5136dbfa",
@@ -1002,7 +1052,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 101,
+      "row": 106,
       "id": "S03-T2-B-E1",
       "kind": "changed",
       "from_fp": "bc29c8ae3043ec696a341c1ec4bb053d2bbe33e98bf3e448d6be426367ea5222",
@@ -1012,7 +1062,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 102,
+      "row": 107,
       "id": "S03-T2-B-E2",
       "kind": "changed",
       "from_fp": "3459d1b1635c49797a5212268047dd1ae27d26127d5b7f90971ef1330fb1ab26",
@@ -1022,7 +1072,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 103,
+      "row": 108,
       "id": "S03-T3-A-E2",
       "kind": "changed",
       "from_fp": "120b33a1e397a1429f5e099b623de65ac168ab9b06477d1335e726b0f76cd29d",
@@ -1032,7 +1082,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 104,
+      "row": 109,
       "id": "S03-T3-B-E3",
       "kind": "changed",
       "from_fp": "8579d9e1ff04d8c1af0a6fba003168a84d546bf2f05c7fac9dc669f5d53ffd73",
@@ -1042,7 +1092,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 105,
+      "row": 110,
       "id": "S03-T4-A-E1",
       "kind": "changed",
       "from_fp": "49e424242e1406d4e129639ea74c4e4504cecb66ea5187e1be0d6c38fa49128f",
@@ -1052,7 +1102,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 106,
+      "row": 111,
       "id": "S03-T4-A-E3",
       "kind": "changed",
       "from_fp": "6b70290224557d1f989cf33f28db0ad3ae87321655d89f7f696429f01902bdb9",
@@ -1062,7 +1112,7 @@
       "date": "2026-11-17"
     },
     {
-      "row": 107,
+      "row": 112,
       "id": "S03-T4-B-E3",
       "kind": "changed",
       "from_fp": "08ddeada16c265fcdb1b910fdda119369e722e3ce18aad63428788aee4b72f99",

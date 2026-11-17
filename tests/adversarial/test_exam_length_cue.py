@@ -77,7 +77,9 @@ import exam_bank  # noqa: E402
 #: iteration-summaries and text-unicode-regex got distractors at least as long as the key.
 #: 2026-11-11: 1047 -> 1045. Proposal 10 S01: the two commit-message items (churn, NaN) got a
 #: distractor longer than the key.
-LONGEST_IS_CORRECT_OWED = 1045
+#: 2026-11-17: 1045 -> 1036. Proposal 10 S02: nine basics items got distractors at least as long
+#: as the key (literals, assignment, decimal, f-string and parse items).
+LONGEST_IS_CORRECT_OWED = 1036
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

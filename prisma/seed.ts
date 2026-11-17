@@ -372,29 +372,29 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'literals-types',
-      question: 'En un registro de intake, ¿qué imprime `type("42").__name__` y qué vale `42 == "42"`?',
+      question: 'Un formulario entrega `codigo_raw = "0042"`. ¿Qué imprime `type(codigo_raw).__name__` y qué vale `codigo_raw == 42`?',
       options: [
-        'int y True',
-        'str y False',
-        'str y True',
-        'int y False',
+        'int y True, porque solo contiene dígitos',
+        'str y False, porque sigue siendo texto',
+        'str y True, porque Python compara los dígitos',
+        'int y False, porque el cero inicial cambia el valor',
       ],
       correctIndex: 1,
       explanation:
-        '"42" es str. 42 (int) no es igual a "42" (str); hay que convertir de forma explícita.',
+        'Todo lo que llega de un formulario es str, aunque solo tenga dígitos. Un str nunca es igual a un int: "0042" == 42 es False hasta que conviertes de forma explícita.',
     },
     {
       concept: 'literals-types',
-      question: '¿Por qué el teléfono `999000111` de un cliente sintético se modela como `str` y no como `int`?',
+      question: 'En un registro sintético, ¿por qué el código de cliente `0042` se guarda como `str` y el monto `150.50` como `Decimal`?',
       options: [
-        'Porque int no existe en Python',
-        'Porque str es más rápido que int',
-        'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
-        'Porque PEP 8 prohíbe int para dígitos',
+        'Porque str ocupa menos memoria que Decimal y el código tiene pocos dígitos',
+        'Porque Decimal solo acepta montos y PEP 8 obliga a guardar códigos como texto',
+        'El código identifica y no se suma; el monto es una cantidad con céntimos',
+        'Porque int no admite ceros y Decimal es el único tipo numérico de Python',
       ],
       correctIndex: 2,
       explanation:
-        'Teléfonos, DNI y códigos son identificadores de texto, no cantidades para sumar o multiplicar.',
+        'Un código identifica: no se suma y su cero inicial importa, así que sigue siendo texto. Un monto es una cantidad con céntimos exactos, y Decimal la representa sin el error binario de float.',
     },
     // --- type-inspect-convert (3) ---
     {
@@ -408,7 +408,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 3,
       explanation:
-        'strip elimina espacios; int convierte. eval sobre input es inaceptable por seguridad.',
+        'strip elimina espacios; int convierte. int() ya tolera espacios en los bordes, pero strip() deja el texto limpio guardado y permite detectar un campo que solo tiene espacios. eval sobre input es inaceptable por seguridad.',
     },
     {
       concept: 'type-inspect-convert',
@@ -454,16 +454,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'assignment-naming',
-      question: '¿Qué ocurre si escribes `if edad = 18:` en Python moderno (sin walrus)?',
+      question: '¿Qué ocurre al ejecutar `resultado = (edad = 18)` cuando querías preguntar si `edad` vale 18?',
       options: [
-        'SyntaxError: = es asignación, no comparación',
-        'Asigna 18 y entra al if',
-        'Compara en silencio',
-        'Crea una constante EDAD',
+        'SyntaxError: dentro de la expresión, = asigna y no compara',
+        'resultado vale True si edad ya valía 18 antes de esa línea',
+        'resultado vale 18 y edad cambia a 18 sin mostrar ningún error',
+        'resultado vale False y edad conserva el valor que tenía antes',
       ],
       correctIndex: 0,
       explanation:
-        'En el if se usa == para comparar. = solo asigna; Python reporta SyntaxError.',
+        'Para preguntar se usa ==. Dentro de una expresión, = no es válido y Python responde SyntaxError antes de ejecutar nada; su mensaje sugiere ==.',
     },
     // --- identity-mutability (3) ---
     {
@@ -540,9 +540,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Por qué `0.1 + 0.2` no es confiable para dinero y qué usas en su lugar?',
       options: [
         'Por representación binaria; usa decimal.Decimal desde str y quantize a 2 decimales',
-        'Es confiable; float es exacto en base 10',
-        'Porque Python prohíbe sumar floats',
-        'Porque hay que usar int siempre',
+        'Es confiable: float guarda 0.1 y 0.2 exactos, y el error solo aparece al imprimirlos',
+        'Porque Python prohíbe sumar floats con decimales y obliga a usar round(x, 2) antes',
+        'Porque el dinero siempre se guarda en int, en soles enteros y sin ningún céntimo',
       ],
       correctIndex: 0,
       explanation:
@@ -553,10 +553,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Subtotal `Decimal("100.00")` e IGV 18%. ¿Qué patrón redondea el IGV a céntimos de sol?',
       options: [
-        'float(subtotal) * 0.18',
+        'Decimal(str(float(subtotal) * 0.18)).quantize(Decimal("1"))',
         '(subtotal * Decimal("0.18")).quantize(Decimal("0.01"))',
-        'round(subtotal, 2) * 18',
-        'subtotal // Decimal("0.18")',
+        '(subtotal * Decimal("0.18")).quantize(Decimal("0.1"))',
+        '(subtotal // Decimal("0.18")).quantize(Decimal("0.01"))',
       ],
       correctIndex: 1,
       explanation:
@@ -573,11 +573,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'io-fstrings',
-      question: 'Con `nombre = "José"` y `monto = 150.5`, ¿cuál imprime el reporte con dos decimales?',
+      question: 'Con `nombre = "José"` y `monto = 150.5`, ¿qué línea imprime `Cliente: José | S/ 150.50`?',
       options: [
-        'print("José", monto)',
-        'print(nombre + monto)',
-        'print(format(nombre))',
+        'print(f"Cliente: {nombre} | S/ {monto}")',
+        'print(f"Cliente: {nombre} | S/ {round(monto)}")',
+        'print(f"Cliente: {nombre} | S/ {monto:2f}")',
         'print(f"Cliente: {nombre} | S/ {monto:.2f}")',
       ],
       correctIndex: 3,
@@ -587,16 +587,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'io-fstrings',
       question:
-        'Para tests del intake, ¿por qué es mejor `simular_intake(nombres, contacto)` que llamar `input()` real en la función de parse?',
+        '¿Por qué los ejercicios de S02 guardan las respuestas de prueba en variables, como `nombres_raw = "  María  "`, en lugar de llamar a `input()`?',
       options: [
-        'Porque una función pura con parámetros es testeable sin consola interactiva',
-        'Porque input no existe en Python 3',
-        'Porque f-strings no funcionan con input',
-        'Porque str no puede venir de parámetros',
+        'Porque así la misma comprobación se repite sin que nadie escriba en la consola',
+        'Porque input() no existe en Python 3 y fue reemplazada por las variables de texto',
+        'Porque las f-strings no pueden mostrar un texto que llegó desde input() en consola',
+        'Porque un texto escrito en una variable deja de ser str y ya llega convertido a int',
       ],
       correctIndex: 0,
       explanation:
-        'Separar captura de parse permite asserts reproducibles en CI/Pyodide.',
+        'input() detiene el programa hasta que alguien escribe. Un valor asignado permite ejecutar la misma comprobación cuantas veces quieras, también en una revisión automática, y sigue siendo str como lo que devolvería input().',
     },
     // --- parse-error-messages (3) ---
     {
@@ -617,23 +617,23 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'parse-error-messages',
       question: 'Al parsear `apellido_materno = "  Ñahui  "`, ¿qué resultado conserva Unicode de ida y vuelta?',
       options: [
-        'Fallar con UnicodeEncodeError',
-        'Convertir Ñ a N automáticamente',
-        'raw con espacios originales y clean "Ñahui" sin error ASCII',
-        'Guardar solo bytes latin-1',
+        'Fallar con UnicodeEncodeError, porque la Ñ no cabe dentro de un str de Python',
+        'Convertir la Ñ en N automáticamente al aplicar strip() al texto',
+        'raw con espacios originales y clean "Ñahui" sin errores de codificación',
+        'Guardar solo los bytes en latin-1 para no perder la tilde ni la Ñ',
       ],
       correctIndex: 2,
       explanation:
-        'Python 3 str es Unicode. strip no destruye Ñ; raw y clean coexisten.',
+        'Python 3 maneja la Ñ como texto Unicode, así que str no necesita conversión. strip no destruye la Ñ; raw y clean coexisten.',
     },
     {
       concept: 'parse-error-messages',
       question:
-        'Si `edad="abc"`, ¿cuál es el comportamiento profesional del parser (safe_int + errors)?',
+        'Si `edad="abc"`, ¿cuál es el comportamiento profesional del parser?',
       options: [
-        'Dejar que el programa termine con traceback no capturado',
-        'except: pass y seguir en silencio',
-        'Asignar edad=0 por defecto sin avisar',
+        'Dejar que el programa termine con un traceback que nadie captura ni explica al usuario',
+        'Ignorar el error en silencio y seguir con el campo edad vacío, sin dejar ningún registro',
+        'Asignar edad=0 por defecto sin avisar, para que el resto del registro sí se pueda guardar',
         'Agregar error que nombre el campo, conservar edad_raw="abc", no asignar edad limpia',
       ],
       correctIndex: 3,
