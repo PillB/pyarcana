@@ -79,7 +79,11 @@ import exam_bank  # noqa: E402
 #: distractor longer than the key.
 #: 2026-11-17: 1045 -> 1036. Proposal 10 S02: nine basics items got distractors at least as long
 #: as the key (literals, assignment, decimal, f-string and parse items).
-LONGEST_IS_CORRECT_OWED = 1036
+#: 2026-11-17: 1036 -> 1035. Proposal 10 S05: the boundaries item in functions-contracts got
+#: distractors longer than the key.
+#: 2026-11-17: 1035 -> 1034. Proposal 10 S06: the collections dict-counter key lost its
+#: "(o defaultdict/Counter)" aside, which named tools S01-S06 never teach.
+LONGEST_IS_CORRECT_OWED = 1034
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

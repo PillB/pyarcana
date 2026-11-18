@@ -1400,7 +1400,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'params-safe-defaults',
-      question: 'En `def normalize_telefono(raw, *, country="PE")`, ¿qué obliga a hacer el `*`?',
+      question: 'En `def normalize_telefono_intl(raw, *, country="PE")`, ¿qué obliga a hacer el `*`?',
       options: [
         '`raw` debe escribirse siempre como argumento por nombre.',
         '`raw` pasa a ser un parámetro opcional de la función.',
@@ -1618,10 +1618,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'examples-refactor',
       question: 'Al fijar ejemplos de un normalizador de texto sintético, ¿qué fronteras conviene cubrir?',
       options: [
-        'Solo una entrada válida que ya esté normalizada.',
+        'Una entrada válida ya normalizada, como `"Ana"`, y ningún caso más.',
         'Vacío, espacios, Unicode, doble aplicación y `None` permitido.',
-        'Solo datos personales tomados de clientes reales.',
-        'Solo un caso que produzca el resultado esperado.',
+        'Datos personales copiados de clientes reales para que sean realistas.',
+        'Un único caso feliz que produzca el resultado esperado por el test.',
       ],
       correctIndex: 1,
       explanation: 'S05 propone vacío, solo espacios, Unicode y doble aplicación. `None` se incluye únicamente cuando el contrato admite esa ausencia; los datos deben ser sintéticos.',
@@ -1677,7 +1677,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Tras `a, b = ("C001", "Lima")`, ¿qué ocurre si la fila tiene 3 campos y haces unpacking a 2 variables?',
       options: [
         'Se ignoran campos extra en silencio',
-        'ValueError: el largo no calza — útil para detectar shape roto',
+        'ValueError: el largo no calza — útil para detectar una forma de fila rota',
         'Se crea None para el faltante',
         'Se convierte a dict automáticamente',
       ],
@@ -1746,14 +1746,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un dict de conteos por región, ¿qué patrón es idiomático para incrementar?',
       options: [
-        'counts[r] = counts.get(r, 0) + 1  (o defaultdict/Counter)',
+        'counts[r] = counts.get(r, 0) + 1',
         'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts.append(r)',
         'counts + r',
       ],
       correctIndex: 0,
       explanation:
-        'get con default 0 (o Counter) evita KeyError en la primera ocurrencia.',
+        'get con default 0 evita KeyError en la primera ocurrencia.',
     },
     {
       concept: 'sets-dedup',
@@ -1817,13 +1817,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué el curso modela list[dict] anidado antes de CSV/JSON en S08?',
       options: [
         'Porque pandas es obligatorio en S06',
-        'El modelo en memoria es el contrato que luego serializas; shape claro evita bugs de ingesta',
+        'El modelo en memoria es el contrato que luego serializas; una forma clara evita bugs de ingesta',
         'Porque set no puede anidarse nunca',
         'Porque NumPy broadcasting reemplaza dicts',
       ],
       correctIndex: 1,
       explanation:
-        'CP-N1-B parte del modelo tabular en RAM; S08 conecta ese shape a archivos.',
+        'CP-N1-B parte del modelo tabular en RAM; S08 conecta esa forma a archivos.',
     },
     {
       concept: 'nested-traversal',
@@ -1845,7 +1845,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En intake, ¿en qué se diferencia un campo missing (ausente) de un valor vacío ""?',
       options: [
         'Son idénticos para el dashboard',
-        'Missing = clave no presente / None según contrato; vacío = presente pero sin contenido — se tratan distinto en cuarentena',
+        'Missing = clave no presente / None según contrato; vacío = presente pero sin contenido — se reportan en listas distintas',
         'Vacío siempre es error de sintaxis',
         'Missing solo existe en SQL',
       ],
@@ -1907,7 +1907,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 3,
       explanation:
-        'Orden estable hace salidas reproducibles para CP-N1-B y comparación de manifests.',
+        'Orden estable hace salidas reproducibles para CP-N1-B y comparación de salidas entre corridas.',
     },
     {
       concept: 'sort-key',

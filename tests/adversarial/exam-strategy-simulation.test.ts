@@ -82,12 +82,15 @@ const PASSABLE = 0.05
 //
 // Paid 2026-11-17 by proposal 10 S02: nine basics items got distractors at least as long as the
 // key, and basics leaves the "longest" list. 48 -> 47.
+//
+// Paid 2026-11-17 by proposal 10 S05: the boundaries item in functions-contracts got distractors
+// longer than the key, and functions-contracts leaves the "longest" list. 47 -> 46.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
   'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
   'dbt-bigquery', 'exceptions-logging', 'fastapi',
-  'files-ingestion', 'functions-contracts', 'gpu-computing', 'graph-rag', 'iac',
+  'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'oop-domain', 'opensource', 'packaging', 'performance-extreme', 'rag',
