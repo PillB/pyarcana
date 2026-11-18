@@ -32,9 +32,10 @@ BATCH_1 = [
 # so s01-setup no longer answers to "pick the longest".
 # 2026-11-17, proposal 10 S04: five S04 keys were rebalanced against their distractors,
 # so s04-iteration-summaries no longer answers to "pick the longest".
+# 2026-11-18, proposal 10 S07: five S07 keys (particles, search/fullmatch, nested quantifiers,
+# re.compile, phone digits) are no longer the longest option; "always longest" now scores 4/10.
 LONGEST_OWED = {
-    "s07-text-unicode-regex", "s09-exceptions-logging",
-    "s12-apis-sql-geo", "s13-evidence-dashboard",
+    "s09-exceptions-logging", "s12-apis-sql-geo", "s13-evidence-dashboard",
 }
 SHORTEST_OWED: set[str] = set()
 

@@ -237,7 +237,9 @@ class S06S07S08Contract(unittest.TestCase):
 
     def test_S07_REGEX_NOMBRES_particles_are_review(self) -> None:
         self.check_theory("s07", "Contraejemplo: un patrón de dos palabras rechaza partículas",
-                          ["María del Carmen Quispe → None", "María del Carmen Quispe Ríos → {'raw'"])
+                          # 2026-11-18, proposal 10 S07: the correction now uses the T1-B rule, so
+                          # "María del Carmen Quispe Ríos" is ok; a particle among the surnames is review.
+                          ["María del Carmen Quispe → None", "María Pérez de la Cruz → {'raw'"])
 
     def test_S07_UMBRAL_threshold_declared_before_scores(self) -> None:
         self.check_theory("s07", "Contraejemplo: un umbral elegido después de ver los scores",

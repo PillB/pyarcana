@@ -3205,14 +3205,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Heurística demo: si solo hay 2 tokens de nombre, ¿qué hace un pipeline prudente?',
       options: [
-        'Inventar segundo apellido vacío y marcar accept',
+        'Inventar un segundo apellido vacío y marcar accept para que el registro pase',
         'Borrar el registro',
-        'Marcar review (o política documentada) en vez de afirmar estructura completa',
+        'Marcar review y conservar raw en vez de completar la estructura',
         'Convertir a DNI',
       ],
       correctIndex: 2,
       explanation:
-        'Sin evidencia de segundo apellido, review > invención. Documenta límites del parser.',
+        'Con dos tokens falta evidencia del segundo apellido: review con raw es mejor que inventarlo. Documenta los límites del parser.',
     },
     {
       concept: 'latam-names-particles',
@@ -3278,11 +3278,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Validar TLD contra lista ISO completa en cliente',
         'Rechazar todo email con tilde en dominio visible',
         'Guardar solo el hash y borrar el email siempre',
-        'strip, lower/casefold local conservador, forma básica local@dominio sin overvalidation de RFC completo',
+        'strip, casefold solo del dominio, parte local sin cambiar, forma básica local@dominio sin overvalidation',
       ],
       correctIndex: 3,
       explanation:
-        'Reglas modestas: no reimplementar RFC 5322. Overvalidation genera FN falsos.',
+        'Reglas modestas: la parte local conserva sus mayúsculas y no se reimplementa el RFC 5322. La sobrevalidación rechaza correos válidos.',
     },
     {
       concept: 'names-emails-phones',
@@ -3304,7 +3304,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué el curso insiste en no sobrevalidar emails/teléfonos con regex “perfectos”?',
       options: [
         'Porque regex no existe en Python',
-        'Falsos rechazos (FN de negocio): clientes válidos caen a quarantine por patrón demasiado estricto',
+        'Falsos rechazos: clientes válidos caen a review por un patrón demasiado estricto',
         'Porque lower() está prohibido',
         'Porque Unicode no aplica a emails',
       ],
@@ -3394,7 +3394,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 3,
       explanation:
-        'Regex extrae/valida forma. Matching de identidad es política + evidencia (T4).',
+        'Regex extrae/valida forma. Decidir si dos registros son la misma persona es política + evidencia, como en «FP/FN y conservación de evidencia».',
     },
     {
       concept: 'exact-token-similarity',
