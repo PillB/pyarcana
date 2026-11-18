@@ -85,7 +85,12 @@ import exam_bank  # noqa: E402
 #: "(o defaultdict/Counter)" aside, which named tools S01-S06 never teach.
 #: 2026-11-18: 1034 -> 1033. Proposal 10 S07: the two-token review item in text-unicode-regex
 #: got a distractor longer than the key.
-LONGEST_IS_CORRECT_OWED = 1032
+#: 2026-11-18: 1033 -> 1032. Proposal 10 S08: the newline="" item in files-ingestion kept its key
+#: wording and got distractors longer than the key.
+#: 2026-11-18: 1032 -> 1029. Proposal 10 S09: three exceptions-logging items (the parser's
+#: exception, the custom-exception item, the regression-evidence item) got distractors at least
+#: as long as the key.
+LONGEST_IS_CORRECT_OWED = 1029
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

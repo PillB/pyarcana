@@ -24,13 +24,13 @@ export const section09: CourseSection = {
   jobRelevance:
     "En bancos, fintech, retail o salud en Perú, un crash opaco o un log con email completo te cuesta incidentes, multas de cumplimiento y la confianza del on-call (la persona de guardia que responde alertas fuera de horario). Aquí aprendes a convertir fallos en señales operables: excepciones específicas, tracebacks legibles, logging estructurado sin PII (datos personales como email, teléfono o dirección) y políticas de fail-fast (abortar pronto si la configuración está rota) versus cuarentena (aislar la fila mala y seguir). Construyes una bitácora auditable que puedes defender en code review y en un post mórtem (la revisión posterior a un incidente) a las 02:00.",
   learningOutcomes: [
-    { text: "Elegir tipos de excepción, raise con contexto y chaining con from" },
+    { text: "Elegir tipos de excepción, raise con contexto y encadenamiento (chaining) con from" },
     { text: "Dibujar fronteras try/except/else/finally y with; separar recuperable vs. fatal" },
     { text: "Leer tracebacks, ubicar el frame útil y usar el debugger local sin exponer secretos" },
-    { text: "Reducir fallos a minimal repro con hipótesis y tests de regresión" },
+    { text: "Reducir un fallo a una reproducción mínima (el menor ejemplo que todavía falla), con hipótesis y tests de regresión" },
     { text: "Configurar logging con niveles, campos estructurados y log.exception en ERROR" },
     { text: "Propagar `correlation_id` —el identificador común de una corrida— y enmascarar email, teléfono y dirección" },
-    { text: "Decidir fail-fast vs. cuarentena según data|config|provider" },
+    { text: "Decidir entre fallar rápido y apartar en cuarentena según la clase de error: data (una fila), config (la configuración) o provider (un servicio externo)" },
     { text: "Reintentar solo errores transitorios con operaciones idempotentes" },
   ],
   theory: [
@@ -39,7 +39,7 @@ export const section09: CourseSection = {
       paragraphs: [
         "El trabajo `ingest_clientes` falló a las 02:10. Quien está de guardia abre el registro y encuentra sesenta líneas de traza que terminan en `KeyError: 'monto'`. Con eso no sabe lo esencial: si el problema es una fila mala que debería apartarse, una variable de configuración que alguien cambió ayer, o el proveedor que está caído y basta con reintentar. Baja un poco más y encuentra otra cosa: el correo completo de un cliente, impreso en el mensaje de error y ahora visible en el canal donde llegan las alertas.",
         "Esta sección convierte esos fallos en señales que se pueden usar. La primera pieza es el tipo de excepción: reduce los lugares donde buscar, pero no demuestra por sí solo la causa raíz. Un nombre como `ConfigError` ayuda solo si el programa tiene evidencia para clasificar el fallo; todavía debes leer el contexto y la traza.",
-        "La segunda pieza es la traza estándar de Python. Después del encabezado, el primer frame muestra una llamada anterior; los frames siguientes entran en llamadas más profundas y el último señala la línea inmediata donde surgió la excepción. La línea final muestra la clase y el mensaje, por ejemplo `KeyError: 'monto'`. Empieza por el último frame de tu código y retrocede hacia sus llamadores si necesitas saber cómo llegó allí.",
+        "La segunda pieza es la traza estándar de Python. Cada **frame** es una entrada de la traza: una llamada, con su archivo, su línea y su función. Después del encabezado, el primer frame muestra una llamada anterior; los frames siguientes entran en llamadas más profundas y el último señala la línea inmediata donde surgió la excepción. La línea final muestra la clase y el mensaje, por ejemplo `KeyError: 'monto'`. Empieza por el último frame de tu código y retrocede hacia sus llamadores si necesitas saber cómo llegó allí.",
         "La tercera pieza es un registro útil sin exponer de más. Un identificador de correlación acompaña una misma corrida y permite reunir sus eventos. Enmascarar un correo como `a***@ejemplo.pe` reduce la exposición, pero no vuelve anónimo el evento: el dominio, la hora y otros campos todavía pueden vincularlo con un caso. Por eso el equipo también limita qué registra, quién accede y cuánto tiempo lo conserva.",
         "Queda una decisión que se toma una vez y se respeta siempre: qué merece detener el programa. Si la configuración está mal, todo lo que venga después será basura, así que se falla de inmediato. Si una fila viene mal, el resto del archivo sigue siendo bueno, así que se aparta y se continúa. Confundir las dos produce los dos peores resultados posibles: un proceso que se cae por una fila, o un proceso que procesa mil archivos con la configuración equivocada.",
         "La pregunta que ordena la sección es la de esa persona de guardia: **¿qué puede hacer con esto alguien que no escribió el código, a las dos de la mañana, sin poder preguntarte?** El hilo es el mismo intake sintético de siempre, con los conteos reconciliados de S08 detrás: cada fila apartada debería poder llevar su clase de error y su identificador de correlación para el análisis del día siguiente.",
@@ -65,7 +65,7 @@ export const section09: CourseSection = {
      {
       heading: "Valores faltantes y montos no válidos",
       paragraphs: [
-        "Un **valor faltante** aparece cuando un dato que debía llegar está ausente. Puede venir como texto vacío, `N/A`, `None` —el valor de Python que representa ausencia— o `NaN` (*not a number*, «no es un número»); ninguna de esas marcas equivale a cero, porque cero sí es un monto conocido.",
+        "Un **valor faltante** aparece cuando un dato que debía llegar está ausente. Puede venir como texto vacío, `N/A`, `None` —el valor de Python que representa ausencia— o `NaN` (*not a number*, «no es un número»). Ninguna de esas marcas equivale a cero, porque cero sí es un monto conocido.",
         "En este ejercicio, `NaN` e `Infinity` son entradas no válidas para un monto. `Decimal` crea valores decimales desde texto, y `from decimal import Decimal` hace disponible ese nombre incluido con Python. Aunque `Decimal` acepta esos dos textos, `is_finite()` devuelve `False` porque no representan una cantidad finita que pueda guardarse como dinero.",
         "Observa el ejemplo antes de ejecutarlo: `10.50` sí representa un monto finito, mientras que `NaN` e `Infinity` no. La salida confirma esa diferencia con valores concretos.",
         "Práctica guiada: añade `-1.00` a la lista y predice el resultado. Lo correcto es `finito= True`: ser finito no significa ser válido, así que la comprobación posterior del signo todavía debe rechazarlo. Para comprobar tu comprensión, ejecuta el bloque y verifica que solo `10.50` y `-1.00` produzcan `True`.",
@@ -92,7 +92,7 @@ Infinity finito= False`,
     {
       heading: "Contraejemplo: un faltante convertido en cero cambia el promedio",
       paragraphs: [
-        "Cuatro filas traen monto, pero dos llegaron vacías o con `N/A`. El error cambia cada faltante por `Decimal(\"0\")` y calcula el promedio sobre las cuatro; la corrección cuenta los faltantes aparte y promedia solo los montos que sí llegaron.",
+        "Llegan cuatro filas, pero dos traen el monto vacío o con `N/A`. El error cambia cada faltante por `Decimal(\"0\")` y calcula el promedio sobre las cuatro; la corrección cuenta los faltantes aparte y promedia solo los montos que sí llegaron.",
         "El total es `200.00` en los dos casos, por eso el error pasa desapercibido. El promedio no coincide: `50.00` con ceros y `100.00` sin ellos. Además, la corrección informa `faltantes: 2`, un dato que la versión con ceros había borrado.",
       ],
       code: {
@@ -108,7 +108,7 @@ Infinity finito= False`,
       paragraphs: [
         "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (fallo al leer o escribir). Un `except Exception` amplio no borra por sí solo el traceback, pero mezcla políticas distintas. Si lo usas en el borde del proceso, registra el fallo y vuelve a lanzarlo.",
         "`decimal`, `io`, `traceback`, `logging` y `time` son herramientas incluidas con Python; `import` hace disponibles aquí los nombres que cada ejemplo usa. La organización general de estas herramientas se estudia en S10.",
-        "`raise RuntimeError('fila C001: monto inválido') from e` lanza un error nuevo y guarda en su `__cause__` la excepción `e` que atrapaste, así el traceback muestra las dos. El mensaje contiene un identificador interno y un motivo, nunca un correo, teléfono, dirección ni otro valor sensible que pueda reaparecer en un traceback.",
+        "`raise RuntimeError('fila C001: monto inválido') from e` lanza un error nuevo y guarda en su `__cause__` la excepción `e` que atrapaste, así el traceback muestra las dos. Ese enlace se llama **encadenamiento de excepciones** (*chaining*). El mensaje contiene un identificador interno y un motivo, nunca un correo, teléfono, dirección ni otro valor sensible que pueda reaparecer en un traceback.",
         "Después usamos una excepción personalizada. `class ParseError(Exception): pass` crea un tipo de excepción llamado `ParseError` a partir del tipo general `Exception`; S11 explicará la sintaxis general de clases. Aquí solo necesitas reconocer que ese nombre permite distinguir el fallo de conversión. En la salida, la causa del `RuntimeError` es ese `ParseError`, y la causa del `ParseError` es el `InvalidOperation` que lanzó `Decimal` al leer `abc`: la cadena se lee desde el error de fuera hasta el original.",
         "Este ejemplo acepta punto decimal o una coma seguida por exactamente dos decimales; no acepta separadores de miles ni mezcla punto y coma. Así `12,50` significa doce con cincuenta, mientras `1,234` se rechaza en lugar de interpretarse en silencio.",
       ],
@@ -172,7 +172,7 @@ cause of cause: InvalidOperation`,
       },
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally` dibuja el borde del proceso: **else** corre solo si no hubo excepción y **finally** corre siempre, lo que permite limpiar lo que el bloque usó. Un **context manager** (administrador de contexto) controla la preparación y la salida de un bloque `with`; para un archivo o `StringIO`, cierra el recurso incluso si el bloque falla. Otros administradores pueden hacer más trabajo, así que `with` no significa simplemente «un `finally` abreviado».",
+        "`try/except/else/finally` dibuja el borde del proceso: **else** corre solo si no hubo excepción y **finally** corre siempre, lo que permite limpiar lo que el bloque usó. Un **context manager** (administrador de contexto) controla la preparación y la salida de un bloque `with`; para un archivo o `StringIO`, cierra el recurso incluso si el bloque falla. Otros administradores pueden hacer más trabajo, así que `with` no significa simplemente «un `finally` abreviado». En la salida, `finally` aparece también en la segunda llamada: corre antes de que el error llegue al `except` de fuera.",
         "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs. **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
         "Config rota → **fail-fast** (abortar antes de multiplicar basura en el lote). Fila de datos inválida → **cuarentena** y continúa, como el **manifest de S08** con conteos reconciliados. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README del pipeline, no un gusto de estilo del autor del script.",
       ],
@@ -189,9 +189,9 @@ def read_lote(text: str, config_ok: bool) -> list[str]:
     print("cleanup: handle cerrado (with)")
     return lineas
 
-def procesar_lote(text: str) -> None:
+def procesar_lote(text: str, config_ok: bool) -> None:
     try:
-        lineas = read_lote(text, True)
+        lineas = read_lote(text, config_ok)
     except RuntimeError:
         raise
     else:
@@ -199,14 +199,15 @@ def procesar_lote(text: str) -> None:
     finally:
         print("finally: contadores listos")
 
-procesar_lote("a\\nb\\n")
+procesar_lote("a\\nb\\n", True)
 try:
-    read_lote("x", False)
+    procesar_lote("x", False)
 except RuntimeError as e:
     print("demo capturada:", e)
     print("el proceso real debe propagar este error")`,
         output: `cleanup: handle cerrado (with)
 lote legible ['a', 'b']
+finally: contadores listos
 finally: contadores listos
 demo capturada: config inválida: delimiter vacío
 el proceso real debe propagar este error`,
@@ -346,10 +347,12 @@ caso vecino: sigue rechazado`,
       heading: "Niveles y estructura de logging",
       subtopicId: "S09-T3-A",
       paragraphs: [
-        "Niveles: **DEBUG** (detalle dev), **INFO** (progreso del job), **WARNING** (anomalía recuperable: fila opcional rara), **ERROR** (fallo de una unidad que cuarentenarás o reintentarás), **CRITICAL** (el proceso o el lote entero está en peligro: config rota, disco lleno). No loguees ERROR para filas esperables de cuarentena si WARNING basta: el ruido entierra el incidente real en el dashboard de ops.",
-        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. Handlers y formatters se arman **una vez** en el entrypoint del CLI (preview suave de S10, Módulos y CLI). En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
-        "Un log tiene campos estructurados cuando cada dato ocupa un atributo propio del evento, no solo una parte de la frase. En `logging`, `extra={...}` añade esos atributos al registro interno que crea la biblioteca; el `Formatter` decide después cómo emitirlos. Así un recolector puede conservar `stage` o `record_id` sin depender de analizar la redacción del mensaje.",
-        "Desde el siguiente ejemplo, los mensajes llevan marcadores `%s`, como en `log.warning(\"record_id=%s event=quarantine\", record_id)`: cada `%s` marca el hueco donde irá un valor, en el orden de los argumentos. `logging` recibe la plantilla y los valores por separado y solo los une cuando la línea se va a emitir; con el nivel en `WARNING`, una llamada a `log.debug` no arma ningún texto. Una f-string, en cambio, arma el texto antes de llamar a `log`, aunque la línea se descarte. Además, el registro guarda la plantilla aparte de los valores, de modo que un recolector puede contar cuántas veces ocurrió `record_id=%s event=quarantine` sin separar el id de cada fila. En el `Formatter`, `%(levelname)s` funciona igual, pero nombra un campo del registro en lugar de tomar el siguiente argumento. Para los mensajes que lee una persona en pantalla, la f-string sigue siendo la herramienta.",
+        "Niveles: **DEBUG** (detalle dev), **INFO** (progreso del job), **WARNING** (anomalía recuperable: fila opcional rara), **ERROR** (una unidad no se pudo completar y alguien debe actuar) y **CRITICAL** (el proceso o el lote entero está en peligro: config rota, disco lleno). Un proveedor que sigue caído tras los reintentos es un ERROR típico. Una fila que va a cuarentena es **WARNING**: el proceso la esperaba y sigue. No loguees ERROR para esas filas: el ruido entierra el incidente real en el dashboard de ops.",
+        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. El *handler* (el destino que escribe cada línea) y el *formatter* (la plantilla de cada línea) se configuran **una vez**, al arrancar el programa. En S10 ese punto de arranque es la CLI, que envía los logs a stderr. En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
+        "Un log tiene campos estructurados cuando cada dato lleva un nombre fijo y un valor, en vez de quedar mezclado en una frase libre. En `logging`, `extra={...}` guarda esos campos como atributos propios del registro interno que crea la biblioteca; el `Formatter` decide después cómo emitirlos. Con un `Formatter` por defecto, los campos de `extra` no aparecen: hay que nombrarlos en el formato, como `%(stage)s` en el ejemplo.",
+        "Los ejemplos siguientes escriben los campos como texto `clave=valor` dentro del mensaje, porque es lo que se lee en consola. Sigue siendo una estructura: los nombres no cambian entre líneas. El recolector que necesite atributos separados usa `extra=`.",
+        "Desde el siguiente ejemplo, los mensajes llevan marcadores `%s`, como en `log.warning(\"record_id=%s event=quarantine\", record_id)`: cada `%s` marca el hueco donde irá un valor, en el orden de los argumentos. `logging` recibe la plantilla y los valores por separado y solo los une cuando la línea se va a emitir. Con el nivel en `WARNING`, una llamada a `log.debug` no arma ningún texto. Una f-string, en cambio, arma el texto antes de llamar a `log`, aunque la línea se descarte. Para los mensajes que lee una persona en pantalla, la f-string sigue siendo la herramienta.",
+        "El registro también guarda la plantilla aparte de los valores, de modo que un recolector puede contar cuántas veces ocurrió `record_id=%s event=quarantine` sin separar el id de cada fila. En el `Formatter`, `%(levelname)s` funciona igual, pero nombra un campo del registro en lugar de tomar el siguiente argumento.",
         "Caso sintético CASO-LIM-009: el job `ingest_clientes` falla a las 02:10. Sin campos `stage`/`record_id`, el on-call no une el WARNING de la fila C014 con el ERROR del provider. Con mensajes `stage=normalize record_id=C014 event=parse_fail` y nivel correcto, el triage tarda minutos, no horas — y aún no has tocado PII (eso es T3-B).",
       ],
       code: {
@@ -388,7 +391,7 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
         type: "tip",
         title: "Campos estables",
         content:
-          "Acuerda un vocabulario (stage, correlation_id, error_class). El reloj se inyecta en demos/tests para obtener un oráculo estable; en producción usa time.perf_counter_ns.",
+          "Acuerda un vocabulario (stage, correlation_id, error_class). El reloj se inyecta en demos y tests para que el resultado no cambie de una corrida a otra; en producción usa time.perf_counter_ns.",
       },
     },
     {
@@ -407,7 +410,7 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
     {
       heading: "Contraejemplo: configurar dos veces el logger duplica cada línea",
       paragraphs: [
-        "Un *handler*, el objeto que escribe cada evento en un destino, se acumula cada vez que llamas a `addHandler`, y `propagate` decide si el evento sube también al logger raíz, el que está en la cima de la jerarquía. El error llama dos veces a `configurar` sin limpiar y deja la propagación activa, algo que ocurre al rehacer una demo o importar dos veces un módulo que configura logging. La corrección limpia los handlers y desactiva la propagación.",
+        "Un *handler*, el objeto que escribe cada evento en un destino, se acumula cada vez que llamas a `addHandler`. Además, `propagate` decide si el evento sube también al logger raíz, el que está en la cima de la jerarquía. El error llama dos veces a `configurar` sin limpiar y deja la propagación activa. Eso ocurre cuando una función que configura logging se llama más de una vez, por ejemplo al rehacer una demo en la misma sesión. Importar dos veces el mismo módulo no lo causa: Python ejecuta su cuerpo una sola vez y reutiliza el módulo ya cargado. La corrección limpia los handlers y desactiva la propagación.",
         "Un solo `log.info` produce tres líneas en el error: dos del handler repetido y una de la raíz. En la corrección produce una. Si un log muestra cada evento dos o tres veces, revisa primero estas dos causas.",
       ],
       code: {
@@ -477,8 +480,8 @@ correlation_id=corr-9c2e stage=validar id=C001`,
       heading: "Correlation IDs y enmascarado de datos personales",
       subtopicId: "S09-T3-B",
       paragraphs: [
-        "Un `correlation_id` viaja como argumento explícito: `process_row` lo recibe y se lo pasa a `validate_row`, que lo añade al evento. Repetir el mismo valor en cada capa permite unir los eventos de una corrida sin usar una variable global.",
-        "Nunca registres email, teléfono o dirección completos. `mask_email`, `mask_phone` y `mask_address` reducen la exposición antes de construir el evento; la máscara de dirección de este ejemplo devuelve `***` porque el log no necesita la calle. Aun enmascarado, el evento sigue siendo sensible y requiere acceso limitado, conservación definida y solo los campos necesarios.",
+        "Un `correlation_id` viaja como argumento explícito, como en el bloque anterior, donde `procesar_lote` se lo pasa a `validar_fila`. Aquí se crea una vez (`corr`) y entra en el evento como un campo más. Repetir el mismo valor en cada capa permite unir los eventos de una corrida sin usar una variable global.",
+        "Nunca registres email, teléfono o dirección completos. `mask_email`, `mask_phone` y `mask_address` reducen la exposición antes de construir el evento; la máscara de dirección de este ejemplo devuelve `***` porque el log no necesita la calle. El bloque define `mask_address` para el You Do, pero no la usa. Aun enmascarado, el evento sigue siendo sensible y requiere acceso limitado, conservación definida y solo los campos necesarios.",
         "`log.exception` adjunta los frames y el mensaje de la excepción. Por eso el código lanza `ValueError(\"valor vacío o N/A\")`, un motivo que describe el problema sin copiar el valor, y mantiene cualquier valor completo fuera de la excepción y del log. Si se necesita conservar evidencia completa, debe ir a un almacenamiento separado y protegido.",
       ],
       code: {
@@ -529,7 +532,7 @@ except ValueError:
         mask_email(email),
     )
 out = buf.getvalue()
-# solo la primera línea del log (sin el traceback largo en el oráculo)
+# solo la primera línea del log (el traceback cambia según la ruta del archivo)
 print(out.splitlines()[0])
 print(f"phone={mask_phone('+51 999 123 456')}")`,
         output: `ERROR correlation_id=job-7f3a stage=validate error_class=data email=a***@ejemplo.pe
@@ -566,36 +569,62 @@ phone=***3456`,
       heading: "Fallar rápido vs. continuar con cuarentena",
       subtopicId: "S09-T4-A",
       paragraphs: [
-        "Clasifica primero con ejemplos de Python: **data** es una fila cuyo monto no cumple el contrato; **config** es una lista de campos requeridos ausente; **provider** es una llamada externa simulada que lanza `TimeoutError`. La clase orienta la política, pero no basta por sí sola para autorizar un reintento.",
+        "Clasifica primero con ejemplos de Python: **data** es una fila cuyo monto no cumple el contrato; **config** es la lista `required_fields` ausente; **provider** es una llamada externa simulada que lanza `TimeoutError`. El bloque muestra las tres y registra el aborto de config como **CRITICAL**. La clase orienta la política, pero no basta por sí sola para autorizar un reintento.",
         "La configuración inválida detiene el proceso porque continuar afectaría todo el lote. Una fila inválida puede ir a cuarentena con `error_class=data` y su `correlation_id`, mientras las demás continúan. Leer, convertir y validar todavía permiten tomar esa decisión antes de publicar.",
-        "La igualdad `in == ok + quarantined` es necesaria, pero no basta para declarar éxito parcial. También deben estar presentes todas las entradas críticas y la política de esa fuente debe permitir las clases y la proporción observadas en cuarentena. Si cualquiera de esas condiciones falla, no publiques el lote.",
+        "La igualdad entre las filas de entrada y `ok` más `quarantined`, que la salida comprueba, es necesaria, pero no basta para declarar éxito parcial. También deben estar presentes todas las entradas críticas y la política de esa fuente debe permitir las clases y la proporción observadas en cuarentena. Si cualquiera de esas condiciones falla, no publiques el lote.",
       ],
       code: {
         language: 'python',
         title: "failfast_quarantine.py",
-        code: `def process_batch(rows: list[dict], config: dict) -> dict:
-    if not config.get("delimiter"):
-        raise RuntimeError("config: delimiter requerido")
+        code: `import io
+import logging
+
+buf = io.StringIO()
+log = logging.getLogger("pipeline.lote")
+log.handlers.clear()
+log.propagate = False
+handler = logging.StreamHandler(buf)
+handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+log.addHandler(handler)
+
+def process_batch(rows: list[dict], config: dict) -> dict:
+    required = config.get("required_fields")
+    if not required:
+        log.critical("stage=config event=abort reason=required_fields")
+        raise RuntimeError("config: required_fields ausente")
     ok, quarantine = [], []
     for r in rows:
-        if "id" not in r or r.get("monto") is None:
-            quarantine.append({"row": r, "reason": "data: campos requeridos"})
+        missing = [k for k in required if r.get(k) is None]
+        if missing:
+            quarantine.append({"row": r, "error_class": "data",
+                               "reason": "missing:" + ",".join(missing)})
             continue
         ok.append(r)
     return {"ok": ok, "quarantined": quarantine}
 
-print(process_batch(
-    [{"id": "C001", "monto": 10}, {"nombre": "x"}],
-    {"delimiter": ","},
-))
+def fetch_tipo_cambio() -> str:
+    raise TimeoutError("proveedor sin respuesta")  # llamada externa simulada
+
+rows = [{"id": "C001", "monto": 10}, {"id": "C002"}]
+r = process_batch(rows, {"required_fields": ["id", "monto"]})
+print(r)
+print("entradas", len(rows), "= ok + cuarentena", len(r["ok"]) + len(r["quarantined"]))
 try:
     process_batch([], {})
 except RuntimeError as e:
-    print("demo capturada:", e)
-    print("el proceso real debe propagar este error")`,
-        output: `{'ok': [{'id': 'C001', 'monto': 10}], 'quarantined': [{'row': {'nombre': 'x'}, 'reason': 'data: campos requeridos'}]}
-demo capturada: config: delimiter requerido
-el proceso real debe propagar este error`,
+    print("error_class=config:", e)
+try:
+    fetch_tipo_cambio()
+except TimeoutError as e:
+    print("error_class=provider:", e)
+print(buf.getvalue().strip())
+print("el proceso real debe propagar config y decidir el reintento de provider")`,
+        output: `{'ok': [{'id': 'C001', 'monto': 10}], 'quarantined': [{'row': {'id': 'C002'}, 'error_class': 'data', 'reason': 'missing:monto'}]}
+entradas 2 = ok + cuarentena 2
+error_class=config: config: required_fields ausente
+error_class=provider: proveedor sin respuesta
+CRITICAL stage=config event=abort reason=required_fields
+el proceso real debe propagar config y decidir el reintento de provider`,
       },
       callout: {
         type: "info",
@@ -609,9 +638,9 @@ el proceso real debe propagar este error`,
       subtopicId: "S09-T4-B",
       paragraphs: [
         "Un error es candidato a reintento solo si el contrato de la operación lo considera temporal. `TimeoutError` puede ser candidato en una lectura sin efectos, pero un timeout de escritura puede ocurrir después de que el receptor ya guardó el dato. Por eso la clase de excepción no decide sola.",
-        "Una operación es **idempotente** cuando repetir la misma solicitud lógica deja el mismo resultado observable. Una clave de idempotencia ayuda solo si el receptor la usa para detectar una solicitud ya procesada y devolver el resultado anterior, o para actualizar la misma entrada en vez de insertar otra.",
+        "Una operación es **idempotente** cuando repetir la misma solicitud lógica deja el mismo resultado observable. Una clave de idempotencia ayuda solo si el receptor la usa para detectar una solicitud ya procesada y devolver el resultado anterior. También sirve si lo usa para actualizar la misma entrada en vez de insertar otra.",
         "El ejemplo primero reintenta una lectura sin efectos externos. Después, un almacén falso recuerda la clave antes de simular una respuesta perdida; el segundo intento encuentra esa clave y reutiliza el resultado, de modo que el almacén conserva una sola entrada.",
-        "El **backoff** creciente espera más entre intentos y reduce presión sobre el receptor. El **jitter** es una variación aleatoria acotada que evita que muchos procesos reintenten al mismo instante. Siempre fija un máximo y conserva la regla del contrato sobre qué errores y operaciones admiten reintento.",
+        "El **backoff** creciente espera más entre intentos y reduce presión sobre el receptor. El **jitter** es una variación aleatoria acotada que evita que muchos procesos reintenten al mismo instante. Siempre fija un máximo y conserva la regla del contrato sobre qué errores y operaciones admiten reintento. Al agotar el máximo, la unidad sale del bucle con un motivo, como `fail_timeout` en la demo de T4-B, y se aparta según la política de la fuente.",
       ],
       code: {
         language: 'python',
@@ -653,6 +682,15 @@ def write_with_retry(key, payload):
 print(write_with_retry("banco:C001:v1", {"monto": 10}))
 print("stored", len(store))
 
+filas = []
+
+def save_sin_mirar(key, payload):
+    filas.append((key, payload))  # no busca la clave antes de añadir
+
+for _ in range(2):  # la misma solicitud, enviada dos veces
+    save_sin_mirar("banco:C001:v1", {"monto": 10})
+print("sin mirar la clave:", len(filas), "entradas")
+
 def bad_data():
     raise ValueError("dato malo")
 
@@ -663,13 +701,14 @@ except ValueError as e:
         output: `datos read_calls 3
 {'monto': 10}
 stored 1
+sin mirar la clave: 2 entradas
 no-retry: dato malo`,
       },
       callout: {
         type: "warning",
         title: "La clave no aplica la política por sí sola",
         content:
-          "El receptor debe comprobar la clave y reutilizar el resultado anterior o actualizar la misma entrada. Añadir la clave a un `INSERT` común todavía puede duplicar filas.",
+          "El receptor debe comprobar la clave y reutilizar el resultado anterior o actualizar la misma entrada. Guardar la clave junto al dato no basta: si `save` añade a una lista sin buscar la clave, el segundo intento duplica la entrada, como muestra la línea `sin mirar la clave`.",
       },
     },
     {
@@ -708,7 +747,7 @@ no-retry: dato malo`,
         environment: "local-python",
         description: "Validar monto de intake: Decimal + ParseError encadenado a ValidationError",
         preamble:
-          "En el intake sintético CASO-LIM-009 una fila con monto `N/A` no debe tumbar el job con un mensaje opaco. Antes de tocar We Do, observa la demo: (1) `parse_monto` convierte texto con coma a `Decimal` y cuantiza a 0.01; (2) si el parse falla, lanza `ParseError` **from** la causa de stdlib; (3) `validate_intake` envuelve eso en `ValidationError` con `id` de fila. Sigue los dos caminos: C001 imprime el dict ok; C002 muestra tipo, mensaje y `cause ParseError…`. Datos sintéticos; no reescribas aún.",
+          "En el intake sintético CASO-LIM-009 una fila con monto `N/A` no debe tumbar el job con un mensaje opaco. Antes de tocar We Do, observa la demo en tres pasos. (1) `parse_monto` convierte texto con coma a `Decimal` y cuantiza a 0.01. (2) Si la conversión falla, lanza `ParseError` **from** la causa de stdlib. (3) `validate_intake` envuelve eso en `ValidationError` con el `id` de la fila. Sigue los dos caminos: C001 imprime el dict ok; C002 muestra tipo, mensaje y `cause ParseError…`. Datos sintéticos; no reescribas aún.",
         code: {
           language: 'python',
           title: "intake_chain.py",
@@ -764,7 +803,7 @@ cause ParseError monto no parseable`,
         environment: "local-python",
         description: "Leer lote con `with` + `else`/`finally`; re-raise si config inválida.",
         preamble:
-          "El job de lote debe cerrar handles y dejar contadores listos **aunque** el camino sea fatal. Observa sin escribir: (1) `with StringIO` cierra el handle; (2) si `encoding` falta, `ConfigError` se propaga (fail-fast); (3) en el camino feliz, `else` imprime `ok` y `finally` siempre imprime contadores. Predice el orden de las líneas de salida antes de mirar el oráculo. Datos sintéticos de demo.",
+          "El job de lote debe cerrar handles y dejar contadores listos **aunque** el camino sea fatal. Observa sin escribir: (1) `with StringIO` cierra el handle; (2) si `encoding` falta, `ConfigError` se propaga (fail-fast); (3) en el camino feliz, `else` imprime `ok` y `finally` siempre imprime contadores. Predice el orden de las líneas de salida antes de mirarla. Datos sintéticos de demo.",
         code: {
           language: 'python',
           title: "lote_finally.py",
@@ -782,24 +821,27 @@ def leer_lote(payload: str, encoding: Optional[str]) -> List[str]:
     with StringIO(payload) as handle:
         return [ln.rstrip("\\n") for ln in handle]
 
-try:
-    filas = leer_lote("fila1\\nfila2\\n", "utf-8")
-except ConfigError:
-    raise
-else:
-    print("ok", filas)
-finally:
-    print("finally: contadores listos")
+def procesar(payload: str, encoding: Optional[str]) -> None:
+    try:
+        filas = leer_lote(payload, encoding)
+    except ConfigError:
+        raise
+    else:
+        print("ok", filas)
+    finally:
+        print("finally: contadores listos")
 
+procesar("fila1\\nfila2\\n", "utf-8")
 try:
-    leer_lote("x", None)
+    procesar("x", None)
 except ConfigError as e:
     print("fatal config:", e)`,
           output: `ok ['fila1', 'fila2']
 finally: contadores listos
+finally: contadores listos
 fatal config: encoding requerido`,
         },
-        why: "`with` cierra el handle; el `else` del **try** (no del if) corre solo si no hubo excepción — camino feliz legible. `finally` corre siempre, incluso antes de propagar al llamador. Config inválida se relanza: fail-fast, no cuarentena disfrazada.",
+        why: "`with` cierra el handle; el `else` del **try** (no del if) corre solo si no hubo excepción — camino feliz legible. `finally` corre siempre, incluso antes de propagar al llamador: por eso la salida muestra `finally` dos veces, la segunda justo antes de `fatal config`. Config inválida se relanza: fail-fast, no cuarentena disfrazada.",
         retrospective:
           "Si sabes por qué `finally` corre también en el fallo de config, ya no confundes cleanup con «éxito». El error clásico es `except Exception: pass` y mentir al on-call. We Do: cerrar estado en finally y clasificar recover vs. fail-fast.",
       },
@@ -867,7 +909,8 @@ for n in lote:
     except ValueError as e:
         fallos.append(str(e))
 print("total_fallos", len(fallos))
-# minimal repro: la entrada más corta
+# reproducción mínima: aquí la entrada fallida más corta; en un proyecto real
+# se toma de la lista de entradas que fallaron, no se extrae del mensaje
 minimal = min((f.split(": ", 1)[-1].strip("'") for f in fallos), key=len)
 print("minimal_repro", repr(minimal))
 try:
@@ -878,9 +921,9 @@ except ValueError as e:
 minimal_repro 'Solo'
 root_symptom nombre incompleto: 'Solo'`,
         },
-        why: "Reducir a una sola entrada hace el assert de regresión de una línea y evita arrastrar PII o ruido de columnas. Un bug silencioso de 3+ tokens (truncar mal sin lanzar) es **otro** repro e hipótesis distinta; aquí el síntoma es el ValueError de nombre incompleto.",
+        why: "Reducir a una sola entrada permite escribir después, en el We Do, un assert de regresión de una línea, y evita arrastrar PII o ruido de columnas. Un bug silencioso de 3+ tokens (truncar mal sin lanzar) es **otro** repro e hipótesis distinta; aquí el síntoma es el ValueError de nombre incompleto.",
         retrospective:
-          "Si puedes defender por qué el test usa `'Solo'` y no el CSV entero, ya internalizaste minimal repro. We Do: recortar fixtures de documentos, hipótesis de teléfono y rojo→verde en nombres latam.",
+          "Si puedes defender por qué el test usa `'Solo'` y no el CSV entero, ya entiendes la reproducción mínima. We Do: recortar fixtures de documentos, hipótesis de teléfono y rojo→verde en nombres latam.",
       },
       {
         demoId: "S09-T3-A-DEMO",
@@ -888,14 +931,14 @@ root_symptom nombre incompleto: 'Solo'`,
         environment: "local-python",
         description: "Logger de pipeline con campos stage, record_id, duration_ms.",
         preamble:
-          "En el pipeline de familiaridad el progreso del stage se consulta por campos, no por `print` suelto. Observa: logger de módulo, handler a buffer, `propagate=False`, y dos INFO con `stage=normalize record_id=C001` (start/done + duration_ms). El reloj es un iterador inyectado para oráculo estable (7 ms). No reescribas; predice el buffer.",
+          "En el pipeline de ingreso el progreso de cada etapa se consulta por campos, no por `print` suelto. Observa: logger de módulo, handler a buffer, `propagate=False`, y dos INFO con `stage=normalize record_id=C001` (start/done + duration_ms). El reloj es un iterador inyectado, así que la duración sale siempre 7 ms. No reescribas; predice el buffer.",
         code: {
           language: 'python',
           title: "pipeline_logger.py",
           code: `import logging, io
 
 buf = io.StringIO()
-log = logging.getLogger("familiarity.pipeline")
+log = logging.getLogger("pipeline.ingreso")
 log.handlers.clear()
 log.setLevel(logging.INFO)
 h = logging.StreamHandler(buf)
@@ -921,7 +964,7 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
         },
         why: "Campos estables (`stage`, `record_id`, `event`, `duration_ms`) permiten filtrar en ops y post mórtem. El reloj inyectado hace el demo determinista; en producción usarías `perf_counter_ns`. `propagate=False` evita duplicar líneas en el root logger.",
         retrospective:
-          "Si puedes decir por qué duration_ms sale 7 sin mirar el código del reloj, entendiste oráculos estables. We Do: asignar niveles, armar el logger y separar RESULT de logs (preview S10).",
+          "Si puedes decir por qué duration_ms sale 7 sin mirar el código del reloj, entendiste por qué se inyecta el reloj. We Do: asignar niveles, armar el logger y separar el resultado final (stdout) de los logs (stderr), como se verá en S10.",
       },
       {
         demoId: "S09-T3-B-DEMO",
@@ -929,7 +972,7 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
         environment: "local-python",
         description: "log.exception con email enmascarado, correlation_id y stack en el ERROR path.",
         preamble:
-          "Un ERROR path del intake no puede filtrar `lucia.mendez@…` al canal de ops. Observa: `mask_email` antes del format string, `correlation_id` y `error_class=data`, `log.exception` adjunta stack, y los asserts verifican máscara + ausencia de PII completa. Solo la primera línea ERROR se imprime como oráculo legible. Datos sintéticos `ejemplo.pe`.",
+          "Un ERROR path del intake no puede filtrar `lucia.mendez@…` al canal de ops. Observa: `mask_email` antes del format string, `correlation_id` y `error_class=data`, `log.exception` adjunta stack, y los asserts verifican máscara + ausencia de PII completa. Solo la primera línea ERROR se imprime, para que la salida no dependa de la ruta del archivo. Datos sintéticos `ejemplo.pe`.",
         code: {
           language: 'python',
           title: "masked_error_log.py",
@@ -945,7 +988,7 @@ def parse_email(raw: str) -> str:
     return raw.lower()
 
 buf = io.StringIO()
-log = logging.getLogger("familiarity.audit")
+log = logging.getLogger("pipeline.audit")
 log.handlers.clear()
 log.setLevel(logging.ERROR)
 h = logging.StreamHandler(buf)
@@ -983,7 +1026,7 @@ pii_completa_ausente=True`,
         environment: "local-python",
         description: "Lote: 1 fila mala a cuarentena; config rota aborta.",
         preamble:
-          "El lote sintético trae C001 completa y C002 sin email. Observa la política: data → cuarentena con reason; config sin `required_fields` → abort RuntimeError. El assert `ok + quarantined == in` es el mismo espíritu del manifest de S08. Predice el dict y la línea `abort …` antes de mirar el output.",
+          "El lote sintético trae C001 completa y C002 sin email. Observa la política: data → cuarentena con reason; config sin `required_fields` → abort RuntimeError. El assert `len(r[\"ok\"]) + len(r[\"quarantined\"]) == r[\"in\"]` (la clave `\"in\"` cuenta las filas de entrada) es el mismo espíritu del manifest de S08. Predice el dict y la línea `abort …` antes de mirar el output.",
         code: {
           language: 'python',
           title: "batch_policy.py",
@@ -1024,7 +1067,7 @@ abort config: required_fields ausente`,
         environment: "local-python",
         description: "Retry 3× en TimeoutError; ValueError va a cuarentena sin retry.",
         preamble:
-          "Un fetch flaky del proveedor simula timeout dos veces y ok al tercero; un ValueError de monto va a cuarentena **sin** gastar reintentos. Observa las tuplas de retorno `('ok', 'payload')` vs. `('quarantine', 'monto')` y el contador de attempts. No reescribas; predice por qué el segundo caso no llega a 3 intentos.",
+          "Un fetch flaky del proveedor simula timeout dos veces y ok al tercero; un ValueError de monto va a cuarentena **sin** gastar reintentos. Observa las tuplas de retorno `('ok', 'payload')` vs. `('quarantine', 'monto')` y el contador de intentos de cada caso. No reescribas; predice por qué el segundo caso se queda en 1 intento.",
         code: {
           language: 'python',
           title: "retry_quarantine.py",
@@ -1049,12 +1092,15 @@ def flaky(attempt):
 
 print(with_retry(flaky), "attempts", state["t"])
 
+calls = {"n": 0}
+
 def bad_data(_attempt):
+    calls["n"] += 1
     raise ValueError("monto")
 
-print(with_retry(bad_data))`,
+print(with_retry(bad_data), "attempts", calls["n"])`,
           output: `('ok', 'payload') attempts 3
-('quarantine', 'monto')`,
+('quarantine', 'monto') attempts 1`,
         },
         why: "Transitorio de red ≠ dato ilegal. Solo `TimeoutError` consume el bucle hasta el tope; un `ValueError` de monto sale al primer intento hacia cuarentena. Reintentar un dato inválido gasta cuota del proveedor y ensucia ERROR sin arreglar la fila. El tope de intentos es parte de la resiliencia: sin él, un bucle eterno se disfraza de «robustez».",
         retrospective:
@@ -1133,11 +1179,11 @@ regla de negocio: monto < 0 -> ValidationError`,
           "Paso 1: Revisa el starter: usa `float` y no valida signo, finitud ni separadores.\nPaso 2: Acepta una sola coma únicamente cuando la siguen dos decimales y no hay punto; rechaza los demás usos de coma.\nPaso 3: Convierte con `Decimal`, cuantiza a `Decimal('0.01')` y rechaza valores no finitos con un mensaje que no repita `raw`.\nPaso 4: Rechaza negativos y demuestra los casos `10.5`, `3,25`, `1,234`, `abc` y `-1`.",
         hint: "Construye Decimal desde texto, no desde float.",
         hints: [
-          "Decimal desde str; captura InvalidOperation. El mensaje nombra el problema (`monto no numérico`), no el valor recibido.",
+          "Decimal desde str; captura InvalidOperation y relanza con `from e` para conservar la causa. El mensaje nombra el problema (`monto no numérico`), no el valor recibido.",
           "Rechaza NaN/Infinity con is_finite y compara contra Decimal('0').",
         ],
         edgeCases: ["Cadena vacía.", "None.", "NaN.", "Infinity."],
-        tests: "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; no se permite float().",
+        tests: "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; la última línea muestra `causa conservada: InvalidOperation` porque el error se lanza con `from e`; no se permite float().",
         feedback:
           "Si usaste `float()`, rehazlo: la precisión de dinero y NaN/Infinity no son negociables. El mensaje no repite el valor recibido, porque una excepción termina en tracebacks y logs; quien está de guardia localiza la fila por su `id`, que añade la capa de validación.",
         retrospective:
@@ -1174,8 +1220,8 @@ def parse_monto(raw):
         n = Decimal(texto).quantize(Decimal("0.01"))
         if not n.is_finite():
             raise InvalidOperation
-    except (InvalidOperation, ValueError):
-        raise ValueError("monto no numérico") from None
+    except (InvalidOperation, ValueError) as e:
+        raise ValueError("monto no numérico") from e
     if n < Decimal("0"):
         raise ValueError("monto negativo no permitido")
     return n
@@ -1184,13 +1230,19 @@ for v in ["10.5", "3,25", "1,234", "abc", "-1", "NaN"]:
     try:
         print(v, "->", parse_monto(v))
     except ValueError as e:
-        print(v, "ERR", e)`,
+        print(v, "ERR", e)
+
+try:
+    parse_monto("abc")
+except ValueError as e:
+    print("causa conservada:", type(e.__cause__).__name__)`,
           output: `10.5 -> 10.50
 3,25 -> 3.25
 1,234 ERR monto con separador ambiguo
 abc ERR monto no numérico
 -1 ERR monto negativo no permitido
-NaN ERR monto no numérico`,
+NaN ERR monto no numérico
+causa conservada: InvalidOperation`,
         },
       },
       {
@@ -1570,24 +1622,24 @@ raised 'email'`,
         kind: "transfer",
         title: "Frase de causa raíz desde el stack",
         preamble:
-          "- **Contexto:** en el post mórtem hace falta una línea accionable, no el tb completo en Slack.\n- **Meta:** con solo el texto del traceback, imprimir la causa raíz.\n- **Éxito:** una línea `causa_raiz=normalize falta clave email`.\n- **Límites:** no reejecutes el código original; no culpes a `cli`/`app` si el index es en `normalize`.",
+          "- **Contexto:** en el post mórtem hace falta una línea accionable, no el tb completo en Slack.\n- **Meta:** con solo el texto del traceback, imprimir la causa raíz.\n- **Éxito:** `causa_raiz=normalize falta clave email` para la primera traza y `causa_raiz=clean falta clave telefono` para la segunda.\n- **Límites:** no reejecutes el código original; no culpes a `cli`/`app` si el index es en `normalize`.",
         id: "S09-T2-A-E3",
         instruction:
-          "Paso 1: El starter imprime todo el tb.\nPaso 2: Lee la línea `KeyError` y el frame de `normalize`.\nPaso 3: Emite exactamente el formato del contrato.\nPaso 4: No inventes otras causas.",
+          "Paso 1: El starter devuelve la traza completa.\nPaso 2: Toma la clave de la última línea (`KeyError: ...`).\nPaso 3: Toma el nombre de la función del último frame, la línea `File ... in NOMBRE` más cercana al final.\nPaso 4: Devuelve `causa_raiz=NOMBRE falta clave CLAVE`; no escribas `normalize` a mano, porque la segunda traza falla en otra función.",
         hint: "Lee el texto del traceback; no vuelvas a ejecutar el código.",
         hints: [
           "No vuelvas a ejecutar el código original; parsea el texto.",
-          "Formato: causa_raiz=normalize falta clave email",
+          "El último frame es la última línea que empieza con `File`; su nombre de función va después de ` in `.",
         ],
         edgeCases: ["No culpes a cli.py si el bug está en normalize."],
-        tests: "Contrato exacto: una línea `causa_raiz=normalize falta clave email`; exit 0.",
+        tests: "Contrato exacto: `causa_raiz=normalize falta clave email` y `causa_raiz=clean falta clave telefono`; exit 0.",
         feedback: "No culpes a cli.py: la KeyError nace en normalize al pedir la clave email.",
         retrospective:
-          "Causa raíz = función + condición (clave faltante), no «falló en prod». Ese hábito alimenta el minimal repro de T2-B y el test de regresión.",
+          "Causa raíz = función + condición (clave faltante), no «falló en prod». Ese hábito alimenta la reproducción mínima de T2-B y el test de regresión.",
         starterCode: {
           language: 'python',
           title: "root_from_tb.py",
-          code: `# A corregir: imprime todo el tb
+          code: `# A corregir: causa_raiz devuelve la traza completa
 tb = '''Traceback (most recent call last):
   File "app.py", line 1, in <module>
     normalize({"id": 1})
@@ -1595,7 +1647,21 @@ tb = '''Traceback (most recent call last):
     return row["email"].lower()
 KeyError: 'email'
 '''
-print(tb)
+tb_clean = '''Traceback (most recent call last):
+  File "app.py", line 3, in <module>
+    run({"id": 2})
+  File "app.py", line 2, in run
+    clean(row)
+  File "app.py", line 1, in clean
+    return row["telefono"].strip()
+KeyError: 'telefono'
+'''
+
+def causa_raiz(tb):
+    return tb  # A corregir: devuelve la traza completa
+
+print(causa_raiz(tb))
+print(causa_raiz(tb_clean))
 `,
         },
         solutionCode: {
@@ -1608,10 +1674,27 @@ print(tb)
     return row["email"].lower()
 KeyError: 'email'
 '''
-last_exc = [ln for ln in tb.splitlines() if ln.startswith("KeyError")][-1]
-key = last_exc.split(":", 1)[-1].strip().strip("'")
-print(f"causa_raiz=normalize falta clave {key}")`,
-          output: `causa_raiz=normalize falta clave email`,
+tb_clean = '''Traceback (most recent call last):
+  File "app.py", line 3, in <module>
+    run({"id": 2})
+  File "app.py", line 2, in run
+    clean(row)
+  File "app.py", line 1, in clean
+    return row["telefono"].strip()
+KeyError: 'telefono'
+'''
+
+def causa_raiz(tb):
+    lineas = tb.splitlines()
+    key = lineas[-1].split(":", 1)[-1].strip().strip("'")
+    frames = [ln for ln in lineas if ln.strip().startswith("File ")]
+    funcion = frames[-1].rsplit(" in ", 1)[-1]
+    return f"causa_raiz={funcion} falta clave {key}"
+
+print(causa_raiz(tb))
+print(causa_raiz(tb_clean))`,
+          output: `causa_raiz=normalize falta clave email
+causa_raiz=clean falta clave telefono`,
         },
       },
       {
@@ -1681,7 +1764,7 @@ cliente_id inválido: '123'`,
         kind: "independent",
         title: "Hipótesis: +51 no es perder el país",
         preamble:
-          "- **Contexto:** un reporte afirma que se «perdió el código de país +51»; el contrato de S07 es salida **solo dígitos**.\n- **Meta:** distinguir quitar el símbolo `+` de borrar los dígitos `51`.\n- **Éxito:** `with_country 51999111222`, `local 999111222`, `country_digits_preserved True`, `plus_symbol_expected False`.\n- **Límites:** no inventes formato E.164 con `+` en la salida; solo dígitos; datos sintéticos.",
+          "- **Contexto:** un reporte afirma que se «perdió el código de país +51»; el contrato de S07 es salida **solo dígitos**.\n- **Meta:** distinguir quitar el símbolo `+` de borrar los dígitos `51`.\n- **Éxito:** `with_country 51999111222`, `local 999111222`, `country_digits_preserved True`, `plus_symbol_expected False` y `con_simbolos 51999111222` para `+51 (999) 111-222`.\n- **Límites:** no inventes formato E.164 con `+` en la salida; solo dígitos; datos sintéticos.",
         id: "S09-T2-B-E2",
         instruction:
           "Paso 1: El starter quita espacios y `+` pero no deja el contrato explícito con asserts/flags.\nPaso 2: Normaliza a solo dígitos.\nPaso 3: Compara la entrada con código de país frente a la entrada local.\nPaso 4: Imprime las dos afirmaciones del contrato de tests.",
@@ -1690,8 +1773,8 @@ cliente_id inválido: '123'`,
           "El formato normalizado contiene solo dígitos: debe conservar 51, no el carácter +.",
           "Compara +51 999 111 222 con 999 111 222 para aislar el prefijo de país.",
         ],
-        edgeCases: ["Hipótesis falsables.", "prefijo 51.", "espacios."],
-        tests: "Contrato exacto: '+51 999 111 222'→'51999111222'; '999 111 222'→'999111222'; afirmar country_digits_preserved=True y plus_symbol_expected=False.",
+        edgeCases: ["'+51 (999) 111-222' → '51999111222'", "'999111222' (sin código de país) → '999111222'"],
+        tests: "Contrato exacto: '+51 999 111 222'→'51999111222'; '999 111 222'→'999111222'; '+51 (999) 111-222'→'51999111222'; afirmar country_digits_preserved=True y plus_symbol_expected=False, calculado con `\"+\" in with_country`.",
         feedback: "S07 definió salida solo-dígitos: retirar '+' no es perder el código de país si los dígitos 51 permanecen.",
         retrospective:
           "Hipótesis falsable + fixture mínimo evita pelear con el «reporte» sin evidencia. Retirar `+` no es perder el país si `51` permanece. Luego (E3): test rojo→verde de capitalización latam.",
@@ -1706,6 +1789,7 @@ with_country = normalize_phone("+51 999 111 222")
 local = normalize_phone("999 111 222")
 print("with_country", with_country)
 print("local", local)
+print("con_simbolos", normalize_phone("+51 (999) 111-222"))
 `,
         },
         solutionCode: {
@@ -1719,11 +1803,13 @@ local = normalize_phone("999 111 222")
 print("with_country", with_country)
 print("local", local)
 print("country_digits_preserved", with_country.startswith("51"))
-print("plus_symbol_expected", False)`,
+print("plus_symbol_expected", "+" in with_country)
+print("con_simbolos", normalize_phone("+51 (999) 111-222"))`,
           output: `with_country 51999111222
 local 999111222
 country_digits_preserved True
-plus_symbol_expected False`,
+plus_symbol_expected False
+con_simbolos 51999111222`,
         },
       },
       {
@@ -1859,7 +1945,7 @@ lote terminado con conteos: INFO`,
           "- **Contexto:** el job de ingest necesita bitácora con nivel, no `print` de progreso.\n- **Meta:** armar logger de módulo, handler a `StringIO`, emitir un INFO estructurado.\n- **Éxito:** una línea `INFO stage=ingest event=start`.\n- **Límites:** `propagate=False`; limpia handlers en demos; no uses print como log de progreso (el print final solo vuelca el buffer).",
         id: "S09-T3-A-E2",
         instruction:
-          "Paso 1: Elimina las llamadas a `print` que simulan INFO/DEBUG en el starter.\nPaso 2: `getLogger`, `setLevel(INFO)`, `StreamHandler(buf)`, formatter `%(levelname)s %(message)s`.\nPaso 3: `log.info(\"stage=ingest event=start\")`.\nPaso 4: Imprime `buf.getvalue().strip()`.",
+          "Paso 1: Elimina las llamadas a `print` que simulan INFO/DEBUG en el starter.\nPaso 2: `getLogger(__name__)` (en un script ejecutado directamente vale `\"__main__\"`; en un módulo importado, su nombre), `setLevel(INFO)`, `StreamHandler(buf)`, formatter `%(levelname)s %(message)s`.\nPaso 3: `log.info(\"stage=ingest event=start\")`.\nPaso 4: Imprime `buf.getvalue().strip()`.",
         hint: "propagate=False; formatter simple.",
         hints: [
           "propagate=False; formatter simple `%(levelname)s %(message)s`.",
@@ -1884,7 +1970,7 @@ print("DEBUG i=0")
           title: "module_logger.py",
           code: `import logging, io
 buf = io.StringIO()
-log = logging.getLogger("familiarity.ingest")
+log = logging.getLogger(__name__)
 log.handlers.clear()
 log.setLevel(logging.INFO)
 h = logging.StreamHandler(buf)
@@ -1901,17 +1987,17 @@ print(buf.getvalue().strip())`,
         kind: "transfer",
         title: "RESULT limpio y progreso en el logger",
         preamble:
-          "- **Contexto:** si mezclas «empezando/sumando» con el número de salida, rompes pipes y el contrato CLI de S10.\n- **Meta:** progreso a logs estructurados; stdout de datos solo con `RESULT=…`.\n- **Éxito:** `RESULT=3` y línea LOGS con `event=start` y `event=done`.\n- **Límites:** no imprimas progreso en el stream de datos; logger a buffer para el resumen.",
+          "- **Contexto:** si mezclas «empezando/sumando» con el número de salida, rompes pipes y el contrato CLI de S10.\n- **Meta:** progreso a logs estructurados; stdout de datos solo con `RESULT=…`.\n- **Éxito:** la salida estándar (stdout) lleva solo `RESULT=3`; los eventos `event=start op=inc` y `event=done op=inc` van a la salida de errores (stderr).\n- **Límites:** no imprimas progreso en el stream de datos; el handler del logger escribe en `sys.stderr`.",
         id: "S09-T3-A-E3",
         instruction:
-          "Paso 1: El starter usa print para todo en `cli_stub_good`.\nPaso 2: Loguea start/done; calcula resultado; imprime solo `RESULT=`.\nPaso 3: Vuelca el buffer de logs en una segunda línea etiquetada.\nPaso 4: Con n=2 el resultado es 3.",
+          "Paso 1: El starter usa print para todo en `cli_stub_good`.\nPaso 2: Loguea start/done; calcula resultado; imprime solo `RESULT=`.\nPaso 3: Crea el handler con `logging.StreamHandler(sys.stderr)`; así `python3 cli.py 2>/dev/null` muestra solo `RESULT=3`.\nPaso 4: Con n=2 el resultado es 3.",
         hint: "Progreso al logger; RESULT al stdout de datos.",
         hints: [
           "Progreso a logger; resultado con print o stdout data.",
-          "Debe verse RESULT=3 y LOGS con event=start / event=done.",
+          "stdout: RESULT=3; stderr: event=start op=inc y event=done op=inc.",
         ],
         edgeCases: ["No mezclar progress en el stream de datos."],
-        tests: "Contrato exacto: `RESULT=3` y línea LOGS con event=start y event=done; exit 0.",
+        tests: "Contrato exacto: stdout es solo `RESULT=3`; stderr contiene `event=start op=inc` y `event=done op=inc`; exit 0.",
         feedback: "Stdout de datos **limpios** (RESULT=…); progreso del job en el logger — preview del contrato CLI de S10 (Módulos y CLI).",
         retrospective:
           "Datos y diagnóstico son streams distintos: así el on-call filtra sin ensuciar el JSON/resultado. En T3-B añadirás correlation_id y máscaras de PII al ERROR path.",
@@ -1937,13 +2023,12 @@ cli_stub_good(1)
         solutionCode: {
           language: 'python',
           title: "prints_to_logs.py",
-          code: `import logging, io
+          code: `import logging, sys
 
-buf = io.StringIO()
 log = logging.getLogger("cli")
 log.handlers.clear()
 log.setLevel(logging.INFO)
-h = logging.StreamHandler(buf)
+h = logging.StreamHandler(sys.stderr)
 h.setFormatter(logging.Formatter("%(message)s"))
 log.addHandler(h)
 log.propagate = False
@@ -1954,10 +2039,8 @@ def cli_stub_good(n):
     log.info("event=done op=inc")
     print(f"RESULT={result}")
 
-cli_stub_good(2)
-print("LOGS:", buf.getvalue().replace("\\n", " | ").strip())`,
-          output: `RESULT=3
-LOGS: event=start op=inc | event=done op=inc |`,
+cli_stub_good(2)`,
+          output: `RESULT=3`,
         },
       },
       {
@@ -2019,17 +2102,17 @@ print(mask_phone("+51 988 777 666"))`,
         kind: "independent",
         title: "Propagar correlation_id por tres capas",
         preamble:
-          "- **Contexto:** sin el mismo id en CLI, service y repo, el post mórtem no une WARNING y ERROR de la misma corrida.\n- **Meta:** pasar `correlation_id` como argumento explícito (sin global).\n- **Éxito:** tres líneas con `correlation_id=corr-42` (cli, service, repo id=C001).\n- **Límites:** no uses variable global ni contextvars aquí; argumento explícito.",
+          "- **Contexto:** sin el mismo id en CLI, service y repo, el post mórtem no une WARNING y ERROR de la misma corrida.\n- **Meta:** pasar `correlation_id` como argumento explícito (sin global).\n- **Éxito:** tres líneas con `correlation_id=corr-42` (cli, service, repo id=C001) y tres con `correlation_id=corr-77` (repo id=C002).\n- **Límites:** no uses variable global ni contextvars aquí; argumento explícito.",
         id: "S09-T3-B-E2",
         instruction:
-          "Paso 1: El starter imprime etiquetas sin el corr.\nPaso 2: Incluye `correlation_id={corr}` en cada print de capa.\nPaso 3: Repo también imprime `id` del item.\nPaso 4: Llama `cli_main(\"corr-42\", {\"id\": \"C001\"})`.",
+          "Paso 1: El starter imprime etiquetas sin el corr.\nPaso 2: Incluye `correlation_id={corr}` en cada print de capa.\nPaso 3: Repo también imprime `id` del item.\nPaso 4: Llama `cli_main(\"corr-42\", {\"id\": \"C001\"})` y después `cli_main(\"corr-77\", {\"id\": \"C002\"})`: un valor fijo o global no puede pasar las dos.",
         hint: "Pasa correlation_id como argumento en cada capa.",
         hints: [
           "Pasa el id como argumento explícito (sin global).",
-          "Mismo id en las 3 líneas: cli, service, repo.",
+          "Mismo id en las 3 líneas de cada llamada: cli, service, repo.",
         ],
         edgeCases: ["En apps reales: contextvars opcional; aquí explícito es más claro."],
-        tests: "Contrato exacto: tres líneas con correlation_id=corr-42 (cli, service, repo id=C001); exit 0.",
+        tests: "Contrato exacto: tres líneas con correlation_id=corr-42 (cli, service, repo id=C001) y tres con correlation_id=corr-77 (repo id=C002); exit 0.",
         feedback: "El mismo corr-42 debe aparecer en cli, service y repo: argumento explícito, no variable global oculta.",
         retrospective:
           "El id es el hilo del job en el agregador de logs. Luego (E3): auditar plantillas que aún piden `{email}`/`{phone}` crudos.",
@@ -2049,6 +2132,7 @@ def cli_main(corr, item):
     service_upsert(corr, item)
 
 cli_main("corr-42", {"id": "C001"})
+cli_main("corr-77", {"id": "C002"})
 `,
         },
         solutionCode: {
@@ -2065,10 +2149,14 @@ def cli_main(corr, item):
     print(f"cli correlation_id={corr}")
     service_upsert(corr, item)
 
-cli_main("corr-42", {"id": "C001"})`,
+cli_main("corr-42", {"id": "C001"})
+cli_main("corr-77", {"id": "C002"})`,
           output: `cli correlation_id=corr-42
 service correlation_id=corr-42
-repo correlation_id=corr-42 id=C001`,
+repo correlation_id=corr-42 id=C001
+cli correlation_id=corr-77
+service correlation_id=corr-77
+repo correlation_id=corr-77 id=C002`,
         },
       },
       {
@@ -2076,17 +2164,17 @@ repo correlation_id=corr-42 id=C001`,
         kind: "transfer",
         title: "Auditar plantilla de log sin filtrar PII",
         preamble:
-          "- **Contexto:** una auditoría de logging no debe reimprimir el email que intenta proteger.\n- **Meta:** detectar placeholders inseguros en la plantilla y emitir solo el log enmascarado.\n- **Éxito:** `detected_unsafe True` y `SAFE error en a***@ejemplo.pe tel=***1222`; stdout sin raw.\n- **Límites:** escanea el string plantilla; no hagas `format` con el row crudo en el camino final; datos sintéticos.",
+          "- **Contexto:** una auditoría de logging no debe reimprimir el email que intenta proteger.\n- **Meta:** detectar placeholders inseguros en la plantilla y emitir solo el log enmascarado.\n- **Éxito:** `detected_unsafe True`, `safe_template_flagged False` y `SAFE error en a***@ejemplo.pe tel=***1222`; stdout sin raw.\n- **Cómo filtra el starter:** `plantilla.format(**row)` rellena cada `{nombre}` con el valor de la clave del mismo nombre en `row`, porque `**row` pasa cada clave como argumento con nombre. Por eso `{email}` copia el correo crudo al log.\n- **Límites:** escanea el string plantilla; no hagas `format` con el row crudo en el camino final; datos sintéticos.",
         id: "S09-T3-B-E3",
         instruction:
-          "Paso 1: Detecta `\"{email}\"` y `\"{phone}\"` en `template_unsafe`.\nPaso 2: Sustituye las funciones que devuelven valores crudos por máscaras reales.\nPaso 3: `safe_log` arma el mensaje solo con máscaras.\nPaso 4: Imprime detected_unsafe y SAFE … sin volcar raw.",
+          "Paso 1: Escribe `detect_unsafe(template)`: devuelve `True` si la plantilla contiene `\"{email}\"` o `\"{phone}\"`. Pruébala con `template_unsafe` y con la plantilla segura `\"error en {ticket}\"`.\nPaso 2: Sustituye las funciones que devuelven valores crudos por máscaras reales.\nPaso 3: `safe_log` arma el mensaje solo con máscaras.\nPaso 4: Imprime detected_unsafe y SAFE … sin volcar raw.",
         hint: "Revisa el string plantilla, no el row completo en stdout.",
         hints: [
           "Define template_unsafe = 'error en {email} tel={phone}' y busca '{email}' / '{phone}' en ese texto.",
           "Imprime 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=***1222' sin volcar PII raw.",
         ],
-        edgeCases: ["No loguear address completa tampoco.", "No uses internals de bytecode (__code__)."],
-        tests: "Contrato exacto: stdout contiene 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=***1222'; stdout no contiene a@ejemplo.pe ni 999111222.",
+        edgeCases: ["Un email sin `@` → `***`.", "Un teléfono con menos de 4 dígitos → `***`."],
+        tests: "Contrato exacto: stdout contiene 'detected_unsafe True', 'safe_template_flagged False' y 'SAFE error en a***@ejemplo.pe tel=***1222'; stdout no contiene a@ejemplo.pe ni 999111222.",
         feedback:
           "Una auditoría no debe re-filtrar la PII que intenta detectar: el starter formatea con raw; el camino final escanea la plantilla y solo emite máscaras.",
         retrospective:
@@ -2104,11 +2192,15 @@ def mask_email(email: str) -> str:
 def mask_phone(phone: str) -> str:
     return phone  # TODO: enmascarar
 
+def detect_unsafe(template: str) -> bool:
+    return False  # TODO: buscar {email} o {phone}
+
 def safe_log(row):
     return template_unsafe.format(**row)
 
 row = {"email": "a@ejemplo.pe", "phone": "999111222"}
-print("detected_unsafe", False)
+print("detected_unsafe", detect_unsafe(template_unsafe))
+print("safe_template_flagged", detect_unsafe("error en {ticket}"))
 print("SAFE", safe_log(row))
 `,
         },
@@ -2117,22 +2209,30 @@ print("SAFE", safe_log(row))
           title: "audit_pii_log.py",
           code: `def mask_email(email: str) -> str:
     local, _, domain = email.partition("@")
+    if not domain:
+        return "***"
     return f"{local[:1]}***@{domain}"
 
 def mask_phone(phone: str) -> str:
     d = "".join(c for c in phone if c.isdigit())
+    if len(d) < 4:
+        return "***"
     return "***" + d[-4:]
 
 template_unsafe = "error en {email} tel={phone}"
-detected = "{email}" in template_unsafe and "{phone}" in template_unsafe
+
+def detect_unsafe(template: str) -> bool:
+    return "{email}" in template or "{phone}" in template
 
 def safe_log(row):
     return f"error en {mask_email(row['email'])} tel={mask_phone(row['phone'])}"
 
 row = {"email": "a@ejemplo.pe", "phone": "999111222"}
-print("detected_unsafe", detected)
+print("detected_unsafe", detect_unsafe(template_unsafe))
+print("safe_template_flagged", detect_unsafe("error en {ticket}"))
 print("SAFE", safe_log(row))`,
           output: `detected_unsafe True
+safe_template_flagged False
 SAFE error en a***@ejemplo.pe tel=***1222`,
         },
       },
@@ -2253,17 +2353,17 @@ assert r["in"] == len(rows) == len(r["ok"]) + len(r["quarantined"])`,
         kind: "transfer",
         title: "Política de abort multi-regla testeable",
         preamble:
-          "- **Contexto:** el on-call no adivina si abortar: el README y el código deben decir lo mismo.\n- **Meta:** `should_abort(metrics)` con tres reglas y camino ok.\n- **Éxito:** cuatro líneas case/abort/reason (config True, ratio_alto True, provider True, una_fila_data False reason=ok).\n- **Límites:** orden config → ratio > 0.5 → provider; in=0 evita división; umbral 0.5 es de lab.",
+          "- **Contexto:** el on-call no adivina si abortar: el README y el código deben decir lo mismo.\n- **Meta:** `should_abort(metrics)` con tres reglas y camino ok.\n- **Éxito:** siete líneas case/abort/reason: config, ratio_alto y provider abortan con `reason=config`, `reason=quarantine_ratio` y `reason=provider`. Los casos una_fila_data, ratio_justo (5 de 10, exactamente 0.5) y lote_vacio no abortan (`reason=ok`). El caso ratio_y_provider aborta con `reason=quarantine_ratio`, porque el ratio se evalúa antes que el proveedor.\n- **Límites:** orden config → ratio > 0.5 → provider; in=0 evita división; umbral 0.5 es de lab.",
         id: "S09-T4-A-E3",
         instruction:
-          "Paso 1: El starter aborta si quarantined ≥ 1 (demasiado agresivo).\nPaso 2: Evalúa config_ok, ratio, provider_exhausted.\nPaso 3: Una sola fila en 10 no aborta.\nPaso 4: Imprime el formato exacto del contrato.",
+          "Paso 1: El starter aborta si quarantined ≥ 1 (demasiado agresivo).\nPaso 2: Evalúa config_ok, ratio, provider_exhausted.\nPaso 3: Una sola fila en 10 no aborta.\nPaso 4: El umbral es estricto (`> 0.5`): 5 de 10 no aborta. Con `in=0`, trata el ratio como 0 y no dividas.\nPaso 5: Imprime el formato exacto del contrato.",
         hint: "Evalúa en orden: config → umbral de cuarentena → provider agotado; si nada aplica, abort=False reason=ok.",
         hints: [
           "Evalúa en orden: config crítica → ratio quarantined/in > 0.5 → provider_exhausted.",
           "No abortes solo porque quarantined==1 si el ratio ≤ 0.5; documenta reason=ok.",
         ],
         edgeCases: ["El umbral 0.5 es de lab; en tu org se documenta en el README.", "in=0 evita división: trata ratio como 0."],
-        tests: "Contrato exacto: 4 líneas `case=… abort=… reason=…` (config→True, ratio alto→True, provider→True, una fila data→False reason=ok); exit 0.",
+        tests: "Contrato exacto: 7 líneas `case=… abort=… reason=…` (config→True reason=config, ratio_alto→True reason=quarantine_ratio, provider→True reason=provider, una_fila_data→False reason=ok, ratio_justo→False reason=ok, lote_vacio→False reason=ok, ratio_y_provider→True reason=quarantine_ratio); exit 0.",
         feedback:
           "La política de abort es una función testeable: el starter aborta por cualquier cuarentena; el contrato exige config, ratio > 0.5 y provider_exhausted, no «cualquier q≥1».",
         retrospective:
@@ -2284,6 +2384,9 @@ casos = [
     ("ratio_alto", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": False}),
     ("provider", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": True}),
     ("una_fila_data", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": False}),
+    ("ratio_justo", {"in": 10, "quarantined": 5, "config_ok": True, "provider_exhausted": False}),
+    ("lote_vacio", {"in": 0, "quarantined": 0, "config_ok": True, "provider_exhausted": False}),
+    ("ratio_y_provider", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": True}),
 ]
 for name, m in casos:
     abort, reason = should_abort(m)
@@ -2310,6 +2413,9 @@ casos = [
     ("ratio_alto", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": False}),
     ("provider", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": True}),
     ("una_fila_data", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": False}),
+    ("ratio_justo", {"in": 10, "quarantined": 5, "config_ok": True, "provider_exhausted": False}),
+    ("lote_vacio", {"in": 0, "quarantined": 0, "config_ok": True, "provider_exhausted": False}),
+    ("ratio_y_provider", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": True}),
 ]
 for name, m in casos:
     abort, reason = should_abort(m)
@@ -2317,7 +2423,10 @@ for name, m in casos:
           output: `case=config abort=True reason=config
 case=ratio_alto abort=True reason=quarantine_ratio
 case=provider abort=True reason=provider
-case=una_fila_data abort=False reason=ok`,
+case=una_fila_data abort=False reason=ok
+case=ratio_justo abort=False reason=ok
+case=lote_vacio abort=False reason=ok
+case=ratio_y_provider abort=True reason=quarantine_ratio`,
         },
       },
       {
@@ -2325,16 +2434,16 @@ case=una_fila_data abort=False reason=ok`,
         kind: "guided",
         title: "¿Qué errores merecen retry?",
         preamble:
-          "- **Contexto:** reintentar un KeyError de fila no arregla el schema; solo multiplica logs.\n- **Meta:** marcar yes/no de retry para cinco tipos.\n- **Éxito:** TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no.\n- **Límites:** solo transitorios de red aquí; no marques PermissionError como yes.",
+          "- **Contexto:** reintentar un KeyError de fila no arregla el schema; solo multiplica logs.\n- **Meta:** marcar yes/no de retry para cinco tipos.\n- **Éxito:** TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no.\n- **Vocabulario:** `ConnectionError` es la excepción incluida en Python para un fallo de conexión de red; como `TimeoutError`, es una subclase de `OSError` y suele ser temporal.\n- **Límites:** solo transitorios de red aquí; no marques PermissionError como yes.",
         id: "S09-T4-B-E1",
         instruction:
           "Paso 1: El starter pone yes en ValueError/KeyError/PermissionError.\nPaso 2: Solo TimeoutError y ConnectionError → yes.\nPaso 3: El resto → no.\nPaso 4: Imprime `error: yes|no` en el orden del dict.",
-        hint: "TimeoutError/503 → retry; ValueError/400 → no.",
+        hint: "TimeoutError y ConnectionError → retry; ValueError → no.",
         hints: [
           "Solo transitorios: TimeoutError, ConnectionError.",
           "ValueError/KeyError/PermissionError → no.",
         ],
-        edgeCases: ["429 rate limit a veces sí con backoff."],
+        edgeCases: ["Un servicio que responde «demasiadas solicitudes» a veces admite reintento con backoff."],
         tests: "Contrato exacto: TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no; exit 0.",
         feedback: "Solo transitorios de red (Timeout/Connection) merecen yes; datos y permisos no se arreglan reintentando.",
         retrospective:
@@ -2378,17 +2487,17 @@ PermissionError: no`,
         kind: "independent",
         title: "Reintentar TimeoutError hasta el tope",
         preamble:
-          "- **Contexto:** el proveedor inestable del laboratorio falla dos veces y responde en el tercero.\n- **Meta:** `retry_call(fn, max_attempts=3)` reintenta solo TimeoutError y relanza el último si agota.\n- **Éxito:** `done calls 3`; un `max_attempts` menor que 1 produce `ValueError`.\n- **Límites:** no retries infinitos; max_attempts=1 no reintenta; otros errores no se piden aquí.",
+          "- **Contexto:** el proveedor inestable del laboratorio falla dos veces y responde en el tercero.\n- **Meta:** `retry_call(fn, max_attempts=3)` reintenta solo TimeoutError y relanza el último si agota.\n- **Éxito:** `done calls 3`; un proveedor que siempre falla termina en `agotado TimeoutError calls 3`; un `max_attempts` menor que 1 produce `ValueError`.\n- **Límites:** no retries infinitos; max_attempts=1 no reintenta; otros errores no se piden aquí.",
         id: "S09-T4-B-E2",
         instruction:
-          "Paso 1: Rechaza `max_attempts < 1` con `ValueError`.\nPaso 2: Ejecuta un bucle hasta max_attempts capturando TimeoutError.\nPaso 3: Si agota, relanza el último TimeoutError.\nPaso 4: Imprime resultado y contador de calls; demuestra también el límite cero.",
+          "Paso 1: Rechaza `max_attempts < 1` con `ValueError`.\nPaso 2: Ejecuta un bucle hasta max_attempts capturando TimeoutError.\nPaso 3: Si agota, relanza el último TimeoutError.\nPaso 4: Imprime resultado y contador de calls; demuestra también el límite cero.\nPaso 5: El bloque final usa un proveedor que nunca responde: debe llamarse exactamente 3 veces. Si tu bucle no tiene tope, el arnés corta en la llamada 11 con `RuntimeError`.",
         hint: "Bucle hasta max_attempts capturando solo TimeoutError; si agotas, relanza el último.",
         hints: [
           "Devuelve el resultado o relanza el último TimeoutError.",
           "Cuenta intentos en un cierre o contador externo.",
         ],
         edgeCases: ["max_attempts=1 no reintenta.", "max_attempts=0 se rechaza con ValueError."],
-        tests: "Contrato exacto: `done calls 3`; `max_attempts=0` produce `ValueError`; exit 0.",
+        tests: "Contrato exacto: `done calls 3`; `boundary max_attempts debe ser >= 1`; `agotado TimeoutError calls 3`; exit 0.",
         feedback: "retry_call debe reintentar TimeoutError hasta max_attempts; el proveedor inestable del laboratorio llega a done en el 3.er intento. Rechazar un tope menor que 1 evita un `raise None` accidental.",
         retrospective:
           "Tope de intentos es parte de la resiliencia; un bucle eterno es un incidente. Luego (E3): clave de idempotencia para re-ingesta sin duplicar side-effects.",
@@ -2411,6 +2520,19 @@ try:
     print(retry_call(flaky))
 except TimeoutError as e:
     print("failed", e)
+
+calls = {"c": 0}
+
+def siempre_timeout():
+    calls["c"] += 1
+    if calls["c"] > 10:
+        raise RuntimeError("bucle sin tope")  # el arnés corta un bucle infinito
+    raise TimeoutError("sin respuesta")
+
+try:
+    retry_call(siempre_timeout, 3)
+except TimeoutError as e:
+    print("agotado", type(e).__name__, "calls", calls["c"])
 `,
         },
         solutionCode: {
@@ -2439,9 +2561,23 @@ print(retry_call(flaky), "calls", n["c"])
 try:
     retry_call(flaky, 0)
 except ValueError as e:
-    print("boundary", e)`,
+    print("boundary", e)
+
+calls = {"c": 0}
+
+def siempre_timeout():
+    calls["c"] += 1
+    if calls["c"] > 10:
+        raise RuntimeError("bucle sin tope")  # el arnés corta un bucle infinito
+    raise TimeoutError("sin respuesta")
+
+try:
+    retry_call(siempre_timeout, 3)
+except TimeoutError as e:
+    print("agotado", type(e).__name__, "calls", calls["c"])`,
           output: `done calls 3
-boundary max_attempts debe ser >= 1`,
+boundary max_attempts debe ser >= 1
+agotado TimeoutError calls 3`,
         },
       },
       {
@@ -2449,7 +2585,7 @@ boundary max_attempts debe ser >= 1`,
         kind: "transfer",
         title: "Clave de idempotencia para re-ingesta",
         preamble:
-          "- **Contexto:** reintentar un INSERT no idempotente duplica filas; el manifest de S08 ya te entrenó en conteos, ahora la clave de escritura.\n- **Meta:** construir `idem_key` con source, record_id, version y hash del payload.\n- **Éxito:** una línea `idem_key=banco_a:C001:v3:` + 12 hex del payload.\n- **Límites:** hash estable (`sort_keys` en JSON); no uses solo el id; datos sintéticos.",
+          "- **Contexto:** reintentar una escritura que no es idempotente duplica filas; el manifest de S08 ya te entrenó en conteos, ahora la clave de escritura.\n- **Meta:** construir `idem_key` con source, record_id, version y hash del payload.\n- **Éxito:** una línea `idem_key=banco_a:C001:v3:1ce874c18f0b`. El payload trae `monto` antes que `moneda`; sin `sort_keys` la huella sería otra.\n- **Límites:** hash estable (`sort_keys` en JSON); no uses solo el id; datos sintéticos.",
         id: "S09-T4-B-E3",
         instruction:
           "Paso 1: El starter imprime solo el id.\nPaso 2: Serializa payload con `json.dumps(..., sort_keys=True)`, sha256, 12 hex.\nPaso 3: Formato `source:id:v{version}:{hash}`.\nPaso 4: Prefija con `idem_key=`.",
@@ -2459,7 +2595,7 @@ boundary max_attempts debe ser >= 1`,
           "Formato: idem_key=source:id:vN:hash12",
         ],
         edgeCases: ["Misma clave + mismo payload = skip; misma clave + payload distinto = conflicto."],
-        tests: "Contrato exacto: una línea `idem_key=banco_a:C001:v3:` + 12 hex del payload; exit 0.",
+        tests: "Contrato exacto: una línea `idem_key=banco_a:C001:v3:1ce874c18f0b`; exit 0.",
         feedback: "La clave une source + record_id + version + hash del payload: re-ingestar sin duplicar side-effects (eco S08).",
         retrospective:
           "Misma clave + mismo payload = skip seguro; misma clave + payload distinto = conflicto. Ese diseño cierra la resiliencia de S09 y alimenta la bitácora del You Do (CP-N1-C).",
@@ -2468,7 +2604,8 @@ boundary max_attempts debe ser >= 1`,
           title: "idempotency_key.py",
           code: `# A corregir: key sin version/hash
 import hashlib, json
-record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
+record = {"source": "banco_a", "id": "C001", "version": 3,
+          "payload": {"monto": "10.00", "moneda": "PEN"}}
 key = f"{record['id']}"
 print(key)
 `,
@@ -2477,13 +2614,14 @@ print(key)
           language: 'python',
           title: "idempotency_key.py",
           code: `import hashlib, json
-record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
+record = {"source": "banco_a", "id": "C001", "version": 3,
+          "payload": {"monto": "10.00", "moneda": "PEN"}}
 payload_hash = hashlib.sha256(
     json.dumps(record["payload"], sort_keys=True).encode()
 ).hexdigest()[:12]
 key = f"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}"
 print("idem_key=" + key)`,
-          output: `idem_key=banco_a:C001:v3:bc63c11b44d5`,
+          output: `idem_key=banco_a:C001:v3:1ce874c18f0b`,
         },
       },
     ],
@@ -2491,7 +2629,7 @@ print("idem_key=" + key)`,
   youDo: {
     title: "Bitácora auditable del pipeline (inicio CP-N1-C)",
     context:
-      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. Todo lo que dejes al final de `audit_log.py` corre cada vez que ejecutas el archivo. **Éxito de corrida:** demo con assert `in == ok + quarantined`, cero PII completa en logs, y fail-fast verificable si falta `required_fields`.",
+      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco. Todo lo que dejes al final de `audit_log.py` corre cada vez que ejecutas el archivo. **Éxito de corrida:** demo con assert `len(ok) + len(quarantined) == in` (la clave `in` del resultado cuenta las filas de entrada), cero PII completa en los logs capturados, y fail-fast verificable con `RuntimeError` si falta `required_fields`.",
     objectives: [
       "Clasificar fallos en data | config | provider",
       "Emitir logs estructurados con correlation_id",
@@ -2503,11 +2641,13 @@ print("idem_key=" + key)`,
     requirements: [
       "Módulo audit_log / process_batch con helpers de enmascarado (email, phone, address)",
       "process_batch(records, correlation_id, config) → {ok, quarantined, errors_by_class, in}",
-      "Fail-fast si falta config['required_fields']; cuarentena de filas de datos inválidas",
-      "Ningún log de demo contiene PII completa",
+      "Si falta config['required_fields'] o es None, process_batch lanza RuntimeError antes de leer ninguna fila; las filas de datos inválidas van a cuarentena",
+      "classify_error(exc) devuelve \"data\", \"config\" o \"provider\"; process_batch cuenta cada clase en errors_by_class",
+      "Niveles: log.warning por fila en cuarentena, log.error solo para fallos de proveedor y log.critical antes de abortar por config",
+      "Ningún log de demo contiene PII completa: la comprobación del starter captura el log y busca el correo, el teléfono y la dirección crudos",
       "assert len(ok) + len(quarantined) == in en la demo",
       "Dataset sintético; demo reproducible al final del archivo",
-      "Al menos 3 comprobaciones con `assert` al final de `audit_log.py` (máscaras, fail-fast config, reconcile)",
+      "Las cuatro comprobaciones del starter (máscaras, fail-fast config, reconcile, sin PII en el log) siguen pasando, y añades al menos dos `assert` propios con casos de borde",
       "Solo stdlib (logging, decimal si aplica); sin librerías de gráficos",
       "Entorno local-python",
     ],
@@ -2519,7 +2659,8 @@ TODO del estudiante (el starter NO es la solución):
 2) Fail-fast si config["required_fields"] falta o es None
 3) Completar process_batch: errors_by_class, campo in, reconcile
 4) Logs con correlation_id + email/phone/address enmascarados
-5) Añadir al final 3 comprobaciones con assert: máscaras, fail-fast config y reconcile
+5) Añadir al menos dos assert propios con casos de borde; no borres los cuatro del starter
+6) classify_error(exc) -> "data" | "config" | "provider"; process_batch cuenta cada clase en errors_by_class
 """
 from __future__ import annotations
 import logging
@@ -2553,7 +2694,8 @@ def process_batch(
 ) -> dict:
     """Debe fallar rápido si required_fields ausente; cuarentenar filas data."""
     log = logging.getLogger("audit")
-    # TODO: fail-fast config; loop de filas; log.error enmascarado; errors_by_class
+    # TODO: fail-fast config (log.critical + RuntimeError); loop de filas;
+    # log.warning enmascarado por fila en cuarentena; errors_by_class
     raise NotImplementedError(
         "implementa process_batch: fail-fast + cuarentena + logs sin PII"
     )
@@ -2575,10 +2717,6 @@ demo = [
     },
     {"email": "x@ejemplo.pe", "address": "Sin id"},
 ]
-# Cuando completes process_batch, descomenta y verifica reconcile:
-# result = process_batch(demo, "job-demo-1", {"required_fields": ["id", "email"]})
-# assert result["in"] == len(result["ok"]) + len(result["quarantined"])
-# print(result)
 print("scaffold listo — implementa las funciones TODO")
 
 # Comprueba las tres máscaras sin fijar una única máscara de dirección.
@@ -2604,14 +2742,29 @@ checked = process_batch(
     "job-test-reconcile",
     {"required_fields": ["id", "email"]},
 )
-assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantined"])`,
+assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantined"])
+
+# Comprueba que ningún log de la demo contiene PII completa.
+import io
+
+captura = io.StringIO()
+handler = logging.StreamHandler(captura)
+audit = logging.getLogger("audit")
+audit.setLevel(logging.DEBUG)
+audit.addHandler(handler)
+process_batch(demo, "job-test-pii", {"required_fields": ["id", "email"]})
+audit.removeHandler(handler)
+texto = captura.getvalue()
+assert texto, "la demo debe registrar al menos un evento"
+for crudo in ("ana@ejemplo.pe", "x@ejemplo.pe", "999111222", "Av. Ejemplo 123"):
+    assert crudo not in texto, "dato personal completo en el log"`,
     portfolioNote:
       "Muestra en README: 1 corrida con correlation_id, 1 log enmascarado (email/teléfono/dirección), tabla de taxonomía data/config/provider, política de abort y evidencia de las comprobaciones. Subraya privacidad.",
     rubric: [
       { criterion: "Bitácora auditable: taxonomía + correlation_id + enmascarado verificable", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado (fail-fast + cuarentena + reconcile)", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos en logs", weight: "20%" },
-      { criterion: "Comprobaciones o casos de borde documentados (≥3 `assert`)", weight: "15%" },
+      { criterion: "Comprobaciones o casos de borde documentados (≥2 `assert` propios además de los del starter)", weight: "15%" },
       { criterion: "Código legible y límites claros", weight: "10%" },
       { criterion: "Documentación en español profesional (README de política)", weight: "10%" },
     ],
@@ -2622,7 +2775,7 @@ assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantin
     questions: [
       {
         question: "¿Para qué sirve `raise NewError(...) from e`?",
-        options: ["Encadenar la causa en __cause__ sin perder contexto", "Ignorar el error original", "Convertir todo a SystemExit", "Silenciar el traceback"],
+        options: ["Encadenar la causa en __cause__ sin perder contexto", "Reemplazar el error original para que no aparezca en el log", "Convertir cualquier error en SystemExit con el mismo mensaje", "Ocultar la traza interna y mostrar solo el error nuevo"],
         correctIndex: 0,
         explanation:
           "from e preserva la excepción original como causa encadenada.",
@@ -2650,28 +2803,28 @@ assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantin
       },
       {
         question: "TimeoutError en un fetch remoto típico…",
-        options: ["Puede reintentarse con backoff; ValueError de datos no", "Nunca se reintenta", "Se convierte en KeyError", "Implica fraude"],
+        options: ["Puede reintentarse con backoff; ValueError de datos no", "Nunca se reintenta, porque el proveedor ya respondió mal", "Se convierte en KeyError y la fila va a cuarentena", "Se reintenta sin tope hasta que el proveedor responda"],
         correctIndex: 0,
         explanation:
           "Solo errores transitorios merecen retry.",
       },
       {
-        question: "¿Cuál es un buen minimal repro?",
-        options: ["Todo el CSV de producción", "Reiniciar el servidor tres veces", "La entrada más pequeña que reproduce el bug", "Borrar los tests"],
+        question: "¿Cuál es una buena reproducción mínima (minimal repro)?",
+        options: ["Todo el CSV de producción, para no perder ningún caso raro", "La cadena más corta del archivo, aunque ya no produzca el fallo", "El menor ejemplo autocontenido que todavía produce el fallo", "Una captura de pantalla de la traza publicada en el canal de alertas"],
         correctIndex: 2,
         explanation:
-          "Minimal repro acelera fix y test de regresión.",
+          "No es la cadena más corta: es el menor ejemplo autocontenido que todavía falla, y se vuelve el test de regresión.",
       },
       {
         question: "¿Por qué es dañino un `except:` bare (sin tipo)?",
-        options: ["Es más rápido que ValueError", "Obliga a usar Decimal", "Solo funciona en Windows", "Traga también KeyboardInterrupt/SystemExit y esconde corrupción"],
+        options: ["Es más lento que capturar ValueError y alarga cada corrida", "Obliga a convertir todos los montos a Decimal antes de leer", "Hace que Python se salte el bloque finally y deje sin cerrar los archivos que abrió", "Traga también KeyboardInterrupt/SystemExit y esconde corrupción"],
         correctIndex: 3,
         explanation:
           "Bare except captura casi todo, incluso señales de interrupción, y oculta la causa real del fallo.",
       },
       {
         question: "¿Cuándo corre el bloque `finally`?",
-        options: ["Solo si hubo excepción", "Siempre: con éxito, con except y al re-raise", "Solo en el camino feliz", "Solo si usas `with`"],
+        options: ["Solo cuando hubo una excepción dentro del try", "Siempre: con éxito, con except y al re-raise", "Solo en el camino feliz, después del bloque else", "Solo si el bloque usa with para abrir un recurso"],
         correctIndex: 1,
         explanation:
           "finally garantiza cleanup (cierre de handles, contadores) en todos los caminos de salida del try.",
@@ -2685,14 +2838,14 @@ assert checked["in"] == len(demo) == len(checked["ok"]) + len(checked["quarantin
       },
       {
         question: "¿Cuándo preferirías CRITICAL frente a ERROR en el job de intake?",
-        options: ["Cuando una sola fila tiene monto inválido y va a cuarentena", "Siempre que uses log.exception", "Cuando el proceso o el lote entero está en peligro (config rota, recurso crítico caído)", "Solo en DEBUG local"],
+        options: ["Cuando una sola fila tiene un monto inválido y va a cuarentena con su motivo", "Siempre que uses log.exception dentro de un except, porque adjunta la traza", "Cuando el proceso o el lote entero está en peligro (config rota, recurso crítico caído)", "Solo en DEBUG local, para que quien desarrolla vea más detalle de cada fila mientras prueba"],
         correctIndex: 2,
         explanation:
           "ERROR cubre fallos de unidad recuperables o cuarentenables; CRITICAL señala que el job/proceso no puede continuar de forma segura.",
       },
       {
         question: "¿Qué ventaja dan los campos estructurados (`stage=… record_id=…`) frente a un `print(\"ok\")`?",
-        options: ["Cifran automáticamente la PII del row", "Reemplazan la necesidad de tests de regresión", "Convierten todo ValueError en TimeoutError", "Permiten filtrar y correlacionar eventos en agregadores y post mórtems"],
+        options: ["Cifran automáticamente los datos personales de cada fila antes de escribir", "Reemplazan la necesidad de tests de regresión porque registran cada paso", "Convierten todo ValueError en TimeoutError para que se pueda reintentar", "Permiten filtrar y correlacionar eventos en agregadores y post mórtems"],
         correctIndex: 3,
         explanation:
           "Campos estables (stage, record_id, correlation_id, error_class) hacen el log consultable; un print suelto no tiene nivel ni identificador de correlación.",
