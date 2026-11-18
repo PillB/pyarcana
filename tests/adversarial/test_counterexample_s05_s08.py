@@ -294,7 +294,10 @@ class S06S07S08Contract(unittest.TestCase):
 
     def test_S08_HASH_copied_hex_goes_stale(self) -> None:
         self.check_theory("s08", "Contraejemplo: un hex copiado deja de coincidir",
-                          ["coincide con el hex copiado: False", "coincide: True"])
+                          # Proposal 10 S08 (THEORY-21): the fix compares against a stored
+                          # FIXTURE_SHA256, not a hash recomputed on the line before the check.
+                          ["coincide con el hex copiado: False", "coincide con la huella guardada: True",
+                           "fixture editado sin recalcular: False"])
 
     def test_S08_HASH_transcript_shows_the_hash_seed(self) -> None:
         block = theory_block("s08", "Contraejemplo: hash() cambia entre procesos")

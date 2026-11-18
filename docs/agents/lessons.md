@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S07, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S08, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -365,3 +365,35 @@ back. Read this list before a section round; every item cost at least one failed
   Run it with a 590 s timeout and read its summary line.
 - **Codex review is rate-limited.** On #162 the Codex bot reported "usage limits" and no review.
   This is a blocked dependency: report it, do not retry it, and do not treat it as a pass.
+- **S08: a step-bounds helper matched the wrong exercise when `id` came before `subtopicId`.**
+  The patch helper `rex()` located an exercise by searching backwards for `subtopicId:`, but
+  half of the S08 We Do steps list `id` first, so the window covered the previous exercise and
+  the replacement found nothing. Root cause: the helper assumed a key order that TypeScript
+  object literals do not guarantee. Fix: bound a step by the object braces (`\n      {\n` to
+  the next one or the closing `],`). Guard: the helper asserts an exact count, so a wrong
+  window stops the patch instead of editing a neighbour.
+- **S08: `tell()` works on `io.StringIO` but fails on an open file inside a `for` loop.** The
+  theory recovers `raw` with `stream.tell()` on a `StringIO`. A learner who copies it to
+  `open(path)` gets `OSError: telling position disabled by next() call`. Root cause:
+  `TextIOWrapper` disables `tell()` while it iterates by line, because its read-ahead buffer
+  makes the position ambiguous ([bpo-37036](https://bugs.python.org/issue37036),
+  [Stack Overflow 49785865](https://stackoverflow.com/questions/49785865)). Fix: the theory and
+  the You Do say to read the file with `read_text` and walk the text with `StringIO`. Guard:
+  `test_proposal10_s08.test_the_tell_trap_is_real` runs the failing case, so the warning stays
+  true.
+- **S08: an mtime check can pass by accident on a coarse clock.** Comparing `st_mtime_ns` of a
+  file and its `write_bytes` copy can be equal when both writes land in the same kernel clock
+  tick (Linux file timestamps use a coarse clock). Fix: the fixture sets a fixed past mtime
+  with `os.utime(..., ns=...)` before the copy, so only `shutil.copy2` keeps it. Guard: the
+  `write_bytes` and `shutil.copy` mutants in `test_proposal10_s08` must be caught.
+- **S08: "never trim the key".** EXAM-04's finding suggested shortening the keyed option, but
+  `test_exam_length_cue` says to lengthen the distractors instead, and a trimmed key stayed the
+  longest anyway. Fix: keep the key's wording, lengthen the three distractors with plausible
+  wrong reasons, and lower `LONGEST_IS_CORRECT_OWED` by one. Guard: read the ratchet's message
+  before following a finding's suggested fix.
+- **S08: an exit-1 demo that the inputs cannot produce.** With correct loaders, `n_in` always
+  equals `n_clean + n_quarantine`, so the You Do's "broken counts → exit 1" could not be shown,
+  and `try/except` is held until S09 (D10). Fix: a `DEMO_RECONCILE_ROTO` flag passes a
+  hand-written broken source to `build_manifest`; the uncaught `ValueError` makes Python exit
+  with code 1, which S01 teaches the learner to read with `echo $?`. Guard:
+  `test_the_exit_1_demo_exits_1_before_running`, with the flag-off run as the negative control.

@@ -2010,9 +2010,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Al usar el módulo csv, ¿por qué abrir el archivo con newline=""?',
       options: [
         'Para que el módulo csv controle terminadores y no se dupliquen retornos en Windows',
-        'Para que DictReader descarte automáticamente las filas vacías',
-        'Para forzar que toda salida use LF aunque la fuente use CRLF',
-        'Para seleccionar UTF-8 como encoding del archivo',
+        'Para que DictReader descarte automáticamente las filas vacías del final del archivo',
+        'Para forzar que toda salida use LF aunque la fuente use CRLF, sin importar el sistema',
+        'Para seleccionar UTF-8 como encoding del archivo sin depender del locale del sistema',
       ],
       correctIndex: 0,
       explanation:
