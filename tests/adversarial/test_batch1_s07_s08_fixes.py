@@ -126,8 +126,9 @@ class S07RegexBackslashes(unittest.TestCase):
     def test_a1_three_t3_starters_show_regex_escapes(self) -> None:
         items = _by_id(_items("s07-text-unicode-regex.ts", "section07"))
         self.assertIn(r"re.compile(r'^(\w+) (\w+)$')", items["S07-T3-A-E2"]["starter"])
-        self.assertIn(r"re.compile(r'\b\d{9}\b')", items["S07-T3-B-E1"]["starter"])
-        self.assertIn(r"re.findall(r'[a-z]{3}-\d{2}', log)", items["S07-T3-B-E2"]["starter"])
+        # 2026-11-18, proposal 10 S07: the digit class is [0-9] here, as in the theory and I Do.
+        self.assertIn(r"re.compile(r'\b[0-9]{9}\b')", items["S07-T3-B-E1"]["starter"])
+        self.assertIn(r"re.findall(r'[a-z]{3}-[0-9]{2}', log)", items["S07-T3-B-E2"]["starter"])
 
     def test_a1_negative_control_detector_flags_lost_backslashes(self) -> None:
         # The detector must fire on the pre-fix shapes, otherwise the scan above proves nothing.
@@ -187,16 +188,17 @@ class S07JaccardAndEmail(unittest.TestCase):
         self.assertEqual(_run_starter_or_solution(probe).splitlines()[-1], "1.0")
 
     def test_c4_t4_a_e3_one_point_zero_without_equal_strings_is_review(self) -> None:
+        # 2026-11-18, proposal 10 S07: the exercise now loops over `casos`; run this pair alone.
         code = self.items["S07-T4-A-E3"]["solution"].replace(
-            "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67",
-            "a, b, score = 'Ana Ana', 'Ana', 1.0",
+            "casos = [('Juan Perez', 'Juan P Perez', 0.67), ('Ana Ana', 'Ana', 1.0)]",
+            "casos = [('Ana Ana', 'Ana', 1.0)]",
         )
         self.assertEqual(_run_starter_or_solution(code), "review Ana Ana Ana 1.0")
 
     def test_c4_negative_control_equal_normalised_strings_are_exact(self) -> None:
         code = self.items["S07-T4-A-E3"]["solution"].replace(
-            "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67",
-            "a, b, score = 'Ana', ' ana ', 1.0",
+            "casos = [('Juan Perez', 'Juan P Perez', 0.67), ('Ana Ana', 'Ana', 1.0)]",
+            "casos = [('Ana', ' ana ', 1.0)]",
         )
         self.assertEqual(_run_starter_or_solution(code), "exact Ana  ana  1.0")
 

@@ -305,3 +305,63 @@ first, then the fix that worked.
   changed, curl passed within minutes while Chromium still got "Host not in allowlist" once. Retry
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
+
+## Proposal 10 section fixes: errors met and how they were closed (S04–S07, 17–18 Nov 2026)
+
+Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
+back. Read this list before a section round; every item cost at least one failed run.
+
+- **An exercise passes the wrong answer it exists to correct.** Symptom: 13 S07 We Do exercises
+  printed the expected output with `lower` where `casefold` is taught, with `search` where
+  `fullmatch` is taught, without `\b`, or without NFC. Root cause: each exercise checked only
+  the easy input, so its expected output did not separate the right answer from the wrong one.
+  This is a weak test oracle: the test runs the code but checks too little to notice a fault.
+  Mutation testing measures exactly this ([Schuler & Zeller, ICST 2011, "Assessing oracle
+  quality with checked coverage"](https://www.st.cs.uni-saarland.de/publications/files/schuler-icst-2011.pdf)).
+  Fix: add the input where the two answers differ (`straße`/`STRASSE`, `LIMA`, a ten-digit run,
+  `lim-02`, an NFD pair, an empty side, `Ana Ana`/`Ana` scored 1.0). Guard: for every
+  exercise, plant the wrong answer in the reference solution and require the pinned output to
+  change (`MUTANTS` in `tests/adversarial/test_proposal10_s07.py`). Also confirm each starter
+  prints something other than the pin.
+- **`repr` hides the bug a Unicode exercise teaches.** `repr('José')` and `repr('José')`
+  both print `'José'`, so the learner cannot see why `==` fails. Fix: print `ascii()`, which
+  escapes non-ASCII characters (`'Jos\xe9'` versus `'José'`); see the
+  [`ascii` built-in](https://docs.python.org/3/library/functions.html#ascii). Guard: a mutation
+  that drops NFC must change the output.
+- **A local fix created a contradiction elsewhere.** Patching the S07 particle counterexample to
+  "accept exactly three tokens" contradicted T1-B, where `María del Carmen Quispe Ríos` is ok.
+  Root cause: the finding was fixed inside one block without searching the section, the We Do
+  and the exam bank for the same rule. Fix: one rule everywhere (fewer than three tokens, or a
+  particle among the last two, goes to review). Guard: `test_two_tokens_go_to_review_everywhere`
+  reads the theory, the We Do and the bank together. Before you change a rule, grep for every
+  place that states or runs it.
+- **"Earlier sections use it" is not evidence that a construct is taught.** S02 contains
+  `__name__` 51 times, yet `test_forward_dependencies` (D9) holds the entrypoint idiom until S10
+  teaches modules. Those S02 hits are owed debt in the ratchet, not teaching. Adding
+  `if __name__ == "__main__":` to the S07 You Do broke D9. Beginners find this idiom confusing
+  before they import their own modules (see the [python-dev discussion of a beginner-friendly
+  alternative](https://discuss.python.org/t/built-in-is-main-function-as-a-more-beginner-friendly-alternative-to-if-name-main/18570)).
+  Fix: tests are plain `assert` lines at the end of the file. Guard: before you introduce an
+  idiom, check `D9_OWED`/`D10_OWED` in `tests/adversarial/test_forward_dependencies.py`.
+- **A rewritten retrospective lost its required shape.** `test_s07_text_first_quality` requires
+  each We Do retrospective to name a cause (`porque`, `causa`, …) and a transfer (`transfiere`,
+  `aplica`, …). A clearer rewrite dropped both words. Fix: keep one causal clause and one
+  transfer sentence. Guard: run the section's own quality tests after any retrospective edit.
+- **A docstring rewrite broke an exact-string test.** `test_you_do_places_review_state_in_the_return_contract`
+  asserts the one-line docstring `"""→ {raw, normalized, transforms, status, review_reasons}."""`.
+  Fix: keep that line and put extra guidance in comments. Guard: `grep -rn` the old text in
+  `tests/` before you change any starter line.
+- **Anchors schema field guessed instead of read.** The ledger script used `['fingerprint']`; the
+  anchors file stores `['sha256']`. Fix: read one record before writing code against it.
+- **A hint that is a prefix of a `hints` entry matched twice.** `P.rep` asserts an exact count,
+  so the patch stopped. Fix: replace `hint:` first, or anchor on the full line.
+- **A mutation test that changes nothing proves nothing.** An S06 test used an input where both
+  answers agreed. Fix: `caught()` raises on a no-op mutation, and each suite has an irrelevant
+  edit that must not be caught.
+- **Ledger conflicts on every merge.** Each section PR appends rows to the same JSON list. Fix:
+  after `git merge origin/main`, rebuild the rows with the renumber script (main's rows, then
+  this branch's new rows from main's max). Never hand-edit row numbers.
+- **The strict output audit runs longer than a default 120 s tool timeout.** It is not stuck.
+  Run it with a 590 s timeout and read its summary line.
+- **Codex review is rate-limited.** On #162 the Codex bot reported "usage limits" and no review.
+  This is a blocked dependency: report it, do not retry it, and do not treat it as a pass.
