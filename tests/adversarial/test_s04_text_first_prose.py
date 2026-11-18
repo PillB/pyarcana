@@ -57,7 +57,7 @@ class Section04TextFirstProseTests(unittest.TestCase):
             "clasifica el hecho",
             "Un resumen fiable responde tres preguntas distintas",
             "es una forma compacta de crear una lista a partir de otra",
-            "muestra cada vuelta: dato de entrada, valores antes y después y decisión tomada",
+            "muestra cada vuelta: dato de entrada, valores después de la vuelta y decisión tomada",
             "Dos programas pueden imprimir el mismo resumen",
         ):
             with self.subTest(anchor=anchor):

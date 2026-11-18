@@ -146,7 +146,9 @@ D9_OWED = 0
 # 2026-11-09 (proposal 04 side defects): 10 -> 1. S04-T1-B-DEMO and S04-T1-B-E3 are rewritten with
 # len() checks and if/else, and S04-T3-A-E2 with a loop, so the try/except sites they carried are gone.
 # The one site left is the English word "except" in the prose of an S04 `why`, which this scan counts.
-D10_OWED = 1
+# 2026-11-17 (proposal 10 S04): 1 -> 0. That `why` (S04-T3-B-DEMO) no longer names try/except,
+# which S09 teaches.
+D10_OWED = 0
 
 
 class ForwardDependencyTests(unittest.TestCase):
