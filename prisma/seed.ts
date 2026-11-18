@@ -2274,15 +2274,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
   "exceptions-logging": [
     {
       concept: 'exception-types-raise-chaining',
-      question: 'En un parser de montos de intake, el valor llega como texto no numérico. ¿Qué excepción es la más específica y correcta a lanzar?',
+      question: 'Al convertir el monto en el parser de intake, el valor llega como texto no numérico. ¿Qué excepción lanzas tú?',
       options: [
-        '`ValueError` o un tipo de dominio, con un motivo seguro',
-        '`Exception` genérica sin explicar el fallo',
-        '`SystemExit` para terminar todo el proceso',
-        '`RuntimeError` sin describir el problema',
+        '`ValueError` con un motivo seguro, sin repetir el valor',
+        '`Exception` genérica, para capturarla en cualquier capa',
+        '`SystemExit`, para terminar todo el proceso de inmediato',
+        '`RuntimeError`, porque ocurre mientras el programa corre',
       ],
       correctIndex: 0,
-      explanation: '`ValueError` expresa que el texto no representa un monto; un tipo de dominio sirve si otra capa debe distinguirlo. Debe usar un motivo seguro.',
+      explanation: '`ValueError` expresa que el texto no representa un monto. Si `Decimal` lanzó `InvalidOperation`, la relanzas como `ValueError` con `from e`; un tipo de dominio derivado sirve si otra capa debe distinguirlo. El motivo no repite el valor.',
     },
     {
       concept: 'exception-types-raise-chaining',
@@ -2298,10 +2298,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'exception-types-raise-chaining',
-      question: '¿Cuándo conviene definir una excepción personalizada ligera, por ejemplo `ValidationError`, en el pipeline de familiaridad?',
+      question: '¿Cuándo conviene definir una excepción personalizada ligera, por ejemplo `ValidationError`, en el pipeline de ingesta de clientes (`ingest_clientes`)?',
       options: [
-        'Siempre en vez de `ValueError` o `KeyError`',
-        'Solo para silenciar la traza',
+        'Siempre en vez de `ValueError` o `KeyError`, para que todo sea propio',
+        'Solo para silenciar la traza cuando el error ya se registró en el log',
         'Nunca; las excepciones personalizadas están prohibidas',
         'Cuando otra capa debe distinguir validación de otros fallos',
       ],
@@ -2408,10 +2408,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'minimal-repro-hypothesis-rootcause',
       question: 'Tras corregir la normalización de apellidos, ¿qué evidencia evita que reaparezca el mismo fallo?',
       options: [
-        'Solo un emoji en el chat',
+        'Un comentario en el código que explica el fallo',
         'Reproducción y aserción ya en verde',
-        'Reescribir todo el repositorio',
-        'Desactivar el registro',
+        'Probar a mano la fila que falló una vez y seguir',
+        'Un mensaje en el chat del equipo con la causa',
       ],
       correctIndex: 1,
       explanation: 'La misma reproducción y aserción deben pasar después de la corrección; así queda una prueba contra la regresión.',
@@ -2502,7 +2502,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'failfast-vs-continue',
-      question: '¿Cuándo es correcto fail-fast en el pipeline de familiaridad?',
+      question: '¿Cuándo es correcto fallar rápido (fail-fast) en el pipeline de ingesta de clientes?',
       options: [
         'En cualquier warning de estilo',
         'Configuración crítica inválida',

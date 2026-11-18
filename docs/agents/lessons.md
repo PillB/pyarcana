@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S08, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S09, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -397,3 +397,30 @@ back. Read this list before a section round; every item cost at least one failed
   hand-written broken source to `build_manifest`; the uncaught `ValueError` makes Python exit
   with code 1, which S01 teaches the learner to read with `echo $?`. Guard:
   `test_the_exit_1_demo_exits_1_before_running`, with the flag-off run as the negative control.
+
+- **S09: a rewritten option list moved the answer away from `correctIndex`.** Symptom: self-check
+  q7 ("¿Por qué es dañino un `except:` bare?") marked "se salte el bloque finally" correct.
+  Root cause: the old options ended with the key at index 3; the rewrite kept the key text but
+  put a new distractor after it, and `correctIndex: 3` was not touched. The length-cue test
+  caught it only by luck (the wrong "key" was longest). A miskeyed item is the first flaw item
+  writing guides check for ([Haladyna, Downing & Rodriguez 2002, "A review of multiple-choice
+  item-writing guidelines"](https://doi.org/10.1207/S15324818AME1503_5); the [RSC item-writing
+  flaws instrument](https://pubs.rsc.org/en/content/articlehtml/2019/rp/c8rp00262b)). Fix: put
+  the key back at its index. Guard: `test_rewritten_options_keep_the_answer_key` pins every
+  rewritten question's key text, and a diff script compares each key with `origin/main`'s key
+  (only intended rewrites may differ). Run that diff for the self-check and the exam bank after
+  any option edit.
+- **S09: a key and a distractor tied for longest.** Lengthening distractors to beat the length
+  cue can land exactly on the key's length; `assertLess` treats a tie as a cue. Fix: lengthen the
+  distractor further. Guard: the per-question `assertLess` in the section test.
+- **S09: a count in the instructions went stale after the output grew.** T4-A-E3 gained three
+  cases but its `tests` text still said "4 líneas". Root cause: the output changed and only the
+  preamble was updated. Fix: "7 líneas". Guard: run every We Do and I Do solution and compare
+  each "N líneas"/"seis líneas" claim with the real stdout line count before committing
+  (read the context: "tres … y tres" is six).
+- **S09: the prose baseline in `course-state/prose_quality_report.json` on main was stale.** It
+  showed 6,395 words for S09; a fresh run on `origin/main` gives 7,686 and 16 long sentences.
+  Comparing against the stale file hides or invents regressions. Fix: regenerate the baseline in
+  a detached `origin/main` worktree (`course_event_extractor` then `prose_quality_audit.py S09`)
+  and compare against that. When a split puts a `snake_case` identifier at the start of a
+  sentence, lead with a noun ("Los casos una_fila_data…"); never capitalise the identifier.

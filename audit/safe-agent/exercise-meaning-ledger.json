@@ -1630,6 +1630,106 @@
       "reason": "WEDO-24: exit_code is printed from run()'s return value, so a run that prints ERROR but returns 0 fails. Output unchanged.",
       "decided_by": "owner 2026-11-11 (proposal 10, S08 P2/P3 fixes)",
       "date": "2026-11-18"
+    },
+    {
+      "row": 164,
+      "id": "S09-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "e322af0a6f8329f6f5fc0d790385f840910ba87da5385c77106c0619aa861234",
+      "to_fp": "98e1a95b2faea4268bfaf970b9276ac30c4f383cfc68c6dc1d68c4e4e3fcd3b9",
+      "reason": "WEDO-02: the wrapper raises with `from e`, and the output adds 'causa conservada: InvalidOperation', so dropping the cause with `from None` changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 165,
+      "id": "S09-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "367aa4752eb77640b311acf7fd227df2d3b508b55b2fc4ebcb6eea129a6934a3",
+      "to_fp": "c489e98a13fc503a3c4741c28cd3a16b0e3633da9f1f12e4f6b8bfe241337cbc",
+      "reason": "WEDO-09: causa_raiz(tb) reads the last frame instead of a hand-typed function name; a second fixture adds 'causa_raiz=clean falta clave telefono'.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 166,
+      "id": "S09-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "3fc5fb92cc90917617ab946709d3899672ff4128ea75b5d9453e38560020628e",
+      "to_fp": "fa4d924695ce2f7699d4f2647376f4fba227bf293433038dadf3d7906215265f",
+      "reason": "WEDO-11: the phone is normalized by computing digits and a flag; the con_simbolos case (51999111222) fails a version that strips only spaces and '+'. edgeCases name concrete inputs.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 167,
+      "id": "S09-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "d6e5f24416616f369f6218f3fa9b073d1a827910cb582ec937b1898b2f754ec7",
+      "to_fp": "bd598e688390c6aeb4349fdfeb01157ab2ee7ddce4774e6da97c9823e24c4085",
+      "reason": "WEDO-14: the logger is created with getLogger(__name__) as the theory teaches. Output unchanged.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 168,
+      "id": "S09-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "fdd3d5a40dcf1e5e9f76c4150d20d0ca826fe7722b0ec6432930fcb26b81c7b0",
+      "to_fp": "3755c9a624c04f289df9c7679d12762625257ec98d124738eb0c8802a3e5b2f8",
+      "reason": "WEDO-15: the handler writes progress to sys.stderr, so stdout holds only 'RESULT=3'; progress on stdout changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 169,
+      "id": "S09-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "4d5df7d69c64ae25ad3a2252715ef1fd8034abfe3c0df529137cc178963d6332",
+      "to_fp": "933af124cf5ad65a1862bac58086168e032e4109018182d5c485c4b59a5c3efd",
+      "reason": "WEDO-17: a second call with corr-77 / C002 adds lines, so a fixed correlation id instead of the argument changes the output (6 lines).",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 170,
+      "id": "S09-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "d111f55a8012ff859b87764c718403e2de3858b16287a7cf72ae5959979762f2",
+      "to_fp": "61ad5086b23ed42a02def74721c8826acc0165f00709758422b04d99b1f476c1",
+      "reason": "WEDO-18: detect_unsafe(template) is checked on a safe template too ('safe_template_flagged False'); masks handle short values; edgeCases name inputs.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 171,
+      "id": "S09-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "515a6869f79595eb6779463bd062c0b9dc0766cd7deb92ad22ea035af6d97cd1",
+      "to_fp": "ec32cd022ab077f72a1e4bb99bfab9aade8b40cddde636809328cbe58f06026b",
+      "reason": "WEDO-21: seven cases (adds ratio_justo, lote_vacio, ratio_y_provider), so >= at the threshold, provider checked first, or dividing by zero on an empty batch each change the output. The tests contract now says 7 lines, matching the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 172,
+      "id": "S09-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "b74d5b4ad3976933df77a6a90c0b1d4befc575df3ec8b7fda06922035db6aa13",
+      "to_fp": "fc2d63bdd99df8980e7e72a159fc43d03474133cba186616ff140d6c846a87a5",
+      "reason": "WEDO-23: a siempre_timeout harness proves the retry loop stops ('agotado TimeoutError calls 3'); a loop with no cap never ends.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 173,
+      "id": "S09-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "2581f451372364d96e6303502dc977f51283dcdc7665da70bd028b5dcad523ba",
+      "to_fp": "ee7957699d5d29d0f8324c3a3fd09604cb0abaf13f633be29985c4b92d825ce0",
+      "reason": "WEDO-24: the payload has two keys and the idempotency key is pinned (idem_key=banco_a:C001:v3:1ce874c18f0b), so hashing without sort_keys changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
+      "date": "2026-11-18"
     }
   ]
 }
