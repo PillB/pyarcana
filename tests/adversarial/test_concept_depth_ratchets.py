@@ -85,23 +85,31 @@ from course_events import fresh_events  # noqa: E402
 NEVER_EXPLAINED_OWED = 6
 # 2026-11-09, proposal 04 counterexamples (S09-S13): 35 -> 33. `abc` now has a worked example (S11-C6)
 # and `f-string` one (S12-C1); both were explained and never exemplified.
-UNEXEMPLIFIED_CONCEPTS_OWED = 33
+# 2026-11-18, proposal 10 S10 round: 33 -> 32. The S10 demos that split stdout from stderr name
+# `contextlib`, so `context-manager` now has worked examples (three blocks in S10).
+UNEXEMPLIFIED_CONCEPTS_OWED = 32
 # The DEFICIT in figures, summed, not the number of concepts short of one. 103 concepts
 # are short; they owe 274 figures between them. Counting concepts hid a lost figure.
 # 2026-11-10, proposal 05 (owner-approved): 274 -> 271. The S12-C1 example made `f-string`
 # load-bearing (target 1 -> 5, debt +4); five f-string figures in S02, S09, S11 and S12 pay all
 # five, and their captions also give `repr` and `exception` one figure each.
-FIGURES_OWED = 271
+# 2026-11-18, proposal 10 S10 round: 271 -> 275. The same S10 demos make `context-manager`
+# load-bearing (S09, S10, S38: target 1 -> 5, debt +4), on the proposal 05 `f-string` precedent.
+# Not paid here: five context-manager figures are a figure round of their own, named in the PR.
+FIGURES_OWED = 275
 #: The total the deficit is measured AGAINST, as a floor rather than a ratchet. It may rise
 #: freely; a fall means a concept stopped being load-bearing, which is a content loss
 #: wearing the shape of a repair. 51 concepts are load-bearing today (target 5 each) and 57
 #: are not (target 1): 312. Lower it only with a dated line naming what was consolidated.
 #: 2026-11-10, proposal 05: 312 -> 316, `f-string` became load-bearing (target 1 -> 5).
-FIGURE_TARGET_FLOOR = 316
+#: 2026-11-18, proposal 10 S10: 316 -> 320, `context-manager` became load-bearing (target 1 -> 5).
+FIGURE_TARGET_FLOOR = 320
 # 2026-11-10, proposal 05: 30 -> 29. `f-string` (heading "Construir un mensaje con una
 # f-string" plus its figures) and `repr` (the S11 figure) reach L3; f-string had become an
 # offender when the S12 example made it load-bearing, so the net change is one.
-D3_SUBTOPIC_OWED = 29
+# 2026-11-18, proposal 10 S10 round: 29 -> 30. `context-manager` is now load-bearing at L2; it
+# needs a subtopic of its own (S09 is where `with` is taught), which this section round does not add.
+D3_SUBTOPIC_OWED = 30
 
 
 @functools.cache

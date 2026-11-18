@@ -2591,7 +2591,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'En la API pública del curso, ¿qué criterio se aplica a `from package import *`?',
       options: [
         'Se evita: la fachada reexporta pocos nombres y deja fuera los privados',
-        'Se recomienda para exponer todos los nombres del paquete',
+        'Se recomienda para exponer todos los nombres del paquete, incluidos los privados',
         'Se reserva para ejecutar las pruebas internas del paquete',
         'Borra todos los nombres definidos dentro del paquete',
       ],
@@ -2628,7 +2628,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Duplicar la lógica en un archivo único y dejar de usar módulos',
         'Hacer que ambos módulos importen todos los nombres del otro',
-        'Renombrar los archivos sin cambiar la dirección de los imports',
+        'Renombrar los archivos sin cambiar la dirección en que se importan entre sí',
         'Extraer la lógica compartida a un tercer módulo que ambos importen',
       ],
       correctIndex: 3,
@@ -2665,7 +2665,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Instalar muchas bibliotecas externas antes de saber si hacen falta',
         'Usar primero la biblioteca estándar y declarar solo dependencias justificadas',
         'Copiar toda biblioteca externa dentro del repositorio como regla',
-        'Prohibir cualquier dependencia externa, aunque el paquete la necesite',
+        'Prohibir toda dependencia externa, aunque el paquete la necesite de verdad para funcionar',
       ],
       correctIndex: 1,
       explanation: 'S10 usa primero la biblioteca estándar y declara dependencias externas solo cuando existen y están justificadas.',
@@ -2696,9 +2696,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'versioning-compatibility',
-      question: 'Al avanzar hacia S11, ¿qué mantiene compatible la API pública del paquete?',
+      question: '¿Qué mantiene compatible la API pública del paquete al cambiar su versión?',
       options: [
-        'Cambiar los nombres públicos en cada cambio sin registrarlo',
+        'Cambiar los nombres públicos en cada versión sin registrarlo en el CHANGELOG',
         'Ignorar las pruebas que importan la fachada del paquete',
         'Mantener contratos estables o documentar la migración al versionarlos',
         'Incluir secretos dentro del número de versión publicado',
@@ -2713,7 +2713,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '`print()` para interpretar cada subcomando',
         '`argparse` con subparsers, ayuda y códigos de salida claros',
         'Cambiar `sys.path` antes de leer cada subcomando',
-        '`input()` para preguntar la acción en cada ejecución',
+        '`input()` para preguntarle al operador la acción en cada ejecución del programa',
       ],
       correctIndex: 1,
       explanation: '`argparse` y sus subparsers modelan los cuatro subcomandos con ayuda y códigos de salida comprobables.',
@@ -2735,7 +2735,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'La ayuda humana de cada subcomando (`-h` o `--help`) debe:',
       options: [
         'Describir opciones y mostrar ejemplos concretos por subcomando',
-        'Quedar vacía para que el operador pruebe opciones al azar',
+        'Quedar vacía para que el operador descubra las opciones probando al azar',
         'Mostrar todo el código fuente del módulo que se ejecuta',
         'Solicitar una contraseña antes de mostrar cualquier opción',
       ],
@@ -2758,7 +2758,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'stdio-streams-help',
       question: 'Contaminar stdout con mensajes de depuración cuando CI analiza JSON implica:',
       options: [
-        'No cambia nada, porque un lector de JSON ignora texto extra',
+        'No cambia nada, porque un lector de JSON ignora el texto extra que lo rodea',
         'Rompe el contrato: el consumidor deja de recibir JSON limpio',
         'Mejora la seguridad del proceso que ejecuta el comando',
         'Cambia el código de salida de 0 a 2 automáticamente',
@@ -2792,7 +2792,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'config-precedence',
-      question: 'En `merge_config`, ¿qué hacen `None` y una clave ausente?',
+      question: 'En `merge_config`, la función del You Do que combina las capas (`combinar_config` en la teoría), ¿qué hacen `None` y una clave ausente?',
       options: [
         'Sustituyen el valor anterior por una cadena vacía',
         '`None` elimina el archivo `pyproject.toml` del proyecto',
@@ -2808,11 +2808,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'INFO porque el archivo se leyó primero',
         'DEBUG por precedencia de flags',
-        'Ambos a la vez en un set',
-        'Se ignora el logging',
+        'WARNING, el nivel que Python usa por defecto',
+        'Ninguno: el CLI rechaza dos valores para la misma clave',
       ],
       correctIndex: 1,
-      explanation: 'Flags ganan en el esquema del curso.',
+      explanation: 'Un flag pasado en la terminal es la decisión más explícita del operador y gana al entorno y al archivo (flags > env > archivo > defaults).',
     },
     {
       concept: 'secrets-defaults-early-validation',
