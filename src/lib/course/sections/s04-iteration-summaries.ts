@@ -392,6 +392,44 @@ corregido: ['ok:1', 'ok:2']`,
       },
     },
     {
+      heading: "Contraejemplo: continue antes de avanzar el índice",
+      paragraphs: [
+        "En un `while`, `continue` vuelve al inicio del bucle en ese mismo momento, y las líneas que siguen dentro del cuerpo no se ejecutan. Si `i += 1` está después del `continue`, la línea vacía nunca queda atrás y el bucle repite la misma vuelta. El tope `vueltas < 5` existe solo para que veas el error sin colgar el programa.",
+        "La corrección lee la línea y avanza `i` antes de decidir si la salta, como en el contraejemplo del índice que no avanza. Así `continue` descarta la línea vacía y el bucle sigue con `C002|R-SUR`.",
+      ],
+      code: {
+        language: 'python',
+        title: 'continue_antes_de_avanzar.py',
+        code: `# Error: continue vuelve arriba sin pasar por i += 1
+lineas = ["C001|R-NORTE", "", "C002|R-SUR"]
+
+i = 0
+vueltas = 0
+while i < len(lineas) and vueltas < 5:  # tope solo para ver el error sin colgar
+    vueltas += 1
+    if lineas[i] == "":
+        continue
+    print("procesada:", lineas[i])
+    i += 1
+print("atascado en i =", i, "tras", vueltas, "vueltas")
+
+# Corrección: avanza el índice antes de decidir si saltas la línea
+i = 0
+while i < len(lineas):
+    linea = lineas[i]
+    i += 1
+    if linea == "":
+        continue
+    print("procesada:", linea)
+print("siguiente posición:", i)`,
+        output: `procesada: C001|R-NORTE
+atascado en i = 1 tras 5 vueltas
+procesada: C001|R-NORTE
+procesada: C002|R-SUR
+siguiente posición: 3`,
+      },
+    },
+    {
       heading: "Contadores, acumuladores y búsqueda",
       subtopicId: "S04-T3-A",
       paragraphs: [
@@ -840,26 +878,31 @@ kept ['ok:1', 'ok:2']`,
         environment: "browser-pyodide",
         description: "Contadores accept/reject/review y tasa con denominador",
         preamble:
-          "Predice dos invariantes antes de ejecutar: la suma de `accept`, `reject` y `review` debe ser 5, y la tasa de reject debe usar esas cinco decisiones intentadas. El bucle hace un solo pase; el denominador no se negocia después de ver el resultado. Comprueba por qué 2/5 es honesto y 2/3 no lo sería: 3 serían los aceptados (2) más el revisado (1), y ese denominador dejaría fuera los rechazos. `counts[s] += 1` suma 1 al valor guardado bajo la clave `s`. La última línea de cálculo se lee así: si `n` es 0, la tasa es `None`; si no, es la división.",
+          "Predice dos invariantes antes de ejecutar: la suma de `accept`, `reject` y `review` debe ser 5, y la tasa de reject debe usar esas cinco decisiones intentadas. El bucle hace un solo pase; el denominador no se negocia después de ver el resultado. Comprueba por qué 2/5 es honesto y 2/3 no lo sería: 3 serían los aceptados (2) más el revisado (1), y ese denominador dejaría fuera los rechazos. `counts[s] += 1` suma 1 al valor guardado bajo la clave `s`. Un estado que no está en `counts` va a `desconocido`; sin esa rama, se perdería en silencio mientras `n` sí lo cuenta, y la suma ya no sería `n`. La última línea de cálculo se lee así: si `n` es 0, la tasa es `None`; si no, es la división.",
         code: {
           language: 'python',
           title: "S04-T3-A-DEMO — contadores",
           code: `statuses = ["accept", "reject", "review", "accept", "reject"]
-counts = {"accept": 0, "reject": 0, "review": 0}
+counts = {"accept": 0, "reject": 0, "review": 0, "desconocido": 0}
 for s in statuses:
     if s in counts:
         counts[s] += 1
+    else:
+        counts["desconocido"] += 1  # un estado inesperado también se cuenta
 n = len(statuses)
+suma = counts["accept"] + counts["reject"] + counts["review"] + counts["desconocido"]
 tasa_reject = counts["reject"] / n if n else None
 print(counts)
+print("suma igual a n:", suma == n)
 print("n", n, "tasa_reject", tasa_reject)
 `,
-          output: `{'accept': 2, 'reject': 2, 'review': 1}
+          output: `{'accept': 2, 'reject': 2, 'review': 1, 'desconocido': 0}
+suma igual a n: True
 n 5 tasa_reject 0.4`,
         },
         why: "Un solo pase O(n) llena los contadores del resumen. La tasa usa el total de registros **intentados**, no “solo accepts”. Si el lote estuviera vacío, `n` sería 0 y reportarías `None` en vez de dividir (eso lo practicas en We Do).",
         retrospective:
-          "Una tasa sin población de referencia es decoración. Di en voz alta: «dos rejects entre cinco intentos». Luego cambia mentalmente el lote a vacío: `None` expresa ausencia de observaciones; cero afirmaría que observaste una tasa perfecta. Esa distinción reaparece en cualquier indicador operativo.",
+          "Una tasa sin población de referencia es decoración. Di en voz alta: «dos rejects entre cinco intentos». Cambia también el último estado a `\"aceptado\"`, un error de tipeo: `desconocido` sube a 1 y la suma sigue siendo `n`. Luego cambia mentalmente el lote a vacío: `None` expresa ausencia de observaciones; cero afirmaría que observaste una tasa perfecta. Esa distinción reaparece en cualquier indicador operativo.",
       },
       {
         demoId: "S04-T3-B-DEMO",
