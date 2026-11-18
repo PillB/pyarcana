@@ -1820,6 +1820,186 @@
       "reason": "WEDO-24: an already safe config must come out unchanged, so a literal hardened dict changes the output. echo_sql and the None-not-delete choice are explained.",
       "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
       "date": "2026-11-18"
+    },
+    {
+      "row": 183,
+      "id": "S12-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "af4ba15da47d1153325cd5c1b8a6f247f9e9b816856fd717c3abd808b0e12bc1",
+      "to_fp": "f741fea7d6f8837bf20ce578f2d09b3083fa1150313fe43f0573b94eade7d364",
+      "reason": "WEDO-02.1: a list payload is printed and must give None, so a parser without the dict check fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 184,
+      "id": "S12-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "1deca238eadedcb82e54cfbf9582bca6357577b732f99f51f4b51c729c871abf",
+      "to_fp": "b14e96c8f6fea347c46f38da458e219e6b200679cb46cfe4515bc2db71b55376",
+      "reason": "WEDO-03.1: 401, a code the theory table does not list, is printed and must give unknown; the exercise is no longer a copy of the callout.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 185,
+      "id": "S12-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "f0a49d753d98ac1f1ab3fa484c5b8b3674f5ecda17aabee6372af4564b52c3c5",
+      "to_fp": "b19897cce475c1eda7d1d8fc498e2fa80822671a98210d4e5992d4e2dd4c8a0e",
+      "reason": "WEDO-04.1: the equal-cost case is printed and counts as ok, as the Límites already said.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 186,
+      "id": "S12-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "c209feb749d87e47f6645fef57f17cbe9e12460553dd3b6a248ad2e5ef807f3e",
+      "to_fp": "c55a81a058a9cf84c6baae9a977479385cabaa7ac996c3ceab6c2dfff3423752",
+      "reason": "WEDO-05.1: the fixture stores page 2 before page 1, so walking the dict gives another order and only following next passes.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 187,
+      "id": "S12-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "10019b0ee81a4f69acf88cba9402814b67dfa514b8bc7ae57f3666085ea4fe4d",
+      "to_fp": "bf967734ce9bcab023ae92cffb0fd47d912b8f7efd863dd5b4f3acfc5e3ce0fb",
+      "reason": "WEDO-06.1: 500 and 502 are printed and must give False, as the Límites already said.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 188,
+      "id": "S12-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "d70e0dee66723558af922fd0fa9d71fb5b2ce183e5a280e661c840d09102dc74",
+      "to_fp": "f072e7905ffe92240969814d3dfabebd9f74cfa3e0961ab90dd788f816c3f3e6",
+      "reason": "WEDO-07.1: an empty token is printed and must fail, as the preamble already said.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 189,
+      "id": "S12-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "63748486a2a30bbf685ee5ee6bbc10264b31fafb1fa296314469bb7daadaa3d9",
+      "to_fp": "d70804841a0f1504f8bc4547b79cb92fb83f1281baa9264106b3e2736aa9f083",
+      "reason": "WEDO-09.1: a second call (404, cache hit) is printed, so hard-coded status and cache_hit fail.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 190,
+      "id": "S12-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "a9b63675d497187573c15fbe3f2e2e0ad7ac44949fda7a671a99cfa37a05435c",
+      "to_fp": "a169a15e6f86b4a17f5c9dc16839476197159104ad175e320a1703a0000c35a3",
+      "reason": "WEDO-10.1: a payload missing two keys, given unsorted, is printed, so the sorted message is checked.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 191,
+      "id": "S12-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "5be9649e99f6fc2792d7b3ca5189b2977f4ab491e9fe70f43fdf9b71c4348b1b",
+      "to_fp": "b214fdeaba3cc2490c6cf8cec0b65e8ea872538c368a8b2c63c7151a123def5e",
+      "reason": "WEDO-12.1: 1 and 0 are printed, so a print without the condition fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 192,
+      "id": "S12-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "b447f2079773c5c22881032d93aea75a13c2560a2966d0b3a52f8ad2848a03e7",
+      "to_fp": "dbce09bb762c09a3c63a83f39b6c6a0854d959f4e4457b0cf3e0100058a178c5",
+      "reason": "WEDO-13.1: a NULL entity_id insert is printed (IntegrityError), so NOT NULL is checked.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 193,
+      "id": "S12-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "4379b459f2e8cd9987cd5676b7582142d2bd7fd702392e2a4e716f83b4ca2a75",
+      "to_fp": "ca7170b5f6fe77b694f7d5a1ff37365670d07df79baffcfd53b50e579b6b8e55",
+      "reason": "WEDO-14.1: a second client and an UPDATE with a hostile id are added; the f-string version renames C002. The final count is 1.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 194,
+      "id": "S12-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "39e9c3862e6a482dc777cacabc84a54f59e2ec0db51d1299a6baa007335957c1",
+      "to_fp": "5756571a428654e9abc552989e2498b54681e658d12febb6a135a57a4475d800",
+      "reason": "WEDO-15.1: C002 is in clients, so the JOIN without WHERE keeps its evidence and fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 195,
+      "id": "S12-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
+      "to_fp": "809d8e9da734d9936817471e5b27056f37a7a3c28447e866faabcff4ab206b6b",
+      "reason": "WEDO-16.1: a name with an apostrophe is looked up, so stripping quotes by hand fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 196,
+      "id": "S12-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "b26826a9285c5650ead5f09e908f98afdda1b82961cec68c5a1cc6385cb94a3a",
+      "to_fp": "23079ac7e031a450afc0147d14c58712585abe542cbbc998c5c67c6c4ebeda3c",
+      "reason": "WEDO-18.1: the index's column is printed with PRAGMA index_info, so an index on id fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 197,
+      "id": "S12-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "1956dac4deb6e373017a65d66715f67d4a9cd8dcb0f0112624162b855aad45f0",
+      "to_fp": "2f09fff643f1e15544f25c70de43f3d6a0231d059d8b55f9e10a5758e1565417",
+      "reason": "THEORY-15.1: title names the mock's real cities (Lima/Quito) and the Límites say keys are exact; output unchanged.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 198,
+      "id": "S12-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "cc487309b7f390fb608e90db32500143fcd8d6cbc9afaaa8539a3d3248a0eb56",
+      "to_fp": "f723d2dc9990b7de70ff155b61a6d64dea4b0eddabe8ef3eed1bf1e95e62683c",
+      "reason": "WEDO-21.1: a payload with an innocent extra key (note) is printed and must give False, so a blacklist fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 199,
+      "id": "S12-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "2bdc331378304cad2b4765950d5d3e4cc25b1f1f8c4738d6b1a2fee2a19888e6",
+      "to_fp": "6f508dd6667622b8db3774c23ce9d7dcdd067d27dd130ae4fcd52f86c7c1a991",
+      "reason": "WEDO-23.1: the Lima-Callao pair is asserted (8.95), so a flat formula that is right on the equator fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 200,
+      "id": "S12-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "fe2dac59e9788a08513dfa713205ad0e74d68c1d9d5e3399b4f0e3a0f25fec2b",
+      "to_fp": "522bbfbd4a3f97a2456b0f8346bcfd5a5a2e6f55c107f06d71f5639c08c5b627",
+      "reason": "IDO-08.1 / WEDO-24.2: tests and retrospective use kinship_verdict, the one key name; fraud score glossed; output unchanged.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
+      "date": "2026-11-18"
     }
   ]
 }

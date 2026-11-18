@@ -22,16 +22,16 @@ export const section12: CourseSection = {
   icon: "MapPin",
   accentColor: "bg-gradient-to-br from-indigo-500 to-purple-600",
   jobRelevance:
-    "En onboarding (el alta de un cliente), compliance (el cumplimiento de normas) y data quality en bancos, fintech y retail del Perú, el pipeline no empieza en el dashboard: empieza en adaptadores HTTP resilientes (piezas que hablan con un servidor web y resisten caídas) que leen señales con timeout y retry selectivo, en un SQLite local parametrizado (que evita inyección de SQL) y en geoevidencia controlada sin filtrar PII bancaria a geocoders públicos. Un analista que hardcodea el token, reintenta un error 400 o manda un document_id a un proveedor gratis quema cuota, rompe auditoría y expone datos. Aquí aprendes a hacer adquisición y geocoding con secretos fuera del código, joins con placeholders y datos sintéticos.",
+    "En onboarding (el alta de un cliente), compliance (el cumplimiento de normas) y data quality (la calidad de los datos) en bancos, fintech y retail (comercio minorista) del Perú, el pipeline no empieza en el dashboard. Empieza en adaptadores HTTP resilientes (piezas que hablan con un servidor web y resisten caídas) que leen señales con timeout y retry selectivo, en un SQLite local parametrizado (que evita inyección de SQL) y en geoevidencia controlada sin filtrar PII bancaria a geocoders públicos. Un analista que hardcodea el token, reintenta un error 400 o manda un document_id a un proveedor gratis quema cuota, rompe auditoría y expone datos. Aquí aprendes a hacer adquisición y geocoding con secretos fuera del código, joins con placeholders y datos sintéticos.",
   learningOutcomes: [
     { text: "Consumir API HTTP síncronas, interpretar status y parsear JSON con errores controlados" },
-    { text: "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios" },
+    { text: "Implementar timeout obligatorio, paginación y reintento con tope solo en errores transitorios (429, 503 y timeout); explicar backoff y Retry-After" },
     { text: "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance" },
     { text: "Escribir contract tests del adaptador y fallback degradado offline" },
     { text: "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias" },
     { text: "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL" },
     { text: "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock" },
-    { text: "Evaluar calidad de coordenadas, Haversine y caché bajo política de proveedor" },
+    { text: "Evaluar calidad de coordenadas y Haversine, y saber cuándo la política del proveedor permite cachear geocodes" },
   ],
   theory: [
     {
@@ -74,8 +74,8 @@ export const section12: CourseSection = {
       subtopicId: "S12-T1-A",
       paragraphs: [
         "Un cliente HTTP síncrono (que espera la respuesta antes de seguir) hace **GET/POST** (los verbos de pedir y enviar datos), recibe un **status code** y un cuerpo (a menudo JSON, el formato de texto para datos en la web). En este curso usamos un **cliente mock** (una simulación que reemplaza al proveedor real) o `urllib` con fixtures (datos de prueba fijos): la pedagogía es **status primero, body después**, no pelear con la librería de red del día. Si el status no es 2xx, no asumas que el JSON “tiene sentido” — un 404 puede traer un mensaje de error o un cuerpo vacío.",
-        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas: el id o el payload — los datos que enviaste — están mal); **5xx** = error del servidor. En N1 (la política de nivel 1 del curso) el retry selectivo se limita a **429** y **503** (más timeouts de red); un **500** se registra como `fail_server` y no se reintenta a ciegas en los ejercicios (en producción a veces sí se reintenta con límite, pero aquí forzamos selectividad). Parsea (interpreta el cuerpo) con manejo de cuerpo vacío o JSON inválido: un `json.JSONDecodeError` es **fail-closed** (falla cerrado), no un dict inventado.",
-        "**Timeout es obligatorio** (lo modelamos en T1-B): en un cliente real siempre pasas `timeout=` (segundos); sin él un socket colgado (una conexión TCP que no responde ni cierra) congela el pipeline de CP-N1-C. Headers (`Accept`, `User-Agent`) (encabezados del request HTTP) documentan el contrato del adaptador. Caso sintético `CASO-LIM-012`: store `{\"C001\": {...}}` → 200 con keys `id/region/score` o 404 con body `error`; cuerpo basura → `parse_json_body` devuelve `None`. **Qué observar en el demo:** status y body van juntos en la tupla de respuesta (una pareja de valores); el parse inválido no inventa claves."
+        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas: el id o el payload — los datos que enviaste — están mal); **5xx** = error del servidor. En N1 (la política de nivel 1 del curso) el retry selectivo se limita a **429**, **503** y el timeout de red, siempre con tope de intentos. Un **500** se registra como `fail_server` y en los ejercicios no se reintenta. En producción a veces sí se reintenta con límite; aquí forzamos selectividad. Parsea (interpreta el cuerpo) con manejo de cuerpo vacío o JSON inválido: un `json.JSONDecodeError` es **fail-closed** (falla cerrado), no un dict inventado.",
+        "**Timeout es obligatorio** (lo modelamos en T1-B): en un cliente real siempre pasas `timeout=` (segundos); sin él un socket colgado (una conexión TCP que no responde ni cierra) congela el pipeline de CP-N1-C. Headers (`Accept`, `User-Agent`) (encabezados del request HTTP) documentan el contrato del adaptador. Caso sintético `CASO-LIM-012`: store `{\"C001\": {...}}` → 200 con keys `id/region/score` o 404 con body `error`; cuerpo basura → `parse_json_body` devuelve `None`. **Qué observar en el demo:** status y body viajan juntos en el objeto de respuesta (`status_code` y `.json()`); el parse inválido no inventa claves."
       ],
       code: {
         language: 'python',
@@ -119,7 +119,7 @@ good_json {'id': 'C001'}`,
         type: "tip",
         title: "Regla de status (política N1)",
         content:
-          "Traduce status → acción: 200 use_body, 404 missing, 429/503 retry, 400 fix_client, 500 fail_server. No asumas siempre 200; no reintentes 4xx de cliente.",
+          "Traduce status → acción: 200 use_body, 404 missing, 429/503 retry, 400 fix_client, 500 fail_server. Un timeout no trae status: se reintenta con el mismo tope. No asumas siempre 200; no reintentes 4xx de cliente.",
       },
     },
     {
@@ -142,12 +142,12 @@ good_json {'id': 'C001'}`,
         caption:
           "Reintentar un 400 solo repite el mismo error más rápido y castiga al proveedor.",
         alt:
-          "Cuatro guardas en orden: timeout y 429 reintentan, 5xx reintenta acotado, 4xx de negocio va a DLQ.",
+          "Cuatro guardas en orden: timeout, 429 y 503 reintentan con tope; otros 5xx se registran como fail_server; un 4xx de cliente no se reintenta.",
       },
       subtopicId: "S12-T1-B",
       paragraphs: [
         "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` (el costo simulado) frente a `timeout_s` (el límite) para tests deterministas (que dan siempre el mismo resultado) sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap (la memoria del proceso) — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",
-        "**Retry/backoff** (reintento con espera) solo en errores **transitorios**: **429**, **503** y timeouts de red en este curso (**política N1**). Otros **5xx** pueden reintentarse en producción con límite, pero el contrato de ejercicios usa `{429, 503}` para forzar selectividad. Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` (el encabezado que dice cuánto esperar) cuando exista y un **max_retries** duro (tope de intentos, p. ej. 3). La función `should_retry` y la tabla `status_action` deben contar la misma historia.",
+        "**Retry/backoff** (reintento con espera creciente) solo en errores **transitorios**: **429**, **503** y timeouts de red en este curso (**política N1**). Un timeout no tiene status, así que `should_retry(status)` no lo ve: lo reintenta el bucle del cliente con el mismo tope. Otros **5xx** pueden reintentarse en producción con límite, pero el contrato de ejercicios usa `{429, 503}` para forzar selectividad. Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` (el encabezado que dice cuánto esperar) cuando exista y un **max_retries** duro (tope de intentos, p. ej. 3). La función `should_retry` y la tabla `status_action` deben contar la misma historia.",
         "Rate limit (cuota del proveedor): duerme entre páginas o respeta cuotas. En demo usamos contador de delays en lugar de `time.sleep` real para tests deterministas (que dan siempre el mismo resultado). Caso sintético: páginas 1→2→3 con `next` y `rate_limit_pauses == 2`; cuando **`next is None`**, dejas de pedir la siguiente página. **Qué observar:** el bucle termina por contrato del proveedor, no por un contador mágico de “siempre 3 páginas”."
       ],
       code: {
@@ -180,7 +180,7 @@ print("items", all_items, "rate_limit_pauses", delays)`,
         type: "warning",
         title: "No reintentes 400",
         content:
-          "Retry ciego en 4xx de cliente amplifica abuso y no arregla el request. En N1: reintenta solo 429 y 503.",
+          "Retry ciego en 4xx de cliente amplifica abuso y no arregla el request. En N1: reintenta solo 429, 503 y el timeout de red, siempre con tope de intentos.",
       },
     },
     {
@@ -201,34 +201,37 @@ print("items", all_items, "rate_limit_pauses", delays)`,
       subtopicId: "S12-T2-A",
       paragraphs: [
         "Con el cliente resiliente en T1, el siguiente riesgo profesional es filtrar el secreto. Autenticación **Bearer** (o basic) lee el token de **variable de entorno** (una configuración del sistema operativo, no del código) o de un secret store (un almacén de secretos), nunca hardcodeado (pegado en el repo) ni en un notebook compartido. Si falta `API_TOKEN`, **falla cerrado** con mensaje claro — no envíes requests anónimos “por si acaso” ni uses un token de demo pegado en el código que mañana se commitea (se sube al repositorio).",
-        "**Caché de GET** por hash de URL (o la URL misma en demos) con **TTL** reduce costo y latencia; no caches respuestas de escritura ni PII sin política. Invalida o no reutilices si el status no fue 2xx. El segundo hit al mismo URL debe marcar `cache_hit=True` sin volver a “pegarle” al mock.",
+        "**Caché de GET** con **TTL** (tiempo de vida de cada entrada) reduce costo y latencia. La clave es un hash de URL (un resumen corto calculado a partir del texto de la URL), o la URL misma en demos. No caches respuestas de escritura ni PII sin política. Solo se guarda un status 2xx: un 404 o un 503 cacheado se serviría como si fuera la respuesta durante todo el TTL. El segundo hit al mismo URL debe marcar `cache_hit=True` sin volver a “pegarle” al mock.",
         "**Provenance (traza de origen)**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit` (y a veces `body_sha12` o `auth_scheme`). **Nunca loguees (imprimas en el log) el token** ni el header Authorization: solo un booleano `token_present` o la longitud. Caso sintético: segundo `cached_get` a `https://api.example.com/signals` → `cache_hit=True`; el manifest de provenance no contiene la cadena del token. **Qué observar:** `token_len` sí; el valor del token, no."
       ],
       code: {
         language: 'python',
         title: "auth_cache_prov.py",
-        code: `import os, hashlib, time, json
+        code: `import hashlib, json, time
 
-os.environ["API_TOKEN"] = "demo-token-not-real"
+# En tu máquina el token viene de la terminal (export API_TOKEN=...);
+# aquí un dict hace de entorno para que el ejemplo no deje un secreto en el código.
+env = {"API_TOKEN": "demo-token-not-real"}
 
-def get_token():
-    tok = os.environ.get("API_TOKEN")
+def get_token(env):
+    tok = env.get("API_TOKEN")
     if not tok:
         raise RuntimeError("API_TOKEN missing")
     return tok
 
 CACHE = {}
-def cached_get(url, ttl=60):
+def cached_get(url, status, ttl=60):
     key = hashlib.sha256(url.encode()).hexdigest()[:12]
     now = time.time()
     if key in CACHE and now - CACHE[key]["ts"] < ttl:
         return CACHE[key]["body"], True
-    body = {"url": url, "ok": True}
-    CACHE[key] = {"ts": now, "body": body}
+    body = {"url": url, "status": status}
+    if 200 <= status < 300:  # solo un 2xx entra a la caché
+        CACHE[key] = {"ts": now, "body": body}
     return body, False
 
-token = get_token()
-body, hit = cached_get("https://api.example.com/signals")
+token = get_token(env)
+body, hit = cached_get("https://api.example.com/signals", 200)
 prov = {
     "source_url": "https://api.example.com/signals",
     "fetched_at": "2026-07-20T12:00:00Z",
@@ -239,12 +242,17 @@ prov = {
 print("token_len", len(token))
 print("cache_hit", hit)
 print("provenance", json.dumps(prov, sort_keys=True))
-body2, hit2 = cached_get("https://api.example.com/signals")
-print("second_hit", hit2)`,
+body2, hit2 = cached_get("https://api.example.com/signals", 200)
+print("second_hit", hit2)
+for _ in range(2):
+    print("404 cache_hit", cached_get("https://api.example.com/signals/C999", 404)[1])
+`,
         output: `token_len 19
 cache_hit False
 provenance {"auth": "bearer", "cache_hit": false, "fetched_at": "2026-07-20T12:00:00Z", "source_url": "https://api.example.com/signals"}
-second_hit True`,
+second_hit True
+404 cache_hit False
+404 cache_hit False`,
       },
       callout: {
         type: "danger",
@@ -275,21 +283,21 @@ second_hit True`,
       code: {
         language: "bash",
         title: "token_en_codigo_historial",
-        code: "# Error: el token va en adapter.py y entra en el primer commit\n$ echo 'TOKEN = \"syn-token-000-no-real\"' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep TOKEN\n+TOKEN = \"syn-token-000-no-real\"\n\n# Corrección: en un repo nuevo, el adaptador lee el token de os.environ\n$ echo 'TOKEN = os.environ[\"API_TOKEN\"]' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep -c syn-token\n0",
+        code: "# Error: el token va en adapter.py y entra en el primer commit\n$ echo 'TOKEN = \"syn-token-000-no-real\"' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep TOKEN\n+TOKEN = \"syn-token-000-no-real\"\n\n# Corrección: en un repo nuevo, el adaptador lee el token de os.environ\n$ cd .. && git init -q repo-nuevo && cd repo-nuevo\n$ echo 'TOKEN = os.environ[\"API_TOKEN\"]' > adapter.py\n$ git add . && git commit -m \"adaptador\"\n$ git log --all -p | grep -c syn-token\n0",
       },
     },
     {
       heading: "Contract tests y fallback",
       subtopicId: "S12-T2-B",
       paragraphs: [
-        "Ya tienes secretos y provenance; ahora blindas el adaptador contra el schema (la forma del JSON) del proveedor. Un **contract test** (prueba de contrato) fija las claves obligatorias del JSON con un fixture (un dato de prueba fijo). Si el schema cambia (`lat` renombrado a `latitude`), el test falla **antes** de producción y del dashboard de S13 — mejor un assert rojo en CI que un mapa con huecos silenciosos.",
-        "**Fallback degradado** (salida de emergencia): si 5xx o la red está caída, lee coordenadas precomputadas locales y marca `mode=offline` (o `offline_fallback`) en la provenance. No finjas éxito online: la traza debe decir la verdad al auditor. **Falla suave, traza dura** (*fail soft, trace hard*): el pipeline sigue con datos locales, pero no miente sobre el origen.",
-        "Un feature flag (interruptor de configuración) offline permite demos reproducibles sin red — **obligatorio** en CP-N1-C y en entrevistas técnicas donde “demo con internet” falla. Caso sintético: `assert_contract` exige `{\"lat\",\"lon\",\"label\"}`; `geocode(..., online=True)` → `mode=online`; `online=False` → `mode=offline_fallback`. **Qué observar:** el contrato falla en falta de `lon`; el fallback no reescribe el modo a online."
+        "Ya tienes secretos y provenance; ahora blindas el adaptador contra el schema (la forma del JSON) del proveedor. Un **contract test** (prueba de contrato) fija las claves obligatorias del JSON con un fixture (un dato de prueba fijo). Si el schema cambia (`lat` renombrado a `latitude`), el test falla **antes** de producción y del dashboard de evidencia que construirás en S13. Mejor un assert rojo en CI que un mapa con huecos silenciosos.",
+        "**Fallback degradado** (salida de emergencia): si 5xx o la red está caída, lee coordenadas precomputadas locales y marca `mode=offline_fallback` en la provenance. No finjas éxito online: la traza debe decir la verdad al auditor. **Falla suave, traza dura** (*fail soft, trace hard*): el pipeline sigue con datos locales, pero no miente sobre el origen.",
+        "Un feature flag (interruptor de configuración) offline permite demos reproducibles sin red — **obligatorio** en CP-N1-C y en entrevistas técnicas donde “demo con internet” falla. Caso sintético: `assert_contract` exige `{\"lat\",\"lon\",\"provider\"}`, el mismo contrato del demo de T2-B; `geocode(..., online=True)` → `mode=online`; `online=False` → `mode=offline_fallback`. **Qué observar:** el contrato falla en falta de `lon`; el fallback no reescribe el modo a online."
       ],
       code: {
         language: 'python',
         title: "contract_fallback.py",
-        code: `REQUIRED = {"lat", "lon", "label"}
+        code: `REQUIRED = {"lat", "lon", "provider"}
 
 def assert_contract(payload):
     missing = REQUIRED - set(payload)
@@ -300,13 +308,14 @@ def assert_contract(payload):
 def geocode(addr, online=True):
     if online:
         # mock online ok
-        return {"lat": -12.0464, "lon": -77.0428, "label": addr, "mode": "online"}
-    return {"lat": -12.05, "lon": -77.04, "label": addr, "mode": "offline_fallback"}
+        return {"lat": -12.0464, "lon": -77.0428, "provider": "mock", "label": addr, "mode": "online"}
+    return {"lat": -12.05, "lon": -77.04, "provider": "precalc", "label": addr, "mode": "offline_fallback"}
 
-fix = {"lat": -0.1807, "lon": -78.4678, "label": "Quito"}
+fix = {"lat": -0.1807, "lon": -78.4678, "provider": "mock", "label": "Quito"}
 print("contract", assert_contract(fix))
 print("online", geocode("Lima", online=True)["mode"])
-print("offline", geocode("Lima", online=False)["mode"])`,
+print("offline", geocode("Lima", online=False)["mode"])
+`,
         output: `contract True
 online online
 offline offline_fallback`,
@@ -315,14 +324,16 @@ offline offline_fallback`,
         type: "tip",
         title: "Falla suave, traza dura (fail soft, trace hard)",
         content:
-          "El fallback no oculta el fallo: deja `mode=offline` y la razón en provenance (traza de origen). El auditor debe ver la verdad.",
+          "El fallback no oculta el fallo: deja `mode=offline_fallback` y la razón en provenance (traza de origen). El auditor debe ver la verdad.",
       },
     },
     {
       heading: "Contraejemplo: el corte binario da éxito a un 404 y a un 429",
       paragraphs: [
         "Un corte que solo pregunta `status >= 500` trata todo lo demás como éxito. Así, un 404 (el recurso no existe) o un 429 (demasiadas peticiones) producen un body `online` que nunca llegó del proveedor. El código compara los dos cortes con las mismas entradas.",
-        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`. La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout (no tiene status, así que llega como `None`) y un 429 que sigue llegando después de los reintentos de la política N1. Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
+        "Lee la salida por parejas. Las dos últimas líneas del corte binario muestran el problema: 404 y 429 dan `'online'`.",
+        "La corrección separa tres casos. 2xx es online. Un fallo transitorio pasa a offline con el cuerpo local: un 5xx, un timeout o un 429 que siguen llegando después de los reintentos de la política N1. El timeout no tiene status, así que llega como `None`. Cualquier otro código es un fallo del cliente, sin body y sin éxito inventado.",
+        "Esos reintentos esperan lo que pide la cabecera `Retry-After`, es decir, los segundos que el proveedor indica antes de volver a llamar.",
       ],
       code: {
         language: 'python',
@@ -360,7 +371,7 @@ tres ramas 429 ({'lat': -12.0}, 'offline')`,
       subtopicId: "S12-T3-A",
       paragraphs: [
         "Con el adaptador HTTP listo, las señales no viven solo en memoria del proceso: las **persistes** (las guardas en disco) para el caso. SQLite (el motor de base de datos en archivo) vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence` (nombres alineados al dominio de S11). Archivo `:memory:` (base de datos en RAM, se borra al cerrar) en demos o `case.db` local — sin servidor remoto ni ORM (un mapeador objeto-relacional) en esta sección.",
-        "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría). El **JOIN** une evidencias a entidades por `entity_id` (y transacciones por `client_id`) para armar la ficha del caso que el dashboard de S13 consumirá. Prefiere **SQL parametrizado** (marcadores posicionales) desde el primer INSERT: el hábito de parametrizar (usar marcadores en vez de f-strings) se aprende antes del ejercicio de inyección de T3-B.",
+        "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría). El **JOIN** une evidencias a entidades por `entity_id` (y transacciones por `client_id`) para armar la ficha del caso que leerá el dashboard de evidencia de S13, la sección siguiente. Prefiere **SQL parametrizado** (marcadores posicionales) desde el primer INSERT: el hábito de parametrizar (usar marcadores en vez de f-strings) se aprende antes del ejercicio de inyección de T3-B.",
         "Empieza transacciones explícitas (BEGIN/COMMIT/ROLLBACK) cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK e índices. Caso sintético: insert `C001` + evidence `geo` → JOIN devuelve `[('Ana Demo', 'geo')]`. **Qué observar:** el resultado es una lista de tuplas (nombre, kind), no un string suelto; el join falla en silencio solo si olvidaste el `entity_id` correcto."
       ],
       code: {
@@ -390,9 +401,9 @@ print(seed_and_join())`,
       },
       callout: {
         type: "tip",
-        title: "FKs lógicas primero",
+        title: "Claves foráneas lógicas primero",
         content:
-          "Documenta `entity_id` aunque no actives `FOREIGN KEY` en SQLite; la integridad empieza en el modelo. Usa SQL parametrizado (con marcadores posicionales en el código) desde el primer INSERT.",
+          "Una clave foránea (FK, *foreign key*) es la columna que apunta al id de otra tabla, como `evidence.entity_id` hacia `clients.id`. Documéntala aunque no actives `FOREIGN KEY` en SQLite; la integridad empieza en el modelo. Usa SQL parametrizado (con marcadores posicionales en el código) desde el primer INSERT.",
       },
     },
     {
@@ -400,17 +411,17 @@ print(seed_and_join())`,
       subtopicId: "S12-T3-B",
       paragraphs: [
         "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa marcadores `?` con una tupla de parámetros, o `:name` con un `dict` cuyas claves coincidan con los nombres que siguen a `:`. **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a la inyección SQL (según OWASP, el proyecto abierto de seguridad web) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
-        "`executemany` (ejecutar varios inserts de golpe) + `BEGIN`/`COMMIT` hacen batch **atómico** (todo o nada); un `UNIQUE` roto → `ROLLBACK` (deshacer) y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
+        "`BEGIN`, `executemany` (ejecutar varios inserts de golpe) y `COMMIT` agrupan el lote en una transacción. `executemany` solo ejecuta los inserts: si un `UNIQUE` se rompe, las filas anteriores siguen dentro de la transacción abierta. Por eso es el `ROLLBACK` (deshacer) explícito el que vuelve el lote **atómico** (todo o nada). `COUNT(*)` queda igual al conteo previo al lote; aquí es 0 porque la tabla empezó vacía. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
         "En la tabla `clients` de `params_tx.py`, `PRIMARY KEY` marca la columna que identifica cada fila y `UNIQUE` no deja repetir valores; ambas restricciones protegen la integridad. Para comprobar que `id` identifica cada fila y `document_id` no repite valores, SQLite crea por sí solo dos índices: uno para `id` y otro para `document_id`. Un **índice** es una estructura que permite a SQLite ir directo a la fila coincidente sin leer toda la tabla. Por eso, el índice que SQLite creó para `document_id` al aplicar `UNIQUE`, `sqlite_autoindex_clients_2`, ya sirve para buscar por `document_id`, así que el demo no crea otro índice en esa columna.",
-        "En cambio, `NOT NULL` solo rechaza valores nulos; no crea un índice ni ayuda a SQLite a encontrar filas más rápido. Cuando buscas o unes por una columna sin índice propio, escribes `CREATE INDEX`, por ejemplo para `evidence.entity_id`, clave del JOIN que une `evidence` con `clients` en T3-A. Ese es el caso de `document_id` en E3, cuya tabla no declara `UNIQUE`.",
-        "Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad; si ves count `2`, olvidaste el rollback."
+        "En cambio, `NOT NULL` solo rechaza valores nulos; no crea un índice ni ayuda a SQLite a encontrar filas más rápido. Cuando buscas o unes por una columna sin índice propio, escribes `CREATE INDEX`, por ejemplo para `evidence.entity_id`, clave del JOIN que une `evidence` con `clients` en T3-A. Lo mismo pasa en el ejercicio S12-T3-B-E3: allí la tabla `clients` no declara `UNIQUE` en `document_id`, así que el índice lo creas tú.",
+        "Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad. La segunda línea corre el mismo lote sin `rollback()`: el count da `2`, las dos filas que entraron antes del error."
       ],
       code: {
         language: 'python',
         title: "params_tx.py",
         code: `import sqlite3
 
-def try_batch_unique_doc():
+def try_batch_unique_doc(rollback=True):
     con = sqlite3.connect(":memory:")
     con.execute("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
     try:
@@ -422,14 +433,20 @@ def try_batch_unique_doc():
         con.commit()
         status = "committed"
     except sqlite3.IntegrityError:
-        con.rollback()
-        status = "rolled_back"
+        if rollback:
+            con.rollback()
+            status = "rolled_back"
+        else:
+            status = "sin_rollback"
     n = con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
     con.close()
     return status, n
 
-print(try_batch_unique_doc())`,
-        output: `('rolled_back', 0)`,
+print(try_batch_unique_doc())
+print(try_batch_unique_doc(rollback=False))
+`,
+        output: `('rolled_back', 0)
+('sin_rollback', 2)`,
       },
       callout: {
         type: "danger",
@@ -449,7 +466,7 @@ print(try_batch_unique_doc())`,
       },
       paragraphs: [
         "La tabla tiene tres clientes, y el id que llega, `C999' OR '1'='1`, no existe pero trae un fragmento de SQL. El error lo pega con una f-string y el ejemplo imprime la consulta que resulta; la corrección pasa el mismo texto por el marcador `?`.",
-        "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`. Quitar o duplicar la comilla con `replace` arregla este id y deja abierto el siguiente; con el marcador, SQLite nunca lee el dato como parte de la consulta.",
+        "La consulta armada termina en `OR '1'='1'`, una condición que siempre se cumple, y por eso devuelve los tres clientes a quien preguntó por uno inexistente. Con el marcador, SQLite busca un id igual a ese texto completo, no lo encuentra y devuelve `[]`. Quitar la comilla con `replace` cambia el dato (un apellido como D'Ángelo deja de encontrarse), y escaparla a mano hay que recordarlo en cada consulta. Con el marcador, SQLite nunca lee el dato como parte de la consulta.",
       ],
       code: {
         language: "python",
@@ -462,9 +479,9 @@ print(try_batch_unique_doc())`,
       heading: "Normalización y geocoding autorizado",
       subtopicId: "S12-T4-A",
       paragraphs: [
-        "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
-        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es solo la ciudad (y el país, si hace falta). La dirección exacta no sale del sistema. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"city\", \"country\"}`. Si aparece `address` o `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
-        "`MockGeocoder` devuelve lat/lon fijos para las dos ciudades que tiene en su tabla, y así las demos offline son reproducibles; cualquier ciudad fuera de esa tabla → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
+        "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida. El mock busca la ciudad con la clave exacta de su tabla. No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (documentos, cuentas, montos ni nombres) a proveedores públicos gratuitos. El payload mínimo es solo la ciudad (y el país, si hace falta). La dirección exacta no sale del sistema. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"city\", \"country\"}`. Si aparece `address` o `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
+        "`MockGeocoder` devuelve lat/lon fijos para las dos ciudades que tiene en su tabla, y así las demos offline son reproducibles; cualquier ciudad fuera de esa tabla → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"Lima\")` → coords de Lima; `geocode(\"lima\")` → `None`, porque la clave es exacta. **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
       code: {
         language: 'python',
@@ -481,19 +498,21 @@ class MockGeocoder:
         "Quito": (-0.1807, -78.4678),
     }
     def geocode(self, city: str):
-        key = city.strip().title()
-        coords = self.TABLE.get(key)
+        coords = self.TABLE.get(city)  # clave exacta: "lima" no está en la tabla
         if not coords:
             return None
         lat, lon = coords
-        return {"city": key, "lat": lat, "lon": lon, "provider": "mock"}
+        return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
 
 addr = normalize_address("  av.  larco  123  ")
-geo = MockGeocoder().geocode("lima")
+geo = MockGeocoder().geocode("Lima")
 print("addr", addr)
-print("geo", geo)`,
+print("geo", geo)
+print("geo minúsculas", MockGeocoder().geocode("lima"))
+`,
         output: `addr av. larco 123
-geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
+geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}
+geo minúsculas None`,
       },
       callout: {
         type: "warning",
@@ -506,9 +525,9 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
       heading: "Calidad de coordenada, Haversine, caché y política",
       subtopicId: "S12-T4-B",
       paragraphs: [
-        "Tienes coords (coordenadas) del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas inválidas (91°, NaN, strings) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no lo “corrige” a 0,0 (punto del Golfo de Guinea, frente a África, que los mapas usan como origen) — ese “arreglo” ha generado mapas absurdos en producción real.",
-        "**Haversine** estima km entre dos puntos WGS84 con radio R=6371 km en este curso; sirve como **geoseñal de relación** en el score de matching, no como veredicto de parentesco o fraude. Empaqueta el resultado como `{\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}` (o `verdict: None`). Documenta unidades (km) y el radio usado.",
-        "Cachea geocodes bajo TTL (tiempo de vida del caché) o política del proveedor para no quemar cuota (misma idea de caché GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ **8.95 km** → alimenta `relationship_signal_score` (el score de relación de S13), jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
+        "Tienes coords (coordenadas) del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas inválidas (91°, NaN, textos) no entran al mapa ni al score de relación: `valid_coord` las rechaza con `False`, sin lanzar excepción. Fail-closed: rechaza el par, no lo “corrige” a 0,0 (punto del Golfo de Guinea, frente a África, que los mapas usan como origen) — ese “arreglo” ha generado mapas absurdos en producción real.",
+        "**Haversine** estima km entre dos puntos WGS84 (el sistema de latitud y longitud que usan el GPS y los mapas web) con radio R=6371 km en este curso. Sirve como **geoseñal de relación** en el score de matching, no como veredicto de parentesco o fraude. Empaqueta el resultado como `{\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}`, la misma clave en el demo, en el We Do y en el You Do. Documenta unidades (km) y el radio usado.",
+        "Cachea geocodes bajo TTL (tiempo de vida del caché) o política del proveedor para no quemar cuota (misma idea de caché GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ **8.95 km** → alimenta `relationship_signal_score`, el puntaje con que el dashboard de S13 ordena qué pares de clientes revisar primero, jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
       ],
       code: {
         language: 'python',
@@ -516,6 +535,9 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
         code: `import math
 
 def valid_coord(lat, lon):
+    for v in (lat, lon):
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v):
+            return False
     return -90 <= lat <= 90 and -180 <= lon <= 180
 
 def haversine_km(a, b):
@@ -530,11 +552,14 @@ lima = (-12.0464, -77.0428)
 callao = (-12.0500, -77.1250)
 print("valid", valid_coord(*lima))
 print("invalid", valid_coord(91, 0))
+print("invalid_text", valid_coord("-12.04", None))
 d = haversine_km(lima, callao)
 print("km_approx", round(d, 2))
-print("signal_only", "relationship_signal not kinship")`,
+print("signal_only", "relationship_signal not kinship")
+`,
         output: `valid True
 invalid False
+invalid_text False
 km_approx 8.95
 signal_only relationship_signal not kinship`,
       },
@@ -617,23 +642,26 @@ kinds ['shared_phone', 'geo']`,
           code: `def collect_pages(api):
     items = []
     page = 1
+    fetched = 0
     pauses = 0
     while page is not None:
         chunk = api[page]
+        fetched += 1
         items.extend(chunk["items"])
         page = chunk["next"]
         if page is not None:
             pauses += 1
-    return items, pauses
+    return items, fetched, pauses
 
 API = {
     1: {"items": [1, 2], "next": 2},
     2: {"items": [3], "next": 3},
     3: {"items": [4, 5], "next": None},
 }
-items, pauses = collect_pages(API)
+items, fetched, pauses = collect_pages(API)
 print("items", items)
-print("pages_fetched", 3, "rate_limit_pauses", pauses)`,
+print("pages_fetched", fetched, "rate_limit_pauses", pauses)
+`,
           output: `items [1, 2, 3, 4, 5]
 pages_fetched 3 rate_limit_pauses 2`,
         },
@@ -646,9 +674,9 @@ pages_fetched 3 rate_limit_pauses 2`,
         demoId: "S12-T2-A-DEMO",
         subtopicId: "S12-T2-A",
         environment: "local-python",
-        description: "Tras un fetch (un pedido al servidor): arma la provenance (url, timestamp, status, hash del body, auth_scheme, token_present). El hash del body (su huella digital corta) prueba integridad sin volcar PII; `auth_scheme` es el esquema de autenticación (bearer, basic). El valor del token nunca entra al log — solo `token_present=true` y `token_logged False` al final.",
+        description: "Tras un fetch (un pedido al servidor): arma la provenance (url, timestamp, status, hash del body, auth_scheme, token_present). El hash del body (su huella digital corta) prueba integridad: si el cuerpo cambia, el hash cambia; `auth_scheme` es el esquema de autenticación (bearer, basic). El valor del token nunca entra al log — solo `token_present=true`; la última línea busca el token en el log y da `token_logged False`.",
         preamble:
-          "Tras un fetch de señales, el auditor necesita **traza de origen** (url, timestamp, status, hash del body, esquema de auth) sin el valor del secreto. Observa el demo: `token_present` es booleano; al final `token_logged False`. El token vive en env (`SIG_API_TOKEN`), no en el JSON impreso. No reescribas: predice las claves del manifest y si el string del token aparece.",
+          "Tras un fetch de señales, el auditor necesita **traza de origen** (url, timestamp, status, hash del body, esquema de auth) sin el valor del secreto. Observa el demo: `token_present` es booleano; al final, `token_logged` busca el valor del token en la línea impresa y da `False`. El token vive en env (`SIG_API_TOKEN`), no en el JSON impreso. No reescribas: predice las claves del manifest y si el string del token aparece.",
         code: {
           language: 'python',
           title: "provenance_demo.py",
@@ -664,18 +692,19 @@ def build_manifest(url, body, status=200):
         "auth_scheme": "bearer",
     }
 
-os.environ["SIG_API_TOKEN"] = "syn-token-000"
+os.environ["SIG_API_TOKEN"] = "syn-token-000"  # en tu máquina, export SIG_API_TOKEN=...
 url = "https://api.example.com/v1/signals/C001"
 body = {"entity_id": "C001", "signals": ["geo"]}
-manifest = build_manifest(url, body)
-# Nunca loguear el token: solo presencia booleana
-print(json.dumps(manifest, sort_keys=True))
-print("token_logged", False)`,
+linea = json.dumps(build_manifest(url, body), sort_keys=True)
+print(linea)
+# Se comprueba, no se afirma: ¿aparece el valor del token en la línea del log?
+print("token_logged", os.environ["SIG_API_TOKEN"] in linea)
+`,
           output: `{"auth_scheme": "bearer", "body_sha12": "5acbf63b7a4b", "fetched_at": "2026-07-20T15:00:00Z", "source_url": "https://api.example.com/v1/signals/C001", "status_code": 200, "token_present": true}
 token_logged False`,
         },
         why:
-          "La provenance alimenta el entregable CP-N1-C y el README del portafolio: el auditor ve origen y estado sin el secreto. `body_sha12` prueba integridad del payload sin volcar PII. El token existe en env; en el log solo `token_present` o la longitud — nunca el header Authorization.",
+          "La provenance alimenta el entregable CP-N1-C y el README del portafolio: el auditor ve origen y estado sin el secreto. `body_sha12` prueba integridad del payload, no lo anonimiza. Si el cuerpo sale de pocos valores posibles (unos cientos de ids y tres listas de señales), cualquiera puede calcular el hash de cada combinación y encontrar la que coincide. Por eso solo se guarda el hash de cuerpos que no identifican a nadie; aquí el cuerpo es sintético. El token existe en env; en el log solo `token_present` o la longitud — nunca el header Authorization.",
         retrospective:
           "Si el manifest no contiene el token y sí `token_present`, ya internalizaste «secreto fuera de la traza». We Do: exigir token, caché GET y armar provenance mínima.",
       },
@@ -721,9 +750,9 @@ contract_precalc True`,
         demoId: "S12-T3-A-DEMO",
         subtopicId: "S12-T3-A",
         environment: "local-python",
-        description: "Tablas clients, transactions, evidence: une nombre + monto + kind de evidencia en una sola fila de caso. Observa case_row ('Ana', 120.5, 'geo') — ficha mínima para el dashboard de S13.",
+        description: "Tablas clients, transactions, evidence: une nombre + monto + kind de evidencia en una sola fila de caso. Observa case_row ('Ana', 12050, 'geo'): el monto va en céntimos enteros, como pide S02 para el dinero. Es la ficha mínima para el dashboard de S13.",
         preamble:
-          "Las señales del adaptador se **persisten** (se guardan en disco) para el caso: tres tablas locales y un JOIN (la operación SQL que combina filas de dos tablas) arman la ficha mínima (nombre, monto, kind de evidencia). Observa el demo en `:memory:` (base en RAM) sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
+          "Las señales del adaptador se **persisten** (se guardan en disco) para el caso: tres tablas locales y un JOIN (la operación SQL que combina filas de dos tablas) arman la ficha mínima (nombre, monto, kind de evidencia). El monto se guarda en céntimos enteros (`amount_cents INTEGER`): un `REAL` es un float, y S02 mostró que 0.1 + 0.2 no da 0.3. Observa el demo en `:memory:` (base en RAM) sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
         code: {
           language: 'python',
           title: "case_join_demo.py",
@@ -733,27 +762,28 @@ def case_join():
     con = sqlite3.connect(":memory:")
     con.executescript("""
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
-CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);
+CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount_cents INTEGER);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
 """)
     con.execute("INSERT INTO clients VALUES ('C001','Ana')")
-    con.execute("INSERT INTO transactions VALUES ('T1','C001',120.5)")
+    con.execute("INSERT INTO transactions VALUES ('T1','C001',12050)")  # S/ 120.50
     con.execute("INSERT INTO evidence VALUES ('E1','C001','geo')")
     row = con.execute(
-        "SELECT c.name, t.amount, e.kind FROM clients c "
+        "SELECT c.name, t.amount_cents, e.kind FROM clients c "
         "JOIN transactions t ON c.id=t.client_id "
         "JOIN evidence e ON c.id=e.entity_id"
     ).fetchone()
     con.close()
     return row
 
-print("case_row", case_join())`,
-          output: `case_row ('Ana', 120.5, 'geo')`,
+print("case_row", case_join())
+`,
+          output: `case_row ('Ana', 12050, 'geo')`,
         },
         why:
           "La ficha de caso no es un string suelto: es una tupla de columnas unidas por `client_id` y `entity_id`. Aunque los valores del demo estén fijos, el hábito de parametrizar empieza en el INSERT del We Do. Ese join es el almacén local que el dashboard de S13 leerá para armar la vista del caso.",
         retrospective:
-          "Si puedes dibujar las tres FKs lógicas (`client_id`, `entity_id`) sin mirar el SQL, ya tienes el modelo del almacén. We Do: esquema evidence, CRUD de client y join solo de C001.",
+          "Si puedes dibujar las dos claves foráneas lógicas (`transactions.client_id` y `evidence.entity_id`) sin mirar el SQL, ya tienes el modelo del almacén. We Do: esquema evidence, CRUD de client y join solo de C001.",
       },
       {
         demoId: "S12-T3-B-DEMO",
@@ -796,9 +826,9 @@ count 0`,
         demoId: "S12-T4-A-DEMO",
         subtopicId: "S12-T4-A",
         environment: "local-python",
-        description: "MockGeocoder autorizado: las ciudades de la tabla devuelven lat/lon fijos; una que no está en ella → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
+        description: "MockGeocoder autorizado: las ciudades de la tabla devuelven lat/lon fijos; una que no está en ella → None (fail-closed, no inventa punto). Observa provider=mock y que `geocode` solo recibe la ciudad: ningún documento ni dirección sale hacia el proveedor.",
         preamble:
-          "La geoevidencia del caso usa un geocoder **autorizado/mock** (un proveedor simulado, no uno público real), offline y sin PII bancaria. Observa: las dos ciudades de la tabla devuelven lat/lon fijos; la tercera no está en ella y devuelve `None` (fail-closed). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=authorized_mock`. Datos de demo únicamente.",
+          "La geoevidencia del caso usa un geocoder **autorizado/mock** (un proveedor simulado, no uno público real), offline y sin PII bancaria. Observa: las dos ciudades de la tabla devuelven lat/lon fijos; la tercera no está en ella y devuelve `None` (fail-closed). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=mock`, el mismo nombre que usa el We Do. Datos de demo únicamente.",
         code: {
           language: 'python',
           title: "mock_cities_demo.py",
@@ -808,13 +838,13 @@ count 0`,
         if city not in self.DB:
             return None
         lat, lon = self.DB[city]
-        return {"city": city, "lat": lat, "lon": lon, "provider": "authorized_mock"}
+        return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
 
 g = MockGeocoder()
 for c in ("Lima", "Quito", "Santiago"):
     print(c, g.geocode(c))`,
-          output: `Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}
-Quito {'city': 'Quito', 'lat': -0.1807, 'lon': -78.4678, 'provider': 'authorized_mock'}
+          output: `Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}
+Quito {'city': 'Quito', 'lat': -0.1807, 'lon': -78.4678, 'provider': 'mock'}
 Santiago None`,
         },
         why:
@@ -826,9 +856,9 @@ Santiago None`,
         demoId: "S12-T4-B-DEMO",
         subtopicId: "S12-T4-B",
         environment: "local-python",
-        description: "Calcula ~8.95 km Lima–Callao y empaquétalos como geoseñal (type/value/verdict=None). Nunca autoetiquetes parentesco o fraude: el disclaimer signal != kinship es parte del entregable.",
+        description: "Calcula ~8.95 km Lima–Callao y empaquétalos como geoseñal (type/value/kinship_verdict=None). Nunca autoetiquetes parentesco o fraude: el disclaimer signal != kinship es parte del entregable.",
         preamble:
-          "La distancia entre Lima y Callao alimenta un **score de relación** (un número que alimenta el matching), no un veredicto de parentesco o fraude. Observa el demo: `haversine_km` (la fórmula esférica) ≈ 8.95, el dict lleva `type`/`value`/`verdict: None` y el disclaimer `signal != kinship` (señal no es parentesco). No escribas: predice el dict y el texto del disclaimer. Juicio humano intacto.",
+          "La distancia entre Lima y Callao alimenta un **score de relación** (un número que ayuda a decidir qué pares de clientes revisar primero), no un veredicto de parentesco o fraude. Observa el demo: `haversine_km` (la fórmula esférica) ≈ 8.95, el dict lleva `type`/`value`/`kinship_verdict: None` y el disclaimer `signal != kinship` (señal no es parentesco). No escribas: predice el dict y el texto del disclaimer. Juicio humano intacto.",
         code: {
           language: 'python',
           title: "lima_callao_demo.py",
@@ -845,21 +875,21 @@ def haversine_km(a, b):
 lima = (-12.0464, -77.0428)
 callao = (-12.0500, -77.1250)
 km = haversine_km(lima, callao)
-signal = {"type": "geo_distance_km", "value": round(km, 2), "verdict": None}
+signal = {"type": "geo_distance_km", "value": round(km, 2), "kinship_verdict": None}
 print(signal)
 print("disclaimer", "signal != kinship")`,
-          output: `{'type': 'geo_distance_km', 'value': 8.95, 'verdict': None}
+          output: `{'type': 'geo_distance_km', 'value': 8.95, 'kinship_verdict': None}
 disclaimer signal != kinship`,
         },
         why:
-          "R=6371 es el radio del curso para Haversine esférico. El paquete `{type, value, verdict}` es el contrato hacia S13: la distancia alimenta `relationship_signal_score`, pero `verdict=None` deja el juicio humano intacto. Nunca autoetiquetes `is_family` ni fraude por cercanía en km.",
+          "R=6371 es el radio del curso para Haversine esférico. El paquete `{type, value, kinship_verdict}` es el contrato hacia S13: la distancia alimenta `relationship_signal_score`, pero `kinship_verdict=None` deja el juicio humano intacto. Nunca autoetiquetes `is_family` ni fraude por cercanía en km.",
         retrospective:
-          "Si puedes defender en 20 segundos por qué 1.2 km no es parentesco, ya tienes la línea ética del capstone. En el We Do el campo se llama `kinship_verdict`; el contrato es el mismo: siempre `None`. We Do: validar lat/lon, fórmula Haversine y empaquetar señal.",
+          "Si puedes defender en 20 segundos por qué 1.2 km no es parentesco, ya tienes la línea ética del capstone. El campo se llama `kinship_verdict` aquí, en el We Do y en el You Do, y siempre vale `None`. We Do: validar lat/lon, fórmula Haversine y empaquetar señal.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios (E1 guiado con pistas / E2 independiente / E3 de transferencia, que aplica el concepto a un caso nuevo) por los 8 subtemas, en el mismo orden del I Do. Alcance de S12: mocks HTTP conceptuales (simulaciones del proveedor) + `sqlite3` + Haversine (`math`); datos sintéticos (`CASO-LIM-012`, ids `C00x`). No RPA ni dashboard de S13; no NumPy de S14. Conserva asserts (comprobaciones) y fixtures (datos de prueba) del starter — cada starter trae **un defecto claro** marcado como DEFECT para que lo repares. Dos pistas por ejercicio. Política N1 de retry: solo 429 y 503; normalize de dirección = espacios, sin `.title()`.",
+    intro: "24 ejercicios (E1 guiado con pistas / E2 independiente / E3 de transferencia, que aplica el concepto a un caso nuevo) por los 8 subtemas, en el mismo orden del I Do. Alcance de S12: mocks HTTP conceptuales (simulaciones del proveedor) + `sqlite3` + Haversine (`math`); datos sintéticos (`CASO-LIM-012`, ids `C00x`). No RPA ni dashboard de S13; no NumPy de S14. Conserva asserts (comprobaciones) y fixtures (datos de prueba) del starter — cada starter trae **un defecto claro** marcado como DEFECT para que lo repares. Borra la última línea del starter, `print('ok', True)`: la salida debe coincidir exactamente con la esperada. Dos pistas por ejercicio. Política N1 de retry: solo 429 y 503; normalize de dirección = espacios, sin `.title()`.",
     steps: [
       {
         id: "S12-T1-A-E1",
@@ -913,9 +943,9 @@ print(get_entity(store, "C999"))`,
         kind: "independent",
         title: "Parse estricto de entidad (solo id y region)",
         preamble:
-          "- **Contexto:** tras un 200, el JSON del proveedor puede traer basura (`extra`) o faltar claves; el dashboard de S13 no debe tragar basura.\n- **Meta:** validar y proyectar solo `id` y `region`.\n- **Éxito:** payload completo con extra → `{'id':'C001','region':'Lima'}`; incompleto → `None`.\n- **Límites:** no mutes el payload original; si no es `dict`, devuelve `None`.",
+          "- **Contexto:** tras un 200, el JSON del proveedor puede traer basura (`extra`) o faltar claves; el dashboard de S13 no debe tragar basura.\n- **Meta:** validar y proyectar solo `id` y `region`.\n- **Éxito:** payload completo con extra → `{'id':'C001','region':'Lima'}`; incompleto → `None`; una lista → `None`.\n- **Límites:** no mutes el payload original; si no es `dict`, devuelve `None`.",
         instruction:
-          "1. Revisa el starter: devuelve el payload crudo sin validar.\n2. Exige tipo `dict` y claves `id` y `region`.\n3. Construye un dict **nuevo** solo con esas dos claves.\n4. Imprime el caso con extra y el incompleto.",
+          "1. Revisa el starter: devuelve el payload crudo sin validar.\n2. Exige tipo `dict` y claves `id` y `region`.\n3. Construye un dict **nuevo** solo con esas dos claves.\n4. Imprime los tres casos: con extra, incompleto y una lista.",
         hint: "Usa set de required keys.",
         hints: [
           "Comprueba isinstance y presencia de id/region.",
@@ -936,6 +966,7 @@ def parse_entity(payload):
     return payload
 print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
 print(parse_entity({"id": "C001"}))
+print(parse_entity(["id", "region"]))
 print('ok', True)`,
         },
         solutionCode: {
@@ -948,8 +979,10 @@ print('ok', True)`,
         return None
     return {"id": payload["id"], "region": payload["region"]}
 print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
-print(parse_entity({"id": "C001"}))`,
+print(parse_entity({"id": "C001"}))
+print(parse_entity(["id", "region"]))`,
           output: `{'id': 'C001', 'region': 'Lima'}
+None
 None`,
         },
       },
@@ -959,9 +992,9 @@ None`,
         kind: "transfer",
         title: "Tabla status→acción (política N1)",
         preamble:
-          "- **Contexto:** el adaptador no «reintenta a ciegas»; traduce cada status a una acción de runbook.\n- **Meta:** implementar `status_action(code)` según política N1 del curso.\n- **Éxito:** líneas `200 use_body`, `404 missing`, `429 retry`, `400 fix_client`, `500 fail_server`, `503 retry`.\n- **Límites:** 500 **no** es retry en N1 (contrato de ejercicios); códigos no listados → `unknown`.",
+          "- **Contexto:** el adaptador no «reintenta a ciegas»; traduce cada status a una acción de runbook.\n- **Meta:** implementar `status_action(code)` según política N1 del curso.\n- **Éxito:** líneas `200 use_body`, `404 missing`, `429 retry`, `400 fix_client`, `500 fail_server`, `503 retry` y `401 unknown`, un código que la tabla de la teoría no lista.\n- **Límites:** 500 **no** es retry en N1 (contrato de ejercicios); códigos no listados → `unknown`.",
         instruction:
-          "1. Lee el DEFECT: 429 y 500 caen en `fail_client`; 503 no está.\n2. Corrige el mapa: 429/503 → `retry`; 500 → `fail_server`; 400 → `fix_client`.\n3. Recorre `[200, 404, 429, 400, 500, 503]` e imprime código y acción.\n4. No inventes acciones fuera de la política N1.",
+          "1. Lee el DEFECT: 429 y 500 caen en `fail_client`; 503 no está.\n2. Corrige el mapa: 429/503 → `retry`; 500 → `fail_server`; 400 → `fix_client`.\n3. Recorre `[200, 404, 429, 400, 500, 503, 401]` e imprime código y acción.\n4. No inventes acciones fuera de la política N1.",
         hint: "if/elif o dict; en N1, 500 no es retry.",
         hints: [
           "if/elif o dict; en N1, 500 no es retry.",
@@ -988,7 +1021,7 @@ def status_action(code):
     if code == 400:
         return "fix_client"
     return "unknown"
-for code in [200, 404, 429, 400, 500, 503]:
+for code in [200, 404, 429, 400, 500, 503, 401]:
     print(code, status_action(code))
 print('ok', True)`,
         },
@@ -1007,14 +1040,15 @@ print('ok', True)`,
     if code == 500:
         return "fail_server"
     return "unknown"
-for code in [200, 404, 429, 400, 500, 503]:
+for code in [200, 404, 429, 400, 500, 503, 401]:
     print(code, status_action(code))`,
           output: `200 use_body
 404 missing
 429 retry
 400 fix_client
 500 fail_server
-503 retry`,
+503 retry
+401 unknown`,
         },
       },
       {
@@ -1023,20 +1057,20 @@ for code in [200, 404, 429, 400, 500, 503]:
         kind: "guided",
         title: "Timeout simulado: cost vs límite",
         preamble:
-          "- **Contexto:** un socket colgado congela el pipeline de adquisición; el cliente real siempre lleva `timeout=`.\n- **Meta:** modelar timeout con dos números (`timeout_s`, `cost_s`) sin red.\n- **Éxito:** `fetch(2.0, 0.5)` → `ok`; `fetch(1.0, 3.0)` → `timeout`.\n- **Límites:** no uses red ni `time.sleep`; si `cost_s > timeout_s` es timeout (igualdad cuenta ok).",
+          "- **Contexto:** un socket colgado congela el pipeline de adquisición; el cliente real siempre lleva `timeout=`.\n- **Meta:** modelar timeout con dos números (`timeout_s`, `cost_s`) sin red.\n- **Éxito:** `fetch(2.0, 0.5)` → `ok`; `fetch(1.0, 3.0)` → `timeout`; `fetch(2.0, 2.0)` → `ok`.\n- **Límites:** no uses red ni `time.sleep`; si `cost_s > timeout_s` es timeout (igualdad cuenta ok).",
         instruction:
-          "1. El starter compara al revés (`cost < timeout` devuelve timeout).\n2. Invierte la condición: costo **mayor** que el límite → `'timeout'`.\n3. En caso contrario devuelve `'ok'`.\n4. Imprime los dos casos del fixture.",
+          "1. El starter compara al revés (`cost < timeout` devuelve timeout).\n2. Invierte la condición: costo **mayor** que el límite → `'timeout'`.\n3. En caso contrario devuelve `'ok'`.\n4. Imprime los tres casos del fixture.",
         hint: "Compara cost_s con timeout_s: mayor que el límite es timeout.",
         hints: [
           "Si cost_s es mayor que timeout_s, devuelve 'timeout'.",
           "No uses red real; compara números.",
         ],
-        edgeCases: ["cost == timeout cuenta ok o timeout según tu política; aquí > es timeout."],
+        edgeCases: ["cost == timeout cuenta ok: lo fijan los Límites, y el tercer caso lo comprueba."],
         tests: "ok y timeout",
         feedback:
           "Sin timeout, un request colgado bloquea workers y demos. Aquí no hay red: solo comparas costos. El mismo hábito se traduce a `urlopen(..., timeout=5)` o al SDK del proveedor.",
         retrospective:
-          "Timeout es parte del contrato del adaptador, no un «extra de producción». El misconception es reintentar timeouts sin tope. Siguiente: paginar hasta `next is None` (E2).",
+          "Timeout es parte del contrato del adaptador, no un «extra de producción». El misconception es reintentar timeouts sin tope. En T2-B-E2 el mismo timeout llega como `status=None`, porque no trae código HTTP. Siguiente: paginar hasta `next is None` (E2).",
         starterCode: {
           language: 'python',
           title: "timeout_sim.py",
@@ -1048,6 +1082,7 @@ def fetch(timeout_s, cost_s):
     return "ok"
 print(fetch(2.0, 0.5))
 print(fetch(1.0, 3.0))
+print(fetch(2.0, 2.0))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1058,9 +1093,11 @@ print('ok', True)`,
         return "timeout"
     return "ok"
 print(fetch(2.0, 0.5))
-print(fetch(1.0, 3.0))`,
+print(fetch(1.0, 3.0))
+print(fetch(2.0, 2.0))`,
           output: `ok
-timeout`,
+timeout
+ok`,
         },
       },
       {
@@ -1069,7 +1106,7 @@ timeout`,
         kind: "independent",
         title: "Paginar hasta next is None",
         preamble:
-          "- **Contexto:** el full-sync de señales del caso no cabe en un solo GET; el proveedor pagina.\n- **Meta:** aplanar todas las páginas en una lista de items.\n- **Éxito:** con el fixture del starter, `['a', 'b', 'c']`.\n- **Límites:** termina solo cuando `next is None`; no hardcodes «siempre 2 páginas».",
+          "- **Contexto:** el full-sync de señales del caso no cabe en un solo GET; el proveedor pagina.\n- **Meta:** aplanar todas las páginas en una lista de items.\n- **Éxito:** con el fixture del starter, `['a', 'b', 'c']`.\n- **Límites:** termina solo cuando `next is None`; no hardcodes «siempre 2 páginas». El fixture guarda la página 2 antes que la 1: recorrer el dict con `for` da otro orden, y solo seguir `next` da el correcto.",
         instruction:
           "1. El starter devuelve solo `api[1][\"items\"]`.\n2. Parte de `page = 1` y acumula en un bucle.\n3. En cada paso: extiende con `items` y avanza a `next`.\n4. Imprime la lista plana (sin texto extra).",
         hint: "Recorre páginas mientras next no sea None.",
@@ -1089,8 +1126,8 @@ timeout`,
           code: `# CASO-LIM-012 · paginación
 # DEFECT: solo primera página
 api = {
-    1: {"items": ["a"], "next": 2},
     2: {"items": ["b", "c"], "next": None},
+    1: {"items": ["a"], "next": 2},
 }
 def collect_all(api):
     return list(api[1]["items"])
@@ -1101,8 +1138,8 @@ print('ok', True)`,
           language: 'python',
           title: "collect_pages.py",
           code: `api = {
-    1: {"items": ["a"], "next": 2},
     2: {"items": ["b", "c"], "next": None},
+    1: {"items": ["a"], "next": 2},
 }
 def collect_all(api):
     out = []
@@ -1122,7 +1159,7 @@ print(collect_all(api))`,
         kind: "transfer",
         title: "Retry solo 429 y 503 (N1)",
         preamble:
-          "- **Contexto:** reintentar un 400 o 404 multiplica basura y quema cuota; solo errores **transitorios** reintentan en N1.\n- **Meta:** `should_retry(status)` → `True` únicamente para 429 y 503.\n- **Éxito:** `400 False`, `404 False`, `429 True`, `503 True`, `200 False`.\n- **Límites:** no reintentes 500 aquí (política de ejercicios N1); no uses rangos `>= 400`.",
+          "- **Contexto:** reintentar un 400 o 404 multiplica basura y quema cuota; solo errores **transitorios** reintentan en N1.\n- **Meta:** `should_retry(status)` → `True` únicamente para 429 y 503.\n- **Éxito:** `400 False`, `404 False`, `429 True`, `503 True`, `200 False`, `500 False`, `502 False`.\n- **Límites:** no reintentes 500 aquí (política de ejercicios N1); no uses rangos `>= 400`.",
         instruction:
           "1. El starter marca retry en todo status ≥ 400.\n2. Cambia a pertenencia en el conjunto `{429, 503}`.\n3. Imprime status y booleano para la lista del fixture.\n4. Comprueba mentalmente que 200 y 4xx de cliente son False.",
         hint: "Solo dos códigos transitorios merecen True en N1.",
@@ -1143,7 +1180,7 @@ print(collect_all(api))`,
 # DEFECT: reintenta 4xx de cliente
 def should_retry(status):
     return status >= 400
-for s in [400, 404, 429, 503, 200]:
+for s in [400, 404, 429, 503, 200, 500, 502]:
     print(s, should_retry(s))
 print('ok', True)`,
         },
@@ -1152,13 +1189,15 @@ print('ok', True)`,
           title: "retry_policy.py",
           code: `def should_retry(status):
     return status in {429, 503}
-for s in [400, 404, 429, 503, 200]:
+for s in [400, 404, 429, 503, 200, 500, 502]:
     print(s, should_retry(s))`,
           output: `400 False
 404 False
 429 True
 503 True
-200 False`,
+200 False
+500 False
+502 False`,
         },
       },
       {
@@ -1167,7 +1206,7 @@ for s in [400, 404, 429, 503, 200]:
         kind: "guided",
         title: "Exigir API_TOKEN o fallar cerrado",
         preamble:
-          "- **Contexto:** un adaptador sin token no debe enviar requests «por si acaso» ni hardcodear demo en el repo.\n- **Meta:** leer `API_TOKEN` del dict `env` y fallar si falta o está vacío.\n- **Éxito:** env con token → `abc`; env vacío → mensaje `API_TOKEN missing`.\n- **Límites:** lanza `ValueError` (no devuelvas `\"\"`); no imprimas el token en logs reales.",
+          "- **Contexto:** un adaptador sin token no debe enviar requests «por si acaso» ni hardcodear demo en el repo.\n- **Meta:** leer `API_TOKEN` del dict `env` y fallar si falta o está vacío.\n- **Éxito:** env con token → `abc`; env vacío o token vacío → mensaje `API_TOKEN missing` (dos líneas).\n- **Límites:** lanza `ValueError` (no devuelvas `\"\"`); no imprimas el token en logs reales.",
         instruction:
           "1. El starter usa `get(..., \"\")` y nunca lanza.\n2. Obtén el token; si es falsy, `raise ValueError('API_TOKEN missing')`.\n3. Si existe, devuélvelo.\n4. Deja el try/except del runner para ver el mensaje.",
         hint: "Lee API_TOKEN del dict env.",
@@ -1189,10 +1228,11 @@ for s in [400, 404, 429, 503, 200]:
 def require_token(env):
     return env.get("API_TOKEN", "")
 print(require_token({"API_TOKEN": "abc"}))
-try:
-    print(require_token({}))
-except ValueError as e:
-    print(str(e))
+for env in ({}, {"API_TOKEN": ""}):
+    try:
+        print(require_token(env))
+    except ValueError as e:
+        print(str(e))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1204,11 +1244,13 @@ print('ok', True)`,
         raise ValueError("API_TOKEN missing")
     return tok
 print(require_token({"API_TOKEN": "abc"}))
-try:
-    require_token({})
-except ValueError as e:
-    print(str(e))`,
+for env in ({}, {"API_TOKEN": ""}):
+    try:
+        print(require_token(env))
+    except ValueError as e:
+        print(str(e))`,
           output: `abc
+API_TOKEN missing
 API_TOKEN missing`,
         },
       },
@@ -1278,7 +1320,7 @@ print(c.get("missing"))`,
         preamble:
           "- **Contexto:** el capstone pide evidencia de adquisición; el auditor lee un manifest, no el header Authorization.\n- **Meta:** `min_provenance(url, status, cache_hit)` con cuatro campos fijos de reloj de demo.\n- **Éxito:** `sorted(...items())` muestra `cache_hit`, `fetched_at`, `source_url`, `status_code` (sin token).\n- **Límites:** `fetched_at` fijo `'2026-07-20T00:00:00Z'`; **nunca** incluyas el token.",
         instruction:
-          "1. El starter solo devuelve url y timestamp.\n2. Agrega `status_code` y `cache_hit` desde los parámetros.\n3. Imprime `sorted(...items())` del caso del starter.\n4. Verifica mentalmente que no hay clave de secreto.",
+          "1. El starter solo devuelve url y timestamp.\n2. Agrega `status_code` y `cache_hit` desde los parámetros.\n3. Imprime `sorted(...items())` de los dos casos del starter: el segundo es un 404 servido desde la caché.\n4. Verifica mentalmente que no hay clave de secreto.",
         hint: "Cuatro campos de auditoría; ninguno es el token.",
         hints: [
           "Incluye source_url, fetched_at, status_code y cache_hit.",
@@ -1298,6 +1340,7 @@ print(c.get("missing"))`,
 def min_provenance(url, status, cache_hit):
     return {"source_url": url, "fetched_at": "2026-07-20T00:00:00Z"}
 print(sorted(min_provenance("https://x", 200, False).items()))
+print(sorted(min_provenance("https://x", 404, True).items()))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1310,8 +1353,10 @@ print('ok', True)`,
         "status_code": status,
         "cache_hit": cache_hit,
     }
-print(sorted(min_provenance("https://x", 200, False).items()))`,
-          output: `[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]`,
+print(sorted(min_provenance("https://x", 200, False).items()))
+print(sorted(min_provenance("https://x", 404, True).items()))`,
+          output: `[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]
+[('cache_hit', True), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 404)]`,
         },
       },
       {
@@ -1320,7 +1365,7 @@ print(sorted(min_provenance("https://x", 200, False).items()))`,
         kind: "guided",
         title: "Contract test: claves obligatorias",
         preamble:
-          "- **Contexto:** si el proveedor renombra `lon` a `longitude`, el mapa de S13 se llena de huecos silenciosos.\n- **Meta:** `assert_keys(payload, required)` lanza si faltan claves.\n- **Éxito:** payload completo → imprime `ok`; sin `lon` → `missing keys: ['lon']`.\n- **Límites:** mensaje con lista **sorted**; no inventes valores por defecto.",
+          "- **Contexto:** si el proveedor renombra `lon` a `longitude`, el mapa de S13 se llena de huecos silenciosos.\n- **Meta:** `assert_keys(payload, required)` lanza si faltan claves.\n- **Éxito:** payload completo → imprime `ok`; sin `lon` → `missing keys: ['lon']`; vacío con `[\"lon\", \"lat\"]` → `missing keys: ['lat', 'lon']`.\n- **Límites:** mensaje con lista **sorted**; no inventes valores por defecto.",
         instruction:
           "1. El starter siempre retorna True.\n2. Calcula `missing = set(required) - set(payload)`.\n3. Si hay missing, `raise AssertionError` con el formato pedido.\n4. Deja el runner: ok primero, luego el try del payload incompleto.",
         hint: "Diferencia de conjuntos entre required y las claves del payload.",
@@ -1348,6 +1393,11 @@ try:
     print("passed_bad")
 except AssertionError as e:
     print(e)
+try:
+    assert_keys({}, ["lon", "lat"])
+    print("passed_bad")
+except AssertionError as e:
+    print(e)
 print('ok', True)`,
         },
         solutionCode: {
@@ -1362,9 +1412,14 @@ print("ok")
 try:
     assert_keys({"lat": 1}, ["lat", "lon"])
 except AssertionError as e:
+    print(e)
+try:
+    assert_keys({}, ["lon", "lat"])
+except AssertionError as e:
     print(e)`,
           output: `ok
-missing keys: ['lon']`,
+missing keys: ['lon']
+missing keys: ['lat', 'lon']`,
         },
       },
       {
@@ -1375,10 +1430,10 @@ missing keys: ['lon']`,
         preamble:
           "- **Contexto:** un 503 del proveedor no debe tumbar la demo del caso; usas coordenadas locales y marcas el modo. Un 404 no es un éxito: el body no llegó, así que no puedes presentarlo como online. Un 429 (demasiadas peticiones) es transitorio: si sigue llegando después de los reintentos, lo tratas como un 503.\n- **Meta:** `fetch_with_fallback(status, local_body)` elige body y modo. Un timeout llega como `status` `None`.\n- **Éxito:** 200 → `({'online': True}, 'online')`; 503 → `(local_body, 'offline')`; `None` → `(local_body, 'offline')`; 429 → `(local_body, 'offline')`; 404 → `(None, 'fail_client')`.\n- **Límites:** 2xx es online; 5xx, 429 y timeout son offline; el resto es `fail_client`; no reescribas el status a 200.",
         instruction:
-          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None`, `status == 429` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (un 4xx de cliente, como 404), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del solution: 200, 503, `None`, 404 y 429.",
+          "1. El starter ignora status y siempre devuelve online.\n2. Si `status is None`, `status == 429` o `status >= 500`, devuelve `(local_body, 'offline')`.\n3. Si `200 <= status < 300`, devuelve el body online y modo `'online'`.\n4. En otro caso (un 4xx de cliente, como 404), devuelve `(None, 'fail_client')`.\n5. Imprime los cinco casos del starter: 200, 503, `None`, 404 y 429.",
         hint: "5xx, 429 y timeout disparan el body local y el modo offline; los demás 4xx no.",
         hints: [
-          "Compara status con 500 para decidir el modo.",
+          "Mira primero si status es None; después 429 y los códigos 500 o más.",
           "Retorna siempre una tupla (body, mode).",
         ],
         edgeCases: ["5xx → offline", "timeout (None) → offline", "429 tras los reintentos → offline", "404 → fail_client"],
@@ -1428,9 +1483,9 @@ print(fetch_with_fallback(429, {"lat": -12.0}))`,
         kind: "transfer",
         title: "Runbook: live_api o local_file",
         preamble:
-          "- **Contexto:** entrevistas y CI no pueden depender de internet; un flag decide la fuente de verdad (obligatorio en CP-N1-C).\n- **Meta:** `operation_mode(online)` → `'live_api'` o `'local_file'`.\n- **Éxito:** `True live_api` y `False local_file`.\n- **Límites:** la función decide; no hardcodes solo los prints.",
+          "- **Contexto:** entrevistas y CI no pueden depender de internet; un flag decide la fuente de verdad (obligatorio en CP-N1-C).\n- **Meta:** `operation_mode(online)` → `'live_api'` o `'local_file'`.\n- **Éxito:** `True live_api`, `False local_file`, `1 live_api` y `0 local_file` (un flag que llega como número desde la configuración).\n- **Límites:** la función decide; no hardcodes solo los prints.",
         instruction:
-          "1. El starter siempre devuelve `live_api`.\n2. Si `online` es False, devuelve `local_file`.\n3. Recorre `(True, False)` e imprime flag y modo.\n4. No dejes un print fijo sin función.",
+          "1. El starter siempre devuelve `live_api`.\n2. Si `online` es False, devuelve `local_file`.\n3. Recorre `(True, False, 1, 0)` e imprime flag y modo.\n4. No dejes un print fijo sin función.",
         hint: "Un booleano elige entre dos modos de runbook.",
         hints: [
           "Si online es True → live_api; si no → local_file.",
@@ -1449,7 +1504,7 @@ print(fetch_with_fallback(429, {"lat": -12.0}))`,
 # DEFECT: siempre live_api aunque online=False
 def operation_mode(online):
     return "live_api"
-for online in (True, False):
+for online in (True, False, 1, 0):
     print(online, operation_mode(online))
 print('ok', True)`,
         },
@@ -1458,10 +1513,12 @@ print('ok', True)`,
           title: "online_offline_matrix.py",
           code: `def operation_mode(online):
     return "live_api" if online else "local_file"
-for online in (True, False):
+for online in (True, False, 1, 0):
     print(online, operation_mode(online))`,
           output: `True live_api
-False local_file`,
+False local_file
+1 live_api
+0 local_file`,
         },
       },
       {
@@ -1470,9 +1527,9 @@ False local_file`,
         kind: "guided",
         title: "Crear tabla evidence e insertar una fila",
         preamble:
-          "- **Contexto:** el almacén local del caso necesita evidencias enlazadas a entidad antes del join.\n- **Meta:** crear `evidence` con PK y NOT NULL, insertar `E1/C001/geo` y contar.\n- **Éxito:** `COUNT(*)` imprime `1`.\n- **Límites:** SQLite `:memory:`; usa placeholders `?` en el INSERT; no dejes la tabla vacía.",
+          "- **Contexto:** el almacén local del caso necesita evidencias enlazadas a entidad antes del join.\n- **Meta:** crear `evidence` con PK y NOT NULL, insertar `E1/C001/geo` y contar.\n- **Éxito:** `COUNT(*)` imprime `1`, y el insert con `entity_id` nulo imprime `IntegrityError`, la excepción con que SQLite rechaza un `NULL` en una columna `NOT NULL`.\n- **Límites:** SQLite `:memory:`; usa placeholders `?` en el INSERT; no dejes la tabla vacía.",
         instruction:
-          "1. El starter crea tabla débil y no inserta.\n2. Añade `PRIMARY KEY` y `NOT NULL` en `entity_id` y `kind`.\n3. Inserta `('E1', 'C001', 'geo')` con marcador parametrizado.\n4. Imprime solo el count (un entero).",
+          "1. El starter crea tabla débil y no inserta.\n2. Añade `PRIMARY KEY` y `NOT NULL` en `entity_id` y `kind`.\n3. Inserta `('E1', 'C001', 'geo')` con marcador parametrizado.\n4. Imprime el count (un entero) y deja el bloque `try` del starter, que intenta insertar un `entity_id` nulo.",
         hint: "CREATE TABLE con PK y NOT NULL, luego INSERT.",
         hints: [
           "Define evidence con PRIMARY KEY y NOT NULL en entity_id/kind.",
@@ -1488,12 +1545,17 @@ False local_file`,
           language: 'python',
           title: "create_evidence.py",
           code: `# CASO-LIM-012 · CREATE evidence
-# DEFECT: tabla sin PRIMARY KEY; no inserta
+# DEFECT: tabla sin PRIMARY KEY ni NOT NULL; no inserta
 import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE evidence(id TEXT, entity_id TEXT, kind TEXT)")
 con.commit()
 print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
+try:
+    con.execute("INSERT INTO evidence VALUES (?,?,?)", ("E2", None, "geo"))
+    print("accepted")
+except sqlite3.IntegrityError as e:
+    print(type(e).__name__)
 con.close()
 print('ok', True)`,
         },
@@ -1508,8 +1570,14 @@ con.execute(
 con.execute("INSERT INTO evidence VALUES (?,?,?)", ("E1", "C001", "geo"))
 con.commit()
 print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
+try:
+    con.execute("INSERT INTO evidence VALUES (?,?,?)", ("E2", None, "geo"))
+    print("accepted")
+except sqlite3.IntegrityError as e:
+    print(type(e).__name__)
 con.close()`,
-          output: `1`,
+          output: `1
+IntegrityError`,
         },
       },
       {
@@ -1518,9 +1586,9 @@ con.close()`,
         kind: "independent",
         title: "CRUD de client con placeholders",
         preamble:
-          "- **Contexto:** en el caso sintético corriges el nombre de `C001` y luego limpias la fila de prueba.\n- **Meta:** INSERT → UPDATE → SELECT name → DELETE → COUNT, todo con `?`.\n- **Éxito:** imprime `Ana Q` y luego `0`.\n- **Límites:** sin f-strings en SQL; no dejes la fila tras el delete.",
+          "- **Contexto:** en el caso sintético corriges el nombre de `C001` y luego limpias la fila de prueba.\n- **Meta:** INSERT → UPDATE → SELECT name → DELETE → COUNT, todo con `?`.\n- **Éxito:** imprime `Ana Q`, luego `Luis` (el UPDATE con el id `C001' OR '1'='1` no toca a `C002`) y luego `1`.\n- **Límites:** sin f-strings en SQL; no dejes la fila tras el delete.",
         instruction:
-          "1. El starter inserta e imprime el name original y un count sin borrar.\n2. Haz `UPDATE ... SET name=? WHERE id=?` a `'Ana Q'`.\n3. Imprime el name; borra por id; imprime count.\n4. Cierra la conexión al final.",
+          "1. El starter inserta e imprime el name original y un count sin borrar.\n2. Haz `UPDATE ... SET name=? WHERE id=?` a `'Ana Q'`.\n3. Imprime el name de `C001`; repite el UPDATE con el id hostil, con marcadores, e imprime el name de `C002`; borra `C001` e imprime el count.\n4. Cierra la conexión al final.",
         hint: "UPDATE parametrizado, luego DELETE y COUNT.",
         hints: [
           "Actualiza `name` con marcador y filtra por `id` con marcador.",
@@ -1536,12 +1604,15 @@ con.close()`,
           language: 'python',
           title: "crud_client.py",
           code: `# CASO-LIM-012 · UPDATE/DELETE
-# DEFECT: no actualiza; count final incorrecto
+# DEFECT: no actualiza; el segundo UPDATE pega el id con f-string; no borra
 import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-con.execute("INSERT INTO clients VALUES (?,?)", ("C001", "Ana"))
+con.executemany("INSERT INTO clients VALUES (?,?)", [("C001", "Ana"), ("C002", "Luis")])
 print(con.execute("SELECT name FROM clients WHERE id=?", ("C001",)).fetchone()[0])
+user_id = "C001' OR '1'='1"
+con.execute(f"UPDATE clients SET name='X' WHERE id='{user_id}'")
+print(con.execute("SELECT name FROM clients WHERE id=?", ("C002",)).fetchone()[0])
 print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
 con.close()
 print('ok', True)`,
@@ -1552,14 +1623,17 @@ print('ok', True)`,
           code: `import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-con.execute("INSERT INTO clients VALUES (?,?)", ("C001", "Ana"))
+con.executemany("INSERT INTO clients VALUES (?,?)", [("C001", "Ana"), ("C002", "Luis")])
 con.execute("UPDATE clients SET name=? WHERE id=?", ("Ana Q", "C001"))
 print(con.execute("SELECT name FROM clients WHERE id=?", ("C001",)).fetchone()[0])
+con.execute("UPDATE clients SET name=? WHERE id=?", ("X", "C001' OR '1'='1"))
+print(con.execute("SELECT name FROM clients WHERE id=?", ("C002",)).fetchone()[0])
 con.execute("DELETE FROM clients WHERE id=?", ("C001",))
 print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
 con.close()`,
           output: `Ana Q
-0`,
+Luis
+1`,
         },
       },
       {
@@ -1579,7 +1653,7 @@ con.close()`,
         edgeCases: ["no mezclar C002"],
         tests: "['geo','phone']",
         feedback:
-          "Join por entity_id alimenta la ficha de caso. Si ves tres kinds, olvidaste el WHERE: el ORDER BY solo no excluye a C002.",
+          "Join por entity_id alimenta la ficha de caso. Si ves tres kinds, olvidaste el WHERE: `C002` también está en `clients`, así que el JOIN sin WHERE conserva su evidencia.",
         retrospective:
           "El join por `entity_id` es el corazón del almacén del dashboard. Si ves tres kinds, olvidaste el WHERE. En T3-B: inyección, atomicidad e índices.",
         starterCode: {
@@ -1593,6 +1667,7 @@ con.executescript("""
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
 INSERT INTO clients VALUES ('C001','Ana');
+INSERT INTO clients VALUES ('C002','Luis');
 INSERT INTO evidence VALUES ('E1','C001','geo');
 INSERT INTO evidence VALUES ('E2','C001','phone');
 INSERT INTO evidence VALUES ('E3','C002','geo');
@@ -1611,6 +1686,7 @@ con.executescript('''
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
 INSERT INTO clients VALUES ('C001','Ana');
+INSERT INTO clients VALUES ('C002','Luis');
 INSERT INTO evidence VALUES ('E1','C001','geo');
 INSERT INTO evidence VALUES ('E2','C001','phone');
 INSERT INTO evidence VALUES ('E3','C002','geo');
@@ -1630,9 +1706,9 @@ con.close()`,
         kind: "guided",
         title: "SELECT seguro con marcador parametrizado",
         preamble:
-          "- **Contexto:** un id sintético malicioso (un texto construido para engañar al SQL) no debe devolver filas ajenas; en banca esto es falla de control.\n- **Meta:** reescribir el SELECT con `?` y una tupla de params.\n- **Éxito:** el input `C001' OR '1'='1` imprime `None` (sin match literal).\n- **Límites:** **prohibido** f-string (string formateado con `f\"...\"`) o concat con `user_id`; solo placeholder.",
+          "- **Contexto:** un id sintético malicioso (un texto construido para engañar al SQL) no debe devolver filas ajenas; en banca esto es falla de control.\n- **Meta:** reescribir el SELECT con `?` y una tupla de params.\n- **Éxito:** el input `C001' OR '1'='1` imprime `None` (sin match literal), y la búsqueda del nombre `Ana D'Ángelo` imprime `('C004',)`.\n- **Límites:** **prohibido** f-string (string formateado con `f\"...\"`) o concat con `user_id`; solo placeholder.",
         instruction:
-          "1. El starter interpola `user_id` en el SQL (vulnerable).\n2. Cambia a `WHERE id = ?` y pasa `(user_id,)`.\n3. Imprime el `fetchone()` (debe ser `None`).\n4. No «sanitices» a mano con replace de comillas.",
+          "1. El starter interpola `user_id` en el SQL (vulnerable).\n2. Cambia a `WHERE id = ?` y pasa `(user_id,)`.\n3. Imprime el `fetchone()` (debe ser `None`). Haz lo mismo con la búsqueda por nombre: el starter quita la comilla con `replace` y ya no encuentra a `C004`.\n4. No «sanitices» a mano con replace de comillas.",
         hint: "Marcador positional y tupla de params, sin f-string.",
         hints: [
           "Pasa `(user_id,)` como parámetro al `WHERE id` (con marcador SQL, sin f-string).",
@@ -1653,8 +1729,11 @@ import sqlite3
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
 con.execute("INSERT INTO clients VALUES ('C001','Ana'),('C002','Luis'),('C003','Marta')")
+con.execute("INSERT INTO clients VALUES (?, ?)", ("C004", "Ana D'Ángelo"))
 user_id = "C001' OR '1'='1"
 print(con.execute(f"SELECT name FROM clients WHERE id = '{user_id}'").fetchall())
+name = "Ana D'Ángelo"
+print(con.execute(f"SELECT id FROM clients WHERE name = '{name.replace(chr(39), '')}'").fetchone())
 con.close()
 print('ok', True)`,
         },
@@ -1665,10 +1744,14 @@ print('ok', True)`,
 con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
 con.execute("INSERT INTO clients VALUES ('C001','Ana'),('C002','Luis'),('C003','Marta')")
+con.execute("INSERT INTO clients VALUES (?, ?)", ("C004", "Ana D'Ángelo"))
 user_id = "C001' OR '1'='1"
 print(con.execute("SELECT name FROM clients WHERE id = ?", (user_id,)).fetchone())
+name = "Ana D'Ángelo"
+print(con.execute("SELECT id FROM clients WHERE name = ?", (name,)).fetchone())
 con.close()`,
-          output: `None`,
+          output: `None
+('C004',)`,
         },
       },
       {
@@ -1734,7 +1817,7 @@ con.close()`,
         kind: "transfer",
         title: "Índice idx_document_id y PRAGMA",
         preamble:
-          "- **Contexto:** en la tabla inicial, `document_id` no es `UNIQUE`, así que SQLite no crea un índice para esa columna; la búsqueda se acelera y se documenta cuando creas `idx_document_id`.\n- **Meta:** crear `idx_document_id` y listar índices con `PRAGMA index_list`.\n- **Éxito:** `['idx_document_id', 'sqlite_autoindex_clients_1']` (ordenados).\n- **Límites:** nombre exacto del índice; no borres el autoindex de la PK.",
+          "- **Contexto:** en la tabla inicial, `document_id` no es `UNIQUE`, así que SQLite no crea un índice para esa columna; la búsqueda se acelera y se documenta cuando creas `idx_document_id`.\n- **Meta:** crear `idx_document_id` y listar índices con `PRAGMA index_list`. `PRAGMA` es un comando propio de SQLite para consultar la estructura de la base; `index_list` da los índices de una tabla e `index_info` las columnas de un índice.\n- **Éxito:** `['idx_document_id', 'sqlite_autoindex_clients_1']` (ordenados) y luego `['document_id']`, la columna del índice.\n- **Límites:** nombre exacto del índice; no borres el autoindex de la PK.",
         instruction:
           "1. El starter lista índices sin crear el de document_id.\n2. Ejecuta `CREATE INDEX idx_document_id ON clients(document_id)`.\n3. Lee nombres con PRAGMA y haz `sorted`.\n4. Imprime la lista completa.",
         hint: "CREATE INDEX con el nombre exacto pedido, luego PRAGMA.",
@@ -1758,6 +1841,7 @@ con = sqlite3.connect(":memory:")
 con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
 names = [r[1] for r in con.execute("PRAGMA index_list('clients')").fetchall()]
 print(sorted(names))
+print([r[2] for r in con.execute("PRAGMA index_info('idx_document_id')").fetchall()])
 con.close()
 print('ok', True)`,
         },
@@ -1770,8 +1854,10 @@ con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
 con.execute("CREATE INDEX idx_document_id ON clients(document_id)")
 names = [r[1] for r in con.execute("PRAGMA index_list('clients')").fetchall()]
 print(sorted(names))
+print([r[2] for r in con.execute("PRAGMA index_info('idx_document_id')").fetchall()])
 con.close()`,
-          output: `['idx_document_id', 'sqlite_autoindex_clients_1']`,
+          output: `['idx_document_id', 'sqlite_autoindex_clients_1']
+['document_id']`,
         },
       },
       {
@@ -1819,9 +1905,9 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
         id: "S12-T4-A-E2",
         subtopicId: "S12-T4-A",
         kind: "independent",
-        title: "MockGeocoder: Quito/Santiago o None",
+        title: "MockGeocoder: Lima/Quito o None",
         preamble:
-          "- **Contexto:** demos offline necesitan coords fijas por ciudad autorizada, sin red.\n- **Meta:** `geocode(city)` → dict con lat/lon/provider o `None`.\n- **Éxito:** lat de Lima `-12.0464`; Cusco → `None`.\n- **Límites:** solo claves de la tabla DB; no rellenes coords «por defecto».",
+          "- **Contexto:** demos offline necesitan coords fijas por ciudad autorizada, sin red.\n- **Meta:** `geocode(city)` → dict con lat/lon/provider o `None`.\n- **Éxito:** lat de Lima `-12.0464`; Cusco → `None`.\n- **Límites:** solo claves exactas de la tabla DB (`'lima'` en minúsculas no está); no rellenes coords «por defecto».",
         instruction:
           "1. El starter ignora la ciudad y siempre usa Lima.\n2. Si `city` no está en `DB`, devuelve `None`.\n3. Si está, arma el dict con `provider='mock'`.\n4. Imprime lat de Lima y el resultado de Cusco.",
         hint: "Consulta la tabla por ciudad; desconocida → None.",
@@ -1873,9 +1959,9 @@ None`,
         kind: "transfer",
         title: "Allowlist de egress al geocoder público",
         preamble:
-          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{city, country}`.\n- **Éxito:** `{'city': 'Quito'}` → `True`; con `address` o `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
+          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{city, country}`.\n- **Éxito:** `{'city': 'Quito'}` → `True`; con `address`, `document_id` o una nota (`note`) → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres; datos sintéticos únicamente.",
         instruction:
-          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime los tres casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
+          "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime los cuatro casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
         hint: "Todas las claves del payload deben estar en la allowlist.",
         hints: [
           "Comprueba que el set de claves del payload está contenido en ALLOWED.",
@@ -1898,6 +1984,7 @@ def allowed_for_public_geocoder(payload):
 print(allowed_for_public_geocoder({"city": "Quito"}))
 print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
 print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
+print(allowed_for_public_geocoder({"city": "Quito", "note": "x"}))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1908,8 +1995,10 @@ def allowed_for_public_geocoder(payload):
     return set(payload) <= ALLOWED
 print(allowed_for_public_geocoder({"city": "Quito"}))
 print(allowed_for_public_geocoder({"city": "Quito", "address": "Av. Larco 123"}))
-print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))`,
+print(allowed_for_public_geocoder({"city": "Quito", "document_id": "D1"}))
+print(allowed_for_public_geocoder({"city": "Quito", "note": "x"}))`,
           output: `True
+False
 False
 False`,
         },
@@ -1931,7 +2020,7 @@ False`,
         edgeCases: ["91 inválido"],
         tests: "True False False True",
         feedback:
-          "Validar **antes** de Haversine o de pintar evita el clásico pin en el Golfo de Guinea (0,0 «arreglado»). Fail-closed: rechaza el par inválido.",
+          "Validar **antes** de Haversine o de pintar evita el clásico pin en el Golfo de Guinea (0,0 «arreglado»). Fail-closed: rechaza el par inválido. `(0, 0)` pasa el rango porque es un punto válido del planeta; la validación no lo detecta, y por eso nunca se usa como valor por defecto.",
         retrospective:
           "Rangos de lat/lon son el primer gate de calidad geo. Siguiente: fórmula Haversine con tolerancia (E2).",
         starterCode: {
@@ -1964,12 +2053,12 @@ for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
         kind: "independent",
         title: "Haversine con R=6371 y tolerancia",
         preamble:
-          "- **Contexto:** la geoseñal del caso usa distancia esférica WGS84, no un atajo euclídeo.\n- **Meta:** implementar `haversine_km` y verificar ~111.19 km entre (0,0) y (0,1).\n- **Éxito:** imprimir **`111.19`** (no `111.0`) y `tolerance_ok` con `abs(d-111.19) < 0.05`.\n- **Límites:** R=6371.0; usa `math.radians` / sin / cos / asin / sqrt; el atajo *111 imprime `111.0` y **falla** el assert.",
+          "- **Contexto:** la geoseñal del caso usa distancia esférica WGS84, no un atajo euclídeo.\n- **Meta:** implementar `haversine_km` y verificar ~111.19 km entre (0,0) y (0,1).\n- **Éxito:** imprimir **`111.19`** (no `111.0`), luego **`8.95`** para Lima–Callao, y `tolerance_ok` cuando ambos pasan su tolerancia de 0.05 km. El segundo par está lejos del ecuador, donde el atajo `*111` falla.\n- **Límites:** R=6371.0; usa `math.radians` / sin / cos / asin / sqrt; el atajo *111 imprime `111.0` y **falla** el assert.",
         instruction:
           "1. El starter multiplica diferencia de lon por 111 (no es Haversine; imprime `111.0`).\n2. Implementa la fórmula del I Do / theory.\n3. Imprime `round(d, 2)` (debe ser `111.19`) y, si pasa la tolerancia estrecha, `tolerance_ok`.\n4. Conserva el assert del starter (`abs(d - 111.19) < 0.05`).",
         hint: "Fórmula esférica con R=6371 del curso.",
         hints: [
-          "Convierte a radianes y usa la fórmula Haversine del demo.",
+          "Convierte a radianes con `math.radians` (sin y cos esperan radianes, no grados) y usa la fórmula Haversine del demo.",
           "Necesitas sin, cos, asin y sqrt de math.",
         ],
         edgeCases: ["tolerancia 0.05 km (el *111 no pasa)"],
@@ -1989,6 +2078,9 @@ def haversine_km(a, b):
 d = haversine_km((0.0, 0.0), (0.0, 1.0))
 print(round(d, 2))
 assert abs(d - 111.19) < 0.05
+d2 = haversine_km((-12.0464, -77.0428), (-12.05, -77.125))
+print(round(d2, 2))
+assert abs(d2 - 8.95) < 0.05
 print("tolerance_ok")`,
         },
         solutionCode: {
@@ -2005,8 +2097,12 @@ def haversine_km(a, b):
 d = haversine_km((0.0, 0.0), (0.0, 1.0))
 print(round(d, 2))
 assert abs(d - 111.19) < 0.05
+d2 = haversine_km((-12.0464, -77.0428), (-12.05, -77.125))
+print(round(d2, 2))
+assert abs(d2 - 8.95) < 0.05
 print("tolerance_ok")`,
           output: `111.19
+8.95
 tolerance_ok`,
         },
       },
@@ -2016,7 +2112,7 @@ tolerance_ok`,
         kind: "transfer",
         title: "Distancia como geoseñal, no parentesco",
         preamble:
-          "- **Contexto:** 1.2 km entre entidades sintéticas alimenta `relationship_signal_score` en S13; **no** es veredicto familiar ni de fraude.\n- **Meta:** `as_relationship_signal(km)` con `type`, `value` y `kinship_verdict=None`.\n- **Éxito:** dict para `1.2` con verdict `None` (nunca `True`).\n- **Límites:** no setees `is_family`; no inventes campos de fraud score aquí.",
+          "- **Contexto:** 1.2 km entre entidades sintéticas alimenta `relationship_signal_score` en S13; **no** es veredicto familiar ni de fraude.\n- **Meta:** `as_relationship_signal(km)` con `type`, `value` y `kinship_verdict=None`.\n- **Éxito:** dict para `1.2` con verdict `None` (nunca `True`).\n- **Límites:** no setees `is_family`; no agregues un puntaje de fraude: esta señal no lo calcula.",
         instruction:
           "1. El starter fuerza `kinship_verdict: True` (DEFECT ético).\n2. Cambia a `None`.\n3. Imprime el dict completo.\n4. Mantén `type='geo_distance_km'` y `value=km`.",
         hint: "Nunca autoetiquetes parentesco por cercanía.",
@@ -2025,11 +2121,11 @@ tolerance_ok`,
           "kinship_verdict siempre None en N1.",
         ],
         edgeCases: ["no parentesco automático"],
-        tests: "verdict None",
+        tests: "kinship_verdict None",
         feedback:
           "Cercanía geográfica es **señal**, no prueba. Autoetiquetar parentesco colapsa el juicio humano y rompe la ética del capstone: la geoseñal alimenta el score de S13 sin veredicto.",
         retrospective:
-          "Si puedes defender `verdict=None` en 30 segundos en una entrevista, cerraste el hilo geo de S12. El You Do integra HTTP + SQL + esta señal en un solo smoke path.",
+          "Si puedes defender `kinship_verdict=None` en 30 segundos en una entrevista, cerraste el hilo geo de S12. El You Do integra HTTP + SQL + esta señal en un solo smoke path.",
         starterCode: {
           language: 'python',
           title: "geo_as_signal.py",
@@ -2062,11 +2158,11 @@ print(as_relationship_signal(1.2))`,
   youDo: {
     title: "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
     context:
-      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock (simulación del proveedor) con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env (variables de entorno), caché GET y provenance sin tokens. Persiste en SQLite parametrizado (tablas `clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (lista de campos permitidos para salir al proveedor; sin PII bancaria). Solo datos sintéticos Quito/Santiago e ids `C00x`. El `main()` del starter es un smoke path (un recorrido que verifica que todo cablea): al implementar cada stub (cada función con `NotImplementedError`), debe imprimir `token_len`, `retry`, `entity`, `cache_hits`, `provenance`, `normalize`, `egress ok/bad`, `geo`, `km` y `case_row`. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
+      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock (simulación del proveedor) con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env (variables de entorno), caché GET y provenance sin tokens. Persiste en SQLite parametrizado (tablas `clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (lista de campos permitidos para salir al proveedor; sin PII bancaria). Solo datos sintéticos de Lima y Quito (las dos ciudades del `MockGeocoder`) e ids `C00x`. El `main()` del starter es un smoke path (un recorrido que verifica que todo cablea). Al implementar cada stub (cada función con `NotImplementedError`), debe imprimir `token_len`, `timeout`, `retry`, `fallback`, `entity`, `entity_missing`, `cache_hits`, `prov`, `norm`, `egress_ok/bad`, `geo`, `km`, `signal` y `case_row`. El token llega por el entorno (`API_TOKEN=syn-demo python cp_n1c_acquisition.py`); sin él, el script falla cerrado. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
     objectives: [
-      "Cliente get_entity + should_retry N1 (429/503) y timeout en la interfaz",
+      "Cliente get_entity (200 y 404) + should_retry N1 (429/503) + timeout y fallback offline",
       "Caché GET + min_provenance sin secretos",
-      "Esquema SQLite + case_join (name, amount, kind) + seeds",
+      "Esquema SQLite + case_join (name, amount_cents, kind) + las semillas que indica build_db",
       "MockGeocoder + allowlist de egress + Haversine como geoseñal (no parentesco)",
       "Smoke path en main() con todos los stubs cableados",
     ],
@@ -2080,7 +2176,12 @@ print(as_relationship_signal(1.2))`,
     ],
     starterCode: `"""cp_n1c_acquisition.py — CP-N1-C incremento S12
 HTTP mock + SQLite + MockGeocoder. Datos sintéticos únicamente.
-Integra: token env, retry N1, caché GET, provenance, join SQL, egress, Haversine.
+Integra: token env, timeout, retry N1, fallback offline, caché GET, provenance,
+join SQL, egress, Haversine.
+
+Ejecuta con el token en el entorno, nunca en el código:
+    API_TOKEN=syn-demo python cp_n1c_acquisition.py
+Sin API_TOKEN, require_token debe fallar cerrado con "API_TOKEN missing".
 """
 
 from __future__ import annotations
@@ -2099,8 +2200,19 @@ def require_token(env: dict) -> str:
     raise NotImplementedError
 
 
+def fetch(timeout_s: float, cost_s: float) -> str:
+    # DEFECT: NotImplemented — "timeout" si cost_s > timeout_s; si no, "ok"
+    raise NotImplementedError
+
+
 def should_retry(status: int) -> bool:
     # DEFECT: NotImplemented — True solo para 429 y 503
+    raise NotImplementedError
+
+
+def fetch_with_fallback(status: Optional[int], local_body: dict) -> tuple[Optional[dict], str]:
+    # DEFECT: NotImplemented — None/429/5xx → (local_body, "offline");
+    # 2xx → ({"online": True}, "online"); otro → (None, "fail_client")
     raise NotImplementedError
 
 
@@ -2133,7 +2245,7 @@ class MockGeocoder:
     DB = {"Lima": (-12.0464, -77.0428), "Quito": (-0.1807, -78.4678)}
 
     def geocode(self, city: str) -> Optional[dict]:
-        # DEFECT: NotImplemented — dict con lat/lon/provider o None
+        # DEFECT: NotImplemented — dict con city/lat/lon/provider="mock" o None (clave exacta)
         raise NotImplementedError
 
 
@@ -2149,25 +2261,31 @@ def as_relationship_signal(km: float) -> dict:
 
 def build_db() -> sqlite3.Connection:
     con = sqlite3.connect(":memory:")
-    # DEFECT: falta CREATE clients / transactions / evidence + índice evidence(entity_id) para el join de case_join
-    # CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT, document_id TEXT UNIQUE);
-    # CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);
-    # CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
+    # DEFECT: faltan las tablas, el índice del join y las filas semilla. Crea:
+    # CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT NOT NULL, document_id TEXT UNIQUE);
+    # CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, amount_cents INTEGER NOT NULL);
+    # CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL);
+    # CREATE INDEX idx_evidence_entity_id ON evidence(entity_id);
+    # Semillas (INSERT con ?): ("C001", "Ana", "D-100"); ("T1", "C001", 12050); ("E1", "C001", "geo")
     return con
 
 
 def case_join(con: sqlite3.Connection) -> Optional[tuple]:
-    # DEFECT: NotImplemented — JOIN name, amount, kind para C001
+    # DEFECT: NotImplemented — JOIN name, amount_cents, kind para C001
+    # Con las semillas de build_db, la fila esperada es ('Ana', 12050, 'geo').
     raise NotImplementedError
 
 
 def main() -> None:
-    os.environ.setdefault("API_TOKEN", "syn-demo")
     print("token_len", len(require_token(dict(os.environ))))
+    print("timeout", fetch(1.0, 3.0))
     print("retry 429", should_retry(429))
     print("retry 500", should_retry(500))
+    print("fallback 503", fetch_with_fallback(503, {"lat": -12.05, "lon": -77.04}))
+    print("fallback 404", fetch_with_fallback(404, {"lat": -12.05, "lon": -77.04}))
     store = {"C001": {"id": "C001", "region": "Lima"}}
     print("entity", get_entity(store, "C001"))
+    print("entity_missing", get_entity(store, "C999"))
     cache: dict = {}
     body, hit1 = cached_get(cache, "https://api.example.com/s", lambda: {"ok": True})
     _, hit2 = cached_get(cache, "https://api.example.com/s", lambda: {"ok": True})
@@ -2181,7 +2299,6 @@ def main() -> None:
     print("km", km)
     print("signal", as_relationship_signal(km))
     con = build_db()
-    # seed mínimo tras CREATE: insert C001 + tx + evidence geo
     print("case_row", case_join(con))
     con.close()
 
@@ -2190,7 +2307,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README del portafolio muestra tres capturas o bloques: (1) el manifest de provenance (el diccionario con la traza de origen) sin token (`token_logged` / sin Authorization), (2) el join de caso SQLite con name/amount/kind, (3) la distancia Lima–Callao (~8.95 km) como geoseñal con el disclaimer `signal != kinship` (aviso de que la distancia es señal, no parentesco). Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
+      "En el README del portafolio muestra tres capturas o bloques: (1) el manifest de provenance (el diccionario con la traza de origen) sin token (`token_logged` / sin Authorization), (2) el join de caso SQLite con name/amount_cents/kind, (3) la distancia Lima–Callao (~8.95 km) como geoseñal con el disclaimer `signal != kinship` (aviso de que la distancia es señal, no parentesco). Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
     rubric: [
       { criterion: "HTTP status/JSON/timeout/retry selectivo", weight: "20%" },
       { criterion: "Auth env + caché + provenance sin secretos", weight: "15%" },
@@ -2205,10 +2322,10 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un 400 Bad Request del proveedor debe…",
-        options: ["Reintentarse con backoff infinito", "Ignorarse como 200", "Borrar el caché", "Tratarse como error de cliente (no retry ciego)"],
+        options: ["Reintentarse hasta tres veces con espera creciente", "Tratarse como un 503 y pasar al modo offline", "Reintentarse una vez, por si fue un fallo de red pasajero", "Tratarse como error de cliente (no retry ciego)"],
         correctIndex: 3,
         explanation:
-          "4xx de cliente no son transitorios; reintentar no corrige el request.",
+          "400 es error de cliente: reintentar no corrige el pedido. Un 429 también es 4xx, pero es transitorio y N1 lo reintenta con espera.",
       },
       {
         question: "¿Dónde debe vivir el token de API?",
@@ -2219,21 +2336,21 @@ if __name__ == "__main__":
       },
       {
         question: "SQL con f-string e input de usuario es…",
-        options: ["La forma recomendada en SQLite", "Obligatorio para índices", "Inyección / inseguro; usar placeholders `?`", "Necesario para JOIN"],
+        options: ["Seguro si el id viene de un formulario interno", "Aceptable si antes se quitan todas las comillas del id", "Inyección / inseguro; usar placeholders `?`", "Necesario para JOIN"],
         correctIndex: 2,
         explanation:
           "Placeholders parametrizados (los signos `?` de SQL) previenen la inyección, porque el input se trata como dato, no como código.",
       },
       {
         question: "Enviar document_id bancario a un geocoder público…",
-        options: ["Viola la política de egress de CP-N1-C", "Está permitido si hay timeout", "Mejora el Haversine", "Es requerido por SQLite"],
+        options: ["Viola la política de egress de CP-N1-C", "Está permitido si el proveedor promete no guardarlo", "Mejora la precisión del punto que devuelve el geocoder", "Está permitido si el id es sintético y no real"],
         correctIndex: 0,
         explanation:
           "La política de egress (qué sale al proveedor) permite solo la ciudad y el país; ni la dirección exacta ni PII bancaria como `document_id`.",
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",
-        options: ["Parentesco automático", "Fraude confirmado", "Borrar la puntuación de relación", "Una geoseñal de relación, no un veredicto"],
+        options: ["Parentesco probable, que basta para marcar el par", "Una dirección compartida por las dos entidades", "Un motivo para subir el puntaje de fraude del par", "Una geoseñal de relación, no un veredicto"],
         correctIndex: 3,
         explanation:
           "Haversine alimenta `relationship_signal_score` (el score de relación); no es kinship (parentesco) ni fraude automático.",
@@ -2247,10 +2364,10 @@ if __name__ == "__main__":
       },
       {
         question: "En un batch dentro de BEGIN, un IntegrityError a mitad del camino con rollback correcto deja…",
-        options: ["Las filas insertadas antes del error", "Solo la última fila ofensora", "COUNT(*) == 0 (estado atómico revertido)", "La base en modo offline"],
+        options: ["Las filas insertadas antes del error, que ya quedaron guardadas en la base", "Solo la última fila ofensora", "COUNT(*) igual al conteo previo al lote (estado revertido)", "La base en modo offline"],
         correctIndex: 2,
         explanation:
-          "ROLLBACK deshace todo el batch (el lote de inserts): no quedan filas huérfanas a medias.",
+          "El ROLLBACK explícito deshace todo el batch (el lote de inserts): la tabla vuelve al conteo que tenía antes del lote, sin filas huérfanas.",
       },
     ],
   },

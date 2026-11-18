@@ -3501,10 +3501,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: "requests-status-json",
       question: 'El proveedor responde 200, pero el cuerpo contiene JSON inválido. ¿Qué resultado respeta el contrato de S12?',
       options: [
-        'Crear un objeto vacío, conservar el estado 200 y seguir con las claves opcionales disponibles',
+        'Crear un objeto vacío, conservar el estado 200 y seguir con las claves opcionales que haya',
         'Tratar el parseo como falla cerrada y no construir un diccionario para las etapas posteriores',
         'Guardar el texto como entidad válida, porque el código 200 confirma el contenido recibido',
-        'Reemplazar comillas y llaves hasta que el texto pueda convertirse en una respuesta utilizable',
+        'Reemplazar comillas y llaves hasta que el texto pueda leerse como una respuesta',
       ],
       correctIndex: 1,
       explanation: 'Un JSON inválido es una falla cerrada: el adaptador no inventa un diccionario, aunque el código sea 200. Aceptar el cuerpo por su estado ocultaría la rotura y contaminaría las etapas posteriores.',
@@ -3540,7 +3540,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Pedir un número fijo de páginas y detenerse cuando alcance el máximo elegido para esa demostración',
         'Acumular los elementos, seguir el enlace `next` y detenerse cuando el proveedor indique que terminó',
         'Acumular los elementos sin revisar `next` y detenerse al completar el tamaño anunciado por la primera página',
-        'Repetir la primera página hasta que deje de aportar identificadores nuevos al conjunto ya acumulado',
+        'Repetir la primera página hasta que deje de aportar identificadores nuevos al conjunto acumulado',
       ],
       correctIndex: 1,
       explanation: 'El proveedor marca el final mediante `next`; un número fijo o el tamaño de la primera página no revela cuántas páginas existen. Seguir el cursor permite recorrer colecciones de distinta longitud.',
@@ -3549,7 +3549,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: "timeout-pagination-retry-ratelimit",
       question: 'El log muestra tres intentos idénticos después de un estado 400. ¿Qué corrección exige la política N1?',
       options: [
-        'Aumentar la espera entre intentos, porque un error del pedido puede desaparecer cuando baja la carga',
+        'Aumentar la espera entre intentos, porque el error puede desaparecer cuando baja la carga',
         'Mantener los tres intentos y subir `timeout` a 30 segundos, porque el error puede venir de la red',
         'Reintentar el mismo pedido sin tope, porque el estado 400 puede ser transitorio en el proveedor',
         'Detener el reintento y corregir el pedido; N1 reserva `retry` para 429, 503 y timeout de red acotado',
@@ -3610,7 +3610,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'El proveedor falla durante una demostración, pero existen coordenadas locales precalculadas. ¿Qué salida conserva utilidad y trazabilidad?',
       options: [
         'Devolver las coordenadas locales con `mode=online`, porque coinciden con la última respuesta conocida',
-        'Suspender la salida hasta recuperar la conexión, aunque las coordenadas locales sigan el contrato de claves',
+        'Suspender la salida hasta recuperar la conexión, aunque las coordenadas locales sirvan',
         'Usar las coordenadas locales y marcar `mode=offline_fallback` para que el revisor reconozca su origen local',
         'Generar coordenadas cercanas a la ciudad pedida y marcar `mode=estimated` hasta recuperar la conexión',
       ],
@@ -3658,7 +3658,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Un `JOIN` devuelve cero filas aunque existen el cliente y la evidencia. El cliente es `C001`, pero la evidencia guarda `entity_id=C01`. ¿Cuál es el diagnóstico?',
       options: [
         'El resultado vacío demuestra que SQLite no permite unir columnas de texto cuando las tablas usan nombres y convenciones diferentes',
-        'La tabla `evidence` necesita copiar también el nombre del cliente para que la unión encuentre coincidencias aproximadas',
+        'La tabla `evidence` necesita copiar también el nombre del cliente para que la unión acepte valores parecidos',
         'Las claves no coinciden: `C01` no es `C001`; debe corregirse la referencia de entidad, no relajar la unión por parecido',
         'La consulta necesita un índice sobre `entity_id` antes de recorrer y devolver las filas que coinciden entre ambas tablas',
       ],
@@ -3684,14 +3684,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Conservar los dos clientes válidos, registrar al tercero y confirmar esa parte del lote con `COMMIT`',
         'Reemplazar el documento duplicado por un valor vacío y confirmar las tres filas para no perder el lote',
         'Ejecutar `ROLLBACK` y dejar el conteo previo al lote, sin mantener las inserciones realizadas en ese lote',
-        'Eliminar la primera fila con ese documento y volver a insertar el tercero antes de confirmar la operación',
+        'Eliminar la primera fila con ese documento y volver a insertar el tercero antes de confirmar',
       ],
       correctIndex: 2,
       explanation: 'La atomicidad significa todo o nada: el error revierte las inserciones del lote. Confirmar dos filas con `COMMIT` dejaría un estado parcial distinto del contrato.',
     },
     {
       concept: "params-transactions-constraints-indexes",
-      question: 'En la tabla `clients(id, document_id)` del ejercicio de S12, una búsqueda repetida por `document_id` recorre la tabla completa. ¿Qué cambio enseña S12 para acelerar y documentar ese acceso?',
+      question: 'En la tabla `clients(id, document_id)` sin `UNIQUE` del ejercicio de S12, una búsqueda repetida por `document_id` recorre la tabla completa. ¿Qué cambio enseña S12 para acelerar y documentar ese acceso?',
       options: [
         'Guardar cada documento en minúsculas para que SQLite compare menos caracteres durante cada búsqueda',
         'Copiar el documento en una segunda tabla y buscar allí sin declarar una estructura de acceso adicional',
@@ -3707,7 +3707,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Quitar espacios en los extremos y colapsar sus repeticiones, sin cambiar mayúsculas ni inventar campos',
         'Aplicar `.title()` a cada palabra y completar distrito y código geográfico cuando no aparezcan',
-        'Eliminar signos, tildes y números para producir una clave de búsqueda formada por palabras comparables',
+        'Eliminar signos, tildes y números para producir una clave de búsqueda formada solo por palabras comparables',
         'Traducir abreviaturas, corregir nombres de vías y anexar la región inferida desde las coordenadas conocidas',
       ],
       correctIndex: 0,
@@ -3741,7 +3741,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: "coord-quality-haversine-cache-policy",
       question: '¿Qué validación debe superar un par de coordenadas antes de entrar al mapa o a Haversine?',
       options: [
-        'Que ambos valores sean positivos y tengan como máximo cuatro cifras decimales antes del cálculo',
+        'Que ambos valores sean positivos y tengan como máximo cuatro decimales antes del cálculo',
         'Que la latitud esté entre −90 y 90 y la longitud entre −180 y 180, sin corregir inválidos a 0,0',
         'Que ambas coordenadas pertenezcan a la tabla del mock y estén redondeadas a dos decimales',
         'Que la longitud esté entre 0 y 360 grados, porque ese intervalo cubre la vuelta al globo',
@@ -3754,7 +3754,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Haversine calcula 1.2 km entre dos entidades sintéticas. ¿Cómo debe viajar ese resultado hacia la sección siguiente?',
       options: [
         'Como una decisión `is_family=False`, porque la distancia corta basta para descartar parentesco',
-        'Como un indicador de fraude bajo, porque la cercanía sería sospechosa por debajo de otro umbral',
+        'Como un indicador de fraude bajo, porque la cercanía sería sospechosa por debajo de otro umbral fijo',
         'Como una geoseñal con unidad y `kinship_verdict=None`, para que no sustituya la revisión humana',
         'Como una coordenada promedio del par, porque un único punto facilita mostrar ambas entidades en el mapa',
       ],
