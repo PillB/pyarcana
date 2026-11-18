@@ -85,6 +85,9 @@ const PASSABLE = 0.05
 //
 // Paid 2026-11-17 by proposal 10 S05: the boundaries item in functions-contracts got distractors
 // longer than the key, and functions-contracts leaves the "longest" list. 47 -> 46.
+//
+// Paid 2026-11-18 by proposal 10 S11: the oop-domain keys now sit at every length rank (4, 6, 7
+// and 7 of 24, longest to shortest), and oop-domain leaves the "longest" list. 46 -> 45.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
@@ -93,7 +96,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
-  'multimodal', 'oop-domain', 'opensource', 'packaging', 'performance-extreme', 'rag',
+  'multimodal', 'opensource', 'packaging', 'performance-extreme', 'rag',
   'rapidfuzz-entity', 'rpa-advanced', 'security', 'security-infra', 'setup', 'stdlib-deep',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
   'text-unicode-regex', 'wxpython-gui',
@@ -103,10 +106,12 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 5.8-6.5%. A change to how the draw consumes randomness can move one across it; that is a
 // re-measurement, not a regression, and the commit that updates the list should say so. The test
 // prints the banks near the line on every run.
+// 2026-11-18, proposal 10 S11: oop-domain leaves (4.1%, near the line) after its distractors were
+// rewritten. 14 -> 13.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery',
-  'fastapi', 'iteration-summaries', 'oop-domain', 'rag', 'setup',
+  'fastapi', 'iteration-summaries', 'rag', 'setup',
   'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
 ]
 // Every key in these two banks contains its concept's slug.
@@ -120,7 +125,11 @@ const BANKS_PASSABLE_BY_SHORTEST_OWED: string[] = []
 // apis-sql-geo (6.1%) until four keys moved. modules-packaging-cli (S10) passes it at 5.5%, from
 // the S10 round's rebalancing; it is owed here, not fixed in plan PR 9.
 const BANKS_PASSABLE_BY_SECOND_SHORTEST_OWED: string[] = []
-const BANKS_PASSABLE_BY_SECOND_LONGEST_OWED = ['modules-packaging-cli']
+// 2026-11-18, proposal 10 S11 round: modules-packaging-cli leaves. The S10 round (#165) had
+// lengthened one distractor past the key on every item, which made the key second-longest in 17
+// of 24 and let "second-longest" pass 100% of learners; this list hid that because the bank was
+// already on it. The keys now sit at every rank (3, 7, 7 and 7 of 24). 1 -> 0.
+const BANKS_PASSABLE_BY_SECOND_LONGEST_OWED: string[] = []
 
 // ---------------------------------------------------------------------------------------------
 // The learner

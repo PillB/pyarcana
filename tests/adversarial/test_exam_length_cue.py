@@ -93,7 +93,12 @@ import exam_bank  # noqa: E402
 #: 2026-11-18: 1029 -> 1022. Proposal 10 S10: seven modules-packaging-cli items (import *, the
 #: import cycle, dependencies, compatibility, argparse, --help, stdout contamination) got a
 #: distractor longer than the key; no key was trimmed.
-LONGEST_IS_CORRECT_OWED = 1022
+#: 2026-11-18: 1022 -> 1018. Proposal 10 S11: oop-domain items got distractors longer than the
+#: key, so the key is longest on 4 of 24. Three S10 items went back to key-longest on purpose:
+#: putting the key under one longer distractor everywhere made it second-longest on 17 of 24,
+#: which a "pick the second-longest" learner passed every time. Both banks now spread the key's
+#: length rank (no rank above 7 of 24); see test_proposal10_s10/s11 and the strategy simulation.
+LONGEST_IS_CORRECT_OWED = 1018
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
