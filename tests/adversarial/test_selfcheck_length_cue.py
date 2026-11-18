@@ -30,8 +30,10 @@ BATCH_1 = [
 #: Self-checks that "always longest" passes today. Exact: remove a section once its distractors are rewritten.
 # 2026-11-11, proposal 10 S01: the commit-message self-check got a distractor longer than its key,
 # so s01-setup no longer answers to "pick the longest".
+# 2026-11-17, proposal 10 S04: five S04 keys were rebalanced against their distractors,
+# so s04-iteration-summaries no longer answers to "pick the longest".
 LONGEST_OWED = {
-    "s04-iteration-summaries", "s07-text-unicode-regex", "s09-exceptions-logging",
+    "s07-text-unicode-regex", "s09-exceptions-logging",
     "s12-apis-sql-geo", "s13-evidence-dashboard",
 }
 SHORTEST_OWED: set[str] = set()

@@ -1026,12 +1026,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Siempre; el índice es obligatorio en Python',
         'Nunca uses range con listas',
-        'Solo cuando necesitas el índice (p. ej. reportar “fila i”) y no basta enumerate',
+        'Solo cuando el cuerpo usa la posición y no el valor, p. ej. para reasignar filas[i]',
         'Cuando quieras saltarte el último elemento por defecto',
       ],
       correctIndex: 2,
       explanation:
-        'El índice manual solo se justifica si lo usas. En la mayoría de lotes, for reg in filas (o enumerate) reduce off-by-one.',
+        'El índice manual se justifica cuando el cuerpo usa la posición, por ejemplo para reasignar `filas[i]`. Para numerar un reporte basta enumerate, y en la mayoría de lotes for reg in filas reduce los off-by-one.',
     },
     // --- enumerate-zip (3) ---
     {
@@ -1040,7 +1040,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para reportar “fila 1, fila 2…” al humano en un lote, ¿qué llamada es la más clara?',
       options: [
         'for i in filas: print(i)',
-        'for i, reg in enumerate(filas, start=0): print(f"fila {i+0}") sin documentar',
+        'for i, reg in enumerate(filas, start=0): print(f"fila {i+0}")  # la primera sale como fila 0',
         'zip(filas, filas) para numerar',
         'for i, reg in enumerate(filas, start=1): print(f"fila {i}", reg)',
       ],
@@ -1065,7 +1065,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'enumerate-zip',
       question:
-        '¿Cómo evitas desalinear columnas antes de un zip en un pipeline de intake (Python 3.9 o con helper)?',
+        '¿Cómo evitas desalinear columnas antes de un zip en un pipeline de intake (Python 3.9 o con una función auxiliar que valide las longitudes)?',
       options: [
         'Ignorar longitudes; zip “sabe”',
         'Validar len(a)==len(b) (o zip(..., strict=True) en 3.10+) antes de emparejar',
@@ -1074,7 +1074,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation:
-        'El gate de alineación es len igual o zip strict. Sets no preservan orden ni pares columnares.',
+        'El control de alineación es len igual o zip strict. Sets no preservan orden ni pares columnares.',
     },
     // --- while-sentinels (3) ---
     {
@@ -1084,7 +1084,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Cuando ya conoces exactamente el número de filas en una lista fija',
         'Siempre; for está deprecado',
-        'Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)',
+        'Cuando no sabes de antemano cuántas iteraciones habrá (flujo, centinela, reintentos)',
         'Solo para sumar enteros',
       ],
       correctIndex: 2,
@@ -1117,7 +1117,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 0,
       explanation:
-        'Sin actualización de estado y condición de salida clara, el while no termina. Añade MAX_ITERS en prototipos.',
+        'Sin actualización de estado y condición de salida clara, el while no termina. Añade MAX_VUELTAS en prototipos.',
     },
     // --- break-continue-guards (3) ---
     {
@@ -1146,7 +1146,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 2,
       explanation:
-        'Una salvaguarda MAX_ITERS, un centinela o una excepción de escape evitan saturar la CPU. while True solo es legítimo con una salida obvia.',
+        'Una salvaguarda MAX_VUELTAS, un centinela o una excepción de escape evitan saturar la CPU. while True solo es legítimo con una salida obvia.',
     },
     {
       concept: 'break-continue-guards',
@@ -1166,11 +1166,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'counters-accumulators',
       question:
-        'En el gate CP-N1-A, ¿cómo defines la tasa de error de un lote con n_error rechazos y n_total registros intentados?',
+        'En el proyecto CP-N1-A, ¿cómo defines la tasa de rechazo de un lote con n_reject rechazos y n_total registros intentados?',
       options: [
-        'n_error / n_total si n_total > 0; si no, None o N/A (no dividir por cero)',
-        'n_error / n_accept (solo aceptados en el denominador)',
-        'n_total / n_error siempre',
+        'n_reject / n_total si n_total > 0; si no, None o N/A (no dividir por cero)',
+        'n_reject / n_accept (solo aceptados en el denominador)',
+        'n_total / n_reject siempre',
         'Siempre 0 porque el dashboard redondea',
       ],
       correctIndex: 0,
@@ -1209,7 +1209,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'comprehensions',
       question:
-        'Dado `results` con dicts `{id, status}`, ¿cómo obtienes los ids en reject con una list comprehension legible?',
+        'Dado `results` con dicts `{id, status}`, ¿cómo obtienes los ids en reject con una comprensión de lista legible?',
       options: [
         '[r for r in results] sin filtrar',
         '{r["id"] for r in results if False}',
@@ -1223,16 +1223,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'comprehensions',
       question:
-        '¿Cuándo debes preferir un `for` explícito sobre una comprehension en el resumen de intake?',
+        '¿Cuándo debes preferir un `for` explícito sobre una comprensión en el resumen de intake?',
       options: [
-        'Cuando hay multi-rama, try/except por fila, varios contadores o side effects',
-        'Nunca; comprehension siempre gana',
+        'Cuando hay varias ramas, mensajes por fila o cambios de contadores',
+        'Nunca; la comprensión siempre gana',
         'Solo si la lista está vacía',
         'Cuando el resultado es un dict',
       ],
       correctIndex: 0,
       explanation:
-        'Comprehensions para transformaciones simples. Lógica de validación multi-rama se lee mejor con for.',
+        'Las comprensiones sirven para transformaciones simples. La validación con varias ramas se lee mejor con for.',
     },
     {
       concept: 'comprehensions',
@@ -1246,7 +1246,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation:
-        'Set comprehension: llaves {} con for sin pares k:v producen un set de valores únicos.',
+        'Comprensión de set (teoría de T3-B, «Comprensiones legibles»): llaves {} con for y sin pares clave: valor producen un set de valores únicos.',
     },
     // --- state-tracing (3) ---
     {
@@ -1318,15 +1318,15 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 2,
       explanation:
-        'Índices 0..n-1. Acceder a n es el off-by-one clásico que rompe demos del gate.',
+        'Índices 0..n-1. Acceder a n es el off-by-one clásico que rompe las ejecuciones de CP-N1-A.',
     },
     {
       concept: 'complexity-off-by-one',
       question:
-        'Para contar rejects en un lote de resultados, ¿qué diseño alinea con el gate CP-N1-A?',
+        'Para contar rejects en un lote de resultados, ¿qué diseño alinea con el proyecto CP-N1-A?',
       options: [
         'Doble bucle que vuelve a recorrer todo el lote por cada fila para contar sus rejects',
-        'Comprehension de tres niveles anidados por estética',
+        'Comprensión de tres niveles anidados por estética',
         'Recalcular len(results) dentro de while True',
         'Un solo pase O(n) con contadores; tasa = rejects/intentados',
       ],

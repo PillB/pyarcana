@@ -1120,6 +1120,106 @@
       "reason": "The learner now also adds the boundary pair 50000 (accept) and 50001 (review), so a >= at the threshold no longer passes. Same exercise: add the missing branch test.",
       "decided_by": "owner 2026-11-11 (proposal 10, S03 P2/P3 fixes)",
       "date": "2026-11-17"
+    },
+    {
+      "row": 113,
+      "id": "S04-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "d3578399a1e0bdeceefd40f0e537b0e884238a33ebfbfe7b236b2b1cc6c7994d",
+      "to_fp": "3e1f728f314ca212238f0473c99fb9d4bb1a6dff86b6651ea76cb1e0b36d3cae",
+      "reason": "The sample now includes the boundary age 18 and the expected count is 4, so a learner who writes > 18 gets 3 and fails. Same exercise: count adults with an explicit loop.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 114,
+      "id": "S04-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "4a74aea0d1e55c54cb6736f4601c2b7f4146664d7e77dcdc475569df9ffdf53d",
+      "to_fp": "f167ae9b8aeda19b2b13fb8e9897ba793d1ad2ae23677b96d2ebff2378e828a3",
+      "reason": "A third pair (lengths 2 and 3) and an if/else per pair, so a comparison that only notices a longer first list prints OK and fails. Retitled to what it does (check lengths before pairing). Same exercise.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 115,
+      "id": "S04-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "2fc6c66aad817b4b7b5a8a5f42879038851b1fa39f8d94577cfbf7c1004237a6",
+      "to_fp": "e88480d1b05ec1e66eec761863d1092068b0cc8e0a37a87461dffe497b6af02b",
+      "reason": "The tests line reads as text (\"Lima / Cusco (dos líneas)\") instead of a raw \\n, and truthy is glossed. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 116,
+      "id": "S04-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "5814dee4608941e318c052676800a608dceea7d8046fce88968b8ac3dc3e9cb0",
+      "to_fp": "9268e0bf32197f53dcb74e3833d82f3167d773cedefc19725b06651d3618bea2",
+      "reason": "The guard no longer raises (exceptions arrive in S09): it stops at the end of the buffer or at MAX_VUELTAS with a message, so the starter now prints the END defect instead of crashing with IndexError. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 117,
+      "id": "S04-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "8693458a8567237f60d9cd495cf5dd8b0009a58a3b24daef745f1203f4df0eee",
+      "to_fp": "a5b45248acb2122a85dc371eba0202d491b644b59b4e8125228e2158f8cd0515",
+      "reason": "A review row joins the sample (expected 0.25), so dividing by accepts and rejects only (0.3333) now fails. Same exercise: reject rate without division by zero.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 118,
+      "id": "S04-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "0a1dd7ce8d5e984f4dd0927b237cc6805c22071a5fd33bfc86fce77748e73414",
+      "to_fp": "f15d5d965188b4d188eb40f4ba5d68116c39c33ba355cd0c04d5917ba056e861",
+      "reason": "Title and text say comprensión and drop map/filter, which S04 never teaches. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 119,
+      "id": "S04-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "284e6f76aaac0d0f924cf29384e72b37db22bfe378fee57a1d554faeea18a9b3",
+      "to_fp": "af8a342c1020d89b47a9328bed843aea41c9d05635d14bfa05694b22e10b0ff7",
+      "reason": "The solution builds rejects from rows instead of dict.items(), which S04 never teaches. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 120,
+      "id": "S04-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "33b59364d9016836b03049cf2cce2acf8658775ef417cf1ad92449ca721fe847",
+      "to_fp": "053d4bfaefd1a2e8222e5b0130da486f403339b7fd6dc7f18fceb03632ab873d",
+      "reason": "A second batch of four rows (expected 3, then 4), so a hand-written print(3) fails. Same exercise: fix the double count.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 121,
+      "id": "S04-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "11157b52c74d7cdd9648f2b93c4d6482ca529e725ec6849c8e21cb3b76f1c2a2",
+      "to_fp": "1200348ec3ebaf5c33f5381dce345b1e4122f585d1d629abe4bec4f8cce83181",
+      "reason": "The trace prints counts directly (the dict() copy had no visible effect), get() is glossed, and the retrospective asks about a new key. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
+    },
+    {
+      "row": 122,
+      "id": "S04-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "ceb06d5f91b6e965369700bb482c36657f17db3a94477c51f5f834213c66228d",
+      "to_fp": "6eb3406f68773bffe24246dd998e1fa364fe3e61c4fe95c29e7c92744715c229",
+      "reason": "The solution counts with a for loop instead of sum(generator), which S04 never teaches, and the retrospective asks for a loop-count check. Same exercise and same output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S04 P2/P3 fixes)",
+      "date": "2026-11-17"
     }
   ]
 }
