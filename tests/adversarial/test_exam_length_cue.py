@@ -90,7 +90,10 @@ import exam_bank  # noqa: E402
 #: 2026-11-18: 1032 -> 1029. Proposal 10 S09: three exceptions-logging items (the parser's
 #: exception, the custom-exception item, the regression-evidence item) got distractors at least
 #: as long as the key.
-LONGEST_IS_CORRECT_OWED = 1029
+#: 2026-11-18: 1029 -> 1022. Proposal 10 S10: seven modules-packaging-cli items (import *, the
+#: import cycle, dependencies, compatibility, argparse, --help, stdout contamination) got a
+#: distractor longer than the key; no key was trimmed.
+LONGEST_IS_CORRECT_OWED = 1022
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

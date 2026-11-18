@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S09, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S10, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -424,3 +424,37 @@ back. Read this list before a section round; every item cost at least one failed
   a detached `origin/main` worktree (`course_event_extractor` then `prose_quality_audit.py S09`)
   and compare against that. When a split puts a `snake_case` identifier at the start of a
   sentence, lead with a noun ("Los casos una_fila_data…"); never capitalise the identifier.
+
+- **S10: one config contract told two ways.** Symptom: the theory said `ingest` needs
+  `input_path`, while the `validar_tarde` demo failed with `KeyError: 'manifest_path'` on
+  `ingest`. Root cause: the demo was written for a different subcommand and the error text was
+  never checked against the contract paragraph. Fix: the demo now runs `report`, so the contract
+  is single (`ingest` → `input_path`, `report` → `manifest_path`). Guard:
+  `test_one_contract_per_command` requires the same command-to-key mapping in all three blocks
+  that state it, and the demo's output to name `report`.
+- **S10: a You Do whose invariants had no test.** The brief asked for exit 2 on a bad flag and
+  for an import that prints nothing, but the shipped suite tested neither, so a package that
+  printed on import passed. Fix: `InvariantTests` in starter and solution. Guard: the section
+  test builds a package that prints on import and requires the suite to fail on it (negative
+  control), and requires it to pass on the clean solution.
+- **S10: demos used an API the course had not taught.** `redirect_stdout`/`redirect_stderr`
+  appeared in three demos with no explanation. Fix: a one-sentence gloss at each first use in a
+  block, because a learner may open any block first. Guard: before adding a stdlib helper to a
+  demo, grep the earlier sections for it; if absent, gloss it where it is used.
+- **S10: patch anchors matched the wrong copy.** New preambles quoted the demo's output, so an
+  anchor like the output string matched twice, and a bare `"feature"` inside a TS
+  double-quoted string broke the parse. Fix: anchor outputs with the `output: ` prefix, write
+  quotes as `\"` (in a Python patch source, `\\"`), and let the patch helper assert the count.
+- **S10: `meta_leaks` counts the Spanish word "todo".** `prose_quality_audit.py` compiles its
+  leak pattern with `re.I`, so "si todo sale bien" scores as a `TODO` leak; S10 went from 6 to 8
+  this way, with no real leak. Not fixed here (the audit is outside the section's scope). Guard:
+  when `meta_leaks` rises, list the matches before rewording; never reword correct Spanish to
+  satisfy a false positive. The fix, when scheduled, is to drop `re.I` for `TODO|FIXME`.
+- **S10: a correct gloss moved three concept ratchets.** Naming `contextlib` in the S10 demos
+  matched an alias of `context-manager`, which then reached three sections (S09, S10, S38) and
+  became load-bearing: figure target +4, figure debt +4, one more D3 offender, and one fewer
+  unexemplified concept. Root cause: not a regression; the dependency was real and had been
+  invisible. Fix: raise `FIGURES_OWED`, `FIGURE_TARGET_FLOOR` and `D3_SUBTOPIC_OWED` with a dated
+  line, and lower `UNEXEMPLIFIED_CONCEPTS_OWED`, on the proposal 05 `f-string` precedent. Guard:
+  when a ratchet in `test_concept_depth_ratchets` moves, diff `build_concepts` output between
+  `origin/main` and the branch before deciding; never drop the term to make the count fall back.

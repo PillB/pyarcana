@@ -1730,6 +1730,96 @@
       "reason": "WEDO-24: the payload has two keys and the idempotency key is pinned (idem_key=banco_a:C001:v3:1ce874c18f0b), so hashing without sort_keys changes the output.",
       "decided_by": "owner 2026-11-11 (proposal 10, S09 P2/P3 fixes)",
       "date": "2026-11-18"
+    },
+    {
+      "row": 174,
+      "id": "S10-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "4e025d173cbcc0ee6a8f3ccc4fdec282a81d8fc3a997a2f9309f254025883a3a",
+      "to_fp": "4c2b7ffa49588686d7bc01facc67b8400f06d8794b4cdd2a981884ab4137e799",
+      "reason": "WEDO-03: the starter and the solution also call recommend_import_style('cosa_nueva') and print 'rechazado: kind no tipificado: cosa_nueva', so a default for an unknown kind changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 175,
+      "id": "S10-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "2cb14f90e2094b743103a0a7995dfd1049ab6fb4c6de3124f20d17f334aeefb4",
+      "to_fp": "d00a4d8027357be88dfbe451ff9016acdad429129c4f678bfffee0c906c6f18c",
+      "reason": "WEDO-06: the exact MIGRATION text is given in the instruction, and a line 'CHECK: 3.4.1 -> 4.0.0' makes a hard-coded 2.0.0 change the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 176,
+      "id": "S10-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "59d23672a679ddc8dd01e1dea5c59486c3b77c45dfb473fd29674f25eef237c2",
+      "to_fp": "f4354e0c28114c81a424fd62e8eb88172c3da84c381edc2d78bf8d747c75dea8",
+      "reason": "WEDO-07: a second input with version 0.3.0 must keep it, so always writing 0.1.0 changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 177,
+      "id": "S10-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "05ce273853604008bdf20069e060f37b6ca9e1cdc2bfa8dcc37946eae04cb24a",
+      "to_fp": "44acf5536b91eb7ceacd71459d7c4783a0f2f92499cafd4b8ed9f1349958f9e1",
+      "reason": "WEDO-08: a second call with ['__init__.py', 'cli.py'] prints a three-line layout after '---', so a literal list of paths changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 178,
+      "id": "S10-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "fd9b76ce2b27ecbfb1051682209a753f2251e5bf2ac2893d7daf03fa88f2607a",
+      "to_fp": "2111b080572fdcdaca404e7a8a15a9bb6ad8bf13ea604d2b76c94d1d6c2a6c29",
+      "reason": "WEDO-12: the exact keep_cli_stable line is given, and policy_for('otra_cosa') prints 'rechazado: kind no tipificado: otra_cosa', so a default for an unknown kind changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 179,
+      "id": "S10-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "5803125b774d6a0d520e3e1e2c856211932d94d2b0606ddb6b247aa11ef769cf",
+      "to_fp": "d62fabaafec97ad7edce5021b7ab9827713f9df6de073c39374f54a9de0be188",
+      "reason": "WEDO-13: '--format xml' must end in SystemExit 2 ('xml rechazado, exit 2'), so a parser without choices changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 180,
+      "id": "S10-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "a10d041f0b862b1db5bc099ff5be72d841c7a1d12c830beb93197de36eceee86",
+      "to_fp": "789717ec23f3002b8dfcf04608421148102f283cd76e25ba0c2681c9d79bddfb",
+      "reason": "WEDO-18: the stderr_only line joins the log lines with ' | ' and has no trailing separator; replace-then-strip changes the output. 'harness' and 'solution' removed from the text.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 181,
+      "id": "S10-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "b975c12d21503c03216d7100d658d20e792e468fd6704e1f0fa5da7946d7a70c",
+      "to_fp": "0ef056df62df8babbf131e0630985ac5dc42d68e1d5bbb58876a0f031a6a9e17",
+      "reason": "WEDO-23: a config with only data_dir must fail for log_level, so a validator that checks data_dir alone changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 182,
+      "id": "S10-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "9bf5cfde6918eb881e5cb829aa4a7a552f2bc3b809b1c72a2780f2530e099d1d",
+      "to_fp": "5c0effd2e905a2fbcd61f4cd91ba45955858d8baf512f63c874597a3d3e49d93",
+      "reason": "WEDO-24: an already safe config must come out unchanged, so a literal hardened dict changes the output. echo_sql and the None-not-delete choice are explained.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S10 P2/P3 fixes)",
+      "date": "2026-11-18"
     }
   ]
 }

@@ -80,8 +80,10 @@ const STOP_WORDS = new Set(`
  * repaired 8 thin explanations in S10 and 5 in S11. 2026-10-13: 557, the O20 S10 round rewrote
  * S11 question 22 (oop-domain), whose explanation was the bank's last thin one. 2026-10-14: 509 and
  * 21 thin banks - plan PR 9 replaced the S12 and S13 stand-ins (24 thin each) with real banks.
+ * 2026-11-18: 508 - proposal 10 S10 gave the flag-versus-file item (modules-packaging-cli) the
+ * reason the flag wins, not just the rule.
  */
-const THIN_RATIONALES_OWED = 509
+const THIN_RATIONALES_OWED = 508
 /** Banks where at least half the explanations (12 of 24) are thin. */
 const THIN_BANKS_OWED = 21
 /**
@@ -91,7 +93,7 @@ const THIN_BANKS_OWED = 21
  */
 const THIN_BY_BANK_OWED: Record<string, number> = {
   setup: 0, basics: 0, 'decisions-rules': 0, 'iteration-summaries': 0, 'functions-contracts': 0,
-  collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 2,
+  collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 1,
   'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 2, 'stdlib-deep': 4, 'wxpython-gui': 9, packaging: 16,
   'data-engineering': 2, 'databases-orm': 2, rag: 1, fastapi: 4, 'rapidfuzz-entity': 1,
   'computer-vision': 6, 'rpa-advanced': 11, 'streamlit-dashboards': 12, 'integrator-phase1': 15,
