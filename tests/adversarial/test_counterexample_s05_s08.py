@@ -199,7 +199,7 @@ class S06S07S08Contract(unittest.TestCase):
                           ["C001 → Centro", "repetidos: ['C001']"])
 
     def test_S06_ORDEN_set_and_dict_order_are_not_a_contract(self) -> None:
-        self.check_theory("s06", "Contraejemplo: el orden de un set no es un contrato",
+        self.check_theory("s06", "Contraejemplo: el orden de un set y de un dict en JSON no es un contrato",
                           ["set: [1, 10, 5]", "mismo texto: False", "mismo texto con sort_keys: True"])
 
     def test_S06_KEYERROR_commented_error_then_guarded_loop(self) -> None:
