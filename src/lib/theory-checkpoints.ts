@@ -1,0 +1,80 @@
+/**
+ * Which theory parts a learner has marked as read (see `course/theory-parts.ts`).
+ *
+ * Kept apart from `python-ds-progress` on purpose:
+ * - that record's `completedSubSteps` counts five steps per section, and the percentage, the
+ *   sidebar, the certificate and the server sync all assume those five; a part key there would
+ *   inflate every one of them;
+ * - `progress-store.ts` is a protected path, and this needs no change to it.
+ *
+ * The cost, stated: these checkpoints live in this browser only. They are not sent to the
+ * account and do not follow a learner to another device. The theory step itself still syncs.
+ *
+ * The record is untrusted on read: anything that is not a known shape reads as empty, so a
+ * damaged value can only lose checkpoints, never invent one.
+ */
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
+
+export const THEORY_CHECKPOINTS_KEY = 'pyarcana-theory-checkpoints'
+
+export type CheckpointMap = Record<string, string[]>
+
+const SECTION_ID = /^[a-z0-9][a-z0-9-]{0,63}$/
+const PART_KEY = /^(intro|S\d{2}-T\d+-[A-Z](#\d{1,2})?)$/
+const MAX_PARTS_PER_SECTION = 64
+const MAX_SECTIONS = 128
+
+/** Keep only well-formed section ids and part keys, deduplicated, within fixed bounds. */
+export function sanitizeCheckpoints(value: unknown): CheckpointMap {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return {}
+  const out: CheckpointMap = {}
+  for (const [sectionId, keys] of Object.entries(value).slice(0, MAX_SECTIONS)) {
+    if (!SECTION_ID.test(sectionId) || !Array.isArray(keys)) continue
+    const clean = [...new Set(keys.filter((k): k is string => typeof k === 'string' && PART_KEY.test(k)))]
+    if (clean.length > 0) out[sectionId] = clean.slice(0, MAX_PARTS_PER_SECTION)
+  }
+  return out
+}
+
+/** Tick or untick one part. Returns a new map; the old one is unchanged. */
+export function togglePart(map: CheckpointMap, sectionId: string, key: string): CheckpointMap {
+  if (!SECTION_ID.test(sectionId) || !PART_KEY.test(key)) return map
+  const current = map[sectionId] ?? []
+  const next = current.includes(key) ? current.filter((k) => k !== key) : [...current, key]
+  const out = { ...map }
+  if (next.length > 0) out[sectionId] = next
+  else delete out[sectionId]
+  return out
+}
+
+interface TheoryCheckpointState {
+  read: CheckpointMap
+  toggle: (sectionId: string, key: string) => void
+}
+
+export const useTheoryCheckpoints = create<TheoryCheckpointState>()(
+  persist(
+    (set) => ({
+      read: {},
+      toggle: (sectionId, key) => set((s) => ({ read: togglePart(s.read, sectionId, key) })),
+    }),
+    {
+      name: THEORY_CHECKPOINTS_KEY,
+      version: 1,
+      // Storage can throw (private mode, quota, blocked site data): checkpoints then last for
+      // the tab, and nothing else on the page breaks.
+      storage: createJSONStorage(() => ({
+        getItem: (k) => { try { return window.localStorage.getItem(k) } catch { return null } },
+        setItem: (k, v) => { try { window.localStorage.setItem(k, v) } catch { /* tab-only */ } },
+        removeItem: (k) => { try { window.localStorage.removeItem(k) } catch { /* ignore */ } },
+      })),
+      partialize: (s) => ({ read: s.read }),
+      // Untrusted on read: zustand hands back whatever JSON was stored.
+      merge: (persisted, current) => ({
+        ...current,
+        read: sanitizeCheckpoints((persisted as { read?: unknown } | null)?.read),
+      }),
+    }
+  )
+)

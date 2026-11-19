@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   BookOpen,
@@ -68,6 +68,11 @@ import { proseSegments, shotsAfter } from '@/lib/course/section-shots'
 import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
+import { StepNavButtons } from './StepNavButtons'
+import { TheoryOutline, TheoryPartView } from './TheoryParts'
+import { theoryParts, tickCompletesTheory } from '@/lib/course/theory-parts'
+import { useTheoryCheckpoints } from '@/lib/theory-checkpoints'
+import type { StepTarget } from '@/lib/course/step-nav'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
 import { t, useI18n } from '@/lib/i18n'
@@ -81,10 +86,11 @@ interface SectionViewProps {
    */
   animateEntrance: boolean
   section: CourseSection
-  onPrev: () => void
-  onNext: () => void
-  hasNext: boolean
-  hasPrev: boolean
+  /** The whole course, in order, and where `section` sits in it: the ← → buttons walk it. */
+  sections: readonly CourseSection[]
+  position: number
+  /** Open another section on a given step (the page's own handler, which also updates the URL). */
+  onSelectSection: (id: string, step?: SubStep) => void
   onOpenAuth: () => void
   activeSubStep?: SubStep
   onActiveSubStepChange?: (step: SubStep) => void
@@ -101,10 +107,9 @@ const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; col
 export function SectionView({
   animateEntrance,
   section,
-  onPrev,
-  onNext,
-  hasNext,
-  hasPrev,
+  sections,
+  position,
+  onSelectSection,
   onOpenAuth,
   activeSubStep,
   onActiveSubStepChange,
@@ -186,6 +191,21 @@ export function SectionView({
       window.removeEventListener('scroll', onScroll)
     }
   }, [section.id])
+
+  // A step in this section: switch the tab and bring its top into view, as a page turn does.
+  // Another section: the page's handler, which restores that section's scroll or opens at top.
+  const goToStep = (target: StepTarget) => {
+    const destination = sections[target.section]
+    if (!destination) return
+    if (destination.id !== section.id) {
+      onSelectSection(destination.id, target.step)
+      return
+    }
+    setActiveTab(target.step)
+    // Instant, like turning a page: a smooth scroll started here is cut short when the old tab
+    // unmounts and the page height changes (browser walk, 19 Nov 2026: it stopped at y=1665).
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }
 
   const sectionProgress = Math.round(
     (subStepsDone.length / SUB_STEPS.length) * 100
@@ -358,46 +378,14 @@ export function SectionView({
         </AnimatePresence>
       </Tabs>
 
-      {/* HUD FABs — game-style overlay navigation (replaces bottom nav) */}
-      {/* Bottom-left: Prev section */}
-      <motion.button
-        initial={popIn(animateEntrance, 0.8)}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        onClick={onPrev}
-        disabled={!hasPrev}
-        data-testid="section-prev"
-        aria-label={tr('course.previousSection')}
-        className={cn(
-          'fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
-          'bg-card/90 border border-border flex items-center justify-center',
-          'hover:bg-card transition-colors',
-          !hasPrev && 'opacity-40 cursor-not-allowed'
-        )}
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </motion.button>
-
-      {/* Bottom-right: Next section */}
-      <motion.button
-        initial={popIn(animateEntrance, 0.8)}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        onClick={onNext}
-        disabled={!hasNext}
-        data-testid="section-next"
-        aria-label={tr('course.nextSection')}
-        className={cn(
-          'fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
-          'bg-primary text-primary-foreground border border-primary/50 flex items-center justify-center',
-          'hover:bg-primary/90 transition-colors',
-          !hasNext && 'opacity-40 cursor-not-allowed'
-        )}
-      >
-        <ArrowRight className="h-5 w-5" />
-      </motion.button>
+      {/* HUD FABs: ← → walk the course one step (tab) at a time, and say where they go. */}
+      <StepNavButtons
+        animateEntrance={animateEntrance}
+        sections={sections}
+        position={position}
+        activeStep={activeTab}
+        onGo={goToStep}
+      />
 
       {/* Bottom-center: 5-dot progress strip + Mark done — floating above FABs */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center gap-2 bg-card/90 border border-border rounded-full px-3 py-1.5 shadow-md backdrop-blur-md">
@@ -421,79 +409,104 @@ export function SectionView({
 
 // === Theory Tab ===
 function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
+  const parts = useMemo(() => theoryParts(section.theory), [section.theory])
+  const readMap = useTheoryCheckpoints((s) => s.read)
+  const toggleCheckpoint = useTheoryCheckpoints((s) => s.toggle)
+  const readParts = readMap[section.id] ?? []
+  // Ticking the last unread part completes the theory step. Only ever adds: unticking a part
+  // later leaves the step as it is, like every other «Desmarcar» in the course is explicit.
+  const markPart = (key: string) => {
+    const completes = tickCompletesTheory(parts, readParts, key, done)
+    toggleCheckpoint(section.id, key)
+    if (completes) onDone()
+  }
+  // One block, rendered inline here so its heading markup stays in TheoryTab.
+  const renderBlock = (block: CourseSection['theory'][number], i: number) => {
+    const body = (
+      <>
+        {/* A real heading, not the first paragraph. The heading used to be joined onto
+            the paragraphs and handed to RichText, so every theory heading in the course
+            rendered as a 15px <p> indistinguishable from the prose under it, and a
+            screen reader had no heading to jump to (WCAG 1.3.1). An optional block's
+            heading lives in its collapsible trigger instead. */}
+        {!block.optional && (
+          <h3 className="text-lg font-semibold tracking-tight text-foreground">
+            <InlineText text={block.heading} />
+          </h3>
+        )}
+        {/* A screenshot (D23) splits the prose right after the paragraph it shows. */}
+        {proseSegments(block).map((seg, k) => (
+          <Fragment key={k}>
+            <RichText sectionId={section.id} content={seg.markdown} after={seg.before || undefined} />
+            {seg.shots.map((id) => <SectionScreenshot key={id} id={id} />)}
+          </Fragment>
+        ))}
+        {/* Spatial contiguity: the figure sits between the prose it
+            explains and the code that follows, never in a gallery. */}
+        {block.figure && <FigureFrame figure={block.figure} />}
+        {block.code && (
+          <CodeBlock
+            code={block.code.code}
+            language={block.code.language}
+            title={block.code.title}
+            output={block.code.output}
+          />
+        )}
+        {shotsAfter(block, 'code').map((id) => <SectionScreenshot key={id} id={id} />)}
+        {block.callout && (
+          <Callout type={block.callout.type} title={block.callout.title && <InlineText text={block.callout.title} />}>
+            <InlineText text={block.callout.content} />
+          </Callout>
+        )}
+        {shotsAfter(block, 'callout').map((id) => <SectionScreenshot key={id} id={id} />)}
+      </>
+    )
+
+    // Optional deeper dive: collapsed by default so the section's main
+    // thread stays readable. The heading moves into the trigger.
+    if (block.optional) {
+      return (
+        <Collapsible key={i} className="rounded-lg border border-dashed border-sky-300 dark:border-sky-800">
+          <CollapsibleTrigger className="group flex w-full items-center gap-2 rounded-lg px-4 py-3 text-left hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-sky-950/40">
+            <ChevronDown className="h-4 w-4 shrink-0 text-sky-600 transition-transform group-data-[state=open]:rotate-180" />
+            {/* min-w-0: a flex-1 item defaults to min-width:auto and refuses to
+                shrink below its text, pushing the badge past a 320px viewport.
+                Same defect the Callout already carries a regression test for. */}
+            <span className="min-w-0 flex-1 font-semibold"><InlineText text={block.heading} /></span>
+            <Badge variant="outline" className="shrink-0 text-xs font-normal">
+              Profundización opcional
+            </Badge>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-4 px-4 pb-4">{body}</CollapsibleContent>
+        </Collapsible>
+      )
+    }
+
+    return (
+      <div key={i} className="space-y-4">
+        {body}
+      </div>
+    )
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
         <BookOpen className="h-5 w-5 text-sky-600" />
         <h2 className="text-xl font-semibold">Teoría</h2>
       </div>
-      {section.theory.map((block, i) => {
-        const body = (
-          <>
-            {/* A real heading, not the first paragraph. The heading used to be joined onto
-                the paragraphs and handed to RichText, so every theory heading in the course
-                rendered as a 15px <p> indistinguishable from the prose under it, and a
-                screen reader had no heading to jump to (WCAG 1.3.1). An optional block's
-                heading lives in its collapsible trigger instead. */}
-            {!block.optional && (
-              <h3 className="text-lg font-semibold tracking-tight text-foreground">
-                <InlineText text={block.heading} />
-              </h3>
-            )}
-            {/* A screenshot (D23) splits the prose right after the paragraph it shows. */}
-            {proseSegments(block).map((seg, k) => (
-              <Fragment key={k}>
-                <RichText sectionId={section.id} content={seg.markdown} after={seg.before || undefined} />
-                {seg.shots.map((id) => <SectionScreenshot key={id} id={id} />)}
-              </Fragment>
-            ))}
-            {/* Spatial contiguity: the figure sits between the prose it
-                explains and the code that follows, never in a gallery. */}
-            {block.figure && <FigureFrame figure={block.figure} />}
-            {block.code && (
-              <CodeBlock
-                code={block.code.code}
-                language={block.code.language}
-                title={block.code.title}
-                output={block.code.output}
-              />
-            )}
-            {shotsAfter(block, 'code').map((id) => <SectionScreenshot key={id} id={id} />)}
-            {block.callout && (
-              <Callout type={block.callout.type} title={block.callout.title && <InlineText text={block.callout.title} />}>
-                <InlineText text={block.callout.content} />
-              </Callout>
-            )}
-            {shotsAfter(block, 'callout').map((id) => <SectionScreenshot key={id} id={id} />)}
-          </>
-        )
-
-        // Optional deeper dive: collapsed by default so the section's main
-        // thread stays readable. The heading moves into the trigger.
-        if (block.optional) {
-          return (
-            <Collapsible key={i} className="rounded-lg border border-dashed border-sky-300 dark:border-sky-800">
-              <CollapsibleTrigger className="group flex w-full items-center gap-2 rounded-lg px-4 py-3 text-left hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-sky-950/40">
-                <ChevronDown className="h-4 w-4 shrink-0 text-sky-600 transition-transform group-data-[state=open]:rotate-180" />
-                {/* min-w-0: a flex-1 item defaults to min-width:auto and refuses to
-                    shrink below its text, pushing the badge past a 320px viewport.
-                    Same defect the Callout already carries a regression test for. */}
-                <span className="min-w-0 flex-1 font-semibold"><InlineText text={block.heading} /></span>
-                <Badge variant="outline" className="shrink-0 text-xs font-normal">
-                  Profundización opcional
-                </Badge>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-4 px-4 pb-4">{body}</CollapsibleContent>
-            </Collapsible>
-          )
-        }
-
-        return (
-          <div key={i} className="space-y-4">
-            {body}
-          </div>
-        )
-      })}
+      <TheoryOutline sectionId={section.id} parts={parts} read={readParts} theoryDone={done} />
+      {parts.length === 0
+        ? section.theory.map(renderBlock)
+        : parts.map((part) => (
+            <TheoryPartView
+              key={part.key}
+              part={part}
+              read={readParts.includes(part.key)}
+              onToggle={() => markPart(part.key)}
+            >
+              {part.blocks.map((i) => renderBlock(section.theory[i], i))}
+            </TheoryPartView>
+          ))}
 
       {/* Interactive playground — appears in every section's theory tab */}
       <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />

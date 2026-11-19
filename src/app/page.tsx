@@ -50,6 +50,15 @@ const UserMenu = firebaseAuthUi?.UserMenu ?? null
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 
+/**
+ * The hash for a section and tab: `#basics` for Teoría (the links people already have), and
+ * `#basics/ido` for the others, so a reload or a shared link reopens the same tab. syncFromHash
+ * already reads this form; nothing wrote it, so a reload on Yo hago fell back to Teoría.
+ */
+function stepHash(id: string, step: SubStep): string {
+  return step === 'theory' ? id : `${id}/${step}`
+}
+
 function isSubStep(value: unknown): value is SubStep {
   return typeof value === 'string' && (SUB_STEPS as readonly string[]).includes(value)
 }
@@ -156,6 +165,15 @@ export default function Home() {
     const newUrl = hash ? `${window.location.pathname}#${hash}` : window.location.pathname
     window.history.replaceState(null, '', newUrl)
   }
+
+  // Keep the open tab in the URL (#basics/ido), however it was chosen: tab, sidebar, ← →.
+  useEffect(() => {
+    if (view !== 'section' || !activeSectionId || typeof window === 'undefined') return
+    const want = `#${stepHash(activeSectionId, activeSubStep)}`
+    if (window.location.hash !== want) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${want}`)
+    }
+  }, [view, activeSectionId, activeSubStep])
 
   const handleSelectSection = (id: string, subStep?: SubStep) => {
     // Snapshot scroll of the section we are leaving so return can resume.
@@ -583,13 +601,9 @@ export default function Home() {
                     section={activeSection}
                     activeSubStep={activeSubStep}
                     onActiveSubStepChange={setActiveSubStep}
-                    hasPrev={activeIndex > 0}
-                    hasNext={activeIndex < COURSE_SECTIONS.length - 1}
-                    onPrev={() => activeIndex > 0 && handleSelectSection(COURSE_SECTIONS[activeIndex - 1].id)}
-                    onNext={() =>
-                      activeIndex < COURSE_SECTIONS.length - 1 &&
-                      handleSelectSection(COURSE_SECTIONS[activeIndex + 1].id)
-                    }
+                    sections={COURSE_SECTIONS}
+                    position={activeIndex}
+                    onSelectSection={handleSelectSection}
                     onOpenAuth={() => handleOpenAuth('login')}
                   />
                 </EntitlementGate>

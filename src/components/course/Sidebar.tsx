@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   CheckCircle2,
@@ -19,6 +20,8 @@ import { InlineText } from './RichText'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
 import { useI18n, t } from '@/lib/i18n'
+import { countDone, loadSetupProgress, type SetupProgress } from '@/lib/setup/progress'
+import { setupStepIds } from '@/lib/setup/content'
 
 interface SidebarProps {
   sections: CourseSection[]
@@ -120,8 +123,9 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3">
+      <SessionZeroLink mounted={mounted} />
       <div
-        className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3"
         data-testid="sidebar-sections"
         role="list"
         // fill(), like the visible copy two lines up. Without it a screen
@@ -284,6 +288,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
           })}
         </div>
       </div>
+      </div>
 
       <div className="border-t border-sidebar-border p-3">
         <button
@@ -315,5 +320,58 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </button>
       </div>
     </nav>
+  )
+}
+
+function setupStore(): Storage | null {
+  try {
+    return typeof window === 'undefined' ? null : window.localStorage
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Sesión 0 in the menu, above Section 1 (tester feedback, 18 Nov 2026: "la sesión 0 está en el
+ * dashboard, no desde el menú de la izquierda"). It was reachable only from the dashboard card
+ * and a banner at the top of Section 1, both of which a returning learner scrolls past.
+ *
+ * Outside the section list on purpose: Sesión 0 is not one of the 52 sections (empezar/page.tsx),
+ * so it must not join the list a screen reader counts as «N de 52 secciones». Its progress is the
+ * one /empezar keeps, read once after mount; with no system chosen yet it shows no count.
+ */
+function SessionZeroLink({ mounted }: { mounted: boolean }) {
+  const lang = useI18n((s) => s.lang)
+  const [progress, setProgress] = useState<SetupProgress | null>(null)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (mounted) setProgress(loadSetupProgress(setupStore()))
+  }, [mounted])
+  const ids = progress?.os ? setupStepIds(progress.os) : []
+  const done = progress ? countDone(progress, ids) : 0
+  const complete = ids.length > 0 && done === ids.length
+  return (
+    <Link
+      href="/empezar"
+      data-testid="sidebar-session0"
+      className="mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all hover:bg-sidebar-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <div
+        className={cn(
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold',
+          complete ? 'gradient-primary text-white' : 'border border-dashed border-primary/40 text-primary'
+        )}
+      >
+        {complete ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : <span>0</span>}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-medium text-foreground/80">{t('sidebar.session0.title', lang)}</div>
+        <div className="truncate text-xs text-muted-foreground">
+          {ids.length > 0 && !complete
+            ? fill(t('sidebar.session0.progress', lang), { done, total: ids.length })
+            : t('sidebar.session0.tagline', lang)}
+        </div>
+      </div>
+    </Link>
   )
 }
