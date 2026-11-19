@@ -27,6 +27,7 @@ const EXPECTED_TABLES = [
   "qa_sessions",
   "rate_limits",
   "report_attachments",
+  "report_verifications",
   "reports",
   "schema_meta",
   "sessions",
@@ -298,4 +299,28 @@ test("review r2: migration 4 adds reports.text_bytes, backfills it from the stor
   assert.equal(await bytes("rep_new"), 0, "a row inserted without it defaults to 0 (the worker always sets it)");
   const plan = (await db.prepare("EXPLAIN QUERY PLAN SELECT COALESCE(SUM(text_bytes), 0) FROM reports").all()).results;
   assert.ok(plan.some((row) => /COVERING INDEX idx_reports_text_bytes/.test(row.detail)), JSON.stringify(plan));
+});
+
+test("migration 10: a version-9 database gains report_verifications; one check per (report, account), known results only, and a check must name a real report", async () => {
+  resetSchemaMemo();
+  const db = createD1();
+  await applyMigrations(db, MIGRATIONS.slice(0, 9));
+  assert.equal((await tables(db)).includes("report_verifications"), false);
+  await db.exec("INSERT INTO accounts (id, created_at, updated_at) VALUES ('acct_v', 1, 1)");
+  await db.exec("INSERT INTO reports (id, created_at, updated_at, source, status, title) VALUES ('rep_v', 1, 1, 'qa_harness', 'new', 'kept')");
+  resetSchemaMemo();
+  await migrate(db);
+  assert.equal(await currentVersion(db), SCHEMA_VERSION);
+  await db.exec("INSERT INTO accounts (id, created_at, updated_at) VALUES ('acct_w', 1, 1)");
+  const check = (report, result, account = "acct_v") =>
+    db
+      .prepare("INSERT INTO report_verifications (report_id, account_id, result, created_at, updated_at) VALUES (?1, ?3, ?2, 1, 1)")
+      .bind(report, result, account)
+      .run();
+  await check("rep_v", "fixed");
+  await assert.rejects(() => check("rep_v", "reproduced"), /UNIQUE|PRIMARY/, "a second row for the same tester");
+  await assert.rejects(() => check("rep_v", "resolved", "acct_w"), /CHECK/, "an unknown result, from another tester");
+  await assert.rejects(() => check("rep_missing", "fixed", "acct_w"), /FOREIGN KEY/);
+  await check("rep_v", "not_reproduced", "acct_w");
+  assert.equal(await db.prepare("SELECT title FROM reports WHERE id = 'rep_v'").first("title"), "kept", "the upgrade keeps existing reports");
 });
