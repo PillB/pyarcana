@@ -11,9 +11,9 @@ import type { QaSessionSummary } from '@/lib/qa-session-stats'
 export const QA_SESSIONS_PATH = '/v1/qa/sessions'
 export const SEND_EVERY_MS = 5 * 60_000
 
-/** Only signed-in testers and admins send; everyone else keeps the session local. */
+/** Only signed-in QA roles (tester, QA supervisor) and admins send; everyone else keeps the session local. */
 export function canSendQaSession(me: MePayload | null): boolean {
-  return !!me && (me.account.isAdmin || me.account.roles.includes('tester'))
+  return !!me && (me.account.isAdmin || me.account.roles.includes('tester') || me.account.roles.includes('qa_supervisor'))
 }
 
 /** Whether to send now: something changed since the last send, and the interval passed (or forced). */

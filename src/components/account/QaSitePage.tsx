@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { CLOUD_CONFIG } from '@/lib/cloud/config'
 import { parseReportList } from '@/lib/cloud/admin-api'
 import { QA_OPEN_EVENT } from '@/lib/cloud/qa-links'
+import { qaAccess } from '@/lib/cloud/qa-review'
 import { refreshMe, safeHttpsUrl, useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/session'
 import { CloudPageFrame } from './CloudPageFrame'
 import { LoadNote, formatDay } from './LoadNote'
@@ -46,7 +47,7 @@ function HowToTest() {
   )
 }
 
-function MyReports() {
+export function MyReports() {
   const { tr, lang } = useText()
   const state = useApiLoad('/v1/me/reports', parseReportList)
   const reports = state?.status === 'ok' ? state.value.reports : null
@@ -74,7 +75,7 @@ function AllReports() {
   return (
     <section className="space-y-3" aria-labelledby="qa-all-h">
       <h2 id="qa-all-h" className="text-lg font-semibold">{tr('qasite.all.h')}</h2>
-      <ReportBrowser scope="qa" renderDetail={(row) => <ReportDetail key={row.id} id={row.id} />} />
+      <ReportBrowser scope="qa" renderDetail={(row, reload) => <ReportDetail key={row.id} id={row.id} onChanged={reload} />} />
     </section>
   )
 }
@@ -82,7 +83,7 @@ function AllReports() {
 function QaSiteActive() {
   const { tr } = useText()
   const { me, settled } = useMeOnce()
-  const canSeeAll = me !== null && (me.account.isAdmin || me.account.roles.includes('tester'))
+  const canSeeAll = qaAccess(me) !== null
   return (
     <div className="space-y-6">
       <NotComplaintsNotice />

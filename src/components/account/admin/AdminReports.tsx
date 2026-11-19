@@ -56,7 +56,7 @@ export function AdminReports() {
       scope="admin"
       renderDetail={(row, reload) => (
         <div key={row.id} className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_22rem]">
-          <ReportDetail id={row.id} />
+          <ReportDetail id={row.id} onChanged={reload} />
           <Triage row={row} onDone={reload} />
         </div>
       )}
