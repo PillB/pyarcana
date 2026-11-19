@@ -429,11 +429,20 @@ class SelfCheckAndBank(unittest.TestCase):
                 self.assertLess(len(q["options"][q["correctIndex"]]), max(map(len, q["options"])))
 
     def test_bank_has_no_length_cue(self) -> None:
+        # 2026-11-18 (S11 round): this test used to demand that no key be the longest. That moved
+        # the cue: the key became second-longest on 17 of 24 items, and "pick the second-longest"
+        # passed the bank for every simulated learner. The rule is now a spread: no length rank
+        # holds more than 7 of the 24 keys, and no key ties another option.
         qs = bank()
         self.assertEqual(len(qs), 24)
-        longest = [q["question"][:50] for q in qs
-                   if len(q["options"][q["correctIndex"]]) == max(map(len, q["options"]))]
-        self.assertEqual(longest, [])
+        ranks = []
+        for i, q in enumerate(qs, 1):
+            lengths = [len(o) for o in q["options"]]
+            key = lengths[q["correctIndex"]]
+            with self.subTest(item=i):
+                self.assertEqual(lengths.count(key), 1, "the key ties another option")
+            ranks.append(sorted(lengths, reverse=True).index(key) + 1)
+        self.assertLessEqual(max(ranks.count(r) for r in range(1, 5)), 7, ranks)
 
     def test_bank_stems_and_explanations(self) -> None:
         stems = {q["question"]: q for q in bank()}
