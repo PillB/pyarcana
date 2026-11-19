@@ -15,6 +15,7 @@
  *   reports       (the text, context and alias) deleted 1 year after the
  *                 report was closed, or 2 years after it was filed, whichever
  *                 comes first (owner decision 2026-10-04)
+ *   report_verifications  deleted with their report, in the same statement window
  *   audit_log     deleted 2 years after it was written (AUDIT_DAYS)
  *   qa_sessions   deleted 1 year after the session's last activity (QA_SESSION_DAYS)
  * Daily, after it — measurement sweep (DESIGN-v3 §F/§G), one batch:
@@ -75,11 +76,11 @@ const CLOSED = "status IN ('fixed', 'wontfix', 'duplicate')";
  * Delete what the retention policy says, in one batch.
  * @param {{db: Object, now: number}} ctx Context.
  * @returns {Promise<{loginCodes: number, sessions: number, rateLimits: number, checkoutsExpired: number,
- *   usedNonces: number, reportAttachments: number, usageDays: number, reports: number, auditRows: number,
+ *   usedNonces: number, reportAttachments: number, usageDays: number, reportVerifications: number, reports: number, auditRows: number,
  *   qaSessions: number}>} Counts.
  */
 export async function sweepRetention(ctx) {
-  const [codes, sessions, limits, checkouts, nonces, screenshots, usage, reports, audit, qaSessions] = await ctx.db.batch([
+  const [codes, sessions, limits, checkouts, nonces, screenshots, usage, verifications, reports, audit, qaSessions] = await ctx.db.batch([
     ctx.db.prepare("DELETE FROM login_codes WHERE expires_at < ?1").bind(ctx.now - DAY),
     ctx.db.prepare("DELETE FROM sessions WHERE expires_at < ?1").bind(ctx.now - SIGNIN_RECORD_DAYS * DAY),
     ctx.db.prepare("DELETE FROM rate_limits WHERE window_start < ?1").bind(ctx.now - 2 * DAY),
@@ -92,6 +93,13 @@ export async function sweepRetention(ctx) {
       )
       .bind(ctx.now - CLOSED_REPORT_SCREENSHOT_DAYS * DAY, ctx.now - REPORT_SCREENSHOT_MAX_DAYS * DAY),
     ctx.db.prepare("DELETE FROM usage_daily WHERE day < ?1").bind(utcDay(ctx.now - KEEP_DAYS * DAY)),
+    // Before the reports below: a verification references its report (foreign key).
+    ctx.db
+      .prepare(
+        `DELETE FROM report_verifications WHERE report_id IN (SELECT id FROM reports
+           WHERE (${CLOSED} AND updated_at < ?1) OR created_at < ?2)`
+      )
+      .bind(ctx.now - CLOSED_REPORT_DAYS * DAY, ctx.now - REPORT_MAX_DAYS * DAY),
     // After the screenshots above: a report this old has none left (its window is shorter).
     ctx.db
       .prepare(`DELETE FROM reports WHERE (${CLOSED} AND updated_at < ?1) OR created_at < ?2`)
@@ -107,6 +115,7 @@ export async function sweepRetention(ctx) {
     usedNonces: nonces.meta.changes,
     reportAttachments: screenshots.meta.changes,
     usageDays: usage.meta.changes,
+    reportVerifications: verifications.meta.changes,
     reports: reports.meta.changes,
     auditRows: audit.meta.changes,
     qaSessions: qaSessions.meta.changes

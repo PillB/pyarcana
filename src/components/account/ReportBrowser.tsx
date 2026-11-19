@@ -19,12 +19,14 @@ import {
   type ReportRow,
   type SectionOption,
 } from '@/lib/cloud/admin-api'
+import { verifiedSummary } from '@/lib/cloud/qa-review'
 import { LoadNote, SELECT_CLASS, formatDay } from './LoadNote'
 import { statusText } from './ReportDetail'
 import { useApiLoad } from './useApiLoad'
 import { useText, type Tr } from './text'
 
-const EMPTY: ReportFilters = { status: '', severity: '', category: '', section: '', source: '', tester: '', q: '' }
+const EMPTY: ReportFilters = { status: '', severity: '', category: '', section: '', source: '', tester: '', awaiting: '', q: '' }
+const AWAITING = ['review'] as const
 
 function Choice({ id, label, value, options, text, onChange, tr }: { id: string; label: string; value: string; options: readonly string[]; text: (v: string) => string; onChange: (v: string) => void; tr: Tr }) {
   return (
@@ -38,9 +40,9 @@ function Choice({ id, label, value, options, text, onChange, tr }: { id: string;
   )
 }
 
-function FilterBar({ scope, sections, onApply }: { scope: string; sections: SectionOption[]; onApply: (f: ReportFilters) => void }) {
+function FilterBar({ scope, sections, initial, onApply }: { scope: string; sections: SectionOption[]; initial: ReportFilters; onApply: (f: ReportFilters) => void }) {
   const { tr } = useText()
-  const [draft, setDraft] = useState<ReportFilters>(EMPTY)
+  const [draft, setDraft] = useState<ReportFilters>(initial)
   const set = (key: keyof ReportFilters) => (value: string) => setDraft((d) => ({ ...d, [key]: value }))
   const labels = new Map(sections.map((o) => [o.id, o.label]))
   return (
@@ -56,6 +58,7 @@ function FilterBar({ scope, sections, onApply }: { scope: string; sections: Sect
       <Choice id={`${scope}-category`} label={tr('qasite.filter.category')} value={draft.category ?? ''} options={REPORT_CATEGORY_VALUES} text={categoryLabel} onChange={set('category')} tr={tr} />
       <Choice id={`${scope}-section`} label={tr('qasite.filter.section')} value={draft.section ?? ''} options={sections.map((o) => o.id)} text={(v) => labels.get(v) ?? v} onChange={set('section')} tr={tr} />
       <Choice id={`${scope}-source`} label={tr('qasite.filter.source')} value={draft.source ?? ''} options={REPORT_SOURCE_VALUES} text={(v) => tr(`qasite.source.${v}`)} onChange={set('source')} tr={tr} />
+      <Choice id={`${scope}-awaiting`} label={tr('qarev.filter')} value={draft.awaiting ?? ''} options={AWAITING} text={() => tr('qarev.filter.review')} onChange={set('awaiting')} tr={tr} />
       <div className="space-y-1">
         <Label htmlFor={`${scope}-tester`}>{tr('qasite.filter.tester')}</Label>
         <Input id={`${scope}-tester`} value={draft.tester ?? ''} maxLength={80} onChange={(e) => set('tester')(e.target.value)} />
@@ -89,6 +92,7 @@ function ReportRows({ reports, selected, onSelect, tr, lang }: { reports: Report
               {sectionLabel(r.context) ? ` · ${sectionLabel(r.context)}` : ''}
               {r.accountEmail ? ` · ${r.accountEmail}` : ''}
             </span>
+            {verifiedSummary(r.verified, tr) && <span className="block text-xs" data-testid="report-row-checks">{verifiedSummary(r.verified, tr)}</span>}
           </button>
         </li>
       ))}
@@ -113,9 +117,9 @@ function useSeenSections(rows: ReportRow[] | null): SectionOption[] {
  * loaded so far, labelled as the rows and the detail show them (admin-api sectionLabel). `renderDetail` shows the chosen report (admins add the
  * triage form there).
  */
-export function ReportBrowser({ scope, renderDetail }: { scope: 'qa' | 'admin'; renderDetail: (row: ReportRow, reload: () => void) => ReactNode }) {
+export function ReportBrowser({ scope, renderDetail, initial = EMPTY }: { scope: 'qa' | 'admin'; renderDetail: (row: ReportRow, reload: () => void) => ReactNode; initial?: ReportFilters }) {
   const { tr, lang } = useText()
-  const [filters, setFilters] = useState<ReportFilters>(EMPTY)
+  const [filters, setFilters] = useState<ReportFilters>(initial)
   const [cursor, setCursor] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
   const [nonce, setNonce] = useState(0)
@@ -127,6 +131,7 @@ export function ReportBrowser({ scope, renderDetail }: { scope: 'qa' | 'admin'; 
     <div className="space-y-4">
       <FilterBar
         scope={scope}
+        initial={initial}
         sections={sections}
         onApply={(f) => {
           setFilters(f)

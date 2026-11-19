@@ -1,11 +1,13 @@
 /**
  * The QA reporting subsite's reads and the admin triage (DESIGN-v3).
  *
- *   GET   /v1/qa/reports?status=&severity=&category=&section=&source=&tester=&q=&limit=&cursor=  (tester or admin)
+ *   GET   /v1/qa/reports?status=&severity=&category=&section=&source=&tester=&awaiting=review&q=&limit=&cursor=  (QA roles or admin)
  *   GET   /v1/qa/reports/:id                         report + attachment metadata
  *   GET   /v1/qa/reports/:id/attachments/:aid        image bytes
  *   GET   /v1/admin/reports?<same filters>           admin: + contact email, account email, admin note
  *   PATCH /v1/admin/reports/:id {status?, adminNote?, duplicateOf?}
+ *   PATCH /v1/qa/reports/:id    {status?, duplicateOf?}       QA supervisor or admin: no admin note
+ * Testers' reproduce checks are report-verify.mjs; each view carries their counts.
  *
  * The tester view never carries the reporter's identity (no contact email,
  * no account id or email, no admin note), only `mine` for their own.
@@ -17,12 +19,18 @@
 
 import { bytesToBase64Url, base64UrlToString } from "./crypto.mjs";
 import { badRequest, enumValue, INVALID, limitValue, optionalText, parseFields, queryObject, requiredText } from "./input.mjs";
+import { auditStatement } from "./audit.mjs";
+import { hitRateLimit } from "./ratelimit.mjs";
+import { verificationsOf } from "./report-verify.mjs";
 import { blobBytes, REPORT_CATEGORIES, REPORT_SEVERITIES, REPORT_SOURCES, REPORT_STATUSES, sniffImage } from "./report-input.mjs";
 
 const NOT_FOUND = { status: 404, body: { ok: false, reason: "not_found" } };
 
 const REPORT_SELECT = `SELECT r.*, a.email AS account_email,
-    (SELECT COUNT(*) FROM report_attachments x WHERE x.report_id = r.id) AS attachment_count
+    (SELECT COUNT(*) FROM report_attachments x WHERE x.report_id = r.id) AS attachment_count,
+    (SELECT COUNT(*) FROM report_verifications v WHERE v.report_id = r.id AND v.result = 'reproduced') AS reproduced_count,
+    (SELECT COUNT(*) FROM report_verifications v WHERE v.report_id = r.id AND v.result = 'not_reproduced') AS not_reproduced_count,
+    (SELECT COUNT(*) FROM report_verifications v WHERE v.report_id = r.id AND v.result = 'fixed') AS fixed_count
   FROM reports r LEFT JOIN accounts a ON a.id = r.account_id`;
 
 /**
@@ -42,6 +50,9 @@ const FILTERS = [
   ["section", (q) => optionalText(q.section, 40), "bad_section", "json_extract(r.context, '$.sectionId') = ?", 1],
   ["source", (q) => enumValue(q.source, REPORT_SOURCES, null), "bad_source", "r.source = ?", 1],
   ["tester", (q) => optionalText(q.tester, 80), "bad_tester", "r.reporter_alias = ?", 1],
+  // The review queue: a tester's retest says fixed and nobody has closed the report yet.
+  ["awaiting", (q) => enumValue(q.awaiting, ["review"], null), "bad_awaiting", `(? = 'review' AND r.status NOT IN ('fixed', 'wontfix', 'duplicate')
+    AND EXISTS (SELECT 1 FROM report_verifications v WHERE v.report_id = r.id AND v.result = 'fixed'))`, 1],
   ["q", (q) => likePattern(optionalText(q.q, 100)), "bad_q", "(r.title LIKE ? ESCAPE '\\' OR r.description LIKE ? ESCAPE '\\')", 2]
 ];
 
@@ -146,7 +157,8 @@ function sharedView(r) {
     context: r.context ? JSON.parse(r.context) : {},
     reporterAlias: r.reporter_alias,
     duplicateOf: r.duplicate_of,
-    attachmentCount: Number(r.attachment_count || 0)
+    attachmentCount: Number(r.attachment_count || 0),
+    verified: { reproduced: Number(r.reproduced_count || 0), notReproduced: Number(r.not_reproduced_count || 0), fixed: Number(r.fixed_count || 0) }
   };
 }
 
@@ -215,7 +227,8 @@ export async function handleQaReport(ctx) {
     body: {
       ok: true,
       report: qaView(ctx)(row),
-      attachments: attachments.results.map((a) => ({ id: a.id, mime: a.mime, size: a.size, createdAt: a.created_at }))
+      attachments: attachments.results.map((a) => ({ id: a.id, mime: a.mime, size: a.size, createdAt: a.created_at })),
+      verifications: await verificationsOf(ctx, row.id)
     }
   };
 }
@@ -315,4 +328,63 @@ export async function handlePatchReport(ctx) {
     .run();
   const report = adminView(await reportRow(ctx.db, current.id));
   return { status: 200, body: { ok: true, report }, audit: { ...audit, targetAccountId: current.account_id, detail: { status: resolved.status } } };
+}
+
+/** Supervisor status changes allowed per account per hour. */
+export const REVIEWS_PER_HOUR = 120;
+
+const REVIEW_FIELDS = PATCH_FIELDS.filter(([name]) => name !== "adminNote");
+
+/**
+ * Parse a supervisor's change: status and duplicate link only.
+ * @param {unknown} body Request body.
+ * @returns {{values: Object}|{error: Object}} Parsed or a 400.
+ */
+function parseReview(body) {
+  const keys = Object.keys(body || {});
+  if (!keys.length) {
+    return { error: badRequest("nothing_to_update") };
+  }
+  if (keys.some((key) => key !== "status" && key !== "duplicateOf")) {
+    return { error: badRequest("bad_field") };
+  }
+  return parseFields(body, REVIEW_FIELDS);
+}
+
+/**
+ * PATCH /v1/qa/reports/:id: a QA supervisor (or admin) closes or reopens a
+ * report after a retest. Audited as qa.reports.update with the old and new
+ * status; answers with the tester view (no reporter identity).
+ * @param {Object} ctx QA supervisor or admin context.
+ * @returns {Promise<Object>} Result.
+ */
+export async function handleReviewReport(ctx) {
+  const parsed = parseReview(ctx.body);
+  if (parsed.error) {
+    return parsed.error;
+  }
+  const current = await reportRow(ctx.db, ctx.params.id);
+  if (!current) {
+    return NOT_FOUND;
+  }
+  const hit = await hitRateLimit(ctx, `qa-review:${ctx.account.id}`, REVIEWS_PER_HOUR, 3600);
+  if (!hit.ok) {
+    return { status: 429, body: { ok: false, reason: "rate_limited", retryAfter: hit.retryAfter }, headers: { "retry-after": String(hit.retryAfter) } };
+  }
+  const resolved = await resolveDuplicate(ctx, current, parsed.values);
+  if (resolved.error) {
+    return resolved.error;
+  }
+  // The change and its audit row land together, or neither does.
+  await ctx.db.batch([
+    ctx.db.prepare("UPDATE reports SET status = ?2, duplicate_of = ?3, updated_at = ?4 WHERE id = ?1").bind(current.id, resolved.status, resolved.duplicateOf, ctx.now),
+    auditStatement(ctx, {
+      action: "qa.reports.update",
+      actorAccountId: ctx.account.id,
+      targetAccountId: current.account_id,
+      targetId: current.id,
+      detail: { from: current.status, status: resolved.status, admin: ctx.isAdmin === true }
+    })
+  ]);
+  return { status: 200, body: { ok: true, report: qaView(ctx)(await reportRow(ctx.db, current.id)) } };
 }
