@@ -443,6 +443,25 @@ const MIGRATION_9 = [
   "CREATE INDEX IF NOT EXISTS idx_qa_sessions_last_active ON qa_sessions (last_active_at)"
 ];
 
+/**
+ * Tester verifications (report-verify.mjs, owner request 2026-11-19): whether one tester could
+ * reproduce a report, or found it fixed on a retest, on which build. One row per (report, account), so checking again replaces
+ * the caller's answer. Deleted with the report (retention.mjs) and with the verifier (privacy.mjs).
+ */
+const MIGRATION_10 = [
+  `CREATE TABLE IF NOT EXISTS report_verifications (
+     report_id TEXT NOT NULL REFERENCES reports (id),
+     account_id TEXT NOT NULL REFERENCES accounts (id),
+     result TEXT NOT NULL CHECK (result IN ('reproduced', 'not_reproduced', 'fixed')),
+     note TEXT,
+     deployment_sha TEXT,
+     created_at INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (report_id, account_id)
+   ) WITHOUT ROWID`,
+  "CREATE INDEX IF NOT EXISTS idx_report_verifications_account ON report_verifications (account_id)"
+];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
@@ -453,7 +472,8 @@ export const MIGRATIONS = [
   { version: 6, statements: MIGRATION_6 },
   { version: 7, statements: MIGRATION_7 },
   { version: 8, statements: MIGRATION_8 },
-  { version: 9, statements: MIGRATION_9 }
+  { version: 9, statements: MIGRATION_9 },
+  { version: 10, statements: MIGRATION_10 }
 ];
 
 /** The version a fully migrated database reports. */

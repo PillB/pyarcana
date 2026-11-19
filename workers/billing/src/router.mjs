@@ -55,7 +55,8 @@ import { handleGetMe } from "./me.mjs";
 import { handleDeleteAccount, handleExport } from "./privacy.mjs";
 import { handleGetProgress, handlePutProgress, PROGRESS_BODY_CAP } from "./progress.mjs";
 import { DEFAULT_PROVIDERS } from "./providers.mjs";
-import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaReport, handleQaReports } from "./report-triage.mjs";
+import { handleAdminReports, handlePatchReport, handleQaAttachment, handleQaReport, handleQaReports, handleReviewReport } from "./report-triage.mjs";
+import { handleVerifyReport, handleWithdrawVerification } from "./report-verify.mjs";
 import { handleMyReports, handleSubmitReport, REPORT_BODY_CAP } from "./reports.mjs";
 import { handleGrantRole, handleListRoles, handleRevokeRole } from "./roles.mjs";
 import { handleAdminSurveys, handleSubmitSurvey } from "./surveys.mjs";
@@ -97,7 +98,7 @@ function qaRoute(path, handler) {
 /**
  * The route table. `auth`: "session" (required) | "optional" | undefined.
  * `needs`: config the route cannot run without. `bodyCap`: bytes.
- * `access`: "admin" | "qa" (gate.mjs). `audit`: the admin audit action name.
+ * `access`: "admin" | "qa" | "qa_review" (gate.mjs). `audit`: the admin audit action name.
  */
 export const ROUTES = [
   { method: "GET", path: "/v1/health", handler: handleHealth, needs: [] },
@@ -131,6 +132,9 @@ export const ROUTES = [
   { method: "POST", path: "/v1/qa/sessions", handler: handleQaSession, needs: DB_PEPPER, auth: "session", access: "qa", bodyCap: QA_SESSION_BODY_CAP },
   qaRoute("/v1/qa/reports/:id", handleQaReport),
   qaRoute("/v1/qa/reports/:id/attachments/:aid", handleQaAttachment),
+  { method: "POST", path: "/v1/qa/reports/:id/verifications", handler: handleVerifyReport, needs: DB_PEPPER, auth: "session", access: "qa" },
+  { method: "PATCH", path: "/v1/qa/reports/:id", handler: handleReviewReport, needs: DB_PEPPER, auth: "session", access: "qa_review" },
+  { method: "DELETE", path: "/v1/qa/reports/:id/verifications", handler: handleWithdrawVerification, needs: DB_PEPPER, auth: "session", access: "qa" },
   { method: "POST", path: "/v1/me/link/google", handler: handleLinkGoogle, needs: DB_PEPPER, auth: "session" },
   { method: "POST", path: "/v1/me/link/microsoft", handler: handleLinkMicrosoft, needs: DB_PEPPER, auth: "session" },
   { method: "DELETE", path: "/v1/me/identities/:provider", handler: handleUnlinkIdentity, needs: DB_PEPPER, auth: "session" },

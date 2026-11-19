@@ -12,6 +12,8 @@ import { AdminQa } from './AdminQa'
 import { AdminReports } from './AdminReports'
 import { AdminTesters } from './AdminTesters'
 import { AdminUsage, UsageBanner } from './AdminUsage'
+import { QaWorkspace } from './QaWorkspace'
+import { qaAccess } from '@/lib/cloud/qa-review'
 
 const TABS = [
   ['reports', AdminReports],
@@ -48,13 +50,16 @@ function AdminActive() {
   const { tr } = useText()
   const { me, settled } = useMeOnce()
   if (!settled) return <p role="status" className="text-sm text-muted-foreground">{tr('cloudpage.loading')}</p>
-  // The worker checks every admin route itself; this only avoids showing a window that would fail.
-  if (!me?.account.isAdmin) return <p className="text-sm">{tr('adm.notAdmin')}</p>
-  return <AdminTabs />
+  // The worker checks every admin and QA route itself; this only avoids showing a window that would fail.
+  const access = qaAccess(me)
+  if (access === 'admin') return <AdminTabs />
+  if (access === 'supervisor' || access === 'tester') return <QaWorkspace access={access} />
+  return <p className="text-sm">{tr('adm.notAdmin')}</p>
 }
 
 /**
- * /admin (DESIGN-v3 §H). Renders only for an admin session. It loads no third-party script (no
+ * /admin (DESIGN-v3 §H). Every tab for an admin session; for a tester or a QA supervisor only the
+ * QA reports window (QaWorkspace, owner request 2026-11-19). It loads no third-party script (no
  * Google button, no ad slot), and its links are plain page loads.
  */
 export function AdminPage() {

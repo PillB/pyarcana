@@ -1,7 +1,13 @@
 /**
- * Stored roles (DESIGN-v3 Roles). The only role is `tester`: it opens the QA
- * reporting subsite beyond the tester's own reports. Admin is NEVER a stored
- * role (it stays ADMIN_EMAILS plus a fresh Google session).
+ * Stored roles (DESIGN-v3 Roles, amended 2026-11-19):
+ *   tester         opens the QA reporting subsite beyond the tester's own
+ *                  reports, and records retest checks (report-verify.mjs).
+ *   qa_supervisor  everything a tester can, plus a report's status
+ *                  (PATCH /v1/qa/reports/:id): closing a report a retest
+ *                  says is fixed. No admin note, no reporter identity, no
+ *                  other admin route.
+ * Admin is NEVER a stored role (it stays ADMIN_EMAILS plus a fresh Google
+ * session).
  *
  *   POST /v1/admin/roles        {email | accountId, role, days: 1..3650 | null, note?}
  *   POST /v1/admin/roles/revoke {accountId, role, reason}
@@ -28,7 +34,7 @@ import {
 } from "./input.mjs";
 
 /** Roles an admin may store. */
-export const ROLES = ["tester"];
+export const ROLES = ["tester", "qa_supervisor"];
 
 const DAY = 86400;
 

@@ -6,7 +6,10 @@
  *   "admin"  120 requests/hour per account (refusals count too), then the
  *            admin rule (accounts.adminDenial): 403 forbidden, or 401
  *            reauth_required for a listed admin without a fresh Google session.
- *   "qa"     an active `tester` role, or the admin rule; same refusals.
+ *   "qa"     an active `tester` or `qa_supervisor` role, or the admin rule;
+ *            same refusals.
+ *   "qa_review"  an active `qa_supervisor` role, or the admin rule: the
+ *            report status change after a retest, nothing else of admin.
  *
  * Every admin request that got past the session stage is audited once:
  * action = the route's `audit` name, actor = the caller, target and extra
@@ -54,21 +57,30 @@ async function adminGate(ctx) {
   return denial ? deny(denial) : null;
 }
 
+/** Stored roles that open the QA subsite's reads and retest checks. */
+export const QA_ROLES = ["tester", "qa_supervisor"];
+
+/** Stored roles that may also change a report's status (close it after a retest). */
+export const QA_REVIEW_ROLES = ["qa_supervisor"];
+
 /**
- * QA gate: an active tester, or an admin.
- * @param {Object} ctx Context with account and session.
- * @returns {Promise<Object|null>} Stop result or null.
+ * A gate that admits an admin, or an account holding any of `roles`.
+ * @param {string[]} roles Stored roles that pass.
+ * @returns {function(Object): Promise<Object|null>} Gate.
  */
-async function qaGate(ctx) {
-  const denial = adminDenial(ctx.env, ctx.account, ctx.session, ctx.now);
-  ctx.isAdmin = denial === null;
-  if (ctx.isAdmin || (await activeRoles(ctx, ctx.account.id)).includes("tester")) {
-    return null;
-  }
-  return deny(denial);
+function roleGate(roles) {
+  return async (ctx) => {
+    const denial = adminDenial(ctx.env, ctx.account, ctx.session, ctx.now);
+    ctx.isAdmin = denial === null;
+    if (ctx.isAdmin) {
+      return null;
+    }
+    ctx.roles = await activeRoles(ctx, ctx.account.id);
+    return ctx.roles.some((role) => roles.includes(role)) ? null : deny(denial);
+  };
 }
 
-const GATES = { admin: adminGate, qa: qaGate };
+const GATES = { admin: adminGate, qa: roleGate(QA_ROLES), qa_review: roleGate(QA_REVIEW_ROLES) };
 
 /**
  * Router stage: apply the route's access gate, if any.
