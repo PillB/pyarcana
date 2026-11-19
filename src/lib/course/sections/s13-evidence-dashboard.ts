@@ -15,7 +15,7 @@ export const section13: CourseSection = {
   index: 13,
   title: "Familiarity Evidence Dashboard y cierre de nivel",
   shortTitle: "Evidence Dashboard",
-  tagline: "Resolución de identidad determinista —decidir si dos registros representan a la misma persona—, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+  tagline: "Resolución de identidad determinista —decidir si dos registros representan a la misma persona—, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1 (privacidad, demostración y runbook)",
   estimatedHours: 9,
   level: "Intermedio",
   phase: 0,
@@ -24,30 +24,31 @@ export const section13: CourseSection = {
   jobRelevance:
     "En equipos de datos de banca, telco o fintech en Perú, el cuello de botella no es «tener un modelo»: es saber si dos registros hablan de la misma persona y, por separado, si hay señales de familiaridad operativa, todo sin inventar parentesco ni fraude. Aquí aprendes a entregar un dashboard de evidencia con resolución de identidad determinista —reglas explícitas para decidir si dos registros representan a la misma persona—, puntajes separados, fichas pseudonimizadas y cola de revisión humana. Quien logra eso se vuelve confiable en la mesa de riesgo y deja un portfolio defendible.",
   learningOutcomes: [
-    { text: "Aplicar normalización y blocking para resolución de identidad —decidir si dos registros representan a la misma persona— y producir `entity_resolution_score`" },
-    { text: "Evaluar la resolución de identidad con etiquetas sintéticas: precision —de los pares marcados como iguales, qué parte sí lo era—, recall —de los pares realmente iguales, qué parte encontraste— y cola clerical" },
-    { text: "La **resolución de entidades** (ER) indica si dos registros describen la misma entidad; computar `relationship_signal_score` (contacto compartido, distancia y apellidos) por separado." },
-    { text: "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión" },
+    { text: "Aplicar normalización y blocking (bloqueo: comparar solo los pares que comparten una clave barata) para resolución de identidad —decidir si dos registros representan a la misma persona— y producir `entity_resolution_score`" },
+    { text: "Evaluar la resolución de identidad con etiquetas sintéticas: precision —de los pares marcados como iguales, qué parte sí lo era—, recall —de los pares realmente iguales, qué parte encontraste— y cola clerical. La cola clerical es la bandeja donde una persona revisa los pares dudosos" },
+    { text: "Distinguir la resolución de identidad de las señales de relación y calcular `relationship_signal_score` (contacto compartido, distancia y apellidos) por separado" },
+    { text: "Derivar señales de transacciones directas y contrapartes comunes sin afirmar colusión" },
     { text: "Producir score de evidencia con incertidumbre y explicación legible" },
     { text: "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude" },
-    { text: "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas" },
-    { text: "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1" },
+    { text: "Ensamblar un scaffold (andamiaje mínimo que se puede revisar) de dashboard y mapa con fichas de caso pseudonimizadas" },
+    { text: "Entregar ficha de privacidad, tests, demo reproducible y runbook (manual de operación) del nivel 1" },
   ],
   theory: [
     {
             heading: "Dos filas que podrían ser la misma persona",
       paragraphs: [
-        "«Ana María Quispe Rojas, Lima, ana.quispe@ejemplo.pe». «Ana M. Quispe R., Lima, aquispe@ejemplo.pe». ¿Es la misma persona? Un revisor humano dudaría, y esa duda es información. El error que cierra esta sección es querer eliminarla: forzar una respuesta binaria donde la evidencia solo alcanza para un «probablemente». Lo que vas a construir no resuelve la duda, la hace visible y la pone en manos de alguien que pueda decidir.",
+        "«Ana María Quispe Rojas, Lima, ana.quispe@ejemplo.pe». «Ana M. Quispe R., Lima, aquispe@ejemplo.pe». ¿Es la misma persona?",
+        "Un revisor humano dudaría, y esa duda es información. El error que cierra esta sección es querer eliminarla: forzar una respuesta binaria donde la evidencia solo alcanza para un «probablemente». Lo que vas a construir no resuelve la duda, la hace visible y la pone en manos de alguien que pueda decidir.",
         "Decidir si dos filas hablan de la misma entidad se llama **resolución de identidad**. Comparar todas las filas contra todas es inviable en cuanto crecen los datos, así que primero se acota: solo se comparan en detalle los pares que comparten algo barato de mirar, como la ciudad o la inicial del apellido. Ese recorte previo se llama **bloqueo**, y es la diferencia entre un proceso que termina y uno que no.",
         "Sobre los pares que sobreviven al recorte se aplican reglas explícitas, y el resultado no es un sí o un no, sino tres caminos. El par se une (`accept_pair`), no se une (`abstain`) o va a la **cola clerical** (`needs_review`) —la bandeja donde una persona revisa lo que el programa no puede afirmar—. Un cuarto estado, `invalid_input`, aparta los pares cuya entrada no permite calcular nada. Cada caso llega ahí con su nivel de **incertidumbre** declarado, baja, media o alta, porque un revisor necesita saber cuánto pesar lo que está leyendo.",
         "Hay una separación que el producto tiene que mostrar y no solo respetar. El puntaje que dice «estas dos filas son la misma persona» y el puntaje que dice «estas dos personas están relacionadas» son cosas distintas, se calculan por separado y se muestran por separado. Confundirlos convierte una coincidencia de apellido en una acusación. Ninguna parte de esta sección concluye parentesco ni fraude: si falta evidencia, no se une nada.",
-        "La pregunta que ordena todo el trabajo es la de quien recibirá la ficha: **¿podría alguien que no escribió este código reconstruir la decisión en cinco minutos?** Eso obliga a que cada puntaje muestre de qué señales salió y qué le faltó. La sección cierra el Nivel 1, así que el trabajo se hace con la biblioteca estándar y las reglas deterministas de S01 a S12; la automatización de navegador, el reconocimiento de texto en imágenes y la orquestación avanzada llegan después.",
+        "La pregunta que ordena todo el trabajo es la de quien recibirá la ficha: **¿podría alguien que no escribió este código reconstruir la decisión en cinco minutos?** Eso obliga a que cada puntaje muestre de qué señales salió y qué le faltó. La sección cierra el Nivel 1, así que el trabajo se hace con la biblioteca estándar y las reglas deterministas de S01 a S12; la automatización de navegador, el reconocimiento de texto en imágenes y la orquestación avanzada llegan después. El cierre pide además el paquete **CF-1**: la hoja de privacidad, una demostración que corre con un solo comando y el runbook, el manual de operación.",
       ],
       callout: {
         type: "info",
         title: "Enfoque de esta sección",
         content:
-          "El objetivo de S13 es el dashboard de evidencia + cierre N1. Solo datos sintéticos; nunca PII real; nunca auto_fraud/is_family. Primero la identidad, luego la relación, luego la decisión y, al final, el producto.",
+          "El objetivo de S13 es el dashboard de evidencia + cierre N1. Solo datos sintéticos; nunca PII real; nunca marcar fraude (`auto_fraud`) ni parentesco (`is_family`) de forma automática. Primero la identidad, luego la relación, luego la decisión y, al final, el producto.",
       },
      },
      {
@@ -75,9 +76,11 @@ export const section13: CourseSection = {
       subtopicId: "S13-T1-A",
       paragraphs: [
         "**Ancla:** entity resolution (ER) responde *¿es la misma entidad en dos filas?* No responde *¿son familia?* ni *¿hay fraude?* Esas preguntas se tratan con otros scores y con humanos. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético: por eso casefold (pasar todo a minúsculas) y limpieza de no-alfanuméricos van **antes** de cualquier comparación.",
-        "**Mecanismo — blocking:** el comparar *N* registros entre sí da *N(N−1)/2* pares —cada fila con cada otra, una sola vez; el *N×N* del producto cartesiano cuenta además cada fila consigo misma y cada par dos veces—; con miles de filas es inviable revisarlos a mano. **Blocking** (apellido paterno + región) acota el espacio: solo corres reglas finas dentro del mismo bloque. Por eso el bloqueo usa **varias claves a la vez**: si además del nombre bloqueas por documento, un par que coincide en documento cae junto por esa clave aunque el nombre lo separe. Sin esa segunda clave, el caso «solo coincide el documento» no llegaría nunca a evaluarse. En nombres peruanos sintéticos del curso, con la forma `Nombre ApellidoPaterno ApellidoMaterno`, la clave toma el **segundo** token (`parts[1]`); si solo hay un token, usa ese. Ejemplo: `Luis Huamán Soto` + Cusco → `huamán|cusco`. Fíjate en lo que esa regla supone: que el nombre de pila ocupa exactamente un token. Con «Ana María Quispe Rojas» —el mismo caso que abre esta sección— `parts[1]` es «maría», no el apellido paterno, y el registro cae en un bloque distinto al de «Ana M. Quispe R.». Eso no invalida la regla: un blocking key es una heurística barata cuyo trabajo es reducir pares candidatos, no acertar siempre. Pero sí explica por qué **una sola clave nunca basta**, y por qué el documento como segunda clave rescata justamente los casos que el nombre parte en dos. Documenta la regla en el memo y **no** mezcles «último token» (materno) con «paterno» en el mismo pipeline.",
+        "**Mecanismo — blocking:** comparar *N* registros entre sí da *N(N−1)/2* pares: cada fila con cada otra, una sola vez. El *N×N* del producto cartesiano cuenta además cada fila consigo misma y cada par dos veces. Con miles de filas es inviable revisarlos a mano. **Blocking** (apellido paterno + región) acota el espacio: solo corres reglas finas dentro del mismo bloque.",
+        "**Por qué una clave no basta:** el bloqueo usa **varias claves a la vez**. Si además del nombre bloqueas por documento, un par que coincide en documento cae junto por esa clave aunque el nombre lo separe. Sin esa segunda clave, el caso «solo coincide el documento» no llegaría nunca a evaluarse.",
+        "**La regla del token:** en nombres peruanos sintéticos del curso, con la forma `Nombre ApellidoPaterno ApellidoMaterno`, la clave toma el **segundo** token (`parts[1]`); si solo hay un token, usa ese. Ejemplo: `Luis Huamán Soto` + Cusco → `huamán|cusco`. Fíjate en lo que esa regla supone: que el nombre de pila ocupa exactamente un token. Con «Ana María Quispe Rojas» —el mismo caso que abre esta sección— `parts[1]` es «maría», no el apellido paterno, y el registro cae en un bloque distinto al de «Ana M. Quispe R.». Eso no invalida la regla: un blocking key es una heurística barata cuyo trabajo es reducir pares candidatos, no acertar siempre. Pero sí explica por qué el documento como segunda clave rescata justamente los casos que el nombre parte en dos. Documenta la regla en el memo y **no** mezcles «último token» (materno) con «paterno» en el mismo pipeline.",
         "**Trabajo guiado:** ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. Contrato típico N1: 1.0 si documento normalizado y blocking key coinciden; 0.5 si solo el documento coincide (bloques distintos — sospecha de migración o error de región); 0.0 en otro caso. Caso sintético: `Ana Quispe` / `ANA QUISPE` en Lima con el mismo doc → ER 1.0; el `relationship_signal_score` se calcula en T2 y **no** se suma a ciegas al ER.",
-        "**Borde / fail-closed:** si falta `document_id`, el nombre está vacío o el bloque queda sin tokens, **no** inventes score 1.0. Usa solo las reglas explícitas de esta sección; los métodos probabilísticos llegan en S30. En la ficha del dashboard los dos scores viajan en campos **separados** con etiquetas legibles.",
+        "**Borde / fail-closed:** si falta `document_id`, el nombre está vacío o el bloque queda sin tokens, **no** inventes un score: ni 1.0 ni 0.0. `er_score` devuelve `None`, que significa «falta el dato», y la matriz de T3-B lo aparta como `invalid_input`, así que nadie une ni descarta el par sin mirar. Usa solo las reglas explícitas de esta sección; los métodos probabilísticos llegan en S30. En la ficha del dashboard los dos scores viajan en campos **separados** con etiquetas legibles.",
       ],
       code: {
         language: 'python',
@@ -101,7 +104,7 @@ def er_score(a, b):
     doc_a = norm_doc(a.get("document_id") or "")
     doc_b = norm_doc(b.get("document_id") or "")
     if not doc_a or not doc_b or block_key(a) is None or block_key(b) is None:
-        return None  # falta evidencia: ni 1.0 ni 0.0, el par va a revisión
+        return None  # falta evidencia: ni 1.0 ni 0.0; la matriz de T3-B lo aparta como invalid_input
     if doc_a != doc_b:
         return 0.0
     if block_key(a) == block_key(b):
@@ -142,14 +145,14 @@ relationship_signal_score SEPARATE`,
     {
       heading: "Contraejemplo: dos documentos vacíos parecen la misma persona",
       paragraphs: [
-        "Las dos filas tienen el mismo nombre y el documento vacío, o hecho solo de espacios. `norm_doc` deja cada documento en `\"\"`, y dos cadenas vacías son iguales. Sin una regla de borde, la comparación da 1.0 y el par se trata como la misma persona aunque no haya ningún documento que la sostenga. La regla de esta sección es fail-closed: sin dato, no hay coincidencia.",
-        "Lee la salida por parejas. La primera línea muestra el error: el score es 1.0 aunque ningún documento se comparó. La segunda muestra la corrección: una cadena normalizada vacía nunca coincide, y el score vuelve a 0.0. Lo que cambia es la comparación; los nombres y el bloque son los mismos en las dos versiones.",
+        "Las dos filas tienen el mismo nombre y el documento vacío, o hecho solo de espacios. `norm_doc` deja cada documento en `\"\"`, y dos cadenas vacías son iguales. Sin una regla de borde, la comparación da 1.0 y el par se trata como la misma persona aunque no haya ningún documento que la sostenga. La regla de esta sección es fail-closed: sin dato no hay coincidencia, pero tampoco una prueba de que sean personas distintas.",
+        "Lee la salida por parejas. La primera línea muestra el error: el score es 1.0 aunque ningún documento se comparó. La segunda muestra la corrección: un documento vacío no es evidencia, así que el score queda en `None`, como en `er_rules.py`. `None` no dice «son distintos» (eso sería 0.0): dice que falta el dato, y la matriz de T3-B lo aparta como `invalid_input`. Lo que cambia es la comparación; los nombres y el bloque son los mismos en las dos versiones.",
       ],
       code: {
         language: "python",
         title: "documento_vacio_no_coincide.py",
-        code: "# Error: dos documentos vacíos tras normalizar se toman como el mismo documento\nimport re\n\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"\", \"region\": \"R-SUR\"}\nb = {\"name\": \"ANA QUISPE\", \"document_id\": \"  \", \"region\": \"R-SUR\"}\n\nscore = 1.0 if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) else 0.0\nprint(\"sin regla de vacío →\", score)\n\n# Corrección: un documento vacío nunca coincide\nscore = 1.0 if norm_doc(a[\"document_id\"]) and norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) else 0.0\nprint(\"con regla de vacío →\", score)",
-        output: "sin regla de vacío → 1.0\ncon regla de vacío → 0.0",
+        code: "# Error: dos documentos vacíos tras normalizar se toman como el mismo documento\nimport re\n\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"\", \"region\": \"R-SUR\"}\nb = {\"name\": \"ANA QUISPE\", \"document_id\": \"  \", \"region\": \"R-SUR\"}\n\nscore = 1.0 if norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"]) else 0.0\nprint(\"sin regla de vacío →\", score)\n\n# Corrección: un documento vacío no es evidencia; el score queda en None, no en 1.0 ni en 0.0\ndoc_a, doc_b = norm_doc(a[\"document_id\"]), norm_doc(b[\"document_id\"])\nscore = None if not doc_a or not doc_b else (1.0 if doc_a == doc_b else 0.0)\nprint(\"con regla de vacío →\", score)",
+        output: "sin regla de vacío → 1.0\ncon regla de vacío → None",
       },
     },
     {
@@ -163,17 +166,10 @@ relationship_signal_score SEPARATE`,
     },
     {
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
-      figure: {
-        id: "S13-two-scores",
-        caption:
-          "La mezcla cruza el umbral de 0.80 empujada por la relación. Por eso la identidad se decide sobre ER y no sobre la mezcla.",
-        alt:
-          "Tres barras: identidad 0.70, relación 1.00 y la combinación ponderada 0.82.",
-      },
       subtopicId: "S13-T1-B",
       paragraphs: [
         "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La **precision** mide, entre los pares que llamaste match, qué parte sí lo era; el **recall** mide, entre los matches reales, qué parte encontraste. Estas dos lecturas permiten auditar la regla antes de que los casos dudosos pasen a la cola clerical. La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
-        "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en la banda de revisión, [0.4, 0.8), **nunca** auto-mergean: van a la cola clerical. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
+        "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: fusionar por error puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en la banda de revisión, [0.4, 0.8), **nunca** auto-mergean: van a la cola clerical. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos. Los cortes 0.40 y 0.80 son constantes del contrato N1 del curso, no valores calibrados con datos reales. Los pares etiquetados de esta sección miden la regla contra ellos; con datos reales se recalibran con la misma tabla de precision y recall.",
         "**Caso trabajado:** tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. Reportas ambos redondeados a 3 decimales y el flag explícito `fp_means_fraud=False` en el memo del gate. Si solo publicas «accuracy alto» sin desglose TP/FP/FN, el revisor no puede auditar el coste de los errores.",
         "**Borde ético:** un **FP no implica fraude**. Es colisión de identidad estimada (dos personas, un score alto por casualidad o por regla débil). Tratar FP como delito es el error más grave que puedes llevar a un dashboard de N1: por eso la ficha y el runbook repiten la frase hasta que se vuelva reflejo.",
       ],
@@ -210,7 +206,7 @@ fp_means_fraud False`,
     {
       heading: "Contraejemplo: si el score sale de la etiqueta, precision 1.0 no mide nada",
       paragraphs: [
-        "El generador de la demo anterior calculaba el score a partir de la etiqueta: `y == 1` recibía 0.85, `y == 0` recibía 0.2 y tres pares se fijaban a mano. Una regla así parece perfecta porque nunca decidió nada con el par: leyó la respuesta antes de contar.",
+        "Imagina un generador que calcula el score a partir de la etiqueta: `y == 1` recibe 0.85, `y == 0` recibe 0.2 y tres pares se fijan a mano. Una regla así parece perfecta porque nunca decidió nada con el par: leyó la respuesta antes de contar.",
         "Lee la salida por parejas. La primera línea muestra el error: precision 1.0 y recall 0.714 salen del generador, no de una regla. La segunda usa scores literales, como los que daría una regla, e incluye un falso positivo (un par con `y = 0` y score 0.83). Ahí la precision baja a 0.667: el falso positivo cuenta, y la etiqueta ya no decide el score.",
       ],
       code: {
@@ -260,8 +256,8 @@ corrección precision 0.667 recall 0.667`,
       heading: "Email/teléfono/dirección compartidos, distancia y apellidos",
       subtopicId: "S13-T2-A",
       paragraphs: [
-        "**Ancla:** el score de **relación** responde *¿hay indicios de familiaridad operativa entre dos entidades?* (contacto compartido, cercanía, apellido). **No** responde *¿son parientes?* ni *¿hay colusión?* Esas inferencias quedan fuera de N1 y de la UI automática. Cada señal es un booleano o parcial con traza legible: `shared_phone` (teléfono compartido), `geo_close` (cercanía geográfica), `surname_jaccard` (similitud de apellidos).",
-        "**Mecanismo — fórmula canónica N1:** `rel = 0.5*shared_phone + 0.3*geo_close + 0.2*surname_jaccard` (pesos fijos en el memo del curso). La distancia de par es **bilateral**: ambos registros deben reportar el mismo `km` sintético y `km ≤ 2.0` (reutiliza la geoseñal de S12). En ejercicios de práctica puedes usar una **variante** (p. ej. solo geo+apellido 0.6/0.4) **si** la consigna del ejercicio lo declara; no inventes una tercera fórmula sin etiquetarla.",
+        "**Ancla:** el score de **relación** responde *¿hay indicios de familiaridad operativa entre dos entidades?* (contacto compartido, cercanía, apellido). **No** responde *¿son parientes?* ni *¿hay colusión?* Esas inferencias quedan fuera de N1 y de la UI automática. Cada señal es un booleano o parcial con traza legible: `shared_phone` (teléfono compartido), `geo_close` (cercanía geográfica), `name_jaccard` (similitud de los tokens del nombre completo, donde pesan sobre todo los apellidos).",
+        "**Mecanismo — fórmula canónica N1:** `rel = 0.5*shared_phone + 0.3*geo_close + 0.2*name_jaccard` (pesos fijos en el memo del curso). La distancia de par es **bilateral**: ambos registros deben reportar el mismo `km` sintético y `km ≤ 2.0`. La distancia se calcula con la Haversine de S12; el corte de 2.0 km es nuevo, una constante del contrato N1 de esta sección. En ejercicios de práctica puedes usar una **variante** (p. ej. solo geo+apellido 0.6/0.4) **si** la consigna del ejercicio lo declara; no inventes una tercera fórmula sin etiquetarla.",
         "**Caso trabajado:** teléfono compartido + `km=1.2` en ambos + Jaccard 0.2 entre los tokens del nombre completo (solo `quispe` se repite, de cinco tokens distintos) → `relationship_signal_score` 0.84. La función recibe el nombre completo, así que el nombre de pila también cuenta: con solo los apellidos, `Quispe Rojas` y `Quispe Díaz`, el resultado sería 1/3. La ficha lista las tres señales en la explicación y fija `kinship_verdict=None`. Si solo imprimes el número 0.84 sin bullets, el revisor no sabe *por qué* subió el score.",
         "**Borde / fail-closed:** si falta el campo de una señal con peso no cero, **no** inventes `True` ni un km «promedio». Apellido compartido + teléfono **no** autoriza `is_family=true`. La salida del demo y del portfolio debe poder afirmar en voz alta: *señal ≠ parentesco*.",
       ],
@@ -272,7 +268,7 @@ corrección precision 0.667 recall 0.667`,
     # Un campo ausente o vacío no es evidencia: dos teléfonos "" no son el mismo teléfono
     return bool(a.get(field)) and a.get(field) == b.get(field)
 
-def surname_overlap(a, b):
+def name_overlap(a, b):
     sa = set(a.casefold().split())
     sb = set(b.casefold().split())
     return len(sa & sb) / max(1, len(sa | sb))
@@ -290,14 +286,14 @@ b = {"phone": "999111222", "name": "Luis Quispe Díaz", "km": 1.2}
 signals = {
     "shared_phone": shared_contact(a, b, "phone"),
     "geo_close": geo_close_pair(a, b),
-    "surname_jaccard": round(surname_overlap(a["name"], b["name"]), 3),
+    "name_jaccard": round(name_overlap(a["name"], b["name"]), 3),
 }
-# N1 canónico: 0.5 phone + 0.3 geo + 0.2 jaccard
-score = 0.5 * signals["shared_phone"] + 0.3 * signals["geo_close"] + 0.2 * signals["surname_jaccard"]
+# N1 canónico: 0.5 phone + 0.3 geo + 0.2 name_jaccard
+score = 0.5 * signals["shared_phone"] + 0.3 * signals["geo_close"] + 0.2 * signals["name_jaccard"]
 print(signals)
 print("relationship_signal_score", round(score, 3))
 print("kinship_verdict", None)`,
-        output: `{'shared_phone': True, 'geo_close': True, 'surname_jaccard': 0.2}
+        output: `{'shared_phone': True, 'geo_close': True, 'name_jaccard': 0.2}
 relationship_signal_score 0.84
 kinship_verdict None`,
       },
@@ -305,19 +301,19 @@ kinship_verdict None`,
         type: "danger",
         title: "Señal ≠ parentesco",
         content:
-          "Prohibido establecer `is_family` automáticamente en N1. Canónico N1: rel = 0.5*phone + 0.3*geo + 0.2*jaccard.",
+          "Prohibido establecer `is_family` automáticamente en N1. Canónico N1: rel = 0.5*phone + 0.3*geo + 0.2*name_jaccard.",
       },
     },
     {
       heading: "Contraejemplo: un umbral de relación etiqueta a compañeros como familia",
       paragraphs: [
-        "Cuatro empleados sintéticos comparten la centralita de la oficina y el edificio, y ninguno comparte apellido. `rel_score` aplica la fórmula N1 de esta sección. El error convierte `score >= 0.8` en etiqueta de parentesco; la corrección arma la ficha con el score, las señales que lo produjeron, `kinship_verdict=None` y `needs_review`.",
-        "El umbral marca los seis pares posibles como familia, porque un teléfono y una dirección compartidos describen también a compañeros de trabajo. La ficha corregida muestra el mismo `0.8` y deja visible de dónde salió, y la decisión queda en manos de un revisor.",
+        "Cuatro empleados sintéticos comparten la centralita de la oficina y el edificio, y ninguno comparte apellido. `rel_score` aplica los pesos N1 de esta sección con una variante declarada: el apellido cuenta como coincidencia binaria (1 o 0), no como `name_jaccard`, porque cada empleado tiene un solo apellido. Devuelve el score y la lista de señales que lo produjeron. El error convierte `score >= 0.8` en etiqueta de parentesco; la corrección arma la ficha con el score, las señales que lo produjeron, `kinship_verdict=None` y `needs_review`.",
+        "El umbral marca los seis pares posibles como familia, porque un teléfono y una dirección compartidos describen también a compañeros de trabajo. La ficha corregida muestra el mismo `0.8` y la lista de señales que salió de las mismas comprobaciones. Si cambias el `km` de un empleado, cambian las dos cosas a la vez. La decisión queda en manos de un revisor.",
       ],
       code: {
         language: "python",
         title: "umbral_familia.py",
-        code: "# Error: un umbral sobre la señal se convierte en etiqueta de parentesco\n# Cuatro empleados sintéticos de la misma oficina: comparten la centralita y el edificio\nempleados = [\n    {\"id\": \"E1\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"quispe\"},\n    {\"id\": \"E2\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"rojas\"},\n    {\"id\": \"E3\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"silva\"},\n    {\"id\": \"E4\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"torres\"},\n]\n\n\ndef rel_score(a, b):\n    phone = 1.0 if a[\"phone\"] == b[\"phone\"] else 0.0\n    geo = 1.0 if a[\"km\"] <= 2.0 and b[\"km\"] <= 2.0 else 0.0\n    surname = 1.0 if a[\"surname\"] == b[\"surname\"] else 0.0\n    return round(0.5 * phone + 0.3 * geo + 0.2 * surname, 3)\n\n\npares = []\nfor i in range(len(empleados)):\n    for j in range(i + 1, len(empleados)):\n        pares.append((empleados[i], empleados[j]))\n\nmarcados = [(a[\"id\"], b[\"id\"]) for a, b in pares if rel_score(a, b) >= 0.8]\nprint(\"is_family por umbral →\", len(marcados), \"pares:\", marcados)\n\n# Corrección: la señal se muestra con su traza y la decisión queda en revisión\na, b = pares[0]\nficha = {\"pair\": (a[\"id\"], b[\"id\"]), \"relationship_signal_score\": rel_score(a, b),\n         \"signals\": [\"shared_phone\", \"geo_close\"], \"kinship_verdict\": None,\n         \"status\": \"needs_review\"}\nprint(\"ficha →\", ficha)",
+        code: "# Error: un umbral sobre la señal se convierte en etiqueta de parentesco\n# Cuatro empleados sintéticos de la misma oficina: comparten la centralita y el edificio\nempleados = [\n    {\"id\": \"E1\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"quispe\"},\n    {\"id\": \"E2\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"rojas\"},\n    {\"id\": \"E3\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"silva\"},\n    {\"id\": \"E4\", \"phone\": \"014000000\", \"km\": 0.1, \"surname\": \"torres\"},\n]\n\n\ndef rel_score(a, b):\n    # Pesos N1 con una variante declarada: el apellido cuenta 1 o 0, no como name_jaccard\n    checks = {\n        \"shared_phone\": a[\"phone\"] == b[\"phone\"],\n        \"geo_close\": a[\"km\"] <= 2.0 and b[\"km\"] <= 2.0,\n        \"surname_match\": a[\"surname\"] == b[\"surname\"],\n    }\n    score = 0.5 * checks[\"shared_phone\"] + 0.3 * checks[\"geo_close\"] + 0.2 * checks[\"surname_match\"]\n    return round(score, 3), [name for name, hit in checks.items() if hit]\n\n\npares = []\nfor i in range(len(empleados)):\n    for j in range(i + 1, len(empleados)):\n        pares.append((empleados[i], empleados[j]))\n\nmarcados = [(a[\"id\"], b[\"id\"]) for a, b in pares if rel_score(a, b)[0] >= 0.8]\nprint(\"is_family por umbral →\", len(marcados), \"pares:\", marcados)\n\n# Corrección: la señal se muestra con su traza y la decisión queda en revisión\na, b = pares[0]\nscore, signals = rel_score(a, b)\nficha = {\"pair\": (a[\"id\"], b[\"id\"]), \"relationship_signal_score\": score,\n         \"signals\": signals, \"kinship_verdict\": None, \"status\": \"needs_review\"}\nprint(\"ficha →\", ficha)",
         output: "is_family por umbral → 6 pares: [('E1', 'E2'), ('E1', 'E3'), ('E1', 'E4'), ('E2', 'E3'), ('E2', 'E4'), ('E3', 'E4')]\nficha → {'pair': ('E1', 'E2'), 'relationship_signal_score': 0.8, 'signals': ['shared_phone', 'geo_close'], 'kinship_verdict': None, 'status': 'needs_review'}",
       },
     },
@@ -326,8 +322,8 @@ kinship_verdict None`,
       subtopicId: "S13-T2-B",
       paragraphs: [
         "**Ancla:** transacciones directas A↔B y **contrapartes comunes** (A y C pagan a D) son evidencia de **relación operativa** en el grafo sintético — no de colusión, lavado ni cartel. El revisor ve *quién pagó a quién* en la ficha; el producto **organiza evidencia** y **nunca** acusa.",
-        "**Mecanismo:** modela un graphlet simple (lista de triples emisor–receptor–monto) y emite objetos con `type` (`direct_tx`, `common_counterparty`) y traza (`n` de txs, clave `via` para la contraparte compartida — no `shared`). Reutiliza el espíritu de `RelationshipEvidence` de S11: dato + ids + explicación, **sin** método `is_collusion()` ni score de «riesgo cartel».",
-        "**Caso trabajado:** A↔B con 2 txs y A, C→D → lista `[{type: direct_tx, … n:2}, {type: common_counterparty, via:['D']}]` y `collusion_claim=False` fijo en el demo. El disclaimer en UI y runbook es obligatorio: *common counterparty ≠ collusion claim*.",
+        "**Mecanismo:** modela un graphlet simple (lista de triples emisor–receptor–monto) y emite objetos con `type` (`direct_tx`, `common_counterparty`) y traza (`n` de txs, `amounts` con los montos directos en orden de aparición y clave `via` para la contraparte compartida). La clave es `via` y no `shared`, porque ese prefijo ya nombra el booleano `shared_phone` de T2-A. Reutiliza el espíritu de `RelationshipEvidence` de S11: dato + ids + explicación, **sin** método `is_collusion()` ni score de «riesgo cartel».",
+        "**Caso trabajado:** A↔B con 2 txs y A, C→D → lista `[{type: direct_tx, … n:2, amounts:[10, 5]}, {type: common_counterparty, via:['D']}]` y `collusion_claim=False` fijo en el demo. El disclaimer en UI y runbook es obligatorio: *common counterparty ≠ collusion claim*.",
         "**Borde:** si el grafo está vacío o un nodo no tiene vecinos, devuelve lista vacía o `via=[]` — no inventes contrapartes. Si alguien pide un flag de colusión automática, la respuesta de N1 es redirigir a revisión humana documentada, no añadir un booleano «culpable».",
       ],
       code: {
@@ -354,12 +350,13 @@ def counterparties(entity):
 
 common = counterparties("A") & counterparties("C")
 evidence = [
-    {"type": "direct_tx", "pair": ("A", "B"), "n": len(direct_between("A", "B"))},
+    {"type": "direct_tx", "pair": ("A", "B"), "n": len(direct_between("A", "B")),
+     "amounts": [m for _, _, m in direct_between("A", "B")]},
     {"type": "common_counterparty", "entities": ("A", "C"), "via": sorted(common)},
 ]
 print(evidence)
 print("collusion_claim", False)`,
-        output: `[{'type': 'direct_tx', 'pair': ('A', 'B'), 'n': 2}, {'type': 'common_counterparty', 'entities': ('A', 'C'), 'via': ['D']}]
+        output: `[{'type': 'direct_tx', 'pair': ('A', 'B'), 'n': 2, 'amounts': [10, 5]}, {'type': 'common_counterparty', 'entities': ('A', 'C'), 'via': ['D']}]
 collusion_claim False`,
       },
       callout: {
@@ -374,9 +371,9 @@ collusion_claim False`,
       subtopicId: "S13-T3-A",
       paragraphs: [
         "**Ancla:** la ficha de caso es el artefacto que lee un humano. No basta con un número: necesitas **tres salidas que viajan juntas** — `evidence_score` (score de evidencia), banda de **incertidumbre** (`low`/`med`/`high`) y **bullets** legibles (viñetas con la traza del cálculo). Si no puedes listar al menos tres bullets honestos (qué inputs usaste y qué falta), **no publiques** el score en la UI.",
-        "**Mecanismo:** la ficha combina ER y relación con pesos **explícitos** (canónico de ficha: 0.6·ER + 0.4·REL) para ordenar la cola: dice **qué mira primero un humano**, no quién es quién. El `evidence_score` es una prioridad de revisión, no una decisión de identidad — si alimentaras con él la matriz de umbrales de T3-B, una señal de relación alta (teléfono compartido, cercanía, apellido) podría empujar un ER insuficiente por encima de 0.80 y producir `accept_pair`: ER 0.70 con REL 1.00 da 0.82, y dos personas distintas que comparten un teléfono quedarían fusionadas en una. Esa es exactamente la confusión que abre la sección. La decisión de identidad se toma sobre el `entity_resolution_score` solo. Uncertainty sube a `high` si hay conflicto fuerte (|ER−REL| > 0.5) o si faltan ≥2 campos; a `med` si falta al menos uno; `low` solo si el input está completo y coherente. Auditoría mínima: lista `missing` + `rules_version` (p. ej. `n1-er-1.0`).",
+        "**Mecanismo:** la ficha combina ER y relación con pesos **explícitos** (canónico de ficha: 0.6·ER + 0.4·REL) para ordenar la cola: dice **qué mira primero un humano**, no quién es quién. El `evidence_score` es una prioridad de revisión, no una decisión de identidad. Si alimentaras con él la matriz de umbrales de T3-B, una relación alta podría empujar un ER insuficiente por encima de 0.80. El resultado sería `accept_pair`. ER 0.70 con REL 1.00 da 0.82, y dos personas distintas que comparten un teléfono quedarían fusionadas en una. Esa es exactamente la confusión que abre la sección. La decisión de identidad se toma sobre el `entity_resolution_score` solo. Uncertainty sube a `high` si hay conflicto fuerte (|ER−REL| > 0.5) o si faltan ≥2 campos; a `med` si falta al menos uno; `low` solo si el input está completo y coherente. Auditoría mínima: lista `missing` + `rules_version` (p. ej. `n1-er-1.0`).",
         "**Caso trabajado:** `explain(0.9, 0.4, [\"phone\"])` → evidence_score 0.7, uncertainty `med` (falta teléfono; el gap |0.9−0.4|=0.5 no supera el umbral de conflicto >0.5 en este contrato), bullets con ER, REL y missing, audit `rules_version=n1-er-1.0`. El revisor debe poder recalcular 0.7 desde el fixture.",
-        "**Borde / fail-closed:** si faltan campos obligatorios, eleva uncertainty; **no** inventes un teléfono o km «promedio» para subir el score. Señales conflictivas (ER alto y REL muy baja) se **explican**, no se maquillan hacia el centro. Un score sin bullets es teatro, no evidencia.",
+        "**Borde / fail-closed:** si faltan campos obligatorios, eleva uncertainty; **no** inventes un teléfono o km «promedio» para subir el score. Señales conflictivas (ER alto y REL muy baja) se **explican**, no se maquillan hacia el centro. Un score sin bullets es teatro, no evidencia. Esta es una regla de publicación, no una comprobación del código: `explain` siempre arma las tres viñetas, y quien revisa la ficha rechaza la que llegue sin ellas.",
       ],
       code: {
         language: 'python',
@@ -414,8 +411,15 @@ print(explain(0.9, 0.4, ["phone"]))`,
     },
     {
       heading: "Contraejemplo: la mezcla de ER y relación decide la identidad",
+      figure: {
+        id: "S13-two-scores",
+        caption:
+          "La mezcla cruza el umbral de 0.80 empujada por la relación. Por eso la identidad se decide sobre ER y no sobre la mezcla.",
+        alt:
+          "Tres barras: identidad 0.70, relación 1.00 y la combinación ponderada 0.82.",
+      },
       paragraphs: [
-        "El par tiene un ER de `0.70`, que por sí solo cae en revisión, y una relación de `1.00` por teléfono, cercanía y apellido. El error pasa la mezcla de la ficha a `decide_ops_status`; la corrección le pasa el ER, que es el score que mide si son la misma persona.",
+        "El par tiene un ER de `0.70`, que por sí solo cae en revisión, y una relación de `1.00` por teléfono, cercanía y apellido. `decide_ops_status` convierte un score y una incertidumbre en un estado (`abstain`, `needs_review` o `accept_pair`); sus cortes se explican en T3-B. El error pasa la mezcla de la ficha a `decide_ops_status`; la corrección le pasa el ER, que es el score que mide si son la misma persona.",
         "La mezcla vale `0.82` y sale `accept_pair`: la relación empujó la identidad por encima del umbral, aunque nada nuevo indicaba que fueran la misma persona. Con el ER, el par queda en `needs_review`, y la mezcla sigue sirviendo para ordenar la cola.",
       ],
       code: {
@@ -429,7 +433,7 @@ print(explain(0.9, 0.4, ["phone"]))`,
       heading: "Umbral de revisión, abstención y no inferencia automática",
       subtopicId: "S13-T3-B",
       paragraphs: [
-        "**Ancla:** el dashboard no «decide culpables». Decide **qué hacer con un par de evidencia**: invalidar entrada (`invalid_input`), abstenerse (`abstain`), encolar revisión (`needs_review`) o aceptar el par de identidad (`accept_pair`). Matriz **total y sin huecos** (todo score finito en [0,1] y toda uncertainty conocida cae en exactamente un estado). **Nunca** `auto_fraud=true` ni `is_family=true`.",
+        "**Ancla:** el dashboard no «decide culpables». Decide **qué hacer con un par de evidencia**: invalidar entrada (`invalid_input`), abstenerse (`abstain`), encolar revisión (`needs_review`) o aceptar el par de identidad (`accept_pair`). Abstenerse significa que el par no se une ni entra a la cola: queda registrado con su score y su `rules_version`, y vuelve a evaluarse si llega evidencia nueva. Matriz **total y sin huecos** (todo score finito en [0,1] y toda uncertainty conocida cae en exactamente un estado). **Nunca** `auto_fraud=true` ni `is_family=true`.",
         "**Mecanismo (orden de evaluación):** la función `decide_ops_status(score, uncertainty)` recorre cinco reglas en orden y devuelve el primer estado que aplica:",
         "| # | Condición | Estado |",
         "|---|-----------|--------|",
@@ -440,7 +444,7 @@ print(explain(0.9, 0.4, ["phone"]))`,
         "| 5 | resto | `accept_pair` |",
         "Los límites **0.40** y **0.80** son exactos. Ejemplos: 0.399 → `abstain`; 0.4 → `needs_review`; 0.799 → `needs_review`; 0.8 con uncertainty distinta de high → `accept_pair`. No «aproximes» 0.799 a `accept_pair`.",
         "**Human-in-the-loop** (un humano revisa la duda): la acción es de **datos** (revisar / aceptar par / abstenerse), no veredicto legal, no KYC automático (verificación de identidad del cliente) y no «lista negra» de personas. El revisor ve la ficha (ER, REL, bullets, uncertainty) y elige; el código solo clasifica el par.",
-        "**Borde y auditoría de portfolio:** busca con `grep` (la herramienta de búsqueda en texto del repo) y elimina cualquier path que establezca `is_family` o `auto_fraud`. Las 9 filas de `DECISION_MATRIX` del You Do deben pasar con asserts exactos y **siempre** `auto_fraud=False` en la salida del demo. Si queda un hueco numérico entre umbrales, el gate de N1 no cierra.",
+        "**Borde y auditoría de portfolio:** busca con `grep` (la herramienta de búsqueda en texto del repo) y elimina cualquier código o ruta de ejecución que asigne `is_family` o `auto_fraud`. Las 9 filas de `DECISION_MATRIX` del You Do deben pasar con asserts exactos. En la salida del demo las claves `auto_fraud` e `is_family` **no existen**: no se imprimen como `False`, se comprueba que no estén. Si queda un hueco numérico entre umbrales, el gate de N1 no cierra.",
       ],
       code: {
         language: 'python',
@@ -463,12 +467,12 @@ def decide_ops_status(score, uncertainty):
     return "accept_pair"
 
 for s, u in [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high"), (float("nan"), "low")]:
-    print(s, u, decide_ops_status(s, u), "auto_fraud", False)`,
-        output: `0.9 low accept_pair auto_fraud False
-0.55 med needs_review auto_fraud False
-0.2 low abstain auto_fraud False
-0.85 high needs_review auto_fraud False
-nan low invalid_input auto_fraud False`,
+    print(s, u, decide_ops_status(s, u))`,
+        output: `0.9 low accept_pair
+0.55 med needs_review
+0.2 low abstain
+0.85 high needs_review
+nan low invalid_input`,
       },
       callout: {
         type: "danger",
@@ -514,7 +518,7 @@ cases = [
         "relationship_signal_score": 0.60,
         "lat": -16.4090,
         "lon": -71.5375,
-        "geo_tooltip": "shared_phone; source=synthetic",
+        "geo_tooltip": "geo_distance_km=0.8; source=synthetic",
     },
     {
         "case_id": "CASE-3",
@@ -543,7 +547,7 @@ CASE-3 M*** R*** ER 0.77 REL 0.22`,
       heading: "Privacidad, acceso, pruebas, demo y runbook",
       subtopicId: "S13-T4-B",
       paragraphs: [
-        "**Ancla CF-1:** sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. La **privacy sheet** —la hoja de privacidad del cierre— fija clase de datos `synthetic_only`, retención local, sin egress de PII a geocoders públicos (política S12), y roles mínimos `viewer` / `reviewer` (lectura / revisión). Documenta qué se guarda, quién ve la ficha y qué **no** sale del entorno de demo. Sin esta hoja, CF-1 no cierra aunque el score «se vea bonito».",
+        "**Ancla CF-1:** CF-1 es el paquete de operación del cierre: hoja de privacidad, demostración de un comando y runbook. Sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. La **privacy sheet** —la hoja de privacidad del cierre— fija clase de datos `synthetic_only`, retención local, sin egress de PII a geocoders públicos, y roles mínimos `viewer` / `reviewer` (lectura / revisión). Como en la política S12, solo la ciudad y el país salen del sistema. Documenta qué se guarda, quién ve la ficha y qué **no** sale del entorno de demo. Sin esta hoja, CF-1 no cierra aunque el score «se vea bonito».",
         "**Mecanismo de entrega:** (1) **tests en verde** (pruebas automáticas que pasan sin fallos) de ER, señales y umbrales; (2) **demo de un comando** (`python -m demo_n1_dashboard --synthetic`); (3) **runbook** (manual de operación) con setup + playbook de incidente (token o nombre en log → `rotate_secret` / `redact_logs` / post mortem). Un compañero en máquina limpia debe poder reproducir la demo con el mismo fixture sintético.",
         "**Regresión level-1 y carga cognitiva:** artefactos CF-1 + checklist **S01–S13** cierran el nivel. En ~30 min re-ejecuta solo los checks críticos de `LEVEL1_REGRESSION_MATRIX` y anota pass/fail. El bloque de producto (dashboard + privacy) es aparte: no intentes rehacer todos los capstones en una sola noche.",
         "**Borde de gate:** tu entrega **documenta evidencia** del producto N1; el progreso del curso se registra por el proceso de gate formal (la revisión humana del portafolio), no por un flag dentro del script de demo. La demo no escribe «aprobado» en ningún ledger (registro interno): solo prueba que el producto corre y es auditable.",
@@ -555,7 +559,7 @@ CASE-3 M*** R*** ER 0.77 REL 0.22`,
     return {
         "data_class": "synthetic_only",
         "pii_real": False,
-        "egress_public_geocoder": "city_address_only",
+        "egress_public_geocoder": "city_country_only",
         "roles": ["viewer", "reviewer"],
     }
 
@@ -579,7 +583,7 @@ print("demo_cmd", "python -m demo_n1_dashboard --synthetic")
 print("runbook", runbook_steps())
 print("incident", incident_actions())
 print("level1_regression", "S01-S13 checklist required")`,
-        output: `privacy {'data_class': 'synthetic_only', 'pii_real': False, 'egress_public_geocoder': 'city_address_only', 'roles': ['viewer', 'reviewer']}
+        output: `privacy {'data_class': 'synthetic_only', 'pii_real': False, 'egress_public_geocoder': 'city_country_only', 'roles': ['viewer', 'reviewer']}
 demo_cmd python -m demo_n1_dashboard --synthetic
 runbook ['setup venv', 'load synthetic fixtures', 'run ER + signals', 'open dashboard', 'process review queue']
 incident {'trigger': 'token_or_name_in_log', 'action': ['rotate_secret', 'redact_logs', 'postmortem']}
@@ -693,7 +697,7 @@ clerical_queue ['P4', 'P5', 'P9', 'P11', 'P14']`,
         environment: "local-python",
         description: "Señales phone + geo + surname y score de relación sin veredicto de parentesco",
         preamble:
-          "La segunda pregunta del dashboard es *¿hay indicios de familiaridad operativa?*, no *¿son parientes?*. Sigue cómo se arman las señales (teléfono compartido, km≤2 bilateral, apellido) y el peso canónico 0.5/0.3/0.2. Observa `kinship_verdict=None` al final: el producto **no** cierra parentesco. Predice el score antes de la salida.",
+          "La segunda pregunta del dashboard es *¿hay indicios de familiaridad operativa?*, no *¿son parientes?*. Sigue cómo se arman las señales (teléfono compartido, km≤2 bilateral, apellido) con los pesos canónicos 0.5/0.3/0.2. Hay una variante declarada: el apellido cuenta como coincidencia binaria (1 o 0), no como el `name_jaccard` de la teoría. Observa `kinship_verdict=None` al final: el producto **no** cierra parentesco. Predice el score antes de la salida.",
         code: {
           language: 'python',
           title: "shared_geo_demo.py",
@@ -736,7 +740,7 @@ kinship_verdict None`,
         environment: "local-python",
         description: "Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.",
         preamble:
-          "En el grafo sintético de txs, el producto **organiza evidencia** (quién pagó a quién) y **nunca** acusa de colusión. Observa el graphlet: arista directa A–B y contraparte común D entre A y C. Predice la lista de objetos y el flag `collusion_claim False`. Sin redes ni sklearn; solo listas de triples.",
+          "En el grafo sintético de txs, el producto **organiza evidencia** (quién pagó a quién) y **nunca** acusa de colusión. Observa el graphlet: arista directa A–B y contraparte común D entre A y C. Predice la lista de objetos y el conteo `claims_made`, que cuenta cualquier objeto que no sea evidencia. Sin redes ni sklearn; solo listas de triples.",
         code: {
           language: 'python',
           title: "graphlet_demo.py",
@@ -758,12 +762,15 @@ kinship_verdict None`,
     return evidence
 
 txs = [("A", "B", 1), ("B", "A", 1), ("A", "D", 2), ("C", "D", 2)]
-print(graphlet_evidence(txs))
-print("collusion_claim", False)`,
+evidence = graphlet_evidence(txs)
+print(evidence)
+# La política N1 solo emite estos dos tipos; cualquier otro objeto sería una afirmación
+claims = [e for e in evidence if e["type"] not in ("direct_tx", "common_counterparty")]
+print("claims_made", len(claims))`,
           output: `[{'type': 'direct_tx', 'pair': ('A', 'B'), 'n': 2}, {'type': 'common_counterparty', 'entities': ('A', 'C'), 'via': ['D']}]
-collusion_claim False`,
+claims_made 0`,
         },
-        why: "Graphlet mínimo con disclaimers operativos: reutiliza el espíritu de RelationshipEvidence de S11. El campo `via` nombra la contraparte compartida sin ambigüedad; `collusion_claim` queda en False de forma fija.",
+        why: "Graphlet mínimo con disclaimers operativos: reutiliza el espíritu de RelationshipEvidence de S11. El campo `via` nombra la contraparte compartida sin ambigüedad; `claims_made` cuenta los objetos que no son evidencia y debe dar 0.",
         retrospective:
           "Si puedes decir por qué common counterparty no prueba cartel, ya internalizaste el límite de N1. We Do: txs bidireccionales, intersección de vecinos y disclaimers de no colusión/no parentesco.",
       },
@@ -773,7 +780,7 @@ collusion_claim False`,
         environment: "local-python",
         description: "Ficha con score, uncertainty low/med/high y 3 bullets de por qué.",
         preamble:
-          "La ficha de caso es lo que lee un humano en cinco minutos. Observa la combinación 0.6·ER + 0.4·REL, la banda de uncertainty (falta `email` → med) y los tres bullets. No escribas aún: predice si el gap |0.88−0.45| dispara high (no: el umbral es >0.5). Solo stdlib; sin maquillar el score.",
+          "La ficha de caso es lo que lee un humano en cinco minutos. Observa la combinación 0.6·ER + 0.4·REL, la banda de uncertainty (falta `email` → med) y los tres bullets. No escribas aún: predice si el gap |0.88−0.45| dispara high. Solo stdlib; sin maquillar el score.",
         code: {
           language: 'python',
           title: "case_card_demo.py",
@@ -803,11 +810,13 @@ print(build_case_card(0.88, 0.45, ["email"]))`,
         environment: "local-python",
         description: "Scores en zona gris → status=needs_review; nunca auto_fraud=true.",
         preamble:
-          "El dashboard no decide culpables: clasifica el **par de evidencia** (invalidar, abstenerse, revisar, aceptar par). Sigue el orden: input inválido → high unc → abstain <0.4 → review <0.8 → accept. Observa que 0.85 con high **no** acepta, y que NaN es `invalid_input`. Predice cada línea; nunca `auto_fraud`/`is_family` true.",
+          "El dashboard no decide culpables: clasifica el **par de evidencia** (invalidar, abstenerse, revisar, aceptar par). Sigue el orden: input inválido → high unc → abstain <0.4 → review <0.8 → accept. Observa que 0.85 con high **no** acepta, y que NaN es `invalid_input`. Predice cada línea. Las claves `auto_fraud` e `is_family` no aparecen: el demo comprueba que no estén, en vez de imprimirlas como False.",
         code: {
           language: 'python',
           title: "review_threshold_demo.py",
           code: `from math import isfinite
+
+FORBIDDEN = {"auto_fraud", "is_family"}
 
 def decide(score, unc):
     if isinstance(score, bool) or not isinstance(score, (int, float)):
@@ -823,13 +832,19 @@ def decide(score, unc):
     return "accept_pair"
 
 samples = [(0.55, "med"), (0.9, "low"), (0.15, "low"), (0.85, "high"), (float("nan"), "low")]
+rows = []
 for sc, u in samples:
-    print({"score": sc, "uncertainty": u, "status": decide(sc, u), "auto_fraud": False, "is_family": False})`,
-          output: `{'score': 0.55, 'uncertainty': 'med', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}
-{'score': 0.9, 'uncertainty': 'low', 'status': 'accept_pair', 'auto_fraud': False, 'is_family': False}
-{'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}
-{'score': 0.85, 'uncertainty': 'high', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}
-{'score': nan, 'uncertainty': 'low', 'status': 'invalid_input', 'auto_fraud': False, 'is_family': False}`,
+    out = {"score": sc, "uncertainty": u, "status": decide(sc, u)}
+    assert not FORBIDDEN & out.keys(), out  # una clave prohibida en la salida rompe el demo
+    rows.append(out)
+    print(out)
+print("claves prohibidas en la salida:", sorted({k for row in rows for k in row} & FORBIDDEN))`,
+          output: `{'score': 0.55, 'uncertainty': 'med', 'status': 'needs_review'}
+{'score': 0.9, 'uncertainty': 'low', 'status': 'accept_pair'}
+{'score': 0.15, 'uncertainty': 'low', 'status': 'abstain'}
+{'score': 0.85, 'uncertainty': 'high', 'status': 'needs_review'}
+{'score': nan, 'uncertainty': 'low', 'status': 'invalid_input'}
+claves prohibidas en la salida: []`,
         },
         why: "Política de abstención y revisión protege al estudiante y al usuario final. Los límites 0.40 y 0.80 son exactos; la matriz es total (sin huecos). Estados de par de datos, no veredictos legales ni lista negra.",
         retrospective:
@@ -875,13 +890,13 @@ for cid, name, er, rel, lat, lon in cases:
         environment: "local-python",
         description: "Runbook: setup → load synthetic → run ER → open dashboard → review queue (+ regresión N1).",
         preamble:
-          "Sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. Observa el runbook: setup, fixtures sintéticos, ER+señales, dashboard, cola, regresión S01–S13 y artefactos CF-1. Nota el comando de un solo shot y que la demo **no** escribe «aprobado» en el ledger del curso. Predice las líneas finales.",
+          "Sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. Observa el runbook: setup, fixtures sintéticos, ER+señales, dashboard, cola, regresión S01–S13 y artefactos CF-1. Nota que la demo corre con un solo comando y que **no** escribe «aprobado» en el registro de progreso del curso. El paso 1 solo crea el entorno: el trabajo usa la biblioteca estándar, así que no hay paquetes que instalar. Predice las líneas finales.",
         code: {
           language: 'python',
           title: "runbook_demo.py",
           code: `def cf1_runbook():
     return [
-        "1. setup: python -m venv .venv && pip install -r requirements.txt",
+        "1. setup: python -m venv .venv (stdlib only: nothing to pip install)",
         "2. load synthetic fixtures (no real PII)",
         "3. run ER + relationship signals",
         "4. open dashboard scaffold",
@@ -894,7 +909,7 @@ for s in cf1_runbook():
     print(s)
 print("demo_cmd: python -m demo_n1_dashboard --synthetic")
 print("demo_writes_course_progress", False)`,
-          output: `1. setup: python -m venv .venv && pip install -r requirements.txt
+          output: `1. setup: python -m venv .venv (stdlib only: nothing to pip install)
 2. load synthetic fixtures (no real PII)
 3. run ER + relationship signals
 4. open dashboard scaffold
@@ -1009,18 +1024,18 @@ print(blocking_key({"name": "Luis Huamán Soto", "region": "Cusco"}))`,
         kind: "transfer",
         title: "Score ER 1.0, 0.5 o 0.0",
         preamble:
-          "- **Contexto:** en la ficha del dashboard el revisor necesita un `entity_resolution_score` auditable, no un «siempre match».\n- **Meta:** implementar `er_score(a,b)` con el contrato N1: doc+block → 1.0; solo doc → 0.5; resto → 0.0.\n- **Éxito:** tres números en una línea — `1.0 0.5 0.0` (pares A-B, A-C, A-D del fixture).\n- **Límites:** solo stdlib; blocking paterno `parts[1]`; no inventes evidencia fuera del fixture.",
+          "- **Contexto:** en la ficha del dashboard el revisor necesita un `entity_resolution_score` auditable, no un «siempre match».\n- **Meta:** implementar `er_score(a,b)` con el contrato N1: documento o bloque ausente → `None`; doc+block → 1.0; solo doc → 0.5; resto → 0.0.\n- **Éxito:** cuatro valores en una línea — `1.0 0.5 0.0 None` (pares A-B, A-C, A-D y A-E del fixture; E no tiene documento).\n- **Límites:** solo stdlib; blocking paterno `parts[1]`; no inventes evidencia fuera del fixture.",
         instruction:
-          "1. El starter siempre devuelve `1.0` — ese es el DEFECT.\n2. Compara `norm_doc` y `bkey` (ya dados).\n3. Aplica la cascada 1.0 / 0.5 / 0.0.\n4. Imprime los tres scores del fixture sin reescribir los dicts.",
+          "1. El starter siempre devuelve `1.0` — ese es el DEFECT.\n2. Compara `norm_doc` y `bkey` (ya dados).\n3. Aplica la cascada: primero `None` si falta el documento o el bloque, luego 1.0 / 0.5 / 0.0.\n4. Imprime los cuatro scores del fixture sin reescribir los dicts.",
         hint: "Combina igualdad de doc y block (parts[1] paterno)",
         hints: [
           "Combina igualdad de doc y block (parts[1] paterno)",
-          "Scores solo 1.0/0.5/0.0",
+          "Scores 1.0/0.5/0.0, o None si falta el dato",
         ],
-        edgeCases: ["doc match sin block → 0.5"],
-        tests: "1.0 0.5 0.0",
+        edgeCases: ["doc match sin block → 0.5", "documento vacío → None"],
+        tests: "1.0 0.5 0.0 None",
         feedback:
-          "Si los tres pares imprimen `1.0`, no estás mirando `same_doc` y `same_block` por separado. Doc igual + bloque distinto debe ser 0.5 (migración/error de región), no auto-match; doc distinto es 0.0 aunque el nombre se parezca.",
+          "Si los tres pares imprimen `1.0`, no estás mirando `same_doc` y `same_block` por separado. Doc igual + bloque distinto debe ser 0.5 (migración/error de región), no auto-match; doc distinto es 0.0 aunque el nombre se parezca. Si A-E imprime 0.0, trataste la falta de documento como prueba de que son personas distintas: la teoría pide `None`.",
         retrospective:
           "Un score de tres niveles documenta *por qué* un par es dudoso sin inventar parentesco ni fraude. Es identidad estimada en el fixture. En T1-B medirás si la regla ayuda con precision/recall y empujarás la banda gris a la cola clerical.",
         starterCode: {
@@ -1033,6 +1048,8 @@ def norm_doc(d):
     return re.sub(r"[^a-z0-9]", "", d.casefold())
 def bkey(r):
     parts = r["name"].casefold().split()
+    if not parts:
+        return None
     ap = parts[1] if len(parts) >= 2 else parts[0]
     return f"{ap}|{r['region'].casefold()}"
 def er_score(a, b):
@@ -1041,7 +1058,8 @@ A = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
 B = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
 C = {"name": "Ana Other", "document_id": "X1", "region": "Cusco"}
 D = {"name": "Ana Quispe", "document_id": "Z9", "region": "Lima"}
-print(er_score(A, B), er_score(A, C), er_score(A, D))
+E = {"name": "Ana Quispe", "document_id": "", "region": "Lima"}
+print(er_score(A, B), er_score(A, C), er_score(A, D), er_score(A, E))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1052,12 +1070,16 @@ def norm_doc(d):
     return re.sub(r"[^a-z0-9]", "", d.casefold())
 def bkey(r):
     parts = r["name"].casefold().split()
+    if not parts:
+        return None
     ap = parts[1] if len(parts) >= 2 else parts[0]
     return f"{ap}|{r['region'].casefold()}"
 def er_score(a, b):
     doc_a, doc_b = norm_doc(a["document_id"]), norm_doc(b["document_id"])
-    # Dos documentos vacíos tras normalizar no son el mismo documento
-    same_doc = doc_a != "" and doc_a == doc_b
+    # Falta documento o bloque: no hay evidencia, ni 1.0 ni 0.0
+    if not doc_a or not doc_b or bkey(a) is None or bkey(b) is None:
+        return None
+    same_doc = doc_a == doc_b
     same_block = bkey(a) == bkey(b)
     if same_doc and same_block:
         return 1.0
@@ -1068,8 +1090,9 @@ A = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
 B = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
 C = {"name": "Ana Other", "document_id": "X1", "region": "Cusco"}
 D = {"name": "Ana Quispe", "document_id": "Z9", "region": "Lima"}
-print(er_score(A, B), er_score(A, C), er_score(A, D))`,
-          output: `1.0 0.5 0.0`,
+E = {"name": "Ana Quispe", "document_id": "", "region": "Lima"}
+print(er_score(A, B), er_score(A, C), er_score(A, D), er_score(A, E))`,
+          output: `1.0 0.5 0.0 None`,
         },
       },
       {
@@ -1118,18 +1141,18 @@ recall 0.667`,
         kind: "independent",
         title: "Cola clerical en banda de duda",
         preamble:
-          "- **Contexto:** el dashboard no decide solo: la **cola clerical** es la bandeja humana de scores intermedios.\n- **Meta:** devolver ids con score en [0.4, 0.8): incluye 0.4 y excluye 0.8.\n- **Éxito:** `['P2', 'P3']` (P1=0.2 fuera; P4=0.9 fuera).\n- **Límites:** no encoles la banda de accept; orden estable del fixture; solo stdlib.",
+          "- **Contexto:** el dashboard no decide solo: la **cola clerical** es la bandeja humana de scores intermedios.\n- **Meta:** devolver ids con score en [0.4, 0.8): incluye 0.4 y excluye 0.8.\n- **Éxito:** `['P2', 'P3', 'P5']` (P1=0.2 y P4=0.9 fuera; P5=0.4 entra porque el límite bajo es inclusivo; P6=0.8 queda fuera porque el alto es exclusivo).\n- **Límites:** no encoles la banda de accept; orden estable del fixture; solo stdlib.",
         instruction:
-          "1. El starter encola la banda de accept (`score >= high`) — ese es el DEFECT.\n2. Cambia el filtro a la **banda de duda** de la meta: `low <= score < high`.\n3. Conserva el orden de aparición de `pairs`.\n4. Imprime la lista de ids; no borres P1–P4.",
+          "1. El starter encola la banda de accept (`score >= high`) — ese es el DEFECT.\n2. Cambia el filtro a la **banda de duda** de la meta: `low <= score < high`.\n3. Conserva el orden de aparición de `pairs`.\n4. Imprime la lista de ids; no borres P1–P6.",
         hint: "list comprehension con filtro de banda",
         hints: [
           "list comprehension con filtro de banda",
           "Orden estable por id",
         ],
         edgeCases: ["inclusive bounds"],
-        tests: "['P2','P3']",
+        tests: "['P2','P3','P5']",
         feedback:
-          "Si ves `['P4']` o `['P3','P4']`, estás encolando accept o el borde alto mal. Si falta `P3` (0.7), el bound no es inclusive. La cola es para duda humana, no para celebrar scores altos.",
+          "Si ves `['P4', 'P6']`, estás encolando la banda de accept. Si falta `P5` (0.4), el límite bajo no es inclusivo; si aparece `P6` (0.8), el alto no es exclusivo. La cola es para duda humana, no para celebrar scores altos.",
         retrospective:
           "Human-in-the-loop es un **filtro de banda**, no «todo lo alto». Encolar accept desperdicia al revisor; ignorar 0.7 pierde el borde que el humano debe ver. Siguiente: unir métricas y límites éticos en un mismo report (FP ≠ fraude).",
         starterCode: {
@@ -1142,6 +1165,8 @@ pairs = [
     {"id": "P2", "score": 0.55},
     {"id": "P3", "score": 0.7},
     {"id": "P4", "score": 0.9},
+    {"id": "P5", "score": 0.4},
+    {"id": "P6", "score": 0.8},
 ]
 def clerical_queue(pairs, low=0.4, high=0.8):
     return [p["id"] for p in pairs if p["score"] >= high]
@@ -1156,11 +1181,13 @@ print('ok', True)`,
     {"id": "P2", "score": 0.55},
     {"id": "P3", "score": 0.7},
     {"id": "P4", "score": 0.9},
+    {"id": "P5", "score": 0.4},
+    {"id": "P6", "score": 0.8},
 ]
 def clerical_queue(pairs, low=0.4, high=0.8):
     return [p["id"] for p in pairs if low <= p["score"] < high]
 print(clerical_queue(pairs))`,
-          output: `['P2', 'P3']`,
+          output: `['P2', 'P3', 'P5']`,
         },
       },
       {
@@ -1230,9 +1257,9 @@ ops_action: needs_review`,
           "- **Contexto:** en señales de relación, un email igual y no vacío empuja familiaridad operativa en el fixture sintético.\n- **Meta:** `shared_email(a,b)` con casefold y rechazo de strings vacíos.\n- **Éxito:** tres booleanos — `True`, `False`, `False` (match, vacío-vacío, distintos).\n- **Límites:** solo stdlib; `''` no es shared; sin PII real.",
         instruction:
           "1. El starter usa `a == b` y trata `''==''` como True — DEFECT.\n2. Si falta o está vacío cualquiera de los dos, retorna False.\n3. Compara en casefold.\n4. Imprime los tres casos del starter.",
-        hint: "a and b and a.casefold()==b.casefold()",
+        hint: "Si falta cualquiera de los dos, devuelve False; si no, compara en casefold",
         hints: [
-          "a and b and a.casefold()==b.casefold()",
+          "Si falta cualquiera de los dos, devuelve False; si no, compara en casefold",
           "'' no cuenta como shared",
         ],
         edgeCases: ["vacío False"],
@@ -1274,40 +1301,43 @@ False`,
         kind: "independent",
         title: "Combinar geo y apellido (variante)",
         preamble:
-          "- **Contexto:** en práctica de T2 usas una **variante** geo+apellido (0.6/0.4); el canónico de tres señales queda para la ficha y E3.\n- **Meta:** `rel_score(km, surname_jaccard)` con geo si km≤2.0 inclusive.\n- **Éxito:** `0.8` (km=1.2, j=0.5) y `0.2` (km=5.0, j=0.5).\n- **Límites:** no uses la fórmula de tres señales aquí; documenta pesos; solo stdlib.",
+          "- **Contexto:** en práctica de T2 usas una **variante** geo+apellido (0.6/0.4); el canónico de tres señales queda para la ficha y E3.\n- **Meta:** `rel_score(km, name_jaccard)` con geo si km≤2.0 inclusive.\n- **Éxito:** `0.8` (km=1.2, j=0.5), `0.8` (km=2.0, j=0.5) y `0.2` (km=5.0, j=0.5).\n- **Límites:** no uses la fórmula de tres señales aquí; documenta pesos; solo stdlib.",
         instruction:
-          "1. El starter solo devuelve el jaccard — añade el término geo.\n2. geo = 1.0 si km ≤ 2, si no 0.0.\n3. score = round(0.6*geo + 0.4*jaccard, 3).\n4. Imprime ambos casos del fixture.",
+          "1. El starter solo devuelve el jaccard — añade el término geo.\n2. geo = 1.0 si km ≤ 2, si no 0.0.\n3. score = round(0.6*geo + 0.4*jaccard, 3).\n4. Imprime los tres casos del fixture.",
         hint: "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2.",
         hints: [
           "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2.",
           "km=1.2, j=0.5 → 0.8",
         ],
         edgeCases: ["km lejos anula geo; km=2.0 sigue contando como geo_close"],
-        tests: "0.8 y 0.2",
+        tests: "0.8, 0.8 y 0.2",
         feedback:
-          "Si ambos casos imprimen `0.5`, ignoraste km y solo devolviste el jaccard. Si `km=5.0` no baja el score, el término geo no está en cero. Esta es **variante de práctica**, no el canónico 0.5/0.3/0.2 de la ficha.",
+          "Si los tres casos imprimen `0.5`, ignoraste km y solo devolviste el jaccard. Si `km=5.0` no baja el score, el término geo no está en cero. Si `km=2.0` da 0.2, usaste `<` en vez de `<=`. Esta es **variante de práctica**, no el canónico 0.5/0.3/0.2 de la ficha.",
         retrospective:
           "Pesos documentados permiten auditar el score; confundir variante de práctica con canónico de producto rompe el memo del curso. El revisor debe poder decir *qué* pesos usaste. Siguiente: score canónico de tres señales + disclaimer de no parentesco.",
         starterCode: {
           language: 'python',
           title: "combine_signals.py",
           code: `# CASO-LIM-013 · rel_score
-# DEFECT: ignora km; solo surname
-def rel_score(km, surname_jaccard):
-    return round(surname_jaccard, 3)
+# DEFECT: ignora km; solo el jaccard del nombre
+def rel_score(km, name_jaccard):
+    return round(name_jaccard, 3)
 print(rel_score(1.2, 0.5))
+print(rel_score(2.0, 0.5))
 print(rel_score(5.0, 0.5))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "combine_signals.py",
-          code: `def rel_score(km, surname_jaccard):
+          code: `def rel_score(km, name_jaccard):
     geo = 1.0 if km <= 2 else 0.0
-    return round(0.6 * geo + 0.4 * surname_jaccard, 3)
+    return round(0.6 * geo + 0.4 * name_jaccard, 3)
 print(rel_score(1.2, 0.5))
+print(rel_score(2.0, 0.5))
 print(rel_score(5.0, 0.5))`,
           output: `0.8
+0.8
 0.2`,
         },
       },
@@ -1317,16 +1347,16 @@ print(rel_score(5.0, 0.5))`,
         kind: "transfer",
         title: "Score de relación con disclaimer",
         preamble:
-          "- **Contexto:** la ficha de caso muestra `relationship_signal_score` **junto** a un disclaimer; el revisor no debe leer «1.0» como parentesco.\n- **Meta:** calcular rel canónico 0.5·phone + 0.3·geo + 0.2·surname y adjuntar el disclaimer exacto.\n- **Éxito:** `score 1.0` y la frase *relationship_signal_score no implica parentesco ni colusión*.\n- **Límites:** no hardcodees parentesco legal; pesos fijos; solo stdlib.",
+          "- **Contexto:** la ficha de caso muestra `relationship_signal_score` **junto** a un disclaimer; el revisor no debe leer «1.0» como parentesco.\n- **Meta:** calcular rel canónico 0.5·phone + 0.3·geo + 0.2·name_jaccard y adjuntar el disclaimer exacto.\n- **Éxito:** `score 0.9` y la frase *relationship_signal_score no implica parentesco ni colusión*.\n- **Límites:** no hardcodees parentesco legal; pesos fijos; solo stdlib.",
         instruction:
-          "1. Calcula `rel` con los tres factores del starter (todos 1.0).\n2. Arma el dict de ficha con score y disclaimer.\n3. Texto exacto del solution (tests de portfolio).\n4. Imprime score y disclaimer en dos líneas.",
+          "1. Calcula `rel` con los tres factores del starter (1.0, 1.0 y 0.5).\n2. Arma el dict de ficha con score y disclaimer.\n3. Texto exacto del solution (tests de portfolio).\n4. Imprime score y disclaimer en dos líneas.",
         hint: "Calcula rel con 0.5/0.3/0.2; adjunta disclaimer al dict; no infieras parentesco.",
         hints: [
-          "phone=geo=surname=1.0 → rel 1.0 con pesos canónicos",
+          "phone=geo=1.0 y name_jaccard=0.5 → rel 0.9 con pesos canónicos",
           "Texto exacto del disclaimer para tests de portfolio",
         ],
         edgeCases: ["disclaimer UI debe viajar junto al score, no reemplazarlo."],
-        tests: "score 1.0 + frase exacta de disclaimer",
+        tests: "score 0.9 + frase exacta de disclaimer",
         feedback:
           "Score calculado + disclaimer adjunto: el revisor ve número y límite ético juntos. Si el disclaimer afirma parentesco, rompes el gate ético de N1 aunque el score sea correcto.",
         retrospective:
@@ -1336,8 +1366,8 @@ print(rel_score(5.0, 0.5))`,
           title: "disclaimer.py",
           code: `# CASO-LIM-013 · score + no kinship claim
 # DEFECT: hardcodea score y afirma parentesco
-phone, geo, surname = 1.0, 1.0, 1.0
-rel = 0.0  # debe ser 0.5*phone + 0.3*geo + 0.2*surname
+phone, geo, name_jaccard = 1.0, 1.0, 0.5
+rel = 0.0  # debe ser 0.5*phone + 0.3*geo + 0.2*name_jaccard
 card = {
     "relationship_signal_score": rel,
     "disclaimer": "relationship_signal_score implica parentesco legal",
@@ -1349,15 +1379,15 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "disclaimer.py",
-          code: `phone, geo, surname = 1.0, 1.0, 1.0
-rel = round(0.5 * phone + 0.3 * geo + 0.2 * surname, 3)
+          code: `phone, geo, name_jaccard = 1.0, 1.0, 0.5
+rel = round(0.5 * phone + 0.3 * geo + 0.2 * name_jaccard, 3)
 card = {
     "relationship_signal_score": rel,
     "disclaimer": "relationship_signal_score no implica parentesco ni colusión",
 }
 print("score", card["relationship_signal_score"])
 print("disclaimer", card["disclaimer"])`,
-          output: `score 1.0
+          output: `score 0.9
 disclaimer relationship_signal_score no implica parentesco ni colusión`,
         },
       },
@@ -1467,11 +1497,11 @@ print(common_counterparties(txs, "A", "C"))`,
         preamble:
           "- **Contexto:** el revisor ve `via` y debe leer al lado que **no** prueba acuerdo ilícito ni parentesco.\n- **Meta:** calcular `via` = vecinos(A) ∩ vecinos(C) y adjuntar dos disclaimers exactos.\n- **Éxito:** `via ['D']` más las dos frases `no_collusion` / `no_kinship` del solution.\n- **Límites:** no hardcodees colusión; textos exactos; solo stdlib.",
         instruction:
-          "1. Corrige `neighbors(\"B\")` → `neighbors(\"C\")`.\n2. Arma el dict `type=common_counterparty` con `via` y disclaimers.\n3. Textos: *no prueba acuerdo ilícito* / *no prueba parentesco*.\n4. Imprime via y las dos líneas de disclaimer.",
+          "1. Corrige `neighbors(\"B\")` → `neighbors(\"C\")`.\n2. Arma el dict `type=common_counterparty` con `via` y disclaimers.\n3. Textos exactos: `no_collusion` = *contraparte común no prueba acuerdo ilícito* y `no_kinship` = *contraparte común no prueba parentesco*.\n4. Imprime via y las dos líneas de disclaimer.",
         hint: "Calcula via con intersección de vecinos; adjunta disclaimers al dict de evidencia",
         hints: [
           "neighbors(A) & neighbors(C) → via; no hardcodees colusión",
-          "Textos exactos: 'no prueba acuerdo ilícito' / 'no prueba parentesco'",
+          "Las dos frases empiezan igual: 'contraparte común no prueba …'",
         ],
         edgeCases: ["evidencia de grafo y límites de inferencia viajan juntos"],
         tests: "via ['D'] + dos disclaimers",
@@ -1685,7 +1715,7 @@ note señales conflictivas`,
         hint: "Dos límites forman tres intervalos contiguos",
         hints: [
           "Dos límites forman tres intervalos contiguos",
-          "Usarás el dict en E2",
+          "E2 declara su propio `th` con los mismos valores; cópialos si quieres",
         ],
         edgeCases: ["review_low < accept_min", "config externalizable"],
         tests: "Contrato exacto: sorted items es [('accept_min', 0.8), ('review_low', 0.4)]; assert 0 <= review_low < accept_min <= 1.",
@@ -1724,16 +1754,16 @@ print(sorted(thresholds.items()))`,
         kind: "independent",
         title: "Matriz decide_ops_status sin huecos",
         preamble:
-          "- **Contexto:** el runbook N1 exige que todo score finito y toda uncertainty caigan en **exactamente un** estado operativo.\n- **Meta:** implementar `decide_ops_status(score, unc, th)` con validación, high→review, y umbrales del dict.\n- **Éxito:** las 7 líneas del solution (de invalid_input a nan invalid_input).\n- **Límites:** sin `auto_fraud`/`is_family`; bool no es score válido; solo stdlib + `isfinite`.",
+          "- **Contexto:** el runbook N1 exige que todo score finito y toda uncertainty caigan en **exactamente un** estado operativo.\n- **Meta:** implementar `decide_ops_status(score, unc, th)` con validación, high→review, y umbrales del dict.\n- **Éxito:** las 9 líneas del solution, de `-0.1 low invalid_input` a `0.8 ? invalid_input`.\n- **Límites:** sin `auto_fraud`/`is_family`; bool no es score válido; solo stdlib + `isfinite`.",
         instruction:
           "1. El starter no valida y prioriza accept — reescribe la cascada.\n2. Orden: invalid (tipo/bool/rango/unc) → high → score < review_low → score < accept_min → accept_pair.\n3. Imprime cada fila del loop del starter.\n4. No cambies `th` ni la lista de casos.",
         hint: "Valida tipo/isfinite/unc antes de comparar umbrales; high unc gana sobre score alto",
         hints: [
-          "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar.",
+          "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar. En Python `True` es un int y valdría 1.0, por eso `isinstance(score, bool)` va primero.",
           "Orden: invalid → high → abstain → needs_review → accept_pair",
         ],
         edgeCases: ["0.4", "0.8", "NaN", "bool", "unc desconocida", "high unc → review"],
-        tests: "Matriz exacta: -0.1 invalid_input; 0.399 abstain; 0.4 y 0.799 needs_review; 0.8 accept_pair (low); 0.9/high needs_review; NaN invalid_input.",
+        tests: "Matriz exacta: -0.1 invalid_input; 0.399 abstain; 0.4 y 0.799 needs_review; 0.8 accept_pair (low); 0.9/high needs_review; NaN, True y la incertidumbre ? invalid_input.",
         feedback:
           "Si 0.9/high acepta, high no gana sobre el score. Si NaN cae en abstain, falta `isfinite`. Los bordes 0.4 y 0.8 son exactos (`score <` en el código canónico): no «aproximes» 0.799 a accept.",
         retrospective:
@@ -1752,7 +1782,8 @@ def decide_ops_status(score, unc, th):
     if score >= th["review_low"]:
         return "needs_review"
     return "abstain"
-for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low")]:
+for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low"),
+             (True, "low"), (0.8, "?")]:
     print(s, u, decide_ops_status(s, u, th))
 print('ok', True)`,
         },
@@ -1774,7 +1805,8 @@ def decide_ops_status(score, unc, th):
     if score < th["accept_min"]:
         return "needs_review"
     return "accept_pair"
-for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low")]:
+for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low"),
+             (True, "low"), (0.8, "?")]:
     print(s, u, decide_ops_status(s, u, th))`,
           output: `-0.1 low invalid_input
 0.399 low abstain
@@ -1782,7 +1814,9 @@ for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, 
 0.799 med needs_review
 0.8 low accept_pair
 0.9 high needs_review
-nan low invalid_input`,
+nan low invalid_input
+True low invalid_input
+0.8 ? invalid_input`,
         },
       },
       {
@@ -1791,16 +1825,16 @@ nan low invalid_input`,
         kind: "transfer",
         title: "Quitar is_family y auto_fraud de la salida",
         preamble:
-          "- **Contexto:** en auditoría de portfolio N1, cualquier path que emita `is_family` o `auto_fraud` cierra mal el gate.\n- **Meta:** limpiar un dict de salida dejando solo claves permitidas.\n- **Éxito:** `['score', 'status']` (sorted keys).\n- **Límites:** elimina ambas claves si existen; no inventes campos; solo stdlib.",
+          "- **Contexto:** en auditoría de portfolio N1, cualquier path que emita `is_family` o `auto_fraud` cierra mal el gate.\n- **Meta:** limpiar un dict de salida dejando solo claves permitidas.\n- **Éxito:** dos líneas `['score', 'status']`, una por salida; la segunda ya llega sin claves prohibidas.\n- **Límites:** elimina ambas claves si existen; no inventes campos; solo stdlib.",
         instruction:
           "1. El starter copia `out` sin filtrar — DEFECT.\n2. Filtra con set de forbidden o `pop`.\n3. Imprime `sorted(clean.keys())`.\n4. No dejes rastros de las claves prohibidas.",
         hint: "Copia `out` y usa `pop` para quitar las dos claves prohibidas",
         hints: [
-          "Copia `out` con `dict(out)` y quita `is_family` y `auto_fraud` con `pop`",
+          "Copia `out` con `dict(out)` y quita `is_family` y `auto_fraud` con `pop(clave, None)`: la segunda salida no las trae y `del` fallaría con KeyError",
           "No dejes rastros de esas claves",
         ],
         edgeCases: ["strip policy fields"],
-        tests: "['score','status']",
+        tests: "['score','status'] dos veces",
         feedback:
           "Si `sorted(keys)` aún muestra `is_family` o `auto_fraud`, copiaste el dict sin filtrar. `pop` o un set `forbidden` deben dejar solo lo permitido (`score`, `status` en este fixture). Un status correcto no salva claves prohibidas.",
         retrospective:
@@ -1810,19 +1844,28 @@ nan low invalid_input`,
           title: "audit_strip.py",
           code: `# CASO-LIM-013 · strip forbidden keys
 # DEFECT: deja is_family y auto_fraud
-out = {"status": "needs_review", "is_family": True, "auto_fraud": True, "score": 0.5}
-clean = dict(out)
-print(sorted(clean.keys()))
+outs = [
+    {"status": "needs_review", "is_family": True, "auto_fraud": True, "score": 0.5},
+    {"status": "abstain", "score": 0.2},
+]
+for out in outs:
+    clean = dict(out)
+    print(sorted(clean.keys()))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "audit_strip.py",
-          code: `out = {"status": "needs_review", "is_family": True, "auto_fraud": True, "score": 0.5}
+          code: `outs = [
+    {"status": "needs_review", "is_family": True, "auto_fraud": True, "score": 0.5},
+    {"status": "abstain", "score": 0.2},
+]
 forbidden = {"is_family", "auto_fraud"}
-clean = {k: v for k, v in out.items() if k not in forbidden}
-print(sorted(clean.keys()))`,
-          output: `['score', 'status']`,
+for out in outs:
+    clean = {k: v for k, v in out.items() if k not in forbidden}
+    print(sorted(clean.keys()))`,
+          output: `['score', 'status']
+['score', 'status']`,
         },
       },
       {
@@ -1879,7 +1922,7 @@ print(pseudonymize("Ana Quispe Rojas"))`,
           "No fusionar en un solo score sin etiqueta",
         ],
         edgeCases: ["scores separados"],
-        tests: "dos claves distintas",
+        tests: "dict exacto con solo dos claves (entity_resolution_score, relationship_signal_score), sin is_family",
         feedback:
           "Claves cortas y un booleano de parentesco son el anti-patrón de producto N1. La ficha educa al revisor solo si los dos scores se leen por separado.",
         retrospective:
@@ -1951,16 +1994,16 @@ print(map_tooltip(-12.04, -77.04, 1.2, "mock"))`,
         kind: "guided",
         title: "Privacy sheet: synthetic_only y pii_real",
         preamble:
-          "- **Contexto:** CF-1 exige declarar clase de datos y que no hay PII real en el demo N1.\n- **Meta:** dict con `data_class=synthetic_only`, `pii_real=False`, roles viewer/reviewer.\n- **Éxito:** keys ordenadas + `False` en pii_real.\n- **Límites:** no marques production; no roles inventados; solo stdlib.",
+          "- **Contexto:** CF-1 exige declarar clase de datos y que no hay PII real en el demo N1.\n- **Meta:** dict con `data_class=synthetic_only`, `pii_real=False`, roles viewer/reviewer.\n- **Éxito:** keys ordenadas, `synthetic_only` en data_class y `False` en pii_real.\n- **Límites:** no marques production; no roles inventados; solo stdlib.",
         instruction:
-          "1. Corrige `data_class` y `pii_real` del starter.\n2. Conserva roles canónicos.\n3. Imprime `sorted(keys)` y el valor de pii_real.\n4. No borres campos del contrato.",
+          "1. Corrige `data_class` y `pii_real` del starter.\n2. Conserva roles canónicos.\n3. Imprime `sorted(keys)`, el valor de data_class y el de pii_real.\n4. No borres campos del contrato.",
         hint: "Tres campos mínimos CF-1",
         hints: [
           "Tres campos mínimos CF-1",
           "pii_real debe ser False",
         ],
         edgeCases: ["CF-1 privacy"],
-        tests: "keys + False",
+        tests: "keys + synthetic_only + False",
         feedback:
           "Si imprimes `True` o `data_class` es `production`, no corregiste el DEFECT. CF-1 exige `synthetic_only` + `pii_real=False` + roles viewer/reviewer; un score «bonito» no compensa privacy roto.",
         retrospective:
@@ -1969,13 +2012,14 @@ print(map_tooltip(-12.04, -77.04, 1.2, "mock"))`,
           language: 'python',
           title: "privacy_sheet.py",
           code: `# CASO-LIM-013 · privacy flags
-# DEFECT: pii_real True
+# DEFECT: pii_real True y data_class production
 privacy = {
     "data_class": "production",
     "pii_real": True,
     "roles": ["viewer", "reviewer"],
 }
 print(sorted(privacy.keys()))
+print(privacy["data_class"])
 print(privacy["pii_real"])
 print('ok', True)`,
         },
@@ -1988,8 +2032,10 @@ print('ok', True)`,
     "roles": ["viewer", "reviewer"],
 }
 print(sorted(privacy.keys()))
+print(privacy["data_class"])
 print(privacy["pii_real"])`,
           output: `['data_class', 'pii_real', 'roles']
+synthetic_only
 False`,
         },
       },
@@ -2001,7 +2047,7 @@ False`,
         preamble:
           "- **Contexto:** el revisor de nivel debe reproducir el producto en máquina limpia con un solo comando.\n- **Meta:** `demo_command()` → string fijo con `--synthetic`.\n- **Éxito:** `python -m demo_n1_dashboard --synthetic`.\n- **Límites:** nunca `--live-pii`; no inventes flags; solo stdlib.",
         instruction:
-          "1. Sustituye el flag del starter.\n2. Conserva el módulo `demo_n1_dashboard`.\n3. Imprime el string exacto.\n4. No añadas argumentos extra.",
+          "1. Sustituye el flag del starter.\n2. Conserva el módulo `demo_n1_dashboard`.\n3. Imprime el string exacto.\n4. No añadas argumentos extra. Este comando lo ejecutará el módulo `demo_n1_dashboard.py` que crearás en el You Do; aquí solo escribes el texto.",
         hint: "String fijo documentado en runbook",
         hints: [
           "String fijo documentado en runbook",
@@ -2040,7 +2086,7 @@ print(demo_command())`,
         preamble:
           "- **Contexto:** si un token o nombre aparece en un log del demo, la respuesta es playbook — no «seguir como si nada».\n- **Meta:** tres acciones en orden (`rotate_secret`, `redact_logs`, `postmortem`) y nota de revisión S01–S13.\n- **Éxito:** `rotate_secret|redact_logs|postmortem` y la línea exacta de `level1_regression`.\n- **Límites:** orden fijo; no `ignore`; solo stdlib.",
         instruction:
-          "1. Reemplaza la lista `ignore/continue`.\n2. Une con `|` en el orden del solution.\n3. Segundo print: texto exacto de regresión level-1.\n4. No inventes pasos extra.",
+          "1. Reemplaza la lista `ignore/continue`.\n2. Une con `|` en el orden del solution.\n3. Segundo print, texto exacto: `level1_regression: re-check S01-S13 critical paths after incident`.\n4. No inventes pasos extra.",
         hint: "Orden fijo de respuesta",
         hints: [
           "Orden fijo de respuesta",
@@ -2092,14 +2138,20 @@ level1_regression: re-check S01-S13 critical paths after incident`,
       "Datos 100% sintéticos; vista pseudonimizada",
       "ER score y relationship score nunca colapsados en un solo campo sin etiquetar",
       "Prohibido is_family / auto_fraud en salidas",
-      "Tests de reglas ER, señales y umbrales en verde",
+      "Tests de reglas ER, señales y umbrales en verde, en `tests/test_demo_n1_dashboard.py` con unittest (S10); se corren con `python -m unittest discover -s tests`",
       "Decision matrix exacta: invalid_input, abstain, needs_review y accept_pair sin intervalos vacíos",
-      "Demo: python -m demo_n1_dashboard --synthetic",
+      "Demo: `python -m demo_n1_dashboard --synthetic` ejecuta este archivo guardado como `demo_n1_dashboard.py`; `main` lee `--synthetic` con argparse (S10) y sin él termina con código 2",
       "Runbook con regresión level-1 (S01–S13) y respuesta a PII en log",
       "CF-1: privacy sheet + roles viewer/reviewer + notes de acceso",
     ],
-    starterCode: `"""familiarity_dashboard.py — CP-N1-C close + CF-1 + level-1 regression notes
+    starterCode: `"""demo_n1_dashboard.py — CP-N1-C close + CF-1 + level-1 regression notes
 S13. Datos sintéticos. Sin auto parentesco/fraude.
+
+Guarda este archivo como demo_n1_dashboard.py. El comando del runbook,
+python -m demo_n1_dashboard --synthetic, lo ejecuta: main() lee --synthetic con
+argparse (S10) y, sin ese flag, argparse termina con código 2 antes de leer nada.
+Los tests van en tests/test_demo_n1_dashboard.py (unittest, S10) y se corren con
+python -m unittest discover -s tests.
 
 Orden sugerido (ruta verde local):
 1) Corrige DEFECT en norm_doc + blocking_key (apellido paterno parts[1]|region)
@@ -2114,6 +2166,7 @@ Pair de demo esperado tras correcciones: er=1.0, rel=1.0, pseudo='A*** Q***'.
 
 from __future__ import annotations
 
+import argparse
 import re
 from math import isfinite
 
@@ -2161,12 +2214,13 @@ def blocking_key(rec: dict) -> str:
 
 def er_score(a: dict, b: dict) -> float:
     # DEFECT: siempre 1.0 — debe ser 1.0 solo si same doc+block; 0.5 same doc only; else 0.0
+    # (y None si falta el documento o el bloque, como er_rules.py de T1-A)
     return 1.0
 
 
 def relationship_signal_score(a: dict, b: dict) -> float:
-    # DEFECT: suma pesos mal (0.4*n_signals) — usa canónico 0.5 phone + 0.3 geo + 0.2 surname_jaccard
-    # (surname_jaccard = Jaccard de los tokens del nombre completo, como en T2-A)
+    # DEFECT: suma pesos mal (0.4*n_signals) — usa canónico 0.5 phone + 0.3 geo + 0.2 name_jaccard
+    # (name_jaccard = Jaccard de los tokens del nombre completo, como en T2-A)
     n = 0
     if a.get("phone") and a.get("phone") == b.get("phone"):
         n += 1
@@ -2228,7 +2282,15 @@ PAIR_CASES = [
 ]
 
 
-def main() -> None:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(prog="demo_n1_dashboard", description="Demo N1 con fixtures sintéticos")
+    parser.add_argument("--synthetic", action="store_true", required=True,
+                        help="obligatorio: el demo solo corre con los fixtures sintéticos de este archivo")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    parse_args(argv)  # sin --synthetic, argparse termina con código 2
     for a, b, er_expected, rel_expected in PAIR_CASES:
         assert er_score(a, b) == er_expected, (a, b, "er")
         assert relationship_signal_score(a, b) == rel_expected, (a, b, "rel")
@@ -2265,66 +2327,66 @@ if __name__ == "__main__":
     questions: [
       {
         question: "entity_resolution_score y relationship_signal_score deben…",
-        options: ["Mantenerse separados en la ficha de caso", "Fusionarse siempre en un solo número sin etiqueta", "Reemplazarse por is_family", "Ocultarse al revisor"],
+        options: ["Mostrarse en campos separados de la ficha, cada uno con su etiqueta", "Sumarse con pesos 0.6/0.4 y mostrarse solo como evidence_score", "Mostrarse juntos solo cuando los dos superen 0.80", "Reemplazarse por relationship_signal_score cuando falte el documento"],
         correctIndex: 0,
         explanation:
           "Son constructos distintos —la identidad y la familiaridad operativa son preguntas separadas—; la UI y el modelo los muestran aparte.",
       },
       {
         question: "Un false positive de ER implica…",
-        options: ["Fraude confirmado", "Parentesco automático", "Error de matching; no es veredicto legal de fraude", "Borrar la cola clerical"],
+        options: ["Un intento de fraude, porque la regla unió dos registros que no debían unirse", "Un parentesco probable, porque los datos de las dos personas coinciden", "Una colisión de identidad: dos personas unidas por error, sin decir nada de fraude", "Que el par sale de la cola clerical y se acepta sin revisión"],
         correctIndex: 2,
         explanation:
-          "FP (falso positivo) es error de identidad estimada, no delito.",
+          "FP (falso positivo) es error de identidad estimada: la regla unió a dos personas distintas. No dice nada de fraude ni de parentesco.",
       },
       {
-        question: "En la zona gris del score el sistema debe…",
-        options: ["Marcar auto_fraud=true", "Asignar is_family=true", "Publicar PII real en el mapa", "Encolar needs_review / abstenerse según política"],
+        question: "Con un score en [0.40, 0.80) y uncertainty low, el sistema debe…",
+        options: ["Abstenerse siempre, porque un score dudoso no merece el tiempo de un revisor", "Aceptar el par si el puntaje de relación es alto, aunque ER quede en la banda de duda", "Marcar `is_family=true` para que el revisor priorice el caso", "Encolar needs_review (cola clerical), sin aceptar ni abstenerse"],
         correctIndex: 3,
         explanation:
-          "Human-in-the-loop (un humano revisa la duda): revisión o abstención, nunca fraude automático.",
+          "En [0.40, 0.80) el par va a revisión humana; abstain solo en < 0.40, y nunca fraude automático.",
       },
       {
         question: "CF-1 en S13 incluye…",
-        options: ["Solo un modelo de deep learning", "Privacy sheet, acceso, tests, demo y runbook", "Hardcodear tokens en el repo", "Omitir la privacy sheet si el demo corre"],
+        options: ["Solo la hoja de privacidad, porque los tests y la demo ya son parte del You Do", "Privacy sheet, acceso, tests, demo y runbook", "Una captura del dashboard y la nota de que la demo corrió en la máquina del autor", "Tests y demo; el runbook se escribe después de pasar el gate"],
         correctIndex: 1,
         explanation:
           "CF-1 reúne los artefactos de operación y privacidad del cierre N1: privacy sheet, acceso, tests, demo y runbook.",
       },
       {
         question: "Level-1 regression notes en el You Do exigen…",
-        options: ["Re-chequear paths críticos S01–S13 y documentarlos en el runbook de entrega", "Ignorar S01–S12", "Borrar el dashboard", "Enviar PII a geocoder público"],
+        options: ["Volver a correr los checks críticos de S01–S13 y anotar pass/fail en el runbook", "Confirmar solo la demo de un comando, sin registrar pass/fail", "Omitir S01–S12 si el dashboard de S13 ya pasa sus pruebas", "Registrar pass/fail solo en el README del portafolio, fuera del runbook de entrega"],
         correctIndex: 0,
         explanation:
-          "La regresión de nivel —volver a verificar los paths críticos S01–S13— se documenta en el runbook de entrega N1.",
+          "La regresión de nivel —volver a correr los checks críticos de S01–S13— se anota con pass/fail en el runbook de entrega N1.",
       },
       {
         question: "Si score=0.4 y uncertainty=low, decide_ops_status debe devolver…",
-        options: ["abstain", "accept_pair", "needs_review", "auto_fraud"],
+        options: ["abstain", "accept_pair", "needs_review", "invalid_input"],
         correctIndex: 2,
         explanation:
           "score < 0.8 y >= 0.4 cae en `needs_review` (revisión humana); `abstain` (abstenerse) es solo score < 0.4.",
       },
       {
         question: "Blocking en N1 sirve para…",
-        options: ["Inferir parentesco automáticamente", "Enviar PII a un geocoder público", "Fusionar ER y relationship en un solo score", "Reducir pares candidatos antes de reglas finas"],
+        options: ["Decidir qué registros son la misma persona sin aplicar reglas finas", "Ordenar los pares por puntaje de relación antes de compararlos", "Unir automáticamente los registros que comparten región", "Reducir pares candidatos antes de reglas finas"],
         correctIndex: 3,
         explanation:
           "`Blocking` (acotar pares candidatos por bloque paterno|región) reduce el espacio de comparación; no es veredicto legal.",
       },
       {
         question: "Con TP=5, FP=1, FN=2, precision y recall redondeados a 3 decimales son…",
-        options: ["precision 0.714 y recall 0.833", "precision 0.833 y recall 0.714", "precision 1.0 y recall 1.0", "precision 0.5 y recall 0.5"],
+        options: ["precision 0.71 y recall 0.83", "precision 0.833 y recall 0.714", "precision 1.0 y recall 1.0", "precision 0.625 y recall 0.5"],
         correctIndex: 1,
         explanation:
           "precision = 5/(5+1) ≈ 0.833; recall = 5/(5+2) ≈ 0.714. No inviertas numerador/denominador: precision castiga falsos positivos, recall castiga falsos negativos.",
       },
       {
-        question: "En nombres peruanos sintéticos N1, el token de blocking de apellido es…",
-        options: ["El segundo token (paterno) si hay al menos dos; si no, el único token", "Siempre el último token (materno)", "La concatenación de todos los apellidos sin región", "El email en casefold"],
+        question: "En nombres sintéticos con la forma `Nombre ApellidoPaterno ApellidoMaterno`, el token de blocking de apellido es…",
+        options: ["El segundo token (paterno)", "El primer token, siempre", "El último token, salvo que el nombre tenga tres palabras", "El token más largo del nombre, para evitar iniciales"],
         correctIndex: 0,
         explanation:
-          "parts[1] = apellido paterno; documenta la regla y no la mezcles con «último token».",
+          "parts[1] = apellido paterno; si hay un solo token, se usa ese. La regla supone un solo nombre de pila: con «Ana María Quispe Rojas» toma «maría», y por eso el documento es la segunda clave.",
       },
     ],
   },

@@ -372,7 +372,9 @@ class S13ProjectUsesTheTaughtSurnameRule(unittest.TestCase):
 
     def setUp(self) -> None:
         self.starter = section("s13-evidence-dashboard.ts", "section13")["youDo"]["starterCode"]
-        self.cases = self.starter.split("PAIR_CASES = [", 1)[1].split("\ndef main", 1)[0]
+        # 2026-11-19, proposal 10 S13: parse_args now sits between PAIR_CASES and main, so the
+        # literal ends at the next top-level def, whichever it is.
+        self.cases = self.starter.split("PAIR_CASES = [", 1)[1].split("\n\n\ndef ", 1)[0]
 
     @staticmethod
     def taught_rel(a: dict, b: dict) -> float:

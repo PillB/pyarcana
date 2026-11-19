@@ -157,14 +157,18 @@ class A6EmptyNormalisedDocumentsDoNotMatch(unittest.TestCase):
     def setUp(self) -> None:
         self.solution = step(sections()["s13"], "weDo", "S13-T1-A-E3")["solution"]
 
-    def test_two_empty_documents_score_zero(self) -> None:
+    def test_two_empty_documents_give_none(self) -> None:
+        # 2026-11-19, proposal 10 S13 (THEORY-05.1 / WEDO-03.1): the empty-document contract is now
+        # None everywhere ("falta el dato"; T3-B sets it apart as invalid_input), as er_rules.py
+        # already returned. This test asserted 0.0 when the exercise and er_rules.py disagreed.
+        # What it guards is unchanged: two empty documents never score 1.0.
         out = probe(
             self.solution,
             'RESULT = er_score({"name": "Ana Quispe", "document_id": "!!!", "region": "Lima"}, '
             '{"name": "Luis Quispe", "document_id": "--", "region": "Lima"})',
         )
         self.assertIsNone(out["error"])
-        self.assertEqual(out["result"], 0.0)
+        self.assertIsNone(out["result"])
 
     def test_a_shared_real_document_still_scores_one(self) -> None:
         # Control: a function that always returned 0.0 would pass the test above.
@@ -258,9 +262,19 @@ def you_do_variant(starter: str, fixed: tuple[str, ...]) -> str:
     return code
 
 
+#: 2026-11-19, proposal 10 S13 (YOUDO-01.2): main() reads the required --synthetic flag with
+#: argparse, as `python -m demo_n1_dashboard --synthetic` does. The probe runs the code as
+#: __main__ under `python -c`, so the flag is set here, right after the __future__ import that
+#: must stay first; without it argparse exits with code 2.
+FUTURE = "from __future__ import annotations\n"
+WITH_SYNTHETIC_FLAG = FUTURE + 'import sys\nsys.argv = ["demo_n1_dashboard.py", "--synthetic"]\n'
+
+
 class A7YouDoChecksTheFourHiddenDefects(unittest.TestCase):
     def setUp(self) -> None:
-        self.starter = sections()["s13"]["youDo"]["starter"]
+        starter = sections()["s13"]["youDo"]["starter"]
+        self.assertEqual(starter.count(FUTURE), 1)
+        self.starter = starter.replace(FUTURE, WITH_SYNTHETIC_FLAG, 1)
 
     def test_the_starter_as_shipped_stops_before_printing_the_documented_output(self) -> None:
         out = probe(self.starter)
