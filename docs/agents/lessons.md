@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S11, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S12, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -502,3 +502,40 @@ back. Read this list before a section round; every item cost at least one failed
   teaches later, so `test:ux-gates` reported a first use without gloss. Fix: unpack in the loop
   header (`for left_id, right_id, score in ...`) and pass the three names. Guard: in a demo, call
   with named values; reach for `*` only after the section that teaches it.
+- **S12 (P1): a sentence that credited `executemany` with the rollback.** The theory said
+  `executemany` with `BEGIN`/`COMMIT` makes a batch atomic and a broken `UNIQUE` gives
+  `COUNT(*)==0`. In fact the rows before the failing one stay in the open transaction; only the
+  explicit `rollback()` removes them, and the count returns to the count before the batch, not
+  to 0 ([Python docs, sqlite3: transaction control](https://docs.python.org/3/library/sqlite3.html#transaction-control)).
+  Root cause: the demo's table started empty, so "0" and "the count before" looked the same.
+  Fix: the block now runs the batch with and without `rollback()` and prints `2` for the second;
+  the self-check key says "conteo previo al lote". Guard: when a lesson states a guarantee, run
+  the case where the guarantee's cause is removed and print what happens.
+- **S12: a constant printed as if it were measured.** `print("token_logged", False)` and
+  `print("pages_fetched", 3, ...)` showed a security property and a count that no code checked.
+  Fix: compute both (`token in linea`, a page counter). Guard: the section test plants the leak
+  (the token in the manifest) and the missing counter, and requires the output to change.
+- **S12: "a hash dumps no PII".** A 12-hex SHA-256 of `{"entity_id": "C001", ...}` was reversed
+  by trying 999 ids and three signal lists. Hashing a low-entropy value is pseudonymisation, not
+  anonymisation ([FTC, "No, hashing still doesn't make your data anonymous", July 2024](https://www.ftc.gov/policy/advocacy-research/tech-at-ftc/2024/07/no-hashing-still-doesnt-make-your-data-anonymous)).
+  Fix: the demo says the hash proves integrity only. Guard: before calling a hash anonymous, count
+  the possible inputs; if they can be listed, so can the hashes.
+- **S12: two names and three shapes for one contract.** The geo signal key was `verdict` in a
+  demo and `kinship_verdict` elsewhere; the geocoder contract was `{lat, lon, label}`,
+  `{lat, lon, provider}` and `{lat, lon}`; the provider was `mock` and `authorized_mock`; the
+  synthetic cities were Lima/Quito in code and Quito/Santiago in titles. Root cause: the same
+  failure as S11's "one class, three shapes", at the level of dict keys. Fix: one name each.
+  Guard: `test_one_contract_one_key_one_provider` and `test_one_city_list`.
+- **S12: money stored as `REAL`.** The case join used `amount REAL`, the float S02 warns
+  against. First fix was integer cents; the owner asked (2026-11-19) whether `Decimal` is taught
+  by then. It is: S02 teaches it for soles and S11 reuses it, so S12 stores the amount as `TEXT`,
+  writes `str(Decimal(...))` and reads it back with `Decimal(text)`. SQLite has no decimal type,
+  and `SUM` over a `TEXT` column converts to float, so the sum runs in Python
+  ([SQLite: datatypes](https://www.sqlite.org/datatype3.html)). A counterexample block shows all
+  three lines. Guard: before choosing a representation, grep the earlier sections for the type
+  the course already uses, and keep it; name the alternative (integer cents) in one sentence.
+- **S12: exercises that printed only the cases a wrong answer also passes** (16 of 24). The
+  pattern is the one S10 and S11 met: the Límites named a rule (no 500 retry, empty token fails,
+  NOT NULL, exact index column) and no printed case exercised it. Guard: for each Límites line,
+  name the printed case that fails without it; if none, add one, and plant the mutant in the
+  section test.

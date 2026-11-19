@@ -63,7 +63,9 @@ class StudentQuestionsAreAnswered(unittest.TestCase):
     def test_s12_answers_stripping_the_quote(self) -> None:
         text = paragraphs_of(theory("s12-apis-sql-geo", "section12"),
                              "Contraejemplo: un id con SQL devuelve todas las filas")
-        self.assertIn("Quitar o duplicar la comilla con `replace` arregla este id y deja abierto el siguiente", text)
+        # 2026-11-18, proposal 10 S12 (WEDO-16.1): the answer now says what stripping the quote breaks
+        # (a real apostrophe) instead of claiming that doubling it leaves the next id open.
+        self.assertIn("Quitar la comilla con `replace` cambia el dato (un apellido como D'Ángelo deja de encontrarse)", text)
 
     def test_s11_says_how_the_f_string_reaches_the_repr(self) -> None:
         text = paragraphs_of(theory("s11-oop-domain", "section11"),
