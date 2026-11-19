@@ -407,6 +407,43 @@ print(seed_and_join())`,
       },
     },
     {
+      heading: "Contraejemplo: un monto guardado como REAL no vuelve igual",
+      paragraphs: [
+        "SQLite no tiene un tipo decimal. Una columna `REAL` guarda un float, el mismo tipo que S02 descartó para el dinero: 0.1 + 0.2 no da 0.3. Por eso aquí el monto se guarda como texto (`TEXT`) y se convierte a `Decimal` al leerlo.",
+        "`Decimal` es el tipo de la biblioteca estándar que S02 usó para los soles: guarda los dígitos en base 10, así que `Decimal(\"0.10\") + Decimal(\"0.20\")` da exactamente `0.30`. Se escribe en la base con `str(monto)` y se lee con `Decimal(texto)`, siempre desde texto y nunca desde un float. Es la forma habitual en Python para montos, tasas e impuestos, porque el total cuadra al céntimo con el que calcula un contador.",
+        "La primera línea suma dos montos `REAL` y no da 0.3. La segunda guarda los mismos montos como texto, los suma en Python con `Decimal` y da `0.30` exacto. La tercera es la trampa: `SUM` en SQL convierte el texto a float antes de sumar, así que la suma se hace en Python. Muchos sistemas guardan, en cambio, céntimos enteros (`12050` para S/ 120.50); también es exacto, pero en este curso los montos son `Decimal` desde S02 y S11.",
+      ],
+      code: {
+        language: 'python',
+        title: 'monto_real_vs_decimal.py',
+        code: `# Error: el monto se guarda como REAL, un float de SQLite
+import sqlite3
+from decimal import Decimal
+
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE tx_real(id TEXT PRIMARY KEY, amount REAL)")
+con.executemany("INSERT INTO tx_real VALUES (?, ?)", [("T1", 0.1), ("T2", 0.2)])
+total = con.execute("SELECT SUM(amount) FROM tx_real").fetchone()[0]
+print("REAL →", total, "| igual a 0.3:", total == 0.3)
+
+# Corrección: el monto viaja como texto y se convierte a Decimal en Python
+con.execute("CREATE TABLE tx_text(id TEXT PRIMARY KEY, amount TEXT NOT NULL)")
+con.executemany("INSERT INTO tx_text VALUES (?, ?)",
+                [("T1", str(Decimal("0.10"))), ("T2", str(Decimal("0.20")))])
+filas = con.execute("SELECT amount FROM tx_text ORDER BY id").fetchall()
+total = sum(Decimal(a) for (a,) in filas)
+print("TEXT + Decimal →", total, "| igual a 0.30:", total == Decimal("0.30"))
+
+# Cuidado: SUM en SQL convierte el texto a float y vuelve a perder exactitud
+print("SUM en SQL sobre TEXT →", con.execute("SELECT SUM(amount) FROM tx_text").fetchone()[0])
+con.close()
+`,
+        output: `REAL → 0.30000000000000004 | igual a 0.3: False
+TEXT + Decimal → 0.30 | igual a 0.30: True
+SUM en SQL sobre TEXT → 0.30000000000000004`,
+      },
+    },
+    {
       heading: "Parámetros, transacciones, constraints e índices",
       subtopicId: "S12-T3-B",
       paragraphs: [
@@ -750,35 +787,36 @@ contract_precalc True`,
         demoId: "S12-T3-A-DEMO",
         subtopicId: "S12-T3-A",
         environment: "local-python",
-        description: "Tablas clients, transactions, evidence: une nombre + monto + kind de evidencia en una sola fila de caso. Observa case_row ('Ana', 12050, 'geo'): el monto va en céntimos enteros, como pide S02 para el dinero. Es la ficha mínima para el dashboard de S13.",
+        description: "Tablas clients, transactions, evidence: une nombre + monto + kind de evidencia en una sola fila de caso. Observa case_row ('Ana', Decimal('120.50'), 'geo'): el monto se guarda como texto y vuelve a ser `Decimal` al leerlo, como pide S02 para el dinero. Es la ficha mínima para el dashboard de S13.",
         preamble:
-          "Las señales del adaptador se **persisten** (se guardan en disco) para el caso: tres tablas locales y un JOIN (la operación SQL que combina filas de dos tablas) arman la ficha mínima (nombre, monto, kind de evidencia). El monto se guarda en céntimos enteros (`amount_cents INTEGER`): un `REAL` es un float, y S02 mostró que 0.1 + 0.2 no da 0.3. Observa el demo en `:memory:` (base en RAM) sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
+          "Las señales del adaptador se **persisten** (se guardan en disco) para el caso: tres tablas locales y un JOIN (la operación SQL que combina filas de dos tablas) arman la ficha mínima (nombre, monto, kind de evidencia). El monto se guarda como texto (`amount TEXT`) y se convierte a `Decimal` al leerlo: un `REAL` es un float, y S02 mostró que 0.1 + 0.2 no da 0.3. El contraejemplo de la teoría muestra los dos caminos. Observa el demo en `:memory:` (base en RAM) sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
         code: {
           language: 'python',
           title: "case_join_demo.py",
           code: `import sqlite3
+from decimal import Decimal
 
 def case_join():
     con = sqlite3.connect(":memory:")
     con.executescript("""
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
-CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount_cents INTEGER);
+CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount TEXT NOT NULL);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
 """)
     con.execute("INSERT INTO clients VALUES ('C001','Ana')")
-    con.execute("INSERT INTO transactions VALUES ('T1','C001',12050)")  # S/ 120.50
+    con.execute("INSERT INTO transactions VALUES (?, ?, ?)", ("T1", "C001", str(Decimal("120.50"))))
     con.execute("INSERT INTO evidence VALUES ('E1','C001','geo')")
-    row = con.execute(
-        "SELECT c.name, t.amount_cents, e.kind FROM clients c "
+    name, amount, kind = con.execute(
+        "SELECT c.name, t.amount, e.kind FROM clients c "
         "JOIN transactions t ON c.id=t.client_id "
         "JOIN evidence e ON c.id=e.entity_id"
     ).fetchone()
     con.close()
-    return row
+    return name, Decimal(amount), kind  # el texto vuelve a ser Decimal al salir de SQL
 
 print("case_row", case_join())
 `,
-          output: `case_row ('Ana', 12050, 'geo')`,
+          output: `case_row ('Ana', Decimal('120.50'), 'geo')`,
         },
         why:
           "La ficha de caso no es un string suelto: es una tupla de columnas unidas por `client_id` y `entity_id`. Aunque los valores del demo estén fijos, el hábito de parametrizar empieza en el INSERT del We Do. Ese join es el almacén local que el dashboard de S13 leerá para armar la vista del caso.",
@@ -2162,7 +2200,7 @@ print(as_relationship_signal(1.2))`,
     objectives: [
       "Cliente get_entity (200 y 404) + should_retry N1 (429/503) + timeout y fallback offline",
       "Caché GET + min_provenance sin secretos",
-      "Esquema SQLite + case_join (name, amount_cents, kind) + las semillas que indica build_db",
+      "Esquema SQLite + case_join (name, amount como Decimal, kind) + las semillas que indica build_db",
       "MockGeocoder + allowlist de egress + Haversine como geoseñal (no parentesco)",
       "Smoke path en main() con todos los stubs cableados",
     ],
@@ -2192,6 +2230,7 @@ import math
 import os
 import re
 import sqlite3
+from decimal import Decimal
 from typing import Any, Optional
 
 
@@ -2263,16 +2302,16 @@ def build_db() -> sqlite3.Connection:
     con = sqlite3.connect(":memory:")
     # DEFECT: faltan las tablas, el índice del join y las filas semilla. Crea:
     # CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT NOT NULL, document_id TEXT UNIQUE);
-    # CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, amount_cents INTEGER NOT NULL);
+    # CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, amount TEXT NOT NULL);
     # CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL);
     # CREATE INDEX idx_evidence_entity_id ON evidence(entity_id);
-    # Semillas (INSERT con ?): ("C001", "Ana", "D-100"); ("T1", "C001", 12050); ("E1", "C001", "geo")
+    # Semillas (INSERT con ?): ("C001", "Ana", "D-100"); ("T1", "C001", str(Decimal("120.50"))); ("E1", "C001", "geo")
     return con
 
 
 def case_join(con: sqlite3.Connection) -> Optional[tuple]:
-    # DEFECT: NotImplemented — JOIN name, amount_cents, kind para C001
-    # Con las semillas de build_db, la fila esperada es ('Ana', 12050, 'geo').
+    # DEFECT: NotImplemented — JOIN name, amount, kind para C001; devuelve amount como Decimal
+    # Con las semillas de build_db, la fila esperada es ('Ana', Decimal('120.50'), 'geo').
     raise NotImplementedError
 
 
@@ -2307,7 +2346,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README del portafolio muestra tres capturas o bloques: (1) el manifest de provenance (el diccionario con la traza de origen) sin token (`token_logged` / sin Authorization), (2) el join de caso SQLite con name/amount_cents/kind, (3) la distancia Lima–Callao (~8.95 km) como geoseñal con el disclaimer `signal != kinship` (aviso de que la distancia es señal, no parentesco). Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
+      "En el README del portafolio muestra tres capturas o bloques: (1) el manifest de provenance (el diccionario con la traza de origen) sin token (`token_logged` / sin Authorization), (2) el join de caso SQLite con name/amount (Decimal)/kind, (3) la distancia Lima–Callao (~8.95 km) como geoseñal con el disclaimer `signal != kinship` (aviso de que la distancia es señal, no parentesco). Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
     rubric: [
       { criterion: "HTTP status/JSON/timeout/retry selectivo", weight: "20%" },
       { criterion: "Auth env + caché + provenance sin secretos", weight: "15%" },

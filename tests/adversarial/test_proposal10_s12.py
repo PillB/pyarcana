@@ -313,10 +313,29 @@ class TheoryAndDemosShowWhatTheySay(unittest.TestCase):
         self.assertIn("'kinship_verdict': None", demo("S12-T4-B-DEMO")["code"]["output"])
         self.assertNotIn("(o `verdict: None`)", text)
 
-    def test_money_is_stored_in_integer_cents(self) -> None:
+    def test_money_is_text_read_back_as_decimal(self) -> None:
+        # IDO-05.1, owner 2026-11-19: Decimal is the course's money type since S02, so S12 stores
+        # the amount as TEXT and reads it back with Decimal, and shows why REAL and SQL SUM fail.
         sec = json.dumps(s12(), ensure_ascii=False)
-        self.assertNotIn("amount REAL", sec)
-        self.assertEqual(demo("S12-T3-A-DEMO")["code"]["output"], "case_row ('Ana', 12050, 'geo')")
+        self.assertNotIn("amount_cents", sec)
+        for code in (demo("S12-T3-A-DEMO")["code"]["code"], s12()["youDo"]["starterCode"]):
+            self.assertNotIn("amount REAL", code)
+            self.assertIn("amount TEXT NOT NULL", code)
+        self.assertEqual(demo("S12-T3-A-DEMO")["code"]["output"], "case_row ('Ana', Decimal('120.50'), 'geo')")
+        money = block("Contraejemplo: un monto guardado como REAL no vuelve igual")
+        self.assertEqual(money["code"]["output"].splitlines(), [
+            "REAL → 0.30000000000000004 | igual a 0.3: False",
+            "TEXT + Decimal → 0.30 | igual a 0.30: True",
+            "SUM en SQL sobre TEXT → 0.30000000000000004"])
+        text = " ".join(money["paragraphs"])
+        for needle in ("SQLite no tiene un tipo decimal", "siempre desde texto y nunca desde un float",
+                       "`SUM` en SQL convierte el texto a float", "céntimos enteros"):
+            with self.subTest(needle=needle):
+                self.assertIn(needle, text)
+        # The corrected half is exact only because the sum runs in Python on Decimal.
+        code = money["code"]
+        self.assertTrue(caught(code["code"], code["output"], code["code"].replace(
+            "total = sum(Decimal(a) for (a,) in filas)", "total = sum(float(a) for (a,) in filas)")))
 
     def test_the_mock_uses_exact_keys_everywhere(self) -> None:
         out = block("Normalización y geocoding autorizado")["code"]["output"]
@@ -432,20 +451,21 @@ def build_db():
     con = sqlite3.connect(":memory:")
     con.executescript("""
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT NOT NULL, document_id TEXT UNIQUE);
-CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, amount_cents INTEGER NOT NULL);
+CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, amount TEXT NOT NULL);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL);
 CREATE INDEX idx_evidence_entity_id ON evidence(entity_id);
 """)
     con.execute("INSERT INTO clients VALUES (?, ?, ?)", ("C001", "Ana", "D-100"))
-    con.execute("INSERT INTO transactions VALUES (?, ?, ?)", ("T1", "C001", 12050))
+    con.execute("INSERT INTO transactions VALUES (?, ?, ?)", ("T1", "C001", str(Decimal("120.50"))))
     con.execute("INSERT INTO evidence VALUES (?, ?, ?)", ("E1", "C001", "geo"))
     return con
 
 def case_join(con):
-    return con.execute(
-        "SELECT c.name, t.amount_cents, e.kind FROM clients c "
+    row = con.execute(
+        "SELECT c.name, t.amount, e.kind FROM clients c "
         "JOIN transactions t ON c.id = t.client_id "
         "JOIN evidence e ON c.id = e.entity_id WHERE c.id = ?", ("C001",)).fetchone()
+    return (row[0], Decimal(row[1]), row[2]) if row else None
 '''
 
 YOUDO_SMOKE = """token_len 8
@@ -464,7 +484,7 @@ egress_bad False
 geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}
 km 8.95
 signal {'type': 'geo_distance_km', 'value': 8.95, 'kinship_verdict': None}
-case_row ('Ana', 12050, 'geo')"""
+case_row ('Ana', Decimal('120.50'), 'geo')"""
 
 #: (finding, old, new) applied to YOUDO_IMPL: the smoke path must expose each one.
 YOUDO_MUTANTS = [
@@ -473,6 +493,8 @@ YOUDO_MUTANTS = [
      '    return 200, store.get(entity_id, {})'),
     ("YOUDO-01.1 no timeout", 'return "timeout" if cost_s > timeout_s else "ok"', 'return "ok"'),
     ("YOUDO-01.1 the fallback reports online", 'return local_body, "offline"', 'return {"online": True}, "online"'),
+    ("IDO-05.1 the amount returned as raw text", "return (row[0], Decimal(row[1]), row[2]) if row else None",
+     "return row"),
     ("YOUDO-01.5 the seeds left out", '    con.execute("INSERT INTO evidence VALUES (?, ?, ?)", ("E1", "C001", "geo"))\n', ""),
 ]
 
@@ -504,8 +526,8 @@ class YouDoSmokePath(unittest.TestCase):
     def test_the_starter_names_the_schema_seeds_and_index(self) -> None:
         starter = s12()["youDo"]["starterCode"]
         for needle in ("CREATE INDEX idx_evidence_entity_id ON evidence(entity_id);",
-                       "entity_id TEXT NOT NULL, kind TEXT NOT NULL", "amount_cents INTEGER NOT NULL",
-                       "('Ana', 12050, 'geo')", 'print("entity_missing", get_entity(store, "C999"))',
+                       "entity_id TEXT NOT NULL, kind TEXT NOT NULL", "amount TEXT NOT NULL", 'str(Decimal("120.50"))',
+                       "('Ana', Decimal('120.50'), 'geo')", 'print("entity_missing", get_entity(store, "C999"))',
                        'print("timeout", fetch(1.0, 3.0))', 'print("fallback 503"'):
             with self.subTest(needle=needle):
                 self.assertIn(needle, starter)

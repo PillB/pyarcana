@@ -483,9 +483,13 @@ back. Read this list before a section round; every item cost at least one failed
   failure as S11's "one class, three shapes", at the level of dict keys. Fix: one name each.
   Guard: `test_one_contract_one_key_one_provider` and `test_one_city_list`.
 - **S12: money stored as `REAL`.** The case join used `amount REAL`, the float S02 warns
-  against. Fix: `amount_cents INTEGER` (SQLite has no decimal type; integer minor units are the
-  usual practice). Owner decision asked on a card, recommended option applied. Guard: grep a
-  section's schemas for `REAL` next to a money column.
+  against. First fix was integer cents; the owner asked (2026-11-19) whether `Decimal` is taught
+  by then. It is: S02 teaches it for soles and S11 reuses it, so S12 stores the amount as `TEXT`,
+  writes `str(Decimal(...))` and reads it back with `Decimal(text)`. SQLite has no decimal type,
+  and `SUM` over a `TEXT` column converts to float, so the sum runs in Python
+  ([SQLite: datatypes](https://www.sqlite.org/datatype3.html)). A counterexample block shows all
+  three lines. Guard: before choosing a representation, grep the earlier sections for the type
+  the course already uses, and keep it; name the alternative (integer cents) in one sentence.
 - **S12: exercises that printed only the cases a wrong answer also passes** (16 of 24). The
   pattern is the one S10 and S11 met: the Límites named a rule (no 500 retry, empty token fails,
   NOT NULL, exact index column) and no printed case exercised it. Guard: for each Límites line,
