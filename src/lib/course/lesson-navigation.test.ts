@@ -24,7 +24,7 @@ import { neighbourStep } from '@/lib/course/step-nav'
 import { sanitizeCheckpoints, togglePart } from '@/lib/theory-checkpoints'
 import { StepNavButtons } from '@/components/course/StepNavButtons'
 import { Sidebar } from '@/components/course/Sidebar'
-import { theoryPartDomId } from '@/components/course/TheoryParts'
+import { TheoryOutline, theoryPartDomId } from '@/components/course/TheoryParts'
 
 const block = (heading: string, subtopicId?: string): TheoryBlock => ({ heading, paragraphs: ['x'], subtopicId })
 
@@ -90,6 +90,15 @@ test('a subtopic that comes back after another one gets its own stable key', () 
 
 test('a theory with no subtopic ids has no parts (the single theory button stays the checkpoint)', () => {
   assert.deepEqual(theoryParts([block('a'), block('b')]), [])
+})
+
+test('the outline does not claim to be the open section (QA reports read [data-section-id])', () => {
+  const s1 = COURSE_SECTIONS.find((s) => s.index === 1)!
+  const html = renderToStaticMarkup(
+    createElement(TheoryOutline, { parts: theoryParts(s1.theory), read: [], theoryDone: false })
+  )
+  assert.match(html, /data-testid="theory-outline"/)
+  assert.doesNotMatch(html, /data-section-id/)
 })
 
 const P = (keys: string[]): TheoryPart[] => keys.map((key) => ({ key, label: key, title: key, blocks: [0] }))

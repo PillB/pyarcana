@@ -27,14 +27,15 @@ function goToPart(key: string) {
 /**
  * The map at the top of Teoría: how many parts are read, one chip per part, and a way back to
  * the first part not yet read. It is where a learner who left halfway starts again.
+ *
+ * It must not carry `data-section-id`: QAFooterBridge and SurveyPrompt take the first element with
+ * that attribute as the open section (static_first_paint caught a second one here).
  */
 export function TheoryOutline({
-  sectionId,
   parts,
   read,
   theoryDone,
 }: {
-  sectionId: string
   parts: readonly TheoryPart[]
   read: readonly string[]
   theoryDone: boolean
@@ -50,7 +51,6 @@ export function TheoryOutline({
       aria-label={t('theory.parts.nav', lang)}
       className="rounded-lg border border-sky-500/25 bg-sky-500/5 p-3"
       data-testid="theory-outline"
-      data-section-id={sectionId}
     >
       <div className="flex flex-wrap items-center gap-2">
         <Flag className="h-4 w-4 shrink-0 text-sky-600" aria-hidden="true" />

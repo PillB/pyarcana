@@ -169,7 +169,11 @@ export default function Home() {
   // Keep the open tab in the URL (#basics/ido), however it was chosen: tab, sidebar, ← →.
   useEffect(() => {
     if (view !== 'section' || !activeSectionId || typeof window === 'undefined') return
-    const want = `#${stepHash(activeSectionId, activeSubStep)}`
+    // Keep the section as the link spelled it (#S05 stays #S05): only the tab part changes.
+    // Rewriting it to the slug changed the location a QA report captures (static_first_paint).
+    const [written] = window.location.hash.slice(1).split('/')
+    const base = written && resolveCourseSectionId(written) === activeSectionId ? written : activeSectionId
+    const want = `#${stepHash(base, activeSubStep)}`
     if (window.location.hash !== want) {
       window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${want}`)
     }

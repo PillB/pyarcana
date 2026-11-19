@@ -494,7 +494,7 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
         <BookOpen className="h-5 w-5 text-sky-600" />
         <h2 className="text-xl font-semibold">Teoría</h2>
       </div>
-      <TheoryOutline sectionId={section.id} parts={parts} read={readParts} theoryDone={done} />
+      <TheoryOutline parts={parts} read={readParts} theoryDone={done} />
       {parts.length === 0
         ? section.theory.map(renderBlock)
         : parts.map((part) => (
