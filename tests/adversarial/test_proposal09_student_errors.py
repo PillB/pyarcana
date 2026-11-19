@@ -263,7 +263,7 @@ class S11(unittest.TestCase):
 
     def test_text_order_and_sorted_pair(self) -> None:
         self.assertEqual(stdout_of('print("E10" < "E2", sorted(("E2", "E10")))'), "True ['E10', 'E2']")
-        self.assertIn("`izq, der = sorted((", text(self.F))
+        self.assertIn("`izq, der = sorted(", text(self.F))
 
     def test_set_keeps_the_first_label(self) -> None:
         code = ("from dataclasses import dataclass, field\n@dataclass(frozen=True)\nclass R:\n"

@@ -1823,6 +1823,76 @@
     },
     {
       "row": 183,
+      "id": "S11-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "26be5d006b2c2300bd68d1a55b5a8d877f1358b8d3ff9376524efd043c17a34f",
+      "to_fp": "7808f0fcc315837bd46e2992775f8fd74c00b05500d1b45a34b3cb10c34bca36",
+      "reason": "WEDO-04: a fourth case, Decimal('1.001'), makes the two-decimal rule visible, so dropping quantize changes the output; the hint now runs (quantize(Decimal('0.01'))) and Transaction keeps client_id, the section's one shape.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 184,
+      "id": "S11-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "1237fc093bc00e02c4132cf37371313867f274bf6ec5163e73aef1596e6f1d9b",
+      "to_fp": "91823a03eb388275be531f3cee0cece15a1d0d8a96113ea8e916e4017902f90a",
+      "reason": "WEDO-07: a second line lists the dataclass fields, so storing full_name as a field changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 185,
+      "id": "S11-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "821928165db8a912de5710a75f631cd36ab0f75d5d9706de600fdb8892b7e21c",
+      "to_fp": "1efee13fa77d6e25acafa81e58e7e99328927d0f6324a36acf2e8089f7d80414",
+      "reason": "WEDO-09: the bounds 1.0 and 0.0 are valid scores, so an exclusive range check changes the output.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 186,
+      "id": "S11-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "c90e49007631059d4349e1d338254b628dffda3896c1b2c450c47ac154b9746b",
+      "to_fp": "60b12b875f7fc3a236949f21b77e4af8c2893c3bff4324c64b7b46a85900a1da",
+      "reason": "WEDO-18: two fixture cases (one adapter with a fake test, two adapters without one) make the fake-test branch visible.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 187,
+      "id": "S11-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "e6437b3855df412d159ca2c86afd741687534ffde2c686cdbef76e75899c8060",
+      "to_fp": "a370cbddbf24e47eae574206a71d4a8caf15aaaa106cf6a13d0bc434121d7ea4",
+      "reason": "WEDO-20: get on a missing id must print None, so a KeyError lookup fails.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 188,
+      "id": "S11-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "to_fp": "cc96b02e11a9e628707ad836e09479b643cf2d6b71d576d012ad7a2d572efff1",
+      "reason": "WEDO-22: the test checks that the ValueError names document_id, so a broad except over a domain without the check no longer prints pass.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 189,
+      "id": "S11-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "c0b4422ccdbd6d71feb17db6f3669033b8ad79a1dab7d03010e1a087e01f0b6c",
+      "to_fp": "7a09d926315fb4fc2ddea83e596987cbf173c6fab9ac027edc53aee1ccb010d6",
+      "reason": "WEDO-24: the solution also asserts is_family is absent, the other verdict name the section uses; the retrospective says the hasattr check covers only listed names.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S11 P2/P3 fixes)",
+      "date": "2026-11-18"
+    },
+    {
+      "row": 190,
       "id": "S12-T1-A-E2",
       "kind": "changed",
       "from_fp": "af4ba15da47d1153325cd5c1b8a6f247f9e9b816856fd717c3abd808b0e12bc1",
@@ -1832,7 +1902,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 184,
+      "row": 191,
       "id": "S12-T1-A-E3",
       "kind": "changed",
       "from_fp": "1deca238eadedcb82e54cfbf9582bca6357577b732f99f51f4b51c729c871abf",
@@ -1842,7 +1912,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 185,
+      "row": 192,
       "id": "S12-T1-B-E1",
       "kind": "changed",
       "from_fp": "f0a49d753d98ac1f1ab3fa484c5b8b3674f5ecda17aabee6372af4564b52c3c5",
@@ -1852,7 +1922,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 186,
+      "row": 193,
       "id": "S12-T1-B-E2",
       "kind": "changed",
       "from_fp": "c209feb749d87e47f6645fef57f17cbe9e12460553dd3b6a248ad2e5ef807f3e",
@@ -1862,7 +1932,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 187,
+      "row": 194,
       "id": "S12-T1-B-E3",
       "kind": "changed",
       "from_fp": "10019b0ee81a4f69acf88cba9402814b67dfa514b8bc7ae57f3666085ea4fe4d",
@@ -1872,7 +1942,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 188,
+      "row": 195,
       "id": "S12-T2-A-E1",
       "kind": "changed",
       "from_fp": "d70e0dee66723558af922fd0fa9d71fb5b2ce183e5a280e661c840d09102dc74",
@@ -1882,7 +1952,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 189,
+      "row": 196,
       "id": "S12-T2-A-E3",
       "kind": "changed",
       "from_fp": "63748486a2a30bbf685ee5ee6bbc10264b31fafb1fa296314469bb7daadaa3d9",
@@ -1892,7 +1962,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 190,
+      "row": 197,
       "id": "S12-T2-B-E1",
       "kind": "changed",
       "from_fp": "a9b63675d497187573c15fbe3f2e2e0ad7ac44949fda7a671a99cfa37a05435c",
@@ -1902,7 +1972,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 191,
+      "row": 198,
       "id": "S12-T2-B-E3",
       "kind": "changed",
       "from_fp": "5be9649e99f6fc2792d7b3ca5189b2977f4ab491e9fe70f43fdf9b71c4348b1b",
@@ -1912,7 +1982,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 192,
+      "row": 199,
       "id": "S12-T3-A-E1",
       "kind": "changed",
       "from_fp": "b447f2079773c5c22881032d93aea75a13c2560a2966d0b3a52f8ad2848a03e7",
@@ -1922,7 +1992,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 193,
+      "row": 200,
       "id": "S12-T3-A-E2",
       "kind": "changed",
       "from_fp": "4379b459f2e8cd9987cd5676b7582142d2bd7fd702392e2a4e716f83b4ca2a75",
@@ -1932,7 +2002,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 194,
+      "row": 201,
       "id": "S12-T3-A-E3",
       "kind": "changed",
       "from_fp": "39e9c3862e6a482dc777cacabc84a54f59e2ec0db51d1299a6baa007335957c1",
@@ -1942,7 +2012,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 195,
+      "row": 202,
       "id": "S12-T3-B-E1",
       "kind": "changed",
       "from_fp": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
@@ -1952,7 +2022,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 196,
+      "row": 203,
       "id": "S12-T3-B-E3",
       "kind": "changed",
       "from_fp": "b26826a9285c5650ead5f09e908f98afdda1b82961cec68c5a1cc6385cb94a3a",
@@ -1962,7 +2032,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 197,
+      "row": 204,
       "id": "S12-T4-A-E2",
       "kind": "changed",
       "from_fp": "1956dac4deb6e373017a65d66715f67d4a9cd8dcb0f0112624162b855aad45f0",
@@ -1972,7 +2042,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 198,
+      "row": 205,
       "id": "S12-T4-A-E3",
       "kind": "changed",
       "from_fp": "cc487309b7f390fb608e90db32500143fcd8d6cbc9afaaa8539a3d3248a0eb56",
@@ -1982,7 +2052,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 199,
+      "row": 206,
       "id": "S12-T4-B-E2",
       "kind": "changed",
       "from_fp": "2bdc331378304cad2b4765950d5d3e4cc25b1f1f8c4738d6b1a2fee2a19888e6",
@@ -1992,7 +2062,7 @@
       "date": "2026-11-18"
     },
     {
-      "row": 200,
+      "row": 207,
       "id": "S12-T4-B-E3",
       "kind": "changed",
       "from_fp": "fe2dac59e9788a08513dfa713205ad0e74d68c1d9d5e3399b4f0e3a0f25fec2b",
