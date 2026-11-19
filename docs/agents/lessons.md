@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S10, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S11, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -458,3 +458,47 @@ back. Read this list before a section round; every item cost at least one failed
   line, and lower `UNEXEMPLIFIED_CONCEPTS_OWED`, on the proposal 05 `f-string` precedent. Guard:
   when a ratchet in `test_concept_depth_ratchets` moves, diff `build_concepts` output between
   `origin/main` and the branch before deciding; never drop the term to make the count fall back.
+
+- **S11: one class name, three shapes.** `Transaction` had four fields in the We Do and the You
+  Do, three in a theory counterexample and in T1-B-E1; `ResolvedEntity` had one, two or a
+  document field depending on the block. A learner who copied one block and called it as another
+  got a `TypeError`. Root cause: each block was written on its own, and nothing compared class
+  definitions across a section. Fix: one field list per class (the date exercise T2-A-E2 is
+  exempt and named). Guard: `test_one_shape_per_class` parses every `class X` body in theory,
+  demos, starters, solutions and the You Do starter.
+- **S11: a warning about a failure the default code does not produce.** The theory warned that
+  a mutable entity's hash "changes" in a dict; a plain `@dataclass` (eq by fields, not frozen)
+  has `__hash__ = None`, so the learner meets `TypeError: unhashable type` instead
+  ([Python docs, dataclasses: `unsafe_hash` and `eq`](https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass)).
+  Fix: the block runs the plain dataclass first and prints the real error; the changing hash is
+  named only for a hand-written `__hash__`. Guard: run the warning's own case before writing it.
+- **S11: an oracle that says "solo si todo está correcto" and is not.** The You Do `test_domain`
+  printed `tests_pass` for six variants that break stated requirements (blank ids with spaces,
+  three decimals, the same id on both sides, exclusive bounds, `is_fraud` on a class). Fix:
+  cases for each. Guard: `YouDoOracleIsHonest` builds a reference from the starter's TODOs,
+  requires it to pass, and requires each of the six mutants to fail.
+- **S11: an exam item on a technique no lesson showed.** EXAM-23 asks how to make a test
+  deterministic when a service needs the time and a new id; the theory only said "sin reloj de
+  red". Fix: a counterexample block (`reloj_inyectado.py`) that injects the clock and the id
+  generator, after S09's injected clock. Guard: when an exam item's key names a technique, grep
+  the section's theory and demos for it before closing the bank.
+- **S11: splitting long sentences after the main baseline showed 0.** Main had no sentence over
+  32 words in S11; the glosses this round added nine. Fix: split them before the PR (0 again).
+  Guard: compare against a fresh baseline every round, even for a section that was clean.
+- **S10/S11: "never the longest" moved the length cue instead of removing it.** The S10 round
+  gave every item a distractor longer than the key, so the key became second-longest on 17 of
+  24; the strategy simulation showed "pick the second-longest" passing that bank for 100% of
+  simulated learners (S11's first pass: 36.5%). It went unseen because S10 was already on the
+  owed list for that strategy. Root cause: the fix targeted one strategy, not the cue. The
+  item-writing guideline is homogeneous option length, which means no rank the key prefers
+  (Haladyna, Downing & Rodriguez 2002, "A review of multiple-choice item-writing guidelines",
+  guideline on option length). Fix: spread the key's length rank (S10 now 3/7/7/7, S11 4/6/7/7,
+  no rank above 7 of 24, no ties), with three S10 keys longest again on purpose. Guard: the
+  section tests assert the spread, not "never longest", and the owed lists in
+  `exam-strategy-simulation.test.ts` are re-read after every bank change; a bank leaving an owed
+  list must not join another.
+- **S11: `*args` in a test loop tripped the first-use gate.** `RelationshipEvidence(*args)`
+  inside `test_invalid_evidence_is_rejected` is the `args-y-kwargs` concept, which the course
+  teaches later, so `test:ux-gates` reported a first use without gloss. Fix: unpack in the loop
+  header (`for left_id, right_id, score in ...`) and pass the three names. Guard: in a demo, call
+  with named values; reach for `*` only after the section that teaches it.

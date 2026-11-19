@@ -22,15 +22,15 @@ export const section11: CourseSection = {
   icon: "Boxes",
   accentColor: "bg-gradient-to-br from-cyan-500 to-blue-600",
   jobRelevance:
-    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí aprendes a construir un núcleo orientado a objetos: tipos con invariantes (esto es, reglas que el objeto siempre cumple, como «un cliente válido tiene email y documento»), composición y puertos testeables. Es la base sobre la que luego monta cualquier dashboard de evidencia que respete la privacidad de las personas.",
+    "Un modelo de dominio claro es la base de productos de matching y familiaridad (las señales que relacionan a clientes entre sí, sin afirmar parentesco) sin inventar veredictos legales. Aquí aprendes a construir un núcleo orientado a objetos: tipos con invariantes, composición y puertos testeables. Un invariante es una regla que el objeto siempre cumple, como «un cliente válido tiene `client_id` y `document_id` no vacíos». Es la base sobre la que luego monta cualquier dashboard de evidencia que respete la privacidad de las personas.",
   learningOutcomes: [
-    { text: "Modelar entidades con class/dataclass e instancias válidas" },
-    { text: "Imponer invariantes en construcción sin side-effects externos" },
+    { text: "Modelar entidades con clases y `dataclass` (un decorador que genera el constructor por ti) e instancias válidas" },
+    { text: "Imponer invariantes al construir el objeto, sin efectos colaterales externos" },
     { text: "Encapsular con properties y métodos de consulta seguros" },
-    { text: "Definir igualdad/hash y mutabilidad (frozen) consciente" },
+    { text: "Definir igualdad, hash y mutabilidad consciente con `frozen` (objetos que no cambian después de creados)" },
     { text: "Preferir composición a herencia frágil" },
-    { text: "Usar Protocol/duck typing para puertos del dominio" },
-    { text: "Separar dominio de I/O con repo/service y to_dict" },
+    { text: "Usar `Protocol` (un contrato de métodos que cualquier objeto puede cumplir sin heredar) para los puertos del dominio" },
+    { text: "Separar el dominio de la entrada/salida con repositorio, servicio y `to_dict` (el método que convierte el objeto en diccionario)" },
     { text: "Probar dominio puro y evitar APIs de fraude/parentesco" },
   ],
   theory: [
@@ -39,15 +39,15 @@ export const section11: CourseSection = {
       paragraphs: [
         "Hasta aquí un cliente ha sido un diccionario: `{'id': 'C001', 'nombre': 'Ana', 'monto': '150.00'}`. Es cómodo y no protege nada. Nadie impide escribir `registro['nombe']` con la letra cambiada. Tampoco impide que a mitad del programa aparezca un registro sin `monto`, ni que el mismo campo sea texto en una función y número en la siguiente. El error no se nota donde se comete, sino tres funciones más adelante, cuando ya perdiste el rastro.",
         "La alternativa es darle nombre a la cosa. Un diccionario es una hoja en blanco donde cabe cualquier anotación; un tipo con nombre es un formulario impreso: tiene casillas fijas, y las casillas obligatorias no se pueden dejar vacías. `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence` son esos formularios, y a partir de ahora son el vocabulario del programa.",
-        "Lo que un formulario aporta de verdad son los **invariantes**: las condiciones que tienen que ser ciertas siempre para que ese objeto tenga sentido. Un `Transaction` no puede tener monto negativo; su moneda tiene que ser una de las permitidas; un `CaseFile` no puede sostener una relación sin al menos una `RelationshipEvidence` que la respalde. Fíjate en que ese último invariante es del expediente, no de la entidad: `ResolvedEntity` se construye con identificador y nombre, y las evidencias viven en el agregado que las agrupa. La decisión que ordena la sección es *dónde* se comprueba eso, y la respuesta es: al construir el objeto. Si un campo obligatorio falta, la construcción falla ahí mismo en lugar de rellenar en silencio y contaminar todo lo que venga después.",
-        "Hay una frontera ética que estos tipos hacen visible. `RelationshipEvidence` guarda señales de relación y un puntaje; ninguna clase de esta sección emite un veredicto. Un puntaje es un dato con incertidumbre, no una conclusión legal sobre una persona. Por eso no existe ninguna función que se llame `is_fraud` ni `is_family`: no es un olvido, es el diseño.",
+        "Lo que un formulario aporta de verdad son los **invariantes**: las condiciones que tienen que ser ciertas siempre para que ese objeto tenga sentido. Un `Transaction` no puede tener monto negativo, y su moneda tiene que ser una de las permitidas. Un `CaseFile`, el expediente de un caso, solo admite objetos `RelationshipEvidence`, que ya pasaron su propia validación al construirse. Ese último invariante es del expediente, no de la entidad. `ResolvedEntity` se construye con identificador y nombre, y las evidencias viven en el agregado, el objeto raíz que las agrupa (aquí, el expediente). La decisión que ordena la sección es *dónde* se comprueba eso, y la respuesta es: al construir el objeto. Si un campo obligatorio falta, la construcción falla ahí mismo en lugar de rellenar en silencio y contaminar todo lo que venga después.",
+        "Hay una frontera ética que estos tipos hacen visible. `RelationshipEvidence` guarda señales de relación y un puntaje; ninguna clase de esta sección emite un veredicto. Un puntaje es un dato con incertidumbre, no una conclusión legal sobre una persona. Tampoco es una probabilidad calibrada: `signal_score` es una señal de matching entre 0 y 1, sin garantía estadística de que la relación exista. Por eso no existe ninguna función que se llame `is_fraud` ni `is_family`: no es un olvido, es el diseño.",
         "Cada tipo que escribas responde la misma pregunta. **¿Qué tiene que ser verdad para que este objeto pueda existir?** La respuesta te da las validaciones, los mensajes de error y las pruebas casi gratis. Trabajarás con `dataclass`, propiedades, composición y `Protocol` de la biblioteca estándar. Los frameworks web y los ORM, las bibliotecas que traducen objetos a tablas de base de datos, llegan más adelante, cuando ya sepas qué estarías traduciendo.",
       ],
       callout: {
         type: "info",
         title: "CP-N1-C modelo de dominio",
         content:
-          "Gate: cuatro tipos explícitos, invariantes, tests sin red/DB, README de límites éticos del modelo.",
+          "Gate: cuatro tipos explícitos, invariantes, tests sin red ni base de datos (DB), README de límites éticos del modelo.",
       },
      },
      {
@@ -55,7 +55,7 @@ export const section11: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas, alcance y criterio de cierre.",
-        "**Orden de los subtemas.** T1 introduce los objetos y las `dataclass`. T2 trata la encapsulación: propiedades y validación en el borde. T3 pasa al diseño: composición antes que herencia. T4 cierra con los límites: repositorios en memoria y pruebas puras.",
+        "**Orden de los subtemas.** T1 introduce los objetos y las `dataclass`. T2 trata la encapsulación (propiedades y validación en el borde) y la identidad: igualdad, hash y `frozen`. T3 pasa al diseño: composición antes que herencia. T4 cierra con los límites: repositorios en memoria y pruebas puras.",
         "**Caso de laboratorio.** Datos sintéticos peruanos: identificadores `C00x` y `E0x`, correos `@ejemplo.pe`, montos en `Decimal` sobre soles y dólares.",
         "**Criterio de cierre (CP-N1-C).** Los cuatro tipos con sus invariantes, pruebas que corren sin red ni base de datos, y un README que declare los límites éticos del modelo.",
         "**Límites.** Nunca datos personales reales. Ninguna interfaz `is_fraud` ni `is_family`: los puntajes son datos, no decisiones sobre personas.",
@@ -64,7 +64,7 @@ export const section11: CourseSection = {
      {
       heading: "Métodos especiales: nombres con doble guion bajo",
       paragraphs: [
-        "Antes de usar `@dataclass`, necesitas reconocer una señal de Python. Una **clase** es un molde para crear objetos; una función escrita dentro de ese molde se llama **método**. Cada objeto creado con la clase es una **instancia**.",
+        "Antes de usar `@dataclass` (un decorador: una marca sobre la clase que hace que Python genere métodos por ti), necesitas reconocer una señal de Python. Una **clase** es un molde para crear objetos; una función escrita dentro de ese molde se llama **método**. Cada objeto creado con la clase es una **instancia**.",
         "Un **método dunder** es un método cuyo nombre empieza y termina con dos guiones bajos; *dunder* abrevia *double underscore*, que significa «doble guion bajo». Python reserva esa forma para operaciones que activa por ti: `__init__` recibe los valores al crear una instancia y `__repr__` produce una representación legible del objeto. Así, todas las clases responden a las mismas operaciones sin inventar un nombre distinto en cada programa; normalmente activas la operación y no llamas al método dunder a mano.",
         "En el ejemplo, `ClientRecord(\"C001\")` activa el `__init__` que genera `@dataclass`. Después, `print(c)` obtiene la representación creada por `__repr__`, mientras que `print(c.client_id)` muestra solo el valor guardado.",
         "Ahora hazlo tú: antes de ejecutar, cambia `C001` por `C002` y escribe las dos líneas que esperas. Lo correcto es `ClientRecord(client_id='C002')` y luego `C002`. Ejecuta el bloque para comprobarlo; si ambas líneas coinciden, reconociste qué operación activa cada método especial.",
@@ -212,27 +212,27 @@ reject document_id vacío`,
     {
       heading: "Contraejemplo: el constructor que arregla el dato cambia el total",
       paragraphs: [
-        "El lote trae una transacción válida en soles, una en euros y una con monto negativo. `TransactionArreglada` cambia la moneda no admitida por `PEN` y el monto no positivo por `0.01`; `Transaction` rechaza las dos con un `ValueError` que nombra la regla.",
-        "Con el arreglo, `T2` aparece como `200.00 PEN` y el total en soles sube a `350.50`, aunque el lote solo tenía `150.50` soles. Doscientos euros se contaron como soles, sin conversión ni aviso. Con el rechazo, el total es `150.50` y las dos transacciones problemáticas quedan visibles para que alguien decida qué hacer con ellas.",
+        "El lote trae una transacción válida en soles, una en euros y una con monto negativo. `TransactionArreglada` cambia la moneda no admitida por `PEN` y el monto no positivo por `0.01`; `Transaction` rechaza las dos con un `ValueError` que nombra la regla. Las dos clases tienen la forma de toda la sección: `tx_id`, `client_id`, `amount` y `currency`.",
+        "Con el arreglo, `T2` aparece como `200.00 PEN` y el total en soles sube a `350.50`, aunque el lote solo tenía `150.50` soles. Doscientos euros se contaron como soles, sin conversión ni aviso. Con el rechazo, el total es `150.50` y las dos transacciones problemáticas quedan visibles para que alguien decida qué hacer con ellas. La última línea es el caso válido del bloque anterior, `Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\")`.",
       ],
       code: {
         language: "python",
         title: "constructor_arregla.py",
-        code: "# Error: el constructor «arregla» en silencio lo que no le gusta\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\nlote = [(\"T1\", \"150.50\", \"PEN\"), (\"T2\", \"200.00\", \"EUR\"), (\"T3\", \"-40.00\", \"USD\")]\n\n\n@dataclass\nclass TransactionArreglada:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            self.currency = \"PEN\"\n        if self.amount <= 0:\n            self.amount = Decimal(\"0.01\")\n\n\ntxs = [TransactionArreglada(t, Decimal(a), c) for t, a, c in lote]\nfor tx in txs:\n    print(\"arreglada:\", tx.tx_id, tx.amount, tx.currency)\ntotal = sum((tx.amount for tx in txs if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)\n\n\n# Corrección: el constructor rechaza; nadie cambia el dato de origen\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(f\"{self.tx_id}: currency no soportada\")\n        if self.amount <= 0:\n            raise ValueError(f\"{self.tx_id}: amount debe ser > 0\")\n\n\naceptadas = []\nfor t, a, c in lote:\n    try:\n        aceptadas.append(Transaction(t, Decimal(a), c))\n    except ValueError as e:\n        print(\"rechazada:\", e)\ntotal = sum((tx.amount for tx in aceptadas if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)",
-        output: "arreglada: T1 150.50 PEN\narreglada: T2 200.00 PEN\narreglada: T3 0.01 USD\ntotal PEN: 350.50\nrechazada: T2: currency no soportada\nrechazada: T3: amount debe ser > 0\ntotal PEN: 150.50",
+        code: "# Error: el constructor «arregla» en silencio lo que no le gusta\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\nlote = [(\"T1\", \"C001\", \"150.50\", \"PEN\"), (\"T2\", \"C002\", \"200.00\", \"EUR\"), (\"T3\", \"C003\", \"-40.00\", \"USD\")]\n\n\n@dataclass\nclass TransactionArreglada:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            self.currency = \"PEN\"\n        if self.amount <= 0:\n            self.amount = Decimal(\"0.01\")\n\n\ntxs = [TransactionArreglada(t, cid, Decimal(a), c) for t, cid, a, c in lote]\nfor tx in txs:\n    print(\"arreglada:\", tx.tx_id, tx.amount, tx.currency)\ntotal = sum((tx.amount for tx in txs if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)\n\n\n# Corrección: el constructor rechaza; nadie cambia el dato de origen\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(f\"{self.tx_id}: currency no soportada\")\n        if self.amount <= 0:\n            raise ValueError(f\"{self.tx_id}: amount debe ser > 0\")\n\n\naceptadas = []\nfor t, cid, a, c in lote:\n    try:\n        aceptadas.append(Transaction(t, cid, Decimal(a), c))\n    except ValueError as e:\n        print(\"rechazada:\", e)\ntotal = sum((tx.amount for tx in aceptadas if tx.currency == \"PEN\"), Decimal(\"0\"))\nprint(\"total PEN:\", total)\nprint(Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\"))",
+        output: "arreglada: T1 150.50 PEN\narreglada: T2 200.00 PEN\narreglada: T3 0.01 USD\ntotal PEN: 350.50\nrechazada: T2: currency no soportada\nrechazada: T3: amount debe ser > 0\ntotal PEN: 150.50\nTransaction(tx_id='T1', client_id='C001', amount=Decimal('150.50'), currency='PEN')",
       },
     },
     {
       heading: "Contraejemplo: el documento vacío forma un grupo falso",
       paragraphs: [
-        "Tres clientes llegaron con el documento vacío o hecho solo de espacios. En el error, el índice aplica `strip` y acepta lo que queda, aunque sea `\"\"`. En la corrección, el borde aplica el mismo `strip` y rechaza el vacío antes de indexar.",
-        "El índice del error agrupa a `C002`, `C003` y `C004` bajo la clave vacía y produce tres pares que «comparten documento». El matching vería tres coincidencias entre clientes que no tienen nada en común. En la corrección, esos tres quedan en `rechazados` y no se forma ningún par.",
+        "Tres clientes llegaron con el documento vacío o hecho solo de espacios. En el error, el índice aplica `strip` y acepta lo que queda, aunque sea `\"\"`. En la corrección, la regla vive en el tipo, como pide la sección. El constructor de `Cliente` rechaza el documento vacío, y el lote anota el rechazo y sigue con el siguiente cliente.",
+        "El índice del error agrupa a `C002`, `C003` y `C004` bajo la clave vacía y produce tres pares que «comparten documento». El matching vería tres coincidencias entre clientes que no tienen nada en común. En la corrección, esos tres quedan en `rechazados` con el mensaje del constructor, y no se forma ningún par.",
       ],
       code: {
         language: "python",
         title: "documento_vacio.py",
-        code: "# Error: se normaliza con strip, pero el vacío se acepta como documento\nclientes = [(\"C001\", \"D-100\"), (\"C002\", \" \"), (\"C003\", \"\"), (\"C004\", \"  \")]\n\n\ndef pares_por_documento(indice: dict) -> list[tuple[str, str]]:\n    pares = []\n    for ids in indice.values():\n        for i in range(len(ids)):\n            for j in range(i + 1, len(ids)):\n                pares.append((ids[i], ids[j]))\n    return pares\n\n\nindice = {}\nfor client_id, doc in clientes:\n    clave = doc.strip()\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(client_id)\nprint(\"índice:\", indice)\nprint(\"comparten documento:\", pares_por_documento(indice))\n\n# Corrección: strip en el borde y rechazo del vacío antes de indexar\nindice, rechazados = {}, []\nfor client_id, doc in clientes:\n    clave = doc.strip()\n    if not clave:\n        rechazados.append(client_id)\n        continue\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(client_id)\nprint(\"índice:\", indice, \"| rechazados:\", rechazados)\nprint(\"comparten documento:\", pares_por_documento(indice))",
-        output: "índice: {'D-100': ['C001'], '': ['C002', 'C003', 'C004']}\ncomparten documento: [('C002', 'C003'), ('C002', 'C004'), ('C003', 'C004')]\níndice: {'D-100': ['C001']} | rechazados: ['C002', 'C003', 'C004']\ncomparten documento: []",
+        code: "# Error: se normaliza con strip, pero el vacío se acepta como documento\nfrom dataclasses import dataclass\n\nclientes = [(\"C001\", \"D-100\"), (\"C002\", \" \"), (\"C003\", \"\"), (\"C004\", \"  \")]\n\n\ndef pares_por_documento(indice: dict) -> list[tuple[str, str]]:\n    pares = []\n    for ids in indice.values():\n        for i in range(len(ids)):\n            for j in range(i + 1, len(ids)):\n                pares.append((ids[i], ids[j]))\n    return pares\n\n\nindice = {}\nfor client_id, doc in clientes:\n    clave = doc.strip()\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(client_id)\nprint(\"índice:\", indice)\nprint(\"comparten documento:\", pares_por_documento(indice))\n\n\n# Corrección: el constructor rechaza el documento vacío; el lote anota el rechazo\n@dataclass\nclass Cliente:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self) -> None:\n        if not self.document_id.strip():\n            raise ValueError(f\"{self.client_id}: document_id vacío\")\n\n\nindice, rechazados = {}, []\nfor client_id, doc in clientes:\n    try:\n        c = Cliente(client_id, doc)\n    except ValueError as e:\n        rechazados.append(str(e))\n        continue\n    clave = c.document_id.strip()\n    if clave not in indice:\n        indice[clave] = []\n    indice[clave].append(c.client_id)\nprint(\"índice:\", indice)\nprint(\"rechazados:\", rechazados)\nprint(\"comparten documento:\", pares_por_documento(indice))",
+        output: "índice: {'D-100': ['C001'], '': ['C002', 'C003', 'C004']}\ncomparten documento: [('C002', 'C003'), ('C002', 'C004'), ('C003', 'C004')]\níndice: {'D-100': ['C001']}\nrechazados: ['C002: document_id vacío', 'C003: document_id vacío', 'C004: document_id vacío']\ncomparten documento: []",
       },
     },
     {
@@ -240,8 +240,8 @@ reject document_id vacío`,
       subtopicId: "S11-T2-A",
       paragraphs: [
         "`@property` (un decorador que convierte un método en un atributo calculado, accesible sin paréntesis) expone campos derivados como `display_name` y `masked_email` **sin** mutación peligrosa desde afuera. La UI (interfaz de usuario), los logs (registros de ejecución) y el dashboard de evidencia (el panel donde se muestra la evidencia) deben preferir la máscara. El email raw, el dato en bruto sin enmascarar, queda en el campo interno solo para el borde autorizado: export legal o backoffice interno.",
-        "Métodos de instancia encapsulan consultas puras (funciones que solo leen, sin modificar), como `age_days_since(as_of)`. Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Si `emails` está vacío o el primer email no tiene `@`, `masked_email` falla de forma cerrada o devuelve un sentinel documentado, un valor marcador como `(sin email)` que indica que no hay dato. Nunca debe aparecer un `IndexError`, la excepción que ocurre al acceder a un índice que no existe, en el flujo de matching.",
-        "Setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio (p. ej. un score en [0, 1]); si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DOC-0003\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime `display_name` y el email enmascarado. En stdout (la salida estándar, lo que se imprime en la consola) no aparece la PII completa, la información personal identificable."
+        "Métodos de instancia encapsulan consultas puras (funciones que solo leen, sin modificar), como `age_days_since(as_of)`. Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Si `emails` está vacío, `masked_email` devuelve `(sin email)`; si el primer correo no tiene `@`, devuelve `(email inválido)`. Son sentinels documentados: valores marcadores que dicen que no hay un dato usable. Nunca debe aparecer un `IndexError`, la excepción que ocurre al acceder a un índice que no existe, en el flujo de matching.",
+        "Usa setters validados (los métodos que asignan un valor a un atributo) solo cuando la mutación es parte del modelo de negocio, como un score en [0, 1]. Si no, prefiere **`frozen`** (congelado, lo que impide mutar el objeto tras crearlo) o devolver una **nueva instancia**. En el ejemplo, `display_name` es el nombre completo, así que la primera línea lo imprime tal cual: es PII (información personal identificable) y va a la ficha, no a un log. Solo el correo sale enmascarado."
       ],
       code: {
         language: 'python',
@@ -326,14 +326,29 @@ print(ClientRecord("C002", "DOC-0002", "Sin mail").masked_email)`,
       paragraphs: [
         "La identidad de `ResolvedEntity` (lo que hace que dos objetos sean 'el mismo') usa su **`entity_id` estable**, no `document_id`. Un documento es PII (información personal identificable) y puede corregirse o reemitirse; usarlo como identidad fusionaría entidades por accidente en el set de resolución (el conjunto donde se agrupan entidades únicas).",
         "**`frozen=True`** congela el objeto al construirlo e impide mutarlo después. Eso habilita un hash seguro, el número fijo que Python usa para ubicar el objeto en sets y diccionarios de matching local. Hay una condición que conviene conocer antes de que falle: el hash se calcula sobre los campos que entran en la comparación. Si uno de ellos guarda una lista o un dict, `hash()` lanza `TypeError` pese al `frozen`; para esos campos usa una tupla o exclúyelos con `field(compare=False)`.",
-        "Usar entidades mutables como keys de dict (claves de diccionario) es una fuente clásica de bugs. El hash cambia si mutas un campo que entra en `__eq__` y `__hash__`, los métodos que definen la igualdad y el hash. Usa `field(compare=False)` (una directiva que excluye un campo de `__eq__` y del hash) para etiquetas visibles como `display_name`. Ojo con lo que eso permite exactamente: si el objeto es `frozen`, seguirás sin poder reasignar el campo — corregir una etiqueta es construir una copia con `dataclasses.replace(...)`. Con `compare=False`, esa copia corregida sigue siendo **igual** a la original y conserva su hash. Así, arreglar un nombre mal escrito no convierte la entidad en otra distinta dentro de un `set` o de un dict. Fail-closed: `entity_id` vacío o solo espacios → `ValueError` al construir.",
-        "Los value objects (objetos-valor: tipos pequeños sin identidad propia más allá de sus campos), como `RelationshipEvidence`, suelen ser frozen. Los agregados, raíces que agrupan varios objetos relacionados, pueden ser mutables con métodos `add` controlados; `CaseFile`, con sus listas de evidencias, es uno. Caso sintético PE: crea `ResolvedEntity(\"E1\", \"Ana\")` y luego `ResolvedEntity(\"E1\", \"Ana actualizada\")`. El set `{e1, e1b, e2}` tiene tamaño **2**, porque la igualdad es solo por `entity_id`: el relabel (cambio de etiqueta) del nombre no inventa una tercera entidad. El set conserva el primer objeto: después de `s.add(ResolvedEntity(\"E1\", \"Ana actualizada\"))`, el nombre que queda es `Ana`. Si la versión nueva debe ganar, guarda las entidades en un diccionario por `entity_id`, donde la última asignación reemplaza a la anterior."
+        "Una dataclass común, sin `frozen`, compara por campos con `__eq__`, y por eso Python le quita `__hash__`: meterla en un `set` o usarla como clave de diccionario lanza `TypeError: unhashable type`. Es la primera línea del ejemplo. Un hash que cambia en silencio solo aparece si alguien escribe `__hash__` a mano sobre campos mutables, como en el ejercicio T2-B-E3. Al mutar el campo, el diccionario ya no encuentra la entrada.",
+        "Usa `field(compare=False)` (una directiva que excluye un campo de `__eq__` y del hash) para etiquetas visibles como `display_name`. Si el objeto es `frozen`, seguirás sin poder reasignar el campo: corregir una etiqueta es construir una copia con `dataclasses.replace(...)`. Con `compare=False`, esa copia es **igual** a la original y conserva su hash, así que arreglar un nombre mal escrito no crea otra entidad dentro de un `set`. Fail-closed: `entity_id` vacío o solo espacios → `ValueError` al construir.",
+        "Los value objects (objetos-valor: tipos pequeños sin identidad propia más allá de sus campos), como `RelationshipEvidence`, suelen ser frozen. Los agregados, raíces que agrupan varios objetos relacionados, pueden ser mutables con métodos `add` controlados; `CaseFile`, con sus listas de evidencias, es uno.",
+        "Caso sintético PE: crea `ResolvedEntity(\"E1\", \"Ana\")` y luego `ResolvedEntity(\"E1\", \"Ana actualizada\")`. El set `{e1, e1b, e2}` tiene tamaño **2**, porque la igualdad es solo por `entity_id`: el relabel (cambio de etiqueta) del nombre no inventa una tercera entidad. El set conserva el primer objeto: después de `s.add(ResolvedEntity(\"E1\", \"Ana actualizada\"))`, el nombre que queda es `Ana`. Si la versión nueva debe ganar, guarda las entidades en un diccionario por `entity_id`, donde la última asignación reemplaza a la anterior."
       ],
       code: {
         language: 'python',
         title: "frozen_entity.py",
         code: `from dataclasses import dataclass, field
 
+# Error: una dataclass común compara por campos y Python le quita el hash
+@dataclass
+class EntidadMutable:
+    entity_id: str
+    display_name: str
+
+try:
+    {EntidadMutable("E1", "Ana")}
+except TypeError as e:
+    print("sin frozen →", e)
+
+
+# Corrección: frozen, con la etiqueta fuera de la igualdad
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
@@ -349,7 +364,8 @@ s = {a, ResolvedEntity("E2", "Luis")}
 print("same id eq?", a == ResolvedEntity("E1", "otra"))
 print("set size", len(s))
 print("E1 in set", a in s)`,
-        output: `same id eq? True
+        output: `sin frozen → unhashable type: 'EntidadMutable'
+same id eq? True
 set size 2
 E1 in set True`,
       },
@@ -376,13 +392,13 @@ E1 in set True`,
     {
       heading: "Contraejemplo: la misma señal contada dos veces en una lista",
       paragraphs: [
-        "La señal `E1–E2` con score `0.2` llegó dos veces, por ejemplo por un reintento del proveedor. El error la acumula en una lista; la corrección construye un `set`, que funciona porque `Evidence` es `frozen` y por eso se puede usar como elemento de un conjunto.",
+        "La señal `E1–E2` con score `0.2` llegó dos veces, por ejemplo por un reintento del proveedor. El error la acumula en una lista; la corrección construye un `set`, que funciona porque `RelationshipEvidence` es `frozen` y por eso se puede usar como elemento de un conjunto.",
         "La lista cuenta `3` señales y suma `0.5`; el set cuenta `2` y suma `0.3`. La diferencia es justamente la señal repetida, que en la lista inflaba la evidencia del par.",
       ],
       code: {
         language: "python",
         title: "senal_duplicada.py",
-        code: "# Error: acumular en una lista cuenta el duplicado\nfrom dataclasses import dataclass\n\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\n\n# La misma señal llegó dos veces (por ejemplo, un reintento del proveedor)\nrecibidas = [\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E3\", 0.1),\n]\n\nprint(\"lista → señales:\", len(recibidas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in recibidas), 2))\n\n# Corrección: un set de objetos frozen guarda cada señal una vez\nunicas = set(recibidas)\nprint(\"set   → señales:\", len(unicas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in unicas), 2))",
+        code: "# Error: acumular en una lista cuenta el duplicado\nfrom dataclasses import dataclass\n\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\n\n# La misma señal llegó dos veces (por ejemplo, un reintento del proveedor)\nrecibidas = [\n    RelationshipEvidence(\"E1\", \"E2\", 0.2),\n    RelationshipEvidence(\"E1\", \"E2\", 0.2),\n    RelationshipEvidence(\"E1\", \"E3\", 0.1),\n]\n\nprint(\"lista → señales:\", len(recibidas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in recibidas), 2))\n\n# Corrección: un set de objetos frozen guarda cada señal una vez\nunicas = set(recibidas)\nprint(\"set   → señales:\", len(unicas),\n      \"| suma de scores:\", round(sum(e.signal_score for e in unicas), 2))",
         output: "lista → señales: 3 | suma de scores: 0.5\nset   → señales: 2 | suma de scores: 0.3",
       },
     },
@@ -391,9 +407,11 @@ E1 in set True`,
       subtopicId: "S11-T3-A",
       paragraphs: [
         "Tras fijar la identidad frozen en T2-B, el diseño pasa a **cómo se agrupan** los objetos. La relación **has-a** (tiene-un), también llamada composición, describe un objeto que contiene a otros en lugar de heredar de ellos. Así se modela el caso de familiaridad: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`.",
-        "No fuerces `Client(PersonInfo(BaseEntity))` solo para reutilizar un campo de nombre.",
-        "Una evidencia usa un **par canónico** (una forma única de ordenar el par de ids, con `left_id < right_id`), ids distintos y `signal_score` (la puntuación de la señal) finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén de matching. El orden es el de los textos, no el de los números: `\"E10\" < \"E2\"` es `True` porque `\"1\"` va antes que `\"2\"`. Para construir el par, ordena los dos ids: `izq, der = sorted((\"E2\", \"E10\"))` da `('E10', 'E2')`. Fail-closed si el par no es canónico o el score es NaN o está fuera de rango — no “recortes” silenciosos.",
-        "La herencia, que es cuando una clase deriva de otra, solo procede si hay **subtipo real** (is-a, es-un). Usa los mixins (clases pequeñas que añaden comportamiento a otras) con cautela. Añaden complejidad invisible en el MRO, el orden de resolución de métodos: la ruta que sigue Python para buscar un método en una jerarquía. Prefiere funciones puras (sin side-effects) o colaboración entre objetos tipados. Caso sintético PE: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
+        "La tentación típica es la herencia por comodidad: una clase `Client` que hereda de una ficha `PersonInfo` solo para reutilizar el campo del nombre. Entonces cualquier cambio en `PersonInfo` cambia también a `Client`, aunque un cliente no sea una ficha personal. En el ejercicio T3-A-E1 harás el cambio a composición: `Client` **tiene** un `PersonInfo`.",
+        "Una evidencia usa un **par canónico** (una forma única de ordenar el par de ids, con `left_id < right_id`), ids distintos y `signal_score` (la puntuación de la señal) finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén de matching.",
+        "El orden es el de los textos, no el de los números: `\"E10\" < \"E2\"` es `True` porque `\"1\"` va antes que `\"2\"`. Para construir el par, ordena los dos ids: `sorted((\"E2\", \"E10\"))` da la lista `['E10', 'E2']`, y `izq, der = sorted(...)` la desempaqueta en dos variables. Fail-closed si el par no es canónico o el score es NaN o está fuera de rango — no “recortes” silenciosos.",
+        "La herencia, que es cuando una clase deriva de otra, solo procede si hay **subtipo real** (is-a, es-un). Usa los mixins (clases pequeñas que añaden comportamiento a otras) con cautela. Añaden complejidad invisible en el MRO, el orden de resolución de métodos: la ruta que sigue Python para buscar un método en una jerarquía. Prefiere funciones puras (sin side-effects) o colaboración entre objetos tipados.",
+        "Caso sintético PE: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`. `add` comprueba con `isinstance` que recibe una `RelationshipEvidence`: un dict con un par invertido y un score de `7` se rechaza con `TypeError`, la última línea del ejemplo.",
         "La composición mantiene el dominio auditable: puedes serializar (convertir a un formato plano) el grafo de evidencias (la red de relaciones entre evidencias) sin arrastrar jerarquías frágiles. Documenta en el README del gate que `signal_score` es **dato de matching**, no parentesco legal ni veredicto de fraude."
       ],
       code: {
@@ -405,6 +423,7 @@ from math import isfinite
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
+    display_name: str = field(compare=False)
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -424,12 +443,19 @@ class CaseFile:
     evidences: list[RelationshipEvidence] = field(default_factory=list)
 
     def add(self, ev: RelationshipEvidence) -> None:
+        if not isinstance(ev, RelationshipEvidence):
+            raise TypeError("CaseFile.add espera RelationshipEvidence")
         self.evidences.append(ev)
 
-cf = CaseFile(entity=ResolvedEntity("E1"))
+cf = CaseFile(entity=ResolvedEntity("E1", "Ana"))
 cf.add(RelationshipEvidence("E1", "E2", 0.42))
-print(len(cf.evidences), cf.evidences[0].signal_score)`,
-        output: `1 0.42`,
+print(len(cf.evidences), cf.evidences[0].signal_score)
+try:
+    cf.add({"left_id": "E2", "right_id": "E1", "signal_score": 7})
+except TypeError as e:
+    print("reject", e)`,
+        output: `1 0.42
+reject CaseFile.add espera RelationshipEvidence`,
       },
       callout: {
         type: "danger",
@@ -444,7 +470,7 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       paragraphs: [
         "`typing.Protocol` describe un **puerto**, un punto de extensión del dominio donde se conectan adaptadores externos. `EntityStore`, con `get` y `save`, es un puerto, y no obliga a nadie a heredar de una clase. Es duck typing estructural: si camina como pato y nada como pato, es pato, sin pedir herencia. Cualquier objeto con esos métodos cumple el contrato en el chequeo estático, la verificación que hace el analizador de tipos antes de ejecutar. Con `@runtime_checkable`, un decorador que habilita la verificación al ejecutar, también lo cumple en `isinstance`, la función que comprueba si un objeto es de un tipo.",
         "Sirve para **fakes en tests del dominio** (implementaciones de mentira, útiles para tests sin red ni DB) y para no acoplar el núcleo a SQLite, HTTP o un ORM. Evita ABC pesados (clases base abstractas, una alternativa más rígida al Protocol) si el Protocol basta. Si la base de datos no responde, el **adaptador real** (la implementación concreta que habla con ella) falla de forma cerrada. El dominio no captura excepciones de I/O; las captura el borde de infraestructura, la frontera técnica con el mundo exterior.",
-        "No introduzcas un Protocol «por si acaso» cuando hay una sola implementación y ningún fake de test. Es el principio YAGNI (You Aren't Gonna Need It): no añadir abstracciones hasta que hacen falta. Caso sintético PE: los tests de T4 usan un `FakeStore` en memoria. El adaptador que habla con SQL o HTTP llega en **S12**, sin reescribir `ClientService` ni los invariantes del dominio."
+        "Es el principio YAGNI (You Aren't Gonna Need It): no añadir una abstracción hasta que haga falta. Un Protocol se justifica cuando hay dos implementaciones o un fake de test; con una sola implementación y ningún fake, solo agrega un archivo más que leer. El ejercicio T3-B-E3 convierte esa regla en código. Caso sintético PE: los tests de T4 usan un `FakeStore` en memoria. El adaptador que habla con SQL o HTTP llega en **S12**, sin reescribir `ClientService` ni los invariantes del dominio."
       ],
       code: {
         language: 'python',
@@ -479,7 +505,7 @@ True`,
         type: "tip",
         title: "Puertos",
         content:
-          "El dominio habla con Protocol; el adapter SQL llega después sin reescribir reglas.",
+          "El dominio habla con Protocol; el adaptador SQL llega después sin reescribir reglas.",
       },
     },
     {
@@ -500,7 +526,8 @@ True`,
       subtopicId: "S11-T4-A",
       paragraphs: [
         "**Repository** light (un patrón que aísla el acceso al almacén de datos detrás de métodos `get`/`save`). **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict` y `from_dict` convierten entre el objeto de dominio y un diccionario plano. Viven en el **borde** de serialización, la frontera donde el objeto entra o sale del sistema, separados de los invariantes de negocio.",
-        "Serializa sin secretos ni PII innecesaria en logs. El `to_dict` del ejemplo es el registro completo que guarda el repositorio. Un export para un tablero o una línea de log usa otro diccionario, solo con `client_id` y los campos que ese destino necesita. Notas internas de backoffice (el panel interno de operación, como `internal_note`) no van al export de dashboard. DTOs (objetos de transferencia de datos, que son diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
+        "Serializa sin secretos ni PII innecesaria en logs. El `to_dict` del ejemplo es el registro completo que guarda el repositorio. Un export para un tablero o una línea de log usa otro diccionario, solo con `client_id` y los campos que ese destino necesita. **No almacenes contraseñas en el agregado de familiaridad.**",
+        "Un objeto puede llevar un campo interno, como una nota de backoffice (el panel interno de operación) en `internal_note`. El `to_dict` del export lo deja fuera, como muestra el ejercicio T4-A-E1. Los DTOs (objetos de transferencia de datos: diccionarios o clases simples que cruzan la frontera) no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`.",
         "La CLI de S10 llama al service; el service **no** imprime ni parsea argparse (el módulo de Python que parsea argumentos de línea de comandos). Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"DOC-0001\", \"Ana Pérez\", \"a@ejemplo.pe\")` → dict de borde (el diccionario que sale del dominio hacia afuera) sin decidir fraude."
       ],
       code: {
@@ -557,20 +584,27 @@ print(svc.register("C001", "DOC-0001", "Ana Pérez", "a@ejemplo.pe"))`,
       heading: "Dependencias y pruebas del dominio",
       subtopicId: "S11-T4-B",
       paragraphs: [
-        "Tests del dominio son **puros** (sin efectos externos: sin red, sin DB real, sin reloj de red). Fakes del `Protocol` (implementaciones de mentira del puerto) bastan para ejercitar repos y servicios. Eso permite CI rápida (integración continua rápida, que ejecuta tests en cada cambio), demos offline del gate **CP-N1-C** y feedback inmediato en local-python (Python corriendo en tu máquina).",
+        "Los tests del dominio son **puros**: sin red, sin base de datos real y sin leer la hora del sistema. La hora llega como argumento, como el reloj inyectado de S09. Fakes del `Protocol` (implementaciones de mentira del puerto) bastan para ejercitar repos y servicios. Eso permite CI rápida (integración continua rápida, que ejecuta tests en cada cambio), demos offline del gate **CP-N1-C** y feedback inmediato en local-python (Python corriendo en tu máquina).",
         "Assert de invariantes (verificaciones con `assert` que confirman las reglas que el objeto siempre cumple) y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de «no existe el método», una prueba que verifica que un método peligroso no está disponible, deja escrita en código la ética del producto. Protege el límite legal del matching. Fail-closed: score fuera de [0, 1] no se “recorta” en silencio en el constructor.",
-        "Scores de resolución/relación son **campos**; un test verifica finitud (que el valor es finito, no NaN ni infinito), rango, par canónico y que no hay veredictos. Caso sintético: `test_no_fraud_api()` pasa si `RelationshipEvidence` solo expone ids + score. Nunca PII real en fixtures (datos de prueba predefinidos, como `@ejemplo.pe` o ids `C00x`/`E0x`)."
+        "Scores de resolución/relación son **campos**; un test verifica finitud (que el valor es finito, no NaN ni infinito), rango, par canónico y que no hay veredictos. En el ejemplo, `test_no_fraud_api()` pasa si `RelationshipEvidence` no tiene métodos de veredicto y su score está en rango. `test_invalid_evidence_is_rejected()` pasa si el par invertido, el `NaN` y el `1.5` fallan al construir. Nunca PII real en fixtures (datos de prueba predefinidos, como `@ejemplo.pe` o ids `C00x`/`E0x`)."
       ],
       code: {
         language: 'python',
         title: "domain_tests.py",
         code: `from dataclasses import dataclass
+from math import isfinite
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
     left_id: str
     right_id: str
     signal_score: float
+
+    def __post_init__(self) -> None:
+        if not self.left_id < self.right_id:
+            raise ValueError("par no canónico")
+        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
+            raise ValueError("signal_score fuera de rango")
 
 def test_no_fraud_api():
     assert not hasattr(RelationshipEvidence, "is_fraud")
@@ -579,8 +613,19 @@ def test_no_fraud_api():
     assert 0.0 <= ev.signal_score <= 1.0
     return "pass"
 
-print(test_no_fraud_api())`,
-        output: `pass`,
+def test_invalid_evidence_is_rejected():
+    for left_id, right_id, score in (("E2", "E1", 0.5), ("E1", "E2", float("nan")), ("E1", "E2", 1.5)):
+        try:
+            RelationshipEvidence(left_id, right_id, score)
+        except ValueError:
+            continue
+        raise AssertionError(f"debía fallar {left_id}, {right_id}, {score}")
+    return "pass"
+
+print(test_no_fraud_api())
+print(test_invalid_evidence_is_rejected())`,
+        output: `pass
+pass`,
       },
       callout: {
         type: "danger",
@@ -602,6 +647,19 @@ print(test_no_fraud_api())`,
         output: "acoplado → primer test ve 1 fila(s)\nacoplado → segundo test ve 2 fila(s)\ninyectado → primer test ve 1 fila(s)\ninyectado → segundo test ve 1 fila(s)",
       },
     },
+    {
+      heading: "Contraejemplo: el servicio que lee el reloj no da dos veces el mismo resultado",
+      paragraphs: [
+        "`AltaAcoplada` lee la hora con `datetime.now` y crea el identificador con `uuid.uuid4()`, el generador de ids aleatorios de S08. `Alta` recibe las dos cosas en su constructor: `clock` es una función que devuelve la hora, y `new_id` una que devuelve un id. La prueba le pasa dos `lambda` que siempre devuelven lo mismo.",
+        "Dos corridas del servicio acoplado nunca coinciden, así que una prueba solo podría comprobar el formato, no el valor. El servicio inyectado devuelve el mismo registro cada vez, con `alta_id` `A-0001` y la hora fija: la prueba compara el resultado completo. En producción, el mismo `Alta` recibe `lambda: datetime.now(timezone.utc)` y un generador real.",
+      ],
+      code: {
+        language: "python",
+        title: "reloj_inyectado.py",
+        code: "# Error: el servicio lee la hora y crea el identificador por su cuenta\nimport uuid\nfrom datetime import datetime, timezone\n\n\nclass AltaAcoplada:\n    def register(self, client_id: str) -> dict:\n        return {\"client_id\": client_id, \"alta_id\": uuid.uuid4().hex[:8],\n                \"creado\": datetime.now(timezone.utc).isoformat()}\n\n\nr1 = AltaAcoplada().register(\"C001\")\nr2 = AltaAcoplada().register(\"C001\")\nprint(\"acoplado → dos corridas iguales:\", r1 == r2)\n\n\n# Corrección: el reloj y el generador de ids llegan como argumentos\nclass Alta:\n    def __init__(self, clock, new_id):\n        self.clock = clock\n        self.new_id = new_id\n\n    def register(self, client_id: str) -> dict:\n        return {\"client_id\": client_id, \"alta_id\": self.new_id(),\n                \"creado\": self.clock().isoformat()}\n\n\nfijo = datetime(2026, 1, 15, 9, 30, tzinfo=timezone.utc)\nalta = Alta(clock=lambda: fijo, new_id=lambda: \"A-0001\")\nprint(\"inyectado →\", alta.register(\"C001\"))\nprint(\"inyectado → dos corridas iguales:\", alta.register(\"C001\") == alta.register(\"C001\"))",
+        output: "acoplado → dos corridas iguales: False\ninyectado → {'client_id': 'C001', 'alta_id': 'A-0001', 'creado': '2026-01-15T09:30:00+00:00'}\ninyectado → dos corridas iguales: True",
+      },
+    },
   ],
   iDo: {
     intro: "Ocho demos I Do (uno por subtema), en orden **T1 → T4**. Cada demo modela un fragmento del núcleo CP-N1-C de familiaridad en **local-python**, el entorno que corre en tu propia máquina (sin servidor ni nube). El recorrido cubre: dataclass, invariantes, properties, frozen, composición, Protocol, service y tests éticos. Cada término se glosa en la teoría y se ejemplifica en su demo. Sin veredictos de fraude ni parentesco.",
@@ -612,7 +670,7 @@ print(test_no_fraud_api())`,
         environment: "local-python",
         description: "ClientRecord.from_dict: borde dict sintético → dataclass canónica",
         preamble:
-          "Tras la CLI de S10, el onboarding sintético deja de ser un dict anónimo y pasa a un **tipo con nombre**. En esta demo un payload JSON-like (`C001`, `@ejemplo.pe`) se convierte con `from_dict` en `ClientRecord`. No escribas aún. Sigue el `classmethod`, un método que pertenece a la clase y no a una instancia, y observa que `emails` se copia a una lista nueva. Luego predice el `repr` final, la representación textual que genera `__repr__`. Sin PII real (información personal identificable); solo stdlib (la biblioteca estándar de Python).",
+          "Tras la CLI de S10, el onboarding sintético deja de ser un dict anónimo y pasa a un **tipo con nombre**. En esta demo un payload JSON-like (`C001`, `@ejemplo.pe`) se convierte con `from_dict` en `ClientRecord`. No escribas aún. Sigue el `classmethod`, un método que pertenece a la clase y no a una instancia. Su primer parámetro, `cls`, es la propia clase, así que `cls(...)` construye un `ClientRecord`. Observa también que `emails` se copia a una lista nueva. Luego predice el `repr` final, la representación textual que genera `__repr__`. Sin PII real (información personal identificable); solo stdlib (la biblioteca estándar de Python).",
         code: {
           language: 'python',
           title: "client_from_dict.py",
@@ -644,7 +702,7 @@ c = ClientRecord.from_dict(raw)
 print(c)`,
           output: `ClientRecord(client_id='C001', document_id='DOC-0001', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
-        why: "El factory vive en la clase (`@classmethod`), no en la instancia. El CLI/JSON no inventa campos sueltos. La función `list(d.get(...))` copia emails y evita el alias del dict crudo (que ambos objetos apunten a la misma lista). El método `from_dict` nombra el borde dict→dominio con la forma canónica de ClientRecord.",
+        why: "El factory vive en la clase (`@classmethod`), no en la instancia. El CLI/JSON no inventa campos sueltos. La función `list(d.get(...))` copia emails y evita el alias del dict crudo (que ambos objetos apunten a la misma lista). El método `from_dict` nombra el borde dict→dominio con la forma canónica de ClientRecord. Si al dict le faltan los emails, `d.get(\"emails\", [])` deja una lista vacía y el cliente sigue siendo válido, porque la regla de la sección exige `client_id` y `document_id`, no correo. Si falta una clave obligatoria, `d[\"client_id\"]` lanza `KeyError: 'client_id'`.",
         retrospective:
           "Si puedes explicar por qué `from_dict` es `@classmethod` y no método de instancia, ya tienes el hábito del borde dict→dominio. El error clásico es devolver el dict crudo. En We Do arreglarás default mutable, money con `Decimal` y la factory bien hecha.",
       },
@@ -724,9 +782,9 @@ print(c.masked_email)`,
           output: `Lucía Méndez
 l***@ejemplo.pe`,
         },
-        why: "Properties sin side-effects (efectos colaterales que tocan el mundo exterior): la superficie pública no necesita el email completo. La máscara es para UI/logs; el raw (el dato en bruto, sin enmascarar) queda en el campo interno solo para el borde autorizado. Si `emails` está vacío, un sentinel documentado (un valor marcador que indica 'no hay dato', como `(sin email)`) evita `IndexError` en el pipeline de matching (el flujo de procesamiento del matching).",
+        why: "Properties sin side-effects (efectos colaterales que tocan el mundo exterior): la superficie pública no necesita el email completo. `display_name` sí devuelve el nombre completo, y la demo lo imprime a propósito para la ficha; el nombre también es PII, así que un log debe usar `client_id`. La máscara es para UI/logs; el raw (el dato en bruto, sin enmascarar) queda en el campo interno solo para el borde autorizado. Si `emails` está vacío, un sentinel documentado (un valor marcador que indica 'no hay dato', como `(sin email)`) evita `IndexError` en el pipeline de matching (el flujo de procesamiento del matching).",
         retrospective:
-          "Property = consulta calculada sin mutar. El sentinel documentado es fail-soft de presentación, no “arreglar” datos. We Do: property, método de consulta con validación de argumento, y setter de score con rango.",
+          "Property = consulta calculada sin mutar. El sentinel documentado es fail-soft de presentación (degradar sin detener el flujo, devolviendo un marcador), no “arreglar” datos. We Do: property, método de consulta con validación de argumento, y setter de score con rango.",
       },
       {
         demoId: "S11-T2-B-DEMO",
@@ -773,7 +831,7 @@ reject entity_id vacío`,
         environment: "local-python",
         description: "CaseFile compone ResolvedEntity + RelationshipEvidence validada (par canónico y score).",
         preamble:
-          "El expediente de matching **tiene** una entidad y **tiene** evidencias: composición (un objeto contiene a otros, en lugar de heredar de ellos), no herencia de “Persona base”. Observa `RelationshipEvidence` fail-closed (que falla cerrando la puerta si algo no cuadra: par canónico, score finito en [0,1]) y `CaseFile.add` que solo agrega objetos ya válidos. Predice `E1 n_ev 2` y la lista de scores. No hay `is_family()`.",
+          "El expediente de matching **tiene** una entidad y **tiene** evidencias: composición (un objeto contiene a otros, en lugar de heredar de ellos), no herencia de “Persona base”. Observa `RelationshipEvidence` fail-closed (que falla cerrando la puerta si algo no cuadra: par canónico, score finito en [0,1]). Mira también `CaseFile.add`, que comprueba con `isinstance` que recibe una `RelationshipEvidence` y rechaza un dict suelto. Predice `E1 n_ev 2`, la lista de scores y la línea `reject`. No hay `is_family()`.",
         code: {
           language: 'python',
           title: "casefile_compose.py",
@@ -783,6 +841,7 @@ from math import isfinite
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
+    display_name: str = field(compare=False)
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -802,19 +861,26 @@ class CaseFile:
     evidences: list[RelationshipEvidence] = field(default_factory=list)
 
     def add(self, ev: RelationshipEvidence) -> None:
+        if not isinstance(ev, RelationshipEvidence):
+            raise TypeError("CaseFile.add espera RelationshipEvidence")
         self.evidences.append(ev)
 
-cf = CaseFile(ResolvedEntity("E1"))
+cf = CaseFile(ResolvedEntity("E1", "Ana"))
 cf.add(RelationshipEvidence("E1", "E2", 0.31))
 cf.add(RelationshipEvidence("E1", "E3", 0.12))
 print(cf.entity.entity_id, "n_ev", len(cf.evidences))
-print("scores", [e.signal_score for e in cf.evidences])`,
+print("scores", [e.signal_score for e in cf.evidences])
+try:
+    cf.add({"left_id": "E1", "right_id": "E4", "signal_score": 0.9})
+except TypeError as e:
+    print("reject", e)`,
           output: `E1 n_ev 2
-scores [0.31, 0.12]`,
+scores [0.31, 0.12]
+reject CaseFile.add espera RelationshipEvidence`,
         },
-        why: "Composición con invariantes reales: `add` no revalida todo el caso. El invariante vive en el value object, el tipo pequeño sin identidad propia que se valida al construirse. Solo acepta evidencias ya validadas (par canónico + score en rango).",
+        why: "Composición con invariantes reales: `add` no revalida todo el caso. El invariante vive en el value object, el tipo pequeño sin identidad propia que se valida al construirse. `add` solo comprueba el tipo: una `RelationshipEvidence` ya pasó su validación (par canónico y score en rango), y un dict nunca la pasó.",
         retrospective:
-          "Composición mantiene el grafo auditable: el expediente **tiene** entidades y evidencias, no hereda “Persona base”. El par canónico evita duplicar (E1,E2)/(E2,E1); el score es **dato**, no parentesco. Pregunta de auto-chequeo: ¿dónde vivirías un `is_family()` si te lo pidieran? (fuera del value object). We Do: reemplazar herencia, arreglar default mutable en CaseFile y codificar el par canónico.",
+          "Composición mantiene el grafo auditable: el expediente **tiene** entidades y evidencias, no hereda “Persona base”. El par canónico evita duplicar (E1,E2)/(E2,E1); el score es **dato**, no parentesco. Pregunta de auto-chequeo: ¿por qué el expediente no puede tener un `is_family()`? Porque ninguna interfaz del curso emite un veredicto de parentesco: el expediente guarda señales, y la decisión es de una persona, fuera del dominio. We Do: reemplazar herencia, arreglar default mutable en CaseFile y codificar el par canónico.",
       },
       {
         demoId: "S11-T3-B-DEMO",
@@ -822,7 +888,7 @@ scores [0.31, 0.12]`,
         environment: "local-python",
         description: "Protocol EntityStore con get/save; FakeStore en memoria.",
         preamble:
-          "El servicio de dominio no debe importar SQLite ni HTTP para guardar una entidad. Observa el `Protocol EntityStore`, un puerto descrito por sus métodos `get` y `save`. A su lado, un `FakeStore` en memoria, una implementación de mentira útil para tests, cumple el contrato solo por tener esa forma. Sigue `upsert`: depende del puerto, no de una clase base pesada. Predice el dict de `E9` en la salida. El adapter real (la implementación concreta que habla con la base de datos) llega en S12.",
+          "El servicio de dominio no debe importar SQLite ni HTTP para guardar una entidad. Observa el `Protocol EntityStore`, un puerto descrito por sus métodos `get` y `save`. A su lado, un `FakeStore` en memoria, una implementación de mentira útil para tests, cumple el contrato solo por tener esa forma. Sigue `upsert` (guardar y, si ya existe, reemplazar): depende del puerto, no de una clase base pesada. Predice el dict de `E9` en la salida. El adaptador real (la implementación concreta que habla con la base de datos) llega en S12.",
         code: {
           language: 'python',
           title: "fake_store.py",
@@ -847,9 +913,9 @@ def upsert(store: EntityStore, entity: dict) -> dict:
 print(upsert(FakeStore(), {"entity_id": "E9", "name": "Demo"}))`,
           output: `{'entity_id': 'E9', 'name': 'Demo'}`,
         },
-        why: "Duck typing estructural (si camina como pato y nada como pato, es pato, sin pedir herencia): el service depende del Protocol (puerto), no de una clase base pesada. Fakes de test sin mock frameworks (librerías que sustituyen objetos por dobles controlados). El adapter SQL llega en S12 sin reescribir reglas del dominio.",
+        why: "Duck typing estructural (si camina como pato y nada como pato, es pato, sin pedir herencia): el service depende del Protocol (puerto), no de una clase base pesada. Fakes de test sin mock frameworks (librerías que sustituyen objetos por dobles controlados). El adaptador SQL llega en S12 sin reescribir reglas del dominio.",
         retrospective:
-          "Puerto = contrato; adapter = detalle. Si el fake funciona, el dominio es testeable offline. We Do: renombrar método al contrato, inyectar normalizers, y decidir cuándo *no* introducir Protocol (YAGNI).",
+          "Puerto = contrato; adaptador = detalle. Si el fake funciona, el dominio es testeable offline. We Do: renombrar método al contrato, inyectar funciones de limpieza de texto, y decidir cuándo *no* introducir Protocol (YAGNI).",
       },
       {
         demoId: "S11-T4-A-DEMO",
@@ -941,7 +1007,7 @@ pass`,
         },
         why: "La suite de dominio (el conjunto de pruebas del dominio) codifica dos promesas: el score vive en un rango usable y **no** existen APIs de veredicto (`is_fraud`, `is_related_family`). Un `hasattr` en test (la función que pregunta si un objeto tiene un atributo) no es adorno: documenta el límite ético del matching en código ejecutable. Fixtures sintéticos y cero I/O (entrada/salida) mantienen el feedback local y CI-rápido (integración continua rápida, que ejecuta tests en cada cambio).",
         retrospective:
-          "Si el test de “no existe el método” pasa, el diseño resiste la tentación del veredicto fácil. We Do: test de rechazo real, fake repo con asserts, y extraer `decide_fraud` del dominio.",
+          "Si el test de “no existe el método” pasa, el diseño resiste la tentación del veredicto fácil. We Do: test de rechazo real, fake repo con asserts, y extraer del dominio `decide_fraud`. Es una función que emite un veredicto de fraude, y aparece en el código inicial de T4-B-E3.",
       },
     ],
   },
@@ -972,7 +1038,7 @@ pass`,
           language: 'python',
           title: "complete_client.py",
           code: `# CASO-LIM-011 · ClientRecord dataclass
-# DEFECT: sin fields; default mutable list
+# DEFECT: default mutable en emails
 from dataclasses import dataclass
 
 @dataclass
@@ -1018,7 +1084,7 @@ print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["ana@ejemplo.pe"]))`,
         edgeCases: ["currency PEN", "dos decimales", "sin float"],
         tests: "Contrato exacto: repr con amount=Decimal('150.50') y currency='PEN'; el código no llama float().",
         feedback:
-          "Money de negocio se construye con `Decimal(\"150.50\")` desde texto. Pasar por `float` introduce ruido binario que luego rompe comparaciones y quantize en los invariantes de T1-B. Los campos obligatorios sin default obligan a nombrar moneda y monto en cada alta.",
+          "Money de negocio se construye con `Decimal(\"150.50\")` desde texto. Pasar por `float` introduce ruido binario: `print(0.1 + 0.2)` muestra `0.30000000000000004`, y `print(Decimal(\"0.1\") + Decimal(\"0.2\"))` muestra `0.3`. Ese ruido rompe después las comparaciones y el `quantize` de los invariantes de T1-B. Los campos obligatorios sin default obligan a nombrar moneda y monto en cada alta.",
         retrospective:
           "Money en dominio se construye desde texto para evitar ruido binario. El mismo rigor de tipo prepara los invariantes de T1-B (positivo, 2 decimales, allowlist PEN/USD).",
         starterCode: {
@@ -1140,16 +1206,16 @@ print(type(c).__name__, c.client_id)`,
         kind: "guided",
         title: "Transaction rechaza cero y EUR",
         preamble:
-          "- **Contexto:** en el núcleo de dominio, un monto inválido o una moneda fuera de allowlist no debe circular.\n- **Meta:** imponer invariantes en `__post_init__` (Decimal > 0, 2 decimales, PEN/USD).\n- **Éxito:** tres líneas — repr PEN válido; `reject amount debe ser > 0`; `reject currency no soportada`.\n- **Límites:** sin conversión PEN→USD; sin float; solo stdlib.",
+          "- **Contexto:** en el núcleo de dominio, un monto inválido o una moneda fuera de allowlist no debe circular.\n- **Meta:** imponer invariantes en `__post_init__` (Decimal > 0, 2 decimales, PEN/USD).\n- **Éxito:** cuatro líneas — repr PEN válido; `reject amount debe ser > 0`; `reject currency no soportada`; `reject amount debe tener máximo 2 decimales`.\n- **Límites:** sin conversión PEN→USD; sin float; solo stdlib.",
         instruction:
-          "1. Añade `__post_init__` al starter (hoy acepta todo).\n2. Valida tipo Decimal, `amount > 0`, quantize a `0.01`, currency en `{\"PEN\",\"USD\"}`.\n3. Imprime el caso ok; captura `ValueError` en cero y EUR.\n4. Prefija rechazos con `reject`.",
-        hint: "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
+          "1. Añade `__post_init__` al starter (hoy acepta todo).\n2. Valida tipo Decimal, `amount > 0`, máximo 2 decimales con `quantize(Decimal(\"0.01\"))`, currency en `{\"PEN\",\"USD\"}`.\n3. Imprime el caso ok; captura `ValueError` en cero, en EUR y en `Decimal(\"1.001\")`.\n4. Prefija rechazos con `reject`.",
+        hint: "__post_init__: isinstance Decimal, quantize(Decimal(\"0.01\")), allowlist de currency.",
         hints: [
-          "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
+          "__post_init__: isinstance Decimal, quantize(Decimal(\"0.01\")), allowlist de currency.",
           "Muestra ok PEN y rechazos por cero y EUR.",
         ],
         edgeCases: ["amount negativo", "float prohibido", "currency minúscula", "EUR fuera del allowlist"],
-        tests: "Tres líneas: repr PEN válido; `reject amount debe ser > 0`; `reject currency no soportada`.",
+        tests: "Cuatro líneas: repr PEN válido; `reject amount debe ser > 0`; `reject currency no soportada`; `reject amount debe tener máximo 2 decimales`.",
         feedback:
           "Fail-closed: cero y EUR mueren al construir. No conviertas moneda en el constructor ni “arregles” el monto a 0.01: el allowlist PEN/USD es política de producto local, no un cast mágico de Python.",
         retrospective:
@@ -1158,19 +1224,21 @@ print(type(c).__name__, c.client_id)`,
           language: 'python',
           title: "tx_invariant.py",
           code: `# CASO-LIM-011 · Transaction invariants
-# DEFECT: no post_init; acepta 0 y EUR
+# DEFECT: no post_init; acepta 0, EUR y tres decimales
 from dataclasses import dataclass
 from decimal import Decimal
 
 @dataclass
 class Transaction:
     tx_id: str
+    client_id: str
     amount: Decimal
     currency: str
 
-print(Transaction("T1", Decimal("10.00"), "PEN"))
-print(Transaction("T2", Decimal("0.00"), "PEN"))
-print(Transaction("T3", Decimal("1.00"), "EUR"))
+print(Transaction("T1", "C001", Decimal("10.00"), "PEN"))
+print(Transaction("T2", "C001", Decimal("0.00"), "PEN"))
+print(Transaction("T3", "C001", Decimal("1.00"), "EUR"))
+print(Transaction("T4", "C001", Decimal("1.001"), "PEN"))
 `,
         },
         solutionCode: {
@@ -1182,6 +1250,7 @@ from decimal import Decimal
 @dataclass
 class Transaction:
     tx_id: str
+    client_id: str
     amount: Decimal
     currency: str
 
@@ -1195,18 +1264,16 @@ class Transaction:
         if self.currency not in {"PEN", "USD"}:
             raise ValueError("currency no soportada")
 
-print(Transaction("T1", Decimal("10.00"), "PEN"))
-try:
-    Transaction("T2", Decimal("0.00"), "PEN")
-except ValueError as e:
-    print("reject", e)
-try:
-    Transaction("T3", Decimal("1.00"), "EUR")
-except ValueError as e:
-    print("reject", e)`,
-          output: `Transaction(tx_id='T1', amount=Decimal('10.00'), currency='PEN')
+print(Transaction("T1", "C001", Decimal("10.00"), "PEN"))
+for tx_id, amount, currency in (("T2", "0.00", "PEN"), ("T3", "1.00", "EUR"), ("T4", "1.001", "PEN")):
+    try:
+        Transaction(tx_id, "C001", Decimal(amount), currency)
+    except ValueError as e:
+        print("reject", e)`,
+          output: `Transaction(tx_id='T1', client_id='C001', amount=Decimal('10.00'), currency='PEN')
 reject amount debe ser > 0
-reject currency no soportada`,
+reject currency no soportada
+reject amount debe tener máximo 2 decimales`,
         },
       },
       {
@@ -1350,16 +1417,16 @@ print(good.validate())`,
         kind: "guided",
         title: "Property full_name en PersonName",
         preamble:
-          "- **Contexto:** entrenas `@property` en un value object de nombre, separado del schema de cliente.\n- **Meta:** exponer `full_name` calculado (nombre + apellido) sin campo duplicado.\n- **Éxito:** una línea `Ana Pérez` accedida **sin** paréntesis.\n- **Límites:** solo stdlib; no guardes `full_name` como campo; no uses setter aquí.",
+          "- **Contexto:** entrenas `@property` en un value object de nombre, separado del schema de cliente.\n- **Meta:** exponer `full_name` calculado (nombre + apellido) sin campo duplicado.\n- **Éxito:** dos líneas: `Ana Pérez`, accedida **sin** paréntesis, y `['first_name', 'last_name']`, los únicos campos guardados.\n- **Límites:** solo stdlib; no guardes `full_name` como campo; no uses setter aquí.",
         instruction:
-          "1. El starter usa `def full_name(self)` y orden invertido — corrige ambos.\n2. Marca `@property` y concatena `first_name` + espacio + `last_name`.\n3. Imprime `.full_name` (sin `()`).\n4. No almacenes el string completo en el dataclass.",
+          "1. El starter usa `def full_name(self)` y orden invertido — corrige ambos.\n2. Marca `@property` y concatena `first_name` + espacio + `last_name`.\n3. Imprime `.full_name` (sin `()`).\n4. No almacenes el string completo en el dataclass: la segunda línea, `print([f.name for f in fields(PersonName)])`, lista los campos guardados.",
         hint: "@property sin setter.",
         hints: [
           "@property sin setter.",
           "Imprime `full_name` (sin paréntesis), no `full_name()`.",
         ],
         edgeCases: ["No guardar full_name duplicado si se puede calcular"],
-        tests: "Una línea: `Ana Pérez`. Debe ser @property (acceso sin paréntesis), orden nombre+apellido.",
+        tests: "Dos líneas: `Ana Pérez` y `['first_name', 'last_name']`. Debe ser @property (acceso sin paréntesis), orden nombre+apellido, y `full_name` no es un campo.",
         feedback:
           "Si llamas `full_name()` con paréntesis, no estás usando `@property`: es un método normal. El orden apellido-primero del starter es un bug de presentación fácil de “casi pasar” si solo miras que imprime algo.",
         retrospective:
@@ -1369,7 +1436,7 @@ print(good.validate())`,
           title: "full_name_prop.py",
           code: `# CASO-LIM-011 · full_name property
 # DEFECT: método no property; orden apellido primero
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 @dataclass
 class PersonName:
@@ -1380,12 +1447,13 @@ class PersonName:
         return f"{self.last_name} {self.first_name}"
 
 print(PersonName("Ana", "Pérez").full_name())
+print([f.name for f in fields(PersonName)])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "full_name_prop.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, fields
 
 @dataclass
 class PersonName:
@@ -1396,8 +1464,10 @@ class PersonName:
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-print(PersonName("Ana", "Pérez").full_name)`,
-          output: `Ana Pérez`,
+print(PersonName("Ana", "Pérez").full_name)
+print([f.name for f in fields(PersonName)])`,
+          output: `Ana Pérez
+['first_name', 'last_name']`,
         },
       },
       {
@@ -1470,16 +1540,16 @@ reject día anterior a creación`,
         kind: "transfer",
         title: "Setter de score finito en [0, 1]",
         preamble:
-          "- **Contexto:** un score de señal puede mutar en un objeto de trabajo, pero nunca fuera de [0, 1] ni con NaN/inf.\n- **Meta:** validar en el setter de `score` con `isfinite` y rango.\n- **Éxito:** `ok 0.4`; `reject score fuera de rango`; `reject_nan score fuera de rango`.\n- **Límites:** no “recortes” silenciosos a 1.0; score no es veredicto de fraude; solo stdlib.",
+          "- **Contexto:** un score de señal puede mutar en un objeto de trabajo, pero nunca fuera de [0, 1] ni con NaN/inf.\n- **Meta:** validar en el setter de `score` con `isfinite` y rango.\n- **Éxito:** `ok 0.4`; `ok 1.0`; `ok 0.0`; `reject score fuera de rango`; `reject_nan score fuera de rango`.\n- **Límites:** no “recortes” silenciosos a 1.0; score no es veredicto de fraude; solo stdlib.",
         instruction:
-          "1. En el setter, convierte a float y valida.\n2. Rechaza no finitos y fuera de [0, 1] con el mismo mensaje.\n3. Caso ok 0.4; try/except en 1.5 y NaN.\n4. Prefijos `ok`, `reject` y `reject_nan` según el contrato.",
+          "1. En el setter, convierte a float y valida.\n2. Rechaza no finitos y fuera de [0, 1] con el mismo mensaje.\n3. Casos ok 0.4, 1.0 y 0.0 (los bordes son válidos); try/except en 1.5 y NaN.\n4. Prefijos `ok`, `reject` y `reject_nan` según el contrato.",
         hint: "Property score + math.isfinite antes del rango.",
         hints: [
           "Property score + math.isfinite antes del rango.",
           "Muestra ok y rechaza 1.5 y NaN.",
         ],
         edgeCases: ["NaN", "Infinity", "score es señal, no veredicto"],
-        tests: "Tres líneas: `ok 0.4`; `reject score fuera de rango`; `reject_nan score fuera de rango`.",
+        tests: "Cinco líneas: `ok 0.4`; `ok 1.0`; `ok 0.0`; `reject score fuera de rango`; `reject_nan score fuera de rango`. 0 y 1 son scores válidos.",
         feedback:
           "NaN e inf no son scores válidos: `isfinite` + rango [0, 1] **antes** de guardar. No “recortes” 1.5 a 1.0 en silencio: eso esconde basura en el pipeline de matching.",
         retrospective:
@@ -1504,8 +1574,9 @@ class Signal:
         self._score = float(value)
 
 s = Signal()
-s.score = 0.4
-print("ok", s.score)
+for v in (0.4, 1.0, 0.0):
+    s.score = v
+    print("ok", s.score)
 s.score = 1.5
 print("ok", s.score)
 s.score = float("nan")
@@ -1533,8 +1604,9 @@ class Signal:
         self._score = v
 
 s = Signal()
-s.score = 0.4
-print("ok", s.score)
+for v in (0.4, 1.0, 0.0):
+    s.score = v
+    print("ok", s.score)
 try:
     s.score = 1.5
 except ValueError as e:
@@ -1544,6 +1616,8 @@ try:
 except ValueError as e:
     print("reject_nan", e)`,
           output: `ok 0.4
+ok 1.0
+ok 0.0
 reject score fuera de rango
 reject_nan score fuera de rango`,
         },
@@ -1562,7 +1636,7 @@ reject_nan score fuera de rango`,
           "dataclass(frozen=True) + field(compare=False) en display_name.",
           "Dos E1 con nombres distintos son iguales; E2 no lo es.",
         ],
-        edgeCases: ["entity_id vacío se rechaza en demos de teoría/I Do", "document_id nunca participa en identidad"],
+        edgeCases: ["entity_id vacío o solo espacios lanza ValueError al construir, como en la teoría", "document_id nunca participa en identidad"],
         tests: "Dos líneas: `True False` (E1==E1 y E1!=E2) y `2` (tamaño del set con dos E1 + un E2).",
         feedback: "La identidad estable es entity_id; etiquetas visibles pueden corregirse sin romper el set.",
         retrospective:
@@ -1627,7 +1701,7 @@ print(len({a, b, c}))`,
         tests: "Una línea: `2`. Sin frozen, el set no colapsa duplicados de valor.",
         feedback: "frozen + eq por campos habilita sets de evidencias sin claves inestables (claves cuyo hash podría cambiar en runtime).",
         retrospective:
-          "Frozen + eq por campos = set de value objects sin keys inestables. Sin frozen, Python no trata dos “iguales” mutables como el mismo en un set. Luego: el anti-patrón de mutar la key de un dict.",
+          "Frozen + eq por campos = set de value objects sin keys inestables. Sin frozen, una dataclass con eq por campos no es hashable: `set()` lanza `TypeError: unhashable type`, como muestra la teoría de igualdad y hash. Con `eq=False`, como en el starter, sí entra al set, pero compara por identidad y no colapsa duplicados. Luego: el anti-patrón de mutar la key de un dict.",
         starterCode: {
           language: 'python',
           title: "frozen_evidence.py",
@@ -1686,7 +1760,7 @@ print(len(s))`,
         edgeCases: ["No implementes __hash__ en mutables"],
         tests: "Dos líneas: `BUG lookup_after_mutate None` y `SAFE row`.",
         feedback:
-          "Si el hash depende de un campo mutable, al mutar cambias el hash pero la entrada sigue archivada bajo el hash viejo: la buscas con los valores originales, el dict va al lugar correcto y la comparación falla porque el objeto guardado ya no vale lo mismo. El resultado es `None` aunque el objeto siga en memoria. Frozen cierra esa puerta: misma identidad ⇒ mismo bucket (la ranura interna del dict donde se guarda el valor).",
+          "Al mutar `name`, el hash del objeto cambia, pero la entrada sigue archivada bajo el hash viejo. Si la buscas con los valores originales, el dict llega al lugar correcto. Ahí la comparación falla, porque la clave guardada ya tiene otro nombre. El resultado es `None` aunque el objeto siga en memoria. Frozen cierra esa puerta: misma identidad ⇒ mismo bucket (la ranura interna del dict donde se guarda el valor).",
         retrospective:
           "Si el hash depende de un campo mutable, el dict “pierde” la entrada. Frozen cierra esa puerta. En T3-A agruparás entidades y evidencias con composición, no con herencia forzada.",
         starterCode: {
@@ -1873,7 +1947,7 @@ print("n=", len(cf.evidences), "empty", len(cf2.evidences))`,
         preamble:
           "- **Contexto:** (E1,E2) y (E2,E1) no deben ser dos relaciones distintas en el matching local.\n- **Meta:** validar par canónico (`left_id < right_id`) y score finito en [0, 1].\n- **Éxito:** `n_ev 2` y `reject par no canónico`.\n- **Límites:** no implementes `is_family()`; no recortes scores en silencio; solo stdlib.",
         instruction:
-          "1. Añade `__post_init__` con comparación lexicográfica (orden alfabético de strings) e `isfinite`.\n2. Agrega dos evidencias válidas (p. ej. E1-E2 y E1-E3).\n3. Intenta construir (E2,E1) y captura el reject.\n4. Imprime `n_ev` y `reject …`.",
+          "1. Añade `__post_init__` con comparación lexicográfica (orden alfabético de strings) e `isfinite`.\n2. Quita del starter la línea `cf.add(RelationshipEvidence(\"E2\", \"E1\", 0.5))` y agrega dos evidencias válidas (E1-E2 y E1-E3).\n3. Intenta construir (E2,E1) y captura el reject.\n4. Imprime `n_ev` y `reject …`.",
         hint: "__post_init__ con isfinite y comparación lexicográfica de ids.",
         hints: [
           "__post_init__ con isfinite y comparación lexicográfica de ids.",
@@ -1968,7 +2042,7 @@ reject par no canónico`,
         edgeCases: ["El Protocol no se instancia"],
         tests: "Una línea: `0.5`. El método del fake se llama `score`, no `compute`.",
         feedback:
-          "Si el fake se llama `compute` y el puerto pide `score`, el duck typing (si camina como pato, es pato) **falla en silencio** hasta el call site (donde se llama al método) o hasta que el type checker lo detecte. Renombra el método; no “adaptes” el Protocol al fake.",
+          "La asignación `s: Scorer = FakeScorer()` no falla, porque Python no revisa el Protocol al ejecutar. La falla llega en la llamada `s.score(...)`, con `AttributeError`, o antes, si un verificador de tipos lo detecta. Renombra el método; no “adaptes” el Protocol al fake.",
         retrospective:
           "El nombre del método *es* el contrato del puerto. Un fake con otro verbo no es intercambiable en tests ni en S12. Siguiente: inyectar políticas de normalización como callables, sin herencia.",
         starterCode: {
@@ -2014,7 +2088,7 @@ print(s.score(("E1", "E2")))`,
         preamble:
           "- **Contexto:** el dominio de matching no debe hardcodear una sola política de normalización de texto.\n- **Meta:** hacer que `apply(norm, text)` invoque el normalizer (el callable, que es cualquier objeto que se puede llamar como función) recibido.\n- **Éxito:** dos líneas `Ana` y `ana`.\n- **Límites:** no hardcodes strip dentro de `apply`; solo stdlib.",
         instruction:
-          "1. El starter devuelve `text` e ignora el normalizer recibido — ese es el defecto.\n2. Haz que `apply` use el callable `norm` sobre `text` (sin hardcodear strip dentro de `apply`).\n3. Mantén los dos normalizers del fixture.\n4. Imprime ambos resultados (strip y casefold).",
+          "1. El starter devuelve `text` e ignora el normalizer recibido — ese es el defecto.\n2. Haz que `apply` use el callable `norm` sobre `text` (sin hardcodear strip dentro de `apply`).\n3. Mantén las dos funciones de limpieza (normalizers) del fixture.\n4. Imprime ambos resultados (strip y casefold).",
         hint: "apply(norm, text) debe invocar el normalizer recibido, no devolver text crudo.",
         hints: [
           "apply(norm, text) debe invocar el normalizer recibido, no devolver text crudo.",
@@ -2068,19 +2142,19 @@ ana`,
         kind: "transfer",
         title: "Cuándo introducir Protocol (YAGNI)",
         preamble:
-          "- **Contexto:** un Protocol “por si acaso” con una sola impl y sin fakes es ruido de diseño.\n- **Meta:** codificar `should_introduce_protocol` con reglas estables.\n- **Éxito:** tres líneas `WHEN_NOT: solo_una_impl`, `WHEN_NOT: api_inestable`, `INTRODUCE: dos_adapters_con_fake`.\n- **Límites:** etiquetas literales del contrato; solo stdlib.",
+          "- **Contexto:** un Protocol “por si acaso” con una sola impl y sin fakes es ruido de diseño.\n- **Meta:** codificar `should_introduce_protocol` con reglas estables.\n- **Éxito:** cinco líneas `WHEN_NOT: solo_una_impl`, `WHEN_NOT: api_inestable`, `INTRODUCE: dos_adapters_con_fake`, `INTRODUCE: uno_con_fake`, `INTRODUCE: dos_sin_fake`.\n- **Límites:** etiquetas literales del contrato; solo stdlib.",
         instruction:
-          "1. El starter siempre devuelve `True` — aplica las reglas de los hints.\n2. False si API inestable; False si <2 adapters y sin fake.\n3. Recorre los casos del fixture.\n4. Imprime `WHEN_NOT:` / `INTRODUCE:` + label.",
+          "1. El starter siempre devuelve `True` — aplica las reglas de los hints.\n2. False si API inestable; False si hay menos de 2 adaptadores y ningún fake.\n3. Recorre los casos del fixture.\n4. Imprime `WHEN_NOT:` / `INTRODUCE:` + label.",
         hint: "False si (n_adapters < 2 y no has_fake_tests) o si not api_stable.",
         hints: [
           "False si (n_adapters < 2 y no has_fake_tests) o si not api_stable.",
           "Recorre la lista de casos y formatea WHEN_NOT:/INTRODUCE: + label.",
         ],
-        edgeCases: ["Una sola impl sin fake → WHEN_NOT; API inestable → WHEN_NOT aunque haya 2 adapters."],
-        tests: "Tres líneas: WHEN_NOT: solo_una_impl; WHEN_NOT: api_inestable; INTRODUCE: dos_adapters_con_fake.",
-        feedback: "YAGNI: Protocol cuando hay ≥2 adapters o dobles de test y la API ya está estable. `WHEN_NOT` = no introduzcas; `INTRODUCE` = sí introduzcas.",
+        edgeCases: ["Una sola impl sin fake → WHEN_NOT; API inestable → WHEN_NOT aunque haya 2 adaptadores."],
+        tests: "Cinco líneas: WHEN_NOT: solo_una_impl; WHEN_NOT: api_inestable; INTRODUCE: dos_adapters_con_fake; INTRODUCE: uno_con_fake; INTRODUCE: dos_sin_fake.",
+        feedback: "YAGNI: Protocol cuando hay ≥2 adaptadores o dobles de test y la API ya está estable. `WHEN_NOT` = no introduzcas; `INTRODUCE` = sí introduzcas.",
         retrospective:
-          "Abstracción cuando hay al menos dos caminos o dobles de test **y** la API ya no baila. En T4-A el puerto se concreta en repo/service/serialización sin meter veredictos.",
+          "Abstracción cuando hay al menos dos caminos o dobles de test **y** la API ya es estable. En T4-A el puerto se concreta en repo/service/serialización sin meter veredictos.",
         starterCode: {
           language: 'python',
           title: "when_not_protocol.py",
@@ -2095,6 +2169,8 @@ cases = [
     (1, False, True, "solo_una_impl"),
     (2, True, False, "api_inestable"),
     (2, True, True, "dos_adapters_con_fake"),
+    (1, True, True, "uno_con_fake"),
+    (2, False, True, "dos_sin_fake"),
 ]
 for n, fake, stable, label in cases:
     decision = "INTRODUCE" if should_introduce_protocol(n, fake, stable) else "WHEN_NOT"
@@ -2117,13 +2193,17 @@ cases = [
     (1, False, True, "solo_una_impl"),
     (2, True, False, "api_inestable"),
     (2, True, True, "dos_adapters_con_fake"),
+    (1, True, True, "uno_con_fake"),
+    (2, False, True, "dos_sin_fake"),
 ]
 for n, fake, stable, label in cases:
     decision = "INTRODUCE" if should_introduce_protocol(n, fake, stable) else "WHEN_NOT"
     print(f"{decision}: {label}")`,
           output: `WHEN_NOT: solo_una_impl
 WHEN_NOT: api_inestable
-INTRODUCE: dos_adapters_con_fake`,
+INTRODUCE: dos_adapters_con_fake
+INTRODUCE: uno_con_fake
+INTRODUCE: dos_sin_fake`,
         },
       },
       {
@@ -2145,7 +2225,7 @@ INTRODUCE: dos_adapters_con_fake`,
         feedback:
           "`to_dict` es borde de dashboard: elige qué sale. Aunque `internal_note` exista en el objeto, no va al export. Copia `list(self.emails)` para no filtrar la lista interna del agregado.",
         retrospective:
-          "Serializar no es “vars(obj)”. El borde elige qué sale. Misma disciplina que no meter secretos en el agregado de familiaridad. Siguiente: repo en memoria.",
+          "Serializar no es devolver `vars(obj)`, el diccionario con todos los atributos del objeto, `internal_note` incluido. El borde elige qué sale. Misma disciplina que no meter secretos en el agregado de familiaridad. Siguiente: repo en memoria.",
         starterCode: {
           language: 'python',
           title: "to_dict_safe.py",
@@ -2204,16 +2284,16 @@ print(ClientRecord("C001", "DOC-0001", "Ana Pérez", ["a@ejemplo.pe"], "VIP revi
         kind: "independent",
         title: "Repo en memoria: save y get por client_id",
         preamble:
-          "- **Contexto:** el service necesita un repositorio mínimo para roundtrip (ida y vuelta: guardar y recuperar el mismo registro) de clientes sintéticos.\n- **Meta:** implementar `save`/`get` sobre un dict interno.\n- **Éxito:** `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}` tras save/get.\n- **Límites:** sin red/DB; `get` missing → `None`; solo stdlib.",
+          "- **Contexto:** el service necesita un repositorio mínimo para roundtrip (ida y vuelta: guardar y recuperar el mismo registro) de clientes sintéticos.\n- **Meta:** implementar `save`/`get` sobre un dict interno.\n- **Éxito:** `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}` tras save/get, y `None` para `X`.\n- **Límites:** sin red/DB; `get` missing → `None`; solo stdlib.",
         instruction:
-          "1. El starter guarda en `_d` pero `get` ignora el almacén (siempre `None`) — localiza ese defecto.\n2. Implementa `get` para recuperar el row por `client_id` (missing → `None`).\n3. Mantén la clave `client_id` del row en `save`.\n4. Imprime el roundtrip de C001 tras `save`/`get`.",
+          "1. El starter guarda en `_d` pero `get` ignora el almacén (siempre `None`) — localiza ese defecto.\n2. Implementa `get` para recuperar el row por `client_id` (missing → `None`).\n3. Mantén la clave `client_id` del row en `save`.\n4. Imprime el roundtrip de C001 tras `save`/`get`, y luego `r.get(\"X\")`, un id que no existe.",
         hint: "Implementa `save` y `get`; este último debe consultar el almacén interno (missing → None).",
         hints: [
           "Implementa `save` y `get`; este último debe consultar el almacén interno (missing → None).",
           "Roundtrip de un client dict: save y luego get del mismo client_id.",
         ],
         edgeCases: ["get retorna None si no existe."],
-        tests: "Una línea: dict C001 con email a@ejemplo.pe tras save/get.",
+        tests: "Dos líneas: dict C001 con email a@ejemplo.pe tras save/get, y `None` para el id que no existe.",
         feedback:
           "Repo light = diccionario con contrato `save`/`get`, sin red ni DB. Si `get` siempre devuelve `None`, el service no puede hacer roundtrip aunque `save` “parezca” correcto.",
         retrospective:
@@ -2234,6 +2314,7 @@ class Repo:
 r = Repo()
 r.save({"client_id": "C001", "email": "a@ejemplo.pe"})
 print(r.get("C001"))
+print(r.get("X"))
 `,
         },
         solutionCode: {
@@ -2249,8 +2330,10 @@ print(r.get("C001"))
 
 r = Repo()
 r.save({"client_id": "C001", "email": "a@ejemplo.pe"})
-print(r.get("C001"))`,
-          output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`,
+print(r.get("C001"))
+print(r.get("X"))`,
+          output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}
+None`,
         },
       },
       {
@@ -2338,16 +2421,16 @@ LAYER: domain print=False cli=False inv=True`,
         preamble:
           "- **Contexto:** los tests del dominio demuestran invariantes, no imprimen `pass` por cortesía.\n- **Meta:** rechazar `document_id` en blanco y hacer que el test solo pase si hay `ValueError`.\n- **Éxito:** una línea `pass`.\n- **Límites:** sin red/DB; forma reducida client_id+document_id; solo stdlib.",
         instruction:
-          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, envuelve la creación en try/except ValueError; si no lanza, deja el `assert False`.\n3. Devuelve `\"pass\"` solo en el except correcto.\n4. Imprime el resultado del test.",
-        hint: "Usa try/except ValueError y return 'pass'.",
+          "1. Añade `__post_init__` que falle con strip vacío.\n2. En el test, envuelve la creación en try/except ValueError; si no lanza, deja el `assert False`.\n3. En el except, comprueba `assert \"document_id\" in str(e)` y devuelve `\"pass\"`.\n4. Imprime el resultado del test.",
+        hint: "Usa except ValueError as e, comprueba que el mensaje nombra document_id y devuelve 'pass'.",
         hints: [
           "Usa try/except ValueError y return 'pass'.",
           "print del resultado del test.",
         ],
         edgeCases: ["Tests puros: sin I/O de red"],
-        tests: "Una línea: `pass`. El test solo pasa si document vacío lanza ValueError.",
+        tests: "Una línea: `pass`. El test solo pasa si document vacío lanza un ValueError cuyo mensaje nombra document_id.",
         feedback:
-          "Si el test devuelve `\"pass\"` sin forzar el rechazo, apruebas un dominio roto. El `try/except` solo cuenta si **sin** `__post_init__` el assert de “debía fallar” te detiene.",
+          "Si el test devuelve `\"pass\"` sin forzar el rechazo, apruebas un dominio roto. Sin `__post_init__`, el `assert False` lanza `AssertionError`, que `except ValueError` no captura, así que el test falla. Un `except Exception` sí lo capturaría y aprobaría el dominio roto: por eso el test nombra la excepción y revisa el mensaje.",
         retrospective:
           "Teatro de tests = falsa seguridad en el gate. Un test de invariante demuestra el `ValueError`, no imprime cortesía. Siguiente: tres tests de service con fake repo y asserts de verdad (register / get / missing).",
         starterCode: {
@@ -2386,7 +2469,8 @@ def test_empty_document_rejected():
     try:
         ClientRecord("C1", " ")
         assert False, "debía fallar"
-    except ValueError:
+    except ValueError as e:
+        assert "document_id" in str(e)
         return "pass"
 
 print(test_empty_document_rejected())`,
@@ -2497,7 +2581,7 @@ pass`,
         preamble:
           "- **Contexto:** un método `decide_fraud` en el dominio de familiaridad es un riesgo de producto y de ética.\n- **Meta:** mostrar el ANTES, modelar evidencia con score, y assert de ausencia de APIs de veredicto (métodos que emiten un fallo legal o de parentesco).\n- **Éxito:** `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.\n- **Límites:** no implementes `is_family`; umbrales de producto viven fuera; solo stdlib.",
         instruction:
-          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Quita `decide_fraud` de `Client` y haz `assert not hasattr` de decide_fraud/is_fraud/is_related_family sobre `Client`.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre `Client`.",
+          "1. Conserva el print ANTES sobre `Client.decide_fraud`.\n2. Define `RelationshipEvidence` frozen con ids + `signal_score`.\n3. Quita `decide_fraud` de `Client` y haz `assert not hasattr` de decide_fraud/is_fraud/is_related_family/is_family sobre `Client`.\n4. Imprime DESPUES con el score 0.95 y `has_decide_fraud False` sobre `Client`.",
         hint: "Borra el método de veredicto; el score vive en el value object de evidencia.",
         hints: [
           "Borra el método de veredicto; el score vive en el value object de evidencia.",
@@ -2508,7 +2592,7 @@ pass`,
         feedback:
           "Scores son datos de matching; `decide_fraud` / `is_family` no viven en el dominio de familiaridad. El print ANTES documenta el anti-patrón; el DESPUES debe mirar `hasattr` sobre `Client` después de quitar el método: el veredicto no puede seguir colgando de ese tipo.",
         retrospective:
-          "Scores son datos; veredictos son frontera humana/producto. Ese límite es el gate CP-N1-C. En You Do integrarás los cuatro tipos con tests que lo demuestren de punta a punta.",
+          "Scores son datos; veredictos son frontera humana/producto. El `hasattr` solo cubre los nombres de la lista: un veredicto con otro nombre lo burla, así que la revisión de código sigue haciendo falta. Ese límite es el gate CP-N1-C. En You Do integrarás los cuatro tipos con tests que lo demuestren de punta a punta.",
         starterCode: {
           language: 'python',
           title: "extract_fraud.py",
@@ -2556,6 +2640,7 @@ class RelationshipEvidence:
 assert not hasattr(Client, "decide_fraud")
 assert not hasattr(Client, "is_fraud")
 assert not hasattr(Client, "is_related_family")
+assert not hasattr(Client, "is_family")
 ev = RelationshipEvidence("E1", "E2", 0.95)
 print(
     "DESPUES signal_score",
@@ -2676,11 +2761,12 @@ def test_domain() -> None:
     assert c.to_dict()["client_id"] == "C001"
     assert c.to_dict()["full_name"] == "Ana Pérez"
 
-    try:
-        ClientRecord("", "DOC-0001", "X", [])
-        raise AssertionError("debía fallar client_id vacío")
-    except ValueError:
-        pass
+    for client_id, document_id in (("", "DOC-0001"), ("  ", "DOC-0001"), ("C1", " ")):
+        try:
+            ClientRecord(client_id, document_id, "X", [])
+            raise AssertionError(f"debía fallar id en blanco: {client_id!r}, {document_id!r}")
+        except ValueError:
+            pass
 
     assert ResolvedEntity("E1", "Ana") == ResolvedEntity("E1", "Ana actualizada")
     try:
@@ -2701,16 +2787,25 @@ def test_domain() -> None:
         raise AssertionError("debía fallar currency EUR")
     except ValueError:
         pass
+    try:
+        Transaction("T4", "C001", Decimal("1.001"), "PEN")
+        raise AssertionError("debía fallar amount con 3 decimales")
+    except ValueError:
+        pass
 
     ev = RelationshipEvidence("E1", "E2", 0.4)
     assert ev.signal_score == 0.4
-    try:
-        RelationshipEvidence("E2", "E1", 0.5)
-        raise AssertionError("debía fallar par no canónico")
-    except ValueError:
-        pass
-    assert not hasattr(RelationshipEvidence, "is_fraud")
-    assert not hasattr(RelationshipEvidence, "is_related_family")
+    for left_id, right_id, score in (("E2", "E1", 0.5), ("E1", "E1", 0.1), ("E1", "E2", float("nan")), ("E1", "E2", 1.5)):
+        try:
+            RelationshipEvidence(left_id, right_id, score)
+            raise AssertionError(f"debía fallar evidencia {left_id}-{right_id} {score}")
+        except ValueError:
+            pass
+    assert RelationshipEvidence("E1", "E2", 0.0).signal_score == 0.0
+    assert RelationshipEvidence("E1", "E2", 1.0).signal_score == 1.0
+    for cls in (ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence):
+        for verdict in ("is_fraud", "is_related_family", "is_family"):
+            assert not hasattr(cls, verdict), f"{cls.__name__}.{verdict} es un veredicto"
 
     repo: ClientRepository = InMemoryClientRepository()
     repo.save(c)
@@ -2740,7 +2835,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué `field(default_factory=list)` y no `= []`?",
-        options: ["Permite que el valor por defecto dependa de otros campos", "Hace que la lista sea inmutable dentro de la instancia", "Evita el default mutable compartido entre instancias", "Evita copiar la lista cada vez que se crea un objeto"],
+        options: ["Permite que el valor por defecto dependa de otros campos", "Hace que la lista sea inmutable dentro de la instancia", "Evita el default mutable compartido entre instancias", "Evita copiar la lista cada vez que se crea un objeto nuevo"],
         correctIndex: 2,
         explanation:
           "Un default `[]` se evalúa una sola vez. En un `__init__` escrito a mano, todas las instancias compartirían esa lista; por eso `@dataclass` la rechaza con `ValueError` al definir la clase. `default_factory=list` crea una lista nueva por instancia.",
@@ -2754,28 +2849,28 @@ if __name__ == "__main__":
       },
       {
         question: "Un Protocol EntityStore sirve para…",
-        options: ["Comprobar en ejecución que el adaptador implementa get y save", "Definir un puerto get/save implementable por dobles de prueba y adaptadores", "Heredar una implementación por defecto de get y save", "Obligar a que todos los adaptadores compartan una clase base"],
+        options: ["Exigir que el adaptador herede de EntityStore para poder usarlo", "Definir un puerto get/save que dobles y adaptadores puedan implementar", "Heredar una implementación por defecto de get y save", "Obligar a que todos los adaptadores compartan una misma clase base abstracta"],
         correctIndex: 1,
         explanation:
-          "Protocol describe un puerto estructural (un punto de extensión del dominio descrito por la forma de sus métodos): FakeStore en tests y adapter SQL en S12 pueden implementar get/save sin heredar de una ABC pesada (una clase base abstracta, más rígida que un Protocol).",
+          "Protocol describe un puerto estructural (un punto de extensión del dominio descrito por la forma de sus métodos): FakeStore en tests y el adaptador SQL de S12 pueden implementar get/save sin heredar de una ABC pesada (una clase base abstracta, más rígida que un Protocol).",
       },
       {
         question: "Objeto inválido: ¿cuándo fallar?",
-        options: ["Al serializar, que es cuando el objeto sale del sistema", "En la primera lectura del campo, para no pagar el costo si no se usa", "En el borde de la CLI, para poder dar un mensaje amable", "En la construcción (__post_init__/validate)"],
+        options: ["Al serializar, que es cuando el objeto sale del sistema hacia otro programa", "En la primera lectura del campo, para no pagar el costo si no se usa", "En el borde de la CLI, para poder darle al usuario un mensaje amable y claro", "Al construirlo (__post_init__), para que ningún objeto inválido circule"],
         correctIndex: 3,
         explanation:
           "Fail-closed al construir evita un ClientRecord o Transaction inválido circulando por el set de resolución.",
       },
       {
         question: "Client hereda de PersonInfo…",
-        options: ["Conviene cuando Client necesita todos los campos de PersonInfo", "Conviene si PersonInfo no va a cambiar de forma nunca más", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Conviene porque evita repetir los validadores en las dos clases"],
+        options: ["Conviene cuando Client necesita todos los campos que hoy tiene PersonInfo", "Conviene si PersonInfo no va a cambiar de forma nunca más", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Conviene porque evita repetir los validadores en las dos clases"],
         correctIndex: 2,
         explanation:
           "Sin subtipo real (is-a), la herencia acopla jerarquías. Composición (Client tiene PersonInfo) mantiene el grafo de dominio auditable.",
       },
       {
         question: "¿Qué no debe tener el dominio de familiaridad?",
-        options: ["is_fraud() automático", "to_dict", "Invariantes", "Tests unitarios"],
+        options: ["is_fraud() automático", "Un puntaje en [0, 1] guardado como dato", "Un to_dict para el borde de serialización", "Un from_dict que construye objetos validados"],
         correctIndex: 0,
         explanation:
           "APIs de veredicto (is_fraud, is_related_family) no pertenecen al modelo: scores son datos; la decisión humana o de producto vive fuera.",
