@@ -9,6 +9,11 @@ import { attachConsoleGuard } from './helpers/assert'
 import { gotoHash, gotoSection, openTab } from './helpers/nav'
 
 test.describe('Mouse/keyboard lesson flow', () => {
+  // The first-visit tour is a modal: left open, it takes every click this spec makes.
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('pyarcana:tourCompleted', '1'))
+  })
+
   test('home chrome: click + Escape close dialogs', async ({ page }) => {
     const guard = attachConsoleGuard(page)
     await gotoHash(page, '')
@@ -54,7 +59,12 @@ test.describe('Mouse/keyboard lesson flow', () => {
 
     // Quiz: click first option with mouse
     await openTab(page, 'quiz')
-    const opt = page.locator('[data-testid^="quiz-option-"], button:has-text("A."), [role="radio"]').first()
+    // Scoped to the open panel: unscoped, `button:has-text("A.")` matched a sidebar row whose
+    // tagline contains "A." and opened another section.
+    const opt = page
+      .locator('[data-state="active"][role="tabpanel"]')
+      .locator('[data-testid^="quiz-option-"], button:has-text("A."), [role="radio"]')
+      .first()
     if (await opt.isVisible().catch(() => false)) {
       await opt.click()
     } else {
@@ -74,11 +84,17 @@ test.describe('Mouse/keyboard lesson flow', () => {
     })
     await expect(page.getByTestId('section-prev')).toBeVisible()
     await expect(page.getByTestId('section-next')).toBeVisible()
-    await page.getByTestId('section-next').click({ force: true })
+    // → walks one step (tab) at a time and names the step it opens (tester feedback, 18 Nov 2026).
+    // From Teoría it must stay in S01 and open Yo hago; the old button left the section.
+    await openTab(page, 'theory')
+    const next = page.getByTestId('section-next')
+    const target = await next.getAttribute('data-target-step')
+    expect(target).toBe('ido')
+    await next.click({ force: true })
     await page.waitForTimeout(400)
-    // Should leave S01
     const root = page.getByTestId('section-root')
-    await expect(root).toBeVisible()
+    await expect(root).toHaveAttribute('data-section-id', s1!.id)
+    await expect(page.getByTestId(`tab-${target}`)).toHaveAttribute('data-state', 'active')
     await page.getByTestId('section-prev').click({ force: true })
     await page.waitForTimeout(400)
     await expect(root).toHaveAttribute('data-section-id', s1!.id)
@@ -122,8 +138,14 @@ test.describe('Mouse/keyboard lesson flow', () => {
             ;(el as HTMLElement).style.pointerEvents = 'none'
           })
         })
-        await page.getByTestId('section-next').click({ force: true })
-        await page.waitForTimeout(350)
+        // → steps through the remaining tabs, then opens the next section on Teoría.
+        for (let i = 0; i < 5; i += 1) {
+          const crosses = await page.getByTestId('section-next').getAttribute('data-crosses-section')
+          await page.getByTestId('section-next').click({ force: true })
+          await page.waitForTimeout(350)
+          if (crosses === 'true') break
+        }
+        await expect(page.getByTestId('tab-theory')).toHaveAttribute('data-state', 'active')
       }
     }
     expect(guard.critical(), guard.critical().join('\n')).toHaveLength(0)

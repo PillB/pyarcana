@@ -28,7 +28,9 @@ export function QAFooterBridge() {
     // renders. Importing the course to look them up put all 52 sections, 6.1 MB
     // of chunk, into the root layout, so every route downloaded the whole
     // course: /cookies, /privacy, /verify and the 404 page included.
-    const root = document.querySelector<HTMLElement>('[data-section-id]')
+    // The section root by name: any other element carrying data-section-id (a card, an
+    // outline) must not be mistaken for the open section.
+    const root = document.querySelector<HTMLElement>('[data-testid="section-root"][data-section-id]')
     const hashId = window.location.hash.slice(1).split('/')[0] || null
     const rawId = root?.dataset.sectionId || hashId
     const index = Number(root?.dataset.sectionIndex)
