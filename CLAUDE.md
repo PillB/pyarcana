@@ -12,9 +12,16 @@ Read it before doing anything here. It is binding, and it outranks habit. In par
   would reject your choice, the choice is already wrong.
 - **Every trade-off is stated, never absorbed.** Work left undone is named.
 - **A real test for every task and every round.** Tautological tests are worse than no
-  test: they convert an unverified claim into a green check.
+  test: they convert an unverified claim into a green check. A test models both the correct
+  behaviour and the defect, so it passes now and alerts if the issue comes back.
 - **`chore(lint)` complexity ceiling.** `node scripts/complexity_gate.mjs` — cyclomatic
   complexity 15, enforced as a ratchet.
+- **Try the alternatives before choosing.** A pre-execution round compares at least two
+  routes at small scale; a red-team round attacks the chosen one before it ships.
+- **Simulate drift.** Code that reads lesson content gets a test that applies the edits a
+  future round will make. `npm run test:static-journeys` runs CI's browser journeys locally.
+- **Fail loudly.** Tests, gates and scripts report what failed, where, expected against
+  actual, and the next step. A gate that cannot run says `REFUSED` and why.
 - **One failed hypothesis, then research.** If a fix hypothesis fails once, search for
   how others solved the same error before trying a second guess.
 - **A blocked or rate-limited dependency is a stop, not a retry.** Surface it.

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { followProgressReset } from '@/lib/theory-checkpoints'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
@@ -111,6 +112,8 @@ function OwnerChoiceDialog() {
 function CloudSyncActive({ stage }: { stage: LaunchStage }) {
   usePageLifecycle(stage)
   useSessionFollowers()
+  // "Usar solo mi cuenta" with an empty account wipes progress on this page, not in a lesson.
+  useEffect(() => followProgressReset(useProgressStore), [])
   // Ctrl/⌘ + Alt + S: a guarded forced sync, only while signed in (useForceSync.ts, force-sync.ts).
   useForceSyncHotkey(useCloudRuntime((s) => s.meStatus) === 'ok')
   return <OwnerChoiceDialog />
