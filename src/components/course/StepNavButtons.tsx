@@ -115,3 +115,27 @@ export function StepNavButtons({ animateEntrance, sections, position, activeStep
     </>
   )
 }
+
+/**
+ * Below `md` the → button is an icon: a written pill there would cover the lesson. So the same
+ * step is offered in the flow of the page, at the end of the tab, with its destination written.
+ */
+export function StepNextInline({ sections, position, activeStep, onGo }: Omit<StepNavButtonsProps, 'animateEntrance'>) {
+  const lang = useI18n((s) => s.lang)
+  const { target, label } = describe(sections, position, activeStep, 1, lang)
+  if (!target) return null
+  return (
+    <div className="mx-12 mt-6 mb-20 md:hidden">
+      <button
+        type="button"
+        onClick={() => onGo(target)}
+        data-testid="section-next-inline"
+        data-target-step={target.step}
+        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-4 text-sm font-semibold hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        {label}
+        <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+      </button>
+    </div>
+  )
+}

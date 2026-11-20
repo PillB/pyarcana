@@ -23,7 +23,7 @@ import { COURSE_SECTIONS } from '@/lib/course'
 import { t, type Language } from '@/lib/i18n'
 import type { TheoryBlock } from '@/lib/types'
 import { countReadParts, theoryParts, tickCompletesTheory } from '@/lib/course/theory-parts'
-import { followOtherTabs, sanitizeCheckpoints, THEORY_CHECKPOINTS_KEY, togglePart, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
+import { followOtherTabs, followProgressReset, isProgressReset, type ProgressShape, sanitizeCheckpoints, THEORY_CHECKPOINTS_KEY, togglePart, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
 import { SECTION_ID_RENAMES } from '@/lib/section-id-migrations'
 
 /** mulberry32: small, seeded, good enough to pick edit positions reproducibly. */
@@ -252,4 +252,30 @@ test('drift: only the section root is read as «the open section»', () => {
   for (const file of ['src/components/course/TheoryParts.tsx', 'src/components/course/StepNavButtons.tsx', 'src/components/course/Sidebar.tsx']) {
     assert.doesNotMatch(src(file), /data-section-id=/, `${file} carries data-section-id; only SectionView's root may`)
   }
+})
+
+test('drift: a progress reset forgets the checkpoints; unticking a step or a first load does not', () => {
+  const none: ProgressShape = { completedSubSteps: {}, completedSections: [], startDate: null }
+  const one: ProgressShape = { completedSubSteps: { setup: ['theory'] }, completedSections: [], startDate: '2026-11-01T00:00:00.000Z' }
+  const many: ProgressShape = { completedSubSteps: { setup: ['theory', 'ido'], basics: ['theory'] }, completedSections: ['setup'], startDate: '2026-11-01T00:00:00.000Z' }
+  assert.equal(isProgressReset(many, none), true, 'a wipe of several steps was not seen as a reset')
+  assert.equal(isProgressReset(one, none), true, 'resetAll with a single step done (startDate cleared) was not seen as a reset')
+  assert.equal(isProgressReset(one, { ...none, startDate: one.startDate }), false, 'unticking the only step was taken for a reset: the learner would lose every checkpoint')
+  assert.equal(isProgressReset(one, { ...one, completedSubSteps: { setup: [] } }), false, 'unticking the only step (empty list left behind) was taken for a reset')
+  assert.equal(isProgressReset(none, none), false, 'an empty first load was taken for a reset')
+  assert.equal(isProgressReset(none, many), false, 'progress arriving was taken for a reset')
+  assert.equal(isProgressReset(many, one), false, 'losing some progress was taken for a reset')
+
+  // Wired: the listener clears on a wipe and only on a wipe, and stops when asked.
+  let listener: ((next: ProgressShape, prev: ProgressShape) => void) | null = null
+  const stop = followProgressReset({ subscribe: (fn) => { listener = fn; return () => { listener = null } } })
+  assert.ok(listener, 'followProgressReset did not subscribe to the progress store')
+  const fire = listener as (next: ProgressShape, prev: ProgressShape) => void
+  useTheoryCheckpoints.setState({ read: { setup: ['intro'] } })
+  fire(one, many)
+  assert.deepEqual(useTheoryCheckpoints.getState().read, { setup: ['intro'] }, 'checkpoints were cleared by a change that was not a reset')
+  fire(none, many)
+  assert.deepEqual(useTheoryCheckpoints.getState().read, {}, 'checkpoints survived a progress reset: Teoría would open with every part ticked')
+  stop()
+  assert.equal(listener, null, 'the progress listener was not removed')
 })

@@ -68,10 +68,10 @@ import { proseSegments, shotsAfter } from '@/lib/course/section-shots'
 import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
-import { StepNavButtons } from './StepNavButtons'
+import { StepNavButtons, StepNextInline } from './StepNavButtons'
 import { TheoryOutline, TheoryPartView } from './TheoryParts'
 import { theoryParts, tickCompletesTheory } from '@/lib/course/theory-parts'
-import { followOtherTabs, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
+import { followOtherTabs, followProgressReset, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
 import type { StepTarget } from '@/lib/course/step-nav'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
@@ -376,6 +376,7 @@ export function SectionView({
             </TabsContent>
           </motion.div>
         </AnimatePresence>
+        <StepNextInline sections={sections} position={position} activeStep={activeTab} onGo={goToStep} />
       </Tabs>
 
       {/* HUD FABs: ← → walk the course one step (tab) at a time, and say where they go. */}
@@ -412,6 +413,7 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
   const lang = useI18n((state) => state.lang)
   const parts = useMemo(() => theoryParts(section.theory, t('theory.parts.intro', lang)), [section.theory, lang])
   useEffect(() => followOtherTabs(window), [])
+  useEffect(() => followProgressReset(useProgressStore), [])
   const readMap = useTheoryCheckpoints((s) => s.read)
   const toggleCheckpoint = useTheoryCheckpoints((s) => s.toggle)
   const readParts = readMap[section.id] ?? []

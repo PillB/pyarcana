@@ -58,6 +58,7 @@ export function togglePart(map: CheckpointMap, sectionId: string, key: string): 
 interface TheoryCheckpointState {
   read: CheckpointMap
   toggle: (sectionId: string, key: string) => void
+  clear: () => void
 }
 
 export const useTheoryCheckpoints = create<TheoryCheckpointState>()(
@@ -71,6 +72,7 @@ export const useTheoryCheckpoints = create<TheoryCheckpointState>()(
           if (read === s.read) console.error(`[theory-checkpoints] refused checkpoint «${key}» in section «${sectionId}»: not a valid id`)
           return { read }
         }),
+      clear: () => set({ read: {} }),
     }),
     {
       name: THEORY_CHECKPOINTS_KEY,
@@ -102,4 +104,36 @@ export function followOtherTabs(target: Pick<Window, 'addEventListener' | 'remov
   }
   target.addEventListener('storage', onStorage as EventListener)
   return () => target.removeEventListener('storage', onStorage as EventListener)
+}
+
+/** The part of the progress record that tells a reset from an ordinary change. */
+export interface ProgressShape {
+  completedSubSteps: Record<string, string[]>
+  completedSections: string[]
+  startDate: string | null
+}
+
+function progressItems(p: ProgressShape): number {
+  return p.completedSections.length + Object.values(p.completedSubSteps).reduce((n, steps) => n + steps.length, 0)
+}
+
+/** True for a wipe: everything gone at once. Unticking the one step a learner had is not a wipe. */
+export function isProgressReset(prev: ProgressShape, next: ProgressShape): boolean {
+  if (progressItems(next) > 0) return false
+  const lost = progressItems(prev)
+  return lost >= 2 || (lost === 1 && prev.startDate !== null && next.startDate === null)
+}
+
+/**
+ * A progress reset also forgets the theory checkpoints. Without this, a learner who starts over
+ * (`resetAll`, or adopting an empty account copy) would open Teoría and find every part already
+ * ticked. Only a wipe clears: a first load that starts empty does not, and neither does
+ * unticking a step.
+ */
+export function followProgressReset(
+  progress: { subscribe: (listener: (next: ProgressShape, prev: ProgressShape) => void) => () => void }
+): () => void {
+  return progress.subscribe((next, prev) => {
+    if (isProgressReset(prev, next)) useTheoryCheckpoints.getState().clear()
+  })
 }

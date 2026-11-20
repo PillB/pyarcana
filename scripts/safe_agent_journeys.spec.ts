@@ -233,3 +233,102 @@ test.describe('Safe-Agent learner journeys', () => {
     await context.close()
   })
 })
+
+// Lesson navigation (tester report, 18 Nov 2026). Each test fails on the behaviour the tester
+// reported: an arrow that jumped a whole section, a theory that saved nothing until its end, a
+// Sesión 0 missing from the sidebar. Not serial: one failing must not hide the other three.
+test.describe('Lesson navigation journeys', () => {
+  test('the → arrow moves one tab, says where it goes, and the open tab survives a reload', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}#S01`)
+    const root = page.getByTestId('section-root')
+    await expect(root).toBeVisible({ timeout: 20000 })
+    const firstSection = await root.getAttribute('data-section-id')
+    const next = page.getByTestId('section-next')
+    await expect(next).toHaveAttribute('data-target-step', 'ido')
+    await expect(page.getByTestId('section-next-label')).toHaveText('Yo hago')
+    await expect(next).toHaveAccessibleName(/Yo hago/)
+    await page.mouse.wheel(0, 4000)
+    await next.click()
+    await expect(page.locator('[data-testid="tab-ido"][data-state="active"]')).toBeVisible()
+    expect(await root.getAttribute('data-section-id'), '→ left the section instead of opening the next tab').toBe(firstSection)
+    await expect.poll(() => page.evaluate(() => window.scrollY), { message: 'the new tab opened scrolled down' }).toBe(0)
+    await page.reload()
+    await expect(page.locator('[data-testid="tab-ido"][data-state="active"]'), 'a reload reopened Teoría').toBeVisible({ timeout: 20000 })
+    for (const step of ['wedo', 'youdo', 'quiz']) {
+      await page.getByTestId('section-next').click()
+      await expect(page.locator(`[data-testid="tab-${step}"][data-state="active"]`)).toBeVisible()
+    }
+    // Only from the last tab does → cross into the next section, and its label says so.
+    await expect(page.getByTestId('section-next')).toHaveAttribute('data-crosses-section', 'true')
+    await expect(page.getByTestId('section-next-label')).toHaveText(/^S2 · /)
+    await page.getByTestId('section-next').click()
+    await expect(root).not.toHaveAttribute('data-section-id', firstSection as string)
+    await expect(page.locator('[data-testid="tab-theory"][data-state="active"]')).toBeVisible()
+    await context.close()
+  })
+
+  test('theory parts save one by one, survive a reload, and the last one completes Teoría', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}#S01`)
+    await expect(page.getByTestId('theory-outline')).toBeVisible({ timeout: 20000 })
+    const sectionId = (await page.getByTestId('section-root').getAttribute('data-section-id')) as string
+    const marks = page.locator('[data-testid^="theory-checkpoint-mark-"]')
+    const total = await marks.count()
+    expect(total, 'Teoría is one block with one checkpoint at its end again').toBeGreaterThan(3)
+    await marks.first().click()
+    await marks.first().click() // the first is now «saved», so this is the second part
+    await expect(page.locator('[data-testid^="theory-chip-"][data-read="true"]')).toHaveCount(2)
+    const stepsDone = () =>
+      page.evaluate((id) => {
+        const raw = localStorage.getItem('python-ds-progress')
+        return raw ? (JSON.parse(raw).state?.completedSubSteps?.[id] ?? []) : []
+      }, sectionId)
+    expect(await stepsDone(), 'two parts of nine marked the whole theory as done').not.toContain('theory')
+
+    await page.reload()
+    await expect(page.locator('[data-testid^="theory-chip-"][data-read="true"]'), 'the saved parts were lost on reload').toHaveCount(2, { timeout: 20000 })
+    // The way back: the resume button lands keyboard focus on the first unread part.
+    await page.getByTestId('theory-resume').click()
+    const focused = await page.evaluate(() => document.activeElement?.getAttribute('data-testid') ?? '')
+    const thirdPart = await page.locator('[data-testid^="theory-chip-"]').nth(2).getAttribute('data-testid')
+    expect(focused).toBe((thirdPart as string).replace('theory-chip-', 'theory-part-'))
+
+    for (let left = total - 2; left > 0; left -= 1) await marks.first().click()
+    await expect(marks).toHaveCount(0)
+    await expect.poll(stepsDone, { message: 'reading every part did not complete Teoría' }).toContain('theory')
+    await context.close()
+  })
+
+  test('Sesión 0 is in the sidebar and opens the setup guide', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}#S01`)
+    const link = page.getByTestId('sidebar-session0').first()
+    await expect(link).toBeVisible({ timeout: 20000 })
+    await expect(link).toContainText('Sesión 0')
+    await link.click()
+    await expect(page).toHaveURL(/\/empezar\/?$/)
+    await context.close()
+  })
+
+  test('on a phone the next step is written in the page, not only on an icon', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}#S01`)
+    await expect(page.getByTestId('section-root')).toBeVisible({ timeout: 20000 })
+    await expect(page.getByTestId('section-next-label')).toBeHidden()
+    const inline = page.getByTestId('section-next-inline')
+    await expect(inline).toHaveText(/Siguiente: Yo hago/)
+    await inline.click()
+    await expect(page.locator('[data-testid="tab-ido"][data-state="active"]')).toBeVisible()
+    await expect(page.getByTestId('section-next-inline')).toHaveText(/Siguiente: Hacemos juntos/)
+    await context.close()
+  })
+})
