@@ -71,7 +71,7 @@ import { ProgressRing } from './ProgressRing'
 import { StepNavButtons } from './StepNavButtons'
 import { TheoryOutline, TheoryPartView } from './TheoryParts'
 import { theoryParts, tickCompletesTheory } from '@/lib/course/theory-parts'
-import { useTheoryCheckpoints } from '@/lib/theory-checkpoints'
+import { followOtherTabs, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
 import type { StepTarget } from '@/lib/course/step-nav'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
@@ -409,7 +409,9 @@ export function SectionView({
 
 // === Theory Tab ===
 function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
-  const parts = useMemo(() => theoryParts(section.theory), [section.theory])
+  const lang = useI18n((state) => state.lang)
+  const parts = useMemo(() => theoryParts(section.theory, t('theory.parts.intro', lang)), [section.theory, lang])
+  useEffect(() => followOtherTabs(window), [])
   const readMap = useTheoryCheckpoints((s) => s.read)
   const toggleCheckpoint = useTheoryCheckpoints((s) => s.toggle)
   const readParts = readMap[section.id] ?? []

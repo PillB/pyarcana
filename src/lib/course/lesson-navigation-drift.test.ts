@@ -23,7 +23,8 @@ import { COURSE_SECTIONS } from '@/lib/course'
 import { t, type Language } from '@/lib/i18n'
 import type { TheoryBlock } from '@/lib/types'
 import { countReadParts, theoryParts, tickCompletesTheory } from '@/lib/course/theory-parts'
-import { sanitizeCheckpoints, togglePart } from '@/lib/theory-checkpoints'
+import { followOtherTabs, sanitizeCheckpoints, THEORY_CHECKPOINTS_KEY, togglePart, useTheoryCheckpoints } from '@/lib/theory-checkpoints'
+import { SECTION_ID_RENAMES } from '@/lib/section-id-migrations'
 
 /** mulberry32: small, seeded, good enough to pick edit positions reproducibly. */
 function rng(seed: number): () => number {
@@ -157,6 +158,50 @@ test('drift: checkpoints saved before an edit never over-count or complete theor
   assert.equal(countReadParts(theoryParts(s1.theory.map((b) => ({ ...b, subtopicId: undefined }))), allRead), 0)
 })
 
+test('drift: a renamed section keeps its checkpoints, merged with any saved under the new slug', () => {
+  const [[oldId, newId]] = Object.entries(SECTION_ID_RENAMES)
+  assert.deepEqual(
+    sanitizeCheckpoints({ [oldId]: ['intro', 'S03-T1-A'], [newId]: ['S03-T1-A', 'S03-T1-B'] }),
+    { [newId]: ['intro', 'S03-T1-A', 'S03-T1-B'] },
+    `checkpoints saved under «${oldId}» were not carried to «${newId}»`
+  )
+  // Every current section id is one the sanitizer keeps under its own name.
+  for (const s of COURSE_SECTIONS) {
+    assert.deepEqual(Object.keys(sanitizeCheckpoints({ [s.id]: ['intro'] })), [s.id], `section id «${s.id}» is dropped or renamed by the sanitizer`)
+  }
+})
+
+test('drift: a second tab saving does not erase this tab’s view of the record', async () => {
+  const listeners: Array<(e: unknown) => void> = []
+  const fakeWindow = {
+    addEventListener: (_: string, fn: (e: unknown) => void) => { listeners.push(fn) },
+    removeEventListener: (_: string, fn: (e: unknown) => void) => { listeners.splice(listeners.indexOf(fn), 1) },
+  }
+  const stored = new Map<string, string>()
+  const g = globalThis as unknown as { window?: unknown }
+  const hadWindow = 'window' in g
+  g.window = { localStorage: { getItem: (k: string) => stored.get(k) ?? null, setItem: (k: string, v: string) => { stored.set(k, v) }, removeItem: (k: string) => { stored.delete(k) } } }
+  try {
+    const stop = followOtherTabs(fakeWindow as never)
+    assert.equal(listeners.length, 1, 'no storage listener was registered')
+    useTheoryCheckpoints.setState({ read: { setup: ['intro'] } })
+    // The other tab writes a record that also has T1-A.
+    stored.set(THEORY_CHECKPOINTS_KEY, JSON.stringify({ state: { read: { setup: ['intro', 'S01-T1-A'] } }, version: 1 }))
+    listeners[0]({ key: 'some-other-key' })
+    await new Promise((r) => setTimeout(r, 5))
+    assert.deepEqual(useTheoryCheckpoints.getState().read, { setup: ['intro'] }, 'an unrelated storage event reloaded the record')
+    listeners[0]({ key: THEORY_CHECKPOINTS_KEY })
+    await new Promise((r) => setTimeout(r, 5))
+    assert.deepEqual(useTheoryCheckpoints.getState().read, { setup: ['intro', 'S01-T1-A'] }, 'this tab did not pick up the other tab’s checkpoint; its next save would erase it')
+    stop()
+    assert.equal(listeners.length, 0, 'the storage listener was not removed')
+  } finally {
+    if (hadWindow) delete g.window
+    else delete g.window
+    useTheoryCheckpoints.setState({ read: {} })
+  }
+})
+
 // --- words and layout that live in two places --------------------------------------------------
 
 const PLACEHOLDERS: Record<string, string[]> = {
@@ -168,7 +213,7 @@ const PLACEHOLDERS: Record<string, string[]> = {
   'theory.parts.saved': ['{part}'],
   'sidebar.session0.progress': ['{done}', '{total}'],
 }
-const PLAIN = ['theory.parts.nav', 'theory.parts.readShort', 'theory.parts.undo', 'sidebar.session0.title', 'sidebar.session0.tagline']
+const PLAIN = ['theory.parts.nav', 'theory.parts.intro', 'theory.parts.readShort', 'theory.parts.undo', 'sidebar.session0.title', 'sidebar.session0.tagline']
 
 test('drift: every language keeps the navigation strings and their placeholders', () => {
   for (const lang of ['es-PE', 'es-ES', 'en'] as Language[]) {

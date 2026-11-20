@@ -121,6 +121,8 @@ export function TheoryPartView({
     <div
       id={theoryPartDomId(part.key)}
       tabIndex={-1}
+      role="group"
+      aria-label={`${part.label}: ${part.title}`}
       className="scroll-mt-40 space-y-6 focus-visible:outline-none"
       data-testid={`theory-part-${part.key}`}
     >

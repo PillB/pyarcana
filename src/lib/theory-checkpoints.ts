@@ -15,6 +15,7 @@
  */
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+import { renameSectionId } from '@/lib/section-id-migrations'
 
 export const THEORY_CHECKPOINTS_KEY = 'pyarcana-theory-checkpoints'
 
@@ -33,8 +34,12 @@ export function sanitizeCheckpoints(value: unknown): CheckpointMap {
   const out: CheckpointMap = {}
   for (const [sectionId, keys] of Object.entries(value).slice(0, MAX_SECTIONS)) {
     if (!SECTION_ID.test(sectionId) || !Array.isArray(keys)) continue
-    const clean = [...new Set(keys.filter((k): k is string => typeof k === 'string' && PART_KEY.test(k)))]
-    if (clean.length > 0) out[sectionId] = clean.slice(0, MAX_PARTS_PER_SECTION)
+    // A section whose slug was renamed since the checkpoint was saved keeps its checkpoints
+    // (section-id-migrations.ts); old and new entries for one section are merged.
+    const id = renameSectionId(sectionId)
+    const valid = keys.filter((k): k is string => typeof k === 'string' && PART_KEY.test(k))
+    const clean = [...new Set([...(out[id] ?? []), ...valid])]
+    if (clean.length > 0) out[id] = clean.slice(0, MAX_PARTS_PER_SECTION)
   }
   return out
 }
@@ -86,3 +91,15 @@ export const useTheoryCheckpoints = create<TheoryCheckpointState>()(
     }
   )
 )
+
+/**
+ * Two tabs: each holds its own copy and writes the whole record, so the tab that saved last
+ * would erase the other's checkpoints. When another tab writes, this one re-reads first.
+ */
+export function followOtherTabs(target: Pick<Window, 'addEventListener' | 'removeEventListener'>): () => void {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === THEORY_CHECKPOINTS_KEY || event.key === null) void useTheoryCheckpoints.persist.rehydrate()
+  }
+  target.addEventListener('storage', onStorage as EventListener)
+  return () => target.removeEventListener('storage', onStorage as EventListener)
+}
