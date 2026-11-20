@@ -363,7 +363,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S12, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S13, 17–19 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -596,3 +596,48 @@ back. Read this list before a section round; every item cost at least one failed
   NOT NULL, exact index column) and no printed case exercised it. Guard: for each Límites line,
   name the printed case that fails without it; if none, add one, and plant the mutant in the
   section test.
+- **S13: two contracts for one missing input.** A pair with no document got `None` in
+  `er_rules.py` ("falta evidencia"), 0.0 in the counterexample and 0.0 in the exercise. The two
+  answers mean different things: 0.0 says "different people" and sends the pair to `abstain`;
+  `None` says "no data", and `decide_ops_status` sets it apart as `invalid_input`. Root cause:
+  each block was written to pass its own output, and nothing compared the blocks. Fix: `None`
+  everywhere, with a fourth printed case (A-E) in the exercise. Guard: before changing a
+  contract, grep every block of the section for the same input, and add the case to the exercise
+  that teaches it. The same check found `auto_fraud False` printed by the theory while the next
+  exercise deleted the key; the forbidden keys are now absent and asserted absent.
+- **S13: a signal named for what it was meant to measure.** `surname_jaccard` computed the
+  Jaccard of the full name, so a learner who built the surname-only score got 1/3 where the text
+  said 0.2. Fix: rename to `name_jaccard` in theory, exercises and the You Do. Guard: name a
+  value after its input, and test that the old name is gone (`test_one_name_for_the_name_signal`).
+- **S13: a test harness that prepended code before `from __future__ import annotations`.** The
+  You Do now reads `--synthetic` with argparse, and the probe runs code under `python -c`, where
+  `sys.argv` is `['-c']`. Prepending `sys.argv = [...]` gave `SyntaxError`, because a future
+  statement must be the first statement of a module
+  ([Python reference: future statements](https://docs.python.org/3/reference/simple_stmts.html#future)).
+  Without the flag, argparse exits with status 2 by raising `SystemExit`, which derives from
+  `BaseException`, so the probe's `except Exception` did not catch it and the probe process died
+  ([argparse: exiting methods](https://docs.python.org/3/library/argparse.html#exiting-methods),
+  [SystemExit](https://docs.python.org/3/library/exceptions.html#SystemExit)). Fix: insert the
+  argv line right after the future import; the new section test runs the file the way the
+  runbook says (`python -m demo_n1_dashboard --synthetic` in a temporary directory) and checks
+  exit code 2 without the flag. Guard: inject into a module after its `__future__` line, never
+  before; test a CLI as a subprocess, not through `exec`.
+- **S13: the length-cue ratchet and the per-rank cap pull against each other.** The bank had
+  ties and 9 of 24 keys at rank 4. Spreading them first put 6 at rank 1, and
+  `test_exam_length_cue` failed: the course-wide "key is longest" count may fall but never
+  grow (1018 → 1022). With rank 1 held at 2, the other ranks carry 22 keys, so one holds 8.
+  Fix: plan rank 1 first, then spread the rest (2, 7, 8, 7); the section test allows 8 and says
+  why. Guard: run `test_exam_length_cue` right after any bank rebalance, before the full gates.
+- **S13: a test that parsed the starter up to a named function.** `test_proposal10_p1` read
+  `PAIR_CASES` up to `"\ndef main"`; adding `parse_args` between them broke `literal_eval`.
+  Fix: cut at the next top-level `def`. Guard: parse a literal up to the next top-level
+  statement, not up to a function that happens to follow it today.
+- **S13: a rewritten self-check moved a key out of its position cycle.** Each section's
+  self-check keys follow a fixed position cycle (`scripts/rebalance_selfcheck_positions.mjs`,
+  checked by `test_selfcheck_position_bias`); S13 expects `0, 2, 3, 1` repeating, so question 9
+  must keep its key at index 0. Writing new options put it at 2. A new outcome also wrote
+  "(ER)", an alias of the glossary term `entity-resolution`, before the theory defines it, and
+  `test_surprising_uses_ratchet` caught it. Guard: after rewriting a self-check, keep each
+  `correctIndex` as it was and reorder the options around it; after editing outcomes, run
+  `test:ux-gates` and grep the glossary aliases (`src/lib/glossary/terms.ts`) for any
+  abbreviation you added.
