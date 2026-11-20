@@ -67,6 +67,37 @@ Particular weight goes to:
 it can fail: demonstrate it by breaking the thing it guards and watching it
 report. Empty findings prove nothing on their own.
 
+### Pre-execution and red-team rounds
+
+Design by comparison, not by the first idea that works. Before building, write
+down at least two routes and run each at the smallest scale that separates
+them: a spike, a probe against the real page, a measurement on real content.
+Judge them against the expert benchmark above, choose, and record the routes
+rejected with the reason, so the next reader does not re-litigate them.
+
+Then attack the choice before it ships: hostile and malformed input, the path a
+confused learner takes, small screens and keyboard-only use, and every other
+place in the repository that shares the same root cause. A finding that recurs
+elsewhere is fixed as a class. (Worked example: PR #169 compared per-block,
+per-topic and per-subtopic theory checkpoints, and a browser walk then found
+three defects the unit tests could not see.)
+
+### Fail loudly, with a diagnosis
+
+A failure is only useful if the person reading it can act without re-running
+anything. Every test, gate and script reports:
+
+- **what** failed, in the words of the defect it guards ("the sanitizer drops
+  S01-T1-B#2"), not just "assertion failed";
+- **where**: file and line, id, URL or section;
+- **expected against actual**, both printed;
+- **the likely cause or next step**, when known.
+
+A gate whose preconditions do not hold prints `REFUSED` with the reason and
+exits non-zero; it never reports a pass it did not measure. Silent fallbacks,
+bare `assert x`, `catch {}` on a claimed path, and logs that say "error" with
+no subject are defects in their own right.
+
 ### One failed hypothesis, then research
 
 The first guess about an error is a hypothesis. **If it turns out wrong, stop

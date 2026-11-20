@@ -63,6 +63,11 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 
 - Never skip, delete or weaken a failing test to get green CI.
 - A test must be able to fail. Prove it: break what it guards and watch it report.
+- Model both behaviours. Before writing a test, name the correct behaviour and the defect it
+  guards; the test passes on the first and goes red on the second. A test that only checks the
+  happy path cannot alert when the issue comes back. Tautological tests are considered harmful.
+- Every task and every round ships with such a test, and the PR names the mutation that turned
+  it red.
 - Counts are floors that catch loss, not ceilings on teaching (D6). Convert one only after
   probing that it actually blocks added content — most exact counts match canonical ids
   and already tolerate extras.
@@ -147,6 +152,21 @@ If you can say why they would reject your choice, it is already wrong — change
 the feasible ideal over the cheap satisfier. Research before deciding, not after being
 challenged. Weight methodological correctness, current practice, usability of the actual
 path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
+
+- **Pre-execution round.** Before building, name at least two routes, try each at the smallest
+  scale that can tell them apart (a spike, a probe, a measurement), and choose against the
+  expert's benchmark. The PR names the routes rejected and why.
+- **Red-team before shipping.** Attack the chosen route as a hostile reviewer would: edge cases,
+  bad input, the path a confused person takes, and every other place that shares the root cause.
+  Fix the class, not the instance.
+
+## Fail loudly
+
+Every test, gate and script fails verbose, with a diagnosis a stranger can act on: what failed,
+where (file:line, id or URL), expected against actual, and the likely cause or next step.
+An assertion carries a message naming the defect it guards. A gate that cannot run prints
+`REFUSED` and why, and exits non-zero. A silent fallback, a bare `assert x`, or an exception
+swallowed on a claimed path is a defect.
 
 ## Invariants
 
