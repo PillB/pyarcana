@@ -114,7 +114,9 @@ const WORKER_SUITES = [
   // Which browser the e2e suites launch (7 Oct 2026: they hard-coded the sandbox path).
   ["e2e-launch", 3],
   // Retest checks and the QA supervisor (owner request 2026-11-19).
-  ["report-verify", 11]
+  ["report-verify", 11],
+  // How a tester gets in while sign-up is closed (red-team round on PR #168, 2026-11-20).
+  ["tester-onboarding", 4]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
