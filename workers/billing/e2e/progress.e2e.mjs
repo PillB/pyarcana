@@ -3,7 +3,8 @@
 //   W01  passing the self-check, then pressing the result card's button, or retaking it, leaves the
 //        section complete, in the browser and on the account;
 //   W07  a done step is a status with a separate «Desmarcar», not a green toggle;
-//   W10  a change made right before the tab closes still reaches the account (pagehide flush).
+//   W10  a change made right before the tab closes still reaches the account (pagehide flush);
+//   W11  theory parts marked as read follow the account to a second device, and an un-tick returns.
 // Real page, real clicks, real worker and D1. The right answers come from the course data itself.
 import { chromium } from 'playwright'
 import { launchOptions } from './sandbox-trust.mjs'
@@ -92,6 +93,41 @@ try {
   await check.waitForTimeout(1500)
   const after = remoteSetup(await server(check))
   record('W10: a change made right before closing the tab reaches the account', !after.steps.includes('theory') && after.steps.includes('quiz'), JSON.stringify(after))
+
+  // W11: theory parts marked as read follow the account to a second device, and an un-tick made
+  // there comes back to the first (20 Nov 2026). Two browser contexts are two devices: separate
+  // storage, the same account.
+  const readChips = (p) => p.locator('[data-testid^="theory-chip-"][data-read="true"]').count()
+  const remoteParts = async (p) => (await server(p))?.doc?.state?.theoryParts?.setup || []
+  const deviceA = await ctx.newPage()
+  await deviceA.goto(`${BASE}/#setup`, { waitUntil: 'networkidle' })
+  await deviceA.getByTestId('theory-outline').waitFor()
+  const marks = deviceA.locator('[data-testid^="theory-checkpoint-mark-"]')
+  await marks.first().click()
+  await marks.first().click() // the first is saved now, so this is the second part
+  await deviceA.waitForTimeout(6500) // past the push debounce
+  const uploaded = await remoteParts(deviceA)
+  record('W11: two theory parts ticked on one device are on the account', uploaded.length === 2, JSON.stringify(uploaded))
+
+  const ctxB = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'es-PE' })
+  await ctxB.addInitScript(() => { try { localStorage.setItem('pyarcana:tourCompleted', '1'); localStorage.setItem('pyarcana:qaTourCompleted', '1') } catch {} })
+  await ctxB.addCookies([{ name: '__Host-pa_session', value: tokens.paid.token, domain: 'localhost', path: '/', secure: true, httpOnly: true, sameSite: 'Lax' }])
+  const deviceB = await ctxB.newPage()
+  await deviceB.goto(`${BASE}/#setup`, { waitUntil: 'networkidle' })
+  await deviceB.getByTestId('theory-outline').waitFor()
+  await deviceB.waitForFunction(() => document.querySelectorAll('[data-testid^="theory-chip-"][data-read="true"]').length === 2, null, { timeout: 15000 }).catch(() => {})
+  const onB = await readChips(deviceB)
+  record('W11: a second device shows the same two parts as read', onB === 2, `read chips on the second device=${onB}`)
+
+  await deviceB.locator('[data-testid^="theory-checkpoint-undo-"]').first().click()
+  await deviceB.waitForTimeout(6500)
+  const afterUntick = await remoteParts(deviceB)
+  await deviceA.reload({ waitUntil: 'networkidle' })
+  await deviceA.getByTestId('theory-outline').waitFor()
+  await deviceA.waitForFunction(() => document.querySelectorAll('[data-testid^="theory-chip-"][data-read="true"]').length === 1, null, { timeout: 15000 }).catch(() => {})
+  const backOnA = await readChips(deviceA)
+  record('W11: an un-tick on the second device reaches the account and the first device', afterUntick.length === 1 && backOnA === 1, `account=${JSON.stringify(afterUntick)}, read chips on the first device=${backOnA}`)
+  await ctxB.close()
   await ctx.close()
 } catch (e) {
   record('progress flow', false, `threw: ${e.message.split('\n')[0]}`)
