@@ -21,7 +21,8 @@ import { saveQaIssue, type QAIssue } from '@/lib/qa-session'
 import type { QaSessionSummary } from '@/lib/qa-session-stats'
 import { canSendQaSession, qaSessionHold, sendQaSession, shouldSendQaSession } from '@/lib/cloud/qa-sessions'
 import { cloudApi } from './runtime'
-import { useText, type Tr } from './text'
+import { sitePath, useText, type Tr } from './text'
+import { qaAccess } from '@/lib/cloud/qa-review'
 import { LEGAL_CHECKBOX_CLASS } from '@/components/account/a11y'
 
 /** Draws through a canvas: only pixels are written, so EXIF never leaves the browser. */
@@ -87,7 +88,12 @@ export function QaSendIssue({ issue, tester, onSent }: { issue: QAIssue; tester:
   const [note, setNote] = useState<string | null>(null)
   const mark = sentMark(issue)
   if (mark) {
-    return <p className="text-sm text-muted-foreground" data-testid="qa-sent-mark">{tr('qa.send.sentAt', { date: new Date(mark.sentAt).toLocaleString(lang), id: mark.remoteId })}</p>
+    return (
+      <div className="space-y-1">
+        <p className="text-sm text-muted-foreground" data-testid="qa-sent-mark">{tr('qa.send.sentAt', { date: new Date(mark.sentAt).toLocaleString(lang), id: mark.remoteId })}</p>
+        <TeamReportsLink />
+      </div>
+    )
   }
   const send = async () => {
     setBusy(true)
@@ -223,6 +229,24 @@ function SessionSummary({ session }: { session: QaSessionSummary | null }) {
   )
 }
 
+/**
+ * Where the team's reports are read and retested: /admin, which a tester or a QA supervisor opens
+ * in its QA window (owner request 2026-11-19). Shown only to a signed-in QA role or admin, since
+ * anyone else would land on a refusal; a plain page load, as /admin loads no harness.
+ */
+function TeamReportsLink() {
+  const { tr } = useText()
+  const me = useCloudSession((s) => s.me)
+  const live = useCloudRuntime((s) => s.meStatus === 'ok')
+  if (!live || qaAccess(me) === null) return null
+  return (
+    <p className="text-sm">
+      <a href={sitePath('/admin')} className="underline underline-offset-2" data-testid="qa-team-reports-link">{tr('qarev.menuLink')}</a>
+      {' '}<span className="text-muted-foreground">{tr('qarev.menuHint')}</span>
+    </p>
+  )
+}
+
 /** The Session tab's team section: send every unsent issue, the session summary, the test-mode switches. */
 export function QaSessionCloud({ issues, tester, session, onSent }: { issues: QAIssue[]; tester: string; session: QaSessionSummary | null; onSent: () => void }) {
   const { tr } = useText()
@@ -230,6 +254,7 @@ export function QaSessionCloud({ issues, tester, session, onSent }: { issues: QA
     <section className="space-y-4 rounded-xl border border-border p-5 lg:col-span-2" data-testid="qa-cloud-session">
       <h3 className="font-semibold">{tr('qa.send.h')}</h3>
       <SendAll issues={issues} tester={tester} onSent={onSent} />
+      <TeamReportsLink />
       <h3 className="font-semibold">{tr('qa.session.h')}</h3>
       <SessionSummary session={session} />
       <h3 className="font-semibold">{tr('qa.mode.h')}</h3>

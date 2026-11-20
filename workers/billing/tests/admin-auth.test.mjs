@@ -62,9 +62,14 @@ test("every /v1/admin/ route is session + admin gated, needs db and pepper, and 
     assert.ok(route.needs.includes("db") && route.needs.includes("pepper"), route.path);
     assert.match(route.audit, /^admin\.[a-z_.]+$/, route.path);
   }
-  for (const route of ROUTES.filter((r) => r.path.startsWith("/v1/qa/"))) {
-    assert.deepEqual([route.path, route.auth, route.access], [route.path, "session", "qa"]);
+  // Every QA route is session + a QA gate; exactly one (the supervisor's status change) is the
+  // narrower qa_review gate, and none of them is open to a plain session.
+  const qa = ROUTES.filter((r) => r.path.startsWith("/v1/qa/"));
+  for (const route of qa) {
+    const expected = route.method === "PATCH" ? "qa_review" : "qa";
+    assert.deepEqual([route.method, route.path, route.auth, route.access], [route.method, route.path, "session", expected]);
   }
+  assert.deepEqual(qa.filter((r) => r.access === "qa_review").map((r) => `${r.method} ${r.path}`), ["PATCH /v1/qa/reports/:id"]);
 });
 
 test("an admin with a fresh Google session passes, and the request is audited with the handler's target", async () => {

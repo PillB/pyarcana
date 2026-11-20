@@ -56,7 +56,7 @@ const WORKER_SUITES = [
   ["crypto", 12],
   ["http", 15],
   ["qa", 7],
-  ["schema", 18],
+  ["schema", 19],
   ["ratelimit", 6],
   ["address", 5],
   ["config", 9],
@@ -112,7 +112,9 @@ const WORKER_SUITES = [
   ["ops", 10],
   ["operator-scripts", 27],
   // Which browser the e2e suites launch (7 Oct 2026: they hard-coded the sandbox path).
-  ["e2e-launch", 3]
+  ["e2e-launch", 3],
+  // Retest checks and the QA supervisor (owner request 2026-11-19).
+  ["report-verify", 11]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -163,6 +165,8 @@ const CLIENT_SUITES = [
   ["qa-report", 21],
   ["qa-session-stats", 4],
   ["qa-tour-layout", 6],
+  // Retest checks and the QA supervisor (owner request 2026-11-19).
+  ["qa-review", 7],
   ["section-completion", 4],
   ["site-icons", 8],
   ["remote-apply", 4],

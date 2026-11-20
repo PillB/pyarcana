@@ -122,19 +122,24 @@ export function revokeGrantRequest(grantId: string, reason: string): Built {
   return text ? { ok: true, body: { grantId, reason: text } } : fail('adm.error.reason')
 }
 
-/** POST /v1/admin/roles (the only stored role is tester). */
-export function roleRequest(form: Omit<GrantForm, 'kind'>): Built {
+/** workers/billing/src/roles.mjs ROLES: tester, and the QA supervisor who also closes reports. */
+export const ROLE_NAMES = ['tester', 'qa_supervisor'] as const
+export type RoleName = (typeof ROLE_NAMES)[number]
+const roleName = (role: string | undefined): RoleName => (ROLE_NAMES as readonly string[]).includes(role ?? '') ? (role as RoleName) : 'tester'
+
+/** POST /v1/admin/roles. An unknown role falls back to tester, the narrower one, never wider. */
+export function roleRequest(form: Omit<GrantForm, 'kind'>, role: RoleName = 'tester'): Built {
   const target = parseTarget(form.target)
   if (!target) return fail('adm.error.target')
   const days = parseDays(form.daysText, form.indefinite)
   if (days === 'invalid') return fail('adm.error.days')
-  return withNote({ ...target, role: 'tester', days }, form.note)
+  return withNote({ ...target, role: roleName(role), days }, form.note)
 }
 
 /** POST /v1/admin/roles/revoke. */
-export function roleRevokeRequest(accountId: string, reason: string): Built {
+export function roleRevokeRequest(accountId: string, reason: string, role: RoleName = 'tester'): Built {
   const text = requiredReason(reason)
-  return text ? { ok: true, body: { accountId, role: 'tester', reason: text } } : fail('adm.error.reason')
+  return text ? { ok: true, body: { accountId, role: roleName(role), reason: text } } : fail('adm.error.reason')
 }
 
 /** POST /v1/admin/account/lookup (a body, so the address stays out of URLs and logs). */
@@ -180,8 +185,8 @@ export function grantsPath(q: { kind: GrantKind | 'trial' | ''; state: GrantStat
   return `/v1/admin/grants${encodeQuery({ kind, state: oneOf(q.state, GRANT_STATES) ?? 'all', limit: q.limit ?? 100 })}`
 }
 
-export function rolesPath(state: RoleState): string {
-  return `/v1/admin/roles${encodeQuery({ role: 'tester', state: oneOf(state, ROLE_STATES) ?? 'all' })}`
+export function rolesPath(state: RoleState, role: RoleName = 'tester'): string {
+  return `/v1/admin/roles${encodeQuery({ role: roleName(role), state: oneOf(state, ROLE_STATES) ?? 'all' })}`
 }
 
 export interface ReportFilters {
@@ -192,6 +197,8 @@ export interface ReportFilters {
   source?: string
   /** The tester's alias, matched exactly (the worker's reporter_alias). */
   tester?: string
+  /** 'review': a retest says fixed and the report is still open (the supervisor's queue). */
+  awaiting?: string
   q?: string
 }
 
@@ -204,6 +211,7 @@ export function reportsPath(scope: 'qa' | 'admin', f: ReportFilters, cursor: str
     section: f.section?.trim().slice(0, 40),
     source: oneOf(f.source, REPORT_SOURCE_VALUES),
     tester: f.tester?.trim().slice(0, 80),
+    awaiting: f.awaiting === 'review' ? 'review' : null,
     q: f.q?.trim().slice(0, 100),
     cursor: cursor && CURSOR.test(cursor) ? cursor : null,
     limit,
@@ -354,6 +362,20 @@ export interface ReportContext {
   elementHint: string | null
 }
 
+export interface VerifiedCounts {
+  reproduced: number
+  notReproduced: number
+  fixed: number
+}
+
+const tally = (v: unknown): number => (typeof v === 'number' && Number.isInteger(v) && v >= 0 ? v : 0)
+
+/** A report's `verified` counts; anything missing or malformed reads as 0. */
+export function parseVerifiedCounts(raw: unknown): VerifiedCounts {
+  const v = isPlainObject(raw) ? raw : {}
+  return { reproduced: tally(v.reproduced), notReproduced: tally(v.notReproduced), fixed: tally(v.fixed) }
+}
+
 export interface ReportRow {
   id: string
   createdAt: number
@@ -373,6 +395,8 @@ export interface ReportRow {
   reporterAlias: string | null
   duplicateOf: string | null
   attachmentCount: number
+  /** Retest checks by result (workers/billing/src/report-verify.mjs). */
+  verified: VerifiedCounts
   mine: boolean
   /** Admin view only. */
   accountEmail: string | null
@@ -458,6 +482,7 @@ export function parseReport(r: Record<string, unknown>): ReportRow | null {
     reporterAlias: str(r.reporterAlias),
     duplicateOf: str(r.duplicateOf),
     attachmentCount: num(r.attachmentCount) ?? 0,
+    verified: parseVerifiedCounts(r.verified),
     mine: r.mine === true,
     accountEmail: str(r.accountEmail),
     contactEmail: str(r.contactEmail),

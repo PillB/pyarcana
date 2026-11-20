@@ -36,8 +36,10 @@ BATCH_1 = [
 # re.compile, phone digits) are no longer the longest option; "always longest" now scores 4/10.
 # 2026-11-18, proposal 10 S09: seven S09 keys got distractors at least as long as the key, and the
 # minimal-repro key now says "autocontenido"; "always longest" now scores 1/11.
+# 2026-11-18, proposal 10 S12: the absurd distractors were replaced and the key's length rank is
+# spread (no rank holds more than 2 of 7); "always longest" no longer passes S12.
 LONGEST_OWED = {
-    "s12-apis-sql-geo", "s13-evidence-dashboard",
+    "s13-evidence-dashboard",
 }
 SHORTEST_OWED: set[str] = set()
 

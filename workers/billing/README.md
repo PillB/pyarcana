@@ -181,9 +181,12 @@ allowed `Origin` (403 `bad_origin`). Answers are JSON `{ok, ...}` or `{ok: false
 | `PUT /v1/me/progress` | session | Compare-and-swap on `rev`; 256 KiB. |
 | `POST /v1/reports` | optional session | A bug report with up to 3 screenshots (see "Stated deviations" for the byte budgets). |
 | `GET /v1/me/reports` | session | The caller's reports and their status. |
-| `GET /v1/qa/reports` | tester or admin | All reports without reporter identity; filters and a keyset cursor. |
-| `GET /v1/qa/reports/:id` | tester or admin | One report and its attachment metadata. |
+| `GET /v1/qa/reports` | tester, QA supervisor or admin | All reports without reporter identity, each with its retest counts; filters (including `awaiting=review`: a retest says fixed and the report is still open) and a keyset cursor. |
+| `GET /v1/qa/reports/:id` | tester, QA supervisor or admin | One report, its attachment metadata and its retest checks (`mine`, `byReporter`; never the verifier's identity). |
 | `GET /v1/qa/reports/:id/attachments/:aid` | tester or admin | The image bytes, sniff-checked, `nosniff`, sandbox CSP. |
+| `POST /v1/qa/reports/:id/verifications` | tester, QA supervisor or admin | Records or replaces the caller's own retest check: `reproduced`, `not_reproduced` or `fixed`, with an optional note and build. Never changes the report's status. 120 writes per hour. |
+| `DELETE /v1/qa/reports/:id/verifications` | tester, QA supervisor or admin | Withdraws the caller's own retest check; idempotent. |
+| `PATCH /v1/qa/reports/:id` | QA supervisor or admin | `{status?, duplicateOf?}` only (no admin note): closes a report a retest says is fixed, or reopens it. Audited as `qa.reports.update` in the same batch. 120 per hour. |
 | `POST /v1/qa/sessions` | tester or admin | A QA session summary (time, seconds per section, issues created and sent), upserted per session; only signed-in testers send it. Kept 1 year after its last activity. |
 | `POST /v1/me/link/google` | session, recent auth | Adds Google; audited and notified to the proven address. |
 | `POST /v1/me/link/microsoft` | session, recent auth | Adds Microsoft; audited and notified. |

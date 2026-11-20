@@ -113,7 +113,9 @@ process.stdout.write(JSON.stringify(out));
 EXERCISES = {
     "S11-T2-B-E1": ("S11", ["False False", "3"]),
     "S11-T2-B-E2": ("S11", ["3"]),
-    "S12-T3-B-E1": ("S12", ["[('Ana',), ('Luis',), ('Marta',)]", "ok True"]),
+    # 2026-11-18, proposal 10 S12 (WEDO-16.1): the starter also looks up a name with an apostrophe,
+    # so the f-string returns that row too and the hand-stripped quote finds nothing.
+    "S12-T3-B-E1": ("S12", ["[('Ana',), ('Luis',), ('Marta',), (\"Ana D'Ángelo\",)]", "None", "ok True"]),
 }
 
 

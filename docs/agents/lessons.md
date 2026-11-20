@@ -306,7 +306,7 @@ first, then the fix that worked.
   a refused capture once before calling it blocked. GitHub separately serves a bot-protection page
   to automated browsers; capture GitHub's own pages by hand rather than working around it.
 
-## Proposal 10 section fixes: errors met and how they were closed (S04–S10, 17–18 Nov 2026)
+## Proposal 10 section fixes: errors met and how they were closed (S04–S12, 17–18 Nov 2026)
 
 Each entry gives the symptom, the root cause, the fix, and the guard that stops it from coming
 back. Read this list before a section round; every item cost at least one failed run.
@@ -458,3 +458,84 @@ back. Read this list before a section round; every item cost at least one failed
   line, and lower `UNEXEMPLIFIED_CONCEPTS_OWED`, on the proposal 05 `f-string` precedent. Guard:
   when a ratchet in `test_concept_depth_ratchets` moves, diff `build_concepts` output between
   `origin/main` and the branch before deciding; never drop the term to make the count fall back.
+
+- **S11: one class name, three shapes.** `Transaction` had four fields in the We Do and the You
+  Do, three in a theory counterexample and in T1-B-E1; `ResolvedEntity` had one, two or a
+  document field depending on the block. A learner who copied one block and called it as another
+  got a `TypeError`. Root cause: each block was written on its own, and nothing compared class
+  definitions across a section. Fix: one field list per class (the date exercise T2-A-E2 is
+  exempt and named). Guard: `test_one_shape_per_class` parses every `class X` body in theory,
+  demos, starters, solutions and the You Do starter.
+- **S11: a warning about a failure the default code does not produce.** The theory warned that
+  a mutable entity's hash "changes" in a dict; a plain `@dataclass` (eq by fields, not frozen)
+  has `__hash__ = None`, so the learner meets `TypeError: unhashable type` instead
+  ([Python docs, dataclasses: `unsafe_hash` and `eq`](https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass)).
+  Fix: the block runs the plain dataclass first and prints the real error; the changing hash is
+  named only for a hand-written `__hash__`. Guard: run the warning's own case before writing it.
+- **S11: an oracle that says "solo si todo está correcto" and is not.** The You Do `test_domain`
+  printed `tests_pass` for six variants that break stated requirements (blank ids with spaces,
+  three decimals, the same id on both sides, exclusive bounds, `is_fraud` on a class). Fix:
+  cases for each. Guard: `YouDoOracleIsHonest` builds a reference from the starter's TODOs,
+  requires it to pass, and requires each of the six mutants to fail.
+- **S11: an exam item on a technique no lesson showed.** EXAM-23 asks how to make a test
+  deterministic when a service needs the time and a new id; the theory only said "sin reloj de
+  red". Fix: a counterexample block (`reloj_inyectado.py`) that injects the clock and the id
+  generator, after S09's injected clock. Guard: when an exam item's key names a technique, grep
+  the section's theory and demos for it before closing the bank.
+- **S11: splitting long sentences after the main baseline showed 0.** Main had no sentence over
+  32 words in S11; the glosses this round added nine. Fix: split them before the PR (0 again).
+  Guard: compare against a fresh baseline every round, even for a section that was clean.
+- **S10/S11: "never the longest" moved the length cue instead of removing it.** The S10 round
+  gave every item a distractor longer than the key, so the key became second-longest on 17 of
+  24; the strategy simulation showed "pick the second-longest" passing that bank for 100% of
+  simulated learners (S11's first pass: 36.5%). It went unseen because S10 was already on the
+  owed list for that strategy. Root cause: the fix targeted one strategy, not the cue. The
+  item-writing guideline is homogeneous option length, which means no rank the key prefers
+  (Haladyna, Downing & Rodriguez 2002, "A review of multiple-choice item-writing guidelines",
+  guideline on option length). Fix: spread the key's length rank (S10 now 3/7/7/7, S11 4/6/7/7,
+  no rank above 7 of 24, no ties), with three S10 keys longest again on purpose. Guard: the
+  section tests assert the spread, not "never longest", and the owed lists in
+  `exam-strategy-simulation.test.ts` are re-read after every bank change; a bank leaving an owed
+  list must not join another.
+- **S11: `*args` in a test loop tripped the first-use gate.** `RelationshipEvidence(*args)`
+  inside `test_invalid_evidence_is_rejected` is the `args-y-kwargs` concept, which the course
+  teaches later, so `test:ux-gates` reported a first use without gloss. Fix: unpack in the loop
+  header (`for left_id, right_id, score in ...`) and pass the three names. Guard: in a demo, call
+  with named values; reach for `*` only after the section that teaches it.
+- **S12 (P1): a sentence that credited `executemany` with the rollback.** The theory said
+  `executemany` with `BEGIN`/`COMMIT` makes a batch atomic and a broken `UNIQUE` gives
+  `COUNT(*)==0`. In fact the rows before the failing one stay in the open transaction; only the
+  explicit `rollback()` removes them, and the count returns to the count before the batch, not
+  to 0 ([Python docs, sqlite3: transaction control](https://docs.python.org/3/library/sqlite3.html#transaction-control)).
+  Root cause: the demo's table started empty, so "0" and "the count before" looked the same.
+  Fix: the block now runs the batch with and without `rollback()` and prints `2` for the second;
+  the self-check key says "conteo previo al lote". Guard: when a lesson states a guarantee, run
+  the case where the guarantee's cause is removed and print what happens.
+- **S12: a constant printed as if it were measured.** `print("token_logged", False)` and
+  `print("pages_fetched", 3, ...)` showed a security property and a count that no code checked.
+  Fix: compute both (`token in linea`, a page counter). Guard: the section test plants the leak
+  (the token in the manifest) and the missing counter, and requires the output to change.
+- **S12: "a hash dumps no PII".** A 12-hex SHA-256 of `{"entity_id": "C001", ...}` was reversed
+  by trying 999 ids and three signal lists. Hashing a low-entropy value is pseudonymisation, not
+  anonymisation ([FTC, "No, hashing still doesn't make your data anonymous", July 2024](https://www.ftc.gov/policy/advocacy-research/tech-at-ftc/2024/07/no-hashing-still-doesnt-make-your-data-anonymous)).
+  Fix: the demo says the hash proves integrity only. Guard: before calling a hash anonymous, count
+  the possible inputs; if they can be listed, so can the hashes.
+- **S12: two names and three shapes for one contract.** The geo signal key was `verdict` in a
+  demo and `kinship_verdict` elsewhere; the geocoder contract was `{lat, lon, label}`,
+  `{lat, lon, provider}` and `{lat, lon}`; the provider was `mock` and `authorized_mock`; the
+  synthetic cities were Lima/Quito in code and Quito/Santiago in titles. Root cause: the same
+  failure as S11's "one class, three shapes", at the level of dict keys. Fix: one name each.
+  Guard: `test_one_contract_one_key_one_provider` and `test_one_city_list`.
+- **S12: money stored as `REAL`.** The case join used `amount REAL`, the float S02 warns
+  against. First fix was integer cents; the owner asked (2026-11-19) whether `Decimal` is taught
+  by then. It is: S02 teaches it for soles and S11 reuses it, so S12 stores the amount as `TEXT`,
+  writes `str(Decimal(...))` and reads it back with `Decimal(text)`. SQLite has no decimal type,
+  and `SUM` over a `TEXT` column converts to float, so the sum runs in Python
+  ([SQLite: datatypes](https://www.sqlite.org/datatype3.html)). A counterexample block shows all
+  three lines. Guard: before choosing a representation, grep the earlier sections for the type
+  the course already uses, and keep it; name the alternative (integer cents) in one sentence.
+- **S12: exercises that printed only the cases a wrong answer also passes** (16 of 24). The
+  pattern is the one S10 and S11 met: the Límites named a rule (no 500 retry, empty token fails,
+  NOT NULL, exact index column) and no printed case exercised it. Guard: for each Límites line,
+  name the printed case that fails without it; if none, add one, and plant the mutant in the
+  section test.

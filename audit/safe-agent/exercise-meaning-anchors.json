@@ -10176,10 +10176,11 @@
     },
     "S11-T1-B-E1": {
       "section": "S11",
-      "sha256": "26be5d006b2c2300bd68d1a55b5a8d877f1358b8d3ff9376524efd043c17a34f",
+      "sha256": "7808f0fcc315837bd46e2992775f8fd74c00b05500d1b45a34b3cb10c34bca36",
       "tokens": [
         "0",
         "00",
+        "001",
         "01",
         "1",
         "10",
@@ -10187,8 +10188,11 @@
         "__post_init__",
         "amount",
         "as",
+        "c001",
         "cero",
         "class",
+        "client_id",
+        "cuatro",
         "currency",
         "dataclass",
         "dataclasses",
@@ -10199,6 +10203,7 @@
         "e",
         "eur",
         "except",
+        "for",
         "from",
         "if",
         "import",
@@ -10222,9 +10227,9 @@
         "t1",
         "t2",
         "t3",
+        "t4",
         "tener",
         "transaction",
-        "tres",
         "try",
         "tx_id",
         "typeerror",
@@ -10334,24 +10339,32 @@
     },
     "S11-T2-A-E1": {
       "section": "S11",
-      "sha256": "1237fc093bc00e02c4132cf37371313867f274bf6ec5163e73aef1596e6f1d9b",
+      "sha256": "91823a03eb388275be531f3cee0cece15a1d0d8a96113ea8e916e4017902f90a",
       "tokens": [
         "acceso",
         "ana",
         "apellido",
+        "campo",
         "class",
         "dataclass",
         "dataclasses",
         "debe",
         "def",
+        "dos",
         "en",
+        "es",
         "f",
+        "fields",
         "first_name",
+        "for",
         "from",
         "full_name",
         "import",
+        "in",
         "last_name",
-        "linea",
+        "lineas",
+        "name",
+        "no",
         "nombre",
         "orden",
         "parentesis",
@@ -10364,7 +10377,8 @@
         "ser",
         "sin",
         "str",
-        "una"
+        "un",
+        "y"
       ]
     },
     "S11-T2-A-E2": {
@@ -10419,7 +10433,7 @@
     },
     "S11-T2-A-E3": {
       "section": "S11",
-      "sha256": "821928165db8a912de5710a75f631cd36ab0f75d5d9706de600fdb8892b7e21c",
+      "sha256": "1efee13fa77d6e25acafa81e58e7e99328927d0f6324a36acf2e8089f7d80414",
       "tokens": [
         "0",
         "1",
@@ -10428,6 +10442,7 @@
         "__init__",
         "_score",
         "as",
+        "cinco",
         "class",
         "de",
         "def",
@@ -10436,10 +10451,12 @@
         "except",
         "finito",
         "float",
+        "for",
         "from",
         "fuera",
         "if",
         "import",
+        "in",
         "isfinite",
         "lineas",
         "math",
@@ -10457,14 +10474,17 @@
         "return",
         "s",
         "score",
+        "scores",
         "self",
         "setter",
         "signal",
-        "tres",
+        "son",
         "try",
         "v",
+        "validos",
         "value",
-        "valueerror"
+        "valueerror",
+        "y"
       ]
     },
     "S11-T2-B-E1": {
@@ -10827,7 +10847,7 @@
     },
     "S11-T3-B-E3": {
       "section": "S11",
-      "sha256": "c90e49007631059d4349e1d338254b628dffda3896c1b2c450c47ac154b9746b",
+      "sha256": "60b12b875f7fc3a236949f21b77e4af8c2893c3bff4324c64b7b46a85900a1da",
       "tokens": [
         "1",
         "2",
@@ -10836,10 +10856,12 @@
         "api_stable",
         "bool",
         "cases",
+        "cinco",
         "cuando",
         "decision",
         "def",
         "dos_adapters_con_fake",
+        "dos_sin_fake",
         "else",
         "f",
         "fake",
@@ -10862,8 +10884,8 @@
         "should_introduce_protocol",
         "solo_una_impl",
         "stable",
-        "tres",
         "true",
+        "uno_con_fake",
         "when_not",
         "yagni"
       ]
@@ -10920,7 +10942,7 @@
     },
     "S11-T4-A-E2": {
       "section": "S11",
-      "sha256": "e6437b3855df412d159ca2c86afd741687534ffde2c686cdbef76e75899c8060",
+      "sha256": "a370cbddbf24e47eae574206a71d4a8caf15aaaa106cf6a13d0bc434121d7ea4",
       "tokens": [
         "__init__",
         "_d",
@@ -10931,16 +10953,23 @@
         "con",
         "def",
         "dict",
+        "dos",
         "ejemplo",
+        "el",
         "email",
         "en",
+        "existe",
         "get",
-        "linea",
+        "id",
+        "lineas",
         "memoria",
+        "no",
         "none",
+        "para",
         "pe",
         "por",
         "print",
+        "que",
         "r",
         "repo",
         "return",
@@ -10949,7 +10978,7 @@
         "self",
         "str",
         "tras",
-        "una",
+        "x",
         "y"
       ]
     },
@@ -10995,14 +11024,16 @@
     },
     "S11-T4-B-E1": {
       "section": "S11",
-      "sha256": "8a3bc37fa760d91af3c68f8b83316ab48c1d0a2f68dd4c7270d7c3c8d687671e",
+      "sha256": "cc96b02e11a9e628707ad836e09479b643cf2d6b71d576d012ad7a2d572efff1",
       "tokens": [
         "__post_init__",
+        "as",
         "assert",
         "c1",
         "class",
         "client_id",
         "clientrecord",
+        "cuyo",
         "dataclass",
         "dataclasses",
         "debe",
@@ -11010,6 +11041,7 @@
         "def",
         "document",
         "document_id",
+        "e",
         "el",
         "except",
         "fallar",
@@ -11017,8 +11049,11 @@
         "from",
         "if",
         "import",
+        "in",
         "lanza",
         "linea",
+        "mensaje",
+        "nombra",
         "not",
         "pasa",
         "pass",
@@ -11034,6 +11069,7 @@
         "test",
         "test_empty_document_rejected",
         "try",
+        "un",
         "una",
         "vacio",
         "valueerror"
@@ -11086,7 +11122,7 @@
     },
     "S11-T4-B-E3": {
       "section": "S11",
-      "sha256": "c0b4422ccdbd6d71feb17db6f3669033b8ad79a1dab7d03010e1a087e01f0b6c",
+      "sha256": "7a09d926315fb4fc2ddea83e596987cbf173c6fab9ac027edc53aee1ccb010d6",
       "tokens": [
         "0",
         "9",
@@ -11124,6 +11160,7 @@
         "has_decide_fraud",
         "hasattr",
         "import",
+        "is_family",
         "is_fraud",
         "is_related_family",
         "la",
@@ -11185,7 +11222,7 @@
     },
     "S12-T1-A-E2": {
       "section": "S12",
-      "sha256": "af4ba15da47d1153325cd5c1b8a6f247f9e9b816856fd717c3abd808b0e12bc1",
+      "sha256": "f741fea7d6f8837bf20ce578f2d09b3083fa1150313fe43f0573b94eade7d364",
       "tokens": [
         "1",
         "c001",
@@ -11217,10 +11254,11 @@
     },
     "S12-T1-A-E3": {
       "section": "S12",
-      "sha256": "1deca238eadedcb82e54cfbf9582bca6357577b732f99f51f4b51c729c871abf",
+      "sha256": "b14e96c8f6fea347c46f38da458e219e6b200679cb46cfe4515bc2db71b55376",
       "tokens": [
         "200",
         "400",
+        "401",
         "404",
         "429",
         "500",
@@ -11248,7 +11286,7 @@
     },
     "S12-T1-B-E1": {
       "section": "S12",
-      "sha256": "f0a49d753d98ac1f1ab3fa484c5b8b3674f5ecda17aabee6372af4564b52c3c5",
+      "sha256": "b19897cce475c1eda7d1d8fc498e2fa80822671a98210d4e5992d4e2dd4c8a0e",
       "tokens": [
         "0",
         "1",
@@ -11273,7 +11311,7 @@
     },
     "S12-T1-B-E2": {
       "section": "S12",
-      "sha256": "c209feb749d87e47f6645fef57f17cbe9e12460553dd3b6a248ad2e5ef807f3e",
+      "sha256": "c55a81a058a9cf84c6baae9a977479385cabaa7ac996c3ceab6c2dfff3423752",
       "tokens": [
         "1",
         "2",
@@ -11303,12 +11341,14 @@
     },
     "S12-T1-B-E3": {
       "section": "S12",
-      "sha256": "10019b0ee81a4f69acf88cba9402814b67dfa514b8bc7ae57f3666085ea4fe4d",
+      "sha256": "bf967734ce9bcab023ae92cffb0fd47d912b8f7efd863dd5b4f3acfc5e3ce0fb",
       "tokens": [
         "200",
         "400",
         "404",
         "429",
+        "500",
+        "502",
         "503",
         "def",
         "false",
@@ -11330,7 +11370,7 @@
     },
     "S12-T2-A-E1": {
       "section": "S12",
-      "sha256": "d70e0dee66723558af922fd0fa9d71fb5b2ce183e5a280e661c840d09102dc74",
+      "sha256": "f072e7905ffe92240969814d3dfabebd9f74cfa3e0961ab90dd788f816c3f3e6",
       "tokens": [
         "abc",
         "api_token",
@@ -11343,8 +11383,10 @@
         "except",
         "exigir",
         "fallar",
+        "for",
         "get",
         "if",
+        "in",
         "message",
         "missing",
         "not",
@@ -11391,7 +11433,7 @@
     },
     "S12-T2-A-E3": {
       "section": "S12",
-      "sha256": "63748486a2a30bbf685ee5ee6bbc10264b31fafb1fa296314469bb7daadaa3d9",
+      "sha256": "d70804841a0f1504f8bc4547b79cb92fb83f1281baa9264106b3e2736aa9f083",
       "tokens": [
         "00",
         "07",
@@ -11399,6 +11441,7 @@
         "200",
         "2026",
         "4",
+        "404",
         "cache_hit",
         "campos",
         "de",
@@ -11419,6 +11462,7 @@
         "status",
         "status_code",
         "t00",
+        "true",
         "url",
         "x",
         "z"
@@ -11426,7 +11470,7 @@
     },
     "S12-T2-B-E1": {
       "section": "S12",
-      "sha256": "a9b63675d497187573c15fbe3f2e2e0ad7ac44949fda7a671a99cfa37a05435c",
+      "sha256": "a169a15e6f86b4a17f5c9dc16839476197159104ad175e320a1703a0000c35a3",
       "tokens": [
         "1",
         "2",
@@ -11496,8 +11540,10 @@
     },
     "S12-T2-B-E3": {
       "section": "S12",
-      "sha256": "5be9649e99f6fc2792d7b3ca5189b2977f4ab491e9fe70f43fdf9b71c4348b1b",
+      "sha256": "b214fdeaba3cc2490c6cf8cec0b65e8ea872538c368a8b2c63c7151a123def5e",
       "tokens": [
+        "0",
+        "1",
         "de",
         "def",
         "else",
@@ -11521,10 +11567,13 @@
     },
     "S12-T3-A-E1": {
       "section": "S12",
-      "sha256": "b447f2079773c5c22881032d93aea75a13c2560a2966d0b3a52f8ad2848a03e7",
+      "sha256": "dbce09bb762c09a3c63a83f39b6c6a0854d959f4e4457b0cf3e0100058a178c5",
       "tokens": [
         "0",
         "1",
+        "__name__",
+        "accepted",
+        "as",
         "c001",
         "close",
         "commit",
@@ -11535,8 +11584,10 @@
         "create",
         "e",
         "e1",
+        "e2",
         "entity_id",
         "evidence",
+        "except",
         "execute",
         "fetchone",
         "fila",
@@ -11546,10 +11597,12 @@
         "import",
         "insert",
         "insertar",
+        "integrityerror",
         "into",
         "key",
         "kind",
         "memory",
+        "none",
         "not",
         "null",
         "primary",
@@ -11559,17 +11612,21 @@
         "tabla",
         "table",
         "text",
+        "try",
+        "type",
         "una",
         "values"
       ]
     },
     "S12-T3-A-E2": {
       "section": "S12",
-      "sha256": "4379b459f2e8cd9987cd5676b7582142d2bd7fd702392e2a4e716f83b4ca2a75",
+      "sha256": "ca7170b5f6fe77b694f7d5a1ff37365670d07df79baffcfd53b50e579b6b8e55",
       "tokens": [
         "0",
+        "1",
         "ana",
         "c001",
+        "c002",
         "client",
         "clients",
         "close",
@@ -11581,6 +11638,7 @@
         "de",
         "delete",
         "execute",
+        "executemany",
         "fetchone",
         "from",
         "id",
@@ -11588,8 +11646,10 @@
         "insert",
         "into",
         "key",
+        "luis",
         "memory",
         "name",
+        "or",
         "placeholders",
         "primary",
         "print",
@@ -11602,12 +11662,13 @@
         "update",
         "values",
         "where",
+        "x",
         "y"
       ]
     },
     "S12-T3-A-E3": {
       "section": "S12",
-      "sha256": "39e9c3862e6a482dc777cacabc84a54f59e2ec0db51d1299a6baa007335957c1",
+      "sha256": "5756571a428654e9abc552989e2498b54681e658d12febb6a135a57a4475d800",
       "tokens": [
         "0",
         "ana",
@@ -11642,6 +11703,7 @@
         "join",
         "key",
         "kind",
+        "luis",
         "memory",
         "name",
         "on",
@@ -11662,18 +11724,21 @@
     },
     "S12-T3-B-E1": {
       "section": "S12",
-      "sha256": "9ba4bf70eff1d074fce2e04f08acd06507a0fcbf9a3a337bf88c8464cfc227c8",
+      "sha256": "809d8e9da734d9936817471e5b27056f37a7a3c28447e866faabcff4ab206b6b",
       "tokens": [
         "1",
         "ana",
+        "angelo",
         "c001",
         "c002",
         "c003",
+        "c004",
         "clients",
         "close",
         "con",
         "connect",
         "create",
+        "d",
         "execute",
         "fetchone",
         "from",
@@ -11745,9 +11810,10 @@
     },
     "S12-T3-B-E3": {
       "section": "S12",
-      "sha256": "b26826a9285c5650ead5f09e908f98afdda1b82961cec68c5a1cc6385cb94a3a",
+      "sha256": "23079ac7e031a450afc0147d14c58712585abe542cbbc998c5c67c6c4ebeda3c",
       "tokens": [
         "1",
+        "2",
         "clients",
         "close",
         "con",
@@ -11762,6 +11828,7 @@
         "import",
         "in",
         "index",
+        "index_info",
         "index_list",
         "indice",
         "key",
@@ -11812,7 +11879,7 @@
     },
     "S12-T4-A-E2": {
       "section": "S12",
-      "sha256": "1956dac4deb6e373017a65d66715f67d4a9cd8dcb0f0112624162b855aad45f0",
+      "sha256": "2f09fff643f1e15544f25c70de43f3d6a0231d059d8b55f9e10a5758e1565417",
       "tokens": [
         "0",
         "0428",
@@ -11843,14 +11910,13 @@
         "provider",
         "quito",
         "return",
-        "santiago",
         "self",
         "y"
       ]
     },
     "S12-T4-A-E3": {
       "section": "S12",
-      "sha256": "cc487309b7f390fb608e90db32500143fcd8d6cbc9afaaa8539a3d3248a0eb56",
+      "sha256": "f723d2dc9990b7de70ff155b61a6d64dea4b0eddabe8ef3eed1bf1e95e62683c",
       "tokens": [
         "123",
         "address",
@@ -11869,13 +11935,15 @@
         "false",
         "geocoder",
         "larco",
+        "note",
         "payload",
         "print",
         "publico",
         "quito",
         "return",
         "set",
-        "true"
+        "true",
+        "x"
       ]
     },
     "S12-T4-B-E1": {
@@ -11910,15 +11978,22 @@
     },
     "S12-T4-B-E2": {
       "section": "S12",
-      "sha256": "2bdc331378304cad2b4765950d5d3e4cc25b1f1f8c4738d6b1a2fee2a19888e6",
+      "sha256": "6f508dd6667622b8db3774c23ce9d7dcdd067d27dd130ae4fcd52f86c7c1a991",
       "tokens": [
         "0",
+        "0428",
+        "0464",
         "05",
         "1",
         "111",
+        "12",
+        "125",
         "19",
         "2",
         "6371",
+        "77",
+        "8",
+        "95",
         "a",
         "abs",
         "asin",
@@ -11927,6 +12002,7 @@
         "con",
         "cos",
         "d",
+        "d2",
         "def",
         "dlat",
         "dlon",
@@ -11954,7 +12030,7 @@
     },
     "S12-T4-B-E3": {
       "section": "S12",
-      "sha256": "fe2dac59e9788a08513dfa713205ad0e74d68c1d9d5e3399b4f0e3a0f25fec2b",
+      "sha256": "522bbfbd4a3f97a2456b0f8346bcfd5a5a2e6f55c107f06d71f5639c08c5b627",
       "tokens": [
         "1",
         "2",
@@ -11972,8 +12048,7 @@
         "print",
         "return",
         "type",
-        "value",
-        "verdict"
+        "value"
       ]
     },
     "S13-T1-A-E1": {

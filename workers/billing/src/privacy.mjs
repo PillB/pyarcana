@@ -80,6 +80,7 @@ async function personalRows(ctx, id) {
     audit: "SELECT actor_account_id, action, target_id, detail, created_at FROM audit_log WHERE target_account_id = ?1 ORDER BY id",
     consents: "SELECT kind, value, version, client_at, created_at FROM consents WHERE account_id = ?1 ORDER BY id",
     qaSessions: "SELECT * FROM qa_sessions WHERE account_id = ?1 ORDER BY started_at",
+    verifications: "SELECT report_id, result, note, deployment_sha, created_at, updated_at FROM report_verifications WHERE account_id = ?1 ORDER BY created_at",
     surveys: `SELECT kind, score, reason_code, text, section_idx, created_at FROM survey_responses
       WHERE account_id = ?1 OR cid_hash IN ${BOUND_IDS} ORDER BY created_at, id`,
     arms: "SELECT experiment, arm, first_at FROM experiment_arms WHERE subject = ?1 AND subject_kind = 'account' ORDER BY experiment",
@@ -226,6 +227,14 @@ function buildExport(ctx, snapshot, p) {
     progress: progress ? { rev: progress.rev, doc: JSON.parse(progress.doc), updatedAt: progress.updated_at } : null,
     reports: exportReports(p.reports, p.attachments),
     qaSessions: p.qaSessions.map(sessionView),
+    reportVerifications: p.verifications.map((v) => ({
+      reportId: v.report_id,
+      result: v.result,
+      note: v.note,
+      deploymentSha: v.deployment_sha,
+      createdAt: Number(v.created_at),
+      updatedAt: Number(v.updated_at)
+    })),
     audit: p.audit.map((a) => ({ action: a.action, actor: actorKind(a.actor_account_id, id), targetId: a.target_id, detail: a.detail ? JSON.parse(a.detail) : null, createdAt: a.created_at })),
     ...exportMeasurement(p)
   };
@@ -327,6 +336,9 @@ function erasureBatch(ctx, emailHmac, cancelled) {
     db.prepare("DELETE FROM account_roles WHERE account_id = ?1").bind(id),
     db.prepare("DELETE FROM login_codes WHERE email_normalized = ?1").bind(ctx.account.email_normalized || ""),
     db.prepare(`DELETE FROM report_attachments WHERE report_id IN ${own}`).bind(id),
+    // The person's own retest checks go; other testers' checks on the person's reports stay with
+    // those (now anonymous) reports, as they are the other testers' data.
+    db.prepare("DELETE FROM report_verifications WHERE account_id = ?1").bind(id),
     db.prepare("UPDATE reports SET account_id = NULL, reporter_alias = NULL, contact_email = NULL, client_issue_id = NULL WHERE account_id = ?1").bind(id),
     db.prepare("UPDATE grants SET note = NULL WHERE account_id = ?1").bind(id),
     // Measurement and surveys: rows under the bound ids first, then the bindings.

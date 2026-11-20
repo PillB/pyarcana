@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ROLE_STATES, parseRoleList, roleRequest, roleRevokeRequest, rolesPath, type AdminRole, type RoleState } from '@/lib/cloud/admin-api'
+import { ROLE_NAMES, ROLE_STATES, parseRoleList, roleRequest, roleRevokeRequest, rolesPath, type AdminRole, type RoleName, type RoleState } from '@/lib/cloud/admin-api'
 import type { Language } from '@/lib/i18n'
 import { LoadNote, SELECT_CLASS, formatDay } from '../LoadNote'
 import { useApiLoad } from '../useApiLoad'
@@ -14,22 +14,27 @@ import { Feedback, ReasonDialog, sendBuilt } from './shared'
 
 const EMPTY = { target: '', daysText: '30', indefinite: false, note: '' }
 
-function RoleCreate({ onDone }: { onDone: () => void }) {
+/** The tester's texts keep their adm.testers.* keys; the QA supervisor's are adm.supervisors.*. */
+function roleKey(role: RoleName, part: string): string {
+  return `adm.${role === 'qa_supervisor' ? 'supervisors' : 'testers'}.${part}`
+}
+
+function RoleCreate({ role, onDone }: { role: RoleName; onDone: () => void }) {
   const { tr } = useText()
   const [form, setForm] = useState(EMPTY)
   const [result, setResult] = useState<{ error: string | null; done: string | null }>({ error: null, done: null })
   const patch = (p: Partial<typeof EMPTY>) => setForm((f) => ({ ...f, ...p }))
   const submit = async () => {
-    const out = await sendBuilt('post', '/v1/admin/roles', roleRequest(form), tr)
+    const out = await sendBuilt('post', '/v1/admin/roles', roleRequest(form, role), tr)
     if (!out.ok) return setResult({ error: out.text, done: null })
-    setResult({ error: null, done: tr('adm.testers.done') })
+    setResult({ error: null, done: tr(roleKey(role, 'done')) })
     setForm(EMPTY)
     onDone()
   }
   return (
     <form className="space-y-3 rounded-md border border-border p-4" onSubmit={(e) => { e.preventDefault(); void submit() }}>
-      <h3 className="font-semibold">{tr('adm.testers.new')}</h3>
-      <p className="text-xs text-muted-foreground">{tr('adm.testers.what')}</p>
+      <h3 className="font-semibold">{tr(roleKey(role, 'new'))}</h3>
+      <p className="text-xs text-muted-foreground">{tr(roleKey(role, 'what'))}</p>
       <div className="space-y-1">
         <Label htmlFor="role-target">{tr('adm.target')}</Label>
         <Input id="role-target" value={form.target} autoComplete="off" onChange={(e) => patch({ target: e.target.value })} />
@@ -58,18 +63,28 @@ function RoleRow({ r, onRevoke, tr, lang }: { r: AdminRole; onRevoke: (r: AdminR
   )
 }
 
-/** "Testers": the tester role (DESIGN-v3 §H), granted for fixed days or indefinitely. */
+/**
+ * "Testers": the tester and QA supervisor roles (DESIGN-v3 §H, amended 2026-11-19), granted for
+ * fixed days or indefinitely. The role picker drives both the grant form and the list.
+ */
 export function AdminTesters() {
   const { tr, lang } = useText()
   const [nonce, setNonce] = useState(0)
   const [state, setState] = useState<RoleState>('active')
+  const [role, setRole] = useState<RoleName>('tester')
   const [revoking, setRevoking] = useState<AdminRole | null>(null)
   const reload = () => setNonce((n) => n + 1)
-  const load = useApiLoad(rolesPath(state), parseRoleList, nonce)
+  const load = useApiLoad(rolesPath(state, role), parseRoleList, nonce)
   const roles = load?.status === 'ok' ? load.value : null
   return (
     <div className="space-y-5">
-      <RoleCreate onDone={reload} />
+      <Label className="flex items-center gap-2 font-normal">
+        {tr('adm.role.pick')}
+        <select className={SELECT_CLASS} value={role} onChange={(e) => setRole(e.target.value as RoleName)} data-testid="role-picker">
+          {ROLE_NAMES.map((r) => <option key={r} value={r}>{tr(`adm.role.${r}`)}</option>)}
+        </select>
+      </Label>
+      <RoleCreate key={role} role={role} onDone={reload} />
       <Label className="flex items-center gap-2 font-normal">
         {tr('adm.state')}
         <select className={SELECT_CLASS} value={state} onChange={(e) => setState(e.target.value as RoleState)}>
@@ -85,13 +100,13 @@ export function AdminTesters() {
       )}
       <ReasonDialog
         open={revoking !== null}
-        title={tr('adm.testers.revokeTitle')}
-        body={tr('adm.testers.revokeBody', { who: revoking?.email ?? revoking?.accountId ?? '' })}
+        title={tr(roleKey(role, 'revokeTitle'))}
+        body={tr(roleKey(role, 'revokeBody'), { who: revoking?.email ?? revoking?.accountId ?? '' })}
         confirm={tr('adm.revoke')}
         onClose={() => setRevoking(null)}
         tr={tr}
         onConfirm={async (reason) => {
-          const out = await sendBuilt('post', '/v1/admin/roles/revoke', roleRevokeRequest(revoking?.accountId ?? '', reason), tr)
+          const out = await sendBuilt('post', '/v1/admin/roles/revoke', roleRevokeRequest(revoking?.accountId ?? '', reason, revoking?.role === 'qa_supervisor' ? 'qa_supervisor' : 'tester'), tr)
           if (out.ok) reload()
           return out.ok ? null : out.text
         }}
