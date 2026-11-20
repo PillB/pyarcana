@@ -18,6 +18,8 @@ Read it before doing anything here. It is binding, and it outranks habit. In par
   complexity 15, enforced as a ratchet.
 - **Try the alternatives before choosing.** A pre-execution round compares at least two
   routes at small scale; a red-team round attacks the chosen one before it ships.
+- **Simulate drift.** Code that reads lesson content gets a test that applies the edits a
+  future round will make. `npm run test:static-journeys` runs CI's browser journeys locally.
 - **Fail loudly.** Tests, gates and scripts report what failed, where, expected against
   actual, and the next step. A gate that cannot run says `REFUSED` and why.
 - **One failed hypothesis, then research.** If a fix hypothesis fails once, search for

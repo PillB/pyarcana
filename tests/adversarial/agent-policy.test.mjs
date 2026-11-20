@@ -32,6 +32,8 @@ const AGENTS_RULES = [
   ['one failed hypothesis, then research', /One failed hypothesis, then research/],
   ['pre-execution round comparing routes', /Pre-execution round\.\*\* Before building, name at least two\s+routes/],
   ['red-team before shipping', /Red-team before shipping/],
+  ['simulate drift for code that reads lesson content', /Simulate drift\.\*\* Code that reads lesson content/],
+  ['static journeys in the done list', /npm run test:static-journeys/],
   ['fail loudly with a diagnosis', /## Fail loudly[\s\S]*expected against actual[\s\S]*REFUSED/],
 ]
 
@@ -77,4 +79,16 @@ test('the complexity gate refuses one branch over its ceiling and accepts the ce
   const over = await hits(functionOfComplexity(ceiling + 1))
   assert.equal(over.length, 1, `a function at ${ceiling + 1} passed the gate's ESLint config: the gate measures nothing`)
   assert.match(over[0], new RegExp(`complexity of ${ceiling + 1}`))
+})
+
+test('the static-journeys command AGENTS.md names exists and refuses instead of guessing', () => {
+  const pkg = JSON.parse(read('package.json'))
+  assert.equal(pkg.scripts['test:static-journeys'], 'bash scripts/run_static_journeys.sh', 'package.json: test:static-journeys is gone or points elsewhere')
+  const script = read('scripts/run_static_journeys.sh')
+  for (const spec of ['static_public.spec.ts', 'safe_agent_journeys.spec.ts', 'static_first_paint.spec.ts']) {
+    assert.ok(script.includes(spec), `run_static_journeys.sh no longer runs ${spec}, which CI does`)
+    assert.ok(read('.github/workflows/tests.yml').includes(spec), `CI no longer runs ${spec}; align the script with tests.yml`)
+  }
+  assert.ok((script.match(/REFUSED:/g) ?? []).length >= 3, 'run_static_journeys.sh lost its REFUSED preconditions (missing build, wrong base path, busy port)')
+  assert.match(read('playwright.config.ts'), /PW_CHROMIUM_PATH/, 'playwright.config.ts no longer honours PW_CHROMIUM_PATH')
 })

@@ -22,7 +22,12 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      use: { ...devices['Desktop Chrome'] },
+      // PW_CHROMIUM_PATH: a Chromium already on the machine, for places where
+      // `npx playwright install` cannot run. Unset (CI), Playwright uses its own.
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(process.env.PW_CHROMIUM_PATH ? { launchOptions: { executablePath: process.env.PW_CHROMIUM_PATH } } : {}),
+      },
     },
   ],
   // No webServer — we run dev server separately

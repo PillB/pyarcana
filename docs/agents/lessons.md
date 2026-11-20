@@ -82,6 +82,32 @@ elsewhere is fixed as a class. (Worked example: PR #169 compared per-block,
 per-topic and per-subtopic theory checkpoints, and a browser walk then found
 three defects the unit tests could not see.)
 
+### Simulate drift before it happens (retrospective, PR #169)
+
+Every defect found in PR #169 after its first push had the same shape: the new
+code was right for today's content and today's files, and something else moved.
+
+| What happened | Root cause | What now prevents the class |
+|---|---|---|
+| CI's static journeys failed twice after every gate in "Done means" had passed | The browser journeys ran only in CI; nothing local could run them without `playwright install` | `npm run test:static-journeys` (same build, server and specs as CI), `PW_CHROMIUM_PATH`, listed in "Done means" |
+| A second `[data-section-id]` element made QA reports ambiguous | A consumer selected by a generic attribute, not by the element it meant | `QAFooterBridge` selects the section root by name; a test forbids the attribute elsewhere |
+| The URL effect rewrote `#S05` to the slug | A "normalising" write changed a value another feature captures | The effect writes only the tab suffix; the journey spec guards it |
+| The ← button covered «Recursos» | The sidebar width lived in `page.tsx` and its offset in another file | A test reads both and fails with both numbers |
+| An inserted lead-in would have renamed a part (`…#2`) and orphaned its checkpoint | Grouping depended on block adjacency, which content rounds change weekly | Found by simulation, fixed, and the simulation is kept |
+| A tag in a new format made the checkpoint button a silent no-op | A validator pinned to today's id format, failing closed without a word | Any plain token is accepted; a refused key logs which key and section |
+| Two older tests pinned source text and broke on a refactor | Tests asserting how the code is written | Listed under tautological forms: "Restating the implementation" |
+| `e2e_max/13` had been failing before it reached its subject | A spec no CI job runs rots unnoticed | Stated as undone work below |
+
+The rule: when code reads lesson content or a value owned elsewhere, write the
+simulation with the feature. Take the real 52 sections, apply the edits a
+future round will make with a seeded generator (so a failure reproduces), and
+assert what must survive: nothing lost, nothing invented, saved learner state
+still meaningful. `src/lib/course/lesson-navigation-drift.test.ts` is the
+worked example; it found two defects in code whose unit tests were green.
+
+Still undone, named: `scripts/e2e_max/` is not run by any CI job, and
+`course-state/interaction_catalog.json` is stale against the course.
+
 ### Fail loudly, with a diagnosis
 
 A failure is only useful if the person reading it can act without re-running

@@ -21,7 +21,9 @@ export const THEORY_CHECKPOINTS_KEY = 'pyarcana-theory-checkpoints'
 export type CheckpointMap = Record<string, string[]>
 
 const SECTION_ID = /^[a-z0-9][a-z0-9-]{0,63}$/
-const PART_KEY = /^(intro|S\d{2}-T\d+-[A-Z](#\d{1,2})?)$/
+// Any plain token, not only today's `S01-T1-A`: a tag in a new format (a tenth topic, a capstone
+// id) must still save, or its checkpoint button would do nothing and say nothing.
+const PART_KEY = /^[A-Za-z0-9][A-Za-z0-9._-]{0,47}(#\d{1,2})?$/
 const MAX_PARTS_PER_SECTION = 64
 const MAX_SECTIONS = 128
 
@@ -57,7 +59,13 @@ export const useTheoryCheckpoints = create<TheoryCheckpointState>()(
   persist(
     (set) => ({
       read: {},
-      toggle: (sectionId, key) => set((s) => ({ read: togglePart(s.read, sectionId, key) })),
+      toggle: (sectionId, key) =>
+        set((s) => {
+          const read = togglePart(s.read, sectionId, key)
+          // Refused keys change nothing; say so instead of leaving a button that does nothing.
+          if (read === s.read) console.error(`[theory-checkpoints] refused checkpoint «${key}» in section «${sectionId}»: not a valid id`)
+          return { read }
+        }),
     }),
     {
       name: THEORY_CHECKPOINTS_KEY,

@@ -13,9 +13,13 @@
  * - any other untagged block is a lead-in: it opens the next tagged part;
  * - lead-ins left at the end, with no tagged block after them, close the last part.
  *
- * Part keys are the subtopic ids, so a checkpoint survives edits to headings and prose. A
- * subtopic id that appears again after another one takes a `#2` suffix: still stable, and a
- * key never names two different parts.
+ * Part keys are the subtopic ids, so a checkpoint survives edits to headings and prose, and
+ * blocks added inside or around a part. A subtopic id that appears again after a different
+ * one takes a `#2` suffix: still stable, and a key never names two different parts.
+ *
+ * What an edit can do to a saved checkpoint (simulated in lesson-navigation-drift.test.ts):
+ * retitle or insert blocks → nothing; remove a tag → that checkpoint is ignored; move a tag to
+ * other content → the checkpoint follows the tag, which is what a stable id means.
  */
 import type { TheoryBlock } from '@/lib/types'
 
@@ -61,8 +65,11 @@ export function theoryParts(theory: readonly TheoryBlock[], introLabel = 'Inicio
   theory.forEach((block, i) => {
     const last = parts[parts.length - 1]
     if (block.subtopicId) {
-      if (last && last.key.split('#')[0] === block.subtopicId && pending.length === 0) {
-        last.blocks.push(i)
+      // The same subtopic continues, with or without lead-ins in between: one part. Requiring
+      // no lead-in here made an inserted paragraph split the part and mint `…#2` (drift test).
+      if (last && last.key.split('#')[0] === block.subtopicId) {
+        last.blocks.push(...pending, i)
+        pending = []
         return
       }
       const key = uniqueKey(block.subtopicId, used)

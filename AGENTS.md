@@ -21,6 +21,7 @@ npm run test:course-complete
 node scripts/preservation_sentinel.mjs   # approved deletions: audit/safe-agent/deletion-allowlist.json
 node scripts/complexity_gate.mjs # cyclomatic ceiling 15, ratchet
 python3 tools/fixer/ledger.py --check
+npm run test:static-journeys     # when a change touches what a page renders: CI's browser journeys
 ```
 
 Read results case-insensitively. A grep for `adversarial` hid `ADVERSARIAL(py) FAILED` for
@@ -159,6 +160,11 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 - **Red-team before shipping.** Attack the chosen route as a hostile reviewer would: edge cases,
   bad input, the path a confused person takes, and every other place that shares the root cause.
   Fix the class, not the instance.
+
+- **Simulate drift.** Code that reads lesson content, or a value another file owns, gets a
+  test that applies the edits a future round will make (insert, retitle, untag, delete, a new
+  id format, a changed constant) and states what must survive. A value kept in two files gets
+  a test that reads both.
 
 ## Fail loudly
 
