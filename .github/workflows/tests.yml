@@ -270,6 +270,15 @@ jobs:
           done
           BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts scripts/static_first_paint.spec.ts --reporter=list
 
+      # scripts/e2e_max against the same server: every one of the 52 sections opens its five
+      # tabs with content and no console error, the glossary and both languages' chrome, and
+      # the lesson walked by mouse and keyboard. About 7 minutes. Until 20 Nov 2026 no job ran
+      # this suite, and it had rotted: a first-visit modal failed 52 of its tests unnoticed.
+      # The other e2e_max specs need the dynamic app and its accounts, and are not run here.
+      - name: Lesson e2e (52 sections x 5 tabs, glossary, lesson flow)
+        if: matrix.mode == 'static'
+        run: BASE_URL=http://127.0.0.1:4173/pyarcana npm run test:lesson-e2e -- --reporter=list
+
       - name: Accessibility (axe, WCAG 2.2 AA)
         if: matrix.mode == 'static'
         run: |

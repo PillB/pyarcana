@@ -8,6 +8,7 @@
 #   scripts/run_static_journeys.sh              build, serve, run
 #   scripts/run_static_journeys.sh --no-build   reuse ./out
 #   scripts/run_static_journeys.sh -- -g "QA"   pass the rest to playwright
+#   scripts/run_static_journeys.sh --lesson-e2e also run CI's "Lesson e2e" step (about 7 minutes)
 #
 # Chromium: Playwright's own by default. Where `npx playwright install` is not possible, set
 # PW_CHROMIUM_PATH=/path/to/chromium (playwright.config.ts reads it).
@@ -17,12 +18,14 @@ cd "$ROOT"
 PORT="${STATIC_JOURNEYS_PORT:-4173}"
 STAGE="$(mktemp -d "${TMPDIR:-/tmp}/pyarcana-static.XXXXXX")"   # outside the repo: no gate scans it
 BUILD=1
+LESSON_E2E=0
 EXTRA=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --no-build) BUILD=0 ;;
+    --lesson-e2e) LESSON_E2E=1 ;;
     --) shift; EXTRA=("$@"); break ;;
-    *) echo "REFUSED: unknown argument '$1' (use --no-build, or -- <playwright args>)" >&2; exit 2 ;;
+    *) echo "REFUSED: unknown argument '$1' (use --no-build, --lesson-e2e, or -- <playwright args>)" >&2; exit 2 ;;
   esac
   shift
 done
@@ -68,6 +71,10 @@ BASE_URL="http://127.0.0.1:$PORT" PAGES_BASE=1 npx playwright test \
   scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts scripts/static_first_paint.spec.ts \
   --reporter=list "${EXTRA[@]}"
 STATUS=$?
+if [[ "$LESSON_E2E" == 1 ]]; then
+  echo "== running the lesson e2e (scripts/e2e_max: 52 sections x 5 tabs, glossary, lesson flow)"
+  BASE_URL="http://127.0.0.1:$PORT/pyarcana" npm run -s test:lesson-e2e -- --reporter=list --trace off || STATUS=$?
+fi
 if [[ $STATUS -ne 0 ]]; then
   echo "FAILED: static journeys exited $STATUS. Each failure above names its spec and line; screenshots and traces are in test-results/." >&2
   echo "If every test failed with 'Executable doesn't exist', set PW_CHROMIUM_PATH or run 'npx playwright install chromium'." >&2

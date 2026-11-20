@@ -27,6 +27,7 @@
     "test:all-gates": "npm run test:v3 && npm run test:layout && npm run test:course-complete && npx playwright test scripts/v3_regression.spec.ts --reporter=line",
     "test:e2e-max:catalog": "node scripts/export_interaction_catalog.mjs",
     "test:e2e-max": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts",
+    "test:lesson-e2e": "npm run test:e2e-max:catalog && E2E_STATIC=1 npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/02_sections_tabs_52.spec.ts scripts/e2e_max/07_glossary_i18n_a11y.spec.ts scripts/e2e_max/13_mouse_keyboard_lesson_flow.spec.ts",
     "test:e2e-max:shard": "npx playwright test -c scripts/e2e_max/playwright.max.config.ts",
     "test:e2e-max:smoke": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts scripts/e2e_max/11_admin_analytics.spec.ts",
     "test:glossary-intro": "python3 scripts/glossary_intro_audit.py",
