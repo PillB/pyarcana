@@ -1,6 +1,6 @@
 {
   "id": "CP-N1-A",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "name": "CLI Reproducible de Admisión de Clientes y Calidad de Datos",
   "level": 1,
   "gate_section": "S04",
@@ -8,19 +8,43 @@
   "criteria": {
     "correctness": {
       "weight": 0.35,
-      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error.",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      }
     },
     "robustness": {
       "weight": 0.2,
-      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+      "focus": "Maneja entradas imperfectas y casos límite sin caer.",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      }
     },
     "maintainability": {
       "weight": 0.25,
-      "focus": "Diseño limpio, modular, testeable y documentado."
+      "focus": "Diseño limpio, modular, testeable y documentado.",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      }
     },
     "responsible_use": {
       "weight": 0.2,
-      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes.",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      }
     }
   },
   "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
@@ -36,12 +60,14 @@
     "Synthetic or legally reusable data only",
     "No unsupported adverse/fraud inference"
   ],
-  "package_version": "2.0.0",
+  "package_version": "3.0.0",
   "tests_required": [
-    "registro válido → status ok",
-    "monto_ingreso=0 → accept",
-    "edad ausente → review",
+    "registro válido → accept, sin motivos",
+    "monto_ingreso = 0 → accept",
+    "edad ausente → review (edad:MISSING)",
+    "edad = 150 → reject; edad = 17 → review",
     "region fuera del catálogo → review",
-    "monto_ingreso negativo → reject"
+    "monto_ingreso negativo, float o NaN → reject sin detener el lote",
+    "lote vacío → tasa_reject None"
   ]
 }
