@@ -179,6 +179,8 @@ const CLIENT_SUITES = [
   // Sesión 0 (/empezar): OS detection, ticks, screenshot records, content rules (2026-10-05).
   ["setup-intro", 36],
   ["storage-resilience", 4],
+  // Theory parts read, synced through the progress document (2026-11-20).
+  ["theory-parts-sync", 15],
   ["ui-state", 12]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
 

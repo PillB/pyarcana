@@ -6,6 +6,7 @@
  * Run: node --import tsx --test src/lib/course/lesson-navigation.test.ts
  */
 import { test } from 'node:test'
+import { readFileSync } from 'node:fs'
 import assert from 'node:assert/strict'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -194,4 +195,22 @@ test('the menu links to Sesión 0, outside the list counted as the 52 sections',
   assert.ok(list > link, 'Sesión 0 must sit before (and outside) the role="list" of sections')
   const listHtml = html.slice(list)
   assert.equal((listHtml.match(/role="listitem"/g) ?? []).length, COURSE_SECTIONS.length)
+})
+
+// --- the browser suite stays wired to CI --------------------------------------------------------
+
+test('CI runs the lesson e2e, and the command it runs names the four specs', () => {
+  // Defect modelled: scripts/e2e_max ran in no job for months, and 52 of its tests failed on a
+  // first-visit modal without anyone seeing it. If the step or a spec leaves, this says which.
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as { scripts: Record<string, string> }
+  const command = pkg.scripts['test:lesson-e2e'] ?? ''
+  for (const spec of ['01_chrome_pages', '02_sections_tabs_52', '07_glossary_i18n_a11y', '13_mouse_keyboard_lesson_flow']) {
+    assert.ok(command.includes(`scripts/e2e_max/${spec}.spec.ts`), `package.json test:lesson-e2e no longer runs ${spec}.spec.ts`)
+  }
+  assert.match(command, /test:e2e-max:catalog/, 'test:lesson-e2e no longer regenerates the interaction catalog first: the 52-section spec would walk a stale list')
+  assert.match(command, /E2E_STATIC=1/, 'test:lesson-e2e no longer tells the specs it runs on the static edition')
+  const workflow = readFileSync('.github/workflows/tests.yml', 'utf8')
+  assert.match(workflow, /npm run test:lesson-e2e/, '.github/workflows/tests.yml no longer runs npm run test:lesson-e2e')
+  const config = readFileSync('scripts/e2e_max/playwright.max.config.ts', 'utf8')
+  assert.match(config, /pyarcana:tourCompleted/, 'the e2e_max config no longer dismisses the first-visit tour: every spec that clicks a lesson will time out')
 })

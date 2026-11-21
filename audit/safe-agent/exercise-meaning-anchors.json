@@ -12118,7 +12118,7 @@
     },
     "S13-T1-A-E3": {
       "section": "S13",
-      "sha256": "e6c02b8b17a68667e66beea233e84d4140e062db1a28496c60dd39cc8b6b6e2f",
+      "sha256": "3a54be5b5388d1e81ece925047cdc50029b43b6020fcad9191d1bcdc6d3ecd02",
       "tokens": [
         "0",
         "1",
@@ -12131,6 +12131,7 @@
         "ap",
         "b",
         "bkey",
+        "bloque",
         "c",
         "casefold",
         "cusco",
@@ -12140,23 +12141,27 @@
         "doc_b",
         "document_id",
         "documento",
-        "documentos",
-        "dos",
-        "el",
+        "e",
         "else",
         "er",
         "er_score",
+        "evidencia",
         "f",
+        "falta",
+        "hay",
         "if",
         "import",
+        "is",
         "len",
         "lima",
-        "mismo",
         "name",
+        "ni",
         "no",
+        "none",
         "norm_doc",
-        "normalizar",
+        "not",
         "o",
+        "or",
         "other",
         "parts",
         "print",
@@ -12168,11 +12173,8 @@
         "same_block",
         "same_doc",
         "score",
-        "son",
         "split",
         "sub",
-        "tras",
-        "vacios",
         "x1",
         "z0",
         "z9"
@@ -12202,7 +12204,7 @@
     },
     "S13-T1-B-E2": {
       "section": "S13",
-      "sha256": "ca909230111e699791b6c2de46e7a997e6d0f07c63ff2b16c985ec3b146cd1c7",
+      "sha256": "73093bee2f21fb57816ad9ae45fbb9da5d4bbf62256ddacd249af81469c8df29",
       "tokens": [
         "0",
         "2",
@@ -12230,6 +12232,8 @@
         "p2",
         "p3",
         "p4",
+        "p5",
+        "p6",
         "pairs",
         "print",
         "return",
@@ -12303,7 +12307,7 @@
     },
     "S13-T2-A-E2": {
       "section": "S13",
-      "sha256": "47d693adcbb1fc7286760abfdca1d6c1e87fc326f399be6bce1494bb2acf0025",
+      "sha256": "cf6206fd4d3b12c811241f599483ef8c791b6f24c9fc18e9c647d045966fe7fc",
       "tokens": [
         "0",
         "1",
@@ -12320,24 +12324,25 @@
         "geo",
         "if",
         "km",
+        "name_jaccard",
         "print",
         "rel_score",
         "return",
         "round",
-        "surname_jaccard",
         "variante",
         "y"
       ]
     },
     "S13-T2-A-E3": {
       "section": "S13",
-      "sha256": "7012d29951d8ae58f121f04e649046308c04988d8f6d7eeb21c56b63b62f82b3",
+      "sha256": "dbe399518d31d097f5a9c06c237a713e573856ee12ea93de3e3fa68a80a666a6",
       "tokens": [
         "0",
         "1",
         "2",
         "3",
         "5",
+        "9",
         "card",
         "colusion",
         "con",
@@ -12347,6 +12352,7 @@
         "frase",
         "geo",
         "implica",
+        "name_jaccard",
         "ni",
         "no",
         "parentesco",
@@ -12356,8 +12362,7 @@
         "relacion",
         "relationship_signal_score",
         "round",
-        "score",
-        "surname"
+        "score"
       ]
     },
     "S13-T2-B-E1": {
@@ -12582,7 +12587,7 @@
     },
     "S13-T3-B-E2": {
       "section": "S13",
-      "sha256": "2adf064b3463e665489cf2a136c8201a1847c31e412338ce0673362d1605158d",
+      "sha256": "41f260c8c20a305ba2bc731b1117ebfc66afb93b9640dc4ec72c67fb55e86d8e",
       "tokens": [
         "0",
         "1",
@@ -12606,10 +12611,12 @@
         "if",
         "import",
         "in",
+        "incertidumbre",
         "int",
         "invalid_input",
         "isfinite",
         "isinstance",
+        "la",
         "low",
         "math",
         "matriz",
@@ -12625,6 +12632,7 @@
         "score",
         "sin",
         "th",
+        "true",
         "u",
         "unc",
         "y"
@@ -12632,13 +12640,16 @@
     },
     "S13-T3-B-E3": {
       "section": "S13",
-      "sha256": "06ed9a455beb6ca5a94702f2c21dbae7b12568bccc4bb10d38fe180ac0f0c0a9",
+      "sha256": "11355676b7dbfdcb0341c1308816fb4268c4a990424195f074b01ec86c56417a",
       "tokens": [
         "0",
+        "2",
         "5",
+        "abstain",
         "auto_fraud",
         "clean",
         "de",
+        "dos",
         "for",
         "forbidden",
         "if",
@@ -12651,6 +12662,7 @@
         "needs_review",
         "not",
         "out",
+        "outs",
         "print",
         "quitar",
         "salida",
@@ -12659,6 +12671,7 @@
         "status",
         "true",
         "v",
+        "veces",
         "y"
       ]
     },
@@ -12693,7 +12706,7 @@
     },
     "S13-T4-A-E2": {
       "section": "S13",
-      "sha256": "65951df63f65d56a8ca78b8d7677d3660b44b6c888b07f579ab8e9ece968bf0d",
+      "sha256": "c76a9bf2b389bba25a9ecda74fb966193bd1b566bd80e0e8395ab304135b7376",
       "tokens": [
         "0",
         "4",
@@ -12702,16 +12715,20 @@
         "claves",
         "con",
         "def",
-        "distintas",
+        "dict",
         "dos",
         "entity_resolution_score",
         "er",
+        "exacto",
         "ficha",
+        "is_family",
         "print",
         "rel",
         "relationship_signal_score",
         "return",
         "separados",
+        "sin",
+        "solo",
         "y"
       ]
     },
@@ -12744,7 +12761,7 @@
     },
     "S13-T4-B-E1": {
       "section": "S13",
-      "sha256": "1d02cef4c3fdef72c20dc3c6113dbdeefbf801b416f04757839a61896d63e978",
+      "sha256": "1055af42795a0747b9761c99c4fe0febddd6e90d8427d26e9e48cd11f5b67537",
       "tokens": [
         "data_class",
         "false",

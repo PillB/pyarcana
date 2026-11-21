@@ -171,6 +171,14 @@ test.describe('Glossary hover + i18n chrome + contrast smoke', () => {
       body.includes('glossary')
     expect(hasEn, 'expected English chrome strings').toBeTruthy()
 
+    // The public static edition has no feedback modal (page.tsx renders it only for the
+    // dynamic app; reports go through the QA workspace there). Said by the runner, not guessed
+    // from the page: a missing button on the dynamic app must still fail below.
+    if (process.env.E2E_STATIC === '1') {
+      await expect(page.getByTestId('feedback-open'), 'the static edition grew a feedback button: test its modal here').toHaveCount(0)
+      return
+    }
+
     // Feedback modal folded chrome
     await page.getByTestId('feedback-open').click()
     await expect(page.getByTestId('feedback-modal')).toBeVisible()
