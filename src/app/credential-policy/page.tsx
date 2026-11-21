@@ -8,8 +8,8 @@ export default function CredentialPolicyPage() {
     <LegalPage
       title="Política de credenciales e insignias"
       subtitle="Qué significa cada tipo de credencial PyArcana y cómo se verifica."
-      version="2.0"
-      effectiveDate="2026-07-31"
+      version="2.1"
+      effectiveDate="2026-11-21"
     >
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-6">
         <section>
@@ -21,8 +21,9 @@ export default function CredentialPolicyPage() {
 
           <h3 className="mt-4 font-semibold">A — Marcador de progreso (local)</h3>
           <p>
-            Registra que completaste o participaste en una sección. Se guarda en tu
-            navegador (localStorage). No constituye evidencia de competencia profesional.
+            Registra que completaste las secciones: el You Do y un intento del examen de
+            cada una. Se guarda en tu navegador y, si inicias sesión, también en el
+            servidor. No constituye evidencia de competencia profesional.
             Puede manipularse localmente sin afectar credenciales verificadas.
           </p>
 
@@ -30,14 +31,14 @@ export default function CredentialPolicyPage() {
           <p>
             Demuestra una capacidad acotada mediante una tarea práctica independiente,
             pruebas ocultas y puertas críticas no compensables. La decisión es
-            autoritativa del servidor. Incluye registro de evidencia y revisión.
+            autoritativa del servidor. Incluye registro de evidencia y revisión. Hoy
+            todavía no se emite ninguna: ver la clase C.
           </p>
 
           <h3 className="mt-4 font-semibold">C — Insignia de capacidad integrada</h3>
           <p>
             Demuestra transferencia entre secciones mediante un proyecto integrador
-            realista, recuperación de fallos, reproducibilidad y comunicación técnica.
-            Requiere revisión independiente.
+            evaluado con rúbrica, con cada competencia crítica al 100%. El servidor emite la insignia verificada cuando cada requisito está registrado. Hoy registra los exámenes; las demás partes todavía no, así que aún no se emiten insignias verificadas.
           </p>
 
           <h3 className="mt-4 font-semibold">D — Credencial verificada PyArcana</h3>
@@ -45,7 +46,8 @@ export default function CredentialPolicyPage() {
             Es la credencial más fuerte. Se emite tras un capstone mayor o síntesis
             final, con identidad verificada, especificación versionada, evaluación
             independiente, evidencia a prueba de manipulación, verificación pública y
-            revocación. Nunca se emite desde localStorage.
+            revocación. Nunca se emite desde localStorage, y hoy todavía no se emite
+            ninguna: ver la clase C.
           </p>
         </section>
 
@@ -79,8 +81,9 @@ export default function CredentialPolicyPage() {
           <p>
             Las insignias tienen versión. Si los criterios cambian, las insignias
             emitidas bajo criterios anteriores conservan su validez, pero pueden
-            marcarse como "versión anterior".
+            marcarse como "versión anterior". Algunas insignias están en piloto y lo dicen en su nombre: sus criterios pueden cambiar antes de que pasen a activas, y la versión de cada una dice con cuáles se otorgó.
           </p>
+          <p>Las insignias de competencia y los capstones vencen a los tres años; los marcadores de progreso no vencen.</p>
         </section>
 
         <section>

@@ -739,3 +739,44 @@ back. Read this list before a section round; every item cost at least one failed
   not import the packages" was updated with the docs, and now also checks the code. Guard: when a
   contract changes version, grep every consumer for the old field names (`n_ok`, `manifest_hash`,
   `decision_evidence`), not only the copies of the signature.
+- **A catalog field the engine never reads is a promise nobody keeps.** Symptom: the progress
+  badges listed `required_projects` (13 capstones for the journey, three per phase) and the journey
+  description said "all 13 capstones", but `engine.ts` returns from `finalizeProgress` before the
+  project gate, so no capstone was ever checked. The phase 0 claim named the self-check, which the
+  catalog never listed. The first draft of the claim test made the same mistake: it counted a
+  progress badge's `required_projects` as a capstone requirement and so passed the old journey
+  text. Root cause: claims and tests were written from the catalog data, not from the path the
+  engine runs. Fix (proposal 11, §5.1 and §5.2): the progress lists are empty, self-checks are
+  `required_activities`, and `tests/adversarial/test_badge_claims_match_engine.py` derives what is
+  required from the engine's rules (activities for every required section; capstones only past
+  the progress path). Guard: before a badge text names a piece of work, find the gate in
+  `engine.ts` that blocks without it, and show the test failing on the old catalog.
+- **Every badge version is pinned by hand in the credential tests.** Bumping the capstone
+  credentials for the self-check change broke 12 node tests with `SPEC_VERSION_MISMATCH`:
+  `credential-blockers.test.ts` (`VERSION`) and `credential-issue-gates.test.ts`
+  (`SPEC_VERSION`, which defaulted to the catalog's top-level `1.0.0`) write each version out so
+  the test does not read the value it checks. That is the intended design, not drift. Guard: a
+  catalog version bump updates both maps in the same commit, and K4 now also refuses the version a
+  badge had before the bump.
+- **A positional tuple read one field off.** `generate_capstone_validation.py` built each CAPSTONE
+  row as a 12-item tuple and read `c[10]` (critical failures) as the interface, so all 12 upstream
+  entries in `final_integration_contracts.json` held a list where a signature belongs. Proposal 11
+  fixed CP-N1-A's entry by hand, and the next regeneration would have undone it (Codex on #175).
+  Root cause: indexes into an unnamed tuple, and no test compared the generator's output with the
+  committed file. Fix: `final_contracts()` names what it reads and emits `criticalFailures`; the
+  committed file is its output, and `test_regenerating_keeps_the_final_contracts` checks it, and
+  checks that every interface is a string with `->`. Guard: when you hand-fix a generated file, fix
+  the generator in the same commit and add a regenerate-and-compare test.
+- **A new input rule broke a caller two packages away.** CP-N1-B's `run` began refusing a `run_id`
+  that is not ASCII letters and digits, to keep `backups/{run_id}` inside `out_dir` (Codex on #176).
+  CP-FINAL passes its batch id, `syn-batch-001`, and 15 CP-FINAL tests went red; the package's own
+  suite stayed green. Root cause: the rule was written from the attack (`../x`) and checked only
+  against the package's own tests. Fix: allow `-` and `_`, keep refusing `/` and `.`. Guard: before
+  tightening an interface, `git grep` its callers (here `upstream.load("CP-N1-B")`) and run their
+  suites on the stack's tip, not only the branch you changed.
+- **Bare asserts in a learner suite hide the defect.** All three CP-N1 suites had message-less
+  asserts; the runner printed the test's docstring and an empty `AssertionError`, so a learner could
+  not tell which of seven checks failed. Codex found it in CP-N1-B and CP-N1-C; CP-N1-A had 21 more.
+  Fix: an `igual(obtenido, esperado, que)` helper (with `is` for None and booleans), the runner
+  prints the failing line, and each package's adversarial test refuses a bare assert (`ast`).
+  Guard: when a finding names one file, grep the sibling packages for the same pattern.

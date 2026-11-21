@@ -56,13 +56,14 @@ const MASTERY = 'integrated_python_ai_capstone_integrated_mastery'
 const FINAL = 'evidence_grounded_ai_systems_capstone'
 
 // Each capstone credential's own catalog version (badges[].version in badge_catalog.json), written
-// out by hand so the test does not read the value it checks. Mastery's is not the catalog's 1.0.0.
+// out by hand so the test does not read the value it checks. None is the catalog's top-level 1.0.0:
+// proposal 11 bumped each one when self-checks became required activities.
 const VERSION: Record<string, string> = {
-  integrated_python_ai_capstone_foundations: '1.0.0',
-  integrated_python_ai_capstone_independent: '1.0.0',
-  integrated_python_ai_capstone_advanced_applied: '1.0.0',
-  integrated_python_ai_capstone_integrated_mastery: '1.1.0',
-  evidence_grounded_ai_systems_capstone: '1.0.0',
+  integrated_python_ai_capstone_foundations: '1.1.0',
+  integrated_python_ai_capstone_independent: '1.1.0',
+  integrated_python_ai_capstone_advanced_applied: '1.1.0',
+  integrated_python_ai_capstone_integrated_mastery: '1.2.0',
+  evidence_grounded_ai_systems_capstone: '1.1.0',
 }
 const CREDENTIALS = Object.keys(VERSION)
 
@@ -521,16 +522,19 @@ describe('K4: the server signs the badge version, never the client one', () => {
     assert.equal(forged.status, 403)
     assert.deepEqual(forged.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
 
-    // 1.0.0 is the catalog's top-level version; Mastery's own entry is 1.1.0 (EXAM-02).
-    const catalogWide = await requestCredential(MASTERY, '1.0.0')
-    assert.equal(catalogWide.status, 403)
-    assert.deepEqual(catalogWide.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
+    // 1.0.0 is the catalog's top-level version; Mastery's own entry is 1.2.0 (EXAM-02, then
+    // proposal 11). 1.1.0 is the version it had before self-checks became required activities.
+    for (const stale of ['1.0.0', '1.1.0']) {
+      const refused = await requestCredential(MASTERY, stale)
+      assert.equal(refused.status, 403, stale)
+      assert.deepEqual(refused.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
+    }
     assert.equal(notifications.length, 0)
 
-    const { status, body } = await requestCredential(MASTERY, '1.1.0')
+    const { status, body } = await requestCredential(MASTERY, '1.2.0')
     assert.equal(status, 201)
-    assert.equal(body.credential.specificationVersion, '1.1.0')
-    assert.match(body.credential.capabilityStatement, /Assessment Specification 1\.1\.0,/)
+    assert.equal(body.credential.specificationVersion, '1.2.0')
+    assert.match(body.credential.capabilityStatement, /Assessment Specification 1\.2\.0,/)
   })
 })
 

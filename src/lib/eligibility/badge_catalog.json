@@ -31,9 +31,9 @@
   "badges": [
     {
       "badge_id": "progress_phase0_walked",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Phase 0 — Foundations Walked",
-      "public_claim": "The learner has completed all 13 sections of PyArcana Phase 0 (Foundations): S01 through S13, including the You Do project and self-check for each section.",
+      "public_claim": "Completaste las 13 secciones de la Fase 0 (S01 a S13): el proyecto You Do y el examen de cada una. Puede incluir práctica guiada.",
       "non_claims": [
         "Marcador de progreso local. No constituye evidencia de competencia profesional."
       ],
@@ -121,7 +121,7 @@
         "components": [
           {
             "component_id": "section_completion",
-            "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+            "description": "Each required section counts when the progress store has its You Do project and an exam attempt (any score). Guided work (We Do tier) is accepted. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
             "required_score_pct": 0,
             "weight": 1.0,
             "evidence_source": "progress store (localStorage + server mirror)",
@@ -151,15 +151,13 @@
         "rubric_required": false,
         "server_verification_required": false,
         "acceptable_evidence": [
-          "Section marked completed in progress store",
-          "You Do project submitted (any rubric outcome)",
-          "Self-check answered (any score)",
+          "Section counted when the progress store has its You Do project and an exam attempt",
+          "You Do project submitted (any rubric outcome, guided work accepted)",
           "Exam attempt recorded (any score >=0%)"
         ],
         "unacceptable_evidence": [
           "Theory block read (passive consumption, not evidence)",
-          "I Do demo watched (passive consumption, not evidence)",
-          "We Do exercise completed (guided, not independent)"
+          "I Do demo watched (passive consumption, not evidence)"
         ],
         "legacy_progress_policy": "Legacy course completion from `python-ds-progress` localStorage is accepted as section-completed evidence. Legacy completion does NOT grant any competency badge or capstone credential; it only contributes to progress_* badges."
       },
@@ -192,15 +190,15 @@
       "verification_mode": "local_only",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You finished the first 13 sections of PyArcana, the 'Foundations' phase. Each section ends with a You Do project (an exercise you do alone, without step-by-step help) and a short self-check quiz. Earning this marker means you walked through every section, submitted every You Do, and answered every self-check. It does NOT mean a hiring manager should treat you as a Data Analyst, Data Scientist, or any other role yet — it just means you did the work of walking through Phase 0.",
+      "newbie_friendly_description": "You finished the first 13 sections of PyArcana, the 'Foundations' phase. For each section you submitted the You Do project (an exercise you do alone, without step-by-step help) and attempted the section exam. Any exam score counts, and work done with guidance counts too. It does NOT mean a hiring manager should treat you as a Data Analyst, Data Scientist, or any other role yet: it means you did the work of walking through Phase 0.",
       "family": "progress_achievement",
       "credential_class": "A"
     },
     {
       "badge_id": "progress_phase1_walked",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Phase 1 — Independent Walked",
-      "public_claim": "The learner has completed all 13 sections of PyArcana Phase 1 (Independent Practitioner): S14 through S26, including the You Do project, self-check, and section exam for each section.",
+      "public_claim": "Completaste las 13 secciones de la Fase 1 (S14 a S26): el proyecto You Do y el examen de cada una. Puede incluir práctica guiada.",
       "non_claims": [
         "Marcador de progreso local. No constituye evidencia de competencia profesional."
       ],
@@ -288,17 +286,13 @@
         "S25-EXAM",
         "S26-EXAM"
       ],
-      "required_projects": [
-        "CP-N2-A",
-        "CP-N2-B",
-        "CP-N2-C"
-      ],
+      "required_projects": [],
       "critical_competencies": [],
       "assessment_blueprint": {
         "components": [
           {
             "component_id": "section_completion",
-            "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+            "description": "Each required section counts when the progress store has its You Do project and an exam attempt (any score). Guided work (We Do tier) is accepted. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
             "required_score_pct": 0,
             "weight": 1.0,
             "evidence_source": "progress store (localStorage + server mirror)",
@@ -328,15 +322,13 @@
         "rubric_required": false,
         "server_verification_required": false,
         "acceptable_evidence": [
-          "Section marked completed in progress store",
-          "You Do project submitted (any rubric outcome)",
-          "Self-check answered (any score)",
+          "Section counted when the progress store has its You Do project and an exam attempt",
+          "You Do project submitted (any rubric outcome, guided work accepted)",
           "Exam attempt recorded (any score >=0%)"
         ],
         "unacceptable_evidence": [
           "Theory block read (passive consumption, not evidence)",
-          "I Do demo watched (passive consumption, not evidence)",
-          "We Do exercise completed (guided, not independent)"
+          "I Do demo watched (passive consumption, not evidence)"
         ],
         "legacy_progress_policy": "Legacy course completion from `python-ds-progress` localStorage is accepted as section-completed evidence. Legacy completion does NOT grant any competency badge or capstone credential; it only contributes to progress_* badges."
       },
@@ -369,15 +361,15 @@
       "verification_mode": "local_only",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You finished Phase 1, the 'Independent Practitioner' phase (sections 14 through 26). 'Independent practitioner' here means the curriculum is no longer walking you step-by-step through every line of code. This marker says you completed the walk; it does not say you are now a Senior anything. It just says you did the work.",
+      "newbie_friendly_description": "You finished Phase 1, the 'Independent Practitioner' phase (sections 14 through 26): the You Do project and an attempt at the exam of each section. 'Independent practitioner' here means the curriculum is no longer walking you step-by-step through every line of code. This marker says you completed the walk; it does not say you are now a Senior anything.",
       "family": "progress_achievement",
       "credential_class": "A"
     },
     {
       "badge_id": "progress_phase2_walked",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Phase 2 — Advanced Walked",
-      "public_claim": "The learner has completed all 13 sections of PyArcana Phase 2 (Advanced Applied): S27 through S39, including the You Do project, self-check, and section exam for each section.",
+      "public_claim": "Completaste las 13 secciones de la Fase 2 (S27 a S39): el proyecto You Do y el examen de cada una. Puede incluir práctica guiada.",
       "non_claims": [
         "Marcador de progreso local. No constituye evidencia de competencia profesional."
       ],
@@ -465,17 +457,13 @@
         "S38-EXAM",
         "S39-EXAM"
       ],
-      "required_projects": [
-        "CP-N3-A",
-        "CP-N3-B",
-        "CP-N3-C"
-      ],
+      "required_projects": [],
       "critical_competencies": [],
       "assessment_blueprint": {
         "components": [
           {
             "component_id": "section_completion",
-            "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+            "description": "Each required section counts when the progress store has its You Do project and an exam attempt (any score). Guided work (We Do tier) is accepted. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
             "required_score_pct": 0,
             "weight": 1.0,
             "evidence_source": "progress store (localStorage + server mirror)",
@@ -505,15 +493,13 @@
         "rubric_required": false,
         "server_verification_required": false,
         "acceptable_evidence": [
-          "Section marked completed in progress store",
-          "You Do project submitted (any rubric outcome)",
-          "Self-check answered (any score)",
+          "Section counted when the progress store has its You Do project and an exam attempt",
+          "You Do project submitted (any rubric outcome, guided work accepted)",
           "Exam attempt recorded (any score >=0%)"
         ],
         "unacceptable_evidence": [
           "Theory block read (passive consumption, not evidence)",
-          "I Do demo watched (passive consumption, not evidence)",
-          "We Do exercise completed (guided, not independent)"
+          "I Do demo watched (passive consumption, not evidence)"
         ],
         "legacy_progress_policy": "Legacy course completion from `python-ds-progress` localStorage is accepted as section-completed evidence. Legacy completion does NOT grant any competency badge or capstone credential; it only contributes to progress_* badges."
       },
@@ -546,15 +532,15 @@
       "verification_mode": "local_only",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You finished Phase 2, the 'Advanced Applied' phase (sections 27 through 39). 'Advanced applied' means the work gets more open-ended: fewer handrails, more design decisions. This marker is just a motivational record that you walked through every section, You Do, and self-check. It is not a job title.",
+      "newbie_friendly_description": "You finished Phase 2, the 'Advanced Applied' phase (sections 27 through 39): the You Do project and an attempt at the exam of each section. 'Advanced applied' means the work gets more open-ended: fewer handrails, more design decisions. This marker is a motivational record that you walked through every section. It is not a job title.",
       "family": "progress_achievement",
       "credential_class": "A"
     },
     {
       "badge_id": "progress_phase3_walked",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "name": "Phase 3 — Integrated Synthesis",
-      "public_claim": "The learner has completed every PyArcana Phase 3 (Integrated Mastery) section before the section containing the final capstone, including each section's You Do project, self-check, and section exam.",
+      "public_claim": "Completaste las 12 secciones de la Fase 3 (S40 a S51): el proyecto You Do y el examen de cada una. Puede incluir práctica guiada.",
       "non_claims": [
         "Marcador de progreso local. No constituye evidencia de competencia profesional."
       ],
@@ -642,17 +628,13 @@
         "S50-EXAM",
         "S51-EXAM"
       ],
-      "required_projects": [
-        "CP-N4-A",
-        "CP-N4-B",
-        "CP-N4-C"
-      ],
+      "required_projects": [],
       "critical_competencies": [],
       "assessment_blueprint": {
         "components": [
           {
             "component_id": "section_completion",
-            "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+            "description": "Each required section counts when the progress store has its You Do project and an exam attempt (any score). Guided work (We Do tier) is accepted. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
             "required_score_pct": 0,
             "weight": 1.0,
             "evidence_source": "progress store (localStorage + server mirror)",
@@ -682,15 +664,13 @@
         "rubric_required": false,
         "server_verification_required": false,
         "acceptable_evidence": [
-          "Section marked completed in progress store",
-          "You Do project submitted (any rubric outcome)",
-          "Self-check answered (any score)",
+          "Section counted when the progress store has its You Do project and an exam attempt",
+          "You Do project submitted (any rubric outcome, guided work accepted)",
           "Exam attempt recorded (any score >=0%)"
         ],
         "unacceptable_evidence": [
           "Theory block read (passive consumption, not evidence)",
-          "I Do demo watched (passive consumption, not evidence)",
-          "We Do exercise completed (guided, not independent)"
+          "I Do demo watched (passive consumption, not evidence)"
         ],
         "legacy_progress_policy": "Legacy course completion from `python-ds-progress` localStorage is accepted as section-completed evidence. Legacy completion does NOT grant any competency badge or capstone credential; it only contributes to progress_* badges."
       },
@@ -723,15 +703,15 @@
       "verification_mode": "local_only",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You completed every Phase 3 section before the section containing the final capstone, including each section's You Do project, self-check, and section exam. 'Integrated Mastery' is a curriculum-internal label, not an industry job title. This marker just says you walked through that section work.",
+      "newbie_friendly_description": "You completed the 12 Phase 3 sections from S40 to S51: the You Do project and an attempt at the exam of each section. S52, the section of the final project, is not part of this marker. 'Integrated Mastery' is a curriculum-internal label, not an industry job title. This marker just says you walked through that section work.",
       "family": "progress_achievement",
       "credential_class": "A"
     },
     {
       "badge_id": "progress_journey_completed",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "PyArcana Journey Completed",
-      "public_claim": "El aprendiz completó las secciones asignadas de esta fase del curso.",
+      "public_claim": "Completaste las 52 secciones del curso (S01 a S52): el You Do y el examen de cada una. Este marcador no revisa los capstones.",
       "non_claims": [
         "Marcador de progreso local. No constituye evidencia de competencia profesional."
       ],
@@ -915,27 +895,13 @@
         "S51-EXAM",
         "S52-EXAM"
       ],
-      "required_projects": [
-        "CP-N1-A",
-        "CP-N1-B",
-        "CP-N1-C",
-        "CP-N2-A",
-        "CP-N2-B",
-        "CP-N2-C",
-        "CP-N3-A",
-        "CP-N3-B",
-        "CP-N3-C",
-        "CP-N4-A",
-        "CP-N4-B",
-        "CP-N4-C",
-        "CP-FINAL"
-      ],
+      "required_projects": [],
       "critical_competencies": [],
       "assessment_blueprint": {
         "components": [
           {
             "component_id": "section_completion",
-            "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+            "description": "Each required section counts when the progress store has its You Do project and an exam attempt (any score). Guided work (We Do tier) is accepted. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
             "required_score_pct": 0,
             "weight": 1.0,
             "evidence_source": "progress store (localStorage + server mirror)",
@@ -965,15 +931,13 @@
         "rubric_required": false,
         "server_verification_required": false,
         "acceptable_evidence": [
-          "Section marked completed in progress store",
-          "You Do project submitted (any rubric outcome)",
-          "Self-check answered (any score)",
+          "Section counted when the progress store has its You Do project and an exam attempt",
+          "You Do project submitted (any rubric outcome, guided work accepted)",
           "Exam attempt recorded (any score >=0%)"
         ],
         "unacceptable_evidence": [
           "Theory block read (passive consumption, not evidence)",
-          "I Do demo watched (passive consumption, not evidence)",
-          "We Do exercise completed (guided, not independent)"
+          "I Do demo watched (passive consumption, not evidence)"
         ],
         "legacy_progress_policy": "Legacy course completion from `python-ds-progress` localStorage is accepted as section-completed evidence. Legacy completion does NOT grant any competency badge or capstone credential; it only contributes to progress_* badges."
       },
@@ -1006,15 +970,15 @@
       "verification_mode": "local_only",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You walked the whole course: all 52 sections, all 13 capstones (a capstone is a larger project at the end of a curriculum phase that pulls together everything you learned). This marker says you finished the journey. It does NOT say you are job-ready for any specific role — that's what the verified credentials further down the stack are for.",
+      "newbie_friendly_description": "You walked the whole course: all 52 sections, with the You Do and an exam attempt for each one. This marker does not check the capstones (the larger projects at the end of each phase), which have credentials of their own. It does NOT say you are job-ready for any specific role: that's what the verified credentials further down the stack are for.",
       "family": "progress_achievement",
       "credential_class": "A"
     },
     {
       "badge_id": "python_data_foundations",
-      "version": "1.0.0",
-      "name": "Python Data Foundations",
-      "public_claim": "El aprendiz demostró independientemente Python Data Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Python Programming Foundations",
+      "public_claim": "El aprendiz demostró independientemente Python Data Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1055,14 +1019,19 @@
       "required_activities": [
         "S01-YOUDO",
         "S01-EXAM",
+        "S01-SELFCHECK",
         "S02-YOUDO",
         "S02-EXAM",
+        "S02-SELFCHECK",
         "S03-YOUDO",
         "S03-EXAM",
+        "S03-SELFCHECK",
         "S04-YOUDO",
         "S04-EXAM",
+        "S04-SELFCHECK",
         "S05-YOUDO",
-        "S05-EXAM"
+        "S05-EXAM",
+        "S05-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:python_data_foundations:integrator"
@@ -1188,15 +1157,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You can set up a Python project from scratch (install Python, create a virtual environment so dependencies don't clash, push your code to Git so it's version-controlled), write idiomatic Python (idiomatic means 'the natural way Python programmers write it', e.g. list comprehensions instead of for-loops), use functions and modules to organize code, and write basic tests. This badge says you can do those things independently — not just follow along with an instructor.",
+      "newbie_friendly_description": "You can set up a Python project (a virtual environment so dependencies don't clash, and Git so your code is version-controlled), work with values and types (including `Decimal` for money), write decisions that sort a record into accept, review or reject, summarize a batch with loops and counters, and organize those rules into functions with clear contracts. The badge asks for the You Do, the self-check and the exam of each section from S01 to S05, plus an integrator project. It says you did that work independently, not just followed along. Reading data files comes later, in S08.",
       "family": "applied_skill",
       "credential_class": "B"
     },
     {
       "badge_id": "independent_data_preparation",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Independent Data Preparation",
-      "public_claim": "El aprendiz demostró independientemente Independent Data Preparation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Independent Data Preparation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1231,12 +1200,16 @@
       "required_activities": [
         "S06-YOUDO",
         "S06-EXAM",
+        "S06-SELFCHECK",
         "S07-YOUDO",
         "S07-EXAM",
+        "S07-SELFCHECK",
         "S08-YOUDO",
         "S08-EXAM",
+        "S08-SELFCHECK",
         "S18-YOUDO",
-        "S18-EXAM"
+        "S18-EXAM",
+        "S18-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:independent_data_preparation:integrator"
@@ -1368,9 +1341,9 @@
     },
     {
       "badge_id": "applied_analytical_reasoning",
-      "version": "1.0.0",
-      "name": "Applied Analytical Reasoning",
-      "public_claim": "El aprendiz demostró independientemente Analytical Reasoning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Python Diagnostics and Packaging",
+      "public_claim": "El aprendiz demostró independientemente Analytical Reasoning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1404,8 +1377,10 @@
       "required_activities": [
         "S09-YOUDO",
         "S09-EXAM",
+        "S09-SELFCHECK",
         "S10-YOUDO",
-        "S10-EXAM"
+        "S10-EXAM",
+        "S10-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:applied_analytical_reasoning:integrator"
@@ -1531,15 +1506,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You can take cleaned data and (a) draw charts that communicate a point using matplotlib/Seaborn/Plotly (Python visualization libraries), (b) build a simple BI dashboard (BI = Business Intelligence; tools like Tableau, Power BI, or Looker turn data into interactive views for non-technical stakeholders), and (c) train a classical ML model (classical = scikit-learn algorithms like Random Forest or Logistic Regression, as opposed to deep neural networks) and evaluate it with appropriate metrics. Independent work only.",
+      "newbie_friendly_description": "You can make a Python program fail in a way you can diagnose: catch specific exceptions instead of all of them, log what happened without exposing personal data, and keep a batch running when one record breaks (S09). You can also package the code as a module with a command-line interface (CLI, a program you run by typing a command) and settings read in a documented order of precedence (S10). The badge asks for the You Do, the self-check and the exam of both sections, plus an integrator project.",
       "family": "applied_skill",
       "credential_class": "B"
     },
     {
       "badge_id": "reliable_automation_development",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Reliable Automation Development",
-      "public_claim": "El aprendiz demostró independientemente Reliable Automation Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Reliable Automation Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1573,8 +1548,10 @@
       "required_activities": [
         "S13-YOUDO",
         "S13-EXAM",
+        "S13-SELFCHECK",
         "S24-YOUDO",
-        "S24-EXAM"
+        "S24-EXAM",
+        "S24-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:reliable_automation_development:integrator"
@@ -1701,15 +1678,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You can build a Python-based automation script (using Playwright or Selenium — libraries that drive a browser programmatically) that doesn't break the moment the website changes. 'Selector design' means picking stable references to page elements (like CSS IDs or data-test attributes) instead of brittle ones (like the third button on the page). 'Exception handling' means your script recovers gracefully when something goes wrong, instead of crashing. RPA (Robotic Process Automation) is the broader field of automating repetitive computer tasks.",
+      "newbie_friendly_description": "You can build automations that abstain instead of guessing. In S13 you decide deterministically whether two records are the same person and send doubtful pairs to a person. In S24 you extract fields from synthetic documents, keep the evidence for each field, and abstain when confidence is low. The badge's critical competency is selector resilience (picking stable references to page elements, so a browser bot survives a change in the page). Neither required section teaches it yet, so the badge also asks for a supplementary exercise on it.",
       "family": "applied_skill",
       "credential_class": "B"
     },
     {
       "badge_id": "applied_sql_query_development",
-      "version": "1.0.0",
-      "name": "Applied SQL Query Development",
-      "public_claim": "El aprendiz demostró independientemente SQL Query Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Applied SQL Query Development (piloto)",
+      "public_claim": "El aprendiz demostró independientemente SQL Query Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1742,8 +1719,10 @@
       "required_activities": [
         "S19-YOUDO",
         "S19-EXAM",
+        "S19-SELFCHECK",
         "S37-YOUDO",
-        "S37-EXAM"
+        "S37-EXAM",
+        "S37-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:applied_sql_query_development:integrator"
@@ -1875,9 +1854,9 @@
     },
     {
       "badge_id": "production_python_delivery_foundations",
-      "version": "1.0.0",
-      "name": "Production Python Delivery Foundations",
-      "public_claim": "El aprendiz demostró independientemente Production Python Delivery Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Production Python Delivery Foundations (piloto)",
+      "public_claim": "El aprendiz demostró independientemente Production Python Delivery Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -1916,10 +1895,13 @@
       "required_activities": [
         "S15-YOUDO",
         "S15-EXAM",
+        "S15-SELFCHECK",
         "S17-YOUDO",
         "S17-EXAM",
+        "S17-SELFCHECK",
         "S21-YOUDO",
-        "S21-EXAM"
+        "S21-EXAM",
+        "S21-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:production_python_delivery_foundations:integrator"
@@ -2052,9 +2034,9 @@
     },
     {
       "badge_id": "responsible_machine_learning_evaluation",
-      "version": "1.0.0",
-      "name": "Responsible Machine Learning Evaluation",
-      "public_claim": "El aprendiz demostró independientemente Responsible Machine Learning Evaluation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Responsible Machine Learning Evaluation (piloto)",
+      "public_claim": "El aprendiz demostró independientemente Responsible Machine Learning Evaluation mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2088,8 +2070,10 @@
       "required_activities": [
         "S10-YOUDO",
         "S10-EXAM",
+        "S10-SELFCHECK",
         "S23-YOUDO",
-        "S23-EXAM"
+        "S23-EXAM",
+        "S23-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:responsible_machine_learning_evaluation:integrator"
@@ -2216,15 +2200,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "pilot",
-      "newbie_friendly_description": "You can train a machine-learning model (both classical models like Random Forest and deep-learning models built with PyTorch or TensorFlow) and evaluate it honestly. 'Evaluate honestly' means picking metrics that match the business question (not just accuracy), comparing to a baseline, and writing down where the model fails. NOTE: 'Pilot' status because the curriculum doesn't yet teach data leakage prevention (the #1 way ML evaluations become lies — when info from the test set accidentally leaks into training). Holders should not claim leakage-prevention expertise until Phase 4 closes this gap.",
+      "newbie_friendly_description": "This pilot badge is meant for honest model evaluation: metrics that match the question, a baseline to compare with, and no data leakage (information from the test set reaching training). Its required sections today are S10 (packaging and CLI) and S23 (a browser robot), and neither one teaches model evaluation. The evidence for it therefore comes from the integrator project and a supplementary exercise on leakage. Do not read this badge as proof of ML evaluation skill until its section list changes.",
       "family": "applied_skill",
       "credential_class": "B"
     },
     {
       "badge_id": "applied_rag_llm_service_development",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Applied RAG and LLM Service Development",
-      "public_claim": "El aprendiz demostró independientemente RAG and LLM Service Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente RAG and LLM Service Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2257,8 +2241,10 @@
       "required_activities": [
         "S20-YOUDO",
         "S20-EXAM",
+        "S20-SELFCHECK",
         "S21-YOUDO",
-        "S21-EXAM"
+        "S21-EXAM",
+        "S21-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:applied_rag_llm_service_development:integrator"
@@ -2390,9 +2376,9 @@
     },
     {
       "badge_id": "reliable_async_python_development",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Reliable Async Python Development",
-      "public_claim": "El aprendiz demostró independientemente Reliable Async Python Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Reliable Async Python Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2428,10 +2414,13 @@
       "required_activities": [
         "S27-YOUDO",
         "S27-EXAM",
+        "S27-SELFCHECK",
         "S28-YOUDO",
         "S28-EXAM",
+        "S28-SELFCHECK",
         "S31-YOUDO",
-        "S31-EXAM"
+        "S31-EXAM",
+        "S31-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:reliable_async_python_development:integrator"
@@ -2563,9 +2552,9 @@
     },
     {
       "badge_id": "applied_mlops_pipeline_delivery",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Applied MLOps Pipeline Delivery",
-      "public_claim": "El aprendiz demostró independientemente MLOps Pipeline Delivery mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente MLOps Pipeline Delivery mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2602,8 +2591,10 @@
       "required_activities": [
         "S29-YOUDO",
         "S29-EXAM",
+        "S29-SELFCHECK",
         "S43-YOUDO",
-        "S43-EXAM"
+        "S43-EXAM",
+        "S43-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:applied_mlops_pipeline_delivery:integrator"
@@ -2736,9 +2727,9 @@
     },
     {
       "badge_id": "production_python_hardening_practice",
-      "version": "1.0.0",
-      "name": "Production Python Hardening Practice",
-      "public_claim": "El aprendiz demostró independientemente Production Python Hardening mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Production Python Hardening Practice (piloto)",
+      "public_claim": "El aprendiz demostró independientemente Production Python Hardening mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2777,10 +2768,13 @@
       "required_activities": [
         "S30-YOUDO",
         "S30-EXAM",
+        "S30-SELFCHECK",
         "S32-YOUDO",
         "S32-EXAM",
+        "S32-SELFCHECK",
         "S38-YOUDO",
-        "S38-EXAM"
+        "S38-EXAM",
+        "S38-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:production_python_hardening_practice:integrator"
@@ -2913,9 +2907,9 @@
     },
     {
       "badge_id": "applied_deep_learning_practice",
-      "version": "1.0.0",
-      "name": "Applied Deep Learning Practice",
-      "public_claim": "El aprendiz demostró independientemente Deep Learning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Applied Deep Learning Practice (piloto)",
+      "public_claim": "El aprendiz demostró independientemente Deep Learning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -2950,8 +2944,10 @@
       "required_activities": [
         "S33-YOUDO",
         "S33-EXAM",
+        "S33-SELFCHECK",
         "S34-YOUDO",
-        "S34-EXAM"
+        "S34-EXAM",
+        "S34-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:applied_deep_learning_practice:integrator"
@@ -3084,9 +3080,9 @@
     },
     {
       "badge_id": "architecture_decision_practice",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Architecture Decision Practice",
-      "public_claim": "El aprendiz demostró independientemente Architecture Decision mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Architecture Decision mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -3125,8 +3121,10 @@
       "required_activities": [
         "S35-YOUDO",
         "S35-EXAM",
+        "S35-SELFCHECK",
         "S40-YOUDO",
-        "S40-EXAM"
+        "S40-EXAM",
+        "S40-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:architecture_decision_practice:integrator"
@@ -3260,7 +3258,7 @@
     },
     {
       "badge_id": "llmops_production_delivery",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "LLMOps Production Delivery",
       "public_claim": "The learner has independently demonstrated LLMOps production delivery — fine-tuning, graph-RAG, drift monitoring, observability — through You Do projects and section exams above the provisional floor.",
       "non_claims": [
@@ -3301,10 +3299,13 @@
       "required_activities": [
         "S41-YOUDO",
         "S41-EXAM",
+        "S41-SELFCHECK",
         "S42-YOUDO",
         "S42-EXAM",
+        "S42-SELFCHECK",
         "S43-YOUDO",
-        "S43-EXAM"
+        "S43-EXAM",
+        "S43-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:llmops_production_delivery:integrator"
@@ -3437,9 +3438,9 @@
     },
     {
       "badge_id": "container_platform_engineering_practice",
-      "version": "1.0.0",
-      "name": "Container Platform Engineering Practice",
-      "public_claim": "El aprendiz demostró independientemente Container Platform Engineering mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Container Platform Engineering Practice (piloto)",
+      "public_claim": "El aprendiz demostró independientemente Container Platform Engineering mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -3477,8 +3478,10 @@
       "required_activities": [
         "S45-YOUDO",
         "S45-EXAM",
+        "S45-SELFCHECK",
         "S46-YOUDO",
-        "S46-EXAM"
+        "S46-EXAM",
+        "S46-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:container_platform_engineering_practice:integrator"
@@ -3611,9 +3614,9 @@
     },
     {
       "badge_id": "ai_governance_code_review_practice",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "AI Governance and Code Review Practice",
-      "public_claim": "El aprendiz demostró independientemente AI Governance and Code Review mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente AI Governance and Code Review mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -3657,10 +3660,13 @@
       "required_activities": [
         "S47-YOUDO",
         "S47-EXAM",
+        "S47-SELFCHECK",
         "S48-YOUDO",
         "S48-EXAM",
+        "S48-SELFCHECK",
         "S49-YOUDO",
-        "S49-EXAM"
+        "S49-EXAM",
+        "S49-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:ai_governance_code_review_practice:integrator"
@@ -3794,9 +3800,9 @@
     },
     {
       "badge_id": "integrated_data_analyst_practice",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "name": "Integrated Data Analysis Practice",
-      "public_claim": "El aprendiz demostró transferencia integrada de Data Analysis mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.",
+      "public_claim": "El aprendiz demostró transferencia integrada de Data Analysis mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.2.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -3856,12 +3862,19 @@
       ],
       "required_activities": [
         "S06-YOUDO",
+        "S06-SELFCHECK",
         "S07-YOUDO",
+        "S07-SELFCHECK",
         "S08-YOUDO",
+        "S08-SELFCHECK",
         "S09-YOUDO",
+        "S09-SELFCHECK",
         "S10-YOUDO",
+        "S10-SELFCHECK",
         "S19-YOUDO",
-        "S37-YOUDO"
+        "S19-SELFCHECK",
+        "S37-YOUDO",
+        "S37-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:integrated_data_analyst_practice:integrator"
@@ -3990,15 +4003,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You can do an end-to-end Data-Analyst-style project: frame a business question (what decision will this answer support?), pull data with SQL (including window functions and CTEs — see the Applied SQL badge description), clean and validate it with pandas, compute descriptive statistics, build a Python visualization and a BI dashboard, train a simple classical ML model as a baseline, and write a 1-pager a non-technical PM (Project Manager) can act on. 'Integrated' means you do all of this in one project, not as disconnected exercises. NOTE: this badge does NOT make you a 'Data Analyst' — that's a job title that depends on the company. It says you can do Data-Analyst-style work independently.",
+      "newbie_friendly_description": "The integrator project asks you to frame a business question (what decision will this answer support?), pull data with SQL (including window functions and CTEs — see the Applied SQL badge description), clean and validate it with pandas, compute descriptive statistics, build a Python visualization and a BI dashboard, train a simple classical ML model as a baseline, and write a 1-pager a non-technical PM (Project Manager) can act on. 'Integrated' means you do all of this in one project, not as disconnected exercises. NOTE: this badge does NOT make you a 'Data Analyst' — that's a job title that depends on the company. It says you can do Data-Analyst-style work independently. The engine checks the You Do and the self-check of each required section, the integrator project score (85% or more) and each critical competency at 100%; it does not check each step above separately.",
       "family": "cross_section_capability",
       "credential_class": "C"
     },
     {
       "badge_id": "integrated_data_science_practice",
-      "version": "1.0.0",
-      "name": "Integrated Data Science Practice",
-      "public_claim": "El aprendiz demostró transferencia integrada de Data Science mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Integrated Data Science Practice (piloto)",
+      "public_claim": "El aprendiz demostró transferencia integrada de Data Science mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -4064,13 +4077,21 @@
       ],
       "required_activities": [
         "S06-YOUDO",
+        "S06-SELFCHECK",
         "S07-YOUDO",
+        "S07-SELFCHECK",
         "S08-YOUDO",
+        "S08-SELFCHECK",
         "S09-YOUDO",
+        "S09-SELFCHECK",
         "S10-YOUDO",
+        "S10-SELFCHECK",
         "S19-YOUDO",
+        "S19-SELFCHECK",
         "S23-YOUDO",
-        "S37-YOUDO"
+        "S23-SELFCHECK",
+        "S37-YOUDO",
+        "S37-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:integrated_data_science_practice:integrator"
@@ -4200,15 +4221,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "pilot",
-      "newbie_friendly_description": "You can do an end-to-end Data-Science-style project: everything in the Data Analyst integrated project, PLUS train and evaluate a machine-learning model (classical or deep learning) and write a model card (a short document describing what the model does, what data it was trained on, how it was evaluated, where it fails, and how it should be used). You must articulate — from first principles — how you prevented data leakage (the #1 way ML evaluations become lies). NOTE: 'Pilot' status because the curriculum doesn't yet teach leakage prevention formally; you have to demonstrate it via a supplementary exercise. NOTE: this badge does NOT make you a 'Data Scientist' — that's a job title. It says you can do Data-Science-style work independently.",
+      "newbie_friendly_description": "The integrator project asks you to do everything in the Data Analyst integrated project, PLUS train and evaluate a machine-learning model (classical or deep learning) and write a model card (a short document describing what the model does, what data it was trained on, how it was evaluated, where it fails, and how it should be used). You must articulate — from first principles — how you prevented data leakage (the #1 way ML evaluations become lies). NOTE: 'Pilot' status because the curriculum doesn't yet teach leakage prevention formally; you have to demonstrate it via a supplementary exercise. NOTE: this badge does NOT make you a 'Data Scientist' — that's a job title. It says you can do Data-Science-style work independently. The engine checks the You Do and the self-check of each required section, the integrator project score (85% or more) and each critical competency at 100%; it does not check each step above separately.",
       "family": "cross_section_capability",
       "credential_class": "C"
     },
     {
       "badge_id": "integrated_ml_engineering_practice",
-      "version": "1.1.0",
-      "name": "Integrated Applied ML Systems",
-      "public_claim": "El aprendiz demostró transferencia integrada de ML Systems mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.",
+      "version": "1.2.0",
+      "name": "Integrated Applied ML Systems (piloto)",
+      "public_claim": "El aprendiz demostró transferencia integrada de ML Systems mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.2.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -4270,12 +4291,19 @@
       ],
       "required_activities": [
         "S09-YOUDO",
+        "S09-SELFCHECK",
         "S10-YOUDO",
+        "S10-SELFCHECK",
         "S20-YOUDO",
+        "S20-SELFCHECK",
         "S21-YOUDO",
+        "S21-SELFCHECK",
         "S23-YOUDO",
+        "S23-SELFCHECK",
         "S29-YOUDO",
-        "S43-YOUDO"
+        "S29-SELFCHECK",
+        "S43-YOUDO",
+        "S43-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:integrated_ml_engineering_practice:integrator"
@@ -4405,15 +4433,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "pilot",
-      "newbie_friendly_description": "You can do an end-to-end ML-Engineering-style project: train a model, deploy it as a service behind an API with health checks and latency budgets, wire it into a CI/CD pipeline that retrains on drift, monitor it in production, and hand it off to a stakeholder with a 1-page writeup. NOTE: 'Pilot' status because leakage prevention is a curriculum gap. NOTE: this badge does NOT make you an 'AI/ML Engineer' — that's a job title. It says you can do ML-Engineering-style work independently.",
+      "newbie_friendly_description": "The integrator project asks you to train a model, deploy it as a service behind an API with health checks and latency budgets, wire it into a CI/CD pipeline that retrains on drift, monitor it in production, and hand it off to a stakeholder with a 1-page writeup. NOTE: 'Pilot' status because leakage prevention is a curriculum gap. NOTE: this badge does NOT make you an 'AI/ML Engineer' — that's a job title. It says you can do ML-Engineering-style work independently. The engine checks the You Do and the self-check of each required section, the integrator project score (85% or more) and each critical competency at 100%; it does not check each step above separately.",
       "family": "cross_section_capability",
       "credential_class": "C"
     },
     {
       "badge_id": "integrated_automation_engineering_practice",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "name": "Integrated Automation Systems Practice",
-      "public_claim": "El aprendiz demostró transferencia integrada de Automation Systems mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.",
+      "public_claim": "El aprendiz demostró transferencia integrada de Automation Systems mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.2.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -4463,9 +4491,13 @@
       ],
       "required_activities": [
         "S13-YOUDO",
+        "S13-SELFCHECK",
         "S20-YOUDO",
+        "S20-SELFCHECK",
         "S21-YOUDO",
-        "S24-YOUDO"
+        "S21-SELFCHECK",
+        "S24-YOUDO",
+        "S24-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:integrated_automation_engineering_practice:integrator"
@@ -4594,15 +4626,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You can do an end-to-end Automation-Engineering-style project: decompose a business process (decide which steps to automate, which to re-engineer, which to leave alone — and write that down), build a Python-based bot that survives a documented UI change (using stable selectors + exception handling), wire it into a tested service, and hand it off with a 1-page writeup. NOTE: this badge does NOT make you an 'RPA Developer' — that's a job title. It says you can do Automation-Engineering-style work independently in PyArcana's Python-based RPA track.",
+      "newbie_friendly_description": "The integrator project asks you to decompose a business process (decide which steps to automate, which to re-engineer, which to leave alone — and write that down), build a Python-based bot that survives a documented UI change (using stable selectors + exception handling), wire it into a tested service, and hand it off with a 1-page writeup. NOTE: this badge does NOT make you an 'RPA Developer' — that's a job title. It says you can do Automation-Engineering-style work independently in PyArcana's Python-based RPA track. The engine checks the You Do and the self-check of each required section, the integrator project score (85% or more) and each critical competency at 100%; it does not check each step above separately.",
       "family": "cross_section_capability",
       "credential_class": "C"
     },
     {
       "badge_id": "integrated_production_python_practice",
-      "version": "1.0.0",
-      "name": "Integrated Production Python Practice",
-      "public_claim": "El aprendiz demostró transferencia integrada de Production Python mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Integrated Production Python Practice (piloto)",
+      "public_claim": "El aprendiz demostró transferencia integrada de Production Python mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -4660,13 +4692,21 @@
       ],
       "required_activities": [
         "S15-YOUDO",
+        "S15-SELFCHECK",
         "S17-YOUDO",
+        "S17-SELFCHECK",
         "S21-YOUDO",
+        "S21-SELFCHECK",
         "S27-YOUDO",
+        "S27-SELFCHECK",
         "S28-YOUDO",
+        "S28-SELFCHECK",
         "S30-YOUDO",
+        "S30-SELFCHECK",
         "S32-YOUDO",
-        "S38-YOUDO"
+        "S32-SELFCHECK",
+        "S38-YOUDO",
+        "S38-SELFCHECK"
       ],
       "required_projects": [
         "BADGE:integrated_production_python_practice:integrator"
@@ -4795,15 +4835,15 @@
       "verification_mode": "server_verified",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "pilot",
-      "newbie_friendly_description": "You can do an end-to-end Production-Python-style project: package a Python service with proper dependency pinning, containerize it (Docker), deploy it on a cloud platform (AWS/GCP/Azure) via CI/CD, instrument it with observability (structured logs, OpenTelemetry tracing, Prometheus metrics), apply a security review (OWASP Top 10), tune its performance, and hand it off with a 1-page writeup. NOTE: 'Pilot' status because static type-safety (mypy/Pyright) is still a curriculum gap. NOTE: this badge does NOT make you a 'Production Python Engineer' — that's a job title. It says you can do Production-Python-style work independently.",
+      "newbie_friendly_description": "The integrator project asks you to package a Python service with proper dependency pinning, containerize it (Docker), deploy it on a cloud platform (AWS/GCP/Azure) via CI/CD, instrument it with observability (structured logs, OpenTelemetry tracing, Prometheus metrics), apply a security review (OWASP Top 10), tune its performance, and hand it off with a 1-page writeup. NOTE: 'Pilot' status because static type-safety (mypy/Pyright) is still a curriculum gap. NOTE: this badge does NOT make you a 'Production Python Engineer' — that's a job title. It says you can do Production-Python-style work independently. The engine checks the You Do and the self-check of each required section, the integrator project score (85% or more) and each critical competency at 100%; it does not check each step above separately.",
       "family": "cross_section_capability",
       "credential_class": "C"
     },
     {
       "badge_id": "integrated_python_ai_capstone_foundations",
-      "version": "1.0.0",
-      "name": "Integrated Python and AI Capstone — Foundations",
-      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Foundations mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.",
+      "version": "1.1.0",
+      "name": "Integrated Python Capstone — Foundations",
+      "public_claim": "El aprendiz completó los tres capstones de la Fase 0 (CP-N1-A, CP-N1-B y CP-N1-C) y una síntesis, con al menos 85% de promedio entre ellos, y los defendió. También completó el You Do, la autoevaluación y el examen de cada sección de S01 a S13, bajo la especificación PyArcana 1.1.0. El servidor emite esta credencial solo cuando cada parte está registrada. Hoy registra los exámenes; las demás partes todavía no, así que aún no se emite.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -4883,18 +4923,31 @@
         "S12-YOUDO",
         "S13-YOUDO",
         "S01-EXAM",
+        "S01-SELFCHECK",
         "S02-EXAM",
+        "S02-SELFCHECK",
         "S03-EXAM",
+        "S03-SELFCHECK",
         "S04-EXAM",
+        "S04-SELFCHECK",
         "S05-EXAM",
+        "S05-SELFCHECK",
         "S06-EXAM",
+        "S06-SELFCHECK",
         "S07-EXAM",
+        "S07-SELFCHECK",
         "S08-EXAM",
+        "S08-SELFCHECK",
         "S09-EXAM",
+        "S09-SELFCHECK",
         "S10-EXAM",
+        "S10-SELFCHECK",
         "S11-EXAM",
+        "S11-SELFCHECK",
         "S12-EXAM",
-        "S13-EXAM"
+        "S12-SELFCHECK",
+        "S13-EXAM",
+        "S13-SELFCHECK"
       ],
       "required_projects": [
         "CP-N1-A",
@@ -5032,15 +5085,15 @@
       "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
-      "newbie_friendly_description": "You completed all three Phase 0 capstones (CP-N1-A, CP-N1-B, CP-N1-C — these are the larger projects at the end of Foundations that pull together everything you learned about Python, data, automation, and visualization), passed them at the rubric floor, and wrote a synthesis document that connects them. 'Capstone credential' is heavier than a 'badge' — it requires synthesis across multiple sub-projects and a defense (an oral or written explanation of your choices). 'Foundational' here means 'can apply with guidance' — NOT 'can apply independently in a production setting'.",
+      "newbie_friendly_description": "You completed the three Phase 0 capstones. CP-N1-A sorts intake records into accept, review or reject and explains each reason. CP-N1-B is an ETL that quarantines irregular rows, hashes each raw file and reconciles the counts in a manifest. CP-N1-C decides whether two records are the same person, sends doubtful pairs to human review and keeps a pseudonymized privacy sheet. You scored an average of at least 85% across the three capstones and a synthesis document that connects them, and you defended your choices (an oral or written explanation, scored at 100%). 'Foundational' here means 'can apply with guidance', not 'can apply independently in a production setting'. The server issues this credential only once every part is recorded; today it records only the exams, so it is not issued yet.",
       "family": "capstone_credential",
       "credential_class": "D"
     },
     {
       "badge_id": "integrated_python_ai_capstone_independent",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Integrated Python and AI Capstone — Independent",
-      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Independent mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Independent mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -5128,18 +5181,31 @@
         "S25-YOUDO",
         "S26-YOUDO",
         "S14-EXAM",
+        "S14-SELFCHECK",
         "S15-EXAM",
+        "S15-SELFCHECK",
         "S16-EXAM",
+        "S16-SELFCHECK",
         "S17-EXAM",
+        "S17-SELFCHECK",
         "S18-EXAM",
+        "S18-SELFCHECK",
         "S19-EXAM",
+        "S19-SELFCHECK",
         "S20-EXAM",
+        "S20-SELFCHECK",
         "S21-EXAM",
+        "S21-SELFCHECK",
         "S22-EXAM",
+        "S22-SELFCHECK",
         "S23-EXAM",
+        "S23-SELFCHECK",
         "S24-EXAM",
+        "S24-SELFCHECK",
         "S25-EXAM",
-        "S26-EXAM"
+        "S25-SELFCHECK",
+        "S26-EXAM",
+        "S26-SELFCHECK"
       ],
       "required_projects": [
         "CP-N2-A",
@@ -5284,9 +5350,9 @@
     },
     {
       "badge_id": "integrated_python_ai_capstone_advanced_applied",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Integrated Python and AI Capstone — Advanced Applied",
-      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Advanced Applied mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Advanced Applied mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -5375,18 +5441,31 @@
         "S38-YOUDO",
         "S39-YOUDO",
         "S27-EXAM",
+        "S27-SELFCHECK",
         "S28-EXAM",
+        "S28-SELFCHECK",
         "S29-EXAM",
+        "S29-SELFCHECK",
         "S30-EXAM",
+        "S30-SELFCHECK",
         "S31-EXAM",
+        "S31-SELFCHECK",
         "S32-EXAM",
+        "S32-SELFCHECK",
         "S33-EXAM",
+        "S33-SELFCHECK",
         "S34-EXAM",
+        "S34-SELFCHECK",
         "S35-EXAM",
+        "S35-SELFCHECK",
         "S36-EXAM",
+        "S36-SELFCHECK",
         "S37-EXAM",
+        "S37-SELFCHECK",
         "S38-EXAM",
-        "S39-EXAM"
+        "S38-SELFCHECK",
+        "S39-EXAM",
+        "S39-SELFCHECK"
       ],
       "required_projects": [
         "CP-N3-A",
@@ -5532,9 +5611,9 @@
     },
     {
       "badge_id": "integrated_python_ai_capstone_integrated_mastery",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "name": "Integrated Python and AI Capstone — Synthesis",
-      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
+      "public_claim": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.2.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -5624,17 +5703,29 @@
         "S50-YOUDO",
         "S51-YOUDO",
         "S40-EXAM",
+        "S40-SELFCHECK",
         "S41-EXAM",
+        "S41-SELFCHECK",
         "S42-EXAM",
+        "S42-SELFCHECK",
         "S43-EXAM",
+        "S43-SELFCHECK",
         "S44-EXAM",
+        "S44-SELFCHECK",
         "S45-EXAM",
+        "S45-SELFCHECK",
         "S46-EXAM",
+        "S46-SELFCHECK",
         "S47-EXAM",
+        "S47-SELFCHECK",
         "S48-EXAM",
+        "S48-SELFCHECK",
         "S49-EXAM",
+        "S49-SELFCHECK",
         "S50-EXAM",
-        "S51-EXAM"
+        "S50-SELFCHECK",
+        "S51-EXAM",
+        "S51-SELFCHECK"
       ],
       "required_projects": [
         "CP-N4-A",
@@ -5780,9 +5871,9 @@
     },
     {
       "badge_id": "evidence_grounded_ai_systems_capstone",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Evidence-Grounded AI Systems Capstone",
-      "public_claim": "El aprendiz demostró independientemente Evidence-Grounded AI Systems Capstone mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.",
+      "public_claim": "El aprendiz demostró independientemente Evidence-Grounded AI Systems Capstone mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
       "non_claims": [
         "Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.",
         "No constituye certificación profesional acreditada ni garantía de empleo."
@@ -5837,7 +5928,8 @@
       ],
       "required_activities": [
         "S52-YOUDO",
-        "S52-EXAM"
+        "S52-EXAM",
+        "S52-SELFCHECK"
       ],
       "required_projects": [
         "CP-FINAL",
