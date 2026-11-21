@@ -11,6 +11,7 @@ import { CONSENT_KEY, MEASUREMENT_ID_KEY } from '@/lib/cloud/consent'
 import { QA_MODE_KEY } from '@/lib/cloud/qa-mode'
 import { QA_SESSION_KEY } from '@/lib/qa-session-stats'
 import { CHANGES_KEY } from '@/lib/cloud/progress-merge'
+import { THEORY_CHECKPOINTS_KEY } from '@/lib/theory-checkpoints'
 import { ARCHIVE_PREFIX } from '@/lib/cloud/progress-sync'
 import { MS_PENDING_KEY } from '@/lib/cloud/oidc'
 import { INTENT_KEY } from '@/lib/cloud/intent'
@@ -46,6 +47,7 @@ export function storageDisclosure(cfg: CloudConfig): StorageGroup[] {
       group: 'necessary',
       items: [
         { key: CLOUD_SESSION_KEY, text: 'legalc.key.session' },
+        { key: THEORY_CHECKPOINTS_KEY, text: 'legalc.key.theoryParts' },
         { key: CHANGES_KEY, text: 'legalc.key.changes' },
         { key: `${ARCHIVE_PREFIX}*`, text: 'legalc.key.archive' },
         { key: MS_PENDING_KEY, text: 'legalc.key.msPending', tabOnly: true },

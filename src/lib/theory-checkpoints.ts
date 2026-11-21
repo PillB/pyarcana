@@ -7,8 +7,9 @@
  *   inflate every one of them;
  * - `progress-store.ts` is a protected path, and this needs no change to it.
  *
- * The cost, stated: these checkpoints live in this browser only. They are not sent to the
- * account and do not follow a learner to another device. The theory step itself still syncs.
+ * This record lives in this browser. For a signed-in learner the account sync carries it to other
+ * devices as the `theoryParts` field of the progress document (cloud/progress-merge.ts, items
+ * `tp:<section>:<part>`), through progress-adapter.ts; this file knows nothing about that.
  *
  * The record is untrusted on read: anything that is not a known shape reads as empty, so a
  * damaged value can only lose checkpoints, never invent one.
@@ -27,6 +28,11 @@ const SECTION_ID = /^[a-z0-9][a-z0-9-]{0,63}$/
 const PART_KEY = /^[A-Za-z0-9][A-Za-z0-9._-]{0,47}(#\d{1,2})?$/
 const MAX_PARTS_PER_SECTION = 64
 const MAX_SECTIONS = 128
+
+/** Whether a string can be a part key (the same rule the store applies before saving one). */
+export function isPartKey(key: unknown): key is string {
+  return typeof key === 'string' && PART_KEY.test(key)
+}
 
 /** Keep only well-formed section ids and part keys, deduplicated, within fixed bounds. */
 export function sanitizeCheckpoints(value: unknown): CheckpointMap {

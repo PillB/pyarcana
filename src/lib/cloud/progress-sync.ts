@@ -46,6 +46,7 @@ import {
 } from '@/lib/cloud/progress-merge'
 import { isPlainObject, readRaw, writeRaw, type KeyValueStorage } from '@/lib/cloud/storage'
 import { fnv1a32 } from '@/lib/cloud/experiments'
+import { sanitizeCheckpoints, THEORY_CHECKPOINTS_KEY } from '@/lib/theory-checkpoints'
 import { decideForce, FORCE_FLOOR_MS, type ForceDecision, type ForceState, INITIAL_FORCE_STATE } from '@/lib/cloud/force-sync'
 
 export const ARCHIVE_PREFIX = `${PROGRESS_STORAGE_KEY}.archive.`
@@ -105,7 +106,7 @@ function retryAfterMs(r: ApiResult<unknown>): number | null {
 /** What a learner sees as their progress (force-sync rule 5): no change log, no lastVisited. */
 function progressHash(state: unknown): string {
   const s = isPlainObject(state) ? state : {}
-  return String(fnv1a32(stableStringify([s.completedSections ?? [], s.completedSubSteps ?? {}, s.quizScores ?? {}, s.bookmarks ?? []])))
+  return String(fnv1a32(stableStringify([s.completedSections ?? [], s.completedSubSteps ?? {}, s.quizScores ?? {}, s.bookmarks ?? [], s.theoryParts ?? {}])))
 }
 
 function hintMs(data: Record<string, unknown>): number {
@@ -148,7 +149,32 @@ export function archiveLocalProgress(storage: KeyValueStorage | null, ownerId: s
   const raw = readRaw(storage, PROGRESS_STORAGE_KEY)
   if (raw === null) return { ok: false, key }
   const ok = writeRaw(storage, key, raw) && readRaw(storage, key) === raw
-  return { ok, key }
+  return { ok: ok && archiveLocalParts(storage, key), key }
+}
+
+/** Where the theory parts of an archived copy are kept: beside it, under the archive prefix. */
+export const archivePartsKey = (archive: string) => `${archive}.parts`
+
+/**
+ * The theory parts read are replaced by the account's on "Usar solo mi cuenta", like the
+ * progress, so they are archived with it, byte for byte. True when there were none to copy.
+ */
+function archiveLocalParts(storage: KeyValueStorage | null, archive: string): boolean {
+  const raw = readRaw(storage, THEORY_CHECKPOINTS_KEY)
+  if (raw === null) return true
+  const key = archivePartsKey(archive)
+  return writeRaw(storage, key, raw) && readRaw(storage, key) === raw
+}
+
+/** The parts archived beside a progress archive; empty when there are none or they are unreadable. */
+function readArchivedParts(storage: KeyValueStorage | null, archive: string) {
+  try {
+    const parsed: unknown = JSON.parse(readRaw(storage, archivePartsKey(archive)) ?? 'null')
+    const state = isPlainObject(parsed) ? parsed.state : null
+    return sanitizeCheckpoints(isPlainObject(state) ? state.read : null)
+  } catch {
+    return {}
+  }
 }
 
 export interface ArchiveInfo {
@@ -212,6 +238,8 @@ function fullState(partial: Partial<ProgressState>, isHydratedFromServer: boolea
     bookmarks: partial.bookmarks ?? [],
     startDate: partial.startDate ?? null,
     isHydratedFromServer,
+    // "Usar solo mi cuenta" adopts the account's theory parts too; none there means none here.
+    theoryParts: partial.theoryParts ?? {},
   }
 }
 
@@ -378,7 +406,7 @@ export class ProgressSync {
   restoreArchive(key: string): { ok: boolean; added: number } {
     const parsed = ARCHIVE_KEY.test(key) ? parsePersistedEnvelope(readRaw(this.deps.storage, key)) : null
     if (!parsed || !parsed.ok || parsed.reason === 'empty') return { ok: false, added: 0 }
-    const incoming = cleanIncomingState(parsed.state, parsed.version)
+    const incoming = { ...cleanIncomingState(parsed.state, parsed.version), theoryParts: readArchivedParts(this.deps.storage, key) }
     const r = unionInto(this.deps.store.getState(), this.changes, incoming, this.deps.now())
     this.apply(r.state, r.changes)
     this.markDirty()

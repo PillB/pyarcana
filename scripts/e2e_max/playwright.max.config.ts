@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 import path from 'path'
 
 const root = path.join(__dirname, '../..')
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
 
 export default defineConfig({
   testDir: __dirname,
@@ -18,7 +19,22 @@ export default defineConfig({
     ['html', { outputFolder: path.join(root, 'playwright-report-e2e-max'), open: 'never' }],
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: BASE_URL,
+    // A returning visitor: the first-visit tours are modal and take every click, which made
+    // each spec that clicks a lesson fail before reaching what it tests. Set once here, for the
+    // whole suite, instead of in each spec.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: new URL(BASE_URL).origin,
+          localStorage: [
+            { name: 'pyarcana:tourCompleted', value: '1' },
+            { name: 'pyarcana:qaTourCompleted', value: '1' },
+          ],
+        },
+      ],
+    },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -27,7 +43,11 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      use: { ...devices['Desktop Chrome'] },
+      // PW_CHROMIUM_PATH: as in playwright.config.ts, a Chromium already on the machine.
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(process.env.PW_CHROMIUM_PATH ? { launchOptions: { executablePath: process.env.PW_CHROMIUM_PATH } } : {}),
+      },
     },
   ],
 })

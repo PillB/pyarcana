@@ -96,7 +96,8 @@ code was right for today's content and today's files, and something else moved.
 | An inserted lead-in would have renamed a part (`…#2`) and orphaned its checkpoint | Grouping depended on block adjacency, which content rounds change weekly | Found by simulation, fixed, and the simulation is kept |
 | A tag in a new format made the checkpoint button a silent no-op | A validator pinned to today's id format, failing closed without a word | Any plain token is accepted; a refused key logs which key and section |
 | Two older tests pinned source text and broke on a refactor | Tests asserting how the code is written | Listed under tautological forms: "Restating the implementation" |
-| `e2e_max/13` had been failing before it reached its subject | A spec no CI job runs rots unnoticed | Stated as undone work below |
+| `e2e_max/13` had been failing before it reached its subject, and `e2e_max/02` failed on all 52 sections | A spec no CI job runs rots unnoticed: a first-visit modal took every click | The four specs that run on the static build are a CI step (`npm run test:lesson-e2e`); the modal is dismissed once, in the suite's config |
+| The storage list a learner reads did not name the checkpoint record | The test that guards the list scans two folders, and the new key lived in a third | The key is listed, and its own test fails if it leaves the list |
 
 The rule: when code reads lesson content or a value owned elsewhere, write the
 simulation with the feature. Take the real 52 sections, apply the edits a
@@ -105,8 +106,9 @@ assert what must survive: nothing lost, nothing invented, saved learner state
 still meaningful. `src/lib/course/lesson-navigation-drift.test.ts` is the
 worked example; it found two defects in code whose unit tests were green.
 
-Still undone, named: `scripts/e2e_max/` is not run by any CI job, and
-`course-state/interaction_catalog.json` is stale against the course.
+Still undone, named: the other `scripts/e2e_max/` specs (exhaustive shards,
+admin and student flows) need the dynamic app and its accounts and are run by
+no CI job.
 
 ### Fail loudly, with a diagnosis
 
