@@ -3,8 +3,8 @@
   "generated_at": "2026-07-20T14:53:43Z",
   "lane": "LANE-CAPSTONE-FORMAL",
   "total": 13,
-  "passed": 13,
-  "failed": 0,
+  "passed": 11,
+  "failed": 2,
   "capstones": [
     {
       "id": "CP-N1-A",
@@ -19,19 +19,19 @@
       "id": "CP-N1-B",
       "gate_section": "S08",
       "name": "Client/Transaction ETL Pipeline",
-      "execution_status": "pass",
-      "exit_code": 0,
+      "execution_status": "fail",
+      "exit_code": 1,
       "path": "course-state/capstones/CP-N1-B/",
-      "formally_ready": true
+      "formally_ready": false
     },
     {
       "id": "CP-N1-C",
       "gate_section": "S13",
       "name": "Familiarity Evidence Dashboard",
-      "execution_status": "pass",
-      "exit_code": 0,
+      "execution_status": "fail",
+      "exit_code": 1,
       "path": "course-state/capstones/CP-N1-C/",
-      "formally_ready": true
+      "formally_ready": false
     },
     {
       "id": "CP-N2-A",

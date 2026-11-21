@@ -137,9 +137,32 @@ def starter_readme(s, cid): return f"""# {cid} — STARTER\n\nCopia este directo
 def final_iface_md(s): return f"""# Interfaz de integración final\n\n**Interfaz:** `{s['iface']}`\n\n{s['iface_detail']}\n\n## Contrato de versión\n- Versión del paquete: {s['version']}\n- La interfaz es estable dentro de la misma versión mayor.\n- CP-FINAL invoca esta interfaz a través del contrato declarado en `capstone_validation/architecture/final_integration_contracts.json`.\n\n## Prohibiciones\n- No exponer PII real a través de la interfaz.\n- No realizar efectos secundarios externos sin aprobación humana (cuando aplica).\n- No inferir relaciones, fraude ni causalidad automáticamente (cuando aplica).\n"""
 def run_md(s, cid): return f"""# Cómo ejecutar\n\n```bash\npython3 data/generate.py  # dataset sintético\npython3 demo.py            # debe imprimir METRICS_JSON y salir 0\npython3 tests/test_demo.py # tests\n```\n\nRequisitos: Python 3.10+. Solo stdlib. Sin claves, sin red, sin PII real.\n"""
 
-# Packages whose files are written by hand and must not be regenerated here. CP-N1-A was
-# rewritten to the S04 contract (BRIEF, demo, tests); this script only refreshes its execution.json.
-HAND_MAINTAINED = {"CP-N1-A"}
+# Every package committed today has been edited after this script last ran (measured 2026-11-21:
+# re-running it changes 2 to 9 files in each of CP-N2-A .. CP-FINAL). A plain run would undo those
+# edits, so the script refuses unless the caller passes this flag and reviews the diff after.
+OVERWRITE_FLAG = "--overwrite-hand-edits"
+
+
+def refuse_without_flag() -> None:
+    if OVERWRITE_FLAG not in sys.argv[1:]:
+        sys.exit(f"Refusing to run: this overwrites hand-edited capstone files. Pass {OVERWRITE_FLAG} "
+                 "and review `git diff` afterwards. Packages in HAND_MAINTAINED.json are never written.")
+
+
+# Packages whose files are written by hand and must not be regenerated here (CP-N1-A since #141,
+# CP-N1-B and CP-N1-C since proposal 11). This script only re-measures their execution.json. The
+# list is shared with _generate_formal_packages.py so the two generators cannot disagree.
+HAND_MAINTAINED = set(json.loads((PKG / "HAND_MAINTAINED.json").read_text(encoding="utf-8"))["packages"])
+
+# A test body that is only this line cannot fail. A suite that has one does not count as passing.
+PLACEHOLDER = "assert True  # placeholder"
+
+
+def placeholder_count(pkg: Path) -> int:
+    tests = pkg / "tests"
+    if not tests.is_dir():
+        return 0
+    return sum(f.read_text(encoding="utf-8").count(PLACEHOLDER) for f in sorted(tests.glob("*.py")))
 
 
 def execution_record(pkg: Path, cid: str, version: str) -> dict:
@@ -148,14 +171,17 @@ def execution_record(pkg: Path, cid: str, version: str) -> dict:
     tests = subprocess.run([sys.executable, str(Path("tests") / "test_demo.py")], cwd=pkg,
                            capture_output=True, text=True)
     demo_ok = demo.returncode == 0 and "METRICS_JSON:" in demo.stdout
-    tests_ok = tests.returncode == 0
+    placeholders = placeholder_count(pkg)
+    tests_ok = tests.returncode == 0 and placeholders == 0
     return {"capstone_id": cid, "version": version,
             "execution_status": "pass" if demo_ok and tests_ok else "fail",
             "demo_exits_zero": demo_ok, "tests_pass": tests_ok,
+            "placeholder_tests": placeholders,
             "verified_at": datetime.date.today().isoformat()}
 
 
 def main():
+    refuse_without_flag()
     for cid, s in SPECS.items():
         pkg = PKG / cid
         if cid in HAND_MAINTAINED:
