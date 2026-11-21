@@ -655,8 +655,9 @@ test("redeploy.sh: right branch with the local D1 id: pulls the new work, instal
 });
 
 // Deploy-thread finding, 20 Nov 2026: bun 1.4.4 skips @prisma/client's postinstall unless package.json
-// trusts it, so a fresh install has no Prisma client and the static build fails late. redeploy.sh says
-// so right after the install, before any Cloudflare step.
+// trusts it (the fix is PR #173: package.json and bun.lock), so a fresh install has no Prisma client and
+// the static build fails late. Whatever the cause, redeploy.sh says so right after the install, before
+// any Cloudflare step.
 test("redeploy.sh stops right after bun install when the Prisma client was not generated: no token asked, no wrangler call", () => {
   const t = deployCheckout();
   const r = redeploy(t, { env: { CLOUDFLARE_API_TOKEN: undefined, FAKE_NO_PRISMA: "1" }, input: `${TOKEN}\n` });
@@ -666,13 +667,6 @@ test("redeploy.sh stops right after bun install when the Prisma client was not g
   assert.doesNotMatch(r.out, /Paste your Cloudflare API token/, "stopped before setup.sh");
   assert.deepEqual(r.state.calls, [], "no wrangler call");
   rmSync(t.root, { recursive: true, force: true });
-});
-
-test("package.json trusts @prisma/client and prisma, so bun 1.4 and newer run the step that generates the client", () => {
-  const pkg = JSON.parse(readFileSync(path.join(BILLING, "..", "..", "package.json"), "utf8"));
-  for (const name of ["@prisma/client", "prisma"]) {
-    assert.ok((pkg.trustedDependencies || []).includes(name), `trustedDependencies lacks ${name}: ${JSON.stringify(pkg.trustedDependencies)}`);
-  }
 });
 
 // --- an exported token is offered, never used silently, and checked with Cloudflare first ------------

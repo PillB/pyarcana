@@ -65,7 +65,7 @@ bun install || die "STOP: bun install failed. Nothing was deployed."
 # trustedDependencies; without @prisma/client's, the Prisma client is never generated and the static
 # build stops at src/lib/db.ts. Say so here, by name, instead of after a long build.
 [ -f node_modules/.prisma/client/index.d.ts ] || die "STOP: bun install did not generate the Prisma client (bun $(bun --version 2>/dev/null || echo '?')).
-package.json must list @prisma/client and prisma under trustedDependencies. If it does, run
+package.json and bun.lock must list @prisma/client and prisma under trustedDependencies (PR #173). Then run
   bunx prisma generate
 or install bun 1.3.4 (the version in packageManager), then run this again. Nothing was deployed."
 
