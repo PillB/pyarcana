@@ -729,3 +729,13 @@ back. Read this list before a section round; every item cost at least one failed
 - **A test that the brief documents every output key finds real gaps.** For CP-N1-C it found
   that `case_id` and `rules_version` were in the packet but not in the brief. The check reads
   the keys from a real `review()` and `apply_correction()` run, so it cannot fall behind the code.
+- **A reimplementation of a contract drifts; a call to it cannot.** CP-FINAL kept its own copies
+  of the three level-1 contracts (`intake_cli.run`, `etl.run(batch)`, `familiarity.review` with
+  `signals`), still at 2.0.0 after all three packages moved to 3.0.0, and every CP-FINAL test was
+  green because the tests checked the copies. Fix: `integration/upstream.py` loads each CP-N1
+  package's published interface, the platform translates the shared scenario into each package's
+  shape in one place (`_build_subsystem_inputs`), and a test asserts each adapter returns exactly
+  what the package returns on the same input. The honesty test that said "the twelve runners do
+  not import the packages" was updated with the docs, and now also checks the code. Guard: when a
+  contract changes version, grep every consumer for the old field names (`n_ok`, `manifest_hash`,
+  `decision_evidence`), not only the copies of the signature.

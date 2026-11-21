@@ -6,8 +6,8 @@ Solo se usan datos sintéticos. Ningún subsistema recibe PII real.
 - **Minimización:** el escenario compartido solo contiene IDs sintéticos, nombres ficticios (`Ana Sintetico`, `Bruno Demo`, …) y correos en `@example.test`.
 - **Sin recopilación:** la plataforma no recopila datos del entorno; solo consume `shared_scenario_v1`.
 - **proveniencia (esto es, de dónde viene cada dato: qué archivo, qué fuente, qué fecha):** cada contrato lleva `contract_id` y `contract_version`; cada traza (esto es, el registro paso a paso de qué hizo el sistema, para poder auditarlo después) lleva `subsistema` y `run_id`.
-- **Mecanismo de corrección:** `familiarity.review` expone `correction_mechanism=True`.
-- **Hojas de privacidad:** `ReviewPacket.privacy_sheet` documenta minimización y retención.
+- **Mecanismo de corrección:** `familiarity.review` pone `correction_mechanism=True` solo después de comprobar, sobre una copia, que una corrección queda anotada, que el paquete original no cambia y que un motivo vacío se rechaza.
+- **Hojas de privacidad:** `ReviewPacket.privacy_sheet` es la hoja de S13: `data_class`, `pii_real`, `egress_public_geocoder` y `roles`. La cola de revisión muestra seudónimos.
 
 ## Redacción de trazas
 - `copilot.run` marca `traces_redacted=True`.
@@ -39,9 +39,9 @@ Solo se usan datos sintéticos. Ningún subsistema recibe PII real.
   each subsystem.
 
 ## Access control
-- The `familiarity.review` subsystem enforces a three-way separation:
-  entity-resolution evidence, relationship evidence, and risk decisions
-  are kept in separate fields. No automatic adverse decision is made.
+- The `familiarity.review` subsystem (CP-N1-C) keeps entity-resolution
+  evidence, relationship evidence and pair decisions in separate fields;
+  `risk_decisions` is always empty, and a non-empty one is no-go.
 - The `graph.investigate` subsystem filters edges by authorisation scope
   (`internal` vs `restricted`); a viewer without `restricted` scope
   cannot see restricted edges.

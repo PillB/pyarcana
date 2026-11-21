@@ -220,7 +220,7 @@
     "end_to_end_trace": [
       {
         "contract_id": "CP-N1-A",
-        "contract_version": "2.0.0",
+        "contract_version": "3.0.0",
         "duration_ms": 1.0,
         "note": "",
         "ok": true,
@@ -229,7 +229,7 @@
       },
       {
         "contract_id": "CP-N1-B",
-        "contract_version": "2.0.0",
+        "contract_version": "3.0.0",
         "duration_ms": 2.0,
         "note": "",
         "ok": true,
@@ -238,7 +238,7 @@
       },
       {
         "contract_id": "CP-N1-C",
-        "contract_version": "2.0.0",
+        "contract_version": "3.0.0",
         "duration_ms": 3.0,
         "note": "",
         "ok": true,
@@ -336,181 +336,1315 @@
       "contracts": {
         "CP-N1-A": {
           "contract_id": "CP-N1-A",
-          "contract_version": "2.0.0",
+          "contract_version": "3.0.0",
           "malformed_handled": true,
-          "n_error": 1,
-          "n_ok": 8,
+          "n_accept": 6,
+          "n_reject": 2,
+          "n_review": 2,
           "n_total": 10,
-          "n_warn": 1,
-          "rows": [
+          "results": [
             {
-              "id": "SYN-CLI-001",
-              "status": "ok"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-001|34|R-NORTE|870.01"
             },
             {
-              "id": "SYN-CLI-002",
-              "status": "ok"
+              "estado": "review",
+              "motivos": [
+                "edad:NEEDS_REVIEW"
+              ],
+              "raw_line": "SYN-CLI-002|16|R-SUR|994.27"
             },
             {
-              "id": "SYN-CLI-003",
-              "status": "ok"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-003|45|R-CENTRO|683.8"
             },
             {
-              "id": "SYN-CLI-004",
-              "status": "ok"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-004|29|R-CENTRO|538.5"
             },
             {
-              "id": "SYN-CLI-005",
-              "status": "ok"
+              "estado": "reject",
+              "motivos": [
+                "edad:OUT_OF_RANGE"
+              ],
+              "raw_line": "SYN-CLI-005|150|R-COSTA|209.7"
             },
             {
-              "id": "SYN-CLI-006",
-              "status": "ok"
+              "estado": "review",
+              "motivos": [
+                "region:NOT_IN_ALLOWLIST"
+              ],
+              "raw_line": "SYN-CLI-006|52|r-norte|702.46"
             },
             {
-              "id": "SYN-CLI-007",
-              "status": "ok"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-007|38|R-SUR|419.47"
             },
             {
-              "id": "SYN-CLI-008",
-              "status": "ok"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-008|61|R-NORTE|573.26"
             },
             {
-              "id": null,
-              "status": "error"
+              "estado": "reject",
+              "motivos": [
+                "edad:MISSING",
+                "region:MISSING",
+                "monto_ingreso:OUT_OF_RANGE"
+              ],
+              "raw_line": "|None|None|-5"
             },
             {
-              "id": "SYN-CLI-EDGE",
-              "status": "warn"
-            }
-          ]
-        },
-        "CP-N1-B": {
-          "accepted": [
-            {
-              "amount": 870.01,
-              "email": "ana.sintetico@example.test",
-              "id": "SYN-CLI-001",
-              "name": "Ana Sintetico",
-              "status": "review"
-            },
-            {
-              "amount": 994.27,
-              "email": "bruno.capstone@example.test",
-              "id": "SYN-CLI-002",
-              "name": "Bruno Capstone",
-              "status": "ok"
-            },
-            {
-              "amount": 683.8,
-              "email": "carla.sintetico@example.test",
-              "id": "SYN-CLI-003",
-              "name": "Carla Sintetico",
-              "status": "review"
-            },
-            {
-              "amount": 538.5,
-              "email": "diego.capstone@example.test",
-              "id": "SYN-CLI-004",
-              "name": "Diego Capstone",
-              "status": "ok"
-            },
-            {
-              "amount": 209.7,
-              "email": "eva.sintetico@example.test",
-              "id": "SYN-CLI-005",
-              "name": "Eva Sintetico",
-              "status": "ok"
-            },
-            {
-              "amount": 702.46,
-              "email": "franco.capstone@example.test",
-              "id": "SYN-CLI-006",
-              "name": "Franco Capstone",
-              "status": "review"
-            },
-            {
-              "amount": 419.47,
-              "email": "gina.sintetico@example.test",
-              "id": "SYN-CLI-007",
-              "name": "Gina Sintetico",
-              "status": "ok"
-            },
-            {
-              "amount": 573.26,
-              "email": "hugo.capstone@example.test",
-              "id": "SYN-CLI-008",
-              "name": "Hugo Capstone",
-              "status": "ok"
-            },
-            {
-              "amount": 0,
-              "email": "edge@example.test",
-              "id": "SYN-CLI-EDGE",
-              "name": "Edge Case"
+              "estado": "accept",
+              "motivos": [],
+              "raw_line": "SYN-CLI-EDGE|18|R-COSTA|0"
             }
           ],
-          "batch_id": "syn-batch-4252",
-          "contract_id": "CP-N1-B",
-          "contract_version": "2.0.0",
-          "idempotent": true,
-          "manifest_hash": "59f3ac3b93744da5",
-          "provenance": {
-            "generator": "etl.run",
-            "schema_version": "1.0.0",
-            "source": "shared_scenario_v1"
-          },
-          "quarantine": [
-            {
-              "reason": "intake_classifier_error",
-              "row": {
-                "amount": -5,
-                "email": "bad",
-                "id": null,
-                "name": ""
+          "tasa_reject": 0.2
+        },
+        "CP-N1-B": {
+          "clean": {
+            "clients.csv": [
+              {
+                "id": "SYN-CLI-001",
+                "monto": "870.01",
+                "nombre": "Ana Sintetico"
+              },
+              {
+                "id": "SYN-CLI-002",
+                "monto": "994.27",
+                "nombre": "Bruno Capstone"
+              },
+              {
+                "id": "SYN-CLI-003",
+                "monto": "683.80",
+                "nombre": "Carla Sintetico"
+              },
+              {
+                "id": "SYN-CLI-004",
+                "monto": "538.50",
+                "nombre": "Diego Capstone"
+              },
+              {
+                "id": "SYN-CLI-005",
+                "monto": "209.70",
+                "nombre": "Eva Sintetico"
+              },
+              {
+                "id": "SYN-CLI-006",
+                "monto": "702.46",
+                "nombre": "Franco Capstone"
+              },
+              {
+                "id": "SYN-CLI-007",
+                "monto": "419.47",
+                "nombre": "Gina Sintetico"
+              },
+              {
+                "id": "SYN-CLI-008",
+                "monto": "573.26",
+                "nombre": "Hugo Capstone"
+              },
+              {
+                "id": "SYN-CLI-EDGE",
+                "monto": "0.00",
+                "nombre": "Edge Case"
               }
+            ],
+            "transactions.json": [
+              {
+                "client_id": "SYN-CLI-001",
+                "id": "SYN-TX-001",
+                "monto": "416.14"
+              },
+              {
+                "client_id": "SYN-CLI-002",
+                "id": "SYN-TX-002",
+                "monto": "349.72"
+              },
+              {
+                "client_id": "SYN-CLI-003",
+                "id": "SYN-TX-003",
+                "monto": "1.14"
+              },
+              {
+                "client_id": "SYN-CLI-004",
+                "id": "SYN-TX-004",
+                "monto": "303.84"
+              },
+              {
+                "client_id": "SYN-CLI-005",
+                "id": "SYN-TX-005",
+                "monto": "440.71"
+              },
+              {
+                "client_id": "SYN-CLI-006",
+                "id": "SYN-TX-006",
+                "monto": "364.99"
+              },
+              {
+                "client_id": "SYN-CLI-007",
+                "id": "SYN-TX-007",
+                "monto": "262.19"
+              },
+              {
+                "client_id": "SYN-CLI-008",
+                "id": "SYN-TX-008",
+                "monto": "234.30"
+              },
+              {
+                "client_id": "unknown",
+                "id": "SYN-TX-009",
+                "monto": "26.91"
+              },
+              {
+                "client_id": "SYN-CLI-EDGE",
+                "id": "SYN-TX-010",
+                "monto": "395.19"
+              },
+              {
+                "client_id": "SYN-CLI-001",
+                "id": "SYN-TX-011",
+                "monto": "353.61"
+              },
+              {
+                "client_id": "SYN-CLI-002",
+                "id": "SYN-TX-012",
+                "monto": "242.68"
+              }
+            ]
+          },
+          "contract_id": "CP-N1-B",
+          "contract_version": "3.0.0",
+          "exit_code": 0,
+          "idempotent": true,
+          "n_clean": 21,
+          "n_in": 22,
+          "n_quarantine": 1,
+          "quarantine": {
+            "clients.csv": [
+              {
+                "parsed_row": {
+                  "id": "",
+                  "monto": "-5.00",
+                  "nombre": ""
+                },
+                "raw": ",,-5.00\n",
+                "reason": "missing_key",
+                "record_number": 9
+              }
+            ],
+            "transactions.json": []
+          },
+          "reconcile_ok": true,
+          "run_id": "syn-batch-4252",
+          "sources": [
+            {
+              "n_blank_ignored": 0,
+              "n_clean": 9,
+              "n_in": 10,
+              "n_quarantine": 1,
+              "name": "clients.csv",
+              "reconcile_ok": true,
+              "sha256": "2e650da813a2bcf7ae0697f6e139e311141d6881b864302a5083ab7c8b5d9d31"
+            },
+            {
+              "n_blank_ignored": 0,
+              "n_clean": 12,
+              "n_in": 12,
+              "n_quarantine": 0,
+              "name": "transactions.json",
+              "reconcile_ok": true,
+              "sha256": "f0bd90503838c22ff5790ee20b6d0e3f06a01e002bfb53cd780887ea66593d13"
             }
           ]
         },
         "CP-N1-C": {
-          "case_id": "SYN-CASE-001",
+          "case_id": "syn-familiarity-4252",
           "contract_id": "CP-N1-C",
-          "contract_version": "2.0.0",
+          "contract_version": "3.0.0",
           "correction_mechanism": true,
-          "decision_evidence": [
+          "decisions": [
             {
-              "auto": false,
-              "decision": "no_adverse_action",
-              "reason": "evidence-only review"
+              "a": "A*** S***",
+              "b": "B*** C***",
+              "evidence_score": 0.12,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.30",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-002",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "C*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-003",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "D*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-004",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "E*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-005",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "F*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-001-SYN-CLI-006",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "A*** S***",
+              "b": "G*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "H*** C***",
+              "evidence_score": 0.3,
+              "explanation": [
+                "ER score=0.50",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "needs_review",
+              "uncertainty": "low"
+            },
+            {
+              "a": "A*** S***",
+              "b": "E*** C***",
+              "evidence_score": 0.12,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.30",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "C*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-003",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "D*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-004",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "E*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-005",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "F*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-002-SYN-CLI-006",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "B*** C***",
+              "b": "G*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "H*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "B*** C***",
+              "b": "E*** C***",
+              "evidence_score": 0.12,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.30",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-002-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "C*** S***",
+              "b": "D*** C***",
+              "evidence_score": 0.32,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.80",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-004",
+              "rules_version": "n1-er-1.0",
+              "status": "needs_review",
+              "uncertainty": "high"
+            },
+            {
+              "a": "C*** S***",
+              "b": "E*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-005",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "C*** S***",
+              "b": "F*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-003-SYN-CLI-006",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "C*** S***",
+              "b": "G*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "C*** S***",
+              "b": "H*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "C*** S***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "D*** C***",
+              "b": "E*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-004-SYN-CLI-005",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "D*** C***",
+              "b": "F*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-004-SYN-CLI-006",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "D*** C***",
+              "b": "G*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-004-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "D*** C***",
+              "b": "H*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-004-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "D*** C***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-004-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "E*** S***",
+              "b": "F*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-005-SYN-CLI-006",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "E*** S***",
+              "b": "G*** S***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-005-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "E*** S***",
+              "b": "H*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-005-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "E*** S***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-005-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "F*** C***",
+              "b": "G*** S***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-006-SYN-CLI-007",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "F*** C***",
+              "b": "H*** C***",
+              "evidence_score": 0.027,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.07",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-006-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "F*** C***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=coords"
+              ],
+              "missing": [
+                "coords"
+              ],
+              "pair_id": "SYN-CLI-006-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "med"
+            },
+            {
+              "a": "G*** S***",
+              "b": "H*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-007-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "G*** S***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-007-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
+            },
+            {
+              "a": "H*** C***",
+              "b": "E*** C***",
+              "evidence_score": 0.0,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-008-SYN-CLI-EDGE",
+              "rules_version": "n1-er-1.0",
+              "status": "abstain",
+              "uncertainty": "low"
             }
           ],
           "entity_evidence": [
             {
-              "auto_label": false,
-              "signal": "single_account",
-              "source": "shared_scenario_v1"
+              "block_a": "sintetico|r-norte",
+              "block_b": "capstone|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-002"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "sintetico|r-centro",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-003"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "capstone|r-centro",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-004"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "sintetico|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-005"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-006"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-007"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.5,
+              "pair_id": "SYN-CLI-001-SYN-CLI-008"
+            },
+            {
+              "block_a": "sintetico|r-norte",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-001-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "sintetico|r-centro",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-003"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "capstone|r-centro",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-004"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "sintetico|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-005"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-006"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-007"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-008"
+            },
+            {
+              "block_a": "capstone|r-sur",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-002-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "capstone|r-centro",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-004"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "sintetico|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-005"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-006"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-007"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-008"
+            },
+            {
+              "block_a": "sintetico|r-centro",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-003-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "capstone|r-centro",
+              "block_b": "sintetico|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-004-SYN-CLI-005"
+            },
+            {
+              "block_a": "capstone|r-centro",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-004-SYN-CLI-006"
+            },
+            {
+              "block_a": "capstone|r-centro",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-004-SYN-CLI-007"
+            },
+            {
+              "block_a": "capstone|r-centro",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-004-SYN-CLI-008"
+            },
+            {
+              "block_a": "capstone|r-centro",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-004-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "sintetico|r-costa",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-005-SYN-CLI-006"
+            },
+            {
+              "block_a": "sintetico|r-costa",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-005-SYN-CLI-007"
+            },
+            {
+              "block_a": "sintetico|r-costa",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-005-SYN-CLI-008"
+            },
+            {
+              "block_a": "sintetico|r-costa",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-005-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "capstone|r-norte",
+              "block_b": "sintetico|r-sur",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-006-SYN-CLI-007"
+            },
+            {
+              "block_a": "capstone|r-norte",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-006-SYN-CLI-008"
+            },
+            {
+              "block_a": "capstone|r-norte",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-006-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "sintetico|r-sur",
+              "block_b": "capstone|r-norte",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-007-SYN-CLI-008"
+            },
+            {
+              "block_a": "sintetico|r-sur",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-007-SYN-CLI-EDGE"
+            },
+            {
+              "block_a": "capstone|r-norte",
+              "block_b": "case|r-costa",
+              "entity_resolution_score": 0.0,
+              "pair_id": "SYN-CLI-008-SYN-CLI-EDGE"
             }
           ],
           "human_review_required": true,
           "privacy_sheet": {
-            "correction": "human_reviewer_may_amend",
-            "data_minimization": "synthetic only",
-            "no_pii": "true",
-            "retention": "training_demo"
+            "data_class": "synthetic_only",
+            "egress_public_geocoder": "city_country_only",
+            "pii_real": false,
+            "roles": [
+              "viewer",
+              "reviewer"
+            ]
           },
           "relationship_evidence": [
             {
-              "auto_inferred": false,
-              "human_review_required": true,
-              "type": "shared_account_observation"
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-002",
+              "relationship_signal_score": 0.3,
+              "signals": [
+                "geo_close"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-003",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-004",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-005",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-006",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-007",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-008",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-001-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.3,
+              "signals": [
+                "geo_close"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-003",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-004",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-005",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-006",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-007",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-008",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-002-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.3,
+              "signals": [
+                "geo_close"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-004",
+              "relationship_signal_score": 0.8,
+              "signals": [
+                "shared_phone",
+                "geo_close"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-005",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-006",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-007",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-008",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-003-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-004-SYN-CLI-005",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-004-SYN-CLI-006",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-004-SYN-CLI-007",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-004-SYN-CLI-008",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-004-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-005-SYN-CLI-006",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-005-SYN-CLI-007",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-005-SYN-CLI-008",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-005-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-006-SYN-CLI-007",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-006-SYN-CLI-008",
+              "relationship_signal_score": 0.067,
+              "signals": [
+                "name_jaccard"
+              ]
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-006-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-007-SYN-CLI-008",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-007-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
+            },
+            {
+              "kinship_verdict": null,
+              "pair_id": "SYN-CLI-008-SYN-CLI-EDGE",
+              "relationship_signal_score": 0.0,
+              "signals": []
             }
-          ]
+          ],
+          "review_queue": [
+            {
+              "a": "C*** S***",
+              "b": "D*** C***",
+              "evidence_score": 0.32,
+              "explanation": [
+                "ER score=0.00",
+                "relationship_signal_score=0.80",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-003-SYN-CLI-004",
+              "rules_version": "n1-er-1.0",
+              "status": "needs_review",
+              "uncertainty": "high"
+            },
+            {
+              "a": "A*** S***",
+              "b": "H*** C***",
+              "evidence_score": 0.3,
+              "explanation": [
+                "ER score=0.50",
+                "relationship_signal_score=0.00",
+                "missing=none"
+              ],
+              "missing": [],
+              "pair_id": "SYN-CLI-001-SYN-CLI-008",
+              "rules_version": "n1-er-1.0",
+              "status": "needs_review",
+              "uncertainty": "low"
+            }
+          ],
+          "risk_decisions": [],
+          "rules_version": "n1-er-1.0"
         },
         "CP-N2-A": {
           "contract_id": "CP-N2-A",
           "contract_version": "2.0.0",
           "dataset_version": "shared_scenario_v1",
-          "executive_memo": "Dataset has 10 rows and 5 columns. Missingness ranges over 5 columns. Observations are descriptive; no causal claims are supported.",
+          "executive_memo": "Dataset has 10 rows and 10 columns. Missingness ranges over 10 columns. Observations are descriptive; no causal claims are supported.",
           "limitations": [
             "Descriptive statistics only — no causal interpretation.",
             "Synthetic data; not representative of any real population.",
@@ -518,12 +1652,17 @@
           ],
           "missingness": {
             "amount": 0.0,
+            "coords": 0.2,
+            "document_id": 0.1,
+            "edad": 0.1,
             "email": 0.0,
             "id": 0.1,
             "name": 0.1,
+            "phone": 0.1,
+            "region": 0.1,
             "status": 0.2
           },
-          "n_cols": 5,
+          "n_cols": 10,
           "n_rows": 10,
           "profile": {
             "columns": [
@@ -531,9 +1670,14 @@
               "name",
               "email",
               "amount",
-              "status"
+              "status",
+              "edad",
+              "region",
+              "document_id",
+              "phone",
+              "coords"
             ],
-            "n_cols": 5,
+            "n_cols": 10,
             "n_rows": 10,
             "stats": "descriptive_only_no_causal_inference"
           },
@@ -1110,7 +2254,7 @@
       "trace": [
         {
           "contract_id": "CP-N1-A",
-          "contract_version": "2.0.0",
+          "contract_version": "3.0.0",
           "duration_ms": 1.0,
           "note": "",
           "ok": true,
@@ -1119,7 +2263,7 @@
         },
         {
           "contract_id": "CP-N1-B",
-          "contract_version": "2.0.0",
+          "contract_version": "3.0.0",
           "duration_ms": 2.0,
           "note": "",
           "ok": true,
@@ -1128,7 +2272,7 @@
         },
         {
           "contract_id": "CP-N1-C",
-          "contract_version": "2.0.0",
+          "contract_version": "3.0.0",
           "duration_ms": 3.0,
           "note": "",
           "ok": true,
@@ -1225,181 +2369,1315 @@
     "subsystem_results": {
       "CP-N1-A": {
         "contract_id": "CP-N1-A",
-        "contract_version": "2.0.0",
+        "contract_version": "3.0.0",
         "malformed_handled": true,
-        "n_error": 1,
-        "n_ok": 8,
+        "n_accept": 6,
+        "n_reject": 2,
+        "n_review": 2,
         "n_total": 10,
-        "n_warn": 1,
-        "rows": [
+        "results": [
           {
-            "id": "SYN-CLI-001",
-            "status": "ok"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-001|34|R-NORTE|870.01"
           },
           {
-            "id": "SYN-CLI-002",
-            "status": "ok"
+            "estado": "review",
+            "motivos": [
+              "edad:NEEDS_REVIEW"
+            ],
+            "raw_line": "SYN-CLI-002|16|R-SUR|994.27"
           },
           {
-            "id": "SYN-CLI-003",
-            "status": "ok"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-003|45|R-CENTRO|683.8"
           },
           {
-            "id": "SYN-CLI-004",
-            "status": "ok"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-004|29|R-CENTRO|538.5"
           },
           {
-            "id": "SYN-CLI-005",
-            "status": "ok"
+            "estado": "reject",
+            "motivos": [
+              "edad:OUT_OF_RANGE"
+            ],
+            "raw_line": "SYN-CLI-005|150|R-COSTA|209.7"
           },
           {
-            "id": "SYN-CLI-006",
-            "status": "ok"
+            "estado": "review",
+            "motivos": [
+              "region:NOT_IN_ALLOWLIST"
+            ],
+            "raw_line": "SYN-CLI-006|52|r-norte|702.46"
           },
           {
-            "id": "SYN-CLI-007",
-            "status": "ok"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-007|38|R-SUR|419.47"
           },
           {
-            "id": "SYN-CLI-008",
-            "status": "ok"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-008|61|R-NORTE|573.26"
           },
           {
-            "id": null,
-            "status": "error"
+            "estado": "reject",
+            "motivos": [
+              "edad:MISSING",
+              "region:MISSING",
+              "monto_ingreso:OUT_OF_RANGE"
+            ],
+            "raw_line": "|None|None|-5"
           },
           {
-            "id": "SYN-CLI-EDGE",
-            "status": "warn"
-          }
-        ]
-      },
-      "CP-N1-B": {
-        "accepted": [
-          {
-            "amount": 870.01,
-            "email": "ana.sintetico@example.test",
-            "id": "SYN-CLI-001",
-            "name": "Ana Sintetico",
-            "status": "review"
-          },
-          {
-            "amount": 994.27,
-            "email": "bruno.capstone@example.test",
-            "id": "SYN-CLI-002",
-            "name": "Bruno Capstone",
-            "status": "ok"
-          },
-          {
-            "amount": 683.8,
-            "email": "carla.sintetico@example.test",
-            "id": "SYN-CLI-003",
-            "name": "Carla Sintetico",
-            "status": "review"
-          },
-          {
-            "amount": 538.5,
-            "email": "diego.capstone@example.test",
-            "id": "SYN-CLI-004",
-            "name": "Diego Capstone",
-            "status": "ok"
-          },
-          {
-            "amount": 209.7,
-            "email": "eva.sintetico@example.test",
-            "id": "SYN-CLI-005",
-            "name": "Eva Sintetico",
-            "status": "ok"
-          },
-          {
-            "amount": 702.46,
-            "email": "franco.capstone@example.test",
-            "id": "SYN-CLI-006",
-            "name": "Franco Capstone",
-            "status": "review"
-          },
-          {
-            "amount": 419.47,
-            "email": "gina.sintetico@example.test",
-            "id": "SYN-CLI-007",
-            "name": "Gina Sintetico",
-            "status": "ok"
-          },
-          {
-            "amount": 573.26,
-            "email": "hugo.capstone@example.test",
-            "id": "SYN-CLI-008",
-            "name": "Hugo Capstone",
-            "status": "ok"
-          },
-          {
-            "amount": 0,
-            "email": "edge@example.test",
-            "id": "SYN-CLI-EDGE",
-            "name": "Edge Case"
+            "estado": "accept",
+            "motivos": [],
+            "raw_line": "SYN-CLI-EDGE|18|R-COSTA|0"
           }
         ],
-        "batch_id": "syn-batch-4252",
-        "contract_id": "CP-N1-B",
-        "contract_version": "2.0.0",
-        "idempotent": true,
-        "manifest_hash": "59f3ac3b93744da5",
-        "provenance": {
-          "generator": "etl.run",
-          "schema_version": "1.0.0",
-          "source": "shared_scenario_v1"
-        },
-        "quarantine": [
-          {
-            "reason": "intake_classifier_error",
-            "row": {
-              "amount": -5,
-              "email": "bad",
-              "id": null,
-              "name": ""
+        "tasa_reject": 0.2
+      },
+      "CP-N1-B": {
+        "clean": {
+          "clients.csv": [
+            {
+              "id": "SYN-CLI-001",
+              "monto": "870.01",
+              "nombre": "Ana Sintetico"
+            },
+            {
+              "id": "SYN-CLI-002",
+              "monto": "994.27",
+              "nombre": "Bruno Capstone"
+            },
+            {
+              "id": "SYN-CLI-003",
+              "monto": "683.80",
+              "nombre": "Carla Sintetico"
+            },
+            {
+              "id": "SYN-CLI-004",
+              "monto": "538.50",
+              "nombre": "Diego Capstone"
+            },
+            {
+              "id": "SYN-CLI-005",
+              "monto": "209.70",
+              "nombre": "Eva Sintetico"
+            },
+            {
+              "id": "SYN-CLI-006",
+              "monto": "702.46",
+              "nombre": "Franco Capstone"
+            },
+            {
+              "id": "SYN-CLI-007",
+              "monto": "419.47",
+              "nombre": "Gina Sintetico"
+            },
+            {
+              "id": "SYN-CLI-008",
+              "monto": "573.26",
+              "nombre": "Hugo Capstone"
+            },
+            {
+              "id": "SYN-CLI-EDGE",
+              "monto": "0.00",
+              "nombre": "Edge Case"
             }
+          ],
+          "transactions.json": [
+            {
+              "client_id": "SYN-CLI-001",
+              "id": "SYN-TX-001",
+              "monto": "416.14"
+            },
+            {
+              "client_id": "SYN-CLI-002",
+              "id": "SYN-TX-002",
+              "monto": "349.72"
+            },
+            {
+              "client_id": "SYN-CLI-003",
+              "id": "SYN-TX-003",
+              "monto": "1.14"
+            },
+            {
+              "client_id": "SYN-CLI-004",
+              "id": "SYN-TX-004",
+              "monto": "303.84"
+            },
+            {
+              "client_id": "SYN-CLI-005",
+              "id": "SYN-TX-005",
+              "monto": "440.71"
+            },
+            {
+              "client_id": "SYN-CLI-006",
+              "id": "SYN-TX-006",
+              "monto": "364.99"
+            },
+            {
+              "client_id": "SYN-CLI-007",
+              "id": "SYN-TX-007",
+              "monto": "262.19"
+            },
+            {
+              "client_id": "SYN-CLI-008",
+              "id": "SYN-TX-008",
+              "monto": "234.30"
+            },
+            {
+              "client_id": "unknown",
+              "id": "SYN-TX-009",
+              "monto": "26.91"
+            },
+            {
+              "client_id": "SYN-CLI-EDGE",
+              "id": "SYN-TX-010",
+              "monto": "395.19"
+            },
+            {
+              "client_id": "SYN-CLI-001",
+              "id": "SYN-TX-011",
+              "monto": "353.61"
+            },
+            {
+              "client_id": "SYN-CLI-002",
+              "id": "SYN-TX-012",
+              "monto": "242.68"
+            }
+          ]
+        },
+        "contract_id": "CP-N1-B",
+        "contract_version": "3.0.0",
+        "exit_code": 0,
+        "idempotent": true,
+        "n_clean": 21,
+        "n_in": 22,
+        "n_quarantine": 1,
+        "quarantine": {
+          "clients.csv": [
+            {
+              "parsed_row": {
+                "id": "",
+                "monto": "-5.00",
+                "nombre": ""
+              },
+              "raw": ",,-5.00\n",
+              "reason": "missing_key",
+              "record_number": 9
+            }
+          ],
+          "transactions.json": []
+        },
+        "reconcile_ok": true,
+        "run_id": "syn-batch-4252",
+        "sources": [
+          {
+            "n_blank_ignored": 0,
+            "n_clean": 9,
+            "n_in": 10,
+            "n_quarantine": 1,
+            "name": "clients.csv",
+            "reconcile_ok": true,
+            "sha256": "2e650da813a2bcf7ae0697f6e139e311141d6881b864302a5083ab7c8b5d9d31"
+          },
+          {
+            "n_blank_ignored": 0,
+            "n_clean": 12,
+            "n_in": 12,
+            "n_quarantine": 0,
+            "name": "transactions.json",
+            "reconcile_ok": true,
+            "sha256": "f0bd90503838c22ff5790ee20b6d0e3f06a01e002bfb53cd780887ea66593d13"
           }
         ]
       },
       "CP-N1-C": {
-        "case_id": "SYN-CASE-001",
+        "case_id": "syn-familiarity-4252",
         "contract_id": "CP-N1-C",
-        "contract_version": "2.0.0",
+        "contract_version": "3.0.0",
         "correction_mechanism": true,
-        "decision_evidence": [
+        "decisions": [
           {
-            "auto": false,
-            "decision": "no_adverse_action",
-            "reason": "evidence-only review"
+            "a": "A*** S***",
+            "b": "B*** C***",
+            "evidence_score": 0.12,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.30",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-002",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "C*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-003",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "D*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-004",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "E*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-005",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "F*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-001-SYN-CLI-006",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "A*** S***",
+            "b": "G*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "H*** C***",
+            "evidence_score": 0.3,
+            "explanation": [
+              "ER score=0.50",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "needs_review",
+            "uncertainty": "low"
+          },
+          {
+            "a": "A*** S***",
+            "b": "E*** C***",
+            "evidence_score": 0.12,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.30",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "C*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-003",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "D*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-004",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "E*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-005",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "F*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-002-SYN-CLI-006",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "B*** C***",
+            "b": "G*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "H*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "B*** C***",
+            "b": "E*** C***",
+            "evidence_score": 0.12,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.30",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-002-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "C*** S***",
+            "b": "D*** C***",
+            "evidence_score": 0.32,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.80",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-004",
+            "rules_version": "n1-er-1.0",
+            "status": "needs_review",
+            "uncertainty": "high"
+          },
+          {
+            "a": "C*** S***",
+            "b": "E*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-005",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "C*** S***",
+            "b": "F*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-003-SYN-CLI-006",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "C*** S***",
+            "b": "G*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "C*** S***",
+            "b": "H*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "C*** S***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "D*** C***",
+            "b": "E*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-004-SYN-CLI-005",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "D*** C***",
+            "b": "F*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-004-SYN-CLI-006",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "D*** C***",
+            "b": "G*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-004-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "D*** C***",
+            "b": "H*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-004-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "D*** C***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-004-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "E*** S***",
+            "b": "F*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-005-SYN-CLI-006",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "E*** S***",
+            "b": "G*** S***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-005-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "E*** S***",
+            "b": "H*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-005-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "E*** S***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-005-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "F*** C***",
+            "b": "G*** S***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-006-SYN-CLI-007",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "F*** C***",
+            "b": "H*** C***",
+            "evidence_score": 0.027,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.07",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-006-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "F*** C***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=coords"
+            ],
+            "missing": [
+              "coords"
+            ],
+            "pair_id": "SYN-CLI-006-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "med"
+          },
+          {
+            "a": "G*** S***",
+            "b": "H*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-007-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "G*** S***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-007-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
+          },
+          {
+            "a": "H*** C***",
+            "b": "E*** C***",
+            "evidence_score": 0.0,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-008-SYN-CLI-EDGE",
+            "rules_version": "n1-er-1.0",
+            "status": "abstain",
+            "uncertainty": "low"
           }
         ],
         "entity_evidence": [
           {
-            "auto_label": false,
-            "signal": "single_account",
-            "source": "shared_scenario_v1"
+            "block_a": "sintetico|r-norte",
+            "block_b": "capstone|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-002"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "sintetico|r-centro",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-003"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "capstone|r-centro",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-004"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "sintetico|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-005"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-006"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-007"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.5,
+            "pair_id": "SYN-CLI-001-SYN-CLI-008"
+          },
+          {
+            "block_a": "sintetico|r-norte",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-001-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "sintetico|r-centro",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-003"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "capstone|r-centro",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-004"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "sintetico|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-005"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-006"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-007"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-008"
+          },
+          {
+            "block_a": "capstone|r-sur",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-002-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "capstone|r-centro",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-004"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "sintetico|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-005"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-006"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-007"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-008"
+          },
+          {
+            "block_a": "sintetico|r-centro",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-003-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "capstone|r-centro",
+            "block_b": "sintetico|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-004-SYN-CLI-005"
+          },
+          {
+            "block_a": "capstone|r-centro",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-004-SYN-CLI-006"
+          },
+          {
+            "block_a": "capstone|r-centro",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-004-SYN-CLI-007"
+          },
+          {
+            "block_a": "capstone|r-centro",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-004-SYN-CLI-008"
+          },
+          {
+            "block_a": "capstone|r-centro",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-004-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "sintetico|r-costa",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-005-SYN-CLI-006"
+          },
+          {
+            "block_a": "sintetico|r-costa",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-005-SYN-CLI-007"
+          },
+          {
+            "block_a": "sintetico|r-costa",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-005-SYN-CLI-008"
+          },
+          {
+            "block_a": "sintetico|r-costa",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-005-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "capstone|r-norte",
+            "block_b": "sintetico|r-sur",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-006-SYN-CLI-007"
+          },
+          {
+            "block_a": "capstone|r-norte",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-006-SYN-CLI-008"
+          },
+          {
+            "block_a": "capstone|r-norte",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-006-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "sintetico|r-sur",
+            "block_b": "capstone|r-norte",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-007-SYN-CLI-008"
+          },
+          {
+            "block_a": "sintetico|r-sur",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-007-SYN-CLI-EDGE"
+          },
+          {
+            "block_a": "capstone|r-norte",
+            "block_b": "case|r-costa",
+            "entity_resolution_score": 0.0,
+            "pair_id": "SYN-CLI-008-SYN-CLI-EDGE"
           }
         ],
         "human_review_required": true,
         "privacy_sheet": {
-          "correction": "human_reviewer_may_amend",
-          "data_minimization": "synthetic only",
-          "no_pii": "true",
-          "retention": "training_demo"
+          "data_class": "synthetic_only",
+          "egress_public_geocoder": "city_country_only",
+          "pii_real": false,
+          "roles": [
+            "viewer",
+            "reviewer"
+          ]
         },
         "relationship_evidence": [
           {
-            "auto_inferred": false,
-            "human_review_required": true,
-            "type": "shared_account_observation"
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-002",
+            "relationship_signal_score": 0.3,
+            "signals": [
+              "geo_close"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-003",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-004",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-005",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-006",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-007",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-008",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-001-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.3,
+            "signals": [
+              "geo_close"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-003",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-004",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-005",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-006",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-007",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-008",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-002-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.3,
+            "signals": [
+              "geo_close"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-004",
+            "relationship_signal_score": 0.8,
+            "signals": [
+              "shared_phone",
+              "geo_close"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-005",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-006",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-007",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-008",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-003-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-004-SYN-CLI-005",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-004-SYN-CLI-006",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-004-SYN-CLI-007",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-004-SYN-CLI-008",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-004-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-005-SYN-CLI-006",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-005-SYN-CLI-007",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-005-SYN-CLI-008",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-005-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-006-SYN-CLI-007",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-006-SYN-CLI-008",
+            "relationship_signal_score": 0.067,
+            "signals": [
+              "name_jaccard"
+            ]
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-006-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-007-SYN-CLI-008",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-007-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
+          },
+          {
+            "kinship_verdict": null,
+            "pair_id": "SYN-CLI-008-SYN-CLI-EDGE",
+            "relationship_signal_score": 0.0,
+            "signals": []
           }
-        ]
+        ],
+        "review_queue": [
+          {
+            "a": "C*** S***",
+            "b": "D*** C***",
+            "evidence_score": 0.32,
+            "explanation": [
+              "ER score=0.00",
+              "relationship_signal_score=0.80",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-003-SYN-CLI-004",
+            "rules_version": "n1-er-1.0",
+            "status": "needs_review",
+            "uncertainty": "high"
+          },
+          {
+            "a": "A*** S***",
+            "b": "H*** C***",
+            "evidence_score": 0.3,
+            "explanation": [
+              "ER score=0.50",
+              "relationship_signal_score=0.00",
+              "missing=none"
+            ],
+            "missing": [],
+            "pair_id": "SYN-CLI-001-SYN-CLI-008",
+            "rules_version": "n1-er-1.0",
+            "status": "needs_review",
+            "uncertainty": "low"
+          }
+        ],
+        "risk_decisions": [],
+        "rules_version": "n1-er-1.0"
       },
       "CP-N2-A": {
         "contract_id": "CP-N2-A",
         "contract_version": "2.0.0",
         "dataset_version": "shared_scenario_v1",
-        "executive_memo": "Dataset has 10 rows and 5 columns. Missingness ranges over 5 columns. Observations are descriptive; no causal claims are supported.",
+        "executive_memo": "Dataset has 10 rows and 10 columns. Missingness ranges over 10 columns. Observations are descriptive; no causal claims are supported.",
         "limitations": [
           "Descriptive statistics only — no causal interpretation.",
           "Synthetic data; not representative of any real population.",
@@ -1407,12 +3685,17 @@
         ],
         "missingness": {
           "amount": 0.0,
+          "coords": 0.2,
+          "document_id": 0.1,
+          "edad": 0.1,
           "email": 0.0,
           "id": 0.1,
           "name": 0.1,
+          "phone": 0.1,
+          "region": 0.1,
           "status": 0.2
         },
-        "n_cols": 5,
+        "n_cols": 10,
         "n_rows": 10,
         "profile": {
           "columns": [
@@ -1420,9 +3703,14 @@
             "name",
             "email",
             "amount",
-            "status"
+            "status",
+            "edad",
+            "region",
+            "document_id",
+            "phone",
+            "coords"
           ],
-          "n_cols": 5,
+          "n_cols": 10,
           "n_rows": 10,
           "stats": "descriptive_only_no_causal_inference"
         },
