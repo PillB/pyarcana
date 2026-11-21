@@ -4,11 +4,11 @@
   "name": "Client Intake & Data Quality Script",
   "level": 1,
   "acceptance_criteria": [
-    "Script lee registros sintéticos y emite estados válidos (accept/review/reject).",
-    "Validación de campos obligatorios y formatos simples sin PII real.",
-    "Tasa de rechazo del lote calculada y reportada en métricas JSON (None si el lote está vacío).",
-    "Casos borde (vacíos, tipos incorrectos) no crashean el proceso.",
-    "Salida reproducible con seed fija y exit code 0 en demo."
+    "cp_n1_a.run() clasifica cada registro sintético como accept, review o reject según las reglas 1 a 5 de BRIEF.md, con sus motivos.",
+    "Cada campo se valida por tipo y rango; ningún dato es de una persona real.",
+    "tasa_reject = n_reject / n_total, y None si el lote está vacío (null en METRICS_JSON).",
+    "Un registro malformado (tipo incorrecto, NaN, campo ausente) no detiene el lote.",
+    "Salida determinista; las 11 pruebas pasan contra la referencia y fallan contra el starter sin completar."
   ],
   "rubric_0_3": {
     "correctness": {
@@ -55,7 +55,7 @@
       },
       "focus": "Solo datos sintéticos; no almacena ni expone PII real."
     },
-    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+    "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0."
   },
   "dependencies": [
     "S01",
@@ -64,21 +64,13 @@
     "S04"
   ],
   "wow_factor_definition": "Demo local que valida un lote sintético de intake, imprime métricas (n_total, n_accept, n_reject, tasa_reject) y un resumen legible para stakeholders.",
-  "scoring_weights_reference": {
-    "correctness": 0.35,
-    "edge_cases_data": 0.2,
-    "tests": 0.15,
-    "design": 0.1,
-    "reproducibility": 0.1,
-    "communication_limits": 0.1,
-    "pass_threshold": 0.8
-  },
   "prohibitions": [
     "No real PII",
     "No fraud inference as automatic decision",
     "No hardcoded production secrets",
     "Synthetic or legally reusable data only"
   ],
-  "package_version": "2.0.0",
-  "generated_at": "2026-07-20T14:53:43Z"
+  "package_version": "3.0.0",
+  "generated_at": "2026-07-20T14:53:43Z",
+  "rubric_source": "RUBRIC.json: los pesos y la regla de aprobación son los de ese archivo; tests/adversarial/test_cp_n1_a_contract.py comprueba que coinciden."
 }

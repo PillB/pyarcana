@@ -9,7 +9,7 @@ VAL = ROOT / "capstone_validation"
 
 # Mirror of src/lib/capstones/catalog.ts (single source of truth).
 CAPS = [
-  ("CP-N1-A","2.0.0","CLI Reproducible de Admisión de Clientes y Calidad de Datos",1,"S04",["S01","S02","S03","S04"],[],[],"capstone_foundations","intake_cli.run(records) -> IntakeResult",["Usa PII real","Calcula denominadores incorrectamente","No maneja entrada malformada","Sin tests"],False),
+  ("CP-N1-A","3.0.0","CLI Reproducible de Admisión de Clientes y Calidad de Datos",1,"S04",["S01","S02","S03","S04"],[],[],"capstone_foundations","cp_n1_a.run(records) -> dict",["Usa PII real","Calcula denominadores incorrectamente","No maneja entrada malformada","Sin tests"],False),
   ("CP-N1-B","2.0.0","Pipeline ETL Reproducible de Clientes y Transacciones",1,"S08",["S05","S06","S07","S08"],["CP-N1-A"],["S05","S06","S07"],"capstone_foundations","etl.run(batch) -> EtlManifest",["Expone secretos","No es idempotente","Sin cuarentena","Pierde proveniencia"],False),
   ("CP-N1-C","2.0.0","Tablero de Evidencia de Familiaridad",1,"S13",["S09","S10","S11","S12","S13"],["CP-N1-A","CP-N1-B"],["S09","S10","S11","S12"],"capstone_foundations","familiarity.review(case) -> ReviewPacket",["Infiere fraude/parentesco automáticamente","Sin revisión humana","Sin hoja de privacidad","Sin mecanismo de corrección"],False),
   ("CP-N2-A","2.0.0","Portafolio Ejecutivo de Calidad de Datos y EDA",2,"S17",["S14","S15","S16","S17"],["CP-N1-C"],["S14","S15","S16"],"capstone_independent","eda.profile(dataset) -> EdaReport",["Interpretación causal no soportada","Sin reproducibilidad","Sin memo ejecutivo","Sin limitaciones"],False),
@@ -24,6 +24,23 @@ CAPS = [
   ("CP-FINAL","2.0.0","Plataforma de Inteligencia de Relaciones y Operaciones",4,"S52",["S52"],["CP-N1-A","CP-N1-B","CP-N1-C","CP-N2-A","CP-N2-B","CP-N2-C","CP-N3-A","CP-N3-B","CP-N3-C","CP-N4-A","CP-N4-B","CP-N4-C"],["S04","S08","S13","S17","S21","S26","S30","S34","S39","S43","S47","S51"],"capstone_integrated_mastery","platform.integrate(scenario) -> IntegrationBundle",["Colección de repositorios sin contratos","Sin pruebas end-to-end","Sin rollback","Sin tarjetas (data/model/system)","Sin runbook operacional"],True),
 ]
 GATE_MAP = {"S04":"CP-N1-A","S08":"CP-N1-B","S13":"CP-N1-C","S17":"CP-N2-A","S21":"CP-N2-B","S26":"CP-N2-C","S30":"CP-N3-A","S34":"CP-N3-B","S39":"CP-N3-C","S43":"CP-N4-A","S47":"CP-N4-B","S51":"CP-N4-C","S52":"CP-FINAL"}
+
+def final_contracts() -> dict:
+    """What CP-FINAL integrates from each upstream capstone. Field 9 of a CAPS row is the
+    interface and field 10 its critical failures; this read field 10 as the interface until
+    proposal 11, so a regeneration replaced every interface with a list of failures."""
+    fin = next(c for c in CAPS if c[11])
+    by_id = {c[0]: c for c in CAPS}
+    contracts = [{"capstoneId": d, "interface": by_id[d][9], "version": by_id[d][1],
+                  "contractType": "python_module", "syntheticScenario": "shared_scenario_v1",
+                  "contractTestsPresent": True, "criticalFailures": by_id[d][10]} for d in fin[6]]
+    return {"version": "1.0.0", "finalCapstone": "CP-FINAL", "upstreamCount": len(fin[6]),
+            "sharedSyntheticScenario": "shared_scenario_v1", "contracts": contracts}
+
+
+def final_contracts_text() -> str:
+    return json.dumps(final_contracts(), ensure_ascii=False, indent=2) + "\n"
+
 
 def main():
     (VAL/"capstones").mkdir(parents=True,exist_ok=True)
@@ -47,8 +64,7 @@ def main():
     for d in fin[6]: edges.append({"from":d,"to":"CP-FINAL","type":"final_integrates"})
     (VAL/"architecture"/"capstone_dependency_graph.json").write_text(json.dumps({"version":"1.0.0","nodes":nodes,"edges":edges,"finalIntegratesCount":len(fin[6])},ensure_ascii=False,indent=2))
     # final integration contracts
-    contracts=[{"capstoneId":d,"interface":next(c[10] for c in CAPS if c[0]==d),"version":next(c[1] for c in CAPS if c[0]==d),"contractType":"python_module","syntheticScenario":"shared_scenario_v1","contractTestsPresent":True} for d in fin[6]]
-    (VAL/"architecture"/"final_integration_contracts.json").write_text(json.dumps({"version":"1.0.0","finalCapstone":"CP-FINAL","upstreamCount":len(fin[6]),"sharedSyntheticScenario":"shared_scenario_v1","contracts":contracts},ensure_ascii=False,indent=2))
+    (VAL/"architecture"/"final_integration_contracts.json").write_text(final_contracts_text())
     # section-capstone mapping
     s2c={}
     for c in CAPS:

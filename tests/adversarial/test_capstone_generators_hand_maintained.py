@@ -135,7 +135,8 @@ class ExecutionRecordIsMeasured(unittest.TestCase):
                 pkg = CAPSTONES / cid
                 recorded = json.loads((pkg / "execution.json").read_text(encoding="utf-8"))
                 measured = enrich.execution_record(pkg, cid, recorded["version"])
-                for key in ("execution_status", "demo_exits_zero", "tests_pass", "placeholder_tests"):
+                for key in ("execution_status", "demo_exits_zero", "tests_pass", "placeholder_tests",
+                            "starter_fails"):
                     self.assertEqual(recorded.get(key), measured[key], key)
 
     def test_the_index_agrees_with_each_record(self):
