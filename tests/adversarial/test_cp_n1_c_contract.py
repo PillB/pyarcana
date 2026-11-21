@@ -99,9 +99,15 @@ MUTANTS = {
     "empty_reason_accepted": [("    if not isinstance(reason, str) or not reason.strip():",
                                "    if not isinstance(reason, str):")],
     "unknown_status_accepted": [("    if new_status not in STATUSES:", "    if not new_status:")],
-    "correction_edits_the_original": [('            d = {**d, "status": new_status}', '            d["status"] = new_status')],
+    "correction_edits_the_original": [("        d = dict(d)  # una copia", "        d = d  # una copia")],
     "correction_not_logged": [("                   corrections=packet.corrections + (entry,))",
                                "                   corrections=packet.corrections)")],
+    # Codex review on #177: coords "" crashed haversine_km; the corrected packet shared dicts.
+    "empty_coords_present": [('    if a.get("coords") in (None, "") or b.get("coords") in (None, ""):',
+                              '    if a.get("coords") is None or b.get("coords") is None:')],
+    "correction_shares_decisions": [  # copies only the corrected pair, as 3.0.0 first did
+        ("        d = dict(d)  # una copia", "        pass  # una copia"),
+        ('            d["status"] = new_status', '            d = {**d, "status": new_status}')],
 }
 
 
@@ -119,6 +125,13 @@ def load(path: Path, name: str):
 
 class CpN1CFollowsTheS13Contract(unittest.TestCase):
     longMessage = False
+
+    def test_every_learner_facing_check_says_what_failed(self):
+        """A bare assert prints an empty AssertionError (AGENTS.md, Fail loudly; Codex on #177)."""
+        import ast
+        tree = ast.parse((PKG / "tests" / "test_demo.py").read_text(encoding="utf-8"))
+        bare = [n.lineno for n in ast.walk(tree) if isinstance(n, ast.Assert) and n.msg is None]
+        self.assertEqual(bare, [], "asserts without a message in CP-N1-C/tests/test_demo.py")
 
     def test_no_placeholder_or_automatic_label_remains(self):
         tests = (PKG / "tests" / "test_demo.py").read_text(encoding="utf-8")

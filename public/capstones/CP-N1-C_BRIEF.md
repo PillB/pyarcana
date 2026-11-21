@@ -118,6 +118,12 @@ reason) -> ReviewPacket`. Con `data/case.json`: 66 pares, 1 `accept_pair`, 9 `ne
 - **¿Por qué no puedo cambiar `packet.decisions`?** Porque `ReviewPacket` es `frozen`: una
   corrección construye un paquete nuevo, y el anterior queda como estaba. Así la corrección queda
   anotada.
+- **Entonces, ¿`frozen` hace que nada cambie?** No del todo. `frozen` impide reasignar los campos
+  del paquete, pero cada decisión es un dict, y `packet.decisions[0]["status"] = "abstain"`
+  todavía funciona. Ese cambio no deja anotación ni motivo, así que no es una corrección: cambia
+  un estado solo con `apply_correction`. Por eso `apply_correction` copia cada decisión
+  (`dict(d)`): si el paquete nuevo compartiera un dict con el original, tocar uno cambiaría el
+  otro.
 
 ## Criterios de aceptación
 - la identidad, la relación y la decisión van en tres capas separadas, y ninguna lleva el score

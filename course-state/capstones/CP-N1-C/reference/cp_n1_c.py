@@ -69,7 +69,7 @@ def haversine_km(a, b) -> float:
 def relationship_signals(a: dict, b: dict) -> dict:
     """Las tres señales: shared_phone, geo_close y name_jaccard. Lo ausente no es evidencia."""
     shared_phone = bool(a.get("phone")) and a.get("phone") == b.get("phone")
-    if a.get("coords") is None or b.get("coords") is None:
+    if a.get("coords") in (None, "") or b.get("coords") in (None, ""):  # ausente, como en missing_fields
         geo_close = False
     else:
         geo_close = haversine_km(a["coords"], b["coords"]) <= GEO_KM
@@ -218,9 +218,10 @@ def apply_correction(packet: ReviewPacket, pair_id: str, new_status: str,
         raise ValueError("par desconocido: " + repr(pair_id))
     decisions, old_status = [], None
     for d in packet.decisions:
+        d = dict(d)  # una copia de cada decisión: el paquete nuevo no comparte ninguna con el original
         if d["pair_id"] == pair_id:
             old_status = d["status"]
-            d = {**d, "status": new_status}
+            d["status"] = new_status
         decisions.append(d)
     entry = {"pair_id": pair_id, "from": old_status, "to": new_status,
              "reason": reason.strip(), "rules_version": packet.rules_version}
