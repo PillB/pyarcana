@@ -25,17 +25,35 @@ BUILD_SCRIPTS = (
 )
 
 
+# A command that runs it, not a mention: redeploy.sh's own stop message names the fix in prose, and a
+# plain substring match on "prisma generate" there skipped this test silently (found 21 Nov 2026).
+# Shell: a line that starts with the command. JS: spawning prisma with "generate" as an argument.
+# Limit: a quoted message whose own line starts with `bunx prisma generate` still counts as a command.
+RUNS_GENERATE = re.compile(
+    r"^\s*(?:bunx|npx|bun\s+x|bun\s+run)\s+prisma\s+generate\b|[\"']prisma[\"']\s*,\s*\[\s*[\"']generate[\"']",
+    re.MULTILINE,
+)
+
+
 class BunTrustedDependenciesTests(unittest.TestCase):
     def test_the_prisma_client_the_build_imports_is_generated_on_install(self) -> None:
         db = (ROOT / "src/lib/db.ts").read_text(encoding="utf-8")
         if not re.search(r"from ['\"]@prisma/client['\"]", db):
             self.skipTest("src/lib/db.ts no longer imports @prisma/client")
-        generates = any("prisma generate" in (ROOT / p).read_text(encoding="utf-8") for p in BUILD_SCRIPTS)
+        generates = any(RUNS_GENERATE.search((ROOT / p).read_text(encoding="utf-8")) for p in BUILD_SCRIPTS)
         if generates:
             self.skipTest("a build script generates the client itself")
         trusted = json.loads((ROOT / "package.json").read_text(encoding="utf-8")).get("trustedDependencies", [])
         for name in ("@prisma/client", "prisma"):
             self.assertIn(name, trusted, f"{name} must be in package.json trustedDependencies: bun 1.4 blocks its install script")
+
+    def test_a_mention_is_not_a_command(self) -> None:
+        """The skip above fires only on a command; prose that names the fix must not turn the guard off."""
+        self.assertIsNone(RUNS_GENERATE.search('die "STOP: ... If they do, run prisma generate by hand."'))
+        self.assertIsNone(RUNS_GENERATE.search("# we no longer run bunx prisma generate here"))
+        self.assertIsNotNone(RUNS_GENERATE.search("bun install\nbunx prisma generate\n"))
+        self.assertIsNotNone(RUNS_GENERATE.search("  npx prisma generate --schema prisma/schema.prisma"))
+        self.assertIsNotNone(RUNS_GENERATE.search("spawnSync('prisma', ['generate'])"))
 
 
 if __name__ == "__main__":
