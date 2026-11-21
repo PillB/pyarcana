@@ -758,3 +758,25 @@ back. Read this list before a section round; every item cost at least one failed
   the test does not read the value it checks. That is the intended design, not drift. Guard: a
   catalog version bump updates both maps in the same commit, and K4 now also refuses the version a
   badge had before the bump.
+- **A positional tuple read one field off.** `generate_capstone_validation.py` built each CAPSTONE
+  row as a 12-item tuple and read `c[10]` (critical failures) as the interface, so all 12 upstream
+  entries in `final_integration_contracts.json` held a list where a signature belongs. Proposal 11
+  fixed CP-N1-A's entry by hand, and the next regeneration would have undone it (Codex on #175).
+  Root cause: indexes into an unnamed tuple, and no test compared the generator's output with the
+  committed file. Fix: `final_contracts()` names what it reads and emits `criticalFailures`; the
+  committed file is its output, and `test_regenerating_keeps_the_final_contracts` checks it, and
+  checks that every interface is a string with `->`. Guard: when you hand-fix a generated file, fix
+  the generator in the same commit and add a regenerate-and-compare test.
+- **A new input rule broke a caller two packages away.** CP-N1-B's `run` began refusing a `run_id`
+  that is not ASCII letters and digits, to keep `backups/{run_id}` inside `out_dir` (Codex on #176).
+  CP-FINAL passes its batch id, `syn-batch-001`, and 15 CP-FINAL tests went red; the package's own
+  suite stayed green. Root cause: the rule was written from the attack (`../x`) and checked only
+  against the package's own tests. Fix: allow `-` and `_`, keep refusing `/` and `.`. Guard: before
+  tightening an interface, `git grep` its callers (here `upstream.load("CP-N1-B")`) and run their
+  suites on the stack's tip, not only the branch you changed.
+- **Bare asserts in a learner suite hide the defect.** All three CP-N1 suites had message-less
+  asserts; the runner printed the test's docstring and an empty `AssertionError`, so a learner could
+  not tell which of seven checks failed. Codex found it in CP-N1-B and CP-N1-C; CP-N1-A had 21 more.
+  Fix: an `igual(obtenido, esperado, que)` helper (with `is` for None and booleans), the runner
+  prints the failing line, and each package's adversarial test refuses a bare assert (`ast`).
+  Guard: when a finding names one file, grep the sibling packages for the same pattern.
