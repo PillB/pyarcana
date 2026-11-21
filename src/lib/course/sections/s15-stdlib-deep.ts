@@ -1847,7 +1847,11 @@ def _run_tests() -> None:
     assert len(df) == 3
     assert report.get("score", 0) >= 1
     # La coerción no rellena: el score que falló sigue siendo NaN, no 0.0
-    assert df.loc[df["cliente_id"] == "C003", "score"].isna().all()
+    score_c003 = df.loc[df["cliente_id"] == "C003", "score"]
+    assert score_c003.isna().all(), (
+        "C003 trae SIN_DATO en score: tras la coerción debe quedar NaN, "
+        "no un valor inventado; llegó " + repr(score_c003.tolist())
+    )
     rec = reconcile(df, list(SCHEMA_CLIENTES))
     assert rec["rows"] == 3
     assert rec["missing_columns"] == []
@@ -1869,7 +1873,11 @@ def _run_tests() -> None:
     tx, tx_report = ingest_transacciones(TRANSACCIONES)
     assert len(tx) == 3
     assert tx_report.get("monto", 0) >= 1
-    assert tx.loc[tx["tx_id"] == "T002", "monto"].isna().all()
+    monto_t002 = tx.loc[tx["tx_id"] == "T002", "monto"]
+    assert monto_t002.isna().all(), (
+        "T002 trae SIN_DATO en monto: tras la coerción debe quedar NaN, "
+        "no un valor inventado; llegó " + repr(monto_t002.tolist())
+    )
     assert "datetime" in str(tx["fecha"].dtype)
     tx_rec = reconcile(tx, list(SCHEMA_TX))
     assert tx_rec["rows"] == 3
