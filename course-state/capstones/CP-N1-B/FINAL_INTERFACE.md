@@ -22,5 +22,5 @@ solo cambia `run_id`, que identifica la corrida.
 
 ## Prohibiciones
 - No exponer datos de personas reales a través de la interfaz.
-- No escribir fuera de `out_dir`.
+- No escribir fuera de `out_dir`: un `run_id` que no sea solo letras y dígitos ASCII lanza `ValueError`.
 - No tratar la cuarentena como una acusación: solo dice que la fila no cumple el contrato.

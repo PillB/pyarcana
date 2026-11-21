@@ -51,7 +51,10 @@ Cada regla dice en qué subtema de S08 la viste.
    Un solo byte distinto da otro hash; así el manifest prueba qué archivo se procesó.
 2. **`write_atomic(path, text)`** (T1-B). Escribe en un temporal único junto al destino
    (`tempfile.mkstemp(dir=path.parent, ...)`), con saltos de línea LF, y lo publica con
-   `os.replace`. Nunca deja el destino a medias ni un `.tmp` suelto.
+   `os.replace`. Nunca deja el destino a medias, y una escritura que termina no deja ningún
+   `.tmp`. Si el proceso se corta antes de `os.replace`, el destino sigue completo con su versión
+   anterior y puede quedar un temporal, que se retira después (T1-B). La prueba 02 cambia
+   `os.replace` por un espía, como el We Do de T1-B, para ver que lo usas.
 3. **`monto_texto(value)`** (T2-A). Si `value` es texto con solo dígitos ASCII y como máximo un
    punto, devuelve el monto con dos decimales: `"10.5"` → `"10.50"`. Si no, devuelve `None`:
    `"10,50"`, `"abc"`, `""`, `"-5"` y un número JSON como `12.5` no son montos de este contrato.
@@ -85,6 +88,8 @@ Cada regla dice en qué subtema de S08 la viste.
      `out/clean/clients.csv`, `out/clean/transactions.json`, `out/quarantine/clients.jsonl`,
      `out/quarantine/transactions.jsonl` y, al final, `out/manifest.json`. Devuelve 0.
    - Sin `run_id`, crea uno nuevo con `uuid.uuid4().hex`.
+   - Un `run_id` con algo que no sea letras y dígitos ASCII, como `../x`, lanza `ValueError` antes
+     de escribir nada: la carpeta `backups/{run_id}` quedaría fuera de `out/`.
 
 ## Interfaz
 `cp_n1_b.run(data_dir, out_dir, run_id=None) -> int`. Devuelve 0 si publicó todo y 1 si una

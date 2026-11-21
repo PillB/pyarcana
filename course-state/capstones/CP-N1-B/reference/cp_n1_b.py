@@ -182,10 +182,13 @@ def run(data_dir: Path, out_dir: Path, run_id: str | None = None) -> int:
     """Ejecuta el ETL. Devuelve 0 si publicó todo; 1 sin publicar nada si una fuente no cuadra.
 
     run_id identifica esta corrida: si no se pasa, se crea uno nuevo con uuid4. Nombra la carpeta
-    de respaldos y aparece en el manifest. El manifest se escribe al final.
+    de respaldos y aparece en el manifest. Solo admite letras y dígitos ASCII: "../x" o "/tmp/x"
+    sacarían backups/{run_id} fuera de out_dir. El manifest se escribe al final.
     """
     data_dir, out_dir = Path(data_dir), Path(out_dir)
     run_id = run_id or uuid.uuid4().hex
+    if not (run_id.isascii() and run_id.isalnum()):
+        raise ValueError(f"run_id {run_id!r}: solo letras y dígitos ASCII")
     inputs = {"clients.csv": load_clients_csv, "transactions.json": load_transactions_json}
     results, sources = {}, []
     for name, loader in inputs.items():

@@ -49,122 +49,131 @@
     },
     {
       "capstoneId": "CP-N2-A",
-      "interface": [
+      "interface": "eda.profile(dataset) -> EdaReport",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Interpretación causal no soportada",
         "Sin reproducibilidad",
         "Sin memo ejecutivo",
         "Sin limitaciones"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N2-B",
-      "interface": [
+      "interface": "reports.render(spec) -> ReportBundle",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Ejes engañosos",
         "Codificación solo por color",
         "Denominadores ocultos",
         "Claims ejecutivos no soportados"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N2-C",
-      "interface": [
+      "interface": "rpa.run(job) -> RpaAudit",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Envío externo sin aprobación",
         "Sin idempotencia",
         "Sin rollback",
         "Logs con PII"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N3-A",
-      "interface": [
+      "interface": "er.resolve(records) -> ClusterSet",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Infiere relaciones automáticamente",
         "Sin separación train/dev/test",
         "Sin baseline determinista",
         "Sin análisis de falsos positivos"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N3-B",
-      "interface": [
+      "interface": "graph.investigate(query) -> GraphCase",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Etiquetas automáticas de fraude",
         "Sin distinción enlace directo/inferido",
         "Sin control de autorización",
         "Sin reproducibilidad de caso"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N3-C",
-      "interface": [
+      "interface": "triage.score(case) -> TriageDecision",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Decisión adversa sin revisión",
         "Fuga de datos",
         "Sin calibración",
         "Sin abstención"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N4-A",
-      "interface": [
+      "interface": "service.serve(request) -> ApiResponse",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Ejecución como root",
         "Sin health checks",
         "Secretos embebidos",
         "Sin migraciones"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N4-B",
-      "interface": [
+      "interface": "platform.deploy(model) -> DeployRecord",
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Sin rollback demostrado",
         "Sin aprobación",
         "Sin consistencia train/serve",
         "Sin SLOs"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N4-C",
-      "interface": [
+      "interface": "copilot.run(task) -> CopilotRunRecord",
+      "version": "3.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Bucles no acotados",
         "RAG sin citas ni control de acceso",
         "Contenido web tratado como instrucción",
         "Sin HITL en efectos sensibles",
         "Sin redacción de trazas",
         "Sin rollback"
-      ],
-      "version": "3.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     }
   ]
 }
