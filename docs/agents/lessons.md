@@ -936,3 +936,25 @@ back. Read this list before a section round; every item cost at least one failed
   cannot be downloaded through the proxy): a section's chunk compiles on demand and a click lands
   before React hydrates it, so the click does nothing. Next step if it recurs: wait for a hydration
   signal before clicking, or run the job against `next build && next start`.
+- **It recurred on #180 and on main (4abf8058), three runs in a row, and the hydration hypothesis
+  is wrong.** The failure is on S02's We Do: 24 buttons clicked, 0 solutions shown. The spec
+  reproduces it locally on a cold `next dev` and passes on a warm one (three runs). Two
+  hypotheses were ruled out by experiment:
+  - The 3 s first call to `/api/auth/session` is not it. Delaying that route by 3 s on a warm
+    server still passes.
+  - A plain Fast Refresh is not it. Touching `s02-basics.ts` after revealing the solutions keeps
+    all 24 open.
+
+  What the cold run does show is that the first visits compile chunks on demand:
+  `[Fast Refresh] rebuilding` at 13.9 s, `done in 4644ms`, then a server refresh
+  (`GET /?_rsc=…`) at 19.7 s. Both land inside the S01–S03 walk. The tab is in the URL hash
+  (`#basics/wedo`), so anything that remounts the page keeps the tab and drops the We Do's local
+  `showSolutions` state. That is the symptom.
+
+  Production has no hot reload, so learners never see this. The cause is that the job tests
+  `next dev`. Fixes, in order of fidelity:
+  - run the job against `next build && next start`, as Playwright's docs recommend for CI;
+  - make `revealSolutions` re-click until every solution shows, and re-check the count before
+    reading the code blocks, so a remount can't shrink what the spec compares.
+
+  Do not just re-run the job: it fails deterministically on a cold runner.
