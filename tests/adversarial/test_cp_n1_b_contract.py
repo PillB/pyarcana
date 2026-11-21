@@ -83,7 +83,7 @@ MUTANTS = {
                       '    os.close(fd)\n    tmp = Path(tmp_name)\n'
                       '    tmp.write_text(text, encoding="utf-8", newline="\\n")\n    os.replace(tmp, path)',
                       '    path.write_text(text, encoding="utf-8", newline="\\n")')],
-    "run_id_unchecked": [('    if not (run_id.isascii() and run_id.isalnum()):\n', '    if False:\n')],
+    "run_id_unchecked": [('    if not all(c.isascii() and (c.isalnum() or c in "-_") for c in run_id):\n', '    if False:\n')],
     "hash_of_decoded_text": [("hashlib.sha256(Path(path).read_bytes())",
                               'hashlib.sha256(Path(path).read_text(encoding="utf-8-sig").encode())')],
     "missing_key_as_cast": [('            quarantine.append({"raw": raw, "record_number": record_number, "reason": "missing_key",',

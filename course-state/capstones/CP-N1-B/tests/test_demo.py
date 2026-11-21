@@ -127,6 +127,8 @@ def test_06_reconciliacion_por_fuente():
 def test_07_corrida_publica_todo():
     """regla 7: run devuelve 0 y publica clean, quarantine, manifest y respaldos del run_id"""
     out = carpeta_temporal()
+    igual(impl.run(DATA, out, run_id="corrida-1_a"), 0, "valor que devuelve run con run_id='corrida-1_a'")
+    out = carpeta_temporal()
     igual(impl.run(DATA, out, run_id="corrida1"), 0, "valor que devuelve run")
     m = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
     igual((m["run_id"], m["n_in"], m["n_clean"], m["n_quarantine"]), ("corrida1", 16, 7, 9),
@@ -185,7 +187,7 @@ def test_10_una_fuente_ilegible_no_publica_nada():
         out = carpeta_temporal()
         assert error_de(impl.run, datos, out) is not None, f"{nombre} roto no detuvo la corrida"
         igual(sorted(p.name for p in out.iterdir()), [], f"lo publicado en out/ con {nombre} roto")
-    for run_id in ("../fuera", "a/b", "/tmp/fuera"):
+    for run_id in ("../fuera", "a/b", "/tmp/fuera", ".."):
         base = carpeta_temporal()
         out = base / "out"
         out.mkdir()

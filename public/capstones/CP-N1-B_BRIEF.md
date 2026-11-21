@@ -88,8 +88,9 @@ Cada regla dice en qué subtema de S08 la viste.
      `out/clean/clients.csv`, `out/clean/transactions.json`, `out/quarantine/clients.jsonl`,
      `out/quarantine/transactions.jsonl` y, al final, `out/manifest.json`. Devuelve 0.
    - Sin `run_id`, crea uno nuevo con `uuid.uuid4().hex`.
-   - Un `run_id` con algo que no sea letras y dígitos ASCII, como `../x`, lanza `ValueError` antes
-     de escribir nada: la carpeta `backups/{run_id}` quedaría fuera de `out/`.
+   - Un `run_id` con algo que no sea letras o dígitos ASCII, `-` o `_`, como `../x`, lanza
+     `ValueError` antes de escribir nada: la carpeta `backups/{run_id}` quedaría fuera de `out/`.
+     `syn-batch-001` es válido.
 
 ## Interfaz
 `cp_n1_b.run(data_dir, out_dir, run_id=None) -> int`. Devuelve 0 si publicó todo y 1 si una
