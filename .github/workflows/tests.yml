@@ -178,6 +178,27 @@ jobs:
       - name: Install pytest and pinned OTLP descriptors
         run: python3 -m pip install pytest opentelemetry-proto==1.44.0 protobuf
 
+      # The CP-N1 suites run against the reference, and the untouched starter must fail. The
+      # generator guard and mutant checks run in adversarial-unit
+      # (test_capstone_generators_hand_maintained.py, test_cp_n1_{a,b,c}_contract.py).
+      - name: CP-N1-A contract suite (reference; the untouched starter must fail)
+        run: |
+          CAPSTONE_TARGET=reference python3 -m pytest tests/test_demo.py -q
+          if CAPSTONE_TARGET=learner python3 tests/test_demo.py; then echo "the untouched starter passed"; exit 1; fi
+        working-directory: course-state/capstones/CP-N1-A
+
+      - name: CP-N1-B contract suite (reference; the untouched starter must fail)
+        run: |
+          CAPSTONE_TARGET=reference python3 -m pytest tests/test_demo.py -q
+          if CAPSTONE_TARGET=learner python3 tests/test_demo.py; then echo "the untouched starter passed"; exit 1; fi
+        working-directory: course-state/capstones/CP-N1-B
+
+      - name: CP-N1-C contract suite (reference; the untouched starter must fail)
+        run: |
+          CAPSTONE_TARGET=reference python3 -m pytest tests/test_demo.py -q
+          if CAPSTONE_TARGET=learner python3 tests/test_demo.py; then echo "the untouched starter passed"; exit 1; fi
+        working-directory: course-state/capstones/CP-N1-C
+
       - name: CP-N4-C OTLP export suite
         run: python3 -m pytest tests/test_otel_export.py tests/test_demo.py -q
         working-directory: course-state/capstones/CP-N4-C

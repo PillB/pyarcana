@@ -1,8 +1,10 @@
 # Requisitos de uso responsable
 
-No decide adversamente sobre personas. Un registro 'error' no significa 'cliente fraudulento'.
+`reject` significa que el registro no cumple el formato. No dice nada de la persona: no es «mal
+cliente» ni «fraude». `review` significa que una persona debe mirar el registro antes de decidir.
 
 ## Lo que este proyecto NO hace
-- No decide adversamente sobre personas sin revisión humana.
-- No infiere automáticamente fraude, parentesco, colusión, asociación criminal, propiedad beneficiaria ni relación causal.
-- No sobreinterpreta asociaciones como causalidad.
+- No toma decisiones sobre personas: clasifica registros por su formato.
+- No infiere fraude, parentesco, colusión, asociación criminal, propiedad beneficiaria ni
+  relaciones causales.
+- No presenta una asociación como si fuera una causa.

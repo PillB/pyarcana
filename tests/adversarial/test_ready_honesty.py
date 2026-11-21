@@ -3,8 +3,9 @@
 
 These tests do not invent production features. They require that:
 
-- CP-FINAL docs name the implemented APIs and declare the 12 runners as
-  in-process pedagogical twins (not imports of the twelve packages).
+- CP-FINAL docs name the implemented APIs and say which runners are in-process pedagogical
+  twins (CP-N2-A to CP-N4-C) and which call the published CP-N1 interfaces (the three level-1
+  runners, since proposal 11), and the code agrees.
 - GO-critical flags are fail-closed on empty contracts and computed from
   runner work on the live path.
 - Provider spans export ``gen_ai.operation.name``.
@@ -63,10 +64,12 @@ class TestFlagTheaterFailClosed(unittest.TestCase):
         self.assertGreater(intake["n_total"], 0)
         self.assertEqual(
             intake["n_total"],
-            intake["n_ok"] + intake["n_warn"] + intake["n_error"],
+            intake["n_accept"] + intake["n_review"] + intake["n_reject"],
         )
         etl = bundle.subsystem_results["CP-N1-B"]
-        self.assertTrue(etl["manifest_hash"])
+        self.assertEqual(etl["exit_code"], 0)
+        self.assertTrue(all(len(s["sha256"]) == 64 for s in etl["sources"]))
+        self.assertEqual(etl["n_in"], etl["n_clean"] + etl["n_quarantine"])
         self.assertTrue(etl["idempotent"])
         deploy = bundle.subsystem_results["CP-N4-B"]
         self.assertTrue(deploy["rollback_proven"])
@@ -111,9 +114,15 @@ class TestDualTruthDocs(unittest.TestCase):
 
     def test_system_card_declares_in_process_twins(self):
         card = _read("course-state/capstones/CP-FINAL/SYSTEM_CARD.md")
-        self.assertRegex(card, r"in-process pedagogical twins|gemelos pedagógicos in-process", re.I)
-        self.assertRegex(card, r"do\s+\**not\**\s+import the twelve|no importan los doce", re.I)
+        self.assertRegex(card, r"Nine of the twelve runners[^.]*\*\*in-process\s+pedagogical twins\*\*")
+        self.assertRegex(card, r"do\s+\**not\**\s+import their capstone package trees")
+        self.assertIn("integration/upstream.py", card)
         self.assertIn("Implemented API map", card)
+        # The code says the same: only the three level-1 runners load a published interface.
+        for stem in ("intake", "etl", "familiarity", "eda", "reports", "rpa", "er", "graph",
+                     "triage", "service", "platform_ml", "copilot"):
+            src = _read(f"course-state/capstones/CP-FINAL/integration/{stem}.py")
+            self.assertEqual("upstream.load(" in src, stem in ("intake", "etl", "familiarity"), stem)
 
     def test_final_interface_declares_twins(self):
         iface = _read("course-state/capstones/CP-FINAL/FINAL_INTERFACE.md")

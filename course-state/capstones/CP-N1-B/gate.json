@@ -4,11 +4,11 @@
   "name": "Client/Transaction ETL Pipeline",
   "level": 1,
   "acceptance_criteria": [
-    "Pipeline ETL lee CSV/JSON sintético con contrato de columnas.",
-    "Filas inválidas van a cuarentena; válidas a salida limpia.",
-    "Manifest con conteos, hashes o fingerprints y provenance de corrida.",
-    "Lineage mínimo: origen → transform → destino documentado.",
-    "Demo exit 0 y métricas JSON con n_in, n_out, n_quarantine."
+    "cp_n1_b.run() lee clients.csv y transactions.json con su contrato (columnas id,nombre,monto; claves id,client_id,monto).",
+    "Cada fila irregular va a cuarentena con un motivo estable (col_count, missing_key, cast_monto, schema); las válidas van a clean.",
+    "El manifest tiene run_id, el sha256 de cada crudo, conteos por fuente con reconcile_ok y totales derivados de las fuentes.",
+    "Si una fuente no cumple n_in == n_clean + n_quarantine, la corrida devuelve 1 sin publicar; un archivo ilegible tampoco publica nada.",
+    "Repetir la corrida da los mismos clean, quarantine y sources; las 11 pruebas pasan contra la referencia y fallan contra el starter sin completar."
   ],
   "rubric_0_3": {
     "correctness": {
@@ -55,7 +55,7 @@
       },
       "focus": "Sin PII real; no escribe secretos en manifest."
     },
-    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+    "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0."
   },
   "dependencies": [
     "CP-N1-A",
@@ -65,21 +65,13 @@
     "S08"
   ],
   "wow_factor_definition": "ETL reproducible con cuarentena, manifest y métricas de reconciliación sobre datos sintéticos de clientes/transacciones.",
-  "scoring_weights_reference": {
-    "correctness": 0.35,
-    "edge_cases_data": 0.2,
-    "tests": 0.15,
-    "design": 0.1,
-    "reproducibility": 0.1,
-    "communication_limits": 0.1,
-    "pass_threshold": 0.8
-  },
   "prohibitions": [
     "No real PII",
     "No fraud inference as automatic decision",
     "No hardcoded production secrets",
     "Synthetic or legally reusable data only"
   ],
-  "package_version": "2.0.0",
-  "generated_at": "2026-07-20T14:53:43Z"
+  "package_version": "3.0.0",
+  "generated_at": "2026-07-20T14:53:43Z",
+  "rubric_source": "RUBRIC.json: los pesos y la regla de aprobación son los de ese archivo; tests/adversarial/test_cp_n1_b_contract.py comprueba que coinciden."
 }

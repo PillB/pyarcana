@@ -1799,13 +1799,41 @@ def run_demo(cp_id: str, dest: Path) -> dict:
     return execution
 
 
+# Every package committed today has been edited after this script last ran (measured 2026-11-21:
+# re-running it changes 2 to 9 files in each of CP-N2-A .. CP-FINAL). A plain run would undo those
+# edits, so the script refuses unless the caller passes this flag and reviews the diff after.
+OVERWRITE_FLAG = "--overwrite-hand-edits"
+
+
+def refuse_without_flag() -> None:
+    if OVERWRITE_FLAG not in sys.argv[1:]:
+        sys.exit(f"Refusing to run: this overwrites hand-edited capstone files. Pass {OVERWRITE_FLAG} "
+                 "and review `git diff` afterwards. Packages in HAND_MAINTAINED.json are never written.")
+
+
+# Packages written by hand (CP-N1-A since #141, CP-N1-B and CP-N1-C since proposal 11). This script
+# writes none of their files and reads their status from their own execution.json.
+HAND_MAINTAINED = set(json.loads((ROOT / "HAND_MAINTAINED.json").read_text(encoding="utf-8"))["packages"])
+
+
+def recorded_execution(cp_id: str, dest: Path) -> dict:
+    """The status a hand-maintained package recorded by running its own tests (enrich script)."""
+    rec = json.loads((dest / "execution.json").read_text(encoding="utf-8"))
+    status = "pass" if rec.get("execution_status") == "pass" else "fail"
+    return {"id": cp_id, "status": status, "exit_code": 0 if status == "pass" else 1}
+
+
 def main() -> int:
+    refuse_without_flag()
     results = []
     # First write all non-FINAL packages and run them
     ordered = [c for c in CAPSTONES if c["id"] != "CP-FINAL"] + [
         c for c in CAPSTONES if c["id"] == "CP-FINAL"
     ]
     for cp in ordered:
+        if cp["id"] in HAND_MAINTAINED:
+            print(f"[skip] {cp['id']} is hand-maintained")
+            continue
         dest = ROOT / cp["id"]
         dest.mkdir(parents=True, exist_ok=True)
         write_gate_json(cp, dest)
@@ -1820,7 +1848,10 @@ def main() -> int:
         if cp["id"] == "CP-FINAL":
             continue
         dest = ROOT / cp["id"]
-        ex = run_demo(cp["id"], dest)
+        if cp["id"] in HAND_MAINTAINED:
+            ex = recorded_execution(cp["id"], dest)
+        else:
+            ex = run_demo(cp["id"], dest)
         print(f"[run] {cp['id']} -> {ex['status']} exit={ex['exit_code']}")
         results.append(ex)
 
@@ -1884,13 +1915,13 @@ def main() -> int:
             "packages": [f"course-state/capstones/{c['id']}/" for c in CAPSTONES],
         },
         "files_changed": [
-            f"course-state/capstones/{c['id']}/gate.json" for c in CAPSTONES
+            f"course-state/capstones/{c['id']}/gate.json" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED
         ]
-        + [f"course-state/capstones/{c['id']}/demo.py" for c in CAPSTONES]
-        + [f"course-state/capstones/{c['id']}/evidence_manifest.json" for c in CAPSTONES]
-        + [f"course-state/capstones/{c['id']}/RUN.md" for c in CAPSTONES]
-        + [f"course-state/capstones/{c['id']}/system_or_data_card.md" for c in CAPSTONES]
-        + [f"course-state/capstones/{c['id']}/execution.json" for c in CAPSTONES]
+        + [f"course-state/capstones/{c['id']}/demo.py" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED]
+        + [f"course-state/capstones/{c['id']}/evidence_manifest.json" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED]
+        + [f"course-state/capstones/{c['id']}/RUN.md" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED]
+        + [f"course-state/capstones/{c['id']}/system_or_data_card.md" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED]
+        + [f"course-state/capstones/{c['id']}/execution.json" for c in CAPSTONES if c["id"] not in HAND_MAINTAINED]
         + [
             "course-state/capstones/INDEX.json",
             "course-state/lanes/LANE-CAPSTONE-FORMAL.status.json",

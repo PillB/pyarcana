@@ -26,9 +26,9 @@ production accuracy, or enterprise scale.
 
 | Subsystem | Upstream capstone | Interface | Contract test |
 |---|---|---|---|
-| Intake | CP-N1-A | `intake_cli.run(records) -> IntakeResult` | `test_intake` |
-| ETL | CP-N1-B | `etl.run(batch) -> EtlManifest` | `test_etl` |
-| Familiarity review | CP-N1-C | `familiarity.review(case) -> ReviewPacket` | `test_familiarity` |
+| Intake | CP-N1-A | `cp_n1_a.run(records) -> dict` | `test_intake` |
+| ETL | CP-N1-B | `cp_n1_b.run(data_dir, out_dir, run_id=None) -> int` | `test_etl` |
+| Familiarity review | CP-N1-C | `cp_n1_c.review(case) -> ReviewPacket` | `test_familiarity` |
 | Analytics & EDA | CP-N2-A | `eda.profile(dataset) -> EdaReport` | `test_eda` |
 | Reporting | CP-N2-B | `reports.render(spec) -> ReportBundle` | `test_reports` |
 | Automation | CP-N2-C | `rpa.run(job) -> RpaAudit` | `test_rpa` |
@@ -92,8 +92,10 @@ production accuracy, or enterprise scale.
 
 # Implemented API map (authoritative)
 
-The twelve runners in `integration/` are **in-process pedagogical twins**.
-They do **not** import the twelve capstone package trees. Contract tests
+Nine of the twelve runners in `integration/` (CP-N2-A to CP-N4-C) are **in-process
+pedagogical twins**: they do **not** import their capstone package trees. The three level-1
+runners (`intake`, `etl`, `familiarity`) call the interface each CP-N1 package publishes, through
+`integration/upstream.py`, since the 3.0.0 level-1 contracts (proposal 11). Contract tests
 live in `integration/contract_tests.py` (`test_intake_contract`, …), not as
 free-standing `test_intake` modules.
 

@@ -219,10 +219,9 @@ CAPSTONE_PACKAGES = ROOT / "course-state" / "capstones"
 
 # Capstone test files that still held `assert True` placeholders on 2026-11-09 (B2, proposals-03).
 # This is a ratchet: a file that is not listed may not gain a placeholder, and a listed file must
-# leave the list in the same change that replaces its placeholders.
+# leave the list in the same change that replaces its placeholders. CP-N1-B and CP-N1-C left on
+# 2026-11-21 (proposal 11, steps 3 and 4).
 PLACEHOLDER_ALLOWLIST = frozenset({
-    "course-state/capstones/CP-N1-B/tests/test_demo.py",
-    "course-state/capstones/CP-N1-C/tests/test_demo.py",
     "course-state/capstones/CP-N2-A/tests/test_demo.py",
     "course-state/capstones/CP-N2-B/tests/test_demo.py",
     "course-state/capstones/CP-N2-C/tests/test_demo.py",

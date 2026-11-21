@@ -1,11 +1,11 @@
 {
   "credential_id": "progress_phase3_walked",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "active",
   "credential_class": "A",
   "credential_class_name": "Learning Milestone",
   "public_name": "Phase 3 — Integrated Synthesis",
-  "capability_statement": "The learner has completed every PyArcana Phase 3 (Integrated Mastery) section before the section containing the final capstone, including each section's You Do project, self-check, and section exam.",
+  "capability_statement": "Completaste las 12 secciones de la Fase 3 (S40 a S51): el proyecto You Do y el examen de cada una. Puede incluir práctica guiada.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -55,5 +55,5 @@
   "non_compensatory": false,
   "minimum_overall_score": 0,
   "verification_mode": "local_only",
-  "specification_hash": "sha256:progress_phase3_walked:1.2.0"
+  "specification_hash": "sha256:progress_phase3_walked:1.3.0"
 }

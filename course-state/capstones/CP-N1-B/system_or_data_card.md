@@ -1,23 +1,25 @@
-# Ficha de datos — ETL sintético N1-B
+# Ficha de datos: ETL sintético CP-N1-B
+
+Una ficha de datos dice de dónde vienen los datos, para qué sirven y para qué no.
 
 | Campo | Valor |
 |---|---|
-| Capstone | CP-N1-B — Client/Transaction ETL Pipeline |
-| Gate | S08 |
-| Tipo | Data card (sintético) |
-| Fuente | Generada en `demo.py` con seed fija |
-| PII real | **Ninguna** |
-| Uso previsto | Enseñanza, demo de portafolio, gate formal |
-| Uso no previsto | Decisiones legales, crédito, fraude, HR real |
-| Retención | Ephemeral / local del estudiante |
-| Calidad | Controlada por asserts del demo |
-| Limitaciones | No representa distribución poblacional real del Perú ni de ningún mercado |
-| Contacto de ownership | Learner + PyArcana formal lane |
+| Capstone | CP-N1-B, ETL local de clientes y transacciones |
+| Cierra | S08 |
+| Fuente | `data/clients.csv` y `data/transactions.json`, escritos por `data/generate.py` con valores fijos |
+| Datos de personas reales | **Ninguno** |
+| Uso previsto | Aprender, mostrar en un portafolio, evaluar el cierre de S08 |
+| Uso no previsto | Decisiones legales, de crédito, de fraude o de personal |
+| Retención | Viven en tu equipo; no se envían a ningún lado |
+| Calidad | Cada fila irregular tiene un motivo esperado, y una prueba comprueba los conteos |
+| Limitaciones | 16 registros; no representa a la población real del Perú ni de ningún mercado |
+| Responsable | La persona que hace el curso |
 
-## Campos típicos (sintéticos)
-IDs (`C001`…), montos inventados, códigos de estado, scores de calidad. Nombres como `Ana Demo`, `Cliente Sintetico 3`.
+## Campos
+`clients.csv`: `id`, `nombre`, `monto`. `transactions.json`: `id`, `client_id`, `monto`. Los
+montos son texto decimal.
 
 ## Controles
-- No logging de secretos.
-- No envío a APIs externas en el demo formal.
-- Reproducibilidad vía seed.
+- No se registran claves.
+- No se llama a servicios externos.
+- Repetir la corrida da los mismos `clean`, `quarantine` y `sources`.

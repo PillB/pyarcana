@@ -644,6 +644,143 @@ back. Read this list before a section round; every item cost at least one failed
   `test:ux-gates` and grep the glossary aliases (`src/lib/glossary/terms.ts`) for any
   abbreviation you added.
 
+## Proposal 11: capstones and badges, errors met and how they were closed (21 Nov 2026)
+
+- **A generator that is re-run undoes hand fixes.** Symptom: re-running
+  `course-state/capstones/_generate_formal_packages.py` replaced CP-N1-A's `demo.py` with the
+  pre-#141 version (155 diff lines). Measured on a copy, the two generators together change 2 to 9
+  committed files in every other package too. Root cause: #141 marked CP-N1-A as hand-maintained
+  in only one of the two generators (`scripts/enrich_capstone_packages.py`), and nothing compared
+  generator output with the tree. Packages were edited by hand after the last generation, so the
+  generator stopped being the source without anyone saying so. Fix: one shared list,
+  `course-state/capstones/HAND_MAINTAINED.json`, read by both scripts; both refuse to run without
+  `--overwrite-hand-edits`; `tests/adversarial/test_capstone_generators_hand_maintained.py` runs
+  them on a copy and asserts the listed packages are byte-identical. Guard: when you hand-edit a
+  generated file, add its package to the list in the same commit, or delete the generator path for it.
+- **A green execution record without evidence.** `execution.json` said `tests_pass: true` for
+  CP-N1-B and CP-N1-C, whose tests were five `assert True  # placeholder` and a demo exit check.
+  Root cause: the record ran the suite and trusted its exit code, and a placeholder cannot fail.
+  Fix: `execution_record` counts placeholder bodies and records `tests_pass: false` while any
+  remain; `INDEX.json` follows the record. Guard: a check that cannot fail is a failed check;
+  count placeholders, and prove each suite red on a mutant.
+- **Moving a learner file can silently narrow a scan.** Symptom: none, which is the danger.
+  `test_forward_dependencies.py` scans capstone starters at `STARTER/*.py`; proposal 11 moved
+  CP-N1-A's starter to the package root, and the scan would have stopped reading it while still
+  reporting clean. Its own coverage test (`test_every_capstone_starter_is_scanned`) compares the
+  scan with the same glob, so it would have agreed. The move also tripped the preservation
+  sentinel: `git diff --diff-filter=D` reports a rename as a deletion when the new content is
+  under git's 50% similarity threshold (an 8-line stub became a 96-line scaffold). Fix: the
+  learner's file stays at `STARTER/cp_n1_a.py`; only the reference moved. Guard: before moving a
+  file, `git grep` its directory name in `tests/` and `scripts/`, check every glob that names it,
+  and run `npm run test:preservation` after committing (it diffs commits, not the index).
+- **A test suite that imports the answer by default certifies no work.** CP-N1-A's tests
+  defaulted to `demo.py` (the reference) and its starter README said "run the tests", so an
+  untouched starter passed 11 of 11. Root cause: the default served the maintainer, who runs the
+  reference, rather than the learner. Fix: the default target is the learner's `cp_n1_a.py`;
+  `CAPSTONE_TARGET=reference` selects the reference; the execution record and CI both require the
+  untouched starter to fail. Guard: for any starter, run its checks with no work done and expect
+  red.
+- **A design written from the capstone's files can contradict the section it closes.** Proposal
+  11 gave CP-N1-B a schema (`id,name,email`; `tx_id,...,date`) taken from its old brief. S08's
+  You Do already specifies CP-N1-B in full: `id,nombre,monto`, `id,client_id,monto`,
+  `{raw, record_number, reason}`, a manifest reconciled per source, and a `uuid4` `run_id` per run.
+  Following the proposal literally would have made the capstone disagree with the lesson the
+  learner just finished. Root cause: the proposal read the package, not the section. Fix: the
+  rebuild follows S08 and the PR names the deviation. Guard: before designing a capstone, read
+  the You Do of its closing section (`grep -n "cierre CP-" src/lib/course/sections/`).
+- **"Idempotent" and a per-run id pull in opposite directions.** The old brief wanted "rerun →
+  same manifest hash"; S08 wants a new `run_id` on every run, inside the manifest. Both hold once
+  idempotency is stated over the outputs and `sources` (hashes and counts), with `run_id` set
+  aside; the brief now answers "¿por qué cambia el manifest si los datos no cambiaron?".
+- **Served copies drift silently.** `public/capstones/CP-N1-A_RUBRIC.json` (served to learners
+  by `CapstonesPage.tsx`) had differed from the package rubric since #141; only the brief copy
+  had been updated. Fix: each CP-N1 contract test asserts both public copies equal the package
+  files. Guard: `ls public/capstones/` lists every served copy; update all of them.
+- **A meta-test regex that drops digits.** `impl\.([a-zA-Z_]+)` read `impl.sha256_file` as
+  `sha`, so "the starter declares every function" failed for the wrong reason (it would also
+  have passed wrongly on a name that is a prefix). Use `[A-Za-z0-9_]+` for identifiers.
+- **Look for an existing ratchet before adding a guard.** `test_suite_hygiene.py` already holds
+  a placeholder-assert allowlist that must shrink with each fix; step 1 added a second detector
+  to `execution_record`. Both now agree, and CP-N1-B left the allowlist in the same commit.
+- **`@dataclass` in a module loaded with `spec_from_file_location` crashes** with
+  `AttributeError: 'NoneType' object has no attribute '__dict__'` in `dataclasses._is_type`. The
+  module uses `from __future__ import annotations`, so field types are strings, and dataclasses
+  looks them up through `sys.modules[cls.__module__]`, which `module_from_spec` does not fill.
+  Fix: `sys.modules[name] = module` before `exec_module`, the importlib docs recipe "Importing a
+  source file directly" (also CPython issue gh-89831 for the same traceback). Guard: every
+  `load()` helper in a contract test registers the module first.
+- **A refresh can write a stale version where the file check cannot see it.** The enrich
+  generator re-measured hand-maintained `execution.json` with the version in its own `SPECS`
+  (still 2.0.0 for every CP-N1), so running it with the flag would have rolled CP-N1-A and
+  CP-N1-B back to 2.0.0. The "no file changed" test missed it because `digests()` skips
+  `execution.json` (its date changes on every run). Fix: the refresh reads the version from the
+  package's `RUBRIC.json`, and a new test compares each refreshed record with the committed one,
+  `verified_at` aside. Guard: when a check excludes a file, add a narrower check for that file.
+- **Follow the section's states, even where the proposal named others.** Proposal 11 gave
+  CP-N1-C the statuses `needs_review`, `abstain` and `no_signal`, and "abstain when evidence is
+  missing". S13 teaches four (`invalid_input`, `abstain`, `needs_review`, `accept_pair`), sends a
+  `None` ER to `invalid_input`, and keeps `accept_pair` for the same document and block, the
+  "match" of the Fellegi–Sunter three-way rule (match, possible match for clerical review,
+  non-match). The rebuild follows S13, and the brief answers "¿`accept_pair` no es una decisión
+  automática?". Root cause: same as CP-N1-B, the design read the package before the section.
+- **Cite the subtopic from its `subtopicId`, not from memory.** The first CP-N1-C brief put
+  blocking in T1-B and the privacy sheet in T4-A; S13 has them in T1-A and T4-B. Guard:
+  `grep -n 'heading:\|subtopicId:' src/lib/course/sections/sNN-*.ts` before writing "(T…)".
+- **A test that the brief documents every output key finds real gaps.** For CP-N1-C it found
+  that `case_id` and `rules_version` were in the packet but not in the brief. The check reads
+  the keys from a real `review()` and `apply_correction()` run, so it cannot fall behind the code.
+- **A reimplementation of a contract drifts; a call to it cannot.** CP-FINAL kept its own copies
+  of the three level-1 contracts (`intake_cli.run`, `etl.run(batch)`, `familiarity.review` with
+  `signals`), still at 2.0.0 after all three packages moved to 3.0.0, and every CP-FINAL test was
+  green because the tests checked the copies. Fix: `integration/upstream.py` loads each CP-N1
+  package's published interface, the platform translates the shared scenario into each package's
+  shape in one place (`_build_subsystem_inputs`), and a test asserts each adapter returns exactly
+  what the package returns on the same input. The honesty test that said "the twelve runners do
+  not import the packages" was updated with the docs, and now also checks the code. Guard: when a
+  contract changes version, grep every consumer for the old field names (`n_ok`, `manifest_hash`,
+  `decision_evidence`), not only the copies of the signature.
+- **A catalog field the engine never reads is a promise nobody keeps.** Symptom: the progress
+  badges listed `required_projects` (13 capstones for the journey, three per phase) and the journey
+  description said "all 13 capstones", but `engine.ts` returns from `finalizeProgress` before the
+  project gate, so no capstone was ever checked. The phase 0 claim named the self-check, which the
+  catalog never listed. The first draft of the claim test made the same mistake: it counted a
+  progress badge's `required_projects` as a capstone requirement and so passed the old journey
+  text. Root cause: claims and tests were written from the catalog data, not from the path the
+  engine runs. Fix (proposal 11, §5.1 and §5.2): the progress lists are empty, self-checks are
+  `required_activities`, and `tests/adversarial/test_badge_claims_match_engine.py` derives what is
+  required from the engine's rules (activities for every required section; capstones only past
+  the progress path). Guard: before a badge text names a piece of work, find the gate in
+  `engine.ts` that blocks without it, and show the test failing on the old catalog.
+- **Every badge version is pinned by hand in the credential tests.** Bumping the capstone
+  credentials for the self-check change broke 12 node tests with `SPEC_VERSION_MISMATCH`:
+  `credential-blockers.test.ts` (`VERSION`) and `credential-issue-gates.test.ts`
+  (`SPEC_VERSION`, which defaulted to the catalog's top-level `1.0.0`) write each version out so
+  the test does not read the value it checks. That is the intended design, not drift. Guard: a
+  catalog version bump updates both maps in the same commit, and K4 now also refuses the version a
+  badge had before the bump.
+- **A positional tuple read one field off.** `generate_capstone_validation.py` built each CAPSTONE
+  row as a 12-item tuple and read `c[10]` (critical failures) as the interface, so all 12 upstream
+  entries in `final_integration_contracts.json` held a list where a signature belongs. Proposal 11
+  fixed CP-N1-A's entry by hand, and the next regeneration would have undone it (Codex on #175).
+  Root cause: indexes into an unnamed tuple, and no test compared the generator's output with the
+  committed file. Fix: `final_contracts()` names what it reads and emits `criticalFailures`; the
+  committed file is its output, and `test_regenerating_keeps_the_final_contracts` checks it, and
+  checks that every interface is a string with `->`. Guard: when you hand-fix a generated file, fix
+  the generator in the same commit and add a regenerate-and-compare test.
+- **A new input rule broke a caller two packages away.** CP-N1-B's `run` began refusing a `run_id`
+  that is not ASCII letters and digits, to keep `backups/{run_id}` inside `out_dir` (Codex on #176).
+  CP-FINAL passes its batch id, `syn-batch-001`, and 15 CP-FINAL tests went red; the package's own
+  suite stayed green. Root cause: the rule was written from the attack (`../x`) and checked only
+  against the package's own tests. Fix: allow `-` and `_`, keep refusing `/` and `.`. Guard: before
+  tightening an interface, `git grep` its callers (here `upstream.load("CP-N1-B")`) and run their
+  suites on the stack's tip, not only the branch you changed.
+- **Bare asserts in a learner suite hide the defect.** All three CP-N1 suites had message-less
+  asserts; the runner printed the test's docstring and an empty `AssertionError`, so a learner could
+  not tell which of seven checks failed. Codex found it in CP-N1-B and CP-N1-C; CP-N1-A had 21 more.
+  Fix: an `igual(obtenido, esperado, que)` helper (with `is` for None and booleans), the runner
+  prints the failing line, and each package's adversarial test refuses a bare assert (`ast`).
+  Guard: when a finding names one file, grep the sibling packages for the same pattern.
+
 ## Proposal 12, first PR: wrong keys and starters that print the answer (21 Nov 2026)
 
 - **The starter gate covered S01–S13 only, so ten S14–S27 starters printed the answer.**

@@ -699,8 +699,8 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
           </div>
           <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
             {english
-              ? 'A badge is a small marker that you completed an exercise or section independently. This is, it confirms you practised a specific skill — it is not a professional certification.'
-              : 'Un badge es un pequeño marcador de que completaste un ejercicio o sección de forma independiente. Esto es, confirma que practicaste una habilidad concreta — no es una certificación profesional.'}
+              ? 'A progress marker shows that you completed the sections. A competency badge shows independent work with a minimum score. Either way, it is not a professional certification.'
+              : 'Un marcador de progreso indica que completaste las secciones. Una insignia de competencia indica trabajo independiente con puntaje mínimo. En ambos casos, no es una certificación profesional.'}
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -712,8 +712,8 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
                 <li>
                   {english
-                    ? 'You completed an exercise or section under your own effort.'
-                    : 'Completaste un ejercicio o sección con tu propio esfuerzo.'}
+                    ? 'You completed the sections it asks for; for a competency badge, without step-by-step guidance.'
+                    : 'Completaste las secciones que pide; en una insignia de competencia, sin guía paso a paso.'}
                 </li>
                 <li>
                   {english
@@ -722,8 +722,8 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
                 </li>
                 <li>
                   {english
-                    ? 'You met the rubric threshold (70% or higher).'
-                    : 'Alcanzaste el umbral de la rúbrica (70% o más).'}
+                    ? 'For a competency badge, you met the minimum of each part: 80% in the You Do projects; 85% in exams, self-checks (Autocheck) and the integrator project.'
+                    : 'En una insignia de competencia, alcanzaste el mínimo de cada parte: 80% en los You Do; 85% en exámenes, autoevaluaciones (Autocheck) e integrador.'}
                 </li>
               </ul>
             </div>
@@ -769,11 +769,11 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
               <p className="mt-1">
                 {isSignedIn
                   ? english
-                    ? 'When you are signed in, a supervisor in your cohort can verify a badge. The verification step is what turns a preview into a verified award.'
-                    : 'Cuando tienes sesión iniciada, un supervisor de tu cohorte puede verificar un badge. La verificación es lo que convierte una vista previa en una insignia verificada.'
+                    ? 'The server issues a verified badge once every requirement is recorded. Today it records the exams; the other parts not yet, so no verified badges are issued yet.'
+                    : 'El servidor emite la insignia verificada cuando cada requisito está registrado. Hoy registra los exámenes; las demás partes todavía no, así que aún no se emiten insignias verificadas.'
                   : english
-                    ? 'Sign in to invite a supervisor to verify your badges. Verification is what turns a preview into a verified award.'
-                    : 'Inicia sesión para invitar a un supervisor a verificar tus badges. La verificación es lo que convierte una vista previa en una insignia verificada.'}
+                    ? 'Sign in so the server records your exams. It issues a verified badge once every requirement is recorded; today it records only the exams, so no verified badges are issued yet.'
+                    : 'Inicia sesión para que el servidor registre tus exámenes. Emite la insignia verificada cuando cada requisito está registrado; hoy solo registra los exámenes, así que aún no se emiten insignias verificadas.'}
               </p>
             </div>
           </div>

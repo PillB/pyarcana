@@ -1,6 +1,6 @@
 {
   "id": "CP-N1-A",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "name": "CLI Reproducible de Admisión de Clientes y Calidad de Datos",
   "level": 1,
   "gateSection": "S04",
@@ -14,7 +14,7 @@
   "prerequisites": [],
   "summary": "CLI Reproducible de Admisión de Clientes y Calidad de Datos",
   "badgeId": "capstone_foundations",
-  "finalIntegrationInterface": "intake_cli.run(records) -> IntakeResult",
+  "finalIntegrationInterface": "cp_n1_a.run(records) -> dict",
   "criticalFailures": [
     "Usa PII real",
     "Calcula denominadores incorrectamente",

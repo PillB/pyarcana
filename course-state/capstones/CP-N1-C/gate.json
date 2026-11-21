@@ -4,11 +4,11 @@
   "name": "Familiarity Evidence Dashboard",
   "level": 1,
   "acceptance_criteria": [
-    "entity_resolution_score separado de relationship_signal_score.",
-    "Señales explicables (tokens, geo, contacto) con score por evidencia.",
-    "Cola de revisión humana para pares ambiguos (no decisión automática de fraude).",
-    "Límites explícitos: coincidencia ≠ parentesco/fraude.",
-    "Demo con datos sintéticos y métricas JSON de pares/scores."
+    "cp_n1_c.review(case) devuelve un ReviewPacket congelado con entity_evidence, relationship_evidence y decisions separadas; ninguna capa lleva el score de otra.",
+    "El ER es el de S13 (1.0, 0.5, 0.0 o None) y la relación usa 0.5·teléfono + 0.3·cercanía + 0.2·Jaccard; lo ausente no es evidencia.",
+    "Cada par tiene un estado de decide_ops_status sobre el ER, con los cortes exactos 0.40 y 0.80; risk_decisions siempre vacío y kinship_verdict siempre None.",
+    "La cola clerical muestra seudónimos; el paquete lleva la hoja de privacidad de T4-B; apply_correction exige un motivo y devuelve un paquete nuevo.",
+    "Las 11 pruebas pasan contra la referencia y fallan contra el starter sin completar."
   ],
   "rubric_0_3": {
     "correctness": {
@@ -20,7 +20,7 @@
         "2": "Cumple casos normales; bordes incompletos.",
         "3": "Correcto en normal, borde y error documentado."
       },
-      "focus": "Scores separados y calculados según reglas publicadas."
+      "focus": "ER, relación y estado calculados con las reglas de S13."
     },
     "robustness": {
       "weight_hint": 0.2,
@@ -31,7 +31,7 @@
         "2": "Bordes y errores no críticos manejados.",
         "3": "Resiliente y con mensajes accionables."
       },
-      "focus": "Pares incompletos o sin geo no rompen el pipeline."
+      "focus": "Campos ausentes dan None, invalid_input o uncertainty alta, nunca un 0.0 inventado ni un error."
     },
     "maintainability": {
       "weight_hint": 0.25,
@@ -42,7 +42,7 @@
         "2": "Módulos/funciones claros y legibles.",
         "3": "Diseño limpio, testeable y documentado."
       },
-      "focus": "Capas ER / relationship / review claramente separadas."
+      "focus": "Capas de identidad, relación y decisión separadas."
     },
     "responsible_use": {
       "weight_hint": 0.2,
@@ -53,9 +53,9 @@
         "2": "Controles y límites presentes.",
         "3": "Controles, límites y comunicación impecables."
       },
-      "focus": "Prohibida etiqueta de fraude; PII solo sintética."
+      "focus": "Sin auto_fraud ni is_family; seudónimos en la cola; solo datos sintéticos."
     },
-    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+    "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0."
   },
   "dependencies": [
     "CP-N1-A",
@@ -67,21 +67,13 @@
     "S13"
   ],
   "wow_factor_definition": "Dashboard de evidencia de familiaridad con ER determinista, geoevidencia trazable, revisión humana y ficha de privacidad — sin inferencia de fraude.",
-  "scoring_weights_reference": {
-    "correctness": 0.35,
-    "edge_cases_data": 0.2,
-    "tests": 0.15,
-    "design": 0.1,
-    "reproducibility": 0.1,
-    "communication_limits": 0.1,
-    "pass_threshold": 0.8
-  },
   "prohibitions": [
     "No real PII",
     "No fraud inference as automatic decision",
     "No hardcoded production secrets",
     "Synthetic or legally reusable data only"
   ],
-  "package_version": "2.0.0",
-  "generated_at": "2026-07-20T14:53:43Z"
+  "package_version": "3.0.0",
+  "generated_at": "2026-07-20T14:53:43Z",
+  "rubric_source": "RUBRIC.json: los pesos y la regla de aprobación son los de ese archivo; tests/adversarial/test_cp_n1_c_contract.py comprueba que coinciden."
 }
