@@ -3,7 +3,8 @@
  * V3 structural count regression (no Playwright dependency).
  *
  * Asserts:
- *   - COURSE_SECTIONS length === 52 (from src/lib/course/index.ts)
+ *   - the section count is derived, never pinned: COURSE_SECTIONS, COURSE_META, the V3 roadmap,
+ *     section_ledger.json and the sum of estimatedHours agree (design G-9, scripts/v3_counts.mjs)
  *   - setup section (s01-setup.ts) has 24 V3 exercise ids and 8 demoIds (regex)
  *
  * Run: node scripts/v3_regression_counts.test.mjs
@@ -13,15 +14,13 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { derivedCountFailures, readDerivedCounts } from './v3_counts.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const INDEX = path.join(ROOT, 'src/lib/course/index.ts')
 const SETUP = path.join(ROOT, 'src/lib/course/sections/s01-setup.ts')
 
 const EX_RE = /\bid:\s*'(S\d{2}-T\d-[AB]-E\d)'/g
 const DEMO_RE = /demoId:\s*'([^']+)'/g
-const SECTION_IMPORT_RE = /import \{ section\d+ \}/g
-const SECTION_ARRAY_RE = /section\d+,/g
 
 function uniqueMatches(text, re) {
   const ids = new Set()
@@ -32,30 +31,9 @@ function uniqueMatches(text, re) {
 function main() {
   const failures = []
 
-  // ── COURSE_SECTIONS length === 52 ──
-  const indexText = fs.readFileSync(INDEX, 'utf-8')
-  const imports = indexText.match(SECTION_IMPORT_RE) || []
-  const arrayEntries = indexText.match(SECTION_ARRAY_RE) || []
-
-  try {
-    assert.equal(
-      imports.length,
-      52,
-      `section imports in index.ts: got ${imports.length}, want 52`
-    )
-  } catch (e) {
-    failures.push(e.message)
-  }
-
-  try {
-    assert.equal(
-      arrayEntries.length,
-      52,
-      `COURSE_SECTIONS entries in index.ts: got ${arrayEntries.length}, want 52`
-    )
-  } catch (e) {
-    failures.push(e.message)
-  }
+  // ── section count: derived from its sources, compared with each other (G-9) ──
+  const counts = readDerivedCounts(ROOT)
+  failures.push(...derivedCountFailures(counts))
 
   // ── setup: 24 V3 exercise ids + 8 demoIds ──
   const setupText = fs.readFileSync(SETUP, 'utf-8')
@@ -84,8 +62,8 @@ function main() {
 
   const report = {
     ok: failures.length === 0,
-    course_sections_imports: imports.length,
-    course_sections_array: arrayEntries.length,
+    course_sections_imports: counts.bindings,
+    course_sections_array: counts.arraySlots,
     setup_exercises: exercises.length,
     setup_exercise_ids: exercises,
     setup_demos: demos.length,
@@ -106,7 +84,7 @@ function main() {
     JSON.stringify(
       {
         ok: true,
-        course_sections: arrayEntries.length,
+        course_sections: counts.bindings,
         setup_exercises: exercises.length,
         setup_demos: demos.length,
       },

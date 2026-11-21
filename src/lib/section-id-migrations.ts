@@ -12,7 +12,10 @@
  * Later batches append to this map and bump SECTION_ID_SCHEMA_VERSION.
  */
 
-/** old slug -> new slug. Batch A (S01-S13); S01 `setup` and S02 `basics` were already correct. */
+/**
+ * old slug -> new slug. Batch A (S01-S13); S01 `setup` and S02 `basics` were already correct.
+ * Batch B is S40's pre-V3 slug, which the batch A pass never reached (owner decision O25).
+ */
 export const SECTION_ID_RENAMES: Readonly<Record<string, string>> = {
   'data-structures': 'decisions-rules',
   'functions-modules': 'iteration-summaries',
@@ -25,9 +28,11 @@ export const SECTION_ID_RENAMES: Readonly<Record<string, string>> = {
   testing: 'oop-domain',
   performance: 'apis-sql-geo',
   'rpa-automation': 'evidence-dashboard',
+  'agentic-architecture': 'architecture-ddd-decisions',
 }
 
-export const SECTION_ID_SCHEMA_VERSION = 1
+/** 1 after batch A, 2 after batch B: a blob saved at 1 runs the whole map again, so it receives batch B. */
+export const SECTION_ID_SCHEMA_VERSION = 2
 
 /**
  * The id the app reads for `id`. Own properties only: every API schema now runs request input
