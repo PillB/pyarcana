@@ -643,3 +643,23 @@ back. Read this list before a section round; every item cost at least one failed
   `correctIndex` as it was and reorder the options around it; after editing outcomes, run
   `test:ux-gates` and grep the glossary aliases (`src/lib/glossary/terms.ts`) for any
   abbreviation you added.
+
+## Proposal 11: capstones and badges, errors met and how they were closed (21 Nov 2026)
+
+- **A generator that is re-run undoes hand fixes.** Symptom: re-running
+  `course-state/capstones/_generate_formal_packages.py` replaced CP-N1-A's `demo.py` with the
+  pre-#141 version (155 diff lines). Measured on a copy, the two generators together change 2 to 9
+  committed files in every other package too. Root cause: #141 marked CP-N1-A as hand-maintained
+  in only one of the two generators (`scripts/enrich_capstone_packages.py`), and nothing compared
+  generator output with the tree. Packages were edited by hand after the last generation, so the
+  generator stopped being the source without anyone saying so. Fix: one shared list,
+  `course-state/capstones/HAND_MAINTAINED.json`, read by both scripts; both refuse to run without
+  `--overwrite-hand-edits`; `tests/adversarial/test_capstone_generators_hand_maintained.py` runs
+  them on a copy and asserts the listed packages are byte-identical. Guard: when you hand-edit a
+  generated file, add its package to the list in the same commit, or delete the generator path for it.
+- **A green execution record without evidence.** `execution.json` said `tests_pass: true` for
+  CP-N1-B and CP-N1-C, whose tests were five `assert True  # placeholder` and a demo exit check.
+  Root cause: the record ran the suite and trusted its exit code, and a placeholder cannot fail.
+  Fix: `execution_record` counts placeholder bodies and records `tests_pass: false` while any
+  remain; `INDEX.json` follows the record. Guard: a check that cannot fail is a failed check;
+  count placeholders, and prove each suite red on a mutant.
