@@ -6,7 +6,7 @@ Una ficha de datos dice de dónde vienen los datos, para qué sirven y para qué
 |---|---|
 | Capstone | CP-N1-A, admisión de clientes y calidad de datos |
 | Cierra | S04 |
-| Fuente | Registros escritos a mano: `RECORDS` en `cp_n1_a.py` y el lote de bordes en `data/generate.py` |
+| Fuente | Registros escritos a mano: `RECORDS` en `STARTER/cp_n1_a.py` y el lote de bordes en `data/generate.py` |
 | Datos de personas reales | **Ninguno** |
 | Uso previsto | Aprender, mostrar en un portafolio, evaluar el cierre de S04 |
 | Uso no previsto | Decisiones legales, de crédito, de fraude o de personal |

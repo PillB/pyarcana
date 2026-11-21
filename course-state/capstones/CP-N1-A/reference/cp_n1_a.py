@@ -1,6 +1,6 @@
 """CP-N1-A: admisión de clientes y calidad de datos. SOLUCIÓN DE REFERENCIA.
 
-Este archivo es la respuesta. Escribe la tuya en ../cp_n1_a.py y léelo solo para comparar
+Este archivo es la respuesta. Escribe la tuya en ../STARTER/cp_n1_a.py y léelo solo para comparar
 cuando tus pruebas pasen.
 
 El contrato está en BRIEF.md. Las reglas son las del You Do de S04 (intake_quality_batch.py),

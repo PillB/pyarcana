@@ -4,7 +4,7 @@ Escribe aquí el cuerpo de cada función. Las firmas, las constantes y el lote y
 no cambies sus nombres, porque las pruebas y CP-FINAL los usan.
 
 1. Lee BRIEF.md: tiene cada regla con su ejemplo.
-2. Corre las pruebas: python3 tests/test_demo.py
+2. Desde la carpeta del paquete (CP-N1-A), corre las pruebas: python3 tests/test_demo.py
    Al principio fallan todas, y cada fallo dice qué función escribir.
 3. Escribe una función, vuelve a correr las pruebas, y sigue con la siguiente.
 

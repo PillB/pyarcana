@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """CP-N1-A: ejecuta la SOLUCIÓN DE REFERENCIA (reference/cp_n1_a.py) sobre su lote sintético.
 
-Imprime una línea METRICS_JSON y un resumen para personas. Tu propio código va en cp_n1_a.py;
+Imprime una línea METRICS_JSON y un resumen para personas. Tu propio código va en
+STARTER/cp_n1_a.py;
 para ejecutarlo, corre las pruebas (RUN.md).
 """
 import json
@@ -10,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "reference"))
 
-import cp_n1_a as ref  # noqa: E402  (the reference, not the learner's file at the package root)
+import cp_n1_a as ref  # noqa: E402  (the reference, not the learner's STARTER/cp_n1_a.py)
 
 
 def metricas(res):

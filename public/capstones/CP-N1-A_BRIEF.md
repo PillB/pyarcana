@@ -13,7 +13,7 @@ secciones S01 a S04 aportan cada pieza, y CP-N1-B (S08) y CP-FINAL lo reutilizan
   cruda tal como llegó y resume el lote con denominadores correctos.
 
 ## Qué archivo escribes
-- **`cp_n1_a.py`**, en la raíz del paquete, es tu archivo. Ya tiene las funciones declaradas, las
+- **`STARTER/cp_n1_a.py`** es tu archivo. Ya tiene las funciones declaradas, las
   constantes y el lote de prueba. Tú escribes el cuerpo de cada función.
 - **`reference/cp_n1_a.py`** es la solución de referencia. Ábrelo solo para comparar cuando tus
   pruebas pasen. `demo.py` ejecuta esa referencia.
