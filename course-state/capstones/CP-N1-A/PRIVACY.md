@@ -1,7 +1,7 @@
 # Requisitos de privacidad
 
-Solo datos sintéticos (example.test). No recopila PII real.
+Todos los registros son sintéticos: no recopila datos de personas reales.
 
-- Solo datos sintéticos (example.test).
-- No se recopila PII real.
-- proveniencia (esto es, de dónde viene cada dato: qué archivo, qué fuente, qué fecha) y mecanismo de corrección cuando aplica.
+- Cada resultado conserva su `raw_line`, así se sabe de qué línea de entrada viene.
+- Si un dato está mal, se corrige en la entrada y se vuelve a ejecutar el lote; el programa no
+  edita los registros.

@@ -6,16 +6,17 @@
   "contracts": [
     {
       "capstoneId": "CP-N1-A",
-      "interface": [
+      "interface": "cp_n1_a.run(records) -> dict",
+      "version": "3.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Usa PII real",
         "Calcula denominadores incorrectamente",
         "No maneja entrada malformada",
         "Sin tests"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N1-B",

@@ -4,6 +4,7 @@ set. CP-N4-C and CP-FINAL are enriched separately by subagents."""
 from __future__ import annotations
 import json
 import datetime
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -168,15 +169,25 @@ def placeholder_count(pkg: Path) -> int:
 def execution_record(pkg: Path, cid: str, version: str) -> dict:
     """Run the package's demo and tests and report what they did. Never a literal True."""
     demo = subprocess.run([sys.executable, "demo.py"], cwd=pkg, capture_output=True, text=True)
-    tests = subprocess.run([sys.executable, str(Path("tests") / "test_demo.py")], cwd=pkg,
-                           capture_output=True, text=True)
+    suite = [sys.executable, str(Path("tests") / "test_demo.py")]
+    # A rebuilt package (proposal 11) tests the learner's root cp_*.py by default and the
+    # reference under CAPSTONE_TARGET=reference; older packages ignore the variable.
+    tests = subprocess.run(suite, cwd=pkg, capture_output=True, text=True,
+                           env={**os.environ, "CAPSTONE_TARGET": "reference"})
     demo_ok = demo.returncode == 0 and "METRICS_JSON:" in demo.stdout
     placeholders = placeholder_count(pkg)
     tests_ok = tests.returncode == 0 and placeholders == 0
+    # The untouched starter must fail its tests, or the suite cannot tell work from no work.
+    starter_fails = None
+    if any(pkg.glob("cp_*.py")):
+        learner = subprocess.run(suite, cwd=pkg, capture_output=True, text=True,
+                                 env={**os.environ, "CAPSTONE_TARGET": "learner"})
+        starter_fails = learner.returncode != 0
+    ok = demo_ok and tests_ok and starter_fails is not False
     return {"capstone_id": cid, "version": version,
-            "execution_status": "pass" if demo_ok and tests_ok else "fail",
+            "execution_status": "pass" if ok else "fail",
             "demo_exits_zero": demo_ok, "tests_pass": tests_ok,
-            "placeholder_tests": placeholders,
+            "placeholder_tests": placeholders, "starter_fails": starter_fails,
             "verified_at": datetime.date.today().isoformat()}
 
 

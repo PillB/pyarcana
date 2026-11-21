@@ -87,7 +87,10 @@ def capstone_starters() -> list[tuple[int, Path, str]]:
         tag = json.loads(gate.read_text(encoding="utf-8")).get("gate_section")
         if tag not in order:
             raise AssertionError(f"{gate.relative_to(ROOT)}: gate_section {tag!r} is no active section")
-        for starter in sorted((gate.parent / "STARTER").glob("*.py")):
+        # Proposal 11 moves a rebuilt package's starter to the package root as cp_*.py (the
+        # reference moves to reference/); read both places so a move cannot narrow the scan.
+        starters = sorted((gate.parent / "STARTER").glob("*.py")) + sorted(gate.parent.glob("cp_*.py"))
+        for starter in starters:
             out.append((order[tag], starter, starter.read_text(encoding="utf-8")))
     return out
 
@@ -191,7 +194,7 @@ class ForwardDependencyTests(unittest.TestCase):
     def test_every_capstone_starter_is_scanned(self) -> None:
         """The scan is only as wide as this list, and the list was empty for every capstone."""
         on_disk = sorted(p for gate in CAPSTONES.glob("*/gate.json")
-                         for p in (gate.parent / "STARTER").glob("*.py"))
+                         for p in [*(gate.parent / "STARTER").glob("*.py"), *gate.parent.glob("cp_*.py")])
         self.assertGreater(len(on_disk), 0, "no capstone STARTER files found to scan")
         self.assertEqual(sorted(p for _, p, _ in capstone_starters()), on_disk)
 

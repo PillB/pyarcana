@@ -56,9 +56,9 @@ const mk = (id, version, name, level, gate, contributing, deps, prereqs, summary
      badgeId: badge, finalIntegrationInterface: iface, criticalFailures: critical, ...extra })
 
 export const CAPSTONES: CapstoneDescriptor[] = [
-  mk('CP-N1-A','2.0.0','CLI Reproducible de Admisión de Clientes y Calidad de Datos',1,'S04',['S01','S02','S03','S04'],[],['S01','S02','S03'],
+  mk('CP-N1-A','3.0.0','CLI Reproducible de Admisión de Clientes y Calidad de Datos',1,'S04',['S01','S02','S03','S04'],[],['S01','S02','S03'],
     'Una aplicación de línea de comandos que captura registros sintéticos, valida campos y emite resúmenes legibles por máquina y por humano.',
-    'Analista junior que ingresa clientes de prueba en un entorno de capacitación.','capstone_foundations','intake_cli.run(records) -> IntakeResult',
+    'Analista junior que ingresa clientes de prueba en un entorno de capacitación.','capstone_foundations','cp_n1_a.run(records) -> dict',
     ['Usa PII real','Calcula denominadores incorrectamente','No maneja entrada malformada','Sin tests']),
   mk('CP-N1-B','2.0.0','Pipeline ETL Reproducible de Clientes y Transacciones',1,'S08',['S05','S06','S07','S08'],['CP-N1-A'],['S05','S06','S07'],
     'Un pipeline local que ingiere CSV y JSON, valida contratos, separa filas aceptadas y en cuarentena, y produce salidas deterministas con manifiesto.',
