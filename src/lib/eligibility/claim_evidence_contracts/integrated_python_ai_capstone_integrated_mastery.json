@@ -1,11 +1,11 @@
 {
   "credential_id": "integrated_python_ai_capstone_integrated_mastery",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "active",
   "credential_class": "D",
   "credential_class_name": "Verified PyArcana Credential",
   "public_name": "Integrated Python and AI Capstone — Synthesis",
-  "capability_statement": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.",
+  "capability_statement": "El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.2.0.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -44,17 +44,29 @@
     "S50-YOUDO",
     "S51-YOUDO",
     "S40-EXAM",
+    "S40-SELFCHECK",
     "S41-EXAM",
+    "S41-SELFCHECK",
     "S42-EXAM",
+    "S42-SELFCHECK",
     "S43-EXAM",
+    "S43-SELFCHECK",
     "S44-EXAM",
+    "S44-SELFCHECK",
     "S45-EXAM",
+    "S45-SELFCHECK",
     "S46-EXAM",
+    "S46-SELFCHECK",
     "S47-EXAM",
+    "S47-SELFCHECK",
     "S48-EXAM",
+    "S48-SELFCHECK",
     "S49-EXAM",
+    "S49-SELFCHECK",
     "S50-EXAM",
-    "S51-EXAM"
+    "S50-SELFCHECK",
+    "S51-EXAM",
+    "S51-SELFCHECK"
   ],
   "critical_gates": [
     "reproducibility_determinism",
@@ -65,5 +77,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_authoritative",
-  "specification_hash": "sha256:integrated_python_ai_capstone_integrated_mastery:1.1.0"
+  "specification_hash": "sha256:integrated_python_ai_capstone_integrated_mastery:1.2.0"
 }

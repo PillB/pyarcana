@@ -1,10 +1,10 @@
 {
   "capstone_id": "CP-N1-B",
-  "version": "2.0.0",
-  "execution_status": "fail",
+  "version": "3.0.0",
+  "execution_status": "pass",
   "demo_exits_zero": true,
-  "tests_pass": false,
-  "placeholder_tests": 5,
-  "starter_fails": null,
+  "tests_pass": true,
+  "placeholder_tests": 0,
+  "starter_fails": true,
   "verified_at": "2026-11-21"
 }

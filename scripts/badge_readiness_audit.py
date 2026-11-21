@@ -57,7 +57,8 @@ def main() -> int:
         if k.startswith("youdo."):
             offers[e["section_id"]].add("YOUDO")
         elif k.startswith("selfcheck."):
-            offers[e["section_id"]].add("EXAM")
+            # The section's question bank feeds both its self-check and its exam.
+            offers[e["section_id"]].update(("EXAM", "SELFCHECK"))
         elif k.startswith("wedo."):
             offers[e["section_id"]].add("WEDO")
         elif k.startswith("ido."):
@@ -96,7 +97,7 @@ def main() -> int:
             if n is None or n not in by_num:
                 failures.append({"badge": bid, "code": "UNKNOWN_REQUIRED_SECTION", "detail": tag})
 
-        # required_activities such as S01-YOUDO / S01-EXAM must exist to be done
+        # required_activities such as S01-YOUDO / S01-EXAM / S01-SELFCHECK must exist to be done
         for act in b.get("required_activities", []):
             if not isinstance(act, str) or "-" not in act:
                 continue
@@ -105,7 +106,7 @@ def main() -> int:
             if n is None or n not in by_num:
                 continue
             slug = by_num[n]
-            if kind in {"YOUDO", "EXAM"} and kind not in offers[slug]:
+            if kind in {"YOUDO", "EXAM", "SELFCHECK"} and kind not in offers[slug]:
                 failures.append({
                     "badge": bid, "code": "ACTIVITY_NOT_DELIVERED",
                     "detail": f"{act} but {slug} has no {kind.lower()}",

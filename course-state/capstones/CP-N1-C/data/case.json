@@ -1,0 +1,135 @@
+{
+  "case_id": "CASE-N1-001",
+  "data_class": "synthetic_only",
+  "people": [
+    {
+      "id": "P01",
+      "name": "Ana Quispe Rojas",
+      "document_id": "D-1001",
+      "region": "Lima",
+      "phone": "900111001",
+      "coords": [
+        -12.0464,
+        -77.0428
+      ]
+    },
+    {
+      "id": "P02",
+      "name": "ANA  QUISPE ROJAS",
+      "document_id": "d1001",
+      "region": "lima",
+      "phone": "900111001",
+      "coords": [
+        -12.0464,
+        -77.0428
+      ]
+    },
+    {
+      "id": "P03",
+      "name": "Ana Quispe",
+      "document_id": "D.1001",
+      "region": "Cusco",
+      "phone": "984222003",
+      "coords": [
+        -13.532,
+        -71.9675
+      ]
+    },
+    {
+      "id": "P04",
+      "name": "Luis Mamani Soto",
+      "document_id": "D-2002",
+      "region": "Arequipa",
+      "phone": null,
+      "coords": [
+        -16.3989,
+        -71.535
+      ]
+    },
+    {
+      "id": "P05",
+      "name": "Luis Mamani Soto",
+      "document_id": null,
+      "region": "Arequipa",
+      "phone": null,
+      "coords": [
+        -16.3989,
+        -71.535
+      ]
+    },
+    {
+      "id": "P06",
+      "name": "Bruno Silva Vega",
+      "document_id": "D-3003",
+      "region": "Lima",
+      "phone": "900333006",
+      "coords": [
+        -12.05,
+        -77.04
+      ]
+    },
+    {
+      "id": "P07",
+      "name": "Carla Torres Paz",
+      "document_id": "D-4007",
+      "region": "Lima",
+      "phone": "014000000",
+      "coords": [
+        -12.09,
+        -77.03
+      ]
+    },
+    {
+      "id": "P08",
+      "name": "Diego Paredes Luna",
+      "document_id": "D-4008",
+      "region": "Lima",
+      "phone": "014000000",
+      "coords": [
+        -12.0905,
+        -77.0302
+      ]
+    },
+    {
+      "id": "P09",
+      "name": "Elena Huaman Rios",
+      "document_id": "D-4009",
+      "region": "Lima",
+      "phone": "014000000",
+      "coords": [
+        -12.0898,
+        -77.0297
+      ]
+    },
+    {
+      "id": "P10",
+      "name": "Felix Ccori Mayta",
+      "document_id": "D-4010",
+      "region": "Lima",
+      "phone": "014000000",
+      "coords": [
+        -12.0902,
+        -77.0305
+      ]
+    },
+    {
+      "id": "P11",
+      "name": "Gloria Rojas Diaz",
+      "document_id": "D-5011",
+      "region": "Cusco",
+      "phone": "984555011",
+      "coords": null
+    },
+    {
+      "id": "P12",
+      "name": "Hugo Quispe Ramos",
+      "document_id": "D-6012",
+      "region": "Lima",
+      "phone": "900666012",
+      "coords": [
+        -12.12,
+        -77.03
+      ]
+    }
+  ]
+}

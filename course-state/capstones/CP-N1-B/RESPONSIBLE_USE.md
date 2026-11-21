@@ -1,8 +1,11 @@
 # Requisitos de uso responsable
 
-La cuarentena (esto es, separar las filas que no cumplen el contrato para revisarlas) no implica fraude; solo indica que la fila no cumple el contrato. Revisión humana decide.
+La cuarentena aparta una fila que no cumple el contrato, con su motivo, para que una persona la
+revise. No implica fraude ni dice nada de la persona del registro. Una persona decide qué hacer
+con cada fila apartada.
 
 ## Lo que este proyecto NO hace
-- No decide adversamente sobre personas sin revisión humana.
-- No infiere automáticamente fraude, parentesco, colusión, asociación criminal, propiedad beneficiaria ni relación causal.
-- No sobreinterpreta asociaciones como causalidad.
+- No toma decisiones sobre personas.
+- No infiere fraude, parentesco, colusión, asociación criminal, propiedad beneficiaria ni
+  relaciones causales.
+- No presenta una asociación como si fuera una causa.
