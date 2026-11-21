@@ -25,6 +25,23 @@ CAPS = [
 ]
 GATE_MAP = {"S04":"CP-N1-A","S08":"CP-N1-B","S13":"CP-N1-C","S17":"CP-N2-A","S21":"CP-N2-B","S26":"CP-N2-C","S30":"CP-N3-A","S34":"CP-N3-B","S39":"CP-N3-C","S43":"CP-N4-A","S47":"CP-N4-B","S51":"CP-N4-C","S52":"CP-FINAL"}
 
+def final_contracts() -> dict:
+    """What CP-FINAL integrates from each upstream capstone. Field 9 of a CAPS row is the
+    interface and field 10 its critical failures; this read field 10 as the interface until
+    proposal 11, so a regeneration replaced every interface with a list of failures."""
+    fin = next(c for c in CAPS if c[11])
+    by_id = {c[0]: c for c in CAPS}
+    contracts = [{"capstoneId": d, "interface": by_id[d][9], "version": by_id[d][1],
+                  "contractType": "python_module", "syntheticScenario": "shared_scenario_v1",
+                  "contractTestsPresent": True, "criticalFailures": by_id[d][10]} for d in fin[6]]
+    return {"version": "1.0.0", "finalCapstone": "CP-FINAL", "upstreamCount": len(fin[6]),
+            "sharedSyntheticScenario": "shared_scenario_v1", "contracts": contracts}
+
+
+def final_contracts_text() -> str:
+    return json.dumps(final_contracts(), ensure_ascii=False, indent=2) + "\n"
+
+
 def main():
     (VAL/"capstones").mkdir(parents=True,exist_ok=True)
     (VAL/"reality").mkdir(parents=True,exist_ok=True)
@@ -47,8 +64,7 @@ def main():
     for d in fin[6]: edges.append({"from":d,"to":"CP-FINAL","type":"final_integrates"})
     (VAL/"architecture"/"capstone_dependency_graph.json").write_text(json.dumps({"version":"1.0.0","nodes":nodes,"edges":edges,"finalIntegratesCount":len(fin[6])},ensure_ascii=False,indent=2))
     # final integration contracts
-    contracts=[{"capstoneId":d,"interface":next(c[10] for c in CAPS if c[0]==d),"version":next(c[1] for c in CAPS if c[0]==d),"contractType":"python_module","syntheticScenario":"shared_scenario_v1","contractTestsPresent":True} for d in fin[6]]
-    (VAL/"architecture"/"final_integration_contracts.json").write_text(json.dumps({"version":"1.0.0","finalCapstone":"CP-FINAL","upstreamCount":len(fin[6]),"sharedSyntheticScenario":"shared_scenario_v1","contracts":contracts},ensure_ascii=False,indent=2))
+    (VAL/"architecture"/"final_integration_contracts.json").write_text(final_contracts_text())
     # section-capstone mapping
     s2c={}
     for c in CAPS:
