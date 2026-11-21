@@ -8,9 +8,12 @@ import { useProgressStore } from '@/lib/progress-store'
 import type { ProgressState } from '@/lib/cloud/progress-merge'
 import type { OwnerAdapter, ProgressStoreAdapter } from '@/lib/cloud/progress-sync'
 import { useCloudSession } from '@/lib/cloud/session'
+import { useTheoryCheckpoints } from '@/lib/theory-checkpoints'
 
-function pick(s: ProgressState): ProgressState {
+/** The synced state is two stores: the progress record and the theory parts read. */
+function pick(s: ProgressState, theoryParts = useTheoryCheckpoints.getState().read): ProgressState {
   return {
+    theoryParts,
     completedSections: s.completedSections,
     completedSubSteps: s.completedSubSteps,
     quizScores: s.quizScores,
@@ -38,12 +41,30 @@ export const progressStoreAdapter: ProgressStoreAdapter = {
   setState: (patch) => {
     remoteDepth += 1
     try {
-      useProgressStore.setState(patch)
+      // Progress first: a wipe there clears the parts (followProgressReset), and the account's
+      // own parts, written after, must be what is left.
+      const { theoryParts, ...progress } = patch
+      useProgressStore.setState(progress)
+      // Same content: leave the store alone (no re-render, no write to storage on every pull).
+      if (theoryParts !== undefined && JSON.stringify(theoryParts) !== JSON.stringify(useTheoryCheckpoints.getState().read)) {
+        useTheoryCheckpoints.setState({ read: theoryParts })
+      }
     } finally {
       remoteDepth -= 1
     }
   },
-  subscribe: (listener) => useProgressStore.subscribe((state, prev) => listener(pick(state), pick(prev))),
+  subscribe: (listener) => {
+    const stopProgress = useProgressStore.subscribe((state, prev) => listener(pick(state), pick(prev)))
+    const stopParts = useTheoryCheckpoints.subscribe((state, prev) => {
+      if (state.read === prev.read) return
+      const progress = useProgressStore.getState()
+      listener(pick(progress, state.read), pick(progress, prev.read))
+    })
+    return () => {
+      stopProgress()
+      stopParts()
+    }
+  },
 }
 
 export const progressOwnerAdapter: OwnerAdapter = {

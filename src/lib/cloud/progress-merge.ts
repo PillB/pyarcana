@@ -3,7 +3,11 @@
  * progress shape, so an un-toggle on one device propagates instead of being resurrected by a union.
  *
  * Remote doc: {v:1, sv:<section-id schema version>, state:<progress fields>, changes:{[item]:{present, ts}}}
- * Items: `sec:<id>`, `sub:<id>:<step>`, `bm:<id>`.
+ * Items: `sec:<id>`, `sub:<id>:<step>`, `bm:<id>`, `tp:<id>:<part>` (a theory part marked as read;
+ *   state field `theoryParts`, kept by theory-checkpoints.ts and joined to the progress state by
+ *   progress-adapter.ts). A copy of the app from before `tp` existed drops the field and the entries
+ *   when it reads a doc and uploads without them; a newer device still holds its own and uploads
+ *   them again, so nothing is lost while both versions are in use, but an un-tick can come back.
  * - An item in either change log: the newest ts wins; a tie goes to present. Lists are rebuilt only
  *   from ids some state holds, so a change log alone cannot inject progress.
  * - Otherwise: union.  quizScores: max.  startDate: earliest.  lastVisited: local (remote only
@@ -22,8 +26,10 @@ import {
 } from '@/lib/progress-sanitize'
 import { SECTION_ID_SCHEMA_VERSION, renameSectionId } from '@/lib/section-id-migrations'
 import { isPlainObject, readJson, writeJson, type KeyValueStorage } from '@/lib/cloud/storage'
+import { isPartKey, sanitizeCheckpoints, type CheckpointMap } from '@/lib/theory-checkpoints'
 
-export type ProgressState = SanitizedProgressState
+/** The synced state: the progress record plus the theory parts read (absent = none). */
+export type ProgressState = SanitizedProgressState & { theoryParts?: CheckpointMap }
 export interface ChangeEntry {
   present: boolean
   ts: number
@@ -44,6 +50,7 @@ export function safeId(id: unknown): id is string {
 export const secKey = (id: string) => `sec:${id}`
 export const subKey = (id: string, step: string) => `sub:${id}:${step}`
 export const bmKey = (id: string) => `bm:${id}`
+export const tpKey = (id: string, part: string) => `tp:${id}:${part}`
 
 /** Canonical form of an item key (section ids renamed), or null when it is not a valid key. */
 export function canonicalKey(key: string): string | null {
@@ -51,6 +58,7 @@ export function canonicalKey(key: string): string | null {
   if (extra !== undefined || !safeId(id)) return null
   const current = renameSectionId(id)
   if (kind === 'sub') return safeId(step) ? subKey(current, step) : null
+  if (kind === 'tp') return isPartKey(step) ? tpKey(current, step) : null
   if (step !== undefined) return null
   if (kind === 'sec') return secKey(current)
   return kind === 'bm' ? bmKey(current) : null
@@ -87,7 +95,7 @@ export function recordChanges(log: ChangeLog, more: ChangeLog): ChangeLog {
   return out
 }
 
-type ItemFields = Pick<ProgressState, 'completedSections' | 'completedSubSteps' | 'bookmarks'>
+type ItemFields = Pick<ProgressState, 'completedSections' | 'completedSubSteps' | 'bookmarks' | 'theoryParts'>
 
 function itemSet(state: Partial<ItemFields>): Set<string> {
   const items = new Set<string>()
@@ -96,6 +104,9 @@ function itemSet(state: Partial<ItemFields>): Set<string> {
     for (const step of steps) items.add(subKey(id, step))
   }
   for (const id of state.bookmarks ?? []) items.add(bmKey(id))
+  for (const [id, parts] of Object.entries(state.theoryParts ?? {})) {
+    for (const part of parts) items.add(tpKey(id, part))
+  }
   return items
 }
 
@@ -135,13 +146,17 @@ function dropUnsafe(s: Partial<ProgressState>): Partial<ProgressState> {
     bookmarks: s.bookmarks?.filter(safeId),
     lastVisited: safeId(s.lastVisited) ? s.lastVisited : null,
     startDate: isDate(s.startDate) ? s.startDate : null,
+    theoryParts: sanitizeCheckpoints(s.theoryParts),
   }
 }
 
 /** Untrusted progress (remote doc, archive, handoff): sanitize, migrate ids, filter. */
 export function cleanIncomingState(raw: unknown, fromVersion: number): Partial<ProgressState> {
   const migrated = migrateProgressState(sanitizePersisted(raw), fromVersion, SECTION_ID_SCHEMA_VERSION).state
-  return dropUnsafe(migrated)
+  // sanitizePersisted keeps only the progress record's own fields; the parts are read beside it
+  // (sanitizeCheckpoints: known shapes only, section ids renamed, bounded).
+  const theoryParts = isPlainObject(raw) ? raw.theoryParts : undefined
+  return dropUnsafe({ ...migrated, theoryParts: theoryParts as CheckpointMap | undefined })
 }
 
 export interface ParsedRemote {
@@ -169,6 +184,17 @@ function mergeSteps(local: Record<string, string[]>, remote: Record<string, stri
   return out
 }
 
+/** Like mergeSteps, without empty lists: a section with no part read has no entry. */
+function mergeParts(local: CheckpointMap, remote: CheckpointMap, present: (k: string) => boolean): CheckpointMap {
+  const out: CheckpointMap = {}
+  for (const id of new Set([...Object.keys(local), ...Object.keys(remote)])) {
+    if (id === '__proto__') continue
+    const parts = orderedUnion(local[id] ?? [], remote[id] ?? [], (part) => present(tpKey(id, part)))
+    if (parts.length > 0) out[id] = parts
+  }
+  return out
+}
+
 function maxScores(local: Record<string, number>, remote: Record<string, number>): Record<string, number> {
   const out: Record<string, number> = {}
   for (const [id, v] of [...Object.entries(local), ...Object.entries(remote)]) {
@@ -186,6 +212,9 @@ function earliest(a: string | null, b: string | null | undefined): string | null
 }
 
 function buildMerged(local: ProgressState, other: Partial<ProgressState>, present: (k: string) => boolean): ProgressState {
+  const theoryParts = mergeParts(local.theoryParts ?? {}, other.theoryParts ?? {}, present)
+  // A caller that does not track parts and receives none gets back the shape it passed in.
+  const withParts = local.theoryParts !== undefined || Object.keys(theoryParts).length > 0
   return {
     completedSections: orderedUnion(local.completedSections, other.completedSections ?? [], (id) => present(secKey(id))),
     completedSubSteps: mergeSteps(local.completedSubSteps, other.completedSubSteps ?? {}, present),
@@ -194,6 +223,7 @@ function buildMerged(local: ProgressState, other: Partial<ProgressState>, presen
     bookmarks: orderedUnion(local.bookmarks, other.bookmarks ?? [], (id) => present(bmKey(id))),
     startDate: earliest(local.startDate, other.startDate),
     isHydratedFromServer: local.isHydratedFromServer,
+    ...(withParts ? { theoryParts } : {}),
   }
 }
 
@@ -240,15 +270,22 @@ export interface RemoteDoc {
   changes: ChangeLog
 }
 
-/** The doc PUT to /v1/me/progress. The device-local hydration flag is not part of it. */
+/**
+ * The doc PUT to /v1/me/progress. The device-local hydration flag is not part of it, and neither
+ * is an empty `theoryParts`: a learner with no part read uploads the same bytes as before the
+ * field existed, so the "unchanged since the last ack" check spends no write on them.
+ */
 export function buildRemoteDoc(state: ProgressState, changes: ChangeLog): RemoteDoc {
-  const { isHydratedFromServer: _local, ...shared } = state
-  return { v: REMOTE_DOC_VERSION, sv: SECTION_ID_SCHEMA_VERSION, state: shared, changes }
+  const { isHydratedFromServer: _local, theoryParts, ...shared } = state
+  const parts = Object.fromEntries(Object.entries(theoryParts ?? {}).filter(([, list]) => list.length > 0))
+  const withParts = Object.keys(parts).length > 0 ? { ...shared, theoryParts: parts } : shared
+  return { v: REMOTE_DOC_VERSION, sv: SECTION_ID_SCHEMA_VERSION, state: withParts, changes }
 }
 
 export function hasProgress(state: Partial<ProgressState>): boolean {
   const steps = Object.values(state.completedSubSteps ?? {}).some((s) => s.length > 0)
-  return (state.completedSections?.length ?? 0) > 0 || steps || (state.bookmarks?.length ?? 0) > 0 || Object.keys(state.quizScores ?? {}).length > 0
+  const parts = Object.values(state.theoryParts ?? {}).some((p) => p.length > 0)
+  return (state.completedSections?.length ?? 0) > 0 || steps || parts || (state.bookmarks?.length ?? 0) > 0 || Object.keys(state.quizScores ?? {}).length > 0
 }
 
 export function loadChangeLog(storage: KeyValueStorage | null, nowMs: number): ChangeLog {
