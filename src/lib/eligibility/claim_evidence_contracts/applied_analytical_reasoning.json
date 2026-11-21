@@ -1,11 +1,11 @@
 {
   "credential_id": "applied_analytical_reasoning",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "active",
   "credential_class": "B",
   "credential_class_name": "Assessed Skill Badge",
-  "public_name": "Applied Analytical Reasoning",
-  "capability_statement": "El aprendiz demostró independientemente Analytical Reasoning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.",
+  "public_name": "Python Diagnostics and Packaging",
+  "capability_statement": "El aprendiz demostró independientemente Analytical Reasoning mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.1.0.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -18,8 +18,10 @@
   "required_activities": [
     "S09-YOUDO",
     "S09-EXAM",
+    "S09-SELFCHECK",
     "S10-YOUDO",
-    "S10-EXAM"
+    "S10-EXAM",
+    "S10-SELFCHECK"
   ],
   "critical_gates": [
     "reproducibility_determinism"
@@ -27,5 +29,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_verified",
-  "specification_hash": "sha256:applied_analytical_reasoning:1.0.0"
+  "specification_hash": "sha256:applied_analytical_reasoning:1.1.0"
 }

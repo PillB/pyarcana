@@ -2,7 +2,7 @@ import { LegalPage } from '@/components/legal/LegalPage'
 
 export default function DisclaimerPage() {
   return (
-    <LegalPage title="Aviso educativo y profesional" version="1.0" effectiveDate="2026-07-29">
+    <LegalPage title="Aviso educativo y profesional" version="1.1" effectiveDate="2026-11-21">
       <h2 className="text-lg font-semibold">Naturaleza educativa</h2>
       <p>PyArcana es material educativo. No constituye asesoría profesional, legal ni financiera. Los ejercicios y escenarios usan datos sintéticos (esto es, datos ficticios creados para enseñar conceptos) y no deben usarse en producción sin adaptación.</p>
       
@@ -10,7 +10,7 @@ export default function DisclaimerPage() {
       <p>Completar el curso no garantiza empleo, ascensos, admisión a programas académicos, aumento de salario ni resultados profesionales específicos. El aprendizaje real depende del tiempo, esfuerzo y práctica que dediques.</p>
       
       <h2 className="text-lg font-semibold">Las insignias no son certificaciones</h2>
-      <p>Las insignias (badges) de PyArcana describen evidencia de ejercicios completados de forma independiente. No son equivalentes a certificaciones de Microsoft, AWS, Google, IBM, universidades ni ningún otro organismo externo. Una insignia demuestra que completaste ejercicios específicos; no demuestra competencia profesional verificada por un tercero.</p>
+      <p>Un marcador de progreso indica que completaste las secciones. Una insignia de competencia (badge) indica trabajo independiente con puntaje mínimo. Ninguno de los dos es equivalente a certificaciones de Microsoft, AWS, Google, IBM, universidades ni ningún otro organismo externo. Una insignia demuestra que completaste ejercicios específicos; no demuestra competencia profesional verificada por un tercero.</p>
       
       <h2 className="text-lg font-semibold">No subas información sensible</h2>
       <p>No subas información confidencial, personal, regulada ni propiedad de tu empleador a los ejercicios. Los datos de los ejercicios son sintéticos y ficticios. Si usas datos propios, asegúrate de que no contengan información protegida.</p>

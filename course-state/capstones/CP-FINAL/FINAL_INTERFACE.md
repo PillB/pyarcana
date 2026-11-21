@@ -31,9 +31,9 @@
 ## Contratos de los 12 subsistemas
 | Capstone | Interfaz | Tipo retornado |
 |---|---|---|
-| CP-N1-A | `intake_cli.run(records) -> IntakeResult` | `contracts.IntakeResult` |
-| CP-N1-B | `etl.run(batch) -> EtlManifest` | `contracts.EtlManifest` |
-| CP-N1-C | `familiarity.review(case) -> ReviewPacket` | `contracts.ReviewPacket` |
+| CP-N1-A | `cp_n1_a.run(records) -> dict` (vía `intake.run`) | `contracts.IntakeResult` |
+| CP-N1-B | `cp_n1_b.run(data_dir, out_dir, run_id=None) -> int` (vía `etl.run`) | `contracts.EtlManifest` |
+| CP-N1-C | `cp_n1_c.review(case) -> ReviewPacket` (vía `familiarity.review`) | `contracts.ReviewPacket` |
 | CP-N2-A | `eda.profile(dataset) -> EdaReport` | `contracts.EdaReport` |
 | CP-N2-B | `reports.render(spec) -> ReportBundle` | `contracts.ReportBundle` |
 | CP-N2-C | `rpa.run(job) -> RpaAudit` | `contracts.RpaAudit` |
@@ -54,7 +54,18 @@
 
 <!-- Additive correction (ready-hardening). Original interface text is preserved above. -->
 
-The twelve subsystem modules listed above are **in-process pedagogical twins**
-(`integration/intake.py`, `etl.py`, …). They honor the versioned contracts and
-do **not** import the twelve upstream capstone package trees. GO flags are
-computed from runner work; empty contract objects are fail-closed.
+Nine of the twelve subsystem modules listed above (`integration/eda.py` to `copilot.py`) are
+**in-process pedagogical twins**. They honor the versioned contracts and do **not** import their
+upstream capstone package trees. GO flags are computed from runner work; empty contract objects
+are fail-closed.
+
+Since proposal 11 (3.0.0 level-1 contracts), the three level-1 modules are not twins:
+`intake.py`, `etl.py` and `familiarity.py` call the interface each CP-N1 package publishes
+(`CP-N1-X/reference/cp_n1_x.py`) through `integration/upstream.py`, so CP-FINAL cannot drift
+from those contracts. `platform._build_subsystem_inputs` translates the shared scenario into each
+package's own shape, and nowhere else. In your own CP-FINAL, point `upstream.py` at your files.
+
+¿No es eso el acoplamiento que prohíbe el BRIEF? No: llamar a la interfaz que un paquete publica
+(`cp_n1_a.run`, `cp_n1_b.run`, `cp_n1_c.review`) es integrar por contrato. Lo que el BRIEF prohíbe
+es copiar el código de otro paquete o leer sus partes internas, que es lo que hacían las copias
+anteriores de estos tres módulos: por eso se habían quedado en la versión 2.0.0.

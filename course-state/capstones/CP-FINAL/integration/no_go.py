@@ -38,7 +38,7 @@ NEGATIVE_FLAGS: Dict[str, List[str]] = {
 #: Positive (must-be-True) flags per capstone.
 POSITIVE_FLAGS: Dict[str, List[str]] = {
     "CP-N1-A": ["malformed_handled"],
-    "CP-N1-B": ["idempotent"],
+    "CP-N1-B": ["idempotent", "reconcile_ok"],
     "CP-N1-C": ["human_review_required", "correction_mechanism"],
     "CP-N2-A": ["reproducible"],
     "CP-N2-B": ["accessible"],
@@ -53,6 +53,7 @@ POSITIVE_FLAGS: Dict[str, List[str]] = {
 
 #: Negative (must-be-False) flags per capstone.
 MUST_BE_FALSE_FLAGS: Dict[str, List[str]] = {
+    "CP-N1-C": ["risk_decisions"],  # must stay empty: the packet never decides risk
     "CP-N2-B": ["color_only_encoding", "hidden_denominators"],
     "CP-N3-A": ["inferred_relationships"],
     "CP-N3-B": ["auto_fraud_labels"],

@@ -50,42 +50,50 @@ def to_jsonable(obj: Any) -> Any:
 
 @dataclass(frozen=True)
 class IntakeResult:
-    """CP-N1-A — intake_cli.run(records) -> IntakeResult"""
+    """CP-N1-A 3.0.0 — cp_n1_a.run(records) -> dict, carried as a contract object."""
     contract_id: str = "CP-N1-A"
-    contract_version: str = "2.0.0"
+    contract_version: str = "3.0.0"
+    results: List[Dict[str, Any]] = field(default_factory=list)
     n_total: int = 0
-    n_ok: int = 0
-    n_warn: int = 0
-    n_error: int = 0
-    rows: List[Dict[str, Any]] = field(default_factory=list)
-    malformed_handled: bool = False  # fail-closed until the runner handles rows
+    n_accept: int = 0
+    n_review: int = 0
+    n_reject: int = 0
+    tasa_reject: Optional[float] = None
+    malformed_handled: bool = False  # fail-closed until every record got a state
 
 
 @dataclass(frozen=True)
 class EtlManifest:
-    """CP-N1-B — etl.run(batch) -> EtlManifest"""
+    """CP-N1-B 3.0.0 — cp_n1_b.run(data_dir, out_dir, run_id=None) -> int, plus what it wrote."""
     contract_id: str = "CP-N1-B"
-    contract_version: str = "2.0.0"
-    batch_id: str = ""
-    accepted: List[Dict[str, Any]] = field(default_factory=list)
-    quarantine: List[Dict[str, Any]] = field(default_factory=list)
-    idempotent: bool = False          # fail-closed until two runs match
-    provenance: Dict[str, str] = field(default_factory=dict)
-    manifest_hash: str = ""
+    contract_version: str = "3.0.0"
+    exit_code: int = 1
+    run_id: str = ""
+    sources: List[Dict[str, Any]] = field(default_factory=list)
+    n_in: int = 0
+    n_clean: int = 0
+    n_quarantine: int = 0
+    reconcile_ok: bool = False
+    clean: Dict[str, Any] = field(default_factory=dict)
+    quarantine: Dict[str, List[Dict[str, Any]]] = field(default_factory=dict)
+    idempotent: bool = False  # fail-closed until two runs give the same clean, quarantine, sources
 
 
 @dataclass(frozen=True)
 class ReviewPacket:
-    """CP-N1-C — familiarity.review(case) -> ReviewPacket"""
+    """CP-N1-C 3.0.0 — cp_n1_c.review(case) -> ReviewPacket, as JSON-friendly lists."""
     contract_id: str = "CP-N1-C"
-    contract_version: str = "2.0.0"
+    contract_version: str = "3.0.0"
     case_id: str = ""
+    rules_version: str = ""
     entity_evidence: List[Dict[str, Any]] = field(default_factory=list)
     relationship_evidence: List[Dict[str, Any]] = field(default_factory=list)
-    decision_evidence: List[Dict[str, Any]] = field(default_factory=list)
-    human_review_required: bool = False  # fail-closed until review is required
-    privacy_sheet: Dict[str, str] = field(default_factory=dict)
-    correction_mechanism: bool = False
+    decisions: List[Dict[str, Any]] = field(default_factory=list)
+    risk_decisions: List[Dict[str, Any]] = field(default_factory=list)
+    review_queue: List[Dict[str, Any]] = field(default_factory=list)
+    privacy_sheet: Dict[str, Any] = field(default_factory=dict)
+    human_review_required: bool = False  # fail-closed until the packet says so
+    correction_mechanism: bool = False   # fail-closed until a correction is shown to work
 
 
 # --- N2 contracts ----------------------------------------------------------
@@ -263,9 +271,9 @@ class IntegrationBundle:
 
 #: Maps each upstream capstone id -> (contract dataclass, factory callable name).
 CONTRACT_REGISTRY: Dict[str, Dict[str, Any]] = {
-    "CP-N1-A": {"type": IntakeResult, "version": "2.0.0"},
-    "CP-N1-B": {"type": EtlManifest, "version": "2.0.0"},
-    "CP-N1-C": {"type": ReviewPacket, "version": "2.0.0"},
+    "CP-N1-A": {"type": IntakeResult, "version": "3.0.0"},
+    "CP-N1-B": {"type": EtlManifest, "version": "3.0.0"},
+    "CP-N1-C": {"type": ReviewPacket, "version": "3.0.0"},
     "CP-N2-A": {"type": EdaReport, "version": "2.0.0"},
     "CP-N2-B": {"type": ReportBundle, "version": "2.0.0"},
     "CP-N2-C": {"type": RpaAudit, "version": "2.0.0"},

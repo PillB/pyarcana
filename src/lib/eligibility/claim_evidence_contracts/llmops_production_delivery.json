@@ -1,6 +1,6 @@
 {
   "credential_id": "llmops_production_delivery",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "active",
   "credential_class": "B",
   "credential_class_name": "Assessed Skill Badge",
@@ -20,10 +20,13 @@
   "required_activities": [
     "S41-YOUDO",
     "S41-EXAM",
+    "S41-SELFCHECK",
     "S42-YOUDO",
     "S42-EXAM",
+    "S42-SELFCHECK",
     "S43-YOUDO",
-    "S43-EXAM"
+    "S43-EXAM",
+    "S43-SELFCHECK"
   ],
   "critical_gates": [
     "mlops_fluency",
@@ -32,5 +35,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_verified",
-  "specification_hash": "sha256:llmops_production_delivery:1.0.0"
+  "specification_hash": "sha256:llmops_production_delivery:1.1.0"
 }
