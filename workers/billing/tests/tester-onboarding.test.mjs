@@ -1,6 +1,7 @@
 /**
- * How a tester gets in while sign-up is CLOSED (no CONTROLLER_NAME: production deploys without
- * the holder file). Red-team round on PR #168, 2026-11-20. The only way in for a non-admin is an
+ * How a tester gets in while sign-up is CLOSED (no CONTROLLER_NAME: the deploy ran without the
+ * holder file; redeploy.sh prints "Sign-up: OPEN" or "Sign-up: CLOSED"). Red-team round on PR #168,
+ * 2026-11-20. The only way in for a non-admin is an
  * account the admin created by granting the role to an email; the tester then signs in with
  * Google under that exact address. These tests pin who can and who cannot get through:
  * - the right order (grant first, then a Gmail sign-in with the same address) works and the
