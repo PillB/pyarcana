@@ -1,0 +1,37 @@
+[
+  {
+    "id": "T001",
+    "client_id": "C001",
+    "monto": "5.00"
+  },
+  {
+    "id": "T002",
+    "client_id": "C002",
+    "monto": "12.345"
+  },
+  {
+    "id": "T003",
+    "client_id": "C003",
+    "monto": "0"
+  },
+  {
+    "id": "T004",
+    "client_id": "C001",
+    "monto": 12.5
+  },
+  {
+    "id": "T005",
+    "monto": "3.00"
+  },
+  {
+    "id": "T006",
+    "client_id": "C008",
+    "monto": null
+  },
+  "T007",
+  {
+    "id": "T008",
+    "client_id": "C008",
+    "monto": "1,5"
+  }
+]
