@@ -1761,56 +1761,54 @@ cubo(3) = 27`,
       hint: 'Cambia maxsize de lru_cache a 1 y observa como cambia el cache_info',
     },
     'wxpython-gui': {
-      title: 'Practica eventos y callbacks (simulado)',
-      code: `# Simulacion de eventos GUI (sin wxPython en Pyodide)
-# Concepto: como funcionan los callbacks de eventos
+      title: 'Practica un quality gate con cuarentena',
+      code: `# Practica un quality gate: cada fila queda en clean o en cuarentena
+lote = [
+    {"cliente_id": "C010", "region": "Lima", "monto": 120.0},
+    {"cliente_id": "C011", "region": "Ica", "monto": None},
+    {"cliente_id": "C012", "region": "Puno", "monto": 80.0},
+    {"cliente_id": "C012", "region": "Puno", "monto": 95.0},
+    {"cliente_id": "C013", "region": "Ica", "monto": 15000.0},
+]
 
-class Button:
-    """Simula un boton de GUI con event binding."""
-    def __init__(self, name):
-        self.name = name
-        self.callback = None
-    
-    def bind(self, event_type, callback):
-        """Vincula un callback a un evento (como wx.EVT_BUTTON)."""
-        self.callback = callback
-        print(f"  {self.name}: evento '{event_type}' vinculado")
-    
-    def click(self):
-        """Simula un clic del usuario."""
-        if self.callback:
-            print(f"  {self.name}: CLICK detectado!")
-            self.callback()
-        else:
-            print(f"  {self.name}: sin callback vinculado")
+def razon(fila, repetidas):
+    if fila["cliente_id"] is None or fila["monto"] is None:
+        return "null_required"
+    if fila["cliente_id"] in repetidas:
+        return "dup_conflict"  # este lote no trae copias exactas
+    if not 0 <= fila["monto"] <= 10000:
+        return "domain_error"
+    return None
 
-# Crear botones como en wxPython
-btn_saludar = Button("btn_saludar")
-btn_salir = Button("btn_salir")
+ids = [f["cliente_id"] for f in lote if f["cliente_id"] is not None]
+repetidas = {i for i in ids if ids.count(i) > 1}
+clean, quarantine = [], []
+for fila in lote:
+    r = razon(fila, repetidas)
+    if r is None:
+        clean.append(fila)
+    else:
+        quarantine.append({**fila, "reason": r})
 
-# Definir callbacks (event handlers)
-def on_saludar(event=None):
-    print("    -> Hola desde el boton saludar!")
-
-def on_salir(event=None):
-    print("    -> Cerrando aplicacion...")
-
-# Vincular eventos (como btn.Bind(wx.EVT_BUTTON, handler))
-btn_saludar.bind("EVT_BUTTON", on_saludar)
-btn_salir.bind("EVT_BUTTON", on_salir)
-
-# Simular clics
-print("Simulando clics:")
-btn_saludar.click()
-btn_salir.click()`,
-      expectedOutput: `  btn_saludar: evento 'EVT_BUTTON' vinculado
-  btn_salir: evento 'EVT_BUTTON' vinculado
-Simulando clics:
-  btn_saludar: CLICK detectado!
-    -> Hola desde el boton saludar!
-  btn_salir: CLICK detectado!
-    -> Cerrando aplicacion...`,
-      hint: 'Anade un tercer boton con su propio callback y haz clic en el',
+metrics = {
+    "rows_in": len(lote),
+    "rows_clean": len(clean),
+    "rows_quarantine": len(quarantine),
+    "pass": len(quarantine) == 0,
+}
+print("clean", [f["cliente_id"] for f in clean])
+for q in quarantine:
+    print("cuarentena", q["cliente_id"], q["reason"])
+print(metrics)
+print("cuadra", metrics["rows_in"] == metrics["rows_clean"] + metrics["rows_quarantine"])`,
+      expectedOutput: `clean ['C010']
+cuarentena C011 null_required
+cuarentena C012 dup_conflict
+cuarentena C012 dup_conflict
+cuarentena C013 domain_error
+{'rows_in': 5, 'rows_clean': 1, 'rows_quarantine': 4, 'pass': False}
+cuadra True`,
+      hint: 'Cambia el monto de C013 a 9000 y predice qué cambia en metrics. Después borra una de las filas de C012 y vuelve a ejecutar: ¿cuántas filas quedan en clean?',
     },
     'packaging': {
       title: 'Practica semver y dependencias',

@@ -222,6 +222,78 @@
       "reason_contains": "needs the pinned content interpreter",
       "why": "It runs S15 lesson code, which needs pandas and openpyxl from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
       "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s15.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.OnePartition.test_key_evidence_block_partitions_exact_copies_and_conflicts",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.OnePartition.test_evidence_demo_keeps_no_row_in_both_sets",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.OnePartition.test_the_old_keep_first_split_breaks_the_sum",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.DocumentedDateFormat.test_the_pinned_dates_run",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.WeDoChecksCanFail.test_mutations_in_pandas_exercises",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.WeDoChecksCanFail.test_every_starter_misses_its_pin_and_every_solution_hits_it",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.YouDoStarterAsserts.test_a_partitioning_gate_passes_the_starter_asserts",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.YouDoStarterAsserts.test_keep_first_on_a_conflict_fails_the_starter_asserts",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s16.YouDoStarterAsserts.test_filling_the_required_null_fails_the_starter_asserts",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S16 lesson code, which needs pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s16.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }

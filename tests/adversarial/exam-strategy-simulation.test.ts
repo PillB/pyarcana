@@ -99,11 +99,11 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'multimodal', 'opensource', 'packaging', 'performance-extreme', 'rag',
   'rapidfuzz-entity', 'rpa-advanced', 'security-infra', 'setup',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
-  'text-unicode-regex', 'wxpython-gui',
+  'text-unicode-regex',
 ]
-// Five of these sit within about two standard errors (0.7 points each at 1000 learners) of the 5%
+// Five of these sat within about two standard errors (0.7 points each at 1000 learners) of the 5%
 // line: advanced-models, architecture-ddd-decisions, dbt-bigquery, fastapi and wxpython-gui, at
-// 5.8-6.5%. A change to how the draw consumes randomness can move one across it; that is a
+// 5.8-6.5%; wxpython-gui has since left (proposal 12 S16). A change to how the draw consumes randomness can move one across it; that is a
 // re-measurement, not a regression, and the commit that updates the list should say so. The test
 // prints the banks near the line on every run.
 // 2026-11-18, proposal 10 S11: oop-domain leaves (4.1%, near the line) after its distractors were
@@ -112,11 +112,14 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // rewritten as misconceptions; its keys sit at each length rank on 6 of 24. 45 -> 44.
 // 2026-11-21, proposal 12 S15: stdlib-deep (pandas) leaves "longest" the same way; its key was
 // longest on 23 of 24 and now sits at each length rank on 6 of 24. 44 -> 43.
+// 2026-11-21, proposal 12 S16: wxpython-gui (data quality) leaves "longest" and "clang" after all
+// 72 distractors were rewritten as misconceptions; its keys sit at each length rank on 6 of 24.
+// 43 -> 42 longest, 13 -> 12 clang.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery',
   'fastapi', 'iteration-summaries', 'rag', 'setup',
-  'streamlit-dashboards', 'text-unicode-regex', 'wxpython-gui',
+  'streamlit-dashboards', 'text-unicode-regex',
 ]
 // Every key in these two banks contains its concept's slug.
 const BANKS_PASSABLE_BY_SLUG_OWED: string[] = []
