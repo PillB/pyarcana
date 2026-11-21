@@ -5,7 +5,7 @@
     "BRIEF.md",
     "RUBRIC.json",
     "gate.json",
-    "cp_n1_a.py",
+    "STARTER/cp_n1_a.py",
     "reference/cp_n1_a.py",
     "demo.py",
     "data/generate.py",

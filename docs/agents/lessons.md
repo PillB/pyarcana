@@ -667,9 +667,12 @@ back. Read this list before a section round; every item cost at least one failed
   `test_forward_dependencies.py` scans capstone starters at `STARTER/*.py`; proposal 11 moved
   CP-N1-A's starter to the package root, and the scan would have stopped reading it while still
   reporting clean. Its own coverage test (`test_every_capstone_starter_is_scanned`) compares the
-  scan with the same glob, so it would have agreed. Fix: both read `STARTER/*.py` and `cp_*.py` at
-  the root. Guard: before moving a file, `git grep` its directory name in `tests/` and `scripts/`
-  and check every glob that names it, not only imports.
+  scan with the same glob, so it would have agreed. The move also tripped the preservation
+  sentinel: `git diff --diff-filter=D` reports a rename as a deletion when the new content is
+  under git's 50% similarity threshold (an 8-line stub became a 96-line scaffold). Fix: the
+  learner's file stays at `STARTER/cp_n1_a.py`; only the reference moved. Guard: before moving a
+  file, `git grep` its directory name in `tests/` and `scripts/`, check every glob that names it,
+  and run `npm run test:preservation` after committing (it diffs commits, not the index).
 - **A test suite that imports the answer by default certifies no work.** CP-N1-A's tests
   defaulted to `demo.py` (the reference) and its starter README said "run the tests", so an
   untouched starter passed 11 of 11. Root cause: the default served the maintainer, who runs the

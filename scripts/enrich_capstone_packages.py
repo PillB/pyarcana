@@ -170,8 +170,8 @@ def execution_record(pkg: Path, cid: str, version: str) -> dict:
     """Run the package's demo and tests and report what they did. Never a literal True."""
     demo = subprocess.run([sys.executable, "demo.py"], cwd=pkg, capture_output=True, text=True)
     suite = [sys.executable, str(Path("tests") / "test_demo.py")]
-    # A rebuilt package (proposal 11) tests the learner's root cp_*.py by default and the
-    # reference under CAPSTONE_TARGET=reference; older packages ignore the variable.
+    # A rebuilt package (proposal 11, it has tests/_select.py) tests the learner's STARTER file by
+    # default and the reference under CAPSTONE_TARGET=reference; older packages ignore the variable.
     tests = subprocess.run(suite, cwd=pkg, capture_output=True, text=True,
                            env={**os.environ, "CAPSTONE_TARGET": "reference"})
     demo_ok = demo.returncode == 0 and "METRICS_JSON:" in demo.stdout
@@ -179,7 +179,7 @@ def execution_record(pkg: Path, cid: str, version: str) -> dict:
     tests_ok = tests.returncode == 0 and placeholders == 0
     # The untouched starter must fail its tests, or the suite cannot tell work from no work.
     starter_fails = None
-    if any(pkg.glob("cp_*.py")):
+    if (pkg / "tests" / "_select.py").is_file():
         learner = subprocess.run(suite, cwd=pkg, capture_output=True, text=True,
                                  env={**os.environ, "CAPSTONE_TARGET": "learner"})
         starter_fails = learner.returncode != 0

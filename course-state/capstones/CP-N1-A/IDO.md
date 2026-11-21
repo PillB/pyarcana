@@ -1,6 +1,6 @@
 # I Do (Yo demuestro)
 
-El instructor modela el proceso paso a paso en voz alta, con el lote `RECORDS` de `cp_n1_a.py`.
+El instructor modela el proceso paso a paso en voz alta, con el lote `RECORDS` de `STARTER/cp_n1_a.py`.
 
 1. Toma el primer registro, `30|R-NORTE|0`: edad 30 → `OK`, región en el catálogo → `OK`,
    monto 0 → `OK`. Estado: `accept`, sin motivos.

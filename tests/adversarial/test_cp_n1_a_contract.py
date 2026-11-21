@@ -5,8 +5,8 @@ contract (edad/region/monto_ingreso/raw_line; accept/review/reject; zero accepte
 execution.json reports what the package's tests and demo actually did, not a literal True.
 
 Proposal 11, step 2 (approved 2026-11-21):
-- The learner's file is cp_n1_a.py at the package root, and the tests check it by default. The
-  reference moved to reference/cp_n1_a.py; CAPSTONE_TARGET=reference selects it. Before, the tests
+- The learner's file is STARTER/cp_n1_a.py, and the tests check it by default. The reference
+  moved to reference/cp_n1_a.py; CAPSTONE_TARGET=reference selects it. Before, the tests
   imported demo.py, the full answer, so the untouched starter "passed".
 - The untouched starter must fail every test, and each mutant of the reference must fail too.
 - Every copy of the interface (brief, FINAL_INTERFACE, app catalog, validation contract, final
@@ -122,15 +122,15 @@ class CpN1AContractAlignment(unittest.TestCase):
 
     def test_the_reference_uses_only_what_s01_to_s04_teach(self):
         """No dataclasses, typing or __future__: CP-N1-A closes S04 (proposal 10, CP-N1-A/demo.py.1)."""
-        for path in (PKG / "reference" / "cp_n1_a.py", PKG / "cp_n1_a.py"):
+        for path in (PKG / "reference" / "cp_n1_a.py", PKG / "STARTER" / "cp_n1_a.py"):
             source = path.read_text(encoding="utf-8")
             for construct in ("dataclass", "typing", "__future__", "lambda", "try:", "class "):
                 self.assertNotIn(construct, source, f"{path.name} uses {construct}")
 
     def test_the_starter_declares_every_function_the_tests_call(self):
-        starter = (PKG / "cp_n1_a.py").read_text(encoding="utf-8")
+        starter = (PKG / "STARTER" / "cp_n1_a.py").read_text(encoding="utf-8")
         tests = (PKG / "tests" / "test_demo.py").read_text(encoding="utf-8")
-        called = set(re.findall(r"impl\.([a-zA-Z_]+)\(", tests)) | set(re.findall(r"impl\.([A-Z_]+)\b", tests))
+        called = set(re.findall(r"impl\.([a-zA-Z_0-9]+)\(", tests)) | set(re.findall(r"impl\.([A-Z_]+)\b", tests))
         for name in called:
             self.assertRegex(starter, rf"(?m)^(def {name}\(|{name} = )", f"starter lacks {name}")
 
@@ -152,9 +152,11 @@ class CpN1ACopiesAgree(unittest.TestCase):
         self.assertIn(f"`{INTERFACE}`", (PKG / "FINAL_INTERFACE.md").read_text(encoding="utf-8"))
         self.assertIn(f"`{INTERFACE}`", (PKG / "BRIEF.md").read_text(encoding="utf-8"))
 
-    def test_the_public_brief_is_the_package_brief(self):
-        self.assertEqual((ROOT / "public/capstones/CP-N1-A_BRIEF.md").read_text(encoding="utf-8"),
-                         (PKG / "BRIEF.md").read_text(encoding="utf-8"))
+    def test_the_public_copies_are_the_package_files(self):
+        """The app serves public/capstones/ to learners; the rubric copy had drifted since #141."""
+        for public, package in (("CP-N1-A_BRIEF.md", "BRIEF.md"), ("CP-N1-A_RUBRIC.json", "RUBRIC.json")):
+            self.assertEqual((ROOT / "public/capstones" / public).read_text(encoding="utf-8"),
+                             (PKG / package).read_text(encoding="utf-8"), public)
 
     def test_gate_and_rubric_carry_one_weighting(self):
         gate = json.loads((PKG / "gate.json").read_text(encoding="utf-8"))
@@ -183,13 +185,13 @@ class CpN1ATestsCanFail(unittest.TestCase):
         run = run_tests(PKG, target="learner")
         self.assertNotEqual(run.returncode, 0)
         self.assertIn(f"0 pasan, {N_TESTS} fallan", run.stdout)
-        self.assertIn(str(PKG / "cp_n1_a.py"), run.stdout)
+        self.assertIn(str(PKG / "STARTER" / "cp_n1_a.py"), run.stdout)
 
     def test_the_tests_check_the_learner_file_when_no_target_is_set(self):
         env = {k: v for k, v in os.environ.items() if k != "CAPSTONE_TARGET"}
         run = subprocess.run([sys.executable, "tests/test_demo.py"], capture_output=True,
                              text=True, cwd=PKG, env=env)
-        self.assertIn(f"Probando {PKG / 'cp_n1_a.py'}", run.stdout)
+        self.assertIn(f"Probando {PKG / 'STARTER' / 'cp_n1_a.py'}", run.stdout)
 
     def test_every_mutant_turns_the_package_tests_red(self):
         survivors = []
