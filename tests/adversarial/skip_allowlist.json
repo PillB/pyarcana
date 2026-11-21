@@ -62,6 +62,78 @@
       "reason_contains": "needs the pinned content interpreter",
       "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
       "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_starter_is_not_the_answer.BatchTwoStartersAreNotTheAnswer.test_enough_exercises_were_run",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_starter_is_not_the_answer.BatchTwoStartersAreNotTheAnswer.test_no_starter_prints_the_answer",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "Running lesson code needs the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job runs tests/adversarial/test_starter_is_not_the_answer.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.ExercisesCheckTheCaseTheyTeach.test_each_wrong_answer_changes_the_output",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.ExercisesCheckTheCaseTheyTeach.test_reference_solutions_print_their_pinned_output",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.ExercisesCheckTheCaseTheyTeach.test_the_success_line_states_the_new_pin",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.ExercisesCheckTheCaseTheyTeach.test_the_you_do_measures_equivalence",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.OneRulePerContract.test_the_contract_demo_fails_closed_under_python_O",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.OneRulePerContract.test_the_mask_callout_names_the_error_numpy_raises",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.WarningsRunTheirMistake.test_each_counterexample_prints_its_effect",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }

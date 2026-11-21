@@ -678,6 +678,15 @@ back. Read this list before a section round; every item cost at least one failed
   title, tests, solution code and output, not the starter, so S14-T4-A-E3 kept its anchor.
   Guard: build the ledger rows from the anchor diff (`exercise_fingerprints.mts --write`), not
   from the list of edited exercises.
+- **A test class that skips without the content interpreter breaks the adversarial CI job.**
+  `BatchTwoStartersAreNotTheAnswer` passed locally, where `.venv-content` exists, and failed CI's
+  "Adversarial unit suite": that job has no pinned content environment, so the class skips, and
+  `scripts/run_adversarial_py.py` fails every skip that `tests/adversarial/skip_allowlist.json`
+  does not name. Root cause: the local runner never skipped, so it could not show the problem.
+  Fix: allowlist each skipped test with the job where it really runs (content-gates). Guard: run
+  the runner once from a fresh worktree without `.venv-content`
+  (`git worktree add`, symlink `node_modules`) before pushing a test that uses `CONTENT_PY`, and
+  make sure the content-gates job runs that file.
 
 ## Proposal 12, S14: errors met and how they were closed (21 Nov 2026)
 
