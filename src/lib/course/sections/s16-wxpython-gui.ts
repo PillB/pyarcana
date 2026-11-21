@@ -1127,13 +1127,13 @@ print(conflictos(pd.DataFrame({"cliente_id": ["C004", "C005", "C005"], "region":
         subtopicId: "S16-T2-A",
         kind: "transfer",
         title: "Clasificar exact, conflict o clean",
-        preamble: "- **Contexto:** el runbook del gate elige acción **después** de clasificar; devolver `clean` sin mirar es el anti-patrón.\n- **Meta:** para cada clave del fixture, `clasificar(key)` devuelve `exact`, `conflict` o `clean`.\n- **Éxito:** `['conflict', 'exact', 'conflict', 'clean']`.\n- **Límites:** clasifica antes de borrar; no asumas clean; mira la fila entera, no solo la región.",
-        instruction: "1. Filtra las filas de la clave.\n2. Si hay una sola fila → `clean`.\n3. Si todas las filas son copias exactas → `exact`.\n4. Si la clave se repite y alguna fila difiere en cualquier columna → `conflict`. C003 difiere solo en `score`.",
+        preamble: "- **Contexto:** el runbook del gate elige acción **después** de clasificar; devolver `clean` sin mirar es el anti-patrón.\n- **Meta:** para cada clave del fixture, `clasificar(key)` devuelve `exact`, `conflict` o `clean`.\n- **Éxito:** `['conflict', 'exact', 'conflict', 'clean', 'conflict']`.\n- **Límites:** clasifica antes de borrar; no asumas clean; mira la fila entera, no solo la región.",
+        instruction: "1. Filtra las filas de la clave.\n2. Si hay una sola fila → `clean`.\n3. Si todas las filas son copias de una sola versión → `exact`. C005 trae dos copias de Lima y dos de Cusco: son dos versiones.\n4. Si la clave se repite y alguna fila difiere en cualquier columna → `conflict`. C003 difiere solo en `score`.",
         hint: "Una fila → clean; copias exactas → exact; clave repetida con cualquier diferencia → conflict.",
-        hints: ["sub = df[df.cliente_id == key]; si len(sub) == 1, devuelve clean.", "Si sub.duplicated(keep=False).all() es True, devuelve exact; si no, conflict, aunque la región coincida."],
-        edgeCases: ["orden de if", "sin filtrar id", "mirar solo la región"],
-        tests: "C001 → conflict (región), C002 → exact, C003 → conflict (solo score), C004 → clean",
-        feedback: "C003 tiene la misma región y otro score: es conflicto, porque una clave repetida que no es copia exacta no puede ir al conjunto limpio. Si mirabas solo la región, la clasificaste como `clean`. C002 es `exact`: sus dos filas son idénticas. Clasifica antes de borrar; no asumas clean a ciegas.",
+        hints: ["sub = df[df.cliente_id == key]; si len(sub) == 1, devuelve clean.", "Si len(sub.drop_duplicates()) == 1, hay una sola versión y devuelves exact; si no, conflict, aunque la región coincida."],
+        edgeCases: ["orden de if", "sin filtrar id", "mirar solo la región", "dos versiones, cada una repetida"],
+        tests: "C001 → conflict (región), C002 → exact, C003 → conflict (solo score), C004 → clean, C005 → conflict (dos versiones, cada una repetida)",
+        feedback: "C003 tiene la misma región y otro score: es conflicto, porque una clave repetida que no es copia exacta no puede ir al conjunto limpio. Si mirabas solo la región, la clasificaste como `clean`. C002 es `exact`: sus dos filas son idénticas. Si C005 te dio `exact`, preguntaste si cada fila tiene una copia. La pregunta correcta es cuántas versiones distintas hay. Clasifica antes de borrar; no asumas clean a ciegas.",
         retrospective: "El orden clasificar→actuar evita borrar el rastro del conflicto. Una clave repetida con cualquier diferencia nunca es `clean`. Pregunta: si `score` es idéntico pero `region` difiere, ¿es exact o conflict? Cierra T2-A. En T2-B partirás clean vs. quarantine con evidencia.",
         starterCode: {
           language: 'python',
@@ -1142,36 +1142,36 @@ print(conflictos(pd.DataFrame({"cliente_id": ["C004", "C005", "C005"], "region":
 # Pista: clasifica mirando las filas de cada clave; no devuelvas clean a ciegas
 import pandas as pd
 df = pd.DataFrame({
-    "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004"],
-    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica"],
-    "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7],
+    "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004", "C005", "C005", "C005", "C005"],
+    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Lima", "Lima", "Cusco", "Cusco"],
+    "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7, 0.6, 0.6, 0.6, 0.6],
 })
 
 def clasificar(key):
     return "clean"
 
-print([clasificar(k) for k in ["C001", "C002", "C003", "C004"]])`,
+print([clasificar(k) for k in ["C001", "C002", "C003", "C004", "C005"]])`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
 df = pd.DataFrame({
-    "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004"],
-    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica"],
-    "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7],
+    "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004", "C005", "C005", "C005", "C005"],
+    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Lima", "Lima", "Cusco", "Cusco"],
+    "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7, 0.6, 0.6, 0.6, 0.6],
 })
 
 def clasificar(key):
     sub = df[df.cliente_id == key]
     if len(sub) == 1:
         return "clean"
-    if sub.duplicated(keep=False).all():
+    if len(sub.drop_duplicates()) == 1:
         return "exact"
     return "conflict"
 
-print([clasificar(k) for k in ["C001", "C002", "C003", "C004"]])`,
-          output: `['conflict', 'exact', 'conflict', 'clean']`,
+print([clasificar(k) for k in ["C001", "C002", "C003", "C004", "C005"]])`,
+          output: `['conflict', 'exact', 'conflict', 'clean', 'conflict']`,
         },
       },
       {

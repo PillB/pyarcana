@@ -334,9 +334,11 @@ MUTATIONS = [
     ("S16-T1-B-E3", "s.median()", "s.mean()"),
     ("S16-T2-A-E1", "keep=False", 'keep="first"'),
     ("S16-T2-A-E2", "return regiones[regiones > 1].index.tolist()", 'return ["C001"]'),
-    ("S16-T2-A-E3", 'if sub.duplicated(keep=False).all():\n        return "exact"\n    return "conflict"',
+    ("S16-T2-A-E3", 'if len(sub.drop_duplicates()) == 1:\n        return "exact"\n    return "conflict"',
      'if sub["region"].nunique() > 1:\n        return "conflict"\n    return "exact"'),
-    ("S16-T2-A-E3", 'if sub.duplicated(keep=False).all():\n        return "exact"\n', ""),
+    ("S16-T2-A-E3", 'if len(sub.drop_duplicates()) == 1:\n        return "exact"\n', ""),
+    # Codex review on #184: "every row has a copy" is not "one version"; C005 has two versions, each twice.
+    ("S16-T2-A-E3", "if len(sub.drop_duplicates()) == 1:", "if sub.duplicated(keep=False).all():"),
     ("S16-T2-B-E1", "c = df[~mask]", 'c = df.drop_duplicates("id", keep="first")'),
     ("S16-T2-B-E2", 'return df[df.duplicated("id", keep=False)].copy()',
      'return df[df.duplicated("id", keep=False)][["id", "batch"]].copy()'),
