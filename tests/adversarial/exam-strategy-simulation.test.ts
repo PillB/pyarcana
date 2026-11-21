@@ -97,7 +97,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'opensource', 'packaging', 'performance-extreme', 'rag',
-  'rapidfuzz-entity', 'rpa-advanced', 'security-infra', 'setup', 'stdlib-deep',
+  'rapidfuzz-entity', 'rpa-advanced', 'security-infra', 'setup',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
   'text-unicode-regex', 'wxpython-gui',
 ]
@@ -110,6 +110,8 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // rewritten. 14 -> 13.
 // 2026-11-21, proposal 12 S14: security (NumPy) leaves "longest" after all 72 distractors were
 // rewritten as misconceptions; its keys sit at each length rank on 6 of 24. 45 -> 44.
+// 2026-11-21, proposal 12 S15: stdlib-deep (pandas) leaves "longest" the same way; its key was
+// longest on 23 of 24 and now sits at each length rank on 6 of 24. 44 -> 43.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery',

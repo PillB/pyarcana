@@ -2310,6 +2310,126 @@
       "reason": "WEDO-19.1: both sums are printed with the flag, so a literal print cannot match.",
       "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
       "date": "2026-11-21"
+    },
+    {
+      "row": 232,
+      "id": "S15-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "4a48f7aceddc30e6e89e9e65c64ef505164af8cdccfdd7575b4b2aa3253a54db",
+      "to_fp": "ab5d05f3aa1915fd0b78ba7f21699e03511b176ee8d61807cfb18a94bffe6498",
+      "reason": "Proposal 12 S15 WEDO-02: the fixture let iloc[1] pass; the check now reads C002 in the series and in the same series sorted descending, so no fixed position gives 0.9 twice.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 233,
+      "id": "S15-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "7e6cef931cf0e49efeba23eeb59e9c93d25d12db5038eb98836d2df6f82869a0",
+      "to_fp": "b7a9b74d8d3a0619f53342120637cf7d0305fd0c907609eae9dcd1fbca538881",
+      "reason": "Proposal 12 S15 WEDO-06: the check also prints the columns, so dropping usecols fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 234,
+      "id": "S15-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "e863d68dc61ff51bf03c7a8a1e14ba214317060f4a5bc84d080e46766be51bc0",
+      "to_fp": "d52f08b6c8a4f2ab7d1f45b38a9c35ef23d39826a68b3b701806023a6edcc757",
+      "reason": "Proposal 12 S15 WEDO-08: the check prints df's columns after assign, so an in-place mutation fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 235,
+      "id": "S15-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "5ff935f001f8a46b99fae4549adc69a4779705e07bfa1e7f26400ee1cfe5987b",
+      "to_fp": "7a8cada0b8a7e82dae85be6a860e588e8926828ba8a018c9a5d887c67027d584",
+      "reason": "Proposal 12 S15 WEDO-09: the fixture has index ['A','B'], so loc[1, 0] raises KeyError and only iloc[1, 0] reads 3.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 236,
+      "id": "S15-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "90541f49d7511d3edd23bc4c1c9f0fc1f3876d77e736eae233f562109d60d93e",
+      "to_fp": "a251d277d928f3f55198717c41dfe2585eb093d0140ad00898b47e7e7d44a863",
+      "reason": "Proposal 12 S15 WEDO-13: the check prints the categories, so skipping str.title() gives ['Lima', 'lima'] and fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 237,
+      "id": "S15-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "569c0b5510d095ca2a2f11c40021c53fab56171f9a2e51a76029a510fd5e6158",
+      "to_fp": "199f86113c6c33b3c6edc221038672f9c2f70c2bc857536bfdea2e1d9ff15d7e",
+      "reason": "Proposal 12 S15 WEDO-16: the fixture has a prior None, so the total (2) and the delta (1) differ.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 238,
+      "id": "S15-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "7ac59f7e0d48c2e38c257873452f2bdc56f9b79ec4d10f034c65db6ea8ae2289",
+      "to_fp": "03055426f7a5951109c5d744c6ae6dc631493c296ca27227a8c88b4f4eb0ff01",
+      "reason": "Proposal 12 S15 WEDO-17: check() runs on an extract with and without monto, so a hardcoded 'missing' fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 239,
+      "id": "S15-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "948db3aef53d9f0a3852c8e424f24036b77920c51ee954492d4db2c382e3146e",
+      "to_fp": "3a4223e0bfe058a5c3cc5ae6f0dbcd3f51ec45311827c8847d62454df9f9585c",
+      "reason": "Proposal 12 S15 WEDO-19: the check prints the first CSV line, so writing the index and hiding it with index_col=0 fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 240,
+      "id": "S15-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "be109f400024dd28f99c786adac59bbc05ea8e818b1d84a61470bbbe0c30cdf5",
+      "to_fp": "26d95fd55984636dab441a5b236e8b5314757f7e735659c7111b450ad68faa50",
+      "reason": "Proposal 12 S15 WEDO-20: the check is the b'PK' signature and the frame read back with read_excel, not a byte count.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 241,
+      "id": "S15-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "9e7ac31552621ae0d5863c4ad8af90458aa5f612b443525560a256a9e9352ba9",
+      "to_fp": "451025612ba8bc42ea8521fdcb2f3f68e530e77253b4b326e54ec12a112282a0",
+      "reason": "Proposal 12 S15 WEDO-22: the check compares deep with shallow memory, since any frame is > 0 bytes.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 242,
+      "id": "S15-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "755198f611af1170e119429e913ae47fe32d3dd3769eb3af10e22fdfb994b275",
+      "to_fp": "77220920bf535c286e8825d6ce3bd1ba83c8d72d0c1f38af56335475edb60a84",
+      "reason": "Proposal 12 S15 WEDO-23: manifest_of runs on two frames, so a hardcoded manifest fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 243,
+      "id": "S15-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "4d5121a12328cee2ea632bac61d996601c3d79c41d17a7e235e0193fb51ba850",
+      "to_fp": "89ba784570a2ef5d2af20e05ff87f31b3fd03e5bd906be2b81f59c89ef9bfd95",
+      "reason": "Proposal 12 S15 WEDO-24: to_csv fixes lineterminator='\\n', so the canonical hash 309b0e45 holds on Windows too.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
     }
   ]
 }

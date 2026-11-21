@@ -102,7 +102,10 @@ import exam_bank  # noqa: E402
 #: a real misconception; the key's length rank is 1, 2, 3 and 4 on 6 of 24 each, and no key was
 #: trimmed except the S14 parenthetical "(o política explícita de ownership)", a term the
 #: section never teaches.
-LONGEST_IS_CORRECT_OWED = 1000
+#: 2026-11-21: 1000 -> 983. Proposal 12 S15: every stdlib-deep (pandas) distractor was rewritten
+#: as a misconception a learner holds (pandas 2.x copy rules, loc on a numeric Index, na_values
+#: for NA); the key is longest on 6 of 24, down from 23, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 983
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

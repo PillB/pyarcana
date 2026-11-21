@@ -22,12 +22,12 @@ export const section15: CourseSection = {
   icon: "Table2",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En banca, fintech y retail en Perú, el día a día del analista no es «abrir Excel y confiar»: es ingerir CSV y Excel de clientes y transacciones sin inventar datos. Aquí aprendes a declarar dtypes (el tipo declarado de cada columna: texto, número, fecha), reportar coerciones fallidas, reconciliar filas y columnas y dejar un manifest (origen, filas, columnas, hash) que otro equipo pueda auditar. Si un monto llega como 15,50 o el score como un token inválido, tu pipeline debe contarlo, no rellenarlo en silencio.",
+    "En banca, fintech y retail en Perú, el día a día del analista no es «abrir Excel y confiar»: es ingerir CSV y Excel de clientes y transacciones sin inventar datos. Aquí aprendes a declarar dtypes, el tipo declarado de cada columna: texto, número, fecha. También a reportar coerciones fallidas, reconciliar filas y columnas y dejar un manifest (origen, filas, columnas, hash) que otro equipo pueda auditar. Si un monto llega como 15,50 o el score como un token inválido, tu pipeline debe contarlo, no rellenarlo en silencio.",
   learningOutcomes: [
     { text: "Modelar una Series (una columna de valores con etiquetas) y un DataFrame (una tabla cuyas columnas comparten las mismas etiquetas de fila), con ids de cliente como etiquetas estables y dtypes explícitos" },
     { text: "Leer CSV/Excel con parser controlado (dtype, parse_dates, na_values, sep, decimal) y reconciliar filas" },
     { text: "Seleccionar filas/columnas con `loc` (por etiquetas) o `iloc` (por posiciones) y crear columnas derivadas con `assign` de forma idiomática" },
-    { text: "Evitar chained assignment (SettingWithCopy) usando loc sobre el original o .copy() explícito" },
+    { text: "Evitar la asignación encadenada (chained assignment) usando loc sobre el original o .copy() explícito" },
     { text: "Tipar strings, tipos nullable, fechas y categorías; contar NaN/NaT tras conversión" },
     { text: "Aplicar schema de columnas con coerción explícita y emitir reporte {columna: n_fallos}" },
     { text: "Exportar a CSV/Excel (y contrato de dtypes estilo Parquet) con index=False y round-trip de columnas" },
@@ -52,7 +52,7 @@ export const section15: CourseSection = {
         "**Orden de los subtemas.** T1 fija el modelo y la lectura: Series, DataFrame y las opciones del parser. T2 pasa a la selección con `loc` e `iloc` y a las copias seguras. T3 trata los tipos: valores nulos, conversión explícita y schema. T4 cierra con la exportación: CSV, Excel, contrato de dtypes y manifest.",
         "**Ritmo orientativo (unas 10 horas).** De esas, tres o cuatro para el núcleo: al terminarlo ya puedes llevar un archivo a un DataFrame declarando los tipos en vez de descubrirlos. El resto se va en la práctica guiada, el proyecto del bloque y el autochequeo. No hace falta hacerlo de una sentada.",
         "**Criterio de cierre.** Filas reconciliadas, un reporte de conversiones fallidas y un manifest con la procedencia del archivo.",
-        "**Dependencias.** pandas 3 y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite. El texto homogéneo infiere `str`; el schema de identificadores pide `string` (nullable); `object` queda para columnas que mezclaron tipos.",
+        "**Dependencias.** pandas 3 y lo ya visto en el curso: rutas, `StringIO`, diccionarios y funciones. Para Excel hace falta `openpyxl`; si no está disponible, se entrega CSV más un schema en JSON y se documenta el límite. El texto homogéneo infiere `str`; el schema de identificadores pide `string` (nullable). En un CSV, una columna que mezcla texto y números también se lee como `str`. `object` aparece al construir una lista de Python con tipos mixtos o en una columna de Excel con celdas de tipos distintos.",
       ],
      },
      {
@@ -69,14 +69,14 @@ export const section15: CourseSection = {
       figure: {
         id: "S15-dataframe",
         caption:
-          "El Index es la columna que no es una columna: es contra qué se alinean las demás cuando dos tablas se juntan. Fíjate en el dtype de monto — nada falló al leer el archivo.",
+          "La tabla ya pasó por `set_index('cliente_id')`, como en el código de abajo: el Index es la columna que no es una columna. Es contra qué se alinean las demás cuando dos tablas se juntan. Fíjate en el dtype de monto: nada falló al leer el archivo.",
         alt:
-          "Una tabla con una columna de Index a la izquierda y tres columnas de datos. Cada columna lleva su dtype encima. La columna monto aparece con borde punteado y dtype de texto porque sus valores usan coma decimal.",
+          "Una tabla con cliente_id como columna de Index a la izquierda (C001, C002, C003) y tres columnas de datos: region, monto y fecha. Cada columna lleva su dtype encima. La columna monto aparece con borde punteado y dtype de texto porque sus valores usan coma decimal.",
       },
       subtopicId: "S15-T1-A",
       paragraphs: [
-        "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",
-        "Un Index **estable** (`cliente_id`) facilita auditoría y, más adelante, unir tablas sin adivinar el orden de las filas. `set_index` / `reset_index` cambian el eje de etiqueta; no pierdas la clave de negocio al exportar. **Fail-closed** (fallar de forma segura): si el id no es único y el contrato lo exige, reporta duplicados **antes** de un `set_index` ciego. En un retailer peruano sintético, `C001` en Lima y `C002` en Arequipa deben seguir siendo las mismas filas después de filtrar, reindexar o exportar — la etiqueta es la identidad de negocio, no la posición 0 o 1.",
+        "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. Si el negocio dice «cero si no aparece», `s1.add(s2, fill_value=0)` trata la etiqueta que falta como 0 antes de sumar. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",
+        "Un Index **estable** (`cliente_id`) facilita auditoría y, más adelante, unir tablas sin adivinar el orden de las filas. `set_index` / `reset_index` cambian el eje de etiqueta; no pierdas la clave de negocio al exportar. **Fail-closed** (fallar de forma segura): si el id no es único y el contrato lo exige, reporta duplicados **antes** de un `set_index` ciego. En un retailer peruano sintético, `C001` en Lima y `C002` en Arequipa deben seguir siendo las mismas filas después de filtrar, reindexar o exportar. La etiqueta es la identidad de negocio, no la posición 0 o 1.",
         "MultiIndex (por ejemplo región × mes) se menciona solo como etiquetas jerárquicas; las agregaciones multi-eje llegan cuando trabajes con uniones y reúnas las filas que comparten el valor de una clave. Caso de laboratorio: Series de scores indexada por `C001`/`C002` y un DataFrame con `region` (texto) + `score` (float64). Antes de las APIs de selección, interioriza esta regla: **etiqueta ≠ posición**. Si el index es `cliente_id`, `loc['C002']` y `iloc[1]` solo coinciden si el orden de filas lo permite — no lo asumas.",
       ],
       code: {
@@ -118,7 +118,7 @@ s15_th_1()`,
       },
       subtopicId: "S15-T1-B",
       paragraphs: [
-        "`read_csv` acepta `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. `read_excel` comparte los primeros, pero no `sep`: un archivo de Excel no tiene separador de columnas que elegir, porque las celdas ya vienen delimitadas por el formato. Controlar el parser evita dos silencios distintos. Si un monto llega como texto homogéneo, pandas 3 lo guarda como `str` — un dtype de texto, no un saco de objetos — y los totales no se pueden sumar aunque el `head()` se vea bien. Si la columna mezcla un número con un nombre, ya no es texto: queda como `object`, el tipo que pandas reserva para valores heterogéneos. Las fechas sin `parse_dates` se quedan como texto y los filtros temporales fallan o mienten. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",
+        "`read_csv` acepta `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. `read_excel` comparte los primeros, pero no `sep`: un archivo de Excel no tiene separador de columnas que elegir, porque las celdas ya vienen delimitadas por el formato. Controlar el parser evita dos silencios distintos. Si un monto llega como texto homogéneo, pandas 3 lo guarda como `str`, un dtype de texto. Los totales no se pueden sumar, aunque el `head()` se vea bien. Si una columna del CSV mezcla números y nombres, también se lee como `str`: el valor mezclado se guarda como texto. `object`, el tipo para valores heterogéneos, aparece con celdas de Excel o listas de Python de tipos mixtos. Las fechas sin `parse_dates` se quedan como texto y los filtros temporales fallan o mienten. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto. El bug no es “pandas raro”: es el contrato de parser no declarado.",
         "En datasets latinos declara encoding (`utf-8` o el real del proveedor), separador y **decimal** (`decimal=','` cuando el monto viene como `15,50`). Evita reescribir el archivo a mano con `.replace(',', '.')` salvo un preproceso documentado y acotado: el parámetro `decimal` es el camino idiomático cuando no hay comas de miles que confundan el parseo. `usecols` recorta columnas basura antes de tipar. Cuidado con `na_values`: tokens como `NA` o `N/A` **ya son nulos por defecto** en `read_csv`; `na_values` sirve para marcadores **propios del proveedor** (`SIN_DATO`, `ND`, `-999`). Excel requiere motor de terceros (`openpyxl`: `pip install openpyxl`). Fail-closed: si falta una columna requerida del schema de ingesta, no continúes “con lo que haya”.",
         "Siempre reconcilia **filas leídas vs. esperadas** y lista columnas + dtypes **antes** de confiar en un `head()` bonito. Caso sintético de laboratorio: CSV con `SIN_DATO` en monto → declara `na_values=['SIN_DATO']` (o cuenta la conversión con `to_numeric`), `cliente_id` como `string`, `monto` como `float64` y `fecha` como `datetime64`. Si el entorno no tiene `openpyxl`, completa el contrato con CSV + schema JSON y documenta el límite en el README del laboratorio — no finjas un export Excel que no corre.",
       ],
@@ -156,7 +156,7 @@ s15_th_2()`,
       heading: "loc, iloc, filtros y assign",
       subtopicId: "S15-T2-A",
       paragraphs: [
-        "**loc** selecciona por **etiqueta** (nombre de fila/columna); **iloc** por **posición** (0, 1, 2…). Los filtros booleanos viven dentro de `loc`: `df.loc[df['score'] < 0.5, ['cliente_id', 'score']]`. Evita el encadenamiento `df[cols][rows]` o `df[df.a > 0]['b']`: es frágil y prepara el terreno del SettingWithCopy. La diferencia etiqueta/posición es la fuente clásica de off-by-one cuando el Index ya no es `0..n-1` sino `cliente_id`.",
+        "**loc** selecciona por **etiqueta** (nombre de fila/columna); **iloc** por **posición** (0, 1, 2…). Los filtros booleanos viven dentro de `loc`: `df.loc[df['score'] < 0.5, ['cliente_id', 'score']]`. Evita el encadenamiento `df[cols][rows]` o `df[df.a > 0]['b']`: es frágil y prepara el terreno de la asignación encadenada, que verás en el siguiente bloque. La diferencia etiqueta/posición es la fuente clásica de off-by-one cuando el Index ya no es `0..n-1` sino `cliente_id`.",
         "`assign` devuelve un **nuevo** DataFrame con columnas derivadas y encaja en un pipeline legible (`df.loc[...].assign(...)`). Menos mutación accidental, más fácil de testear. En producción muchos equipos prefieren máscaras explícitas sobre `query` porque depuran mejor, tipan mejor en IDEs y no mezclan lógica de negocio dentro de un string frágil. Usa `query` solo si tu equipo ya lo estandarizó y lo prueba.",
         "Caso sintético de laboratorio: filtrar `score < 0.5` deja a `C002`; `assign(score_pct=...)` produce porcentajes `[90, 30, 60]`; `iloc[0, 0]` lee la celda en la esquina superior izquierda por posición. Regla de intención: si solo lees, no copies; si vas a **mutar** un subset, decide en voz alta si mutas el padre con `loc` o un `.copy()` con vida propia. Esa decisión es el puente al siguiente subtema (chained assignment).",
       ],
@@ -186,16 +186,16 @@ C001`,
         type: "tip",
         title: "loc para etiquetas",
         content:
-          "Evita `df[cols][rows]` encadenado: un solo `loc` (o `iloc` si es posición). Así reduces SettingWithCopy y dejas la intención legible en una línea.",
+          "Evita `df[cols][rows]` encadenado: un solo `loc` (o `iloc` si es posición). Así evitas la asignación encadenada y dejas la intención legible en una línea.",
       },
     },
     {
       heading: "Chained assignment y semántica de copias",
       subtopicId: "S15-T2-B",
       paragraphs: [
-        "La asignación en cadena (`df[mask]['col'] = valor`) es un error de intención: no actualiza el DataFrame padre de forma fiable. En pandas moderno (con **Copy-on-Write** —esto es, escritura sobre copia automática—, que en pandas 2.x había que activar a mano con `pd.options.mode.copy_on_write = True` y que en pandas 3.0 pasó a ser el comportamiento por defecto) el comportamiento es más determinista — la cadena **no** escribe en el padre — pero el patrón sigue prohibido en código profesional. Es el bug clásico de pipelines de ingesta en banca y retail: en pantalla el flag “revisar” parece seteado, al exportar el CSV el flag desaparece, y el ticket de calidad regresa.",
-        "Patrón seguro (consenso Real Python / Data School / pandas docs): (1) asigna con **un solo** `.loc[row_mask, col] = valor` sobre el original, o (2) materializa `subset = df.loc[...].copy()` **antes** de mutar el subconjunto. Nunca `df[df.a > 0]['b'] = 1`. Regla mental: **una sola indexación en la asignación**, o **copy explícita** si el subset tiene vida propia (p. ej. se lo pasas a otra función). Con Copy-on-Write, `.copy()` declara independencia del objeto, no solo “silencia un warning”.",
-        "En pipelines, prefiere métodos que devuelven objeto nuevo (`assign`, `where`) y documenta cuándo copias. Caso sintético: con `loc` marcas scores bajos como `flag='bajo'`; el subset copiado recibe `revisado=True` sin corromper el padre. Para demostrar aislamiento, muta la copia e imprime el original: si el original cambió, tenías un alias (`c = df`), no un `copy()`. Ese test mental es parte del hábito profesional.",
+        "La asignación en cadena (`df[mask]['col'] = valor`) es un error de intención: en pandas 3 **nunca** escribe en el DataFrame padre. La causa es **Copy-on-Write** (escritura sobre copia), el comportamiento por defecto desde pandas 3.0. Con él, el objeto intermedio `df[mask]` siempre se comporta como copia. pandas lo señala con `ChainedAssignmentError`, que es un aviso y no una excepción: el script sigue y el padre queda igual. En pandas 2.x el aviso se llamaba `SettingWithCopyWarning` y a veces la cadena sí escribía; por eso verás ese nombre en foros y tutoriales antiguos. Es el bug clásico de pipelines de ingesta en banca y retail: en pantalla el flag “revisar” parece seteado, al exportar el CSV el flag desaparece, y el ticket de calidad regresa.",
+        "Patrón seguro (consenso Real Python / Data School / pandas docs): (1) asigna con **un solo** `.loc[row_mask, col] = valor` sobre el original, o (2) materializa `subset = df.loc[...].copy()` **antes** de mutar el subconjunto. Nunca `df[df.a > 0]['b'] = 1`. Regla mental: **una sola indexación en la asignación**, o **copy explícita** si el subset tiene vida propia (p. ej. se lo pasas a otra función). Con Copy-on-Write, mutar un subset ya no cambia el padre, así que `.copy()` no arregla un bug de memoria: declara que el subset es una copia independiente. Quien lee el código sabe así que ese objeto tiene vida propia.",
+        "En pipelines, prefiere métodos que devuelven objeto nuevo (`assign`, `where`) y documenta cuándo copias. Caso sintético: con `loc` marcas scores bajos como `flag='bajo'`; el subset copiado recibe `revisado=True` sin corromper el padre. Para demostrar aislamiento, muta la copia e imprime el original: si el original cambió, tenías un alias (`c = df`), no un `copy()`. Para imprimir una columna con huecos, `fillna('')` reemplaza los NaN solo en lo que muestras; los datos siguen con NaN. Ese test mental es parte del hábito profesional.",
       ],
       code: {
         language: 'python',
@@ -211,24 +211,34 @@ C001`,
     bajo["revisado"] = True
     print(df[["score", "flag"]].to_dict(orient="list"))
     print(bajo["revisado"].tolist())
+    # contraejemplo: la cadena escribe en un intermedio, nunca en el padre
+    import warnings
+    malo = pd.DataFrame({"score": [0.1, 0.9, 0.4]})
+    with warnings.catch_warnings(record=True) as avisos:
+        warnings.simplefilter("always")
+        malo[malo["score"] < 0.5]["flag"] = "bajo"  # Error: asignación encadenada
+    print("aviso", avisos[0].category.__name__)
+    print("padre_sin_flag", "flag" not in malo.columns)
 
 s15_th_4()`,
         output: `{'score': [0.1, 0.9, 0.4], 'flag': ['bajo', nan, 'bajo']}
-[True, True]`,
+[True, True]
+aviso ChainedAssignmentError
+padre_sin_flag True`,
       },
       callout: {
         type: "danger",
         title: "Chained assignment",
         content:
-          "Nunca hagas `df[df.a>0]['b'] = 1`. Ese patrón es el origen típico de SettingWithCopyWarning. Usa un solo `loc` sobre el original o `.copy()` explícita del subset antes de mutar.",
+          "Nunca hagas `df[df.a>0]['b'] = 1`. En pandas 3 ese patrón no escribe en el padre y emite `ChainedAssignmentError` (en pandas 2.x, `SettingWithCopyWarning`). Usa un solo `loc` sobre el original o `.copy()` explícita del subset antes de mutar.",
       },
     },
     {
       heading: "Strings, nullable, fechas y categorías",
       subtopicId: "S15-T3-A",
       paragraphs: [
-        "Los dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** controlan memoria y errores de comparación. En pandas 3 conviene no confundir tres nombres que parecen lo mismo. El default de una columna de texto homogéneo es `str`: solo admite cadenas o ausentes (`NaN`), y meterle un número provoca error. `string` — el que pide el schema de CP-N2-A para los identificadores — es el contrato nullable, con `pd.NA` para los huecos; se pide con `astype('string')` y no llega solo por inferencia. `object` ya no es «el texto que olvidaste tipar»: es el cajón de valores heterogéneos, y verlo en una columna que creías texto significa que el archivo mezcló tipos y pandas se negó a llamarlo `str`. Tipar es **declarar intención**: “esta columna es fecha”, “esta es monto”, “esta es etiqueta de región”, “este id es `string` y no el `str` inferido”. `int64` clásico **no admite nulos**; si un contador llega con huecos, usa `Int64` (nullable) con `pd.NA`, no fuerces ceros. `category` ahorra memoria solo con **cardinalidad baja o acotada** (regiones, estados); no castees ids casi únicos “por costumbre”.",
-        "Convierte con `astype('string')`, `pd.to_numeric(..., errors=...)`, `pd.to_datetime`, `astype('category')`. Con `errors='coerce'`, los inválidos pasan a NaN/NaT — preferible a tumbar todo el lote **si cuentas** los fallos y los reportas. Normaliza texto de región con `str.title()` **antes** de `category` para no duplicar “lima” y “Lima” como dos categorías distintas (el mismo cliente sintético no debería ocupar dos etiquetas).",
+        "Los dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** controlan memoria y errores de comparación. En pandas 3 conviene no confundir tres nombres que parecen lo mismo. El default de una columna de texto homogéneo es `str`: solo admite cadenas o ausentes (`NaN`), y meterle un número provoca error. `string`, el que pide el schema de CP-N2-A para los identificadores, es el contrato nullable, con `pd.NA` para los huecos. Se pide con `astype('string')` y no llega solo por inferencia. `object` ya no es «el texto que olvidaste tipar»: es el cajón de valores heterogéneos. Verlo en una columna de Excel o en una lista de Python significa que hay tipos mezclados; un CSV con tipos mezclados se lee como `str`. Tipar es **declarar intención**: “esta columna es fecha”, “esta es monto”, “esta es etiqueta de región”, “este id es `string` y no el `str` inferido”. `int64` clásico **no admite nulos**; si un contador llega con huecos, usa `Int64` (nullable) con `pd.NA`, no fuerces ceros. `category` ahorra memoria solo con **cardinalidad baja o acotada** (regiones, estados); no castees ids casi únicos “por costumbre”.",
+        "Convierte con `astype('string')`, `pd.to_numeric(..., errors=...)`, `pd.to_datetime`, `astype('category')`. Con `errors='coerce'`, los inválidos pasan a NaN/NaT. NaT (Not a Time) es el nulo de las columnas de fecha. Coercionar es preferible a tumbar todo el lote **si cuentas** los fallos y los reportas. Normaliza texto de región con `str.title()` **antes** de `category` para no duplicar “lima” y “Lima” como dos categorías distintas (el mismo cliente sintético no debería ocupar dos etiquetas).",
         "Reporta cuántos valores no convirtieron: ese número es **evidencia de calidad**, no un detalle cosmético. Caso sintético: monto `x` y fecha `bad` → un NaN cada uno (fallo de **conversión**, no nulo del parser); región normalizada + `category` para Lima/Arequipa. El conteo de NaN nuevos es el embrión del **reporte de coerciones** de T3-B y del manifest de exportación de T4. Sin conteo, `errors='coerce'` se convierte en una forma elegante de esconder basura.",
       ],
       code: {
@@ -265,7 +275,7 @@ monto_na 1 fecha_na 1`,
       paragraphs: [
         "Un **schema** (dict columna→tipo) declara el contrato de ingesta: `cliente_id: string`, `monto: float64`, `fecha: datetime64`. `astype` / `to_numeric` / `to_datetime` aplican la coerción; los fallos se **listan**, no se esconden. El schema es el acuerdo entre el dueño del dato y el pipeline: si el archivo cambia de forma, el schema te avisa en la primera fila de código — no tres dashboards después.",
         "No “arregles” silenciosamente (no pongas `0` ni la media donde había basura). Emite un reporte `{columna: n_fallos}`. Si falta una columna del schema, **falla explicable** (`KeyError` / mensaje con el nombre), no inventes defaults ocultos. Contar NaN **antes y después** de `to_numeric` aísla las **coerciones nuevas** de los nulos que ya venían del parser: eso es honestidad de métrica. Si el CSV trae solo tokens por defecto (`NA`, `N/A`), el delta de `to_numeric` puede ser **0** — el nulo ya estaba. Para practicar el delta, usa basura no reconocida (`x`, `SIN_DATO`) o declara `na_values` solo para marcadores del proveedor.",
-        "Este reporte es la entrada natural a los quality gates que verás al endurecer contratos de calidad. Caso sintético: `monto` con `xx` (texto inválido) → `coercion_report={'monto': 1}` y dtypes finales string/float64. En **CP-N2-A**, el reporte viaja **junto** al DataFrame (función que devuelve tupla `(df, report)`), no en un mensaje de chat. El You Do de esta sección te pide exactamente ese contrato para clientes y transacciones.",
+        "Este reporte es la entrada natural a los quality gates que verás al endurecer contratos de calidad. Caso sintético: `monto` con `N/A` → `coercion_report={'monto': 1}` y dtypes finales string/float64. Aquí `N/A` llega como texto dentro de un DataFrame construido en código, así que cuenta como fallo; leído con `read_csv` sería nulo y no contaría. En **CP-N2-A**, el reporte viaja **junto** al DataFrame (función que devuelve tupla `(df, report)`), no en un mensaje de chat. El You Do de esta sección te pide exactamente ese contrato para clientes y transacciones.",
       ],
       code: {
         language: 'python',
@@ -299,9 +309,9 @@ coercion_report {'monto': 1}`,
       heading: "CSV, Excel y contrato Parquet",
       subtopicId: "S15-T4-A",
       paragraphs: [
-        "`to_csv` y `to_excel` materializan el dataset analítico. Parquet (`pyarrow`/`fastparquet`, los motores que leen y escriben Parquet) preserva tipos de forma nativa; si el motor no está en tu entorno, exporta **CSV + schema JSON** como contrato de tipos — el aprendizaje es el mismo: no pierdas el mapa columna→dtype. El **round-trip** (exportar y releer) es la prueba mínima de que no inventaste columnas ni reordenaste el contrato a ciegas.",
+        "`to_csv` y `to_excel` materializan el dataset analítico. Parquet (`pyarrow`/`fastparquet`, los motores que leen y escriben Parquet) preserva tipos de forma nativa. Si el motor no está en tu entorno, exporta **CSV + schema JSON** como contrato de tipos. El aprendizaje es el mismo: no pierdas el mapa columna→dtype. El **round-trip** (exportar y releer) es la prueba mínima de que no inventaste columnas ni reordenaste el contrato a ciegas.",
         "Usa `index=False` salvo que el Index sea **clave de negocio documentada**. Si dejas el index por defecto, al reingestar suele aparecer una columna `Unnamed: 0` que contamina el schema. Round-trip: lee de nuevo y compara columnas críticas (`cliente_id`, `monto`, `region`). Para Excel en memoria usa `BytesIO` + `engine=\"openpyxl\"` — sin esa dependencia el export a Excel no arranca; no es un fallo de tu lógica de negocio, es un prerequisito de entorno.",
-        "Caso sintético: export CSV en `StringIO` → columnas idénticas al releer; Excel en `BytesIO` con bytes no vacíos; dict `parquet_contract` con dtypes por columna aunque no haya pyarrow instalado. Si falta `openpyxl`, el ejercicio de Excel fallará: instálalo (`pip install openpyxl`) o documenta CSV + schema JSON como entrega alternativa en el portfolio. La honestidad de dependencias es parte de la calidad profesional.",
+        "Caso sintético: export CSV en `StringIO` → columnas idénticas al releer; Excel en `BytesIO` releído con las mismas columnas; dict `parquet_contract` con dtypes por columna aunque no haya pyarrow instalado. Unos bytes no vacíos solo prueban que se escribió algo. Si falta `openpyxl`, el ejercicio de Excel fallará: instálalo (`pip install openpyxl`) o documenta CSV + schema JSON como entrega alternativa en el portfolio. La honestidad de dependencias es parte de la calidad profesional.",
       ],
       code: {
         language: 'python',
@@ -319,14 +329,15 @@ coercion_report {'monto': 1}`,
     # Excel en memoria
     bio = BytesIO()
     df.to_excel(bio, index=False, engine="openpyxl")
-    print("excel_bytes", len(bio.getvalue()) > 0)
+    bio.seek(0)
+    print("excel_columns", pd.read_excel(bio, engine="openpyxl").columns.tolist())
     # Contrato parquet (schema) sin motor
     schema = {c: str(df[c].dtype) for c in df.columns}
     print("parquet_contract", schema)
 
 s15_th_7()`,
         output: `['cliente_id', 'monto', 'region']
-excel_bytes True
+excel_columns ['cliente_id', 'monto', 'region']
 parquet_contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
       },
       callout: {
@@ -341,8 +352,8 @@ parquet_contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
       subtopicId: "S15-T4-B",
       paragraphs: [
         "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (`source`, hash del artefacto). Sin eso no hay reconciliación de ingesta en **CP-N2-A**: no sabes si el CSV de “esta mañana” es el mismo que el de ayer, ni cuántas filas salieron del pipeline, ni si alguien reordenó columnas a mano. El manifest es la contraparte del reporte de coerciones: uno habla de **tipos y fallos**, el otro de **artefacto y origen**.",
-        "`index=False` en export evita columnas `Unnamed` al reingestar (salvo Index de negocio documentado). El hash (p. ej. SHA-256 truncado del CSV — una huella digital criptográfica del archivo) detecta si el artefacto cambió entre corridas. Hashea el **mismo payload** que entregas (`df.to_csv(index=False).encode()`), no el `repr` del DataFrame (la representación textual que pandas imprime en pantalla): el repr cambia con opciones de display y **no es** el archivo que pasa al siguiente equipo.",
-        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece (`memory_usage(deep=True)` para columnas de texto; sin `deep=True` subestimas el costo real, sobre todo si alguna columna quedó como `object` heterogéneo). Caso sintético listo para portfolio: manifest JSON con `rows`, `columns`, `dtypes`, `memory_bytes`, `source=synthetic_clientes_v1` y un `content_sha256` corto. Ese JSON es evidencia de que tu ingesta es auditable — el cierre natural de la sección antes del You Do de dos tablas.",
+        "`index=False` en export evita columnas `Unnamed` al reingestar (salvo Index de negocio documentado). El hash (p. ej. SHA-256 truncado del CSV — una huella digital criptográfica del archivo) detecta si el artefacto cambió entre corridas. Hashea el **mismo payload** que entregas (`df.to_csv(index=False, lineterminator='\\n').encode()`), no el `repr` del DataFrame, la representación textual que pandas imprime en pantalla. El repr cambia con opciones de display y **no es** el archivo que pasa al siguiente equipo. Fija `lineterminator='\\n'`: sin él, Windows escribe fines de línea `\\r\\n` y el mismo DataFrame da otro hash.",
+        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece. Usa `memory_usage(deep=True)` para columnas de texto: sin `deep=True` subestimas el costo real, sobre todo si alguna columna quedó como `object` heterogéneo. Caso sintético listo para portfolio: manifest JSON con `rows`, `columns`, `dtypes`, `memory_bytes`, `source=synthetic_clientes_v1` y un `content_sha256` corto. Ese JSON es evidencia de que tu ingesta es auditable — el cierre natural de la sección antes del You Do de dos tablas.",
       ],
       code: {
         language: 'python',
@@ -352,7 +363,7 @@ parquet_contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
     import hashlib, json
 
     df = pd.DataFrame({"cliente_id": ["C001", "C002"], "monto": [1.0, 2.0]})
-    payload = df.to_csv(index=False).encode()
+    payload = df.to_csv(index=False, lineterminator="\\n").encode()
     manifest = {
         "rows": len(df),
         "columns": df.columns.tolist(),
@@ -377,10 +388,10 @@ s15_th_8()`,
       heading: "Por qué el formato columnar cambia el trabajo que hace la máquina",
       subtopicId: "S15-T4-B",
       paragraphs: [
-        "Ya sabes exportar a Parquet conservando el mapa columna→dtype. Falta la razón por la que ese formato existe, y es una razón física antes que una preferencia. Un CSV guarda los datos **por filas**: primero el registro completo de C001, después el completo de C002. Parquet los guarda **por columnas**: primero todos los `cliente_id`, luego todos los `monto`, luego todas las `region`. Con dos columnas y dos filas la diferencia no se nota. Con cuarenta columnas y millones de filas, esa decisión de acomodo determina cuánto tiene que leer la máquina cuando preguntas por tres de ellas.",
+        "Ya sabes exportar a Parquet conservando el mapa columna→dtype. Falta la razón por la que ese formato existe, y es una razón física antes que una preferencia. Un CSV guarda los datos **por filas**: primero el registro completo de C001, después el completo de C002. Parquet los guarda **por columnas** dentro de cada grupo de filas: en cada grupo, primero todos los `cliente_id`, luego todos los `monto`, luego todas las `region`. Con dos columnas y dos filas la diferencia no se nota. Con cuarenta columnas y millones de filas, esa decisión de acomodo determina cuánto tiene que leer la máquina cuando preguntas por tres de ellas.",
         "Supón que tu consulta solo necesita `monto`. En un archivo por filas, llegar a ese campo obliga a recorrer cada registro entero: los otros treinta y nueve valores de cada fila se leen igual, aunque los descartes enseguida. En un archivo por columnas, `monto` está contiguo y el lector toma ese bloque y ninguno más. A esa capacidad —empujar la selección de columnas hasta la capa que lee el archivo, en lugar de leer todo y filtrar después— se le llama **projection pushdown** (*empuje de la proyección*). No es una opción que actives: es la consecuencia de cómo quedaron acomodados los bytes.",
-        "Los formatos columnares además parten la tabla en bloques de filas llamados **row groups** (*grupos de filas*) y guardan, por cada bloque y cada columna, un resumen mínimo: el valor menor y el mayor. Si preguntas por `monto > 19` y un bloque declara que su máximo es 13, el lector puede **saltarse el bloque completo** sin abrirlo. Eso es **filter pushdown** con **pruning** (*poda*) de bloques. La demostración de abajo lo reproduce a mano con listas de Python, para que la mecánica quede a la vista: 36 valores leídos con organización por filas, 12 leyendo solo la columna pedida, y 4 cuando las estadísticas por bloque permiten descartar dos de los tres grupos.",
-        "Dos límites honestos, porque esto no es magia. El primero: la poda depende de que los datos estén **ordenados o agrupados de forma útil**. Si cada bloque contiene montos de todo el rango, ningún mínimo ni máximo descarta nada y el pruning no ahorra una sola lectura — por eso la partición de un dataset se decide pensando en cómo se va a consultar, no por costumbre. El segundo: partir de más produce **muchos archivos diminutos**, y el costo de abrir cada uno termina comiéndose la ganancia. Conviene además no confundir dos capas: **Parquet** es cómo quedan los datos *en el archivo*, mientras que **Arrow** es cómo quedan *en memoria* una vez leídos; motores como DuckDB o Polars usan ambas y ofrecen un `EXPLAIN` (o `.explain()`) que muestra qué columnas y qué bloques terminó leyendo el plan. Ninguno hace falta aquí y ninguno se instala en este curso. Lo que viaja contigo es el modelo mental: el formato no solo preserva tipos, también decide cuánto tiene que leer la máquina para responderte.",
+        "Los formatos columnares parten así la tabla en bloques de filas llamados **row groups** (*grupos de filas*). Por cada grupo y cada columna, el archivo guarda un resumen mínimo: el valor menor y el mayor. Si preguntas por `monto > 19` y un bloque declara que su máximo es 13, el lector puede **saltarse el bloque completo** sin abrirlo. Eso es **filter pushdown** con **pruning** (*poda*) de bloques. La demostración de abajo lo reproduce a mano con listas de Python, para que la mecánica quede a la vista. Lee 36 valores con organización por filas, 12 leyendo solo la columna pedida, y 4 cuando las estadísticas por bloque permiten descartar dos de los tres grupos.",
+        "Dos límites honestos, porque esto no es magia. El primero: la poda depende de que los datos estén **ordenados o agrupados de forma útil**. Si cada bloque contiene montos de todo el rango, ningún mínimo ni máximo descarta nada y el pruning no ahorra una sola lectura. **Particionar** es guardar una carpeta o un archivo por cada valor de una columna. Por eso la partición de un dataset se decide pensando en cómo se va a consultar, no por costumbre. El segundo: partir de más produce **muchos archivos diminutos**, y el costo de abrir cada uno termina comiéndose la ganancia. Conviene además no confundir dos capas: **Parquet** es cómo quedan los datos *en el archivo*, mientras que **Arrow** es cómo quedan *en memoria* una vez leídos. Motores como DuckDB o Polars usan ambas y ofrecen un `EXPLAIN` (o `.explain()`) que muestra qué columnas y qué bloques terminó leyendo el plan. Ninguno hace falta aquí y ninguno se instala en este curso. Lo que viaja contigo es el modelo mental: el formato no solo preserva tipos, también decide cuánto tiene que leer la máquina para responderte.",
       ],
       code: {
         language: 'python',
@@ -505,7 +516,7 @@ datetime64[us]
 ['C001', 'C002', 'C003']`,
         },
         why:
-          "Cada parámetro de `read_csv` es un **contrato de archivo** (esto es, una declaración explícita de cómo leer el CSV). `sep` y `decimal=','` son idiomáticos frente a un `.replace` manual frágil. Sin `parse_dates` las fechas rompen filtros temporales; `dtype` y `na_values` evitan que un monto se quede como `str` opaco o que una columna mezclada quede como `object`. En We Do T1-B practicarás na_values del proveedor, fechas y CSV latino con usecols.",
+          "Cada parámetro de `read_csv` es un **contrato de archivo** (esto es, una declaración explícita de cómo leer el CSV). `sep` y `decimal=','` son idiomáticos frente a un `.replace` manual frágil. Sin `parse_dates` las fechas rompen filtros temporales; `dtype` y `na_values` evitan que un monto se quede como `str` opaco o que un marcador del proveedor cuente como texto. En We Do T1-B practicarás na_values del proveedor, fechas y CSV latino con usecols.",
         retrospective:
           "Si puedes explicar por qué `15,50` sin `decimal=','` no es 15.5, ya internalizaste el contrato del parser. El error clásico es «arreglar» el archivo a mano y perder trazabilidad. We Do T1-B practica na_values, parse_dates y usecols.",
       },
@@ -540,7 +551,7 @@ s15_ido_3()`,
         why:
           "Un solo `loc` + `assign` deja pipelines legibles y testeables; evita el encadenamiento `df[cols][rows]`. La etiqueta es de laboratorio: el score sintético no es culpa, fraude ni riesgo calibrado. En We Do T2-A practicarás umbral inclusivo, columnas derivadas y posición con `iloc`.",
         retrospective:
-          "Si puedes decir por qué `C003` es «si» y `C001`/`C004` son «no» sin reejecutar, ya lees máscaras booleanas. El error clásico es filtrar con `df[df.region==...][cols]` encadenado y luego pelear con SettingWithCopy. Pregunta: ¿la etiqueta `prioridad_revision` es un veredicto sobre personas o un flag de laboratorio? We Do T2-A: umbral inclusivo, `assign` e `iloc`.",
+          "Si puedes decir por qué `C003` es «si» y `C001`/`C004` son «no» sin reejecutar, ya lees máscaras booleanas. El error clásico es filtrar con `df[df.region==...][cols]` encadenado y luego pelear con la asignación encadenada. Pregunta: ¿la etiqueta `prioridad_revision` es un veredicto sobre personas o un flag de laboratorio? We Do T2-A: umbral inclusivo, `assign` e `iloc`.",
       },
       {
         demoId: "S15-T2-B-DEMO",
@@ -662,7 +673,7 @@ print(rep)`,
         environment: "local-python",
         description: "Exportar a CSV y Excel sin perder columnas críticas; emitir contrato Parquet",
         preamble:
-          "Exportar es materializar el dataset analítico sin inventar columnas. En esta demo se escribe CSV con `index=False`, se relee y se **assert** de columnas críticas; se escribe Excel en `BytesIO` con `openpyxl`; se emite un dict de dtypes (contrato estilo Parquet sin motor). Observa `rows`, `excel_ok` y `contract`. Predice si el round-trip conserva `cliente_id`/`monto`/`region`. Sin `openpyxl` el tramo Excel no arranca: es dependencia de entorno, no fallo de lógica.",
+          "Exportar es materializar el dataset analítico sin inventar columnas. En esta demo se escribe CSV con `index=False`, se relee y se **assert** de columnas críticas. Luego se escribe Excel en `BytesIO` con `openpyxl` y se relee para comparar columnas y filas. Al final se emite un dict de dtypes (contrato estilo Parquet sin motor). Observa `rows`, `excel_ok` y `contract`. Predice si el round-trip conserva `cliente_id`/`monto`/`region`. Sin `openpyxl` el tramo Excel no arranca: es dependencia de entorno, no fallo de lógica.",
         code: {
           language: 'python',
           title: "demo_export.py",
@@ -682,8 +693,11 @@ print(rep)`,
     assert list(rt.columns) == ["cliente_id", "monto", "region"]
     xbuf = BytesIO()
     df.to_excel(xbuf, index=False, engine="openpyxl")
+    xbuf.seek(0)
+    back = pd.read_excel(xbuf, engine="openpyxl")
+    excel_ok = list(back.columns) == ["cliente_id", "monto", "region"] and len(back) == len(df)
     contract = {c: str(df[c].dtype) for c in df.columns}
-    print("rows", len(rt), "excel_ok", len(xbuf.getvalue()) > 100)
+    print("rows", len(rt), "excel_ok", excel_ok)
     print("contract", contract)
 
 s15_ido_7()`,
@@ -693,7 +707,7 @@ contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
         why:
           "`index=False` evita `Unnamed: 0` al reingestar; el assert de columnas es la prueba mínima de export; el dict de dtypes documenta el contrato aunque no haya motor Parquet. En pandas 3 el texto inferido aparece como `str`, no como `object`. En We Do T4-A practicarás CSV, Excel y contrato de dtypes por separado.",
         retrospective:
-          "Si puedes explicar por qué el assert de columnas va **después** del re-read, ya tienes el hábito de round-trip. El error clásico es confiar en el DF en memoria y descubrir `Unnamed: 0` al reingestar. Pregunta: ¿qué prueba el `excel_ok` además del CSV? We Do T4-A: CSV sin index, Excel en memoria y contrato de dtypes.",
+          "Si puedes explicar por qué el assert de columnas va **después** del re-read, ya tienes el hábito de round-trip. El error clásico es confiar en el DF en memoria y descubrir `Unnamed: 0` al reingestar. Pregunta: ¿por qué `excel_ok` relee el archivo en vez de contar bytes? We Do T4-A: CSV sin index, Excel en memoria y contrato de dtypes.",
       },
       {
         demoId: "S15-T4-B-DEMO",
@@ -709,7 +723,7 @@ contract {'cliente_id': 'str', 'monto': 'float64', 'region': 'str'}`,
     import pandas as pd, hashlib, json
 
     df = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"], "monto": [1.0, 2.0, 3.0]})
-    blob = df.to_csv(index=False).encode()
+    blob = df.to_csv(index=False, lineterminator="\\n").encode()
     manifest = {
         "rows": int(len(df)),
         "columns": df.columns.tolist(),
@@ -779,18 +793,18 @@ print(df.index.tolist())`,
         kind: "independent",
         title: "Series por etiqueta, no por posición",
         preamble:
-          "- **Contexto:** el score de un cliente se busca por id de negocio (`C002`), no por «el que quedó primero en el CSV».\n- **Meta:** leer el valor de la serie por etiqueta y publicarlo como float limpio.\n- **Éxito:** imprime `0.9` (valor de `C002`); no `0.1` (primera posición).\n- **Límites:** no uses `iloc`; conserva el fixture del starter.",
+          "- **Contexto:** el score de un cliente se busca por id de negocio (`C002`), no por «el que quedó primero en el CSV».\n- **Meta:** leer el valor de la serie por etiqueta y publicarlo como float limpio.\n- **Éxito:** imprime `0.9` dos veces: para la serie original y para la misma serie ordenada de mayor a menor.\n- **Límites:** no uses `iloc` para leer el score; conserva el fixture del starter.",
         instruction:
-          "1. Revisa el starter: usa `s.iloc[0]` (DEFECT posicional).\n2. Accede por etiqueta: `s['C002']` o `s.loc['C002']`.\n3. Envuelve en `float(...)` e imprime solo ese número.\n4. No reordenes ni reconstruyas la serie.",
+          "1. Revisa el starter: usa `s.iloc[0]` (DEFECT posicional).\n2. Accede por etiqueta: `s['C002']` o `s.loc['C002']`.\n3. Envuelve en `float(...)` e imprime ese número en cada vuelta del `for`.\n4. Verifica `0.9` dos veces: ninguna posición fija da `C002` en ambas series.",
         hint: "Acceso por etiqueta, no por posición.",
         hints: [
           "Acceso por etiqueta: s['C002'] o s.loc['C002'].",
           "float(...) para un print limpio.",
         ],
         edgeCases: ["iloc en vez de etiqueta", "name incorrecto"],
-        tests: "print(float(s['C002'])) == 0.9",
+        tests: "float(serie['C002']) == 0.9 en la serie original y en la ordenada",
         feedback:
-          "`iloc[0]` lee la primera **posición** (0.1), no la etiqueta `C002`. Usa `s['C002']` o `s.loc['C002']` y `float(...)` para un print limpio. Si reordenas la serie, `iloc[0]` cambia y la etiqueta no.",
+          "`iloc[0]` lee la primera **posición**: 0.1 en la serie original y 0.9 en la ordenada, así que el resultado depende del orden. Usa `s['C002']` o `s.loc['C002']` y `float(...)` para un print limpio. Si reordenas la serie, `iloc[0]` cambia y la etiqueta no.",
         retrospective:
           "Etiqueta ≠ posición: si reordenas filas, `iloc[0]` cambia y `C002` no. Ese hábito evita off-by-one en pipelines con Index de negocio. Luego (E3) la alineación de dos Series pone a prueba el mismo eje.",
         starterCode: {
@@ -799,7 +813,8 @@ print(df.index.tolist())`,
           code: `# Error a corregir: usa iloc posicional en vez de la etiqueta C002
 import pandas as pd
 s = pd.Series([0.1, 0.9], index=["C001", "C002"], name="score")
-print(float(s.iloc[0]))
+for serie in (s, s.sort_values(ascending=False)):
+    print(float(serie.iloc[0]))
 `,
         },
         solutionCode: {
@@ -807,8 +822,10 @@ print(float(s.iloc[0]))
           title: "exercise.py",
           code: `import pandas as pd
 s = pd.Series([0.1, 0.9], index=["C001", "C002"], name="score")
-print(float(s["C002"]))`,
-          output: `0.9`,
+for serie in (s, s.sort_values(ascending=False)):
+    print(float(serie["C002"]))`,
+          output: `0.9
+0.9`,
         },
       },
       {
@@ -822,7 +839,7 @@ print(float(s["C002"]))`,
           "1. Lee el DEFECT: `s1 + s2` deja NaN en `C001`.\n2. Suma alineando por Index y rellenando huecos con 0.\n3. Ordena con `sort_index()` y redondea a 2 decimales.\n4. Imprime el dict (sin texto extra); verifica `{'C001': 1.0, 'C002': 2.5}`.",
         hint: "Suma alineando índices; rellena huecos.",
         hints: [
-          "Preferí `.add` con relleno de huecos sobre el operador +.",
+          "Usa `s1.add(s2, fill_value=0)` en lugar del operador +: trata la etiqueta que falta como 0.",
           "sort_index() antes de to_dict().",
         ],
         edgeCases: ["NaN sin fill_value", "no ordenar"],
@@ -939,16 +956,16 @@ print(str(df["fecha"].dtype).startswith("datetime64"))`,
         kind: "transfer",
         title: "CSV latino con decimal y usecols",
         preamble:
-          "- **Contexto:** un extracto de retail llega con `;`, monto `15,50` y una columna basura `z` que no pertenece al schema de laboratorio.\n- **Meta:** declarar sep, decimal y columnas útiles en el parser.\n- **Éxito:** `monto.tolist()` es `[15.5]` (float, no texto).\n- **Límites:** no uses `.replace(',', '.')` sobre el CSV crudo; no dejes entrar `z`.",
+          "- **Contexto:** un extracto de retail llega con `;`, monto `15,50` y una columna basura `z` que no pertenece al schema de laboratorio.\n- **Meta:** declarar sep, decimal y columnas útiles en el parser.\n- **Éxito:** `monto.tolist()` es `[15.5]` (float, no texto) y las columnas son `['cliente_id', 'monto']`.\n- **Límites:** no uses `.replace(',', '.')` sobre el CSV crudo; no dejes entrar `z`.",
         instruction:
-          "1. Lee el DEFECT: solo `sep=';'` — el monto queda como texto.\n2. Añade `decimal=','` y `usecols=['cliente_id', 'monto']`.\n3. Imprime `df['monto'].tolist()`.\n4. Verifica `[15.5]`.",
+          "1. Lee el DEFECT: solo `sep=';'` — el monto queda como texto.\n2. Añade `decimal=','` y `usecols=['cliente_id', 'monto']`.\n3. Imprime `df['monto'].tolist()` y `list(df.columns)`.\n4. Verifica `[15.5]` y `['cliente_id', 'monto']`.",
         hint: "Contrato de parser: separador, decimal y columnas útiles.",
         hints: [
           "Además del sep, declara decimal y usecols de las columnas del schema.",
           "print(df['monto'].tolist()) — el float debe ser 15.5, no texto.",
         ],
         edgeCases: ["sin decimal → texto o mal parseo", "sin usecols entra z", "replace manual frágil"],
-        tests: "sep=';' + decimal=',' + usecols → monto.tolist() == [15.5]",
+        tests: "sep=';' + decimal=',' + usecols → monto.tolist() == [15.5] y list(df.columns) == ['cliente_id', 'monto']",
         feedback:
           "Si omites `decimal=','`, el monto no llega como 15.5. Declara sep, decimal y usecols en `read_csv`; no uses replace sobre el CSV crudo.",
         retrospective:
@@ -962,6 +979,7 @@ from io import StringIO
 raw = "cliente_id;monto;z\\nC001;15,50;9\\n"
 df = pd.read_csv(StringIO(raw), sep=";")
 print(df["monto"].tolist())
+print(list(df.columns))
 `,
         },
         solutionCode: {
@@ -976,8 +994,10 @@ df = pd.read_csv(
     decimal=",",
     usecols=["cliente_id", "monto"],
 )
-print(df["monto"].tolist())`,
-          output: `[15.5]`,
+print(df["monto"].tolist())
+print(list(df.columns))`,
+          output: `[15.5]
+['cliente_id', 'monto']`,
         },
       },
       {
@@ -997,7 +1017,7 @@ print(df["monto"].tolist())`,
         edgeCases: ["iloc posicional incorrecto", "filtro invertido", "score exacto 0.5 excluido por >"],
         tests: "loc score>=0.5 → cliente_id list == ['C002'] (fixture con borde 0.5)",
         feedback:
-          "Con score 0.5 en el borde, `>` excluye a C002 y devuelve lista vacía. Si el umbral del negocio es inclusivo, usa `>=`. El bug no es «pandas raro»: es el comparador.",
+          "Con score 0.5 en el borde, `>` excluye a C002 y devuelve lista vacía. Si el umbral del negocio es inclusivo, usa `>=`. Hazlo dentro de un solo `loc`: `df[df['score'] >= 0.5]['cliente_id']` imprime lo mismo, pero es la selección encadenada que este bloque te pide evitar, y cuenta como incorrecta. El bug no es «pandas raro»: es el comparador.",
         retrospective:
           "Umbral inclusivo vs. estricto es un error de negocio disfrazado de off-by-one. Pregunta: si el gate dice «score al menos 0.5», ¿qué comparador usas? Siguiente (E2): derivar columnas con `assign` sin mutar a ciegas.",
         starterCode: {
@@ -1024,18 +1044,18 @@ print(df.loc[df["score"] >= 0.5, "cliente_id"].tolist())`,
         kind: "independent",
         title: "Columna derivada con assign",
         preamble:
-          "- **Contexto:** en un pipeline legible, las columnas derivadas se construyen sin ensuciar el DF original como paso obligatorio.\n- **Meta:** crear `doble = score * 2` con `assign` e imprimir la lista.\n- **Éxito:** `[2.0, 4.0]`.\n- **Límites:** no dejes el factor `*1`; prefiere `assign` sobre mutación opaca.",
+          "- **Contexto:** en un pipeline legible, las columnas derivadas se construyen sin ensuciar el DF original como paso obligatorio.\n- **Meta:** crear `doble = score * 2` con `assign` e imprimir la lista.\n- **Éxito:** `[2.0, 4.0]` y, después, las columnas de `df` siguen siendo `['score']`.\n- **Límites:** no dejes el factor `*1`; prefiere `assign` sobre mutación opaca.",
         instruction:
-          "1. Revisa el starter: multiplica por 1 e in-place.\n2. Usa `df.assign(doble=lambda x: x['score'] * 2)`.\n3. Selecciona `['doble']` y `tolist()`.\n4. Imprime solo esa lista.",
+          "1. Revisa el starter: multiplica por 1 e in-place.\n2. Usa `df.assign(doble=lambda x: x['score'] * 2)`.\n3. Selecciona `['doble']` y `tolist()`, e imprime esa lista.\n4. Imprime `list(df.columns)`: debe seguir siendo `['score']`.",
         hint: "Construye la columna derivada y devuelve un DF nuevo.",
         hints: [
           "Preferí assign con la fórmula score * 2.",
           "Selecciona la columna doble y tolist().",
         ],
         edgeCases: ["chained assign", "olvidar columna"],
-        tests: "assign(doble=score*2)['doble'].tolist() == [2.0, 4.0]",
+        tests: "assign(doble=score*2)['doble'].tolist() == [2.0, 4.0] y list(df.columns) == ['score']",
         feedback:
-          "No mutes con `*1` in-place. Usa `assign` con la fórmula correcta (`score * 2`) y selecciona la columna `doble` para el print.",
+          "No mutes con `*1` in-place: el starter deja `doble` dentro de `df`, y la segunda línea lo muestra. Usa `assign` con la fórmula correcta (`score * 2`) y selecciona la columna `doble` para el print.",
         retrospective:
           "`assign` devuelve un objeto nuevo y hace la intención visible en una línea. El error clásico es mutar in-place con la fórmula incorrecta y no notar el factor. Luego (E3): posición pura con `iloc`.",
         starterCode: {
@@ -1046,6 +1066,7 @@ import pandas as pd
 df = pd.DataFrame({"score": [1.0, 2.0]})
 df["doble"] = df["score"] * 1
 print(df["doble"].tolist())
+print(list(df.columns))
 `,
         },
         solutionCode: {
@@ -1053,8 +1074,10 @@ print(df["doble"].tolist())
           title: "exercise.py",
           code: `import pandas as pd
 df = pd.DataFrame({"score": [1.0, 2.0]})
-print(df.assign(doble=lambda x: x["score"] * 2)["doble"].tolist())`,
-          output: `[2.0, 4.0]`,
+print(df.assign(doble=lambda x: x["score"] * 2)["doble"].tolist())
+print(list(df.columns))`,
+          output: `[2.0, 4.0]
+['score']`,
         },
       },
       {
@@ -1065,16 +1088,16 @@ print(df.assign(doble=lambda x: x["score"] * 2)["doble"].tolist())`,
         preamble:
           "- **Contexto:** a veces el contrato es **posición** (fila 1, columna 0 de una grilla), no etiqueta de cliente.\n- **Meta:** leer con `iloc` la celda inferior izquierda del DF 2×2.\n- **Éxito:** imprime `3`.\n- **Límites:** no uses `loc` (etiquetas); índices base 0, no 1-based.",
         instruction:
-          "1. Lee el DEFECT: `loc[0, 0]` devuelve 1 (etiqueta, no «abajo-izquierda»).\n2. Lee por **posición** la celda inferior izquierda del DF 2×2 (base 0).\n3. Envuelve en `int(...)` e imprime solo ese número.\n4. No reindexes el DataFrame; verifica `3`.",
+          "1. Lee el DEFECT: `loc['A', 0]` devuelve 1 (la fila con etiqueta `A`, no «abajo-izquierda»).\n2. Lee por **posición** la celda inferior izquierda del DF 2×2 (base 0).\n3. Envuelve en `int(...)` e imprime solo ese número.\n4. No reindexes el DataFrame; verifica `3`.",
         hint: "Posición, no etiqueta.",
         hints: [
           "Acceso por posición: fila 1, columna 0.",
           "int(...) para un print limpio.",
         ],
-        edgeCases: ["confusión loc/iloc", "1-based"],
-        tests: "int(df.iloc[1, 0]) == 3",
+        edgeCases: ["confusión loc/iloc", "1-based", "loc[1, 0] lanza KeyError: 1 no es una etiqueta"],
+        tests: "int(df.iloc[1, 0]) == 3 con index ['A', 'B'], donde loc[1, 0] lanza KeyError",
         feedback:
-          "`loc` usa etiquetas (aquí 0,0 es 1). `iloc` usa posiciones: fila 1, col 0 es 3. Base 0, no 1-based.",
+          "`loc` usa etiquetas: aquí las filas se llaman `A` y `B`, así que `loc[1, 0]` lanza `KeyError` y `loc['A', 0]` es 1. `iloc` usa posiciones: fila 1, col 0 es 3. Base 0, no 1-based.",
         retrospective:
           "`loc` = etiqueta; `iloc` = posición. Confundirlos es el off-by-one clásico cuando el Index ya no es 0..n-1. Pregunta: si el index fuera `cliente_id`, ¿`iloc[1]` seguiría siendo «el segundo cliente»? Puente a T2-B: mutar con seguridad.",
         starterCode: {
@@ -1082,15 +1105,15 @@ print(df.assign(doble=lambda x: x["score"] * 2)["doble"].tolist())`,
           title: "exercise.py",
           code: `# Error a corregir: usa loc (etiqueta) en vez de iloc[1, 0]
 import pandas as pd
-df = pd.DataFrame([[1, 2], [3, 4]])
-print(int(df.loc[0, 0]))
+df = pd.DataFrame([[1, 2], [3, 4]], index=["A", "B"])
+print(int(df.loc["A", 0]))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame([[1, 2], [3, 4]])
+df = pd.DataFrame([[1, 2], [3, 4]], index=["A", "B"])
 print(int(df.iloc[1, 0]))`,
           output: `3`,
         },
@@ -1224,16 +1247,16 @@ print(df["score"].tolist())`,
         kind: "guided",
         title: "Región normalizada a category",
         preamble:
-          "- **Contexto:** «lima» y «Lima» no deben ser dos categorías distintas en un reporte de regiones.\n- **Meta:** normalizar con `str.title()` y castear a `category`.\n- **Éxito:** `dtype.name` imprime `category`.\n- **Límites:** no dejes el texto inferido (`str`); title **antes** del astype.",
+          "- **Contexto:** «lima» y «Lima» no deben ser dos categorías distintas en un reporte de regiones.\n- **Meta:** normalizar con `str.title()` y castear a `category`.\n- **Éxito:** `dtype.name` imprime `category` y queda una sola categoría.\n- **Límites:** no dejes el texto inferido (`str`); title **antes** del astype.",
         instruction:
-          "1. Abre el starter: imprime el dtype inferido (`str`).\n2. Encadena `.str.title().astype('category')` sobre la serie.\n3. Imprime `s.dtype.name`.\n4. Verifica `category`.",
+          "1. Abre el starter: imprime el dtype inferido (`str`).\n2. Encadena `.str.title().astype('category')` sobre la serie.\n3. Imprime `s.dtype.name` y `list(s.cat.categories)`.\n4. Verifica `category` y una sola categoría: sin `title` saldrían dos, una por cada forma de escribirla.",
         hint: "Normaliza texto y luego castea a category.",
         hints: [
           "str.title() primero para unificar mayúsculas y minúsculas de región.",
           "astype('category'); print(s.dtype.name).",
         ],
         edgeCases: ["str residual", "sin title"],
-        tests: "dtype.name == 'category' tras title + astype",
+        tests: "dtype.name == 'category' y una sola categoría tras title + astype",
         feedback:
           "Sin `title`, las mayúsculas inconsistentes duplican categorías. Sin `astype('category')`, el dtype sigue siendo el texto inferido (`str`). Encadena ambos en ese orden.",
         retrospective:
@@ -1254,8 +1277,10 @@ print(s.dtype.name)
           code: `import pandas as pd
 df = pd.DataFrame({"region": ["lima", "Lima"]})
 s = df["region"].str.title().astype("category")
-print(s.dtype.name)`,
-          output: `category`,
+print(s.dtype.name)
+print(list(s.cat.categories))`,
+          output: `category
+['Lima']`,
         },
       },
       {
@@ -1343,7 +1368,7 @@ print(int(s.isna().sum()))`,
         kind: "guided",
         title: "Contar coerciones nuevas en monto",
         preamble:
-          "- **Contexto:** el reporte de calidad necesita **cuántos** valores se volvieron NaN por la conversión, no solo «hay nulos».\n- **Meta:** aplicar `to_numeric` con `errors='coerce'` y reportar el delta isna.\n- **Éxito:** imprime `1` (el `'x'`).\n- **Límites:** resta isna después − antes; no rellenes con 0.",
+          "- **Contexto:** el reporte de calidad necesita **cuántos** valores se volvieron NaN por la conversión, no solo «hay nulos».\n- **Meta:** aplicar `to_numeric` con `errors='coerce'` y reportar el delta isna.\n- **Éxito:** imprime `1` (el `'x'`); el `None` ya era nulo y no cuenta.\n- **Límites:** resta isna después − antes; no rellenes con 0.",
         instruction:
           "1. Abre el starter: guarda `before` pero no convierte.\n2. Asigna `df['monto'] = pd.to_numeric(..., errors='coerce')`.\n3. Imprime `int(df['monto'].isna().sum() - before)`.\n4. Verifica `1`.",
         hint: "Convierte y compara isna antes/después.",
@@ -1352,9 +1377,9 @@ print(int(s.isna().sum()))`,
           "to_numeric(..., errors='coerce'); print delta de isna.",
         ],
         edgeCases: ["no restar before", "astype sin coerce"],
-        tests: "delta de isna tras to_numeric == 1",
+        tests: "delta de isna tras to_numeric == 1 (el total de nulos es 2: uno ya venía)",
         feedback:
-          "Sin `to_numeric`, el delta es 0 aunque haya basura en texto. Convierte, luego resta isna anterior del posterior: ese entero es la entrada del `coercion_report`.",
+          "Sin `to_numeric`, el delta es 0 aunque haya basura en texto. Convierte, luego resta isna anterior del posterior: ese entero es la entrada del `coercion_report`. Si imprimes el total sin restar sale 2, porque el `None` ya era nulo antes de convertir.",
         retrospective:
           "El delta es honestidad de métrica: nulos del parser ≠ fallos de conversión. Pregunta: si `before` ya tuviera un nulo y conviertes un `'x'`, ¿el delta sería 1 o 2? Siguiente (E2): si falta la columna del schema, no inventes defaults.",
         starterCode: {
@@ -1362,7 +1387,7 @@ print(int(s.isna().sum()))`,
           title: "exercise.py",
           code: `# Error a corregir: no convierte monto; el delta de NaN queda en 0
 import pandas as pd
-df = pd.DataFrame({"monto": ["1", "x"]})
+df = pd.DataFrame({"monto": ["1", "x", None]})
 before = df["monto"].isna().sum()
 print(int(df["monto"].isna().sum() - before))
 `,
@@ -1371,7 +1396,7 @@ print(int(df["monto"].isna().sum() - before))
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"monto": ["1", "x"]})
+df = pd.DataFrame({"monto": ["1", "x", None]})
 before = df["monto"].isna().sum()
 df["monto"] = pd.to_numeric(df["monto"], errors="coerce")
 print(int(df["monto"].isna().sum() - before))`,
@@ -1384,16 +1409,16 @@ print(int(df["monto"].isna().sum() - before))`,
         kind: "independent",
         title: "Schema fail-closed si falta columna",
         preamble:
-          "- **Contexto:** el schema exige `monto`, pero el extracto solo trae `cliente_id`. Inventar la columna con ceros es una mentira de pipeline.\n- **Meta:** validar columnas del schema y, si falta, fallar de forma explicable.\n- **Éxito:** imprime `missing` (capturando KeyError).\n- **Límites:** no crees `monto` vacío ni imprimas `ok`.",
+          "- **Contexto:** el schema exige `monto`, pero el extracto solo trae `cliente_id`. Inventar la columna con ceros es una mentira de pipeline.\n- **Meta:** validar columnas del schema y, si falta, fallar de forma explicable.\n- **Éxito:** imprime `missing` para el extracto sin `monto` y `ok` para el que sí la trae.\n- **Límites:** no crees `monto` vacío ni imprimas un texto fijo.",
         instruction:
-          "1. Revisa el starter: imprime `ok` sin validar.\n2. Recorre las claves del schema; si la columna no está, `raise KeyError`.\n3. En `except KeyError`, imprime `missing`.\n4. No inventes la columna.",
+          "1. Revisa el starter: `check` devuelve `ok` sin validar.\n2. Dentro de `check`, recorre las claves del schema; si la columna no está, `raise KeyError`.\n3. En `except KeyError`, devuelve `missing`; si no falta nada, `ok`.\n4. Verifica `missing` y luego `ok`, sin inventar la columna.",
         hint: "Valida presencia de columnas del schema.",
         hints: [
           "Recorre schema; si col no está en columns, raise KeyError.",
           "try/except KeyError → print('missing').",
         ],
         edgeCases: ["silenciar falta", "crear columna vacía"],
-        tests: "KeyError por columna faltante → print 'missing'",
+        tests: "extracto sin monto → 'missing'; extracto con monto → 'ok'",
         feedback:
           "No inventes la columna. Valida el schema y propaga KeyError como `missing`. Rellenar ceros «para que corra» miente al dashboard.",
         retrospective:
@@ -1403,24 +1428,30 @@ print(int(df["monto"].isna().sum() - before))`,
           title: "exercise.py",
           code: `# Error a corregir: no valida que 'monto' exista en el DF
 import pandas as pd
-df = pd.DataFrame({"cliente_id": ["C001"]})
 schema = {"monto": "float64"}
-print("ok")
+def check(df):
+    return "ok"
+print(check(pd.DataFrame({"cliente_id": ["C001"]})))
+print(check(pd.DataFrame({"cliente_id": ["C001"], "monto": [10.5]})))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"cliente_id": ["C001"]})
 schema = {"monto": "float64"}
-try:
-    for col in schema:
-        if col not in df.columns:
-            raise KeyError(col)
-except KeyError:
-    print("missing")`,
-          output: `missing`,
+def check(df):
+    try:
+        for col in schema:
+            if col not in df.columns:
+                raise KeyError(col)
+    except KeyError:
+        return "missing"
+    return "ok"
+print(check(pd.DataFrame({"cliente_id": ["C001"]})))
+print(check(pd.DataFrame({"cliente_id": ["C001"], "monto": [10.5]})))`,
+          output: `missing
+ok`,
         },
       },
       {
@@ -1467,18 +1498,18 @@ print(str(s.dtype))`,
         kind: "guided",
         title: "CSV round-trip sin columna Unnamed",
         preamble:
-          "- **Contexto:** al reingestar un CSV exportado con index por defecto suele aparecer una columna basura (`Unnamed: 0`).\n- **Meta:** exportar con `index=False`, releer e imprimir columnas.\n- **Éxito:** `['a', 'b']`.\n- **Límites:** no omitas `seek(0)`; no uses index=True «por costumbre».",
+          "- **Contexto:** al reingestar un CSV exportado con index por defecto suele aparecer una columna basura (`Unnamed: 0`).\n- **Meta:** exportar con `index=False`, releer e imprimir columnas.\n- **Éxito:** la primera línea del CSV es `a,b` y al releer las columnas son `['a', 'b']`.\n- **Límites:** no omitas `seek(0)`; no uses index=True «por costumbre».",
         instruction:
-          "1. Abre el starter: `to_csv(buf)` sin `index=False`.\n2. Pasa `index=False`.\n3. `seek(0)`, `read_csv`, imprime `columns.tolist()`.\n4. Verifica `['a', 'b']`.",
+          "1. Abre el starter: `to_csv(buf)` sin `index=False`.\n2. Pasa `index=False`.\n3. Imprime la primera línea del texto con `buf.getvalue().splitlines()[0]`; luego `seek(0)`, `read_csv` e imprime `columns.tolist()`.\n4. Verifica `a,b` y `['a', 'b']`. Con el index escrito, la primera línea sería `,a,b`.",
         hint: "Exporta sin index y reposiciona el buffer.",
         hints: [
           "df.to_csv(buf, index=False); buf.seek(0).",
           "pd.read_csv(buf).columns.tolist().",
         ],
         edgeCases: ["index=True crea col extra", "no seek"],
-        tests: "round-trip columns == ['a', 'b'] con index=False",
+        tests: "primera línea del CSV == 'a,b' y round-trip columns == ['a', 'b'] con index=False",
         feedback:
-          "Sin `index=False`, el index se escribe y al releer contamina el schema. Usa `index=False` y `seek(0)` para reposicionar el buffer en memoria.",
+          "Sin `index=False`, el index se escribe y al releer contamina el schema. Usa `index=False` y `seek(0)` para reposicionar el buffer en memoria. Ocultar el index al releer con `index_col=0` no arregla el archivo: la primera línea seguiría siendo `,a,b`.",
         retrospective:
           "Round-trip de columnas es la prueba mínima de export: escribes, reposicionas el buffer, relees y comparas el schema. El error clásico es `index=True` por costumbre y un `Unnamed: 0` que rompe el contrato al reingestar. Pregunta: ¿por qué `seek(0)` es parte del test y no un detalle de IO? Siguiente (E2): Excel en memoria con openpyxl.",
         starterCode: {
@@ -1490,6 +1521,7 @@ from io import StringIO
 df = pd.DataFrame({"a": [1], "b": [2]})
 buf = StringIO()
 df.to_csv(buf)
+print(buf.getvalue().splitlines()[0])
 buf.seek(0)
 print(pd.read_csv(buf).columns.tolist())
 `,
@@ -1502,9 +1534,11 @@ from io import StringIO
 df = pd.DataFrame({"a": [1], "b": [2]})
 buf = StringIO()
 df.to_csv(buf, index=False)
+print(buf.getvalue().splitlines()[0])
 buf.seek(0)
 print(pd.read_csv(buf).columns.tolist())`,
-          output: `['a', 'b']`,
+          output: `a,b
+['a', 'b']`,
         },
       },
       {
@@ -1513,18 +1547,18 @@ print(pd.read_csv(buf).columns.tolist())`,
         kind: "independent",
         title: "Excel en memoria con openpyxl",
         preamble:
-          "- **Contexto:** a veces el entregable del stakeholder es Excel; el test de humo es «hay bytes en el buffer».\n- **Meta:** escribir un DF a `BytesIO` con `to_excel` e `engine='openpyxl'`.\n- **Éxito:** imprime `True` (`len(getvalue()) > 0`).\n- **Límites:** requiere `openpyxl` instalado; no escribas a disco obligatorio.",
+          "- **Contexto:** a veces el entregable del stakeholder es Excel; el test de humo es releer el buffer y encontrar la misma tabla.\n- **Meta:** escribir un DF a `BytesIO` con `to_excel` e `engine='openpyxl'`.\n- **Éxito:** imprime `True` (el buffer empieza con `b'PK'`, la firma de un .xlsx) y `{'a': [1]}` al releerlo.\n- **Límites:** requiere `openpyxl` instalado; no escribas a disco obligatorio.",
         instruction:
-          "1. Revisa el starter: imprime sobre buffer vacío.\n2. Llama `to_excel(bio, index=False, engine='openpyxl')` con un DF mínimo.\n3. Imprime `len(bio.getvalue()) > 0`.\n4. Si falta openpyxl, instálalo o documenta el límite (no finjas éxito).",
+          "1. Revisa el starter: imprime sobre buffer vacío.\n2. Llama `to_excel(bio, index=False, engine='openpyxl')` con un DF mínimo.\n3. Imprime `bio.getvalue()[:2] == b'PK'`; luego `seek(0)` e imprime `pd.read_excel(bio, engine='openpyxl').to_dict(orient='list')`.\n4. Si falta openpyxl, instálalo o documenta el límite (no finjas éxito).",
         hint: "to_excel en BytesIO con motor de terceros.",
         hints: [
           "Escribe un DF mínimo a BytesIO con engine openpyxl.",
-          "print(len(bio.getvalue()) > 0).",
+          "Un .xlsx es un ZIP: sus dos primeros bytes son b'PK'. Después relee con read_excel.",
         ],
         edgeCases: ["sin engine", "archivo disco obligatorio"],
-        tests: "BytesIO con to_excel openpyxl → len(getvalue()) > 0",
+        tests: "getvalue()[:2] == b'PK' y read_excel del buffer == {'a': [1]}",
         feedback:
-          "El starter imprime sobre un buffer vacío. Escribe un DF mínimo con `to_excel(..., index=False, engine='openpyxl')` y vuelve a medir `len(bio.getvalue()) > 0`. Si falta el motor, instálalo (`pip install openpyxl`) o documenta el límite — no hardcodees `True`.",
+          "El starter imprime sobre un buffer vacío. Escribe un DF mínimo con `to_excel(..., index=False, engine='openpyxl')` y comprueba la firma `b'PK'` y la tabla releída: un `True` escrito a mano no pasa la segunda línea. Si falta el motor, instálalo (`pip install openpyxl`) o documenta el límite — no hardcodees `True`.",
         retrospective:
           "La honestidad de dependencias es parte de la calidad: un «export Excel» sin `openpyxl` es teatro. Pregunta: ¿qué entregarías si el entorno no tiene el motor (CSV + schema JSON)? Siguiente (E3): contrato de dtypes sin motor Parquet.",
         starterCode: {
@@ -1534,7 +1568,7 @@ print(pd.read_csv(buf).columns.tolist())`,
 import pandas as pd
 from io import BytesIO
 bio = BytesIO()
-print(len(bio.getvalue()) > 0)
+print(bio.getvalue()[:2] == b"PK")
 `,
         },
         solutionCode: {
@@ -1544,8 +1578,11 @@ print(len(bio.getvalue()) > 0)
 from io import BytesIO
 bio = BytesIO()
 pd.DataFrame({"a": [1]}).to_excel(bio, index=False, engine="openpyxl")
-print(len(bio.getvalue()) > 0)`,
-          output: `True`,
+print(bio.getvalue()[:2] == b"PK")
+bio.seek(0)
+print(pd.read_excel(bio, engine="openpyxl").to_dict(orient="list"))`,
+          output: `True
+{'a': [1]}`,
         },
       },
       {
@@ -1594,18 +1631,18 @@ print(dict(sorted(contract.items())))`,
         kind: "guided",
         title: "Memoria real con deep True",
         preamble:
-          "- **Contexto:** al castear a `category`/`string` en datasets grandes, necesitas medir memoria **real** de las columnas de texto.\n- **Meta:** calcular `memory_usage(deep=True).sum()` y decir si es `> 0`.\n- **Éxito:** imprime `True`.\n- **Límites:** no imprimas un booleano fijo; `deep=True` importa para strings.",
+          "- **Contexto:** al castear a `category`/`string` en datasets grandes, necesitas medir memoria **real** de las columnas de texto.\n- **Meta:** comparar `memory_usage(deep=True).sum()` con la cifra sin `deep` y decir si es mayor.\n- **Éxito:** imprime `True`.\n- **Límites:** no imprimas un booleano fijo; `deep=True` importa para strings.",
         instruction:
-          "1. Abre el starter: imprime `False` sin medir.\n2. Calcula `int(df.memory_usage(deep=True).sum()) > 0`.\n3. Imprime ese booleano.\n4. Verifica `True` con el fixture de strings.",
+          "1. Abre el starter: imprime `False` sin medir.\n2. Calcula `deep = int(df.memory_usage(deep=True).sum())` y `shallow = int(df.memory_usage().sum())`.\n3. Imprime `deep > shallow`.\n4. Verifica `True` con el fixture de strings.",
         hint: "Mide memoria profunda del DataFrame.",
         hints: [
-          "int(df.memory_usage(deep=True).sum()) > 0.",
-          "print el booleano.",
+          "deep con memory_usage(deep=True).sum(); shallow sin deep.",
+          "print(deep > shallow): sin deep=True no se cuenta el contenido del texto.",
         ],
         edgeCases: ["deep=False en strings", "no sum"],
-        tests: "memory_usage(deep=True).sum() > 0 → True",
+        tests: "memory_usage(deep=True).sum() > memory_usage().sum() → True",
         feedback:
-          "Un booleano hardcodeado no es una medición. `deep=True` cuenta el contenido de las columnas de texto; sin él subestimas el costo real, sobre todo si alguna quedó como `object` heterogéneo.",
+          "Un booleano hardcodeado no es una medición. `deep=True` cuenta el contenido de las columnas de texto; sin él subestimas el costo real (con este fixture, 239 bytes frente a 148). Por eso la prueba compara las dos cifras: cualquier tabla ocupa más de 0 bytes.",
         retrospective:
           "Medir antes/después de castear es el hábito de optimización honesta. El error clásico es imprimir un booleano fijo o usar `deep=False` y subestimar strings. Pregunta: ¿por qué este fixture de regiones necesita `deep=True`? Siguiente (E2): armar el manifest mínimo de filas y columnas.",
         starterCode: {
@@ -1623,7 +1660,9 @@ print(False)
           title: "exercise.py",
           code: `import pandas as pd
 df = pd.DataFrame({"a": ["Lima", "Cusco"]})
-print(int(df.memory_usage(deep=True).sum()) > 0)`,
+deep = int(df.memory_usage(deep=True).sum())
+shallow = int(df.memory_usage().sum())
+print(deep > shallow)`,
           output: `True`,
         },
       },
@@ -1633,18 +1672,18 @@ print(int(df.memory_usage(deep=True).sum()) > 0)`,
         kind: "independent",
         title: "Manifest mínimo de filas y columnas",
         preamble:
-          "- **Contexto:** el primer chequeo de reconciliación es «¿cuántas filas salieron y con qué columnas?».\n- **Meta:** construir un dict `rows`/`columns` desde el DF e imprimir ambos.\n- **Éxito:** `3 ['a']`.\n- **Límites:** no dejes ceros/listas vacías; `columns` debe ser lista, no Index crudo sin convertir.",
+          "- **Contexto:** el primer chequeo de reconciliación es «¿cuántas filas salieron y con qué columnas?».\n- **Meta:** escribir `manifest_of(df)`, que arma el dict `rows`/`columns` desde la tabla que recibe.\n- **Éxito:** `3 ['a']` para la primera tabla y `2 ['a', 'b']` para la segunda.\n- **Límites:** no dejes ceros/listas vacías; `columns` debe ser lista, no Index crudo sin convertir.",
         instruction:
-          "1. Revisa el starter: `rows=0`, `columns=[]`.\n2. Asigna `len(df)` y `df.columns.tolist()`.\n3. Imprime `manifest['rows']` y `manifest['columns']`.\n4. Verifica `3 ['a']`.",
+          "1. Revisa el starter: `manifest_of` devuelve `rows=0`, `columns=[]`.\n2. Devuelve `len(df)` y `df.columns.tolist()` de la tabla que recibe.\n3. Imprime `rows` y `columns` de las dos tablas del fixture.\n4. Verifica `3 ['a']` y `2 ['a', 'b']`.",
         hint: "Filas y columnas desde el DF real.",
         hints: [
           "rows = len(df); columns = df.columns.tolist().",
           "print(manifest['rows'], manifest['columns']).",
         ],
         edgeCases: ["shape confuso", "columns Index no list"],
-        tests: "manifest rows==3 y columns==['a']",
+        tests: "manifest_of: 3 ['a'] para la primera tabla y 2 ['a', 'b'] para la segunda",
         feedback:
-          "El starter deja `rows=0` y `columns=[]`: eso no reconcilia nada. Toma hechos del DF real (`len(df)`, `df.columns.tolist()`) y publícalos en el manifest. Un Index de columnas no es lo mismo que una lista serializable.",
+          "El starter deja `rows=0` y `columns=[]`: eso no reconcilia nada. Toma hechos del DF real (`len(df)`, `df.columns.tolist()`) y publícalos en el manifest; la segunda tabla comprueba que no copiaste los valores de la primera. Un Index de columnas no es lo mismo que una lista serializable.",
         retrospective:
           "Filas y columnas son el esqueleto del manifest; hash y `source` completan la provenance. El error clásico es hardcodear ceros «porque el print pasa» y mentir en la reconciliación de ingesta. Pregunta: si el DF crece a 300 filas, ¿qué debe cambiar en el print? Siguiente (E3): hashear el artefacto exportado.",
         starterCode: {
@@ -1652,19 +1691,26 @@ print(int(df.memory_usage(deep=True).sum()) > 0)`,
           title: "exercise.py",
           code: `# Error a corregir: rows y columns del manifest están mal (0 y [])
 import pandas as pd
-df = pd.DataFrame({"a": [1, 2, 3]})
-manifest = {"rows": 0, "columns": []}
-print(manifest["rows"], manifest["columns"])
+def manifest_of(df):
+    return {"rows": 0, "columns": []}
+m1 = manifest_of(pd.DataFrame({"a": [1, 2, 3]}))
+m2 = manifest_of(pd.DataFrame({"a": [1, 2], "b": [3, 4]}))
+print(m1["rows"], m1["columns"])
+print(m2["rows"], m2["columns"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"a": [1, 2, 3]})
-manifest = {"rows": len(df), "columns": df.columns.tolist()}
-print(manifest["rows"], manifest["columns"])`,
-          output: `3 ['a']`,
+def manifest_of(df):
+    return {"rows": len(df), "columns": df.columns.tolist()}
+m1 = manifest_of(pd.DataFrame({"a": [1, 2, 3]}))
+m2 = manifest_of(pd.DataFrame({"a": [1, 2], "b": [3, 4]}))
+print(m1["rows"], m1["columns"])
+print(m2["rows"], m2["columns"])`,
+          output: `3 ['a']
+2 ['a', 'b']`,
         },
       },
       {
@@ -1675,16 +1721,16 @@ print(manifest["rows"], manifest["columns"])`,
         preamble:
           "- **Contexto:** el hash del artefacto detecta si el archivo cambió entre corridas; hashear el `repr` del DataFrame no sirve (el display cambia con opciones).\n- **Meta:** hashear los bytes de `to_csv(index=False)` e imprimir los primeros 8 hex.\n- **Éxito:** `309b0e45`.\n- **Límites:** no hashees `str(df)`; codifica a bytes con `.encode()`.",
         instruction:
-          "1. Lee el DEFECT: se hashea `str(df)`, no el artefacto.\n2. Serializa el DF a CSV **sin** index y codifica a bytes.\n3. Calcula SHA-256 de ese blob e imprime los primeros 8 hex.\n4. Verifica `309b0e45` (mismo fixture; no cambies el DF).",
+          "1. Lee el DEFECT: se hashea `str(df)`, no el artefacto.\n2. Serializa el DF a CSV **sin** index, con `lineterminator='\\n'`, y codifica a bytes.\n3. Calcula SHA-256 de ese blob e imprime los primeros 8 hex.\n4. Verifica `309b0e45` (mismo fixture; no cambies el DF).",
         hint: "Hashea el payload CSV, no el display.",
         hints: [
-          "Serializa con to_csv(index=False) y encode a bytes.",
+          "Serializa con to_csv(index=False, lineterminator='\\n') y encode a bytes.",
           "SHA-256 del blob; imprime los primeros 8 hex.",
         ],
         edgeCases: ["hash del objeto python", "sin encode"],
         tests: "sha256(to_csv index=False)[:8] == '309b0e45'",
         feedback:
-          "`str(df)` no es el artefacto exportado. Serializa con `to_csv(index=False)` y hashea esos bytes (SHA-256). El hash canónico de este fixture es `309b0e45`.",
+          "`str(df)` no es el artefacto exportado. Serializa con `to_csv(index=False)` y hashea esos bytes (SHA-256). El hash canónico de este fixture es `309b0e45` y supone fines de línea LF (`\\n`): sin `lineterminator`, Windows escribe `\\r\\n` y el hash cambia.",
         retrospective:
           "Provenance = source + filas + hash del **mismo** payload que entregas. Pregunta de cierre: ¿por qué `index=False` también importa para el hash? Puente al You Do: dos tablas, reportes y manifests auditable.",
         starterCode: {
@@ -1701,7 +1747,7 @@ print(hashlib.sha256(str(df).encode()).hexdigest()[:8])
           title: "exercise.py",
           code: `import pandas as pd, hashlib
 df = pd.DataFrame({"a": [1]})
-blob = df.to_csv(index=False).encode()
+blob = df.to_csv(index=False, lineterminator="\\n").encode()
 print(hashlib.sha256(blob).hexdigest()[:8])`,
           output: `309b0e45`,
         },
@@ -1716,13 +1762,13 @@ print(hashlib.sha256(blob).hexdigest()[:8])`,
       "Ingerir CLIENTES y TRANSACCIONES con dtypes/schema explícitos (string, float64, datetime)",
       "Emitir coercion_report {columna: n_fallos} sin rellenar defaults ocultos",
       "Reconciliar filas/columnas (rows, columns, missing_columns) frente al schema",
-      "Exportar con index=False y construir manifest (source, rows, columns, sha1 del CSV)",
-      "Justificar en el manifest la decisión de layout: qué columnas pide la consulta habitual y por qué esa partición ayuda o no a saltarse bloques",
+      "Exportar con index=False y construir manifest (source, rows, columns, sha256 del CSV)",
+      "Opcional, si eliges particionar: justificar en el manifest la decisión de layout, es decir, qué columnas pide la consulta habitual y por qué esa partición ayuda o no a saltarse bloques",
     ],
     requirements: [
       "Implementa las cuatro funciones del starter: ingest_clientes, ingest_transacciones, reconcile, export_with_manifest",
-      "ingest_*: read_csv desde StringIO + aplicar schema; float con to_numeric(errors='coerce'); fecha con to_datetime o parse_dates",
-      "coercion_report: cuenta NaN **nuevos** tras to_numeric/to_datetime (delta isna). El fixture usa `SIN_DATO` (no es nulo por defecto del parser) para que score y monto reporten al menos 1 fallo de conversión cada uno",
+      "ingest_*: read_csv desde StringIO + aplicar schema; float con to_numeric(errors='coerce'); fecha con to_datetime(errors='coerce') o parse_dates. No uses astype('datetime64'): pandas rechaza ese dtype sin unidad con ValueError",
+      "coercion_report: cuenta NaN **nuevos** tras to_numeric/to_datetime (delta isna). El fixture usa `SIN_DATO` (no es nulo por defecto del parser) para que score y monto reporten al menos 1 fallo de conversión cada uno. El valor que falló se queda como NaN: la suite comprueba que no lo rellenaste",
       "reconcile: {rows: int, columns: list, missing_columns: list} — missing_columns vacío si el schema cuadra",
       "export_with_manifest: serializa to_csv(index=False), hashea esos mismos bytes (SHA-256 preferible), devuelve dict con source/rows/columns/dtypes opcional y sha256 (o content_sha256 / sha1 legacy)",
       "Suite de asserts en _run_tests() que demuestre correctitud de ambos hilos (no solo prints)",
@@ -1788,7 +1834,7 @@ def reconcile(df: pd.DataFrame, expected_cols: list[str]) -> dict:
 
 
 def export_with_manifest(df: pd.DataFrame, source: str) -> dict:
-    """CSV index=False + manifest con rows/columns/sha1/source.
+    """CSV index=False + manifest con rows/columns/sha256/source.
 
     Hashea el payload de to_csv, no el repr del DataFrame.
     """
@@ -1800,6 +1846,8 @@ def _run_tests() -> None:
     df, report = ingest_clientes(CLIENTES)
     assert len(df) == 3
     assert report.get("score", 0) >= 1
+    # La coerción no rellena: el score que falló sigue siendo NaN, no 0.0
+    assert df.loc[df["cliente_id"] == "C003", "score"].isna().all()
     rec = reconcile(df, list(SCHEMA_CLIENTES))
     assert rec["rows"] == 3
     assert rec["missing_columns"] == []
@@ -1821,6 +1869,7 @@ def _run_tests() -> None:
     tx, tx_report = ingest_transacciones(TRANSACCIONES)
     assert len(tx) == 3
     assert tx_report.get("monto", 0) >= 1
+    assert tx.loc[tx["tx_id"] == "T002", "monto"].isna().all()
     assert "datetime" in str(tx["fecha"].dtype)
     tx_rec = reconcile(tx, list(SCHEMA_TX))
     assert tx_rec["rows"] == 3
@@ -1867,17 +1916,17 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué método de selección usa etiquetas de index/columnas?",
-        options: ["iloc", "iat solo posicional forzado", "loc", "values"],
+        options: ["iloc", "df['etiqueta'], que selecciona filas por nombre", "loc", "values"],
         correctIndex: 2,
         explanation:
-          "Loc selecciona por etiqueta (esto es, por el nombre del Index o de la columna); iloc (e iat) usan posición numérica (0, 1, 2…). Si el Index es `cliente_id`, `loc['C002']` no es lo mismo que `iloc[1]` salvo que el orden lo permita.",
+          "Loc selecciona por etiqueta (esto es, por el nombre del Index o de la columna); iloc usa posición numérica (0, 1, 2…). `df['etiqueta']` elige una columna, no una fila. Si el Index es `cliente_id`, `loc['C002']` no es lo mismo que `iloc[1]` salvo que el orden lo permita.",
       },
       {
-        question: "SettingWithCopyWarning se relaciona con:",
+        question: "En pandas 3, el aviso ChainedAssignmentError se relaciona con:",
         options: ["Asignación en cadena que no actualiza el DataFrame padre de forma fiable (chained assignment)", "Modificar un DataFrame mientras se recorre con iterrows", "Asignar sobre un subset creado con .copy() explícita", "Filtrar por máscara booleana en vez de por posición"],
         correctIndex: 0,
         explanation:
-          "Asignar en cadena (`df[mask]['col'] = ...`) no actualiza el DataFrame original de forma fiable (en pandas moderno con Copy-on-Write —esto es, escritura sobre copia automática— la cadena no escribe en el padre). Usa un solo `loc` sobre el padre o `.copy()` explícito del subset.",
+          "Asignar en cadena (`df[mask]['col'] = ...`) no actualiza el DataFrame original de forma fiable (en pandas 3, con Copy-on-Write, la cadena nunca escribe en el padre y pandas emite `ChainedAssignmentError`; en pandas 2.x se llamaba `SettingWithCopyWarning`). Usa un solo `loc` sobre el padre o `.copy()` explícito del subset.",
       },
       {
         question: "errors='coerce' en to_numeric:",
@@ -1891,14 +1940,14 @@ if __name__ == "__main__":
         options: ["Solo el conteo de filas: las columnas ya viajan en el CSV", "Las estadísticas descriptivas de cada columna numérica", "El código que generó el archivo, para poder re-ejecutarlo", "Filas, columnas y provenance/hash del artefacto"],
         correctIndex: 3,
         explanation:
-          "Para reconciliar CP-N2-A necesitas filas, columnas y trazabilidad del archivo (source + hash del payload exportado, esto es, la huella digital del archivo que entrega el pipeline). Nunca PII real (datos personales identificables reales) ni secretos en el manifest.",
+          "Para reconciliar CP-N2-A necesitas filas, columnas y trazabilidad del archivo (source + hash del payload exportado, esto es, la huella digital del archivo que entrega el pipeline). El código que generó el archivo es buena práctica, pero el mínimo del manifest de esta sección son filas, columnas y hash. Nunca PII real (datos personales identificables reales) ni secretos en el manifest.",
       },
       {
         question: "En pandas, ¿por qué preferir df.loc[mask, col] = val sobre un subset sin .copy()?",
-        options: ["loc valida el tipo del valor antes de asignarlo y el subset no", "El subset siempre es una copia, así que la asignación se pierde", "Evita SettingWithCopyWarning y deja la asignación en el DataFrame original", "loc permite asignar varias columnas a la vez y el subset no"],
+        options: ["loc valida el tipo del valor antes de asignarlo y el subset no", "El subset comparte memoria con el padre y la asignación lo corrompe", "Escribe en el original; en el subset el cambio no llega al padre", "loc permite asignar varias columnas a la vez y el subset no"],
         correctIndex: 2,
         explanation:
-          "La asignación en cadena no es el contrato profesional. `loc` sobre el DF (o `.copy()` explícito del subset) hace la mutación intencional y predecible, alineada con Copy-on-Write (escritura sobre copia automática).",
+          "En pandas 3, con Copy-on-Write, un subset se comporta como copia: asignar en él no llega al padre y no corrompe nada. Si quieres el cambio en el original, `loc` sobre el DataFrame lo escribe en una sola indexación.",
       },
       {
         question: "¿Qué hace parse_dates=['fecha'] en read_csv?",
@@ -1923,14 +1972,14 @@ if __name__ == "__main__":
       },
       {
         question: "¿Para qué sirve astype('category') en una columna de región (Lima/Arequipa)?",
-        options: ["Acelera cualquier operación de texto sobre esa columna", "Agrupa las filas repetidas en un solo registro por región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Ordena las regiones alfabéticamente al reunir las filas que comparten el valor de una clave"],
+        options: ["Acelera cualquier operación de texto sobre esa columna", "Agrupa las filas repetidas en un solo registro por región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Convierte cada región en un número y descarta las etiquetas de texto"],
         correctIndex: 2,
         explanation:
           "`category` es un dtype compacto para labels de cardinalidad baja o acotada (esto es, pocos valores únicos como regiones o estados). Normaliza mayúsculas/minúsculas antes para no duplicar 'lima' y 'Lima'; mide memoria si la cardinalidad (la cantidad de valores únicos) crece.",
       },
       {
         question: "Si el Index de negocio es cliente_id, ¿qué conviene al alinear o reexportar?",
-        options: ["Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio", "Reindexar con reset_index antes de cada unión para evitar choques", "Exportar con index=False y recuperar la clave desde otra columna", "Ordenar el index antes de exportar para que el archivo sea estable"],
+        options: ["Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio", "Reindexar con reset_index antes de cada unión para evitar choques", "Exportar con index=False y dejar que la clave se regenere al reingestar", "Ordenar el index antes de exportar para que el archivo sea estable"],
         correctIndex: 0,
         explanation:
           "Un Index estable (ids de cliente, esto es, el eje de etiquetas que identifica filas por negocio) alinea tablas y auditoría. Si es clave de negocio, documéntala al exportar; si no, `index=False` evita basura `Unnamed`.",
@@ -1961,7 +2010,12 @@ if __name__ == "__main__":
       {
         label: "pandas indexing",
         url: "https://pandas.pydata.org/docs/user_guide/indexing.html",
-        note: "loc/iloc, SettingWithCopy",
+        note: "loc/iloc y asignación encadenada",
+      },
+      {
+        label: "pandas Copy-on-Write",
+        url: "https://pandas.pydata.org/docs/user_guide/copy_on_write.html",
+        note: "Por qué la asignación encadenada nunca escribe en el padre en pandas 3",
       },
       {
         label: "pandas dtypes / nullable",
@@ -2026,9 +2080,9 @@ if __name__ == "__main__":
         note: "Lectura y escritura práctica",
       },
       {
-        label: "Real Python — SettingWithCopyWarning",
+        label: "Real Python — SettingWithCopyWarning (pandas 2.x)",
         url: "https://realpython.com/pandas-settingwithcopywarning/",
-        note: "loc vs. copy; evita chained assignment",
+        note: "El aviso anterior a pandas 3; el patrón seguro con loc y copy es el mismo",
       },
       {
         label: "Data School — indexing and selecting",
