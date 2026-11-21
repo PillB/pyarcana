@@ -56,13 +56,18 @@ const MASTERY = 'integrated_python_ai_capstone_integrated_mastery'
 const FINAL = 'evidence_grounded_ai_systems_capstone'
 
 // Each capstone credential's own catalog version (badges[].version in badge_catalog.json), written
-// out by hand so the test does not read the value it checks. Mastery's is not the catalog's 1.0.0.
+// out by hand so the test does not read the value it checks. None is the catalog's top-level 1.0.0:
+// each credential's claim text changed on 2026-10-13 ("a prueba de manipulación" became a clause
+// that reveals an alteration, owner decision O25), so each carries the next patch version of its
+// own. The clause was reworded again on 2026-10-14, before any release, to speak of the credential
+// record and not the learner's evidence; the requirements did not change, so the versions did not
+// move again.
 const VERSION: Record<string, string> = {
-  integrated_python_ai_capstone_foundations: '1.0.0',
-  integrated_python_ai_capstone_independent: '1.0.0',
-  integrated_python_ai_capstone_advanced_applied: '1.0.0',
-  integrated_python_ai_capstone_integrated_mastery: '1.1.0',
-  evidence_grounded_ai_systems_capstone: '1.0.0',
+  integrated_python_ai_capstone_foundations: '1.0.1',
+  integrated_python_ai_capstone_independent: '1.0.1',
+  integrated_python_ai_capstone_advanced_applied: '1.0.1',
+  integrated_python_ai_capstone_integrated_mastery: '1.1.1',
+  evidence_grounded_ai_systems_capstone: '1.0.1',
 }
 const CREDENTIALS = Object.keys(VERSION)
 
@@ -521,18 +526,37 @@ describe('K4: the server signs the badge version, never the client one', () => {
     assert.equal(forged.status, 403)
     assert.deepEqual(forged.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
 
-    // 1.0.0 is the catalog's top-level version; Mastery's own entry is 1.1.0 (EXAM-02).
+    // 1.0.0 is the catalog's top-level version; Mastery's own entry is 1.1.1 (1.1.0 until its claim
+    // text changed on 2026-10-13, EXAM-02 before that).
     const catalogWide = await requestCredential(MASTERY, '1.0.0')
     assert.equal(catalogWide.status, 403)
     assert.deepEqual(catalogWide.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
     assert.equal(notifications.length, 0)
 
-    const { status, body } = await requestCredential(MASTERY, '1.1.0')
+    // The version before the claim wording changed would sign a statement under a specification
+    // whose claim said "a prueba de manipulación": the server refuses it.
+    const beforeTheWording = await requestCredential(MASTERY, '1.1.0')
+    assert.equal(beforeTheWording.status, 403)
+    assert.deepEqual(beforeTheWording.body.blockers, [{ code: 'SPEC_VERSION_MISMATCH', kind: 'unmet' }])
+    assert.equal(notifications.length, 0)
+
+    const { status, body } = await requestCredential(MASTERY, '1.1.1')
     assert.equal(status, 201)
-    assert.equal(body.credential.specificationVersion, '1.1.0')
-    assert.match(body.credential.capabilityStatement, /Assessment Specification 1\.1\.0,/)
+    assert.equal(body.credential.specificationVersion, '1.1.1')
+
+    // The signed statement claims only what the catalog's public claim makes, and it is built from
+    // the badge's own entry: the statement helper is the one source of it.
+    const statement: string = body.credential.capabilityStatement
+    for (const phrase of UNBACKED_STATEMENT_CLAIMS) {
+      assert.doesNotMatch(statement, new RegExp(phrase, 'i'), `the signed statement claims "${phrase}"`)
+    }
+    const { capabilityStatement } = await import('../../src/lib/credential-statement.ts')
+    assert.equal(statement, capabilityStatement(credentialSpec(MASTERY)!))
   })
 })
+
+/** Claims the route signed before the catalog's public claim was the source. None is in the catalog. */
+const UNBACKED_STATEMENT_CLAIMS = ['critical evidence', 'hidden validation', 'independent review']
 
 // ── K5 ──
 

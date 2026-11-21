@@ -8,8 +8,8 @@ export default function CredentialPolicyPage() {
     <LegalPage
       title="Política de credenciales e insignias"
       subtitle="Qué significa cada tipo de credencial PyArcana y cómo se verifica."
-      version="2.0"
-      effectiveDate="2026-07-31"
+      version="2.1"
+      effectiveDate="2026-10-13"
     >
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-6">
         <section>
@@ -28,68 +28,51 @@ export default function CredentialPolicyPage() {
 
           <h3 className="mt-4 font-semibold">B — Insignia de habilidad evaluada</h3>
           <p>
-            Demuestra una capacidad acotada mediante una tarea práctica independiente,
-            pruebas ocultas y puertas críticas no compensables. La decisión es
-            autoritativa del servidor. Incluye registro de evidencia y revisión.
+            Según el catálogo de insignias de PyArcana, la clase B afirma que el estudiante demostró la competencia de forma independiente mediante una tarea práctica, pruebas ocultas y criterios críticos que no pueden compensarse. Esta afirmación se rige por la especificación de evaluación de PyArcana. Hoy, PyArcana no emite insignias de competencia de clase B.
           </p>
 
           <h3 className="mt-4 font-semibold">C — Insignia de capacidad integrada</h3>
           <p>
-            Demuestra transferencia entre secciones mediante un proyecto integrador
-            realista, recuperación de fallos, reproducibilidad y comunicación técnica.
-            Requiere revisión independiente.
+            Según el catálogo, la clase C afirma que el estudiante demostró una transferencia integrada mediante un proyecto realista, recuperación de fallos y reproducibilidad. La afirmación incluye una revisión independiente conforme a la especificación de evaluación de PyArcana. Hoy, PyArcana no emite insignias integradas de clase C.
           </p>
 
           <h3 className="mt-4 font-semibold">D — Credencial verificada PyArcana</h3>
           <p>
-            Es la credencial más fuerte. Se emite tras un capstone mayor o síntesis
-            final, con identidad verificada, especificación versionada, evaluación
-            independiente, evidencia a prueba de manipulación, verificación pública y
-            revocación. Nunca se emite desde localStorage.
+            Según el catálogo, la clase D afirma que el estudiante demostró la capacidad de forma independiente mediante un capstone mayor y una evaluación con defensa. La afirmación incluye un registro firmado de credencial cuya alteración queda revelada y verificación pública, conforme a la especificación de evaluación de PyArcana. Toda credencial verificada se emite únicamente en el servidor, nunca desde el almacenamiento del navegador. Hoy, PyArcana no emite ninguna credencial verificada de clase D.
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold">Qué demuestra una credencial</h2>
           <p>
-            Cada credencial describe exactamente qué capacidad se demostró, bajo qué
-            condiciones de evaluación, con qué evidencia y bajo qué versión de
-            especificación. Un reclutador puede inspeccionar un resumen conciso de
-            evidencia.
+            Comprobar una credencial verificada muestra clase, nombre de la insignia, especificación —versión numerada de las reglas de esa insignia—, emisor, fecha de emisión, estado y referencia al titular. La declaración firmada nombra qué se demostró y la versión de la especificación bajo la cual se demostró.
           </p>
           <p className="text-sm text-muted-foreground">
             Las credenciales de PyArcana describen evidencia demostrada dentro del curso.
             No constituyen certificación profesional acreditada, licencia, ni garantía de
-            empleo. Para verificación de una credencial específica, consulta el{' '}
+            empleo. Para comprobar una credencial específica por su identificador de
+            verificación, consulta la{' '}
             <Link href="/verify" className="font-medium text-foreground underline-offset-2 hover:underline">
-              registro público de verificación
+              página de verificación
             </Link>
-            .
+            ; la comprobación no está disponible hoy.
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold">Verificación y revocación</h2>
           <p>
-            Las credenciales verificadas (clase D) pueden verificarse públicamente. Una
-            credencial puede revocarse si se descubre manipulación de evidencia, si los
-            criterios no se cumplieron genuinamente, o si se identifica fraude. La
-            revocación incluye un motivo registrado y auditable.
+            El LMS dinámico (sistema de gestión del aprendizaje: la edición que se ejecuta en el servidor propio de PyArcana) no está desplegado hoy. Por eso, /verify no puede comprobar una credencial hoy en ningún sitio actual de PyArcana. En esa edición, /verify comprueba un identificador y muestra la declaración firmada bajo la etiqueta «Capacidad demostrada». No existe un procedimiento que revoque una credencial emitida, y todas quedan registradas como activas.
           </p>
           <p>
-            Las insignias tienen versión. Si los criterios cambian, las insignias
-            emitidas bajo criterios anteriores conservan su validez, pero pueden
-            marcarse como "versión anterior".
+            Las insignias del catálogo tienen números de versión, como 1.0.0 y 1.1.0. No existe un procedimiento que marque una credencial emitida como perteneciente a una versión anterior.
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold">Política de IA</h2>
           <p>
-            Se permite el uso de herramientas de IA durante la evaluación, sujeto a
-            declaración, ejecución independiente, explicación de decisiones importantes
-            y defensa frente a requisitos modificados. No se acepta como evidencia
-            independiente el trabajo que el aprendiz no puede explicar o adaptar.
+            Para las credenciales B, C o D, el trabajo presentado como evidencia debe ser independiente. El código generado por IA no es evidencia aceptable cuando nada muestra que el estudiante lo revisó. PyArcana no detecta ni limita el uso de herramientas de IA. PyArcana no registra ninguna declaración sobre el uso de IA ni ninguna defensa, oral o escrita. Ninguna página solicita al estudiante una declaración sobre el uso de IA.
           </p>
         </section>
 
