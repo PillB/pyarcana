@@ -196,7 +196,9 @@ def main():
     for cid, s in SPECS.items():
         pkg = PKG / cid
         if cid in HAND_MAINTAINED:
-            ex = execution_record(pkg, cid, s['version'])
+            # SPECS is the pre-proposal-11 text; the package's own RUBRIC.json carries its version.
+            version = json.loads((pkg / "RUBRIC.json").read_text(encoding="utf-8"))["version"]
+            ex = execution_record(pkg, cid, version)
             (pkg/"execution.json").write_text(json.dumps(ex,ensure_ascii=False,indent=2))
             print(f"  execution refreshed {cid}: tests_pass={ex['tests_pass']}")
             continue

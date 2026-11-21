@@ -702,3 +702,30 @@ back. Read this list before a section round; every item cost at least one failed
 - **Look for an existing ratchet before adding a guard.** `test_suite_hygiene.py` already holds
   a placeholder-assert allowlist that must shrink with each fix; step 1 added a second detector
   to `execution_record`. Both now agree, and CP-N1-B left the allowlist in the same commit.
+- **`@dataclass` in a module loaded with `spec_from_file_location` crashes** with
+  `AttributeError: 'NoneType' object has no attribute '__dict__'` in `dataclasses._is_type`. The
+  module uses `from __future__ import annotations`, so field types are strings, and dataclasses
+  looks them up through `sys.modules[cls.__module__]`, which `module_from_spec` does not fill.
+  Fix: `sys.modules[name] = module` before `exec_module`, the importlib docs recipe "Importing a
+  source file directly" (also CPython issue gh-89831 for the same traceback). Guard: every
+  `load()` helper in a contract test registers the module first.
+- **A refresh can write a stale version where the file check cannot see it.** The enrich
+  generator re-measured hand-maintained `execution.json` with the version in its own `SPECS`
+  (still 2.0.0 for every CP-N1), so running it with the flag would have rolled CP-N1-A and
+  CP-N1-B back to 2.0.0. The "no file changed" test missed it because `digests()` skips
+  `execution.json` (its date changes on every run). Fix: the refresh reads the version from the
+  package's `RUBRIC.json`, and a new test compares each refreshed record with the committed one,
+  `verified_at` aside. Guard: when a check excludes a file, add a narrower check for that file.
+- **Follow the section's states, even where the proposal named others.** Proposal 11 gave
+  CP-N1-C the statuses `needs_review`, `abstain` and `no_signal`, and "abstain when evidence is
+  missing". S13 teaches four (`invalid_input`, `abstain`, `needs_review`, `accept_pair`), sends a
+  `None` ER to `invalid_input`, and keeps `accept_pair` for the same document and block, the
+  "match" of the Fellegi–Sunter three-way rule (match, possible match for clerical review,
+  non-match). The rebuild follows S13, and the brief answers "¿`accept_pair` no es una decisión
+  automática?". Root cause: same as CP-N1-B, the design read the package before the section.
+- **Cite the subtopic from its `subtopicId`, not from memory.** The first CP-N1-C brief put
+  blocking in T1-B and the privacy sheet in T4-A; S13 has them in T1-A and T4-B. Guard:
+  `grep -n 'heading:\|subtopicId:' src/lib/course/sections/sNN-*.ts` before writing "(T…)".
+- **A test that the brief documents every output key finds real gaps.** For CP-N1-C it found
+  that `case_id` and `rules_version` were in the packet but not in the brief. The check reads
+  the keys from a real `review()` and `apply_correction()` run, so it cannot fall behind the code.

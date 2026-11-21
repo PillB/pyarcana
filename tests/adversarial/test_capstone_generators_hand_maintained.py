@@ -90,6 +90,19 @@ class GeneratorsLeaveHandMaintainedPackagesAlone(unittest.TestCase):
                 changed[cid] = diff
         self.assertEqual(changed, {}, "a generator wrote into a hand-maintained package")
 
+    def test_the_refreshed_record_keeps_the_package_version(self):
+        # digests() skips execution.json, so this is the check that the refresh writes the
+        # package's version (RUBRIC.json) and not the stale 2.0.0 left in the generator's SPECS.
+        copy = Path(self._tmp.name) / "course-state" / "capstones"
+        for cid in LISTED:
+            with self.subTest(cid):
+                rubric = json.loads((CAPSTONES / cid / "RUBRIC.json").read_text(encoding="utf-8"))
+                committed = json.loads((CAPSTONES / cid / "execution.json").read_text(encoding="utf-8"))
+                refreshed = json.loads((copy / cid / "execution.json").read_text(encoding="utf-8"))
+                self.assertEqual(refreshed["version"], rubric["version"])
+                committed.pop("verified_at"), refreshed.pop("verified_at")
+                self.assertEqual(refreshed, committed)
+
 
 class GeneratorsRefuseWithoutTheFlag(unittest.TestCase):
     """Every other package was also edited after the generators last ran, so a plain run must stop."""
