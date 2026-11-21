@@ -20,16 +20,17 @@
     },
     {
       "capstoneId": "CP-N1-B",
-      "interface": [
+      "interface": "cp_n1_b.run(data_dir, out_dir, run_id=None) -> int",
+      "version": "3.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true,
+      "criticalFailures": [
         "Expone secretos",
         "No es idempotente",
         "Sin cuarentena",
         "Pierde proveniencia"
-      ],
-      "version": "2.0.0",
-      "contractType": "python_module",
-      "syntheticScenario": "shared_scenario_v1",
-      "contractTestsPresent": true
+      ]
     },
     {
       "capstoneId": "CP-N1-C",

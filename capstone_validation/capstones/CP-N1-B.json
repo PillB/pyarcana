@@ -1,6 +1,6 @@
 {
   "id": "CP-N1-B",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "name": "Pipeline ETL Reproducible de Clientes y Transacciones",
   "level": 1,
   "gateSection": "S08",
@@ -20,7 +20,7 @@
   ],
   "summary": "Pipeline ETL Reproducible de Clientes y Transacciones",
   "badgeId": "capstone_foundations",
-  "finalIntegrationInterface": "etl.run(batch) -> EtlManifest",
+  "finalIntegrationInterface": "cp_n1_b.run(data_dir, out_dir, run_id=None) -> int",
   "criticalFailures": [
     "Expone secretos",
     "No es idempotente",

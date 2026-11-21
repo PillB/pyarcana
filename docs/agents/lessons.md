@@ -680,3 +680,25 @@ back. Read this list before a section round; every item cost at least one failed
   `CAPSTONE_TARGET=reference` selects the reference; the execution record and CI both require the
   untouched starter to fail. Guard: for any starter, run its checks with no work done and expect
   red.
+- **A design written from the capstone's files can contradict the section it closes.** Proposal
+  11 gave CP-N1-B a schema (`id,name,email`; `tx_id,...,date`) taken from its old brief. S08's
+  You Do already specifies CP-N1-B in full: `id,nombre,monto`, `id,client_id,monto`,
+  `{raw, record_number, reason}`, a manifest reconciled per source, and a `uuid4` `run_id` per run.
+  Following the proposal literally would have made the capstone disagree with the lesson the
+  learner just finished. Root cause: the proposal read the package, not the section. Fix: the
+  rebuild follows S08 and the PR names the deviation. Guard: before designing a capstone, read
+  the You Do of its closing section (`grep -n "cierre CP-" src/lib/course/sections/`).
+- **"Idempotent" and a per-run id pull in opposite directions.** The old brief wanted "rerun →
+  same manifest hash"; S08 wants a new `run_id` on every run, inside the manifest. Both hold once
+  idempotency is stated over the outputs and `sources` (hashes and counts), with `run_id` set
+  aside; the brief now answers "¿por qué cambia el manifest si los datos no cambiaron?".
+- **Served copies drift silently.** `public/capstones/CP-N1-A_RUBRIC.json` (served to learners
+  by `CapstonesPage.tsx`) had differed from the package rubric since #141; only the brief copy
+  had been updated. Fix: each CP-N1 contract test asserts both public copies equal the package
+  files. Guard: `ls public/capstones/` lists every served copy; update all of them.
+- **A meta-test regex that drops digits.** `impl\.([a-zA-Z_]+)` read `impl.sha256_file` as
+  `sha`, so "the starter declares every function" failed for the wrong reason (it would also
+  have passed wrongly on a name that is a prefix). Use `[A-Za-z0-9_]+` for identifiers.
+- **Look for an existing ratchet before adding a guard.** `test_suite_hygiene.py` already holds
+  a placeholder-assert allowlist that must shrink with each fix; step 1 added a second detector
+  to `execution_record`. Both now agree, and CP-N1-B left the allowlist in the same commit.
