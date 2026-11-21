@@ -957,4 +957,6 @@ back. Read this list before a section round; every item cost at least one failed
   - make `revealSolutions` re-click until every solution shows, and re-check the count before
     reading the code blocks, so a remount can't shrink what the spec compares.
 
-  Do not just re-run the job: it fails deterministically on a cold runner.
+  A green run does not close it: #180 at e6625c86 passed the same job an hour after main failed
+  it. In CI it depends on where the rebuild lands in the walk. Locally on a cold server it failed
+  once in one try, and on a warm server it passed three times.
