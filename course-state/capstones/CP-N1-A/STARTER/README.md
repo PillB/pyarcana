@@ -1,4 +1,10 @@
-# CP-N1-A — STARTER
+# CP-N1-A — por dónde empezar
 
-Copia este directorio y completa `cp_n1_a.py` según `BRIEF.md`.
-Ejecuta `tests/test_demo.py` para verificar.
+Tu archivo es `../cp_n1_a.py`, en la raíz del paquete (antes estaba en esta carpeta). Ya tiene
+las funciones declaradas: escribe el cuerpo de cada una según `../BRIEF.md`.
+
+Verifica con `python3 tests/test_demo.py` desde la raíz del paquete. Las pruebas revisan tu
+archivo, no la referencia: al principio fallan todas, y cada fallo dice qué función escribir.
+
+La solución de referencia está en `../reference/cp_n1_a.py`. Léela solo para comparar cuando tus
+pruebas pasen.

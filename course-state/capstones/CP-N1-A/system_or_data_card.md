@@ -1,23 +1,24 @@
-# Ficha de datos — Intake sintético N1-A
+# Ficha de datos: admisión sintética CP-N1-A
+
+Una ficha de datos dice de dónde vienen los datos, para qué sirven y para qué no.
 
 | Campo | Valor |
 |---|---|
-| Capstone | CP-N1-A — Client Intake & Data Quality Script |
-| Gate | S04 |
-| Tipo | Data card (sintético) |
-| Fuente | Generada en `demo.py` con seed fija |
-| PII real | **Ninguna** |
-| Uso previsto | Enseñanza, demo de portafolio, gate formal |
-| Uso no previsto | Decisiones legales, crédito, fraude, HR real |
-| Retención | Ephemeral / local del estudiante |
-| Calidad | Controlada por asserts del demo |
-| Limitaciones | No representa distribución poblacional real del Perú ni de ningún mercado |
-| Contacto de ownership | Learner + PyArcana formal lane |
+| Capstone | CP-N1-A, admisión de clientes y calidad de datos |
+| Cierra | S04 |
+| Fuente | Registros escritos a mano: `RECORDS` en `cp_n1_a.py` y el lote de bordes en `data/generate.py` |
+| Datos de personas reales | **Ninguno** |
+| Uso previsto | Aprender, mostrar en un portafolio, evaluar el cierre de S04 |
+| Uso no previsto | Decisiones legales, de crédito, de fraude o de personal |
+| Retención | Viven en tu equipo; no se envían a ningún lado |
+| Calidad | Cada registro de `data/generate.py` declara su estado y una prueba lo comprueba |
+| Limitaciones | No representa a la población real del Perú ni de ningún mercado |
+| Responsable | La persona que hace el curso |
 
-## Campos típicos (sintéticos)
-IDs (`C001`…), montos inventados, códigos de estado, scores de calidad. Nombres como `Ana Demo`, `Cliente Sintetico 3`.
+## Campos
+`edad`, `region` (cuatro códigos `R-*` inventados), `monto_ingreso` y `raw_line`.
 
 ## Controles
-- No logging de secretos.
-- No envío a APIs externas en el demo formal.
-- Reproducibilidad vía seed.
+- No se registran claves.
+- No se llama a servicios externos.
+- La salida es determinista: el mismo lote da el mismo resultado.

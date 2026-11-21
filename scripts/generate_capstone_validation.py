@@ -9,7 +9,7 @@ VAL = ROOT / "capstone_validation"
 
 # Mirror of src/lib/capstones/catalog.ts (single source of truth).
 CAPS = [
-  ("CP-N1-A","2.0.0","CLI Reproducible de Admisión de Clientes y Calidad de Datos",1,"S04",["S01","S02","S03","S04"],[],[],"capstone_foundations","intake_cli.run(records) -> IntakeResult",["Usa PII real","Calcula denominadores incorrectamente","No maneja entrada malformada","Sin tests"],False),
+  ("CP-N1-A","3.0.0","CLI Reproducible de Admisión de Clientes y Calidad de Datos",1,"S04",["S01","S02","S03","S04"],[],[],"capstone_foundations","cp_n1_a.run(records) -> dict",["Usa PII real","Calcula denominadores incorrectamente","No maneja entrada malformada","Sin tests"],False),
   ("CP-N1-B","2.0.0","Pipeline ETL Reproducible de Clientes y Transacciones",1,"S08",["S05","S06","S07","S08"],["CP-N1-A"],["S05","S06","S07"],"capstone_foundations","etl.run(batch) -> EtlManifest",["Expone secretos","No es idempotente","Sin cuarentena","Pierde proveniencia"],False),
   ("CP-N1-C","2.0.0","Tablero de Evidencia de Familiaridad",1,"S13",["S09","S10","S11","S12","S13"],["CP-N1-A","CP-N1-B"],["S09","S10","S11","S12"],"capstone_foundations","familiarity.review(case) -> ReviewPacket",["Infiere fraude/parentesco automáticamente","Sin revisión humana","Sin hoja de privacidad","Sin mecanismo de corrección"],False),
   ("CP-N2-A","2.0.0","Portafolio Ejecutivo de Calidad de Datos y EDA",2,"S17",["S14","S15","S16","S17"],["CP-N1-C"],["S14","S15","S16"],"capstone_independent","eda.profile(dataset) -> EdaReport",["Interpretación causal no soportada","Sin reproducibilidad","Sin memo ejecutivo","Sin limitaciones"],False),

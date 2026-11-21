@@ -1,111 +1,126 @@
 #!/usr/bin/env python3
-"""CP-N1-A — tests normal/boundary/failure. Run: python3 tests/test_demo.py
+"""CP-N1-A: pruebas de tu cp_n1_a.py. Ejecuta:  python3 tests/test_demo.py
 
-The module under test is `demo` by default. Set CP_N1_A_MODULE=cp_n1_a to test your own
-STARTER/cp_n1_a.py after copying this package. Every check compares against a value that was
-worked out by hand from the contract in BRIEF.md, never against the code's own output.
+Cada valor esperado se calculó a mano desde BRIEF.md, nunca copiando la salida del código.
+Al principio fallan todas: cada fallo dice qué función escribir y qué regla mirar.
 """
-from __future__ import annotations
-
-import importlib
-import os
-import subprocess
+import json
 import sys
 from decimal import Decimal
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-PKG = os.path.dirname(HERE)
-sys.path.insert(0, PKG)
-
-impl = importlib.import_module(os.environ.get("CP_N1_A_MODULE", "demo"))
+from _select import LOCATION, generate, impl
 
 
 def row(edad=30, region="R-NORTE", monto=10, raw="raw"):
     return {"edad": edad, "region": region, "monto_ingreso": monto, "raw_line": raw}
 
 
-def test_0():
-    """normal: campos válidos → accept"""
+def test_01_registro_valido_se_acepta():
+    """regla 5: todos los campos válidos → accept, sin motivos"""
     assert impl.classify(row(edad=30, region="R-SUR", monto=500)) == "accept"
+    assert impl.motivos(row(edad=30, region="R-SUR", monto=500)) == []
 
 
-def test_1():
-    """boundary: monto 0 es válido → accept (not review, not reject)"""
+def test_05_monto_cero_se_acepta():
+    """regla 3: el monto 0 es válido → accept (ni review ni reject)"""
     assert impl.classify(row(monto=Decimal("0.00"))) == "accept"
     assert impl.classify(row(monto=0)) == "accept"
 
 
-def test_2():
-    """failure: edad ausente → review (no reject, no crash)"""
+def test_02_reglas_de_edad_y_sus_bordes():
+    """regla 1: ausente → MISSING; texto → BAD_TYPE; fuera de 0 a 120 → OUT_OF_RANGE; < 18 → NEEDS_REVIEW"""
+    casos = [(None, "MISSING"), ("veinte", "BAD_TYPE"), (True, "BAD_TYPE"), (-1, "OUT_OF_RANGE"),
+             (0, "NEEDS_REVIEW"), (17, "NEEDS_REVIEW"), (18, "OK"), (120, "OK"),
+             (121, "OUT_OF_RANGE"), (150, "OUT_OF_RANGE")]
+    for edad, esperado in casos:
+        obtenido = impl.codigo_edad(edad)
+        assert obtenido == esperado, f"codigo_edad({edad!r}) dio {obtenido!r}; esperado {esperado!r}"
+
+
+def test_03_reglas_de_region():
+    """regla 2: ausente → MISSING; fuera del catálogo → NOT_IN_ALLOWLIST; en el catálogo → OK"""
+    casos = [(None, "MISSING"), ("R-FUERA", "NOT_IN_ALLOWLIST"), ("r-norte", "NOT_IN_ALLOWLIST"),
+             ("R-NORTE", "OK"), ("R-COSTA", "OK")]
+    for region, esperado in casos:
+        obtenido = impl.codigo_region(region)
+        assert obtenido == esperado, f"codigo_region({region!r}) dio {obtenido!r}; esperado {esperado!r}"
+
+
+def test_04_reglas_de_monto_y_sus_bordes():
+    """regla 3: solo int o Decimal; negativo → OUT_OF_RANGE; > 50000 → NEEDS_REVIEW"""
+    casos = [(None, "MISSING"), ("100", "BAD_TYPE"), (10.5, "BAD_TYPE"), (True, "BAD_TYPE"),
+             (Decimal("NaN"), "BAD_TYPE"), (Decimal("Infinity"), "BAD_TYPE"), (-1, "OUT_OF_RANGE"),
+             (0, "OK"), (50000, "OK"), (50001, "NEEDS_REVIEW")]
+    for monto, esperado in casos:
+        obtenido = impl.codigo_monto(monto)
+        assert obtenido == esperado, f"codigo_monto({monto!r}) dio {obtenido!r}; esperado {esperado!r}"
+
+
+def test_06_motivos_nombran_cada_campo():
+    """regla 4: un motivo "campo:CODIGO" por cada campo que no es OK, en orden edad, region, monto"""
+    assert impl.motivos(row(edad=None)) == ["edad:MISSING"]
+    assert impl.motivos(row(edad=17, region="R-FUERA", monto=-1)) == [
+        "edad:NEEDS_REVIEW", "region:NOT_IN_ALLOWLIST", "monto_ingreso:OUT_OF_RANGE"]
+
+
+def test_07_el_peor_campo_decide():
+    """regla 5: reject gana a review, review gana a accept"""
     assert impl.classify(row(edad=None)) == "review"
-
-
-def test_3():
-    """failure: región fuera del catálogo → review"""
     assert impl.classify(row(region="R-FUERA")) == "review"
-
-
-def test_4():
-    """failure: monto negativo → reject, and one reject outranks an accepted region"""
     assert impl.classify(row(monto=-1)) == "reject"
-    assert impl.classify(row(monto=-1, region="R-NORTE")) == "reject"
-
-
-def test_5():
-    """failure: tipo malo (edad como texto) → reject"""
     assert impl.classify(row(edad="veinte")) == "reject"
+    assert impl.classify(row(edad=None, monto=-1)) == "reject"
 
 
-def test_run_counts_match_the_hand_count():
-    """denominators: 4 rows → 1 accept, 2 review, 1 reject; tasa_reject = 1/4"""
+def test_08_conteos_del_lote_a_mano():
+    """denominadores: el lote de 4 → 1 accept, 2 review, 1 reject; tasa_reject = 1/4"""
     res = impl.run(impl.RECORDS)
-    assert (res.n_total, res.n_accept, res.n_review, res.n_reject) == (4, 1, 2, 1)
-    assert res.n_total == res.n_accept + res.n_review + res.n_reject
-    assert res.tasa_reject == 0.25
-    assert [x["estado"] for x in res.results] == ["accept", "review", "reject", "review"]
+    assert (res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]) == (4, 1, 2, 1)
+    assert res["n_total"] == res["n_accept"] + res["n_review"] + res["n_reject"]
+    assert res["tasa_reject"] == 0.25
+    assert [x["estado"] for x in res["results"]] == ["accept", "review", "reject", "review"]
+    assert [x["raw_line"] for x in res["results"]] == [r["raw_line"] for r in impl.RECORDS]
+    assert res["results"][1]["motivos"] == ["edad:MISSING"]
 
 
-def test_empty_batch_has_no_rate():
-    """an empty batch has no observations: tasa_reject is None, not 0.0 and not a crash"""
+def test_09_lote_vacio_sin_tasa():
+    """un lote vacío no tiene tasa: tasa_reject es None (null en JSON), no 0.0 ni un error"""
     res = impl.run([])
-    assert (res.n_total, res.n_accept, res.n_review, res.n_reject) == (0, 0, 0, 0)
-    assert res.tasa_reject is None
+    assert (res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]) == (0, 0, 0, 0)
+    assert res["tasa_reject"] is None
+    assert json.loads(json.dumps(res["tasa_reject"])) is None
 
 
-def test_a_non_finite_amount_is_rejected_without_stopping_the_batch():
-    """failure: Decimal("NaN") is not an amount; it must not raise InvalidOperation mid-batch"""
-    rows = [row(monto=Decimal("NaN")), row(monto=Decimal("Infinity")), row(monto=10)]
+def test_10_un_registro_malo_no_detiene_el_lote():
+    """un monto NaN o un tipo raro va a reject, y el registro siguiente se sigue procesando"""
+    rows = [row(monto=Decimal("NaN")), row(monto=Decimal("Infinity")), row(edad=[30]), row(monto=10)]
     res = impl.run(rows)
-    assert [x["estado"] for x in res.results] == ["reject", "reject", "accept"]
+    assert [x["estado"] for x in res["results"]] == ["reject", "reject", "reject", "accept"]
 
 
-def test_the_generated_dataset_agrees_with_the_contract():
-    """each synthetic record's declared status is what classify() decides"""
-    sys.path.insert(0, os.path.join(PKG, "data"))
-    import generate
+def test_11_datos_generados_cumplen_el_contrato():
+    """data/generate.py: el estado declarado de cada registro es el que decide classify()"""
     for rec in generate.generate()["records"]:
         assert impl.classify(rec) == rec["status"], rec["raw_line"]
 
 
-def test_run_demo_exits_zero():
-    r = subprocess.run([sys.executable, os.path.join(PKG, "demo.py")], capture_output=True, text=True)
-    assert r.returncode == 0, f"demo exited {r.returncode}: {r.stderr}"
-    assert "METRICS_JSON:" in r.stdout
-
-
 def main():
-    tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
-    p = f = 0
+    print(f"Probando {LOCATION}\n")
+    tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]  # test_01, test_02, ...
+    passed = failed = 0
     for t in tests:
         try:
             t()
-            print(f"  PASS  {t.__name__}")
-            p += 1
+            print(f"  PASA   {t.__name__}")
+            passed += 1
+        except NotImplementedError as e:
+            print(f"  FALTA  {t.__name__}: {e}")
+            failed += 1
         except Exception as e:
-            print(f"  FAIL  {t.__name__}: {e}")
-            f += 1
-    print(f"\n{p} passed, {f} failed, {len(tests)} total")
-    return 1 if f else 0
+            print(f"  FALLA  {t.__name__}: {t.__doc__}\n         {type(e).__name__}: {e}")
+            failed += 1
+    print(f"\n{passed} pasan, {failed} fallan, {len(tests)} en total")
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
