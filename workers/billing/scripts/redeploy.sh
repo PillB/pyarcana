@@ -8,7 +8,7 @@
 #    PYARCANA_DEPLOY_BRANCH), and unless the only local change is wrangler.toml's D1 id;
 # 2. drops that local id (setup.sh writes it back), pulls fast-forward only, and stops unless the
 #    checkout then equals origin/<branch>; prints the commit being deployed;
-# 3. bun install;
+# 3. bun install, and stops unless it generated the Prisma client (the static build needs it);
 # 4. runs setup.sh, which asks for the Cloudflare API token with a visible prompt (typing hidden)
 #    and for the account id when they are not exported, keeps every stored secret, builds and
 #    deploys. Arguments are passed on to setup.sh.
@@ -61,6 +61,13 @@ echo "Deploying: $(git log -1 --format='%h %s (%cd)' --date=short)"
 
 say "3/4  Installing dependencies (bun install)"
 bun install || die "STOP: bun install failed. Nothing was deployed."
+# bun 1.4 and newer skip the install scripts of packages not listed in package.json's
+# trustedDependencies; without @prisma/client's, the Prisma client is never generated and the static
+# build stops at src/lib/db.ts. Say so here, by name, instead of after a long build.
+[ -f node_modules/.prisma/client/index.d.ts ] || die "STOP: bun install did not generate the Prisma client (bun $(bun --version 2>/dev/null || echo '?')).
+package.json and bun.lock must list @prisma/client and prisma under trustedDependencies (PR #173). Then run
+  bunx prisma generate
+or install bun 1.3.4 (the version in packageManager), then run this again. Nothing was deployed."
 
 say "4/4  Cloudflare setup and deploy"
 exec "$HERE/setup.sh" "$@"

@@ -65,7 +65,11 @@ writeFileSync("out/privacy.html", process.env.NEXT_PUBLIC_HOLDER_NAME
 // \`bun install\` (redeploy.sh step 3) is allowed: it worked there, and it does not walk the folders.
 const FAKE_BUN = `#!/bin/sh
 echo "bun $*" >> "$FAKE_LOG"
-[ "$1" = install ] && exit 0
+if [ "$1" = install ]; then
+  [ "$FAKE_NO_PRISMA" = 1 ] || { mkdir -p node_modules/.prisma/client && : > node_modules/.prisma/client/index.d.ts; }
+  exit 0
+fi
+[ "$1" = --version ] && echo 1.4.4 && exit 0
 echo "bun must not be called by the deploy" >&2
 exit 1
 `;
@@ -593,7 +597,7 @@ function git(cwd, ...args) {
 /** tree() as a git checkout on BRANCH, with an origin that has one commit more. */
 function deployCheckout() {
   const t = tree();
-  writeFileSync(path.join(t.root, ".gitignore"), ".bin/\nstate.json\nlog.txt\nout/\norigin.git/\nother/\n");
+  writeFileSync(path.join(t.root, ".gitignore"), ".bin/\nnode_modules/\nstate.json\nlog.txt\nout/\norigin.git/\nother/\n");
   git(t.root, "init", "-q", "-b", BRANCH);
   git(t.root, "add", "-A");
   git(t.root, "commit", "-qm", "first");
@@ -647,6 +651,21 @@ test("redeploy.sh: right branch with the local D1 id: pulls the new work, instal
   assertNotPrinted(afterPrompt(r.out), TOKEN, "the API token");
   assert.equal(r.state.deploys.length, 1);
   assert.ok(r.out.indexOf("1/4") < r.out.indexOf("2/4") && r.out.indexOf("3/4") < r.out.indexOf("4/4"), "the steps are announced in order");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+// Deploy-thread finding, 20 Nov 2026: bun 1.4.4 skips @prisma/client's postinstall unless package.json
+// trusts it (the fix is PR #173: package.json and bun.lock), so a fresh install has no Prisma client and
+// the static build fails late. Whatever the cause, redeploy.sh says so right after the install, before
+// any Cloudflare step.
+test("redeploy.sh stops right after bun install when the Prisma client was not generated: no token asked, no wrangler call", () => {
+  const t = deployCheckout();
+  const r = redeploy(t, { env: { CLOUDFLARE_API_TOKEN: undefined, FAKE_NO_PRISMA: "1" }, input: `${TOKEN}\n` });
+  assert.notEqual(r.status, 0, r.out);
+  assert.match(r.out, /STOP: bun install did not generate the Prisma client \(bun 1\.4\.4\)/);
+  assert.match(r.out, /trustedDependencies/);
+  assert.doesNotMatch(r.out, /Paste your Cloudflare API token/, "stopped before setup.sh");
+  assert.deepEqual(r.state.calls, [], "no wrangler call");
   rmSync(t.root, { recursive: true, force: true });
 });
 
