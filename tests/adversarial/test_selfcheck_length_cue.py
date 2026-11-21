@@ -38,9 +38,9 @@ BATCH_1 = [
 # minimal-repro key now says "autocontenido"; "always longest" now scores 1/11.
 # 2026-11-18, proposal 10 S12: the absurd distractors were replaced and the key's length rank is
 # spread (no rank holds more than 2 of 7); "always longest" no longer passes S12.
-LONGEST_OWED = {
-    "s13-evidence-dashboard",
-}
+# 2026-11-19, proposal 10 S13: the absurd distractors were replaced and the key's length rank is
+# spread (2, 3, 2 and 2 of 9); "always longest" now scores 2/9 and the list is empty.
+LONGEST_OWED: set[str] = set()
 SHORTEST_OWED: set[str] = set()
 
 

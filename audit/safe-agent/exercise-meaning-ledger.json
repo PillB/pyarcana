@@ -2070,6 +2070,86 @@
       "reason": "IDO-08.1 / WEDO-24.2: tests and retrospective use kinship_verdict, the one key name; fraud score glossed; output unchanged.",
       "decided_by": "owner 2026-11-11 (proposal 10, S12 P1/P2/P3 fixes)",
       "date": "2026-11-18"
+    },
+    {
+      "row": 208,
+      "id": "S13-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "e6c02b8b17a68667e66beea233e84d4140e062db1a28496c60dd39cc8b6b6e2f",
+      "to_fp": "3a54be5b5388d1e81ece925047cdc50029b43b6020fcad9191d1bcdc6d3ecd02",
+      "reason": "THEORY-05.1 / WEDO-03.1 / WEDO-03.2: a pair without a document (E) is printed and must give None, the er_rules.py contract; the given bkey returns None on an empty name instead of raising IndexError.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 209,
+      "id": "S13-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "ca909230111e699791b6c2de46e7a997e6d0f07c63ff2b16c985ec3b146cd1c7",
+      "to_fp": "73093bee2f21fb57816ad9ae45fbb9da5d4bbf62256ddacd249af81469c8df29",
+      "reason": "WEDO-05.1 / WEDO-05.2: P5=0.4 and P6=0.8 sit on the bounds, so an exclusive low bound or an inclusive high bound fails; expected ['P2', 'P3', 'P5']; the feedback names the real cause.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 210,
+      "id": "S13-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "47d693adcbb1fc7286760abfdca1d6c1e87fc326f399be6bce1494bb2acf0025",
+      "to_fp": "cf6206fd4d3b12c811241f599483ef8c791b6f24c9fc18e9c647d045966fe7fc",
+      "reason": "WEDO-08.1 + THEORY-10.1: a km=2.0 case is printed and must give 0.8, so km < 2 fails; the parameter is name_jaccard, what it measures.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 211,
+      "id": "S13-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "7012d29951d8ae58f121f04e649046308c04988d8f6d7eeb21c56b63b62f82b3",
+      "to_fp": "dbe399518d31d097f5a9c06c237a713e573856ee12ea93de3e3fa68a80a666a6",
+      "reason": "WEDO-09.1: inputs are phone=1.0, geo=1.0, name_jaccard=0.5, so only the canonical 0.5/0.3/0.2 gives 0.9; a hard-coded 1.0 or other weights fail.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 212,
+      "id": "S13-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "2adf064b3463e665489cf2a136c8201a1847c31e412338ce0673362d1605158d",
+      "to_fp": "41f260c8c20a305ba2bc731b1117ebfc66afb93b9640dc4ec72c67fb55e86d8e",
+      "reason": "WEDO-17.1: (True, 'low') and (0.8, '?') are printed and must give invalid_input, the two edge cases the exercise already listed; the hint says why bool is rejected.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 213,
+      "id": "S13-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "06ed9a455beb6ca5a94702f2c21dbae7b12568bccc4bb10d38fe180ac0f0c0a9",
+      "to_fp": "11355676b7dbfdcb0341c1308816fb4268c4a990424195f074b01ec86c56417a",
+      "reason": "WEDO-18.1: a second output without the forbidden keys is printed, so del on a missing key fails with KeyError as the Límites already allowed.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 214,
+      "id": "S13-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "65951df63f65d56a8ca78b8d7677d3660b44b6c888b07f579ab8e9ece968bf0d",
+      "to_fp": "c76a9bf2b389bba25a9ecda74fb966193bd1b566bd80e0e8395ab304135b7376",
+      "reason": "WEDO-20.1: the check now names the exact dict, two keys and no is_family, as the Meta already said; code and output unchanged.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
+    },
+    {
+      "row": 215,
+      "id": "S13-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "1d02cef4c3fdef72c20dc3c6113dbdeefbf801b416f04757839a61896d63e978",
+      "to_fp": "1055af42795a0747b9761c99c4fe0febddd6e90d8427d26e9e48cd11f5b67537",
+      "reason": "WEDO-22.1: data_class is printed and must be synthetic_only, so leaving production fails as the feedback already said.",
+      "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
+      "date": "2026-11-19"
     }
   ]
 }
