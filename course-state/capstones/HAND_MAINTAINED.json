@@ -1,0 +1,4 @@
+{
+  "why": "These packages are written by hand (proposal 11, approved 2026-11-21). Neither generator may write their files: _generate_formal_packages.py skips them, and scripts/enrich_capstone_packages.py only re-measures their execution.json. tests/adversarial/test_capstone_generators_hand_maintained.py runs both generators on a copy and checks it.",
+  "packages": ["CP-N1-A", "CP-N1-B", "CP-N1-C"]
+}

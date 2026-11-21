@@ -1,9 +1,11 @@
 # Requisitos de seguridad
 
-No expone el tablero sin revisión. Los datos sintéticos usan dominio example.test.
+El programa no usa credenciales, no abre conexiones de red y no escribe archivos: `review`
+devuelve un paquete en memoria.
 
 ## Controles obligatorios
-- No secretos embebidos.
-- Entradas validadas.
-- Salidas sanitizadas.
-- Datos sintéticos o legalmente reutilizables.
+- No hay claves ni contraseñas en el código.
+- Cada entrada se valida: un score que no es número o no es finito da `invalid_input`, y un `id`
+  repetido detiene el caso con `ValueError`.
+- La cola muestra seudónimos, no nombres.
+- Solo datos sintéticos.

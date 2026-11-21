@@ -1,12 +1,18 @@
 {
   "capstone_id": "CP-N1-C",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "artifacts": [
     "BRIEF.md",
     "RUBRIC.json",
+    "gate.json",
+    "STARTER/cp_n1_c.py",
+    "reference/cp_n1_c.py",
     "demo.py",
     "data/generate.py",
+    "data/case.json",
     "tests/test_demo.py",
+    "tests/_select.py",
+    "execution.json",
     "SECURITY.md",
     "PRIVACY.md",
     "ACCESSIBILITY.md",
@@ -14,9 +20,10 @@
     "IDO.md",
     "WEDO.md",
     "YOUDO.md",
-    "STARTER/",
+    "STARTER/README.md",
     "FINAL_INTERFACE.md",
-    "RUN.md"
+    "RUN.md",
+    "system_or_data_card.md"
   ],
   "synthetic_data_only": true,
   "no_secrets": true,

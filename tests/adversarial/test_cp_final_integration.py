@@ -325,6 +325,57 @@ class TestCpFinalIntegration(unittest.TestCase):
             # PII markers: no real-looking emails.
             self.assertNotIn("@example.com", src, f"{fname} contains real-looking PII domain")
 
+    # --- level-1 subsystems call the published CP-N1 interfaces (proposal 11, §4.4) ---------
+
+    def test_level_one_versions_match_the_packages(self):
+        final = json.loads((REPO_ROOT / "capstone_validation/architecture/final_integration_contracts.json")
+                           .read_text(encoding="utf-8"))
+        declared = {c["capstoneId"]: c["version"] for c in final["contracts"]}
+        for cid in ("CP-N1-A", "CP-N1-B", "CP-N1-C"):
+            rubric = json.loads((REPO_ROOT / "course-state/capstones" / cid / "RUBRIC.json")
+                                .read_text(encoding="utf-8"))
+            self.assertEqual(contracts.expected_contract_version(cid), rubric["version"], cid)
+            self.assertEqual(declared[cid], rubric["version"], cid)
+
+    def test_level_one_results_are_the_packages_own(self):
+        """Each N1 adapter returns what the package's interface returns on the same input."""
+        from integration import upstream, intake, etl, familiarity
+        inputs = platform_module._build_subsystem_inputs(self.scenario)
+        a = upstream.load("CP-N1-A").run(inputs["CP-N1-A"])
+        self.assertEqual(intake.run(inputs["CP-N1-A"]).results, a["results"])
+        packet = upstream.load("CP-N1-C").review(inputs["CP-N1-C"])
+        self.assertEqual(familiarity.review(inputs["CP-N1-C"]).decisions, list(packet.decisions))
+        with tempfile.TemporaryDirectory() as td:
+            data, out = Path(td) / "data", Path(td) / "out"
+            data.mkdir()
+            etl._land(inputs["CP-N1-B"], data)
+            self.assertEqual(upstream.load("CP-N1-B").run(data, out, run_id="direct"), 0)
+            sources = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["sources"]
+        self.assertEqual(etl.run(inputs["CP-N1-B"]).sources, sources)
+
+    def test_a_lenient_correction_is_not_a_correction_mechanism(self):
+        from integration import upstream, familiarity
+        ref = upstream.load("CP-N1-C")
+        strict = ref.apply_correction
+
+        def lenient(packet, pair_id, new_status, reason):
+            return strict(packet, pair_id, new_status, reason.strip() or "sin motivo")
+
+        ref.apply_correction = lenient
+        self.addCleanup(setattr, ref, "apply_correction", strict)
+        case = platform_module._build_subsystem_inputs(self.scenario)["CP-N1-C"]
+        self.assertFalse(familiarity.review(case).correction_mechanism)
+
+    def test_a_risk_decision_is_no_go(self):
+        inputs = platform_module._build_subsystem_inputs(self.scenario)
+        results = {cid: platform_module.SUBSYSTEM_RUNNERS[cid](inputs[cid])
+                   for cid in dependency_graph.UPSTREAM_CAPSTONES}
+        self.assertEqual(no_go.evaluate(results), (False, ""))
+        results["CP-N1-C"] = dataclasses.replace(results["CP-N1-C"], risk_decisions=[{"pair_id": "x"}])
+        flag, reason = no_go.evaluate(results)
+        self.assertTrue(flag)
+        self.assertIn("risk_decisions", reason)
+
     # --- demo exits 0 -------------------------------------------------
 
     def test_demo_exits_zero(self):

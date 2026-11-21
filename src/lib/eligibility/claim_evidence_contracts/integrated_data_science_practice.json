@@ -1,11 +1,11 @@
 {
   "credential_id": "integrated_data_science_practice",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "pilot",
   "credential_class": "C",
   "credential_class_name": "Integrated Capability Badge",
-  "public_name": "Integrated Data Science Practice",
-  "capability_statement": "El aprendiz demostró transferencia integrada de Data Science mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.",
+  "public_name": "Integrated Data Science Practice (piloto)",
+  "capability_statement": "El aprendiz demostró transferencia integrada de Data Science mediante el You Do y la autoevaluación de cada sección requerida, y un proyecto integrador evaluado con rúbrica (85% o más), con cada competencia crítica al 100%, bajo la especificación PyArcana 1.1.0. Es una insignia piloto: sus criterios pueden cambiar antes de que pase a activa, y la versión indicada dice con cuáles se otorgó.",
   "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
   "market_task_mappings": [],
   "prerequisites": [
@@ -27,13 +27,21 @@
   ],
   "required_activities": [
     "S06-YOUDO",
+    "S06-SELFCHECK",
     "S07-YOUDO",
+    "S07-SELFCHECK",
     "S08-YOUDO",
+    "S08-SELFCHECK",
     "S09-YOUDO",
+    "S09-SELFCHECK",
     "S10-YOUDO",
+    "S10-SELFCHECK",
     "S19-YOUDO",
+    "S19-SELFCHECK",
     "S23-YOUDO",
-    "S37-YOUDO"
+    "S23-SELFCHECK",
+    "S37-YOUDO",
+    "S37-SELFCHECK"
   ],
   "critical_gates": [
     "sql_competency",
@@ -45,5 +53,5 @@
   "non_compensatory": true,
   "minimum_overall_score": 85,
   "verification_mode": "server_verified",
-  "specification_hash": "sha256:integrated_data_science_practice:1.0.0"
+  "specification_hash": "sha256:integrated_data_science_practice:1.1.0"
 }

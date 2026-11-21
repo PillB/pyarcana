@@ -49,6 +49,25 @@ class SharedScenario:
         }
 
 
+# The fields the three level-1 contracts read (CP-N1-A: edad, region; CP-N1-C: document_id,
+# region, phone, coords), one entry per client in order. Fixed values, not seeded, so each one
+# shows a rule: SYN-CLI-002 is a minor (review), SYN-CLI-005 is 150 (reject), SYN-CLI-006 writes
+# its region in lower case (review) and has no coordinates, SYN-CLI-003 and SYN-CLI-004
+# share an office switchboard, and SYN-CLI-008 carries SYN-CLI-001's document in another form.
+N1_PROFILE: List[Dict[str, Any]] = [
+    {"edad": 34, "region": "R-NORTE", "document_id": "D-0001", "phone": "900000001", "coords": [-12.0464, -77.0428]},
+    {"edad": 16, "region": "R-SUR", "document_id": "D-0002", "phone": "900000002", "coords": [-12.0600, -77.0400]},
+    {"edad": 45, "region": "R-CENTRO", "document_id": "D-0003", "phone": "014000000", "coords": [-12.0900, -77.0300]},
+    {"edad": 29, "region": "R-CENTRO", "document_id": "D-0004", "phone": "014000000", "coords": [-12.0902, -77.0302]},
+    {"edad": 150, "region": "R-COSTA", "document_id": "D-0005", "phone": "900000005", "coords": [-12.1200, -77.0300]},
+    {"edad": 52, "region": "r-norte", "document_id": "D-0006", "phone": "900000006", "coords": None},
+    {"edad": 38, "region": "R-SUR", "document_id": "D-0007", "phone": "900000007", "coords": [-12.0500, -77.0200]},
+    {"edad": 61, "region": "R-NORTE", "document_id": "d.0001", "phone": "900000008", "coords": [-12.2000, -77.0100]},
+    {"edad": None, "region": None, "document_id": None, "phone": None, "coords": None},
+    {"edad": 18, "region": "R-COSTA", "document_id": "D-0010", "phone": "900000010", "coords": [-12.0464, -77.0428]},
+]
+
+
 def build_scenario(seed: int = DEFAULT_SEED) -> SharedScenario:
     """Build a deterministic, synthetic, PII-free shared scenario.
 
@@ -67,10 +86,12 @@ def build_scenario(seed: int = DEFAULT_SEED) -> SharedScenario:
             "email": f"{fn.lower()}.{ln.lower()}@example.test",
             "amount": round(_rand(seed, i) * 1000, 2),
             "status": "ok" if _rand(seed, i + 100) > 0.2 else "review",
+            **N1_PROFILE[i],
         })
     # Boundary & malformed rows (CP-N1-A criticalFailure: must handle malformed)
-    clients.append({"id": None, "name": "", "email": "bad", "amount": -5})
-    clients.append({"id": "SYN-CLI-EDGE", "name": "Edge Case", "email": "edge@example.test", "amount": 0})
+    clients.append({"id": None, "name": "", "email": "bad", "amount": -5, **N1_PROFILE[8]})
+    clients.append({"id": "SYN-CLI-EDGE", "name": "Edge Case", "email": "edge@example.test", "amount": 0,
+                    **N1_PROFILE[9]})
 
     transactions: List[Dict[str, Any]] = []
     for i in range(12):

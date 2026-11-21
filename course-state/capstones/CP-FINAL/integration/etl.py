@@ -1,73 +1,84 @@
-"""CP-N1-B subsystem — etl.run(batch) -> EtlManifest.
+"""CP-N1-B subsystem — cp_n1_b.run(data_dir, out_dir, run_id=None) -> int, as an EtlManifest.
 
-Honors CP-N1-B criticalFailures:
-- No exposed secrets (uses synthetic data only).
-- Idempotent: same input -> same manifest hash.
-- Quarantine present (rows failing validation are separated).
-- Provenance preserved (batch_id, source, generator recorded).
+Calls the interface CP-N1-B publishes (see upstream.py). The platform hands this subsystem a
+batch of rows already in the CP-N1-B contract (clients id,nombre,monto; transactions
+id,client_id,monto, montos as decimal text). This module lands them as clients.csv and
+transactions.json in a temporary folder, runs CP-N1-B twice with the batch id as run_id, and
+reports the manifest and the clean and quarantine rows. Nothing is written into the repository.
 
-Subsystems communicate via contracts (the platform passes the EtlManifest
-to downstream consumers). This module does NOT import any other subsystem
-module — see `tests/adversarial/test_cp_final_integration.py` for the AST
-guard.
+Honors the CP-N1-B criticalFailures:
+- No secrets (synthetic data only).
+- Idempotent: the two runs must give the same clean, quarantine and sources.
+- Quarantine present: irregular rows come back with their reason.
+- Provenance: each quarantine row keeps raw and record_number; each source keeps its sha256.
+
+Does NOT import any other subsystem module.
 """
 from __future__ import annotations
 
-import hashlib
+import csv
 import json
-import re
+import tempfile
+from pathlib import Path
 from typing import Any, Dict, List
 
-from . import contracts
+from . import contracts, upstream
 
-_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+SOURCES = ("clients.csv", "transactions.json")
 
 
-def _row_ok(row: Dict[str, Any]) -> bool:
-    """Row passes intake validation (no error)."""
-    if not row.get("id") or not str(row.get("name", "")).strip():
-        return False
-    if not _EMAIL_RE.match(str(row.get("email", ""))):
-        return False
-    amount = row.get("amount")
-    if not isinstance(amount, (int, float)):
-        return False
-    if amount < 0:
-        return False
-    return True
+def _land(batch: Dict[str, Any], data_dir: Path) -> None:
+    with open(data_dir / "clients.csv", "w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=["id", "nombre", "monto"], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(batch.get("clients", []))
+    (data_dir / "transactions.json").write_text(
+        json.dumps(batch.get("transactions", []), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _read_outputs(out_dir: Path) -> Dict[str, Any]:
+    manifest = json.loads((out_dir / "manifest.json").read_text(encoding="utf-8"))
+    with open(out_dir / "clean" / "clients.csv", encoding="utf-8", newline="") as fh:
+        clients = list(csv.DictReader(fh))
+    clean = {"clients.csv": clients,
+             "transactions.json": json.loads((out_dir / "clean" / "transactions.json").read_text(encoding="utf-8"))}
+    quarantine = {}
+    for name in SOURCES:
+        stem = name.split(".")[0]
+        lines = (out_dir / "quarantine" / f"{stem}.jsonl").read_text(encoding="utf-8").splitlines()
+        quarantine[name] = [json.loads(line) for line in lines if line.strip()]
+    return {"manifest": manifest, "clean": clean, "quarantine": quarantine}
+
+
+def _one_run(batch: Dict[str, Any], run_id: str):
+    with tempfile.TemporaryDirectory(prefix="cp_final_etl_") as tmp:
+        data_dir, out_dir = Path(tmp) / "data", Path(tmp) / "out"
+        data_dir.mkdir()
+        _land(batch, data_dir)
+        code = upstream.load("CP-N1-B").run(data_dir, out_dir, run_id=run_id)
+        return code, (_read_outputs(out_dir) if code == 0 else None)
 
 
 def run(batch: Dict[str, Any]) -> contracts.EtlManifest:
-    records: List[Dict[str, Any]] = list(batch.get("records", []))
-    batch_id = str(batch.get("batch_id", "syn-batch-001"))
-    accepted: List[Dict[str, Any]] = []
-    quarantine: List[Dict[str, Any]] = []
-    for r in records:
-        if _row_ok(r):
-            accepted.append(r)
-        else:
-            quarantine.append({"row": r, "reason": "intake_classifier_error"})
-    payload = {
-        "batch_id": batch_id,
-        "accepted": accepted,
-        "quarantine": quarantine,
-    }
-    manifest_hash = hashlib.sha256(
-        json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
-    ).hexdigest()[:16]
-    # Prove idempotency by hashing the same payload twice, independently.
-    second_hash = hashlib.sha256(
-        json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
-    ).hexdigest()[:16]
+    """Run CP-N1-B on the batch twice and return its manifest and outputs as a contract object."""
+    run_id = str(batch.get("batch_id", "syn-batch-001"))
+    code, first = _one_run(batch, run_id)
+    if first is None:
+        return contracts.EtlManifest(exit_code=code, run_id=run_id)
+    _, second = _one_run(batch, run_id)
+    same = (second is not None
+            and (first["clean"], first["quarantine"], first["manifest"]["sources"])
+            == (second["clean"], second["quarantine"], second["manifest"]["sources"]))
+    m = first["manifest"]
     return contracts.EtlManifest(
-        batch_id=batch_id,
-        accepted=accepted,
-        quarantine=quarantine,
-        idempotent=manifest_hash == second_hash,
-        provenance={
-            "source": "shared_scenario_v1",
-            "generator": "etl.run",
-            "schema_version": "1.0.0",
-        },
-        manifest_hash=manifest_hash,
+        exit_code=code,
+        run_id=m["run_id"],
+        sources=m["sources"],
+        n_in=m["n_in"],
+        n_clean=m["n_clean"],
+        n_quarantine=m["n_quarantine"],
+        reconcile_ok=m["reconcile_ok"],
+        clean=first["clean"],
+        quarantine=first["quarantine"],
+        idempotent=same,
     )

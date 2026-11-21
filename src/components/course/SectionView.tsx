@@ -939,7 +939,7 @@ function QuizTab({
         <h2 className="text-xl font-semibold">Autocheck — Verifica tu aprendizaje</h2>
       </div>
       <Callout type="info" title="¿Para qué este quiz?">
-        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más apruebas el Autocheck y ves las respuestas correctas y sus explicaciones. Los badges de competencia piden más: 85% en el examen de la sección. Si no llegas, repasa y reintenta.
+        Intentar recordar lo aprendido te ayuda a retenerlo mejor que volver a leerlo. Contesta sin mirar la teoría; las opciones cambian de orden en cada intento. Con 70% o más apruebas el Autocheck y ves las respuestas correctas y sus explicaciones. Las insignias de competencia piden más: 85% en el examen de la sección y 85% de promedio en los Autocheck de las secciones que piden. Si no llegas, repasa y reintenta.
       </Callout>
 
       {questions.map((q, qIdx) => {
