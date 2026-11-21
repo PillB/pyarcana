@@ -13,7 +13,8 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import replace
-from typing import Any, Dict, Optional
+from decimal import Decimal
+from typing import Any, Dict, List, Optional
 
 from . import contracts
 from . import dependency_graph
@@ -24,6 +25,40 @@ from . import (
     intake, etl, familiarity, eda, reports, rpa,
     er, graph, triage, service, platform_ml, copilot,
 )
+
+
+# --- level-1 inputs: the shared scenario in each CP-N1 contract's own shape ------------------
+# Translation happens here, at the boundary, and nowhere else (no subsystem reads another's
+# shape). A float amount becomes Decimal(str(x)), never Decimal(x) (S02), and decimal text with
+# two places for CP-N1-B.
+
+def _monto(amount) -> Any:
+    return Decimal(str(amount)) if isinstance(amount, float) else amount
+
+
+def _n1a_records(clients: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    return [{"edad": c.get("edad"), "region": c.get("region"), "monto_ingreso": _monto(c.get("amount")),
+             "raw_line": f"{c.get('id') or ''}|{c.get('edad')}|{c.get('region')}|{c.get('amount')}"}
+            for c in clients]
+
+
+def _n1b_batch(seed: int, clients, transactions) -> Dict[str, Any]:
+    def texto(x):
+        return format(_monto(x), ".2f") if isinstance(x, (int, float)) else ""
+    return {
+        "batch_id": f"syn-batch-{seed}",
+        "clients": [{"id": c.get("id") or "", "nombre": c.get("name") or "", "monto": texto(c.get("amount"))}
+                    for c in clients],
+        "transactions": [{"id": t["tx_id"], "client_id": t["src_client_id"], "monto": texto(t["amount"])}
+                         for t in transactions],
+    }
+
+
+def _n1c_case(seed: int, clients) -> Dict[str, Any]:
+    keys = ("document_id", "region", "phone", "coords")
+    people = [{"id": c["id"], "name": c.get("name"), **{k: c.get(k) for k in keys}}
+              for c in clients if c.get("id")]
+    return {"case_id": f"syn-familiarity-{seed}", "people": people}
 
 
 def _deterministic_duration(step_index: int) -> float:
@@ -44,9 +79,9 @@ def _build_subsystem_inputs(scenario: shared_scenario.SharedScenario) -> Dict[st
     "split" into per-capstone inputs.
 
     Signatures honor the catalog:
-      - intake.run(records)            -> records is a list
-      - etl.run(batch)                 -> batch is a dict
-      - familiarity.review(case)       -> case is a dict
+      - intake.run(records)            -> records in the CP-N1-A shape (edad, region, ...)
+      - etl.run(batch)                 -> rows in the CP-N1-B shape (id, nombre, monto)
+      - familiarity.review(case)       -> {"case_id", "people"} in the CP-N1-C shape
       - eda.profile(dataset)           -> dataset is a dict
       - reports.render(spec)           -> spec is a dict
       - rpa.run(job)                   -> job is a dict
@@ -63,11 +98,11 @@ def _build_subsystem_inputs(scenario: shared_scenario.SharedScenario) -> Dict[st
     cases = list(scenario.cases)
     return {
         # CP-N1-A: records (list)
-        "CP-N1-A": clients,
+        "CP-N1-A": _n1a_records(clients),
         # CP-N1-B: batch (dict)
-        "CP-N1-B": {"batch_id": f"syn-batch-{scenario.seed}", "records": clients},
-        # CP-N1-C: case (dict)
-        "CP-N1-C": cases[0] if cases else {"case_id": "syn-case-empty"},
+        "CP-N1-B": _n1b_batch(scenario.seed, clients, transactions),
+        # CP-N1-C: case (dict); a client without an id cannot be a person in a pair
+        "CP-N1-C": _n1c_case(scenario.seed, clients),
         # CP-N2-A: dataset (dict)
         "CP-N2-A": {"dataset_version": scenario.scenario_version, "records": clients},
         # CP-N2-B: spec (dict)

@@ -45,8 +45,9 @@ subsystem's output contains a forbidden claim, `noGo=true` is emitted.
 
 ## No automated adverse decision
 - No subsystem in the integration makes an automatic adverse decision.
-- The `familiarity.review` subsystem keeps entity-resolution evidence,
-  relationship evidence, and risk decisions in three separate fields.
+- The `familiarity.review` subsystem (CP-N1-C) keeps entity-resolution
+  evidence, relationship evidence and pair decisions in separate fields;
+  `risk_decisions` is always empty and `kinship_verdict` always `None`.
 - The `triage.score` subsystem supports abstention: uncertain cases
   route to human review with a stated reason and a `calibrated_prob`.
 - The `er.resolve` subsystem routes ambiguous matches to a review queue
@@ -66,13 +67,16 @@ subsystem's output contains a forbidden claim, `noGo=true` is emitted.
 - The `graph.investigate` subsystem displays uncertainty for every edge.
 - The `triage.score` subsystem reports calibration and a confidence
   interval.
-- The `familiarity.review` subsystem reports a false-positive analysis.
+- The `familiarity.review` subsystem states the missing fields and the
+  uncertainty of every pair, and its weights are S13's teaching values,
+  not calibrated ones. It does not measure false positives: that needs
+  labelled pairs (CP-N1-C YOUDO, task 2).
 
 ## Correction mechanism
 - The `graph.investigate` subsystem supports analyst notes and a
   correction mechanism for disputing an edge.
-- The `familiarity.review` subsystem supports a correction mechanism for
-  disputing a signal.
+- The `familiarity.review` subsystem supports `apply_correction`, which
+  changes a pair's state only with a written reason and logs the change.
 - The `no_go.py` evaluation includes a `correction_recommended` field
   when a human should review a violation.
 
