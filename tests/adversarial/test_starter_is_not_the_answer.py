@@ -18,6 +18,10 @@ on S04-T2-B-E1 the defect IS the extra blank lines, and on S05-T1-A-E1 it is an 
 are visible to a learner comparing outputs.
 Exercises still owed a real starter are listed in OWED; the list may only shrink: a new offender
 fails, and an id that no longer offends must be removed from the list.
+
+Batch 2 (S14–S27) joined on 2026-11-21 (proposal 12, decision 1). The S14–S27 review ran every
+starter and solution and found ten that print the answer, from S14-T4-A-E3 to S26-T4-B-E1; none
+was declared owed, so the gate failed on main until each got a starter that differs.
 """
 
 from __future__ import annotations
@@ -50,6 +54,11 @@ BATCH_1 = [
     "s05-functions-contracts", "s06-collections", "s07-text-unicode-regex", "s08-files-ingestion",
     "s09-exceptions-logging", "s10-modules-packaging-cli", "s11-oop-domain", "s12-apis-sql-geo",
     "s13-evidence-dashboard",
+]
+BATCH_2 = [
+    "s14-security", "s15-stdlib-deep", "s16-wxpython-gui", "s17-packaging", "s18-data-engineering",
+    "s19-databases-orm", "s20-rag", "s21-fastapi", "s22-rapidfuzz-entity", "s23-computer-vision",
+    "s24-rpa-advanced", "s25-streamlit-dashboards", "s26-integrator-phase1", "s27-async-concurrency",
 ]
 EXERCISE_ID = re.compile(r"""\bid:\s*["'](S\d\d-T\d-[AB]-E\d)["']""")
 
@@ -122,9 +131,9 @@ def run(code: str, workdir: Path) -> tuple[int, str]:
         return -1, ""
 
 
-def offenders() -> tuple[set[str], int]:
+def offenders(stems: list[str] = BATCH_1) -> tuple[set[str], int]:
     found, checked = set(), 0
-    for stem in BATCH_1:
+    for stem in stems:
         for exercise_id, starter, solution in exercises((SECTIONS / f"{stem}.ts").read_text(encoding="utf-8")):
             if not (is_python(starter) and is_python(solution)):
                 continue  # shell, TOML and other non-Python exercises
@@ -176,6 +185,21 @@ class BatchOneStartersAreNotTheAnswer(unittest.TestCase):
 
     def test_owed_list_only_shrinks(self) -> None:
         self.assertEqual(sorted(OWED - self.found), [], "fixed: remove these ids from OWED")
+
+
+
+@unittest.skipUnless(CONTENT_PY, "needs the pinned content interpreter (.venv-content or content-gates)")
+class BatchTwoStartersAreNotTheAnswer(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.found, cls.checked = offenders(BATCH_2)
+
+    def test_enough_exercises_were_run(self) -> None:
+        # S14–S27 have 336 We Do cards with a Python starter and solution.
+        self.assertGreaterEqual(self.checked, 300)
+
+    def test_no_starter_prints_the_answer(self) -> None:
+        self.assertEqual(sorted(self.found), [])
 
 
 if __name__ == "__main__":

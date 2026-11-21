@@ -1342,11 +1342,11 @@ bad False`,
         id: "S22-T3-A-E2",
         subtopicId: "S22-T3-A",
         kind: "independent",
-        title: "Verificar dominio allowlisted de C001",
+        title: "Verificar dominio allowlisted de C001 y C002",
         preamble:
-          "- **Contexto:** resolver el id del directorio no basta: el email debe vivir en `@example.pe` de laboratorio.\n- **Meta:** marcar `verified` solo si existe y el dominio está allowlisted.\n- **Éxito:** una línea `verified`.\n- **Límites:** no marques verified solo por `dict.get`; sin PII real.",
+          "- **Contexto:** resolver el id del directorio no basta: el email debe vivir en `@example.pe` de laboratorio.\n- **Meta:** marcar `verified` solo si existe y el dominio está allowlisted.\n- **Éxito:** dos líneas: `C001 verified` y `C002 rejected` (dominio externo).\n- **Límites:** no marques verified solo por `dict.get`; sin PII real.",
         instruction:
-          "1. El starter verifica solo existencia de email (bug).\n2. Exige `endswith('@example.pe')` (o split del dominio).\n3. Imprime `verified` o `rejected`.\n4. No inventes otros contactos.",
+          "1. Corre el starter: verifica solo que el email exista (bug), así que también imprime `C002 verified`.\n2. Exige `endswith('@example.pe')` (o split del dominio).\n3. Imprime el id y `verified` o `rejected` por cada contacto.\n4. No inventes otros contactos.",
         hint: "dict.get",
         hints: [
           "dict.get",
@@ -1357,25 +1357,28 @@ bad False`,
         feedback:
           "Resolver el id no basta: el dominio debe estar en la allowlist de laboratorio (`@example.pe`). Sin eso, fail-closed y no creas draft para un To incorrecto.",
         retrospective:
-          "Resolve + dominio allowlisted es el contrato de entrega del lab. El error clásico es “si está en el directorio, ya está”. Pregunta: si `C001` existiera con dominio externo, ¿qué estado imprimirías? Luego (E3) un score de similitud con nota ética obligatoria.",
+          "Resolve + dominio allowlisted es el contrato de entrega del lab. El error clásico es “si está en el directorio, ya está”. Pregunta: si mañana llega `x@example.pe.evil.com`, ¿lo acepta tu chequeo? Luego (E3) un score de similitud con nota ética obligatoria.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# Caso 22 · resolver C001 y dominio
 # A corregir: verified sin chequear dominio
 # Contrato: verified solo si dominio allowlisted
-DIRECTORY = {'C001': 'ana@example.pe'}
-em = DIRECTORY.get('C001')
-print('verified' if em else 'rejected')
+DIRECTORY = {'C001': 'ana@example.pe', 'C002': 'luis@ejemplo.invalid'}
+for cid in ('C001', 'C002'):
+    em = DIRECTORY.get(cid)
+    print(cid, 'verified' if em else 'rejected')
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `DIRECTORY = {'C001': 'ana@example.pe'}
-em = DIRECTORY.get('C001')
-print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
-          output: `verified`,
+          code: `DIRECTORY = {'C001': 'ana@example.pe', 'C002': 'luis@ejemplo.invalid'}
+for cid in ('C001', 'C002'):
+    em = DIRECTORY.get(cid)
+    print(cid, 'verified' if em and em.endswith('@example.pe') else 'rejected')`,
+          output: `C001 verified
+C002 rejected`,
         },
       },
       {
@@ -1434,9 +1437,9 @@ print(round(score, 2), 'match_no_es_fraude')`,
         kind: "guided",
         title: "Deduplicar emails preservando orden",
         preamble:
-          "- **Contexto:** en una lista To/CC de Caso 22, el orden de primera aparición es parte del contrato de higiene.\n- **Meta:** deduplicar sin perder ese orden.\n- **Éxito:** `['a@x', 'b@x']`.\n- **Límites:** no uses `set` como solución final; no reordenes a mano.",
+          "- **Contexto:** en una lista To/CC de Caso 22, el orden de primera aparición es parte del contrato de higiene.\n- **Meta:** deduplicar sin perder ese orden.\n- **Éxito:** `['b@x', 'a@x']`.\n- **Límites:** no uses `set` como solución final; no reordenes a mano.",
         instruction:
-          "1. El starter usa `list(set(xs))` (bug de orden).\n2. Aplica `dict.fromkeys` (o equivalente estable).\n3. Imprime la lista resultante.\n4. No alteres el fixture de tres elementos.",
+          "1. Corre el starter (bug de orden): `sorted(set(xs))` quita el duplicado pero ordena alfabéticamente, e imprime `['a@x', 'b@x']`.\n2. Aplica `dict.fromkeys` (o equivalente estable).\n3. Imprime la lista resultante.\n4. No alteres el fixture de tres elementos.",
         hint: "dict.fromkeys",
         hints: [
           "dict.fromkeys",
@@ -1445,25 +1448,25 @@ print(round(score, 2), 'match_no_es_fraude')`,
         edgeCases: ["case folding opcional"],
         tests: "salida coincide con solution output",
         feedback:
-          "`dict.fromkeys` preserva la primera aparición; `set` no garantiza orden. En una lista de To/CC el orden es parte del contrato de higiene de la mesa.",
+          "`dict.fromkeys` preserva la primera aparición; `set` no guarda ese orden y `sorted` lo cambia por el alfabético. `list(set(xs))` tampoco sirve: su orden cambia entre una ejecución y otra, así que a veces parece correcto. En una lista de To/CC el orden es parte del contrato de higiene de la mesa.",
         retrospective:
-          "En To/CC el orden de primera aparición es parte del contrato de higiene de la mesa, no un detalle cosmético. El error clásico es “un set ya quita duplicados” y perder quién era el primer `to`. Pregunta: si el fixture es a, b, a, ¿qué lista defiendes en el audit? Siguiente (E2): forzar BCC a un externo que vino en CC.",
+          "En To/CC el orden de primera aparición es parte del contrato de higiene de la mesa, no un detalle cosmético. El error clásico es “un set ya quita duplicados” y perder quién era el primer `to`. Pregunta: si el fixture es c, a, c, b, ¿qué lista defiendes en el audit? Siguiente (E2): forzar BCC a un externo que vino en CC.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# Caso 22 · dedupe de lista preservando orden
-# A corregir: set desordena / pierde orden de aparición
+# A corregir: sorted(set(...)) pierde el orden de aparición
 # Contrato: orden de primera aparición
-xs = ['a@x', 'b@x', 'a@x']
-print(list(set(xs)))
+xs = ['b@x', 'a@x', 'b@x']
+print(sorted(set(xs)))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `xs = ['a@x', 'b@x', 'a@x']
+          code: `xs = ['b@x', 'a@x', 'b@x']
 print(list(dict.fromkeys(xs)))`,
-          output: `['a@x', 'b@x']`,
+          output: `['b@x', 'a@x']`,
         },
       },
       {

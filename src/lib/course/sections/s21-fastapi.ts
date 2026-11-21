@@ -1419,18 +1419,18 @@ False`,
  kind: "guided",
  title: "Precisión a 1 decimal PEN",
  preamble:
- "- **Contexto:** el contrato del lab unifica métricas PEN a 1 decimal en dashboard, Excel e informe.\n- **Meta:** redondear `vals = [28.04, 28.0]` a 1 decimal.\n- **Éxito:** imprime `[28.0, 28.0]`.\n- **Límites:** no uses `round(..., 0)`; no hardcodees la lista de salida.",
+ "- **Contexto:** el contrato del lab unifica métricas PEN a 1 decimal en dashboard, Excel e informe.\n- **Meta:** redondear `vals = [28.04, 28.46]` a 1 decimal.\n- **Éxito:** imprime `[28.0, 28.5]`.\n- **Límites:** no uses `round(..., 0)`; no hardcodees la lista de salida.",
  instruction:
- "1. El starter hace `round(v, 0)` (bug).\n2. Cambia a `round(v, 1)` en la comprehension.\n3. Imprime la lista resultante.\n4. Verifica que ambos elementos sean 28.0.",
+ "1. El starter hace `round(v, 0)` (bug).\n2. Cambia a `round(v, 1)` en la comprehension.\n3. Imprime la lista resultante.\n4. Verifica `[28.0, 28.5]`: el starter imprime `[28.0, 28.0]`.",
  hint: "list comprehension con round(v, 1).",
  hints: [
  "list comprehension con round(v, 1).",
  "No uses round a 0 decimales.",
  ],
  edgeCases: ["banker's rounding"],
- tests: "print [28.0, 28.0]",
+ tests: "print [28.0, 28.5]",
  feedback:
- "Si imprimes `[28.0, 28.0]` con `round(v, 0)` “de casualidad” en este fixture, el bug sigue ahí: el contrato del lab es **1** decimal, no 0. Cambia el segundo argumento de `round`.",
+ "Con `round(v, 0)` el 28.46 se vuelve 28.0 y el informe pierde casi medio sol; el contrato del lab es **1** decimal, no 0. Cambia el segundo argumento de `round`.",
  retrospective:
  "0 decimales “aplana” y rompe el contrato de 1 decimal PEN del factory en dash, Excel e informe. Pregunta: ¿qué pasa con 28.04 si redondeas a 0 decimales en un lote real? Siguiente (E2): encapsular redondeo + unidad en `fmt_pen`.",
  starterCode: {
@@ -1438,15 +1438,15 @@ False`,
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — precisión 1 decimal
 # TODO: redondea a 1 decimal, no a 0
-vals = [28.04, 28.0]
+vals = [28.04, 28.46]
 print([round(v, 0) for v in vals])`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `vals = [28.04, 28.0]
+ code: `vals = [28.04, 28.46]
 print([round(v, 1) for v in vals])`,
- output: `[28.0, 28.0]`,
+ output: `[28.0, 28.5]`,
  },
  },
  {

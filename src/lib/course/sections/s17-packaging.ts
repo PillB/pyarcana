@@ -1354,9 +1354,9 @@ print(float(s.rolling(2).mean().iloc[-1]))`,
  kind: "guided",
  title: "Reconciliar totales con eps 1e-9",
  preamble:
- "- **Contexto:** el gate del portfolio declara si las partes cuadran con el total de referencia.\n- **Meta:** `abs(sum(parts) - total) < 1e-9`.\n- **Éxito:** `True` con parts 10+20+70 y total 100.\n- **Límites:** no uses tolerancia 1.0; no compares con `==` frágil como única estrategia sin eps documentado.",
+ "- **Contexto:** el gate del portfolio declara si las partes cuadran con el total de referencia.\n- **Meta:** `abs(sum(parts) - total) < 1e-9`.\n- **Éxito:** dos líneas: `True` (10+20+70 contra 100) y `False` (10+20+70.5, medio sol de descuadre).\n- **Límites:** no uses tolerancia 1.0; no compares con `==` frágil como única estrategia sin eps documentado.",
  instruction:
- "1. Abre el starter: umbral `< 1.0` (bug).\n2. Cambia a `1e-9`.\n3. Imprime el booleano.\n4. Un descuadre de casi un sol no debe pasar el gate.",
+ "1. Corre el starter: con umbral `< 1.0` (bug) el lote de 70.5 también imprime `True`.\n2. Cambia a `1e-9`.\n3. Imprime el booleano de cada lote.\n4. Un descuadre de casi un sol no debe pasar el gate.",
  hint: "abs(sum(parts) - total) < 1e-9 (eps estricto del gate).",
  hints: [
  "abs(sum(parts) - total) < 1e-9 (eps estricto del gate).",
@@ -1373,17 +1373,18 @@ print(float(s.rolling(2).mean().iloc[-1]))`,
  title: "exercise.py",
  code: `# CASO-LIM-017 · reconciliation
 # Bug a corregir: tolerancia 1.0 es demasiado laxa
-parts = [10.0, 20.0, 70.0]
 total = 100.0
-print(abs(sum(parts) - total) < 1.0)`,
+for parts in ([10.0, 20.0, 70.0], [10.0, 20.0, 70.5]):
+    print(abs(sum(parts) - total) < 1.0)`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `parts = [10.0, 20.0, 70.0]
-total = 100.0
-print(abs(sum(parts) - total) < 1e-9)`,
- output: `True`,
+ code: `total = 100.0
+for parts in ([10.0, 20.0, 70.0], [10.0, 20.0, 70.5]):
+    print(abs(sum(parts) - total) < 1e-9)`,
+ output: `True
+False`,
  },
  },
  {
