@@ -152,6 +152,22 @@ class CpN1ACopiesAgree(unittest.TestCase):
         self.assertIn(f"`{INTERFACE}`", (PKG / "FINAL_INTERFACE.md").read_text(encoding="utf-8"))
         self.assertIn(f"`{INTERFACE}`", (PKG / "BRIEF.md").read_text(encoding="utf-8"))
 
+    def test_regenerating_keeps_the_final_contracts(self):
+        """scripts/generate_capstone_validation.py read the critical failures as the interface, so
+        a regeneration undid the corrected entry (Codex review on #175). Its output must be the
+        committed file, and every interface must be a signature, never a list."""
+        sys.path.insert(0, str(ROOT / "scripts"))
+        try:
+            import generate_capstone_validation as gen
+        finally:
+            sys.path.pop(0)
+        path = ROOT / "capstone_validation/architecture/final_integration_contracts.json"
+        self.assertEqual(gen.final_contracts_text(), path.read_text(encoding="utf-8"))
+        for entry in gen.final_contracts()["contracts"]:
+            self.assertIsInstance(entry["interface"], str, entry["capstoneId"])
+            self.assertIn("->", entry["interface"], entry["capstoneId"])
+            self.assertIsInstance(entry["criticalFailures"], list, entry["capstoneId"])
+
     def test_the_public_copies_are_the_package_files(self):
         """The app serves public/capstones/ to learners; the rubric copy had drifted since #141."""
         for public, package in (("CP-N1-A_BRIEF.md", "BRIEF.md"), ("CP-N1-A_RUBRIC.json", "RUBRIC.json")):
