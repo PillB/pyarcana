@@ -380,6 +380,8 @@ class YouDoSuiteRejectsZeroFill(unittest.TestCase):
         self.assertNotEqual(done.returncode, 0)
         self.assertIn("AssertionError", done.stderr)
 
+
+class YouDoTextAgrees(unittest.TestCase):
     def test_the_objective_and_the_schema_agree_with_the_requirements(self) -> None:
         yd = s15()["youDo"]
         self.assertIn("sha256 del CSV", " ".join(yd["objectives"]))
