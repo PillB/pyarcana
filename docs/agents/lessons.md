@@ -739,3 +739,22 @@ back. Read this list before a section round; every item cost at least one failed
   not import the packages" was updated with the docs, and now also checks the code. Guard: when a
   contract changes version, grep every consumer for the old field names (`n_ok`, `manifest_hash`,
   `decision_evidence`), not only the copies of the signature.
+- **A catalog field the engine never reads is a promise nobody keeps.** Symptom: the progress
+  badges listed `required_projects` (13 capstones for the journey, three per phase) and the journey
+  description said "all 13 capstones", but `engine.ts` returns from `finalizeProgress` before the
+  project gate, so no capstone was ever checked. The phase 0 claim named the self-check, which the
+  catalog never listed. The first draft of the claim test made the same mistake: it counted a
+  progress badge's `required_projects` as a capstone requirement and so passed the old journey
+  text. Root cause: claims and tests were written from the catalog data, not from the path the
+  engine runs. Fix (proposal 11, §5.1 and §5.2): the progress lists are empty, self-checks are
+  `required_activities`, and `tests/adversarial/test_badge_claims_match_engine.py` derives what is
+  required from the engine's rules (activities for every required section; capstones only past
+  the progress path). Guard: before a badge text names a piece of work, find the gate in
+  `engine.ts` that blocks without it, and show the test failing on the old catalog.
+- **Every badge version is pinned by hand in the credential tests.** Bumping the capstone
+  credentials for the self-check change broke 12 node tests with `SPEC_VERSION_MISMATCH`:
+  `credential-blockers.test.ts` (`VERSION`) and `credential-issue-gates.test.ts`
+  (`SPEC_VERSION`, which defaulted to the catalog's top-level `1.0.0`) write each version out so
+  the test does not read the value it checks. That is the intended design, not drift. Guard: a
+  catalog version bump updates both maps in the same commit, and K4 now also refuses the version a
+  badge had before the bump.

@@ -43,9 +43,13 @@ const REQUIRED_EXAMS: Record<string, number> = {
   evidence_grounded_ai_systems_capstone: 1, // S52
 }
 // Each credential's own catalog version (badges[].version), which the route signs; a request naming
-// another is refused (credential-blockers.test.ts K4). Mastery's is not the catalog-wide 1.0.0.
+// another is refused (credential-blockers.test.ts K4). None is the catalog-wide 1.0.0 any more.
 const SPEC_VERSION: Record<string, string> = {
-  integrated_python_ai_capstone_integrated_mastery: '1.1.0',
+  integrated_python_ai_capstone_foundations: '1.1.0',
+  integrated_python_ai_capstone_independent: '1.1.0',
+  integrated_python_ai_capstone_advanced_applied: '1.1.0',
+  integrated_python_ai_capstone_integrated_mastery: '1.2.0',
+  evidence_grounded_ai_systems_capstone: '1.1.0',
 }
 // What the server cannot verify yet: every blueprint component but the exams, and the
 // prerequisite badges. Each capstone credential lists all of them.
