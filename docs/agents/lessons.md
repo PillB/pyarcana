@@ -748,3 +748,54 @@ back. Read this list before a section round; every item cost at least one failed
   `test_over_localized_language`. Fix: keep the guarded phrase; describe the categories without
   repeating the city. Guard: before rewording a sentence, `grep -rn` a distinctive part of it in
   `tests/` and `scripts/`; count city tokens when an edit adds fixture text.
+
+## Proposal 12, S16: errors met and how they were closed (21 Nov 2026)
+
+- **Two sets that must partition the input were built by two different operations.** S16 built
+  `clean` with `drop_duplicates(key, keep='first')` and `quarantine` with
+  `duplicated(key, keep=False)`, so the surviving row of a conflicting key sat in both. Two blocks
+  later, the metrics and the You Do computed `rows_clean = rows_in - rows_quarantine`, which only
+  holds for a partition: the learner got two counts for the same data (the review's P1). Root
+  cause: each block stated its own rule and none stated the invariant between them. Fix: one
+  rule for the whole section (exact copies leave one row in clean and the rest as `dup_exact`;
+  every row of a conflicting key goes to quarantine as `dup_conflict`; schema drift holds the
+  whole batch), the identity `rows_in == rows_clean + rows_quarantine` stated in prose, and
+  demos that print the sum. Guard: when two sections of a lesson split or count the same rows,
+  run the demos and assert the identity (`OnePartition` in `test_proposal12_s16`), with the old
+  split as a negative control.
+- **Peruvian money is written with a comma for thousands and a dot for decimals.**
+  `Intl.NumberFormat('es-PE', {style: 'currency', currency: 'PEN'})` prints `S/ 1,250.50` (CLDR
+  es-PE: group ",", decimal "."). The S16 parser took "if both, the dot is thousands" from the
+  es-ES habit and read that receipt as 1.2505, 1000 times too small. Fix: the separator that
+  appears last is the decimal; a single separator followed by exactly three digits (`1,250`) is
+  ambiguous and raises `ValueError` so the row goes to quarantine. Guard: the test feeds the
+  parser the string Node prints for es-PE, so a rule written from another locale fails.
+- **Trying date formats until one parses is a silent guess.** A loop over `%d/%m/%Y`, `%Y-%m-%d`,
+  ... accepts the first format that does not raise, so a month-first source with day <= 12
+  (`03/04/2024`) parses as day-first with no error. pandas documents the same trap for
+  `dayfirst`, which is not strict (pandas `to_datetime` reference; pandas-dev/pandas#12585), and
+  recommends an explicit `format`. Fix: one documented format per separator and per source; a
+  value that does not match becomes `NaT` and is reviewed. Guard: the theory fixture keeps a
+  month-first date that must pin as `NaT`.
+- **One fixture and one printed value is a check a hardcoded print passes.** All 24 S16 We Do
+  exercises compared one output on one fixture. Fix: each solution is a small function run on two
+  fixtures with different answers, or on one fixture that separates the usual mistake (a rate equal
+  to the cap for `>` vs `>=`, a 0.0 for `< 0` vs `<= 0`, `fin == inicio` for `<` vs `<=`, mean and
+  median that differ). Guard: the `MUTATIONS` table plants each usual wrong answer and the pin
+  must catch it; a test also requires every pin to hold more than one result.
+- **A guard at its cap leaves no room for a substitution.** S16 already had 55 Peruvian city
+  tokens, the cap of `test_over_localized_language`. Replacing "Madrid" with any city in that
+  guard's list would have failed it. Puno and Ica are real Peruvian regions outside the list.
+  Guard: count city tokens before choosing a replacement place name.
+- **`skip_allowlist.json` has two lists.** The first list in the file is `_doc`, the prose
+  header; the entries live in `allowed`. A script that appended to "the first list" wrote the
+  entries into the header. Guard: address the key by name (`d["allowed"]`) and read the diff,
+  which should show additions only.
+- **Browser Regression failed twice on trees that had passed (#175, #176).** Symptoms:
+  `exercise-feedback` count 24 vs 0 in `revealSolutions`, and `section-root` not found after a
+  hash change. Both re-runs on the same tree passed. The job starts `bun run dev` and waits a fixed
+  15 s; the spec already gives the first navigation 30 s for the dev server's cold compile, but
+  later section switches keep the 5 s default. Leading hypothesis, not yet confirmed (CI traces
+  cannot be downloaded through the proxy): a section's chunk compiles on demand and a click lands
+  before React hydrates it, so the click does nothing. Next step if it recurs: wait for a hydration
+  signal before clicking, or run the job against `next build && next start`.

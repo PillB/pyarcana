@@ -105,16 +105,19 @@ import exam_bank  # noqa: E402
 #: 2026-11-21: 1000 -> 983. Proposal 12 S15: every stdlib-deep (pandas) distractor was rewritten
 #: as a misconception a learner holds (pandas 2.x copy rules, loc on a numeric Index, na_values
 #: for NA); the key is longest on 6 of 24, down from 23, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 983
+#: 2026-11-21: 983 -> 965. Proposal 12 S16: every wxpython-gui (data quality) distractor was rewritten
+#: as a misconception (keep='first' as the default, the cap as exclusive, assert for drift, the
+#: coma always decimal); the bank leaves the perfect-cue set, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 965
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
 #: 2026-10-14: nine. Plan PR 9 repaired apis-sql-geo and evidence-dashboard.
 #: 2026-11-21: proposal 12 S14 repaired security (NumPy); it leaves the set.
+#: 2026-11-21: proposal 12 S16 repaired wxpython-gui (data quality); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
     "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security-infra",
-    "wxpython-gui",
 })
 
 
