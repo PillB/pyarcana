@@ -78,6 +78,12 @@ MUTANTS = {
     "fixed_run_id": [("    run_id = run_id or uuid.uuid4().hex", '    run_id = run_id or "corrida"')],
     "no_backups": [("        shutil.copy2(data_dir / name, backups / name)", "        pass")],
     "not_atomic": [("    os.replace(tmp, path)", '    path.write_text(text, encoding="utf-8")')],
+    # Codex review on #176: a direct write that leaves no temporary passed every test.
+    "direct_write": [('    fd, tmp_name = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")\n'
+                      '    os.close(fd)\n    tmp = Path(tmp_name)\n'
+                      '    tmp.write_text(text, encoding="utf-8", newline="\\n")\n    os.replace(tmp, path)',
+                      '    path.write_text(text, encoding="utf-8", newline="\\n")')],
+    "run_id_unchecked": [('    if not (run_id.isascii() and run_id.isalnum()):\n', '    if False:\n')],
     "hash_of_decoded_text": [("hashlib.sha256(Path(path).read_bytes())",
                               'hashlib.sha256(Path(path).read_text(encoding="utf-8-sig").encode())')],
     "missing_key_as_cast": [('            quarantine.append({"raw": raw, "record_number": record_number, "reason": "missing_key",',
@@ -94,6 +100,14 @@ def load(path: Path, name: str):
 
 
 class CpN1BFollowsTheS08Contract(unittest.TestCase):
+    def test_every_learner_facing_check_says_what_failed(self):
+        """A bare assert prints an empty AssertionError, and the learner cannot tell which check
+        failed or what came out (AGENTS.md, Fail loudly; Codex review on #176)."""
+        import ast
+        tree = ast.parse((PKG / "tests" / "test_demo.py").read_text(encoding="utf-8"))
+        bare = [n.lineno for n in ast.walk(tree) if isinstance(n, ast.Assert) and n.msg is None]
+        self.assertEqual(bare, [], "asserts without a message in CP-N1-B/tests/test_demo.py")
+
     def test_no_placeholder_or_fake_row_remains(self):
         tests = (PKG / "tests" / "test_demo.py").read_text(encoding="utf-8")
         self.assertNotIn("assert True", tests)
