@@ -152,6 +152,14 @@ class CpN1ACopiesAgree(unittest.TestCase):
         self.assertIn(f"`{INTERFACE}`", (PKG / "FINAL_INTERFACE.md").read_text(encoding="utf-8"))
         self.assertIn(f"`{INTERFACE}`", (PKG / "BRIEF.md").read_text(encoding="utf-8"))
 
+    def test_every_learner_facing_check_says_what_failed(self):
+        """A bare assert prints an empty AssertionError, and the learner cannot tell which check
+        failed or what came out (AGENTS.md, Fail loudly; Codex review on #176 and #177, same class)."""
+        import ast
+        tree = ast.parse((PKG / "tests" / "test_demo.py").read_text(encoding="utf-8"))
+        bare = [n.lineno for n in ast.walk(tree) if isinstance(n, ast.Assert) and n.msg is None]
+        self.assertEqual(bare, [], "asserts without a message in CP-N1-A/tests/test_demo.py")
+
     def test_regenerating_keeps_the_final_contracts(self):
         """scripts/generate_capstone_validation.py read the critical failures as the interface, so
         a regeneration undid the corrected entry (Codex review on #175). Its output must be the

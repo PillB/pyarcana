@@ -6,9 +6,21 @@ Al principio fallan todas: cada fallo dice qué función escribir y qué regla m
 """
 import json
 import sys
+import traceback
 from decimal import Decimal
+from pathlib import Path
 
 from _select import LOCATION, generate, impl
+
+
+def igual(obtenido, esperado, que):
+    """Falla con lo que se comprobaba, lo que salió y lo que se esperaba.
+
+    None, True y False se comparan con `is`: 0 no es False, ni 1.0 es True.
+    """
+    distinto = obtenido is not esperado if esperado is None or isinstance(esperado, bool) else obtenido != esperado
+    if distinto:
+        raise AssertionError(f"{que}\n           obtenido: {obtenido!r}\n           esperado: {esperado!r}")
 
 
 def row(edad=30, region="R-NORTE", monto=10, raw="raw"):
@@ -17,14 +29,14 @@ def row(edad=30, region="R-NORTE", monto=10, raw="raw"):
 
 def test_01_registro_valido_se_acepta():
     """regla 5: todos los campos válidos → accept, sin motivos"""
-    assert impl.classify(row(edad=30, region="R-SUR", monto=500)) == "accept"
-    assert impl.motivos(row(edad=30, region="R-SUR", monto=500)) == []
+    igual(impl.classify(row(edad=30, region="R-SUR", monto=500)), "accept", 'impl.classify(row(edad=30, region="R-SUR", monto=500))')
+    igual(impl.motivos(row(edad=30, region="R-SUR", monto=500)), [], 'impl.motivos(row(edad=30, region="R-SUR", monto=500))')
 
 
 def test_05_monto_cero_se_acepta():
     """regla 3: el monto 0 es válido → accept (ni review ni reject)"""
-    assert impl.classify(row(monto=Decimal("0.00"))) == "accept"
-    assert impl.classify(row(monto=0)) == "accept"
+    igual(impl.classify(row(monto=Decimal("0.00"))), "accept", 'impl.classify(row(monto=Decimal("0.00")))')
+    igual(impl.classify(row(monto=0)), "accept", 'impl.classify(row(monto=0))')
 
 
 def test_02_reglas_de_edad_y_sus_bordes():
@@ -58,44 +70,44 @@ def test_04_reglas_de_monto_y_sus_bordes():
 
 def test_06_motivos_nombran_cada_campo():
     """regla 4: un motivo "campo:CODIGO" por cada campo que no es OK, en orden edad, region, monto"""
-    assert impl.motivos(row(edad=None)) == ["edad:MISSING"]
-    assert impl.motivos(row(edad=17, region="R-FUERA", monto=-1)) == [
-        "edad:NEEDS_REVIEW", "region:NOT_IN_ALLOWLIST", "monto_ingreso:OUT_OF_RANGE"]
+    igual(impl.motivos(row(edad=None)), ["edad:MISSING"], 'impl.motivos(row(edad=None))')
+    igual(impl.motivos(row(edad=17, region="R-FUERA", monto=-1)), [
+        "edad:NEEDS_REVIEW", "region:NOT_IN_ALLOWLIST", "monto_ingreso:OUT_OF_RANGE"], 'impl.motivos(row(edad=17, region="R-FUERA", monto=-1))')
 
 
 def test_07_el_peor_campo_decide():
     """regla 5: reject gana a review, review gana a accept"""
-    assert impl.classify(row(edad=None)) == "review"
-    assert impl.classify(row(region="R-FUERA")) == "review"
-    assert impl.classify(row(monto=-1)) == "reject"
-    assert impl.classify(row(edad="veinte")) == "reject"
-    assert impl.classify(row(edad=None, monto=-1)) == "reject"
+    igual(impl.classify(row(edad=None)), "review", 'impl.classify(row(edad=None))')
+    igual(impl.classify(row(region="R-FUERA")), "review", 'impl.classify(row(region="R-FUERA"))')
+    igual(impl.classify(row(monto=-1)), "reject", 'impl.classify(row(monto=-1))')
+    igual(impl.classify(row(edad="veinte")), "reject", 'impl.classify(row(edad="veinte"))')
+    igual(impl.classify(row(edad=None, monto=-1)), "reject", 'impl.classify(row(edad=None, monto=-1))')
 
 
 def test_08_conteos_del_lote_a_mano():
     """denominadores: el lote de 4 → 1 accept, 2 review, 1 reject; tasa_reject = 1/4"""
     res = impl.run(impl.RECORDS)
-    assert (res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]) == (4, 1, 2, 1)
-    assert res["n_total"] == res["n_accept"] + res["n_review"] + res["n_reject"]
-    assert res["tasa_reject"] == 0.25
-    assert [x["estado"] for x in res["results"]] == ["accept", "review", "reject", "review"]
-    assert [x["raw_line"] for x in res["results"]] == [r["raw_line"] for r in impl.RECORDS]
-    assert res["results"][1]["motivos"] == ["edad:MISSING"]
+    igual((res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]), (4, 1, 2, 1), '(res["n_total"], res["n_accept"], res["n_review"], res["n_reject"])')
+    igual(res["n_total"], res["n_accept"] + res["n_review"] + res["n_reject"], 'res["n_total"]')
+    igual(res["tasa_reject"], 0.25, 'res["tasa_reject"]')
+    igual([x["estado"] for x in res["results"]], ["accept", "review", "reject", "review"], '[x["estado"] for x in res["results"]]')
+    igual([x["raw_line"] for x in res["results"]], [r["raw_line"] for r in impl.RECORDS], '[x["raw_line"] for x in res["results"]]')
+    igual(res["results"][1]["motivos"], ["edad:MISSING"], 'res["results"][1]["motivos"]')
 
 
 def test_09_lote_vacio_sin_tasa():
     """un lote vacío no tiene tasa: tasa_reject es None (null en JSON), no 0.0 ni un error"""
     res = impl.run([])
-    assert (res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]) == (0, 0, 0, 0)
-    assert res["tasa_reject"] is None
-    assert json.loads(json.dumps(res["tasa_reject"])) is None
+    igual((res["n_total"], res["n_accept"], res["n_review"], res["n_reject"]), (0, 0, 0, 0), '(res["n_total"], res["n_accept"], res["n_review"], res["n_reject"])')
+    igual(res["tasa_reject"], None, 'res["tasa_reject"]')
+    igual(json.loads(json.dumps(res["tasa_reject"])), None, 'json.loads(json.dumps(res["tasa_reject"]))')
 
 
 def test_10_un_registro_malo_no_detiene_el_lote():
     """un monto NaN o un tipo raro va a reject, y el registro siguiente se sigue procesando"""
     rows = [row(monto=Decimal("NaN")), row(monto=Decimal("Infinity")), row(edad=[30]), row(monto=10)]
     res = impl.run(rows)
-    assert [x["estado"] for x in res["results"]] == ["reject", "reject", "reject", "accept"]
+    igual([x["estado"] for x in res["results"]], ["reject", "reject", "reject", "accept"], '[x["estado"] for x in res["results"]]')
 
 
 def test_11_datos_generados_cumplen_el_contrato():
@@ -117,7 +129,10 @@ def main():
             print(f"  FALTA  {t.__name__}: {e}")
             failed += 1
         except Exception as e:
-            print(f"  FALLA  {t.__name__}: {t.__doc__}\n         {type(e).__name__}: {e}")
+            marcos = traceback.extract_tb(e.__traceback__)
+            linea = next((f for f in reversed(marcos) if f.name.startswith("test_")), marcos[-1])
+            print(f"  FALLA  {t.__name__}: {t.__doc__}\n         {type(e).__name__}: {e}"
+                  f"\n         en {Path(linea.filename).name}:{linea.lineno}: {linea.line}")
             failed += 1
     print(f"\n{passed} pasan, {failed} fallan, {len(tests)} en total")
     return 1 if failed else 0
