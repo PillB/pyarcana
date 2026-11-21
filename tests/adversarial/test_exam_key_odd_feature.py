@@ -38,7 +38,7 @@ FEATURES = {"code": CODE, "an absolute": ABSOLUTE}
 #: Questions whose key is the odd one out, per bank, measured 2026-10-14. Lower a bank's count as its
 #: questions are repaired; delete the entry at zero.
 KEY_ODD_FEATURE_OWED = {
-    "advanced-models": 1, "ai-apis-advanced": 1, "async-concurrency": 3, "collections": 1,
+    "advanced-models": 1, "ai-apis-advanced": 1, "async-concurrency": 2, "collections": 1,
     "data-engineering": 2, "databases-orm": 1, "exceptions-logging": 2,
     "fastapi": 2, "files-ingestion": 3, "functions-contracts": 2, "gpu-computing": 1,
     "integrator-phase1": 1, "integrator-phase2": 1, "iteration-summaries": 4, "llmops": 2,

@@ -1190,7 +1190,7 @@ print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
         kind: "guided",
         title: "Contar pendientes en cola analysis",
         preamble:
-          "- **Contexto:** la cola HITL de analysis muestra ítems aún por revisar; el dashboard necesita el conteo de `pending`.\n- **Meta:** con dos ítems (pending y done), imprimir cuántos están pending.\n- **Éxito:** el entero `1`.\n- **Límites:** solo la cola analysis; no mutes la lista; no cuentes `done`.",
+          "- **Contexto:** la cola HITL de analysis muestra ítems aún por revisar; el dashboard necesita el conteo de `pending`.\n- **Meta:** con tres ítems (dos pending y uno done), imprimir cuántos están pending.\n- **Éxito:** el entero `2` (el starter imprime `1`).\n- **Límites:** solo la cola analysis; no mutes la lista; no cuentes `done`.",
         instruction:
           "1. Abre el starter: filtra `status=='done'` (DEFECT).\n2. Cambia a `status=='pending'`.\n3. Imprime el `sum`/conteo.\n4. No alteres los dicts de la lista.",
         hint: "sum status==pending",
@@ -1209,16 +1209,16 @@ print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: cuenta done
-analysis=[{'status': 'pending'}, {'status': 'done'}]
+analysis=[{'status': 'pending'}, {'status': 'done'}, {'status': 'pending'}]
 print(sum(1 for x in analysis if x['status']=='done'))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `analysis=[{'status': 'pending'}, {'status': 'done'}]
+          code: `analysis=[{'status': 'pending'}, {'status': 'done'}, {'status': 'pending'}]
 print(sum(1 for x in analysis if x['status']=='pending'))`,
-          output: `1`,
+          output: `2`,
         },
       },
       {
@@ -1536,9 +1536,9 @@ print(severity, ' -> '.join(parts))`,
         kind: "guided",
         title: "E2E: 7 steps success y approve",
         preamble:
-          "- **Contexto:** el gate E2E del cierre CP-N2-C no se contenta con «algo pasó»: exige el path canónico completo y approve en audit.\n- **Meta:** True solo si los 7 steps están success **y** hay al menos un approve.\n- **Éxito:** `True`.\n- **Límites:** path de 7 (no tres); no uses solo `any(success)`; draft no se defiende sin approve.",
+          "- **Contexto:** el gate E2E del cierre CP-N2-C no se contenta con «algo pasó»: exige el path canónico completo y approve en audit.\n- **Meta:** True solo si los 7 steps están success **y** hay al menos un approve.\n- **Éxito:** tres líneas: `True` (path completo y approve), `False` (falló `report`) y `False` (sin approve).\n- **Límites:** path de 7 (no tres); no uses solo `any(success)`; draft no se defiende sin approve.",
         instruction:
-          "1. Abre el starter: path corto y `any` (DEFECT).\n2. Lista los 7 nodos canónicos.\n3. Combina `all(... success)` con `any(... approve)`.\n4. Imprime el booleano.",
+          "1. Corre el starter: con path corto y `any` (DEFECT) imprime `True` tres veces.\n2. Lista los 7 nodos canónicos en `STEPS`.\n3. Dentro de `e2e_ok`, combina `all(... success)` con `any(... approve)`.\n4. Imprime el booleano de cada corrida.",
         hint: "all success AND any approve",
         hints: [
           "steps debe ser el path de 7: ingest…draft_email.",
@@ -1555,21 +1555,30 @@ print(severity, ' -> '.join(parts))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: path corto y solo any success
-steps=['ingest','validate','draft']
-status={s:'success' for s in steps}
-audit=[{'action':'approve'}]
-print(any(status[s]=='success' for s in steps))
+STEPS=['ingest','validate','draft_email']
+def e2e_ok(status, audit):
+    return any(status[s]=='success' for s in STEPS)
+completo={s:'success' for s in ['ingest','validate','analyze','ai_assist','report','approve','draft_email']}
+fallo=dict(completo, report='failed')
+print(e2e_ok(completo, [{'action':'approve'}]))
+print(e2e_ok(fallo, [{'action':'approve'}]))
+print(e2e_ok(completo, []))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `steps=['ingest','validate','analyze','ai_assist','report','approve','draft_email']
-status={s:'success' for s in steps}
-audit=[{'action':'approve'}]
-ok = all(status[s]=='success' for s in steps) and any(a['action']=='approve' for a in audit)
-print(ok)`,
-          output: `True`,
+          code: `STEPS=['ingest','validate','analyze','ai_assist','report','approve','draft_email']
+def e2e_ok(status, audit):
+    return all(status[s]=='success' for s in STEPS) and any(a['action']=='approve' for a in audit)
+completo={s:'success' for s in STEPS}
+fallo=dict(completo, report='failed')
+print(e2e_ok(completo, [{'action':'approve'}]))
+print(e2e_ok(fallo, [{'action':'approve'}]))
+print(e2e_ok(completo, []))`,
+          output: `True
+False
+False`,
         },
       },
       {

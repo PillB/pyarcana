@@ -780,3 +780,47 @@ back. Read this list before a section round; every item cost at least one failed
   Fix: an `igual(obtenido, esperado, que)` helper (with `is` for None and booleans), the runner
   prints the failing line, and each package's adversarial test refuses a bare assert (`ast`).
   Guard: when a finding names one file, grep the sibling packages for the same pattern.
+
+## Proposal 12, first PR: wrong keys and starters that print the answer (21 Nov 2026)
+
+- **The starter gate covered S01–S13 only, so ten S14–S27 starters printed the answer.**
+  Root cause: `test_starter_is_not_the_answer` was written for batch 1 with a fixed stem list,
+  and `scripts/planted_defect_audit.py`, which saw most of them, is wired into no gate. Fix: the
+  gate now also runs `BATCH_2` (S14–S27, 336 exercises, about 60 s) with no owed list. Guard:
+  when a gate names a batch, add the next batch's stems the day that batch is reviewed.
+- **A starter that passes only some runs.** S22-T3-B-E1 printed `list(set(xs))`; string hashes
+  are salted per process (`PYTHONHASHSEED`, see the `object.__hash__` note in the Python data
+  model docs), so set order changes between runs and the starter matched the answer in about
+  half of them. The first scan missed it and the gate caught it. Fix: a starter whose output
+  is always wrong (`sorted(set(xs))` on `b, a, b`). Guard: never make a starter's defect depend
+  on set or dict-of-set order; if it must, run the gate twice.
+- **pandas 3 removed the defect an exercise taught.** S15-T2-B-E2 asked for `.copy()` before
+  writing to a subset. Under Copy-on-Write (default in pandas 3.0) the subset is already
+  independent, so the starter without `.copy()` printed the answer. What pandas 3 still gets
+  wrong is the chained write: `df[mask]['ok'] = True` leaves `df` unchanged and raises a
+  `ChainedAssignmentError` warning (pandas user guide, "Copy-on-Write", section "Chained
+  assignment"). Guard: when a pinned library changes major version, rerun every starter of the
+  sections that teach it, not only the solutions.
+- **Rewording an instruction removed the defect marker.** The planted-defect audit only runs
+  exercises whose text says `bug`, `defect` or `Error:`. Rewriting S22-T3-B-E1's step 1 dropped
+  "(bug de orden)", and the audit's count fell from 698 to 697 with no failure. Guard: compare
+  the audit's `checked` count before and after a content edit; a drop is a lost exercise.
+- **A fixed key can trip the length ratchets.** Moving three keys to the right option changed
+  which option is the key, so `test_exam_key_odd_feature` reported a repaired bank (the old
+  S27 key was the only option with "todos") and asked for a lower count. The distractors were
+  jokes ("Cambiar el logo del producto"), so they were rewritten as real misconceptions at least
+  as long as the key. Guard: a key fix is a distractor fix; run `test_exam_length_cue` and
+  `test_exam_key_odd_feature` right after it.
+- **A starter-only edit needs no ledger row.** The exercise-meaning fingerprint covers the
+  title, tests, solution code and output, not the starter, so S14-T4-A-E3 kept its anchor.
+  Guard: build the ledger rows from the anchor diff (`exercise_fingerprints.mts --write`), not
+  from the list of edited exercises.
+- **A test class that skips without the content interpreter breaks the adversarial CI job.**
+  `BatchTwoStartersAreNotTheAnswer` passed locally, where `.venv-content` exists, and failed CI's
+  "Adversarial unit suite": that job has no pinned content environment, so the class skips, and
+  `scripts/run_adversarial_py.py` fails every skip that `tests/adversarial/skip_allowlist.json`
+  does not name. Root cause: the local runner never skipped, so it could not show the problem.
+  Fix: allowlist each skipped test with the job where it really runs (content-gates). Guard: run
+  the runner once from a fresh worktree without `.venv-content`
+  (`git worktree add`, symlink `node_modules`) before pushing a test that uses `CONTENT_PY`, and
+  make sure the content-gates job runs that file.
