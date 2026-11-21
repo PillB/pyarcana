@@ -1723,7 +1723,7 @@ def caption(meta: dict) -> str:
 
 def alt_text(df, hallazgo: str) -> str:
     """Hallazgo principal + n por región; sin sobreclaim nacional."""
-    # Ejemplo de forma: "En la muestra web, Madrid lidera (28 PEN, n=40); ..."
+    # Ejemplo de forma: "En la muestra web, Lima lidera (28 PEN, n=40); ..."
     # TODO: combina hallazgo + filas de df con n=
     raise NotImplementedError
 

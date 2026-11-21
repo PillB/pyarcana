@@ -1538,7 +1538,7 @@ claim asociacion_observada_no_causal`,
  preamble:
   "- **Contexto:** el runbook de anomalías univariadas usa cerca hi = Q3 + 1.5·IQR.\n- **Meta:** contar cuántos montos superan hi.\n- **Éxito:** `n_hi 1` (el 50 del array).\n- **Límites:** multiplicador 1.5 (no 0.5); flag ≠ fraude.",
  instruction:
- "1. Starter usa `0.5 * iqr`.\n2. Cambia a `1.5 * iqr`.\n3. Cuenta `(m > hi).sum()` como int.\n4. Etiqueta `n_hi`.",
+ "1. Corre el starter: usa `0.5 * iqr` e imprime `n_hi 2`, porque también marca el 22.\n2. Cambia a `1.5 * iqr`.\n3. Cuenta `(m > hi).sum()` como int.\n4. Etiqueta `n_hi`.",
  hint: "Multiplicador Tukey clásico: 1.5 sobre el IQR.",
  hints: [
  "Multiplicador Tukey clásico: 1.5 sobre el IQR.",
@@ -1547,7 +1547,7 @@ claim asociacion_observada_no_causal`,
  edgeCases: ["sin outliers"],
  tests: "salida coincide con solution output",
  feedback:
-  "Tukey usa 1.5·IQR, no 0.5. Con 0.5 inventas outliers de más. Los flags son candidatos a revisión humana, no fraude automático.",
+  "Tukey usa 1.5·IQR, no 0.5. Aquí Q1 = 11.5, Q3 = 18 e IQR = 6.5: con 1.5 la cerca es 27.75 y solo el 50 la supera; con 0.5 baja a 21.25 y el 22 se vuelve un outlier inventado. Los flags son candidatos a revisión humana, no fraude automático.",
  retrospective:
   "El contrato Tukey del runbook es 1.5·IQR; bajar a 0.5 es inventar un método distinto sin documentarlo. Los flags son candidatos a revisión humana. Pregunta: si n_hi se dispara, ¿miras primero el multiplicador o acusas al canal? Siguiente: tasa solo en Madrid.",
  starterCode: {
@@ -1556,7 +1556,7 @@ claim asociacion_observada_no_causal`,
  code: `# CASO-LIM-018 · upper fence outliers
 # Bug a corregir: hi = q3 + 0.5*iqr
 import numpy as np
-m = np.array([10, 12, 11, 13, 50], dtype=float)
+m = np.array([10, 11, 12, 13, 14, 22, 50], dtype=float)
 q1, q3 = np.quantile(m, [0.25, 0.75])
 iqr = q3 - q1
 hi = q3 + 0.5 * iqr
@@ -1566,7 +1566,7 @@ print("n_hi", int((m > hi).sum()))`,
  language: 'python',
  title: "exercise.py",
  code: `import numpy as np
-m = np.array([10, 12, 11, 13, 50], dtype=float)
+m = np.array([10, 11, 12, 13, 14, 22, 50], dtype=float)
 q1, q3 = np.quantile(m, [0.25, 0.75])
 iqr = q3 - q1
 hi = q3 + 1.5 * iqr

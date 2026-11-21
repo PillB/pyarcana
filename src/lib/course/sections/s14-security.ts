@@ -1524,7 +1524,7 @@ print(float((a ** 2).sum()))`,
         preamble:
           "- **Contexto:** el portfolio documenta tiempo de la operación vectorizada, no de un loop de aprendizaje.\n- **Meta:** medir `a+b` con `perf_counter` y verificar `mean == 1.0`.\n- **Éxito:** `timed True`.\n- **Límites:** n=10000; zeros + ones; no midas el loop del starter; no imprimas el float del tiempo (solo la etiqueta y el booleano).",
         instruction:
-          "1. El starter llena `c` con un loop y chequea solo `c[0]`.\n2. Sustituye el cuerpo por `c = a + b` entre dos `perf_counter`.\n3. Verifica `float(c.mean()) == 1.0`.\n4. Imprime `\"timed\"` y el booleano.",
+          "1. Corre el starter: su loop se detiene un elemento antes, así que el último queda en 0 y la media lo delata (`timed False`), aunque `c[0]` esté bien.\n2. Sustituye el cuerpo por `c = a + b` entre dos `perf_counter`.\n3. Verifica `float(c.mean()) == 1.0`.\n4. Imprime `\"timed\"` y el booleano.",
         hint: "time.perf_counter antes/después.",
         hints: [
           "time.perf_counter antes/después de la operación vectorizada.",
@@ -1540,15 +1540,15 @@ print(float((a ** 2).sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · suma vectorizada cronometrada
-# Bug a corregir: loop lento sin verificar la media
+# Bug a corregir: loop lento que deja el último elemento en 0
 import numpy as np, time
 n = 10000
 a = np.zeros(n)
 b = np.ones(n)
-c = np.empty(n)
-for i in range(n):
+c = np.zeros(n)
+for i in range(n - 1):
     c[i] = a[i] + b[i]
-print("timed", float(c[0]) == 1.0)`,
+print("timed", float(c.mean()) == 1.0)`,
         },
         solutionCode: {
           language: 'python',

@@ -5505,11 +5505,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Para reproducir un EDA, lo prioritario es:',
       options: [
         'Dependencias/seed/filtros versionados y script reejecutable',
-        'Un color corporativo exacto',
-        'Desactivar todos los asserts',
-        'Mezclar datos reales de clientes sin consentimiento',
+        'Guardar el notebook con las celdas ya ejecutadas y sus gráficos a la vista',
+        'Anotar en el informe la media y la mediana de cada columna que analizaste',
+        'Exportar los gráficos finales en alta resolución junto al resumen del EDA',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Reproducibilidad = código + datos sintéticos/versionados + seed/filtros.',
     },
     {
@@ -5581,11 +5581,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Un encoding visual honesto implica:',
       options: [
         'Mapear variables a canal visual sin distorsión injustificada y con leyenda clara',
-        'Usar el mismo color para todo sin leyenda',
-        'Animar siempre a 60 fps',
-        'Ocultar unidades',
+        'Recortar el eje Y para que la diferencia entre regiones se note más a simple vista',
+        'Dar a cada barra un color distinto aunque todas representen la misma variable',
+        'Mostrar solo el gráfico y dejar las unidades y el tamaño de muestra para el anexo',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Encoding = canal visual alineado a la variable y legible.',
     },
     {
@@ -8121,11 +8121,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'La idea de mutación conceptual en tests es:',
       options: [
         'Romper código a propósito para ver si los tests fallan de forma útil',
-        'Borrar todos los asserts para ir más rápido',
-        'Mutar datos de producción en vivo',
-        'Cambiar el logo del producto',
+        'Cambiar los datos de entrada de los tests en cada corrida para cubrir más casos',
+        'Medir qué porcentaje de líneas ejecutan los tests y subirlo con casos nuevos',
+        'Reescribir los tests cada vez que el código cambia para que vuelvan a pasar',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Si un mutante “sobrevive”, el suite es débil.',
     },
     {

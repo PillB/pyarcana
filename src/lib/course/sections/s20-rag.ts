@@ -1106,9 +1106,9 @@ True`,
         kind: "guided",
         title: "Fecha de corte como date ISO",
         preamble:
-          "- **Contexto:** el data note del factory repite el corte de mes en metadata; un string no es un `date`.\n- **Meta:** escribir `date(2024, 1, 15)` y serializar con `isoformat()`.\n- **Éxito:** una línea `2024-01-15`.\n- **Límites:** no dejes el string en A1; no uses locale del SO.",
+          "- **Contexto:** el data note del factory repite el corte de mes en metadata; un string no es un `date`.\n- **Meta:** escribir `date(2024, 1, 15)` y serializar con `isoformat()`.\n- **Éxito:** dos líneas: `date` y `2024-01-15`.\n- **Límites:** no dejes el string en A1; no uses locale del SO.",
         instruction:
-          "1. El starter asigna el string y no garantiza `isoformat` real.\n2. Asigna `date(2024, 1, 15)` a A1.\n3. Imprime `ws[\"A1\"].value.isoformat()`.\n4. No formatees a mano con f-string.",
+          "1. Corre el starter: imprime `str` y luego falla con `AttributeError`, porque un string no tiene `isoformat`.\n2. Asigna `date(2024, 1, 15)` a A1.\n3. Imprime el tipo y después `ws[\"A1\"].value.isoformat()`.\n4. No formatees a mano con f-string.",
         hint: "from datetime import date; ws[\"A1\"] = date(2024, 1, 15).",
         hints: [
           "No uses un string; usa date real.",
@@ -1130,7 +1130,8 @@ from datetime import date
 wb = Workbook()
 ws = wb.active
 ws["A1"] = "2024-01-15"
-print(getattr(ws["A1"].value, "isoformat", lambda: ws["A1"].value)())`,
+print(type(ws["A1"].value).__name__)
+print(ws["A1"].value.isoformat())`,
         },
         solutionCode: {
           language: 'python',
@@ -1140,8 +1141,10 @@ from datetime import date
 wb = Workbook()
 ws = wb.active
 ws["A1"] = date(2024, 1, 15)
+print(type(ws["A1"].value).__name__)
 print(ws["A1"].value.isoformat())`,
-          output: `2024-01-15`,
+          output: `date
+2024-01-15`,
         },
       },
       {
@@ -1150,9 +1153,9 @@ print(ws["A1"].value.isoformat())`,
         kind: "independent",
         title: "Leer celda no-ancla de un merge",
         preamble:
-          "- **Contexto:** automatizar merges sin mapear la ancla lee `None` donde el VP “ve” un valor.\n- **Meta:** mergear B1:C1, escribir en la ancla B1 e imprimir C1.\n- **Éxito:** una línea `None` (C1 no-ancla).\n- **Límites:** no escribas el valor en C1; no unmerges; el valor de negocio va en B1.",
+          "- **Contexto:** automatizar merges sin mapear la ancla lee `None` donde el VP “ve” un valor.\n- **Meta:** mergear B1:C1, escribir en la ancla B1 e imprimir C1.\n- **Éxito:** dos líneas: `x` (la ancla B1) y `None` (C1, no ancla).\n- **Límites:** no escribas el valor en C1; no unmerges; el valor de negocio va en B1.",
         instruction:
-          "1. Ya hay `merge_cells(\"B1:C1\")`.\n2. Escribe `ws[\"B1\"] = \"x\"`.\n3. Imprime `ws[\"C1\"].value` (debe ser None).\n4. No uses C1 como fuente de verdad.",
+          "1. Ya hay `merge_cells(\"B1:C1\")`.\n2. Escribe `ws[\"B1\"] = \"x\"`.\n3. Imprime `ws[\"B1\"].value` y luego `ws[\"C1\"].value` (debe ser None).\n4. No uses C1 como fuente de verdad.",
         hint: "El valor vive en B1; C1 del merge queda None.",
         hints: [
           "Escribe en la ancla (top-left del merge).",
@@ -1173,6 +1176,7 @@ from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
 ws.merge_cells("B1:C1")
+print(ws["B1"].value)
 print(ws["C1"].value)`,
         },
         solutionCode: {
@@ -1183,8 +1187,10 @@ wb = Workbook()
 ws = wb.active
 ws.merge_cells("B1:C1")
 ws["B1"] = "x"
+print(ws["B1"].value)
 print(ws["C1"].value)`,
-          output: `None`,
+          output: `x
+None`,
         },
       },
       {

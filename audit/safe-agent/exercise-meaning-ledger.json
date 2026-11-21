@@ -2150,6 +2150,106 @@
       "reason": "WEDO-22.1: data_class is printed and must be synthetic_only, so leaving production fails as the feedback already said.",
       "decided_by": "owner 2026-11-11 (proposal 10, S13 P1/P2/P3 fixes)",
       "date": "2026-11-19"
+    },
+    {
+      "row": 216,
+      "id": "S15-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "a34f44784041d7d22519837160e9593897d6cae7fff4da18e165f3609343431b",
+      "to_fp": "c534426bb0df90f55de752ac02500a2f971ef8b63f40200adf44ff1ad5e3dc0f",
+      "reason": "WEDO-11.1: under pandas 3 an uncopied subset is already independent, so the old starter printed the answer; the exercise now shows the chained write leaving df unchanged (proposal 12 decision 5).",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 217,
+      "id": "S17-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "8dc3b22d9876d136604b272642ee31ec29fa08bf012e93f8f68d68e79810ddd4",
+      "to_fp": "316ab6c6945769a0bccbaf88c5de7281936a5fb3d88e21a5e2e62a4aa7e894d8",
+      "reason": "WEDO-19.1: a second batch half a sol off, which only the 1e-9 gate refuses, so the 1.0 starter prints True True.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 218,
+      "id": "S18-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "ba743171c4327a375447ab61a2fe701c9f2e977409e5238cecf8c833e049af72",
+      "to_fp": "bbbf262a514b18520485f78ec808f2ab83bdad6a7c66a642885ebaa577fa7b00",
+      "reason": "WEDO-16.1: the array gains a 22 that only the 0.5 fence flags, so the starter prints n_hi 2.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 219,
+      "id": "S20-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "91e3f47bd6a9b3f33fe845ad65734ed897fb818ec3b4126498c4e82e83ac9c42",
+      "to_fp": "eb3ef54bd13c2c947cadbb62335693f211de5b24fb3d80dde37b34c384b8d0fc",
+      "reason": "WEDO-10.1: the type is printed and isoformat is called directly, so the string starter prints str and raises AttributeError.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 220,
+      "id": "S20-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "a809998b035c4df6da89be1ae42d85fafead92aa4e3f64ce5275148f5b6e3c10",
+      "to_fp": "a48073dd63369d4002dd03d8285dd8215b1ee7c6eb6618336997a415d5ea4211",
+      "reason": "WEDO-11.1: the anchor B1 is printed too, so not writing it shows as None.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 221,
+      "id": "S21-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "9cd7d21f989c4823a42fed397031079dba296ae12cccce52d0213f0d99916ff7",
+      "to_fp": "16d37a9fcdd5dc70200d00092edf0d3f53a1cd82719c60e005ae32809757b1de",
+      "reason": "WEDO-19.1: 28.46 replaces 28.0, so rounding to 0 decimals prints [28.0, 28.0] and the answer is [28.0, 28.5].",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 222,
+      "id": "S22-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "c9b9574e782194604f86dc3abb5859b0f946865bec0694d7c9b0fb1e876534c3",
+      "to_fp": "b9d7b3634851d18c090aba5c7349df1e21af9a2f2fb2de186b9028a040958a5c",
+      "reason": "WEDO-14.1: a second contact on an external domain, so the existence-only starter prints C002 verified.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 223,
+      "id": "S22-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "82ca827fdb2fb1ca1308bc2b18cd33e27e912de39ec043e35047739a27104bfc",
+      "to_fp": "e470f3f015653598cef5bcf4be997226ac5b020e4abbade737dd8362216bff1a",
+      "reason": "WEDO-16.1: set order is random per process, so the old starter passed about half the runs; sorted(set) on b, a, b is always wrong.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 224,
+      "id": "S26-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "fb663baf6398198d1c7695ddb0371dd99fc762b559747f44fc80182de1e4817f",
+      "to_fp": "1d7c518982a3debe637ece11f33b505b57d5a6c5f0a538aaf747478eecff8ad7",
+      "reason": "WEDO-13.1: two pending and one done, so counting done prints 1 and the answer is 2.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 225,
+      "id": "S26-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "8c815dbf0381b37b405e81057552d9e616a8a6bf2aa7a63000a4223dc95e4197",
+      "to_fp": "72d0864b734b490f3b97701977f55495de3b56e36b8245226d17dd79373d4147",
+      "reason": "WEDO-22.1: three runs (complete, report failed, no approve), so the short path with any prints True three times.",
+      "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
+      "date": "2026-11-21"
     }
   ]
 }

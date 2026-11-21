@@ -1114,7 +1114,7 @@ print(int(df.iloc[1, 0]))`,
         feedback:
           "Asigna con `loc` sobre el original: una sola indexación en la asignación. Luego normaliza NaN con `fillna('')` solo para el print limpio, no para «inventar» datos de negocio.",
         retrospective:
-          "Un solo `loc` es el patrón seguro de mutación del padre. El error clásico es la cadena que no escribe y el ticket de calidad que regresa al exportar. Pregunta: ¿`fillna('')` inventa un valor de negocio o solo limpia el print? Siguiente (E2): copiar el subset antes de mutarlo.",
+          "Un solo `loc` es el patrón seguro de mutación del padre. El error clásico es la cadena que no escribe y el ticket de calidad que regresa al exportar. Pregunta: ¿`fillna('')` inventa un valor de negocio o solo limpia el print? Siguiente (E2): ver por qué la asignación en cadena no escribe en el padre.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1138,31 +1138,31 @@ print(df["flag"].fillna("").tolist())`,
         id: "S15-T2-B-E2",
         subtopicId: "S15-T2-B",
         kind: "independent",
-        title: "copy antes de mutar el subset",
+        title: "La cadena no escribe en el padre",
         preamble:
-          "- **Contexto:** a veces el subset viaja a otra función (revisión DQ) y necesita columnas propias sin tocar el padre.\n- **Meta:** filtrar, materializar con `.copy()`, añadir `ok=True` e imprimir.\n- **Éxito:** lista de `ok` = `[True, True]`.\n- **Límites:** no mutes el slice sin `.copy()`; conserva el filtro `score > 0.5`.",
+          "- **Contexto:** el export lee la columna `ok` del **DataFrame original**; una marca que solo vive en una copia intermedia no llega al CSV.\n- **Meta:** marcar `ok=True` en las filas con `score > 0.5` de `df`, empezando con `ok=False` en todas.\n- **Éxito:** `[False, True, True]`.\n- **Límites:** no uses `df[mask]['ok'] = ...` en cadena; conserva el filtro `score > 0.5`.",
         instruction:
-          "1. Revisa el starter: `sub = df.loc[...]` sin `.copy()`.\n2. Encadena `.copy()` tras el `loc`.\n3. Asigna `sub['ok'] = True`.\n4. Imprime `sub['ok'].tolist()`.",
-        hint: "Materializa el subset antes de mutarlo.",
+          "1. Corre el starter: la cadena `df[df['score'] > 0.5]['ok'] = True` imprime `[False, False, False]`, y pandas avisa con `ChainedAssignmentError` (un aviso: el script sigue).\n2. Cambia esa línea por un solo `df.loc[df['score'] > 0.5, 'ok'] = True`.\n3. Imprime `df['ok'].tolist()`.\n4. Verifica `[False, True, True]`.",
+        hint: "Una sola indexación en la asignación, sobre `df`.",
         hints: [
-          "Encadena .copy() tras el filtro por score.",
-          "Asigna ok=True en el subset e imprime la lista.",
+          "La cadena escribe en un resultado intermedio que se comporta como copia y que nadie guarda.",
+          "df.loc[df['score'] > 0.5, 'ok'] = True.",
         ],
-        edgeCases: ["sin copy", "filtro wrong"],
-        tests: "subset copiado con ok=True → [True, True]",
+        edgeCases: ["asignación en cadena", "filtro distinto de > 0.5"],
+        tests: "df['ok'].tolist() == [False, True, True]",
         feedback:
-          "El starter hace `sub = df.loc[...]` y muta: es un slice sin independencia. Encadena `.copy()` tras el `loc` del filtro y **después** asigna `ok=True`. El print debe salir de ese subset materializado.",
+          "En pandas 3, `df[mask]` devuelve un resultado que se comporta como copia (Copy-on-Write), así que `df[mask]['ok'] = True` escribe en esa copia y `df` no cambia. Un solo `df.loc[mask, 'ok'] = True` escribe en el original. Si tu salida sigue en `[False, False, False]`, la cadena sigue ahí.",
         retrospective:
-          "`.copy()` declara que el subset tiene vida propia (p. ej. viaja a una función de DQ). Sin eso, el warning o la mutación fantasma regresan en producción. Pregunta: si solo lees el subset, ¿necesitas `copy`? Siguiente (E3): mutar la copia y demostrar que el original no cambió.",
+          "La cadena nunca escribe en el padre: el flag «revisar» parece puesto y desaparece al exportar. Pregunta: si guardas `sub = df.loc[mask]` y le agregas una columna, ¿cambia `df`? Siguiente (E3): mutar una copia y demostrar que el original no cambió.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Error a corregir: muta un slice sin .copy() (riesgo SettingWithCopy)
+          code: `# Error a corregir: la asignación en cadena no escribe en df
 import pandas as pd
 df = pd.DataFrame({"score": [0.2, 0.9, 0.7]})
-sub = df.loc[df["score"] > 0.5]
-sub["ok"] = True
-print(sub.get("ok", pd.Series([])).tolist())
+df["ok"] = False
+df[df["score"] > 0.5]["ok"] = True
+print(df["ok"].tolist())
 `,
         },
         solutionCode: {
@@ -1170,10 +1170,10 @@ print(sub.get("ok", pd.Series([])).tolist())
           title: "exercise.py",
           code: `import pandas as pd
 df = pd.DataFrame({"score": [0.2, 0.9, 0.7]})
-sub = df.loc[df["score"] > 0.5].copy()
-sub["ok"] = True
-print(sub["ok"].tolist())`,
-          output: `[True, True]`,
+df["ok"] = False
+df.loc[df["score"] > 0.5, "ok"] = True
+print(df["ok"].tolist())`,
+          output: `[False, True, True]`,
         },
       },
       {
