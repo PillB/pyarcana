@@ -1,0 +1,366 @@
+{
+ "about": "Parity corpus for scripts/complexity_gate_py.py. radon values are frozen from radon 6.0.1 (generated once in a scratch venv outside the repository; radon is not a project dependency). expected is the owner ruling of 2026-10-12 (ESLint 9.39.2 and NIST SP 500-235 4.1). Where expected differs from radon, divergence says why.",
+ "radon": "6.0.1",
+ "entries": [
+  {
+   "id": "empty_body",
+   "function": "f",
+   "source": "def f():\n    return 1\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "one_if",
+   "function": "f",
+   "source": "def f(x):\n    if x:\n        return 1\n    return 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "if_elif_else",
+   "function": "f",
+   "source": "def f(x):\n    if x > 0:\n        return 1\n    elif x < 0:\n        return -1\n    else:\n        return 0\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "nested_if",
+   "function": "f",
+   "source": "def f(x, y):\n    if x:\n        if y:\n            return 1\n    return 0\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "for_loop",
+   "function": "f",
+   "source": "def f(xs):\n    t = 0\n    for x in xs:\n        t += x\n    return t\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "while_loop",
+   "function": "f",
+   "source": "def f(n):\n    while n > 0:\n        n -= 1\n    return n\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "for_else",
+   "function": "f",
+   "source": "def f(xs):\n    for x in xs:\n        if x:\n            break\n    else:\n        return 0\n    return 1\n",
+   "radon": 4,
+   "expected": 3,
+   "divergence": "radon adds one for a loop's else clause; a loop is one predicate in McCabe's graph, and ESLint has no else on loops"
+  },
+  {
+   "id": "while_else",
+   "function": "f",
+   "source": "def f(n):\n    while n:\n        n -= 1\n    else:\n        return 0\n    return 1\n",
+   "radon": 3,
+   "expected": 2,
+   "divergence": "radon adds one for a loop's else clause; a loop is one predicate in McCabe's graph, and ESLint has no else on loops"
+  },
+  {
+   "id": "try_one_handler",
+   "function": "f",
+   "source": "def f(s):\n    try:\n        return int(s)\n    except ValueError:\n        return 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "try_two_handlers",
+   "function": "f",
+   "source": "def f(s):\n    try:\n        return int(s)\n    except ValueError:\n        return 0\n    except TypeError:\n        return 1\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "try_else",
+   "function": "f",
+   "source": "def f(s):\n    try:\n        v = int(s)\n    except ValueError:\n        return 0\n    else:\n        return v\n",
+   "radon": 3,
+   "expected": 2,
+   "divergence": "radon adds one for a try's else clause; the else is not a branch point, and ESLint counts catch clauses only"
+  },
+  {
+   "id": "try_finally",
+   "function": "f",
+   "source": "def f(h):\n    try:\n        return h()\n    finally:\n        h = None\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "bare_except",
+   "function": "f",
+   "source": "def f(h):\n    try:\n        return h()\n    except:\n        return None\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "and_chain",
+   "function": "f",
+   "source": "def f(a, b, c):\n    if a and b and c:\n        return 1\n    return 0\n",
+   "radon": 4,
+   "expected": 4,
+   "divergence": null
+  },
+  {
+   "id": "and_or_mix",
+   "function": "f",
+   "source": "def f(a, b, c):\n    if a and b or c:\n        return 1\n    return 0\n",
+   "radon": 4,
+   "expected": 4,
+   "divergence": null
+  },
+  {
+   "id": "or_four_operands",
+   "function": "f",
+   "source": "def f(a, b, c, d):\n    if a or b or c or d:\n        return 1\n    return 0\n",
+   "radon": 5,
+   "expected": 5,
+   "divergence": null
+  },
+  {
+   "id": "conditional_expression",
+   "function": "f",
+   "source": "def f(x):\n    return 1 if x else 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "comprehension_no_if",
+   "function": "f",
+   "source": "def f(xs):\n    return [x * 2 for x in xs]\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "comprehension_if",
+   "function": "f",
+   "source": "def f(xs):\n    return [x for x in xs if x > 0]\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "comprehension_two_ifs",
+   "function": "f",
+   "source": "def f(xs):\n    return [x for x in xs if x > 0 if x < 9]\n",
+   "radon": 4,
+   "expected": 4,
+   "divergence": null
+  },
+  {
+   "id": "generator_if",
+   "function": "f",
+   "source": "def f(xs):\n    return sum(x for x in xs if x)\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "assert_statement",
+   "function": "f",
+   "source": "def f(x):\n    assert x > 0\n    return x\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "match_with_wildcard",
+   "function": "f",
+   "source": "def f(c):\n    match c:\n        case 1:\n            return 'a'\n        case 2:\n            return 'b'\n        case _:\n            return 'c'\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "match_without_wildcard",
+   "function": "f",
+   "source": "def f(c):\n    match c:\n        case 1:\n            return 'a'\n        case 2:\n            return 'b'\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "with_statement",
+   "function": "f",
+   "source": "def f(p):\n    with open(p) as h:\n        return h.read()\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "nested_def_direct",
+   "function": "f",
+   "source": "def f(xs):\n    def g(y):\n        if y:\n            return 1\n        return 0\n    return g(xs)\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "nested_def_under_if",
+   "function": "f",
+   "source": "def f(xs, c):\n    if c:\n        def g(y):\n            if y:\n                return 1\n            return 0\n        return g(xs)\n    return 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "async_def_for",
+   "function": "f",
+   "source": "async def f(xs):\n    for x in xs:\n        await x\n    return 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "async_for_if",
+   "function": "f",
+   "source": "async def f(s):\n    async for x in s:\n        if x:\n            return x\n    return None\n",
+   "radon": 3,
+   "expected": 3,
+   "divergence": null
+  },
+  {
+   "id": "elif_chain_five",
+   "function": "f",
+   "source": "def f(x):\n    if x == 1:\n        return 'a'\n    elif x == 2:\n        return 'b'\n    elif x == 3:\n        return 'c'\n    elif x == 4:\n        return 'd'\n    elif x == 5:\n        return 'e'\n    return 'z'\n",
+   "radon": 6,
+   "expected": 6,
+   "divergence": null
+  },
+  {
+   "id": "method_in_class",
+   "function": "C.f",
+   "source": "class C:\n    def f(self, x):\n        if x:\n            return 1\n        return 0\n",
+   "radon": 2,
+   "expected": 2,
+   "divergence": null
+  },
+  {
+   "id": "lambda_in_function",
+   "function": "f",
+   "source": "def f(xs):\n    return sorted(xs, key=lambda x: 0 if x else 1)\n",
+   "radon": 2,
+   "expected": 1,
+   "divergence": "radon counts a lambda's conditional into its enclosing function; the gate scores a lambda as its own unit, as ESLint scores an arrow function"
+  },
+  {
+   "id": "default_value",
+   "function": "f",
+   "source": "def f(x=1):\n    return x\n",
+   "radon": 1,
+   "expected": 2,
+   "divergence": "radon does not count a parameter default; ESLint scores each one (AssignmentPattern, +1) in the function that owns the parameter, and the owner ruling of 2026-10-12 (O21) makes the gate count like ESLint"
+  },
+  {
+   "id": "defaults_positional_only_and_keyword_only",
+   "function": "f",
+   "source": "def f(a=1, /, b=2, *, c=3, d):\n    return a\n",
+   "radon": 1,
+   "expected": 4,
+   "divergence": "radon does not count a parameter default; positional, positional-only and keyword-only defaults each add 1, as ESLint scores each AssignmentPattern (O21)"
+  },
+  {
+   "id": "default_conditional_expression",
+   "function": "f",
+   "source": "def f(a, x=(2 if a else 3)):\n    return x\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not look at a default; ESLint scores `function f(a, x = a ? 2 : 3)` as 3, one for the default and one for the conditional inside it, and so does the gate (O21)"
+  },
+  {
+   "id": "default_boolop_in_method",
+   "function": "C.m",
+   "source": "class C:\n    def m(self, a, x=a or 1):\n        return x\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not look at a default; the default and its `or` both belong to the method that owns the parameter, although a class body is not itself scored (O21)"
+  },
+  {
+   "id": "nested_def_default_outer",
+   "function": "outer",
+   "source": "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "nested_def_default_inner",
+   "function": "outer.g",
+   "source": "def outer(a, b):\n    def g(x=a or b):\n        return x\n    return g\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not count a default; ESLint attributes a nested function's default to the nested function, not to the one around it, so g scores 3 and outer stays 1 (O21)"
+  },
+  {
+   "id": "decorated_nested_def_outer",
+   "function": "outer",
+   "source": "def outer(a, b):\n    @deco(a or b)\n    def g():\n        return 1\n    return g\n",
+   "radon": 1,
+   "expected": 2,
+   "divergence": "radon does not look at a decorator; a decorator runs where the def stands, so its `or` is a decision of the function around it and the gate counts it there"
+  },
+  {
+   "id": "decorated_nested_def_inner",
+   "function": "outer.g",
+   "source": "def outer(a, b):\n    @deco(a or b)\n    def g():\n        return 1\n    return g\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "match_case_guard",
+   "function": "f",
+   "source": "def f(c):\n    match c:\n        case 1 if c > 0:\n            return 'a'\n        case _:\n            return 'b'\n",
+   "radon": 2,
+   "expected": 3,
+   "divergence": "radon does not count a case guard; a guarded case makes two decisions, the pattern and the `if`, and NIST SP 500-235 4.1 counts each decision"
+  },
+  {
+   "id": "class_body_in_function",
+   "function": "f",
+   "source": "def f(x):\n    class C:\n        y = 1 if x else 2\n        if x:\n            z = 1\n    return C\n",
+   "radon": 1,
+   "expected": 3,
+   "divergence": "radon does not enter a class body inside a function; the body runs each time the function does, so its conditional expression and `if` are decisions of the function"
+  },
+  {
+   "id": "class_method_in_function",
+   "function": "f",
+   "source": "def f(x):\n    class C:\n        def m(self):\n            return 1 if x else 2\n    return C\n",
+   "radon": 1,
+   "expected": 1,
+   "divergence": null
+  },
+  {
+   "id": "while_and_inner_for",
+   "function": "f",
+   "source": "def f(xs, n):\n    while n > 0 and xs:\n        for x in xs:\n            if x:\n                n -= 1\n    return n\n",
+   "radon": 5,
+   "expected": 5,
+   "divergence": null
+  },
+  {
+   "id": "nist_fig44_port",
+   "function": "complexity6",
+   "source": "def complexity6(i, j):\n    if i > 0 and j > 0:\n        while i > j:\n            if i % 2 and j % 2:\n                print(i)\n            else:\n                print(j)\n            i -= 1\n",
+   "radon": 6,
+   "expected": 6,
+   "divergence": null
+  }
+ ]
+}

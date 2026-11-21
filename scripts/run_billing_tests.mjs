@@ -10,11 +10,13 @@
  *   client  src/lib/cloud/__tests__/*.test.ts through `--import tsx`
  *   lint    ESLint's `complexity` rule at 15 (the chore(lint) ceiling) over the
  *           worker, this runner, src/lib/cloud and src/components/account.
- *           scripts/complexity_gate.mjs only lints src/**, as a ratchet, and
- *           `npm run lint` sets no complexity rule, so without this step a
- *           worker function could grow past 15 and pass CI. It fails on any
- *           complexity message or any file ESLint cannot parse; other rules
- *           are `npm run lint`'s job and are only counted here.
+ *           `npm run lint` sets no complexity rule. scripts/complexity_gate.mjs
+ *           ratchets src, scripts, tests and workers/billing against a
+ *           baseline, so a function over 15 there is baselined debt. The worker
+ *           has none, and this step is stricter on its paths: no baseline, so
+ *           any function over 15 fails. It fails on any complexity message or
+ *           any file ESLint cannot parse; other rules are `npm run lint`'s job
+ *           and are only counted here.
  *
  * Why a runner instead of `node --test <glob>`:
  * - a glob that matches nothing prints "# tests 0" and exits 0, and a pipe into a
