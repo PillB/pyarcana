@@ -13,12 +13,13 @@ import { FIG, FigSvg, FigBox, FigText } from '../Figure'
  */
 export function S15DataFrame({ title }: { title: string }) {
   const cols = [
-    { name: 'cliente_id', dtype: 'str', tint: 'var(--fig-1)', vals: ['C001', 'C002', 'C003'] },
+    { name: 'region', dtype: 'str', tint: 'var(--fig-1)', vals: ['Lima', 'Arequipa', 'Lima'] },
     { name: 'monto', dtype: 'str', tint: 'var(--fig-4)', vals: ['15,50', '8,00', '22,10'] },
     { name: 'fecha', dtype: 'datetime64', tint: 'var(--fig-2)', vals: ['2024-01-05', '2024-01-06', '2024-01-08'] },
   ]
-  const idxW = 44
-  const colW = 148
+  const ids = ['C001', 'C002', 'C003']
+  const idxW = 60
+  const colW = 140
   const rowH = 30
   const gridX = 20
   const headY = 62
@@ -30,12 +31,17 @@ export function S15DataFrame({ title }: { title: string }) {
         Columnas alineadas por un mismo Index
       </FigText>
 
-      {/* Index column — drawn apart so it reads as the spine, not a data column */}
-      <FigText x={gridX + idxW / 2} y={headY + 16} size={FIG.microSize} fill="var(--muted-foreground)">
+      {/* Index column — drawn apart so it reads as the spine, not a data column. It holds
+          cliente_id after set_index, as in the code below the figure, so cliente_id is not
+          repeated as a data column. */}
+      <FigText x={gridX + idxW / 2} y={headY} size={FIG.microSize} mono weight={600}>
+        cliente_id
+      </FigText>
+      <FigText x={gridX + idxW / 2} y={headY + 17} size={FIG.microSize} fill="var(--muted-foreground)">
         Index
       </FigText>
-      {[0, 1, 2].map((r) => (
-        <g key={`i${r}`}>
+      {ids.map((id, r) => (
+        <g key={id}>
           <FigBox
             x={gridX}
             y={bodyY + r * rowH}
@@ -45,7 +51,7 @@ export function S15DataFrame({ title }: { title: string }) {
             stroke="var(--muted-foreground)"
           />
           <FigText x={gridX + idxW / 2} y={bodyY + r * rowH + rowH / 2} size={FIG.microSize} mono>
-            {r}
+            {id}
           </FigText>
         </g>
       ))}

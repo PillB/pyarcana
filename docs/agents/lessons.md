@@ -709,3 +709,42 @@ back. Read this list before a section round; every item cost at least one failed
 - **Plan the key's length rank first, then write the distractors.** Writing each distractor to a
   target rank (6 questions each at ranks 1 to 4) gave an even spread on the first run. Writing
   them first and fixing ranks afterwards is how S13 ended with one rank at 8.
+
+## Proposal 12, S15: errors met and how they were closed (21 Nov 2026)
+
+- **A `\n` inside Python code in a TS template literal becomes a real newline.** The S15 hash
+  examples gained `lineterminator="\n"`. Written into the section's template literal as `\n`, the
+  TS string held a line break, so the pinned code read `lineterminator="` + newline + `"` and
+  three snippets failed with `SyntaxError: unterminated string literal`. Root cause: a template
+  literal processes escapes like any JS string; `\n` there is the newline, not two characters.
+  Fix: write `\\n` in the `.ts` file (the Python source then shows `\n`). Double-quoted prose
+  strings in the section need the same `\\n`. Guard: after any edit to lesson code, run every
+  snippet of the section against its pin before anything else (the scratch `s15check.py` loop
+  or `npm run test:python-content`); a syntax error shows at once.
+- **pandas 3 renamed the copy warning, and old prose keeps the old name.** The pinned pandas is
+  3.0.5. There Copy-on-Write is the default, a chained write never reaches the parent, and the
+  warning is `ChainedAssignmentError` (a `Warning` subclass: the script continues, catch it with
+  `warnings.catch_warnings(record=True)`). `SettingWithCopyWarning` is the pandas 2.x name and
+  2.x sometimes wrote through. Writing in an uncopied subset (`sub = df[mask]; sub['x'] = 1`)
+  raises nothing in pandas 3 and leaves the parent unchanged. Source: the pandas Copy-on-Write
+  user guide (pandas.pydata.org/docs/user_guide/copy_on_write.html). Guard:
+  `test_proposal12_s15` fails when "SettingWithCopy" appears in S15 or its bank without
+  "pandas 2.x" beside it. Expect the same name in later sections that use pandas.
+- **The dtype of a mixed column depends on where it came from.** In pandas 3, a CSV column that
+  mixes numbers and text reads as `str`; a Python list `[1, 'a']` and an Excel column with mixed
+  cells give `object`. S15 said "mixed means object" in four places, which the learner's own CSV
+  contradicted. Guard: before stating a dtype rule, run the read the learner will run (CSV, Excel
+  and list) under `.venv-content`.
+- **An exercise check passes the usual wrong answer when the fixture makes two answers agree.**
+  Twelve S15 checks did: label and position matched, a RangeIndex made `loc` and `iloc` agree, no
+  prior null made the delta equal the total, `> 0` held for any frame. Fix: change the fixture so
+  the two answers differ, or print a second value that only the right answer gets. Guard: plant
+  the wrong answer in the solution and confirm the pinned output catches it (the `MUTATIONS`
+  table in `test_proposal12_s15`).
+- **Two guards reach outside the file a round edits.** Trimming a sentence broke
+  `concept-definition-detector.test.mjs`, which keeps the phrase "bloques de filas llamados
+  **row groups**" as its real-course example of a definition. Adding category outputs
+  (`['Lima']`) pushed S15 to 57 Peruvian city tokens, over the cap of 55 in
+  `test_over_localized_language`. Fix: keep the guarded phrase; describe the categories without
+  repeating the city. Guard: before rewording a sentence, `grep -rn` a distinctive part of it in
+  `tests/` and `scripts/`; count city tokens when an edit adds fixture text.
