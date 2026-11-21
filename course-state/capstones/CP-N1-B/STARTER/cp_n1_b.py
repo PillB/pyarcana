@@ -98,6 +98,7 @@ def jsonl_text(rows: list[dict]) -> str:
 def run(data_dir: Path, out_dir: Path, run_id: str | None = None) -> int:
     """Ejecuta el ETL; 0 si publicó todo, 1 sin publicar nada (BRIEF.md, regla 7 e 'Interfaz').
 
-    Un run_id que no sea solo letras y dígitos ASCII lanza ValueError antes de escribir nada.
+    Un run_id con algo que no sea letras o dígitos ASCII, "-" o "_" lanza ValueError antes de
+    escribir nada.
     """
     raise NotImplementedError("Escribe run(): BRIEF.md, regla 7")
