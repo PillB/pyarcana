@@ -1,7 +1,7 @@
-# Badge Requirements — Integrated ML Engineering Practice
+# Badge Requirements — Integrated Applied ML Systems
 
 **Badge ID:** `integrated_ml_engineering_practice`  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Family:** cross_section_capability  
 **Credential type:** `competency_badge`  
 **Capability level:** `advanced_applied`  
@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently synthesized Python data foundations, applied analytical reasoning, responsible ML evaluation, RAG/LLM service development, and applied MLOps pipeline delivery into a single integrated ML-Engineering-style project with a deployed model, a drift-monitoring stub, and an audience-tuned handoff document.
+> El aprendiz demostró transferencia integrada de ML Systems mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as an AI/ML Engineer at any seniority level (Junior, Mid, Senior, Staff, Principal).
-- Leakage prevention is NOT yet a graded skill (curriculum gap).
-- Does not include multimodal or GPU-compute optimization at this level (deferred to LLMOps Production Delivery).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

@@ -16,9 +16,7 @@
 
 ## Non-claims (what this badge does NOT say)
 
-- Motivational marker only; NOT proof of independent proficiency.
-- Does not certify any role or seniority.
-- Does not by itself satisfy any cross-section or capstone credential.
+- Marcador de progreso local. No constituye evidencia de competencia profesional.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

@@ -12,14 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated reliable browser-automation development — Python-based RPA with Playwright, process analysis, selector design, and exception handling — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente Reliable Automation Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as an RPA Developer.
-- Does not include UiPath, Automation Anywhere, or Power Automate (PyArcana's RPA track is Python-based by design).
-- Does not include REFramework or Orchestrator operations (out-of-current-scope; see curriculum gap analysis).
-- Selector resilience is assessed against a documented UI change scenario, not against an enterprise-scale deployment.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated applied SQL competency — SELECT/JOIN/GROUP BY, ORM-mapped queries, window functions and CTEs — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente SQL Query Development mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Data Analyst or Data Scientist.
-- Does NOT include SQL performance tuning (query plans, indexes, partitioning). This sub-competency is a known curriculum gap; the badge is issued at 'pilot' status until Phase 4 closes the gap. Holders of the pilot badge must not represent SQL performance-tuning competency.
-- Critical competency `sql_competency` is therefore assessed at partial coverage (2 of 3 sub-skills).
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

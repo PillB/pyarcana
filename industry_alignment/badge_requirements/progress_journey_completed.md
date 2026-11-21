@@ -12,13 +12,11 @@
 
 ## Public claim
 
-> The learner has walked all 52 sections of PyArcana and completed every You Do, self-check, and section exam, plus every phase-level capstone referenced in the curriculum (CP-N1-A through CP-N4-C and CP-FINAL).
+> El aprendiz completó las secciones asignadas de esta fase del curso.
 
 ## Non-claims (what this badge does NOT say)
 
-- Motivational marker only; NOT proof of any occupational competency.
-- Does not certify any role, level, or seniority.
-- Does not by itself satisfy any applied-skill or capstone credential rubric; it only records that the guided learning journey was walked.
+- Marcador de progreso local. No constituye evidencia de competencia profesional.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

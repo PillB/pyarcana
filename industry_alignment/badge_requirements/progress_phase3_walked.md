@@ -1,7 +1,7 @@
-# Badge Requirements — Phase 3 — Mastery Walked
+# Badge Requirements — Phase 3 — Integrated Synthesis
 
 **Badge ID:** `progress_phase3_walked`  
-**Version:** 1.0.0  
+**Version:** 1.2.0  
 **Family:** progress_achievement  
 **Credential type:** `local_achievement`  
 **Capability level:** `integrated_mastery`  
@@ -12,17 +12,15 @@
 
 ## Public claim
 
-> The learner has completed all 13 sections of PyArcana Phase 3 (Integrated Mastery): S40 through S52, including the You Do project, self-check, and section exam for each section.
+> The learner has completed every PyArcana Phase 3 (Integrated Mastery) section before the section containing the final capstone, including each section's You Do project, self-check, and section exam.
 
 ## Non-claims (what this badge does NOT say)
 
-- Motivational marker only; NOT proof of mastery.
-- Does not certify any role, level, or seniority.
-- Does not authorize use of the word 'Master' or 'Senior' in any occupational context.
+- Marcador de progreso local. No constituye evidencia de competencia profesional.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
-> You finished Phase 3, the 'Integrated Mastery' phase (sections 40 through 52). 'Integrated mastery' here is a curriculum-internal label meaning the work pulls together everything from earlier phases into one synthetic project. It is NOT an industry job title. This marker just says you walked through the section work.
+> You completed every Phase 3 section before the section containing the final capstone, including each section's You Do project, self-check, and section exam. 'Integrated Mastery' is a curriculum-internal label, not an industry job title. This marker just says you walked through that section work.
 
 ## Roles aligned
 
@@ -76,7 +74,7 @@
 
 ## Required sections
 
-`S40`, `S41`, `S42`, `S43`, `S44`, `S45`, `S46`, `S47`, `S48`, `S49`, `S50`, `S51`, `S52`
+`S40`, `S41`, `S42`, `S43`, `S44`, `S45`, `S46`, `S47`, `S48`, `S49`, `S50`, `S51`
 
 ## Required activities
 
@@ -92,7 +90,6 @@
 - `S49-YOUDO`
 - `S50-YOUDO`
 - `S51-YOUDO`
-- `S52-YOUDO`
 - `S40-EXAM`
 - `S41-EXAM`
 - `S42-EXAM`
@@ -105,7 +102,6 @@
 - `S49-EXAM`
 - `S50-EXAM`
 - `S51-EXAM`
-- `S52-EXAM`
 
 ## Required projects
 

@@ -5,20 +5,19 @@
 **Family:** capstone_credential  
 **Credential type:** `verified_credential`  
 **Capability level:** `integrated_mastery`  
-**Verification mode:** `server_verified`  
+**Verification mode:** `server_authoritative`  
 **Status:** `active`  
 **Issuer:** PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)  
 **Generated:** 2026-07-28T22:08:04Z
 
 ## Public claim
 
-> The learner has completed and defended CP-FINAL — the cross-curriculum integrator capstone at S52 — at rubric performance above the provisional floor, with explicit evidence-grounded defense of every critical competency in the PyArcana stack: SQL, leakage prevention, selector resilience, type safety + production hardening, MLOps fluency, business framing, communication, and reproducibility.
+> El aprendiz demostró independientemente Evidence-Grounded AI Systems Capstone mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as any role at any seniority level, including any 'Master', 'Senior', 'Staff', 'Principal', or 'Distinguished' title.
-- The defense is against PyArcana's rubric, not against an external industry certification board.
-- Where the curriculum has known gaps (leakage prevention, type safety, SQL performance tuning), the learner must demonstrate the competency via a supplementary independent exercise specified in the badge rubric. The credential explicitly notes which competencies were assessed via curriculum evidence vs. supplementary exercise.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

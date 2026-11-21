@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated AI-governance and code-review practice — open-source contribution, AI code-review literacy, AI governance, data-contract design, stakeholder translation — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente AI Governance and Code Review mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Senior Engineer, Tech Lead, or AI Governance Officer.
-- Does not include formal legal/compliance sign-off authority.
-- Does not by itself satisfy the Container Platform Engineering or LLMOps Production Delivery badges' production requirements.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

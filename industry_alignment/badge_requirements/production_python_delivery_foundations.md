@@ -12,13 +12,12 @@
 
 ## Public claim
 
-> The learner has independently demonstrated production-ready Python delivery foundations — packaging, CI/CD, FastAPI service design, and a working test discipline — through You Do projects and section exams above the provisional floor.
+> El aprendiz demostró independientemente Production Python Delivery Foundations mediante tarea práctica, pruebas ocultas y puertas críticas no compensables, bajo la especificación de evaluación PyArcana 1.0.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Production Python Engineer or Software Engineer.
-- Does NOT include static type checking with mypy/Pyright. `python_type_safety` is a known curriculum gap; the badge is issued at 'pilot' status until Phase 4 closes the gap.
-- Does not include observability, Kubernetes, or advanced performance tuning at this level.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 

@@ -1,24 +1,23 @@
-# Badge Requirements — Integrated Python and AI Capstone — Integrated Mastery
+# Badge Requirements — Integrated Python and AI Capstone — Synthesis
 
 **Badge ID:** `integrated_python_ai_capstone_integrated_mastery`  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Family:** capstone_credential  
 **Credential type:** `verified_credential`  
 **Capability level:** `integrated_mastery`  
-**Verification mode:** `server_verified`  
+**Verification mode:** `server_authoritative`  
 **Status:** `active`  
 **Issuer:** PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)  
 **Generated:** 2026-07-28T22:08:04Z
 
 ## Public claim
 
-> The learner has completed and defended the three Phase 3 capstones (CP-N4-A, CP-N4-B, CP-N4-C) at rubric performance above the provisional floor, with a synthesis writeup demonstrating integrated-mastery-level capability across architecture decisions, LLMOps, multimodal systems, infrastructure-as-code, GPU computing, open-source practice, AI governance, data contracts, and tech leadership.
+> El aprendiz demostró independientemente Python and AI Capstone — Synthesis mediante capstone mayor, evaluación con defensa, evidencia a prueba de manipulación y verificación pública, bajo la especificación PyArcana 1.1.0.
 
 ## Non-claims (what this badge does NOT say)
 
-- Does not certify the learner as a Master, Senior, Staff, Principal, or Distinguished Engineer.
-- 'Integrated mastery' here is a curriculum-internal label for the cognitive-load level at which the learner integrates multiple specialization areas into a single defended synthesis. It is NOT an industry seniority title.
-- Type-safety and leakage-prevention gaps remain; relevant badges remain at pilot status.
+- Esta afirmación cubre las capacidades y condiciones de evaluación mostradas en su registro de verificación.
+- No constituye certificación profesional acreditada ni garantía de empleo.
 
 ## Newbie-friendly description (Stephen Fry redaction)
 
