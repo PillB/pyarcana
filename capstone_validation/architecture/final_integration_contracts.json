@@ -34,16 +34,17 @@
     },
     {
       "capstoneId": "CP-N1-C",
-      "interface": "familiarity.review(case) -> ReviewPacket",
-      "version": "2.0.0",
+      "interface": "cp_n1_c.review(case) -> ReviewPacket",
+      "version": "3.0.0",
       "contractType": "python_module",
       "syntheticScenario": "shared_scenario_v1",
       "contractTestsPresent": true,
       "criticalFailures": [
         "Infiere fraude/parentesco automáticamente",
-        "Sin revisión humana",
-        "Sin hoja de privacidad",
-        "Sin mecanismo de corrección"
+        "Mezcla la relación en la decisión de identidad",
+        "Sin revisión humana ni mecanismo de corrección",
+        "Sin hoja de privacidad o con nombres en la cola",
+        "Usa datos de personas reales"
       ]
     },
     {

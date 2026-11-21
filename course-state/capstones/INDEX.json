@@ -3,8 +3,8 @@
   "generated_at": "2026-07-20T14:53:43Z",
   "lane": "LANE-CAPSTONE-FORMAL",
   "total": 13,
-  "passed": 12,
-  "failed": 1,
+  "passed": 13,
+  "failed": 0,
   "capstones": [
     {
       "id": "CP-N1-A",
@@ -28,10 +28,10 @@
       "id": "CP-N1-C",
       "gate_section": "S13",
       "name": "Familiarity Evidence Dashboard",
-      "execution_status": "fail",
-      "exit_code": 1,
+      "execution_status": "pass",
+      "exit_code": 0,
       "path": "course-state/capstones/CP-N1-C/",
-      "formally_ready": false
+      "formally_ready": true
     },
     {
       "id": "CP-N2-A",
