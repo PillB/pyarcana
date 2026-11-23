@@ -49,9 +49,14 @@ else:
     CONTENT_PY = None
 needs_numpy = unittest.skipUnless(CONTENT_PY, "needs the pinned content interpreter (NumPy)")
 
+#: A dynamic import, read from the named export or from `default`. tsx loads a .ts file in this
+#: CommonJS package as CommonJS; Node 22 exposes its named exports, but Node 20 (the content-gates
+#: job) puts them only on `default`, so a static `import {{ section14 }}` fails there.
 DUMP = """
-import {{ section14 }} from {path!r};
-console.log(JSON.stringify(section14));
+const mod = await import({path!r});
+const section = mod.section14 ?? mod.default?.section14;
+if (!section) throw new Error('section14 not found in ' + Object.keys(mod).join(','));
+console.log(JSON.stringify(section));
 """
 
 
