@@ -960,3 +960,17 @@ back. Read this list before a section round; every item cost at least one failed
   A green run does not close it: #180 at e6625c86 passed the same job an hour after main failed
   it. In CI it depends on where the rebuild lands in the walk. Locally on a cold server it failed
   once in one try, and on a warm server it passed three times.
+- **The Proposal 12 section tests failed the first time CI ran them (#181, 22–23 Nov 2026).**
+  The stacked PRs target other branches, so CI never ran on them. Their content-gates step first
+  ran when #181 was retargeted to main, and it failed twice:
+  - First, `ERR_MODULE_NOT_FOUND`: the job installed Python packages but no Node packages, and
+    the tests read each section through `tsx`. Fix: the job runs `ci_bun_install.sh` first.
+  - Then, `does not provide an export named 'section14'`. `tsx` loads a `.ts` file in this
+    CommonJS package as CommonJS. Node 22 exposes its named exports to ESM, but Node 20, which
+    this job pins, puts them only on `default`. Locally (Node 22) the test passed.
+
+  Fix: read with `const mod = await import(path)` and `mod.sectionNN ?? mod.default?.sectionNN`.
+  It was reproduced on Node 20.20.2 (`npm i --no-save node@20` in the scratchpad) with the pinned
+  environment: the old read gave 44 errors and the new one passes. Guard: before pushing a test
+  that shells out to `node`, run it under the Node version of the job that will run it, and
+  remember that a stacked PR's CI only runs once it targets main.
