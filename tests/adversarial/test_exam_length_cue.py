@@ -98,14 +98,19 @@ import exam_bank  # noqa: E402
 #: putting the key under one longer distractor everywhere made it second-longest on 17 of 24,
 #: which a "pick the second-longest" learner passed every time. Both banks now spread the key's
 #: length rank (no rank above 7 of 24); see test_proposal10_s10/s11 and the strategy simulation.
-LONGEST_IS_CORRECT_OWED = 1018
+#: 2026-11-21: 1018 -> 1000. Proposal 12 S14: every security (NumPy) distractor was rewritten as
+#: a real misconception; the key's length rank is 1, 2, 3 and 4 on 6 of 24 each, and no key was
+#: trimmed except the S14 parenthetical "(o política explícita de ownership)", a term the
+#: section never teaches.
+LONGEST_IS_CORRECT_OWED = 1000
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
 #: 2026-10-14: nine. Plan PR 9 repaired apis-sql-geo and evidence-dashboard.
+#: 2026-11-21: proposal 12 S14 repaired security (NumPy); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
-    "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security", "security-infra",
+    "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security-infra",
     "wxpython-gui",
 })
 

@@ -824,3 +824,25 @@ back. Read this list before a section round; every item cost at least one failed
   the runner once from a fresh worktree without `.venv-content`
   (`git worktree add`, symlink `node_modules`) before pushing a test that uses `CONTENT_PY`, and
   make sure the content-gates job runs that file.
+
+## Proposal 12, S14: errors met and how they were closed (21 Nov 2026)
+
+- **The prose audit can measure a stale copy of the course.** `scripts/prose_quality_audit.py`
+  reads `.fixer/events.json` if it exists and only regenerates it when it is missing, so a
+  measure taken after an edit can describe the text before it. Fix: delete the cache, then
+  rerun. Guard: `rm .fixer/events.json` before every prose measurement in a round.
+- **Glosses made sentences long.** Adding the definitions the review asked for ("time.time, el
+  reloj de pared, que puede saltar...") inside existing sentences raised S14's sentences over
+  32 words from 5 to 12, though every finding was closed. Fix: give each gloss its own sentence
+  (5 → 3). Guard: list the over-32 sentences of the section (the audit's `sentences()` and the
+  32-word rule) after the content edits and before the commit.
+- **A bank rewrite pays four ratchets at once.** Rewriting the S14 distractors lowered
+  `LONGEST_IS_CORRECT_OWED` (1018 → 1000), removed `security` from `PERFECT_CUE_BANKS_OWED` and
+  from the strategy simulation's "longest" list, and cleared the bank's thin explanations
+  (`THIN_RATIONALES_OWED` 508 → 506). Each ratchet fails until it is lowered by hand. Guard: after
+  a bank rewrite, run `test_exam_length_cue`, `test_exam_key_odd_feature`,
+  `exam-strategy-simulation.test.ts` and `exam-rationale-depth.test.ts` together, and lower what
+  they report in the same commit.
+- **Plan the key's length rank first, then write the distractors.** Writing each distractor to a
+  target rank (6 questions each at ranks 1 to 4) gave an even spread on the first run. Writing
+  them first and fixing ranks afterwards is how S13 ended with one rank at 8.
