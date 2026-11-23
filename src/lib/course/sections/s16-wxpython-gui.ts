@@ -1128,7 +1128,7 @@ print(conflictos(pd.DataFrame({"cliente_id": ["C004", "C005", "C005"], "region":
         kind: "transfer",
         title: "Clasificar exact, conflict o clean",
         preamble: "- **Contexto:** el runbook del gate elige acción **después** de clasificar; devolver `clean` sin mirar es el anti-patrón.\n- **Meta:** para cada clave del fixture, `clasificar(key)` devuelve `exact`, `conflict` o `clean`.\n- **Éxito:** `['conflict', 'exact', 'conflict', 'clean', 'conflict']`.\n- **Límites:** clasifica antes de borrar; no asumas clean; mira la fila entera, no solo la región.",
-        instruction: "1. Filtra las filas de la clave.\n2. Si hay una sola fila → `clean`.\n3. Si todas las filas son copias de una sola versión → `exact`. C005 trae dos copias de Lima y dos de Cusco: son dos versiones.\n4. Si la clave se repite y alguna fila difiere en cualquier columna → `conflict`. C003 difiere solo en `score`.",
+        instruction: "1. Filtra las filas de la clave.\n2. Si hay una sola fila → `clean`.\n3. Si todas las filas son copias de una sola versión → `exact`. C005 trae dos copias de Puno y dos de Ica: son dos versiones.\n4. Si la clave se repite y alguna fila difiere en cualquier columna → `conflict`. C003 difiere solo en `score`.",
         hint: "Una fila → clean; copias exactas → exact; clave repetida con cualquier diferencia → conflict.",
         hints: ["sub = df[df.cliente_id == key]; si len(sub) == 1, devuelve clean.", "Si len(sub.drop_duplicates()) == 1, hay una sola versión y devuelves exact; si no, conflict, aunque la región coincida."],
         edgeCases: ["orden de if", "sin filtrar id", "mirar solo la región", "dos versiones, cada una repetida"],
@@ -1143,7 +1143,7 @@ print(conflictos(pd.DataFrame({"cliente_id": ["C004", "C005", "C005"], "region":
 import pandas as pd
 df = pd.DataFrame({
     "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004", "C005", "C005", "C005", "C005"],
-    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Lima", "Lima", "Cusco", "Cusco"],
+    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Puno", "Puno", "Ica", "Ica"],
     "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7, 0.6, 0.6, 0.6, 0.6],
 })
 
@@ -1158,7 +1158,7 @@ print([clasificar(k) for k in ["C001", "C002", "C003", "C004", "C005"]])`,
           code: `import pandas as pd
 df = pd.DataFrame({
     "cliente_id": ["C001", "C001", "C002", "C002", "C003", "C003", "C004", "C005", "C005", "C005", "C005"],
-    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Lima", "Lima", "Cusco", "Cusco"],
+    "region": ["Lima", "Cusco", "Ica", "Ica", "Puno", "Puno", "Ica", "Puno", "Puno", "Ica", "Ica"],
     "score": [1.0, 1.0, 0.5, 0.5, 0.5, 0.8, 0.7, 0.6, 0.6, 0.6, 0.6],
 })
 
