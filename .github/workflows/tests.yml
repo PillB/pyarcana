@@ -333,7 +333,7 @@ jobs:
   regression-browser:
     name: Browser Regression (UI + HUD + code fidelity)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -353,11 +353,42 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
 
-      - name: Start dev server
+      # The spec runs against a production build, which is what learners get. Against `next dev`,
+      # the first visits compile chunks on demand and the hot reload that follows lands mid-walk at
+      # a time that depends on the runner. A remount then drops the We Do's revealed solutions while
+      # the tab, kept in the URL hash, survives: 24 expected, 0 found, on main and on PRs
+      # (docs/agents/lessons.md, "Browser Regression"). A production build has no hot reload.
+      - name: Make Google Fonts unreachable for the build
         run: |
-          bun run dev &
-          sleep 15
+          printf '0.0.0.0 fonts.googleapis.com fonts.gstatic.com\n:: fonts.googleapis.com fonts.gstatic.com\n' | sudo tee -a /etc/hosts
+          if curl -sS --max-time 10 -o /dev/null 'https://fonts.googleapis.com/css2?family=Inter'; then
+            echo 'fonts.googleapis.com is still reachable; the block did not take effect' >&2
+            exit 1
+          fi
+
+      - name: Generate Prisma client
+        run: bun run db:generate
+
+      - name: Build the app
+        run: bun run build
+        env:
+          DATABASE_URL: file:./db/ci.db
+          NEXTAUTH_SECRET: ci-only-secret-not-used-outside-this-build
+          NEXTAUTH_URL: http://localhost:3000
+
+      - name: Start the production server
+        run: |
+          bun run start &
+          for _ in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:3000 && break
+            sleep 1
+          done
           curl -sI http://localhost:3000 | head -1
+        env:
+          DATABASE_URL: file:./db/ci.db
+          NEXTAUTH_SECRET: ci-only-secret-not-used-outside-this-build
+          NEXTAUTH_URL: http://localhost:3000
+          PORT: '3000'
 
       - name: Run browser regression tests
         run: npx playwright test scripts/regression.spec.ts scripts/code_rendering.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|all 52 sections|Code rendering fidelity" --reporter=list
