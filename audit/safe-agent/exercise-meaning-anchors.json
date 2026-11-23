@@ -12882,7 +12882,7 @@
     },
     "S14-T1-A-E3": {
       "section": "S14",
-      "sha256": "893f6b486fe3e4b0c80325e82ceccff941c678a8ea96ee5ab24e110c209b3f41",
+      "sha256": "a71ee0360b3bf7dd1d87617f7193196b3e4034bd0e28714e22238bc3c04e34f4",
       "tokens": [
         "0",
         "1",
@@ -12916,18 +12916,19 @@
         "validar",
         "validate",
         "valido",
-        "valueerror"
+        "valueerror",
+        "y",
+        "zeros"
       ]
     },
     "S14-T1-B-E1": {
       "section": "S14",
-      "sha256": "97fe614ab6465f1ecacf65bb148a80a4e5a2134c7f61135b42c8038f0bde429e",
+      "sha256": "e9633c6cd8fc373af9071cc23e1fc8c0582c8063f7b345fe864228b978164a51",
       "tokens": [
         "0",
         "1",
         "2",
         "3",
-        "4",
         "5",
         "8",
         "9",
@@ -12948,13 +12949,13 @@
     },
     "S14-T1-B-E2": {
       "section": "S14",
-      "sha256": "f293ce705c2251c8ea49f1c4a2b24422fe962899becf307972ae312080a63584",
+      "sha256": "8b7920353e29b78a985f7d6cc72a09433ce75af6987eb5ff15fc22daf7060beb",
       "tokens": [
         "0",
         "1",
-        "4",
-        "7",
-        "9",
+        "2",
+        "3",
+        "95",
         "array",
         "as",
         "bajo",
@@ -12983,7 +12984,7 @@
     },
     "S14-T1-B-E3": {
       "section": "S14",
-      "sha256": "f563f0e68832a53b2fa573b278d0abdbcddb7481e341c3ef87fa82228851f914",
+      "sha256": "bd0b1cc31ca31c8d84a61e8d16919b1435f2a6e54a6e963096fc08695221261e",
       "tokens": [
         "0",
         "1",
@@ -13312,12 +13313,12 @@
     },
     "S14-T3-B-E3": {
       "section": "S14",
-      "sha256": "13bcb2fe6891a2a34e4f0770b0fc08148a365b8a13f6a25fd76c81bb437fb972",
+      "sha256": "41be7928ab502cfff37a1a750ed21190e38f37dc9a49ff58894b4a4a77558ac1",
       "tokens": [
         "0",
         "1",
         "2",
-        "3",
+        "5",
         "a",
         "array",
         "as",
@@ -13327,7 +13328,7 @@
         "isinf",
         "luego",
         "nan",
-        "nansum",
+        "nanmean",
         "np",
         "numpy",
         "print",
@@ -13338,11 +13339,12 @@
     },
     "S14-T4-A-E1": {
       "section": "S14",
-      "sha256": "2efd0c9d50c3a559ec9d422267e3994ab12be75fc440a456c0b7b48a282b8fcb",
+      "sha256": "ef8192bf0959998ec99dd71fa913f6524c6e906f35798f623e6c1d1127558190",
       "tokens": [
         "0",
         "1",
         "1000",
+        "332833500",
         "6",
         "a",
         "abs",

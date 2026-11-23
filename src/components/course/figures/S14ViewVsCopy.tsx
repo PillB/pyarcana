@@ -29,21 +29,21 @@ export function S14ViewVsCopy({ title }: { title: string }) {
   const baseX = 190
   const baseY = 66
   const copyY = 214
-  // index 2 is the cell the view writes through
-  const base = ['10', '20', written ? '99' : '30', '40']
-  const copy = ['10', '20', '30', '40']
+  // the same arrays as the S14 code: vista = raw[:2]; vista[0] = 99 writes cell 0
+  const base = [written ? '99' : '10', '20', '30']
+  const copy = ['10', '20']
 
   return (
     <div>
       <FigSvg title={title} viewBox={`0 0 ${FIG.width} 268`}>
         <FigArrowDefs id="s14-arrow" />
 
-        <FigText x={baseX + (cell * 4) / 2} y={26} weight={600}>
+        <FigText x={baseX + (cell * 3) / 2} y={26} weight={600}>
           Un solo bloque en memoria
         </FigText>
 
         {base.map((v, i) => {
-          const active = i === 2 && written
+          const active = i === 0 && written
           return (
             <g key={i}>
               <motion.rect
@@ -73,7 +73,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
 
         {/* the original name */}
         <FigText x={30} y={baseY + cell / 2} anchor="start" mono weight={600}>
-          arr
+          raw
         </FigText>
         <FigArrow
           x1={72}
@@ -88,12 +88,12 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           vista
         </FigText>
         <FigText x={30} y={168} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
-          arr[1:3]
+          raw[:2]
         </FigText>
         <FigArrow
           x1={92}
           y1={150}
-          x2={baseX + cell + 20}
+          x2={baseX + cell / 2}
           y2={baseY + cell + 6}
           markerId="s14-arrow"
           stroke="var(--fig-2)"
@@ -114,11 +114,11 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           size={FIG.microSize}
           fill="var(--fig-2)"
         >
-          {written ? 'sin tocar arr' : 'cambia el original'}
+          {written ? 'sin tocar raw' : 'cambia el original'}
         </FigText>
 
         {/* the copy — unchanged, on purpose */}
-        <FigText x={baseX + (cell * 4) / 2} y={196} weight={600} fill="var(--fig-1)">
+        <FigText x={baseX + (cell * 3) / 2} y={196} weight={600} fill="var(--fig-1)">
           Copia: otro bloque distinto
         </FigText>
         {copy.map((v, i) => (
@@ -141,7 +141,7 @@ export function S14ViewVsCopy({ title }: { title: string }) {
           copia
         </FigText>
         <FigText x={30} y={252} anchor="start" size={FIG.microSize} fill="var(--muted-foreground)">
-          .copy()
+          raw[:2].copy()
         </FigText>
         <FigArrow
           x1={96}
@@ -155,11 +155,11 @@ export function S14ViewVsCopy({ title }: { title: string }) {
       </FigSvg>
 
       <FigStepButton onClick={written ? reset : next} data-testid="s14-step">
-        {written ? 'Reiniciar' : 'Ejecutar  vista[1] = 99'}
+        {written ? 'Reiniciar' : 'Ejecutar  vista[0] = 99'}
       </FigStepButton>
       <span className="ml-3 text-[13px] text-muted-foreground">
         {written
-          ? 'La copia sigue en 30: nunca compartió memoria.'
+          ? 'La copia sigue en 10: nunca compartió memoria.'
           : reduced
             ? 'Pulsa para escribir a través de la vista.'
             : 'Escribe a través de la vista y observa el bloque de arriba.'}

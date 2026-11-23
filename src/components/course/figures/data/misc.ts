@@ -362,8 +362,8 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   'S14-broadcast-stretch': {
     kind: 'table',
     headline: 'Dos pesos se reutilizan en las tres filas',
-    left: { title: 'scores (3, 2)', head: ['col 0', 'col 1'], rows: [['0', '1'], ['2', '3'], ['4', '5']], tint: 3 },
-    right: { title: 'pesos (2,) reutilizados', head: ['col 0', 'col 1'], rows: [['0.5', '2.0'], ['0.5', '2.0'], ['0.5', '2.0']], tint: 2 },
+    left: { title: 'scores (3, 2)', head: ['col 0', 'col 1'], rows: [['0.9', '0.8'], ['0.4', '0.5'], ['0.7', '0.6']], tint: 3 },
+    right: { title: 'pesos (2,) reutilizados', head: ['col 0', 'col 1'], rows: [['0.6', '0.4'], ['0.6', '0.4'], ['0.6', '0.4']], tint: 2 },
     forward: 'se reutiliza',
     note: 'Los dos pesos no se copian: la misma fila se reutiliza para cada fila de scores.',
   },
