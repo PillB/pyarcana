@@ -164,7 +164,10 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 - **Simulate drift.** Code that reads lesson content, or a value another file owns, gets a
   test that applies the edits a future round will make (insert, retitle, untag, delete, a new
   id format, a changed constant) and states what must survive. A value kept in two files gets
-  a test that reads both.
+  a test that reads both. An operator runbook is such a reader: every script line it quotes,
+  path it names and version it pins is tested against the scripts, and every dashboard step
+  cites the official doc it was checked against, with the date
+  (`workers/billing/tests/redeploy-runbook.test.mjs`).
 
 ## Fail loudly
 

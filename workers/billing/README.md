@@ -15,7 +15,10 @@ PyArcana's domain, never a person's mailbox.
 ## Setup order
 
 Everything runs on the owner's machine (Node >= 22, which wrangler 4 requires; bun; a PyArcana checkout); the Cloudflare
-API is not reachable from the build sandbox. Once the zone and the identity providers exist:
+API is not reachable from the build sandbox. The click-by-click version of a redeploy, with the
+site, account, menu path and expected result of every step, is [`REDEPLOY.md`](REDEPLOY.md)
+(`tests/redeploy-runbook.test.mjs` keeps it in step with these scripts). Once the zone and the
+identity providers exist:
 
 ```bash
 workers/billing/scripts/redeploy.sh
