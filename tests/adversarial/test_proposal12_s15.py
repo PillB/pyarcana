@@ -51,9 +51,14 @@ else:
     CONTENT_PY = None
 needs_pandas = unittest.skipUnless(CONTENT_PY, "needs the pinned content interpreter (pandas)")
 
+#: A dynamic import, read from the named export or from `default`. tsx loads a .ts file in this
+#: CommonJS package as CommonJS; Node 22 exposes its named exports, but Node 20 (the content-gates
+#: job) puts them only on `default`, so a static `import {{ section15 }}` fails there.
 DUMP = """
-import {{ section15 }} from {path!r};
-console.log(JSON.stringify(section15));
+const mod = await import({path!r});
+const section = mod.section15 ?? mod.default?.section15;
+if (!section) throw new Error('section15 not found in ' + Object.keys(mod).join(','));
+console.log(JSON.stringify(section));
 """
 
 
