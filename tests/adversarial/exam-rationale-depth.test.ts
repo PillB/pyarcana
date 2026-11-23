@@ -84,8 +84,10 @@ const STOP_WORDS = new Set(`
  * reason the flag wins, not just the rule.
  * 2026-11-21: 506 - proposal 12 S14 rewrote most security (NumPy) explanations to say why the
  * distractors are wrong; the bank's 2 thin ones (one was the 36-character nbytes item) are gone.
+ * 2026-11-21: 502 - proposal 12 S15 rewrote all 24 stdlib-deep (pandas) explanations to say why
+ * each distractor is wrong; its 4 thin ones are gone.
  */
-const THIN_RATIONALES_OWED = 506
+const THIN_RATIONALES_OWED = 502
 /** Banks where at least half the explanations (12 of 24) are thin. */
 const THIN_BANKS_OWED = 21
 /**
@@ -96,7 +98,7 @@ const THIN_BANKS_OWED = 21
 const THIN_BY_BANK_OWED: Record<string, number> = {
   setup: 0, basics: 0, 'decisions-rules': 0, 'iteration-summaries': 0, 'functions-contracts': 0,
   collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 1,
-  'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 0, 'stdlib-deep': 4, 'wxpython-gui': 9, packaging: 16,
+  'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 0, 'stdlib-deep': 0, 'wxpython-gui': 9, packaging: 16,
   'data-engineering': 2, 'databases-orm': 2, rag: 1, fastapi: 4, 'rapidfuzz-entity': 1,
   'computer-vision': 6, 'rpa-advanced': 11, 'streamlit-dashboards': 12, 'integrator-phase1': 15,
   'async-concurrency': 4, 'llm-agents': 5, mlops: 13, 'security-infra': 4, 'streaming-data': 7,
