@@ -96,7 +96,9 @@ UNEXEMPLIFIED_CONCEPTS_OWED = 32
 # 2026-11-18, proposal 10 S10 round: 271 -> 275. The same S10 demos make `context-manager`
 # load-bearing (S09, S10, S38: target 1 -> 5, debt +4), on the proposal 05 `f-string` precedent.
 # Not paid here: five context-manager figures are a figure round of their own, named in the PR.
-FIGURES_OWED = 275
+# 2026-11-21, proposal 12 S14: 275 -> 274. Two S14 captions now name what they show (a slice in
+# S14-view-vs-copy, a view in S14-view-scope), which pays one owed figure.
+FIGURES_OWED = 274
 #: The total the deficit is measured AGAINST, as a floor rather than a ratchet. It may rise
 #: freely; a fall means a concept stopped being load-bearing, which is a content loss
 #: wearing the shape of a repair. 51 concepts are load-bearing today (target 5 each) and 57

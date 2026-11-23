@@ -2250,6 +2250,66 @@
       "reason": "WEDO-22.1: three runs (complete, report failed, no approve), so the short path with any prints True three times.",
       "decided_by": "owner 2026-11-21 (proposal 12, first PR: starters that print the answer)",
       "date": "2026-11-21"
+    },
+    {
+      "row": 226,
+      "id": "S14-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "893f6b486fe3e4b0c80325e82ceccff941c678a8ea96ee5ab24e110c209b3f41",
+      "to_fp": "a71ee0360b3bf7dd1d87617f7193196b3e4034bd0e28714e22238bc3c04e34f4",
+      "reason": "WEDO-03.1: a 2D float64 input is now passed too, so skipping the ndim check prints ok instead of the error.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 227,
+      "id": "S14-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "97fe614ab6465f1ecacf65bb148a80a4e5a2134c7f61135b42c8038f0bde429e",
+      "to_fp": "e9633c6cd8fc373af9071cc23e1fc8c0582c8063f7b345fe864228b978164a51",
+      "reason": "WEDO-04.1: the fixture has a 0.5, so the strict > the edge case names prints [1, 3] and the answer is [1, 2, 3].",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 228,
+      "id": "S14-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "f293ce705c2251c8ea49f1c4a2b24422fe962899becf307972ae312080a63584",
+      "to_fp": "8b7920353e29b78a985f7d6cc72a09433ce75af6987eb5ff15fc22daf7060beb",
+      "reason": "WEDO-05.1: on [0.1, 0.2, 0.3, 0.95] mean and median pick different ids, so using mean shows.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 229,
+      "id": "S14-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "f563f0e68832a53b2fa573b278d0abdbcddb7481e341c3ef87fa82228851f914",
+      "to_fp": "bd0b1cc31ca31c8d84a61e8d16919b1435f2a6e54a6e963096fc08695221261e",
+      "reason": "WEDO-06.1: the array is no longer sorted and order is [1, 3, 0, 2], so sorting before indexing shows.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 230,
+      "id": "S14-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "13bcb2fe6891a2a34e4f0770b0fc08148a365b8a13f6a25fd76c81bb437fb972",
+      "to_fp": "41be7928ab502cfff37a1a750ed21190e38f37dc9a49ff58894b4a4a77558ac1",
+      "reason": "WEDO-18.1: the check is nanmean (1.5), so substituting 0 for inf prints 1.0 and fails, as the theory forbids.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 231,
+      "id": "S14-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "2efd0c9d50c3a559ec9d422267e3994ab12be75fc440a456c0b7b48a282b8fcb",
+      "to_fp": "ef8192bf0959998ec99dd71fa913f6524c6e906f35798f623e6c1d1127558190",
+      "reason": "WEDO-19.1: both sums are printed with the flag, so a literal print cannot match.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
     }
   ]
 }
