@@ -974,3 +974,9 @@ back. Read this list before a section round; every item cost at least one failed
   environment: the old read gave 44 errors and the new one passes. Guard: before pushing a test
   that shells out to `node`, run it under the Node version of the job that will run it, and
   remember that a stacked PR's CI only runs once it targets main.
+- **A review fix pushed a section over the city-name cap (#184, 23 Nov 2026).** The fixture added
+  for Codex's finding used Lima and Cusco. The cap in `test_over_localized_language` counts city
+  tokens in code as well as prose, so S16 went from 52 to 62 (cap 55). Before pushing, only the
+  section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
+  too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
+  Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).
