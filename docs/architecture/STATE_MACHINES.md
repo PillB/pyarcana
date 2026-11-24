@@ -37,7 +37,7 @@ proved by `verifyHeadersFile` in every order at deploy (`scripts/cloud-headers.m
 `src/lib/cloud/__tests__/headers.test.ts`, and `scripts/hash_route_entry_check.mjs` against
 `scripts/serve_out_rule_order.mjs` (production's order replayed locally) or the live site.
 
-## 1. Course view (src/app/page.tsx)
+## 1. Course view (src/app/page.tsx + src/lib/course/hash-route.ts)
 
 State: `view` × `activeSectionId` × `activeSubStep`, mirrored in `location.hash`.
 
@@ -60,23 +60,19 @@ stateDiagram-v2
 
 | Errant state | Before | Now |
 |---|---|---|
-| `view = 'section'` with an id no section has | blank `<main>` (no section to render) | `handleSelectSection` refuses it with a console error and stays |
+| `view = 'section'` with an id no section has | blank `<main>` (no section to render) | `handleSelectSection` refuses it with a console error and stays (hash-route.ts `findCourseSection`) |
 | `#familiarity` on desktop | header crumb empty | crumb says "Familiarity" |
-| unknown hash (`#no-such-route`, `#S99`, `#__proto__`) | ignored; the current view stays | unchanged (checked in the browser by `hash_route_entry_check.mjs`) |
-| `#admin`, `#pricing` on the static site | fall into the section lookup, find nothing, ignored | unchanged |
+| unknown hash (`#no-such-route`) | silently ignored | still ignored (the current view stays), now with a console warning naming the hash |
+| `#admin`, `#pricing` on the static site | fell into the section lookup and found nothing | refused explicitly (`serverOnly`) |
+| `#__proto__`, `#constructor` | fell through (no own-property check) | null, tested |
 
 Left as is, stated: an unknown hash keeps a URL that does not match the view until the next
 navigation rewrites it. Rewriting it to the current view would lose what the person typed.
 
-Not done, and why: the router is still inline in page.tsx. Moving it into a pure, unit-tested
-module (tried on this branch) breaks `tests/adversarial/test_disclaimer_and_substep_preservation.py`,
-which pins the router's source text in page.tsx. `tests/` is a protected path, so that move waits
-for the owner's go-ahead to let the test read the new module instead.
-
 ## 2. Section tabs (SUB_STEPS, src/lib/progress-store.ts)
 
 `theory → ido → wedo → youdo → quiz`, written to the hash as `#slug` (Teoría) or `#slug/<tab>`;
-an unknown tab name falls back to Teoría.
+an unknown tab name falls back to Teoría (tested for all 52 sections × 5 tabs).
 
 ## 3. Edition and access (src/lib/cloud/config.ts, access.ts)
 
@@ -116,7 +112,7 @@ that is why a hydration failure shows as "the toggles do nothing".
 ## How to re-check
 
 ```bash
-node --import tsx --test src/lib/cloud/__tests__/headers.test.ts
+node --import tsx --test src/lib/course/hash-route.test.ts src/lib/cloud/__tests__/headers.test.ts
 NEXT_PUBLIC_BASE_PATH= node scripts/build_static_export.mjs && node scripts/cloud-headers.mjs out
 node --import tsx scripts/serve_out_rule_order.mjs --order sorted &   # production's order
 NO_ACCOUNT=1 BASE=http://localhost:8788 node scripts/hash_route_entry_check.mjs
