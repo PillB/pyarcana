@@ -45,7 +45,9 @@ workers/billing/scripts/setup.sh --rotate-key k2
 `setup.sh` is the first run and every later run (idempotent); `deploy.sh` deploys again without
 touching secrets; `--rotate-key k2` only replaces the licence key.
 
-The token needs two account permissions, both Edit: Workers Scripts and D1. With
+The token needs the Workers **Editor** role on the Workers product (deploy, secrets and rollback
+of the existing Worker; Cloudflare's Workers roles page) and **D1** Write/Edit. The legacy
+`Workers Scripts` Edit/Write permission still works but is being replaced by Editor. With
 `CLOUDFLARE_ACCOUNT_ID` set it needs no Account Settings:Read. Make a fresh token for the run and
 revoke it afterwards.
 

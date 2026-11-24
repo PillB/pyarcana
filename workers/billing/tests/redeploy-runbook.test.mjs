@@ -13,7 +13,10 @@
  *   3. the wrangler version it names is the one common.sh pins;
  *   4. it holds no mailbox other than role/example addresses, no Cloudflare token and no 32-hex id;
  *   5. every step that sends the owner to a dashboard cites the official doc it was checked against;
- *   6. README.md points to it.
+ *   6. README.md points to it;
+ *   7. no step recommends the legacy Workers Scripts permission without saying it is legacy
+ *      (Cloudflare replaced it with the Workers Editor role; the first version of this runbook
+ *      recommended it and called Workers Editor excessive, 24 Nov 2026).
  */
 
 import assert from "node:assert/strict";
@@ -111,6 +114,17 @@ export function uncitedSteps(doc) {
     .map((s) => s.split("\n")[0]);
 }
 
+/**
+ * Check 7. A paragraph or list item that names "Workers Scripts" must also say "legacy".
+ * @returns {string[]} the first line of each chunk that recommends it unqualified
+ */
+export function legacyPermissionAdvice(doc) {
+  return doc
+    .split(/\n\s*\n|\n(?=\s*(?:[-*]|\d+\.) )/)
+    .filter((chunk) => /Workers Scripts/.test(chunk) && !/legacy/i.test(chunk))
+    .map((chunk) => chunk.trim().split("\n")[0]);
+}
+
 const SCRIPTS = renderScripts(SCRIPT_FILES.map(read), TOML);
 const COMMON = read("scripts/common.sh");
 
@@ -155,4 +169,16 @@ test("every step that opens a dashboard cites the official doc it was checked ag
 test("README's Setup order points to the runbook", () => {
   const setup = README.slice(README.indexOf("## Setup order"), README.indexOf("## Configuration"));
   assert.match(setup, /\(REDEPLOY\.md\)/, "README.md, Setup order: link REDEPLOY.md so the owner finds the step-by-step version");
+});
+
+test("no step recommends the legacy Workers Scripts permission as if it were current", () => {
+  const setupSh = read("scripts/setup.sh");
+  for (const [name, text] of [["REDEPLOY.md", RUNBOOK], ["README.md", README], ["scripts/setup.sh", setupSh]]) {
+    assert.deepEqual(legacyPermissionAdvice(text), [], `${name} recommends Workers Scripts without calling it legacy; Cloudflare's Workers roles page replaces it with Editor`);
+  }
+  // Drift: the runbook's first version, "exactly Workers Scripts Write and D1 Write".
+  const old = `${RUNBOOK}\n3. Permissions: exactly **Workers Scripts Write** and **D1 Write**, on the entire account.\n`;
+  assert.deepEqual(legacyPermissionAdvice(old), ["3. Permissions: exactly **Workers Scripts Write** and **D1 Write**, on the entire account."]);
+  // The script's own refusal message must name the current role, not the legacy permission.
+  assert.match(setupSh, /Make a new token \(Workers Editor and D1 Write\)/, "setup.sh's refusal message should name Workers Editor and D1 Write");
 });

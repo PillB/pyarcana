@@ -28,7 +28,7 @@
 #   CLOUDFLARE_API_TOKEN   asked for (hidden) when not exported. An exported one is offered
 #                          ("Use it? [Y/n]", never shown) and never used silently; either way
 #                          Cloudflare is asked whether it is active before anything runs.
-#                          Account permissions (Edit): Workers Scripts, D1. Revoke it afterwards.
+#                          Workers Editor (Workers product) and D1 Write/Edit. Revoke it afterwards.
 #   CLOUDFLARE_ACCOUNT_ID  from the dashboard; with it the token needs no Account Settings:Read.
 
 set -euo pipefail
@@ -107,7 +107,7 @@ while :; do
     export CLOUDFLARE_API_TOKEN
     attempt=$((attempt + 1))
   else
-    die "$check. Nothing was changed. Make a new token (Workers Scripts and D1, Edit) and run this again."
+    die "$check. Nothing was changed. Make a new token (Workers Editor and D1 Write) and run this again."
   fi
 done
 

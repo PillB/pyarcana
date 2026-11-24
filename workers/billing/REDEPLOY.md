@@ -142,24 +142,38 @@ create a new one instead.
 Cloudflare offers two kinds of token, and `setup.sh` accepts both (it checks a user token at
 `/user/tokens/verify` and an account token at `/accounts/<id>/tokens/verify`). Pick one route.
 
+**What the token needs (Cloudflare's current Workers roles, checked 24 Nov 2026).**
+
+- **Workers Editor, on the Workers product (all Workers).** Cloudflare's Workers roles page lists
+  `Editor` as the minimum for `wrangler deploy` of an existing Worker, `wrangler secret put` and
+  `wrangler rollback`. `pyarcana-billing` already exists, so `Admin` (needed only to create a new
+  Worker) is not required. The deploy keeps the existing `pyarcana.dev` Custom Domain unchanged,
+  which `Editor` allows; it would need `Workers Routes Write` on the zone only to add, change or
+  remove one.
+- **D1 Write.** Workers roles do not cover D1. `setup.sh` lists the D1 databases to find
+  `pyarcana-accounts`, and creates it if it is missing; Write covers both.
+- Nothing else. **Workers Scripts Write/Edit** is a *legacy* permission: Cloudflare says it is
+  being replaced by `Editor` at the Workers product scope. It still works and has no deprecation
+  date, but new tokens should use `Editor`. Do not add both.
+
 **Route A, Account API token (recommended; what the current dashboard leads to).** It belongs to
-the account, not to your login. Permission names end in **Write**.
+the account, not to your login.
 
 1. In the Cloudflare dashboard, check the account name at the top of the left menu is the account
    from B4. Press `Cmd + K` (quick search), type `Account API tokens`, and open it (the docs call
    the page **Manage Account → API Tokens**; the left menu's layout moves, the search does not).
    Click **Create token**.
 2. Name it `pyarcana-redeploy-YYYY-MM-DD` instead of the generated name.
-3. Permissions: exactly **Workers Scripts Write** and **D1 Write**, on the entire account.
-   Do **not** add **Workers Editor** or a template: they grant far more than the deploy uses.
+3. Permissions: **Workers Editor** for all Workers in the account, and **D1 Write**. Remove any
+   legacy **Workers Scripts** permission.
 4. Expiration: the shortest offered (for example 7 days). IP address filtering: leave it allowing
    all addresses (your home IP can change mid-deploy).
-5. The **Review token** page must show: the account name, the expiration, and under
-   **Permission policies** only `Workers Scripts Write` and `D1 Write`. Anything else: click
-   **Back to edit** and remove it.
+5. The **Review token** page must show: the account name (for example "Entire PyArcana
+   account"), the expiration, and under **Permission policies** only `Workers Editor` and
+   `D1 Write`. Anything else: click **Back to edit** and remove it.
 6. Click **Create token**, then copy it (step 8 below).
 
-**Route B, user token.** It belongs to your login. Permission names end in **Edit**.
+**Route B, user token.** It belongs to your login.
 
 1. Open <https://dash.cloudflare.com/profile/api-tokens> (or the account menu at the top right →
    **My Profile** → **API Tokens**) and click **Create Token**.
@@ -167,9 +181,9 @@ the account, not to your login. Permission names end in **Write**.
    scratch"). Do not use the "Edit Cloudflare Workers" template: it grants more than the deploy
    needs.
 3. **Token name**: `pyarcana redeploy YYYY-MM-DD` (today's date).
-4. **Permissions**, first row: `Account` · `Workers Scripts` · `Edit`.
-   Click **+ Add more**. Second row: `Account` · `D1` · `Edit`.
-   Nothing else. With the account ID passed separately, the token needs no `Account Settings`.
+4. **Permissions**: the Workers **Editor** role for all Workers, and `Account` · `D1` · `Edit`.
+   If this page offers only the legacy `Account` · `Workers Scripts` · `Edit`, that still works
+   (see above). With the account ID passed separately, the token needs no `Account Settings`.
 5. **Account Resources**: `Include` · the account from B4.
 6. **Token expiration**: set the end date to tomorrow, so a forgotten token dies on its own.
    Leave **Client IP Address Filtering** empty.
@@ -183,7 +197,8 @@ the account, not to your login. Permission names end in **Write**.
    never paste it into a file, chat, issue or commit.
    - If you close the page before copying: delete that token (step D3) and make another.
 
-Docs: [Create API token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) ·
+Docs: [Workers roles and permissions](https://developers.cloudflare.com/workers/authorization/workers/) ·
+[Create API token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) ·
 [API token permissions](https://developers.cloudflare.com/fundamentals/api/reference/permissions/) ·
 [Roll tokens](https://developers.cloudflare.com/fundamentals/api/how-to/roll-token/)
 

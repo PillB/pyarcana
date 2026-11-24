@@ -118,7 +118,7 @@ const WORKER_SUITES = [
   // How a tester gets in while sign-up is closed (red-team round on PR #168, 2026-11-20).
   ["tester-onboarding", 4],
   // REDEPLOY.md, the owner's click-by-click runbook, against the scripts it quotes (2026-11-23).
-  ["redeploy-runbook", 6]
+  ["redeploy-runbook", 7]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
