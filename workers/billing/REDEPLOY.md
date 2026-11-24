@@ -4,7 +4,7 @@ This is the click-by-click version of "Setup order" in [`README.md`](README.md).
 bottom on the owner's computer. Every step says where to go, which account to be signed in with,
 what to click or type, what you should see, and what to do if you see something else.
 
-Menu names were checked on 23 Nov 2026 against the official documentation linked under each step
+Menu names were checked on 23 Nov 2026 (the Account API token screens on 24 Nov, from the owner's own dashboard) against the official documentation linked under each step
 ("Docs:"). Dashboards change; if a button has moved, the linked page is the current source of
 truth, and this file should be updated to match.
 
@@ -89,9 +89,24 @@ Deploy from the separate deploy folder (`pyarcana-deploy`), not from the folder 
 ```
 cd ~/path/to/pyarcana-deploy
 git status --short
+git fetch origin
+git checkout -- workers/billing/wrangler.toml
+git checkout main
+git pull --ff-only origin main
+grep -n 'DEPLOY_BRANCH=' workers/billing/scripts/redeploy.sh
 ```
 
-- You should see nothing, or only ` M workers/billing/wrangler.toml`. Both are fine.
+- `git status --short` should show nothing, or only ` M workers/billing/wrangler.toml`. Both are
+  fine (the D1 id `setup.sh` writes; the next lines drop it and the deploy writes it again).
+- **Fetch before you deploy.** `git status` says "Your branch is up to date with 'origin/main'"
+  even when the checkout has not talked to GitHub for weeks: it compares with the last fetch, not
+  with GitHub. An old checkout runs an old `redeploy.sh`, which can stop with
+  `STOP: this checkout is on "main", but pyarcana.dev deploys from "claude/gifted-lamport-8ddc84"`
+  (that branch was retired on 9 Nov 2026). The `grep` line must show
+  `DEPLOY_BRANCH="${PYARCANA_DEPLOY_BRANCH:-main}"`, and `echo "$PYARCANA_DEPLOY_BRANCH"` must print
+  an empty line; if it prints a branch name, run `unset PYARCANA_DEPLOY_BRANCH`.
+- If `git pull` says "Not possible to fast-forward": the deploy folder has local commits. Do not
+  deploy from it; make a fresh clone (next point) and deploy from that.
 - If `cd` says "No such file or directory", find the folder in Finder (search for
   `pyarcana-deploy`), or make a fresh one:
   `git clone https://github.com/PillB/pyarcana.git ~/pyarcana-deploy` then `cd ~/pyarcana-deploy`.
@@ -124,25 +139,48 @@ and policy ("the access and permissions will be the same", per Cloudflare's docs
 say that rolling resets an expiry date that has already passed, so for a token that has expired,
 create a new one instead.
 
+Cloudflare offers two kinds of token, and `setup.sh` accepts both (it checks a user token at
+`/user/tokens/verify` and an account token at `/accounts/<id>/tokens/verify`). Pick one route.
+
+**Route A, Account API token (recommended; what the current dashboard leads to).** It belongs to
+the account, not to your login. Permission names end in **Write**.
+
+1. In the Cloudflare dashboard, check the account name at the top of the left menu is the account
+   from B4. Press `Cmd + K` (quick search), type `Account API tokens`, and open it (the docs call
+   the page **Manage Account → API Tokens**; the left menu's layout moves, the search does not).
+   Click **Create token**.
+2. Name it `pyarcana-redeploy-YYYY-MM-DD` instead of the generated name.
+3. Permissions: exactly **Workers Scripts Write** and **D1 Write**, on the entire account.
+   Do **not** add **Workers Editor** or a template: they grant far more than the deploy uses.
+4. Expiration: the shortest offered (for example 7 days). IP address filtering: leave it allowing
+   all addresses (your home IP can change mid-deploy).
+5. The **Review token** page must show: the account name, the expiration, and under
+   **Permission policies** only `Workers Scripts Write` and `D1 Write`. Anything else: click
+   **Back to edit** and remove it.
+6. Click **Create token**, then copy it (step 8 below).
+
+**Route B, user token.** It belongs to your login. Permission names end in **Edit**.
+
 1. Open <https://dash.cloudflare.com/profile/api-tokens> (or the account menu at the top right →
-   **My Profile** → **API Tokens**). This is a **user** token; the account-level **Manage Account
-   → API Tokens** page also works with `setup.sh`, but these steps use the user token.
-2. Click **Create Token**.
-3. At the bottom, under **Custom token**, click **Get started** (Cloudflare's docs call it "start
-   from scratch"). Do not use the "Edit Cloudflare Workers" template: it grants more than the
-   deploy needs.
-4. **Token name**: `pyarcana redeploy YYYY-MM-DD` (today's date).
-5. **Permissions**, first row: `Account` · `Workers Scripts` · `Edit`.
+   **My Profile** → **API Tokens**) and click **Create Token**.
+2. At the bottom, under **Custom token**, click **Get started** (the docs call it "start from
+   scratch"). Do not use the "Edit Cloudflare Workers" template: it grants more than the deploy
+   needs.
+3. **Token name**: `pyarcana redeploy YYYY-MM-DD` (today's date).
+4. **Permissions**, first row: `Account` · `Workers Scripts` · `Edit`.
    Click **+ Add more**. Second row: `Account` · `D1` · `Edit`.
    Nothing else. With the account ID passed separately, the token needs no `Account Settings`.
-6. **Account Resources**: `Include` · the account from B4.
-7. **Token expiration** (optional but recommended): set the end date to tomorrow, so a forgotten
-   token dies on its own. Leave **Client IP Address Filtering** empty.
-8. Click **Continue to summary**. You should see one account and exactly the two permissions
-   above. If not, click **Back** and fix them.
-9. Click **Create Token**. Copy the token with the copy button. New tokens start with `cfut_`.
-   **It is shown only once.** Keep it in your password manager or on the clipboard until the
-   deploy prompt asks for it; never paste it into a file, chat, issue or commit.
+5. **Account Resources**: `Include` · the account from B4.
+6. **Token expiration**: set the end date to tomorrow, so a forgotten token dies on its own.
+   Leave **Client IP Address Filtering** empty.
+7. Click **Continue to summary**. You should see one account and exactly the two permissions
+   above. If not, click **Back** and fix them. Then click **Create Token**.
+
+**Both routes:**
+
+8. Copy the token with the copy button. New tokens start with `cfut_`. **It is shown only once.**
+   Keep it in your password manager or on the clipboard until the deploy prompt asks for it;
+   never paste it into a file, chat, issue or commit.
    - If you close the page before copying: delete that token (step D3) and make another.
 
 Docs: [Create API token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) ·
@@ -260,8 +298,9 @@ workers/billing/e2e/live.sh anon
 
 ### D3. Delete the token
 
-1. Open <https://dash.cloudflare.com/profile/api-tokens>.
-2. Next to `pyarcana redeploy YYYY-MM-DD`, click the **three dots** (⋯) → **Delete**, and confirm.
+1. Open the list you made it in: **Account API tokens** (Route A, `Cmd + K`) or
+   <https://dash.cloudflare.com/profile/api-tokens> (Route B).
+2. Next to the token from B5, click the **three dots** (⋯) → **Delete**, and confirm.
 3. You should see it gone from the list. Close the Terminal window too: the token was exported in
    that shell.
 
