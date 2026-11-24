@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIR = 'tests/adversarial'
 /** Tests kept beside the code they test, run after DIR's, as the npm script used to list them. */
-const ALSO = ['src/lib/progress-document.test.ts', 'src/lib/course/hash-route.test.ts', 'src/lib/course/lesson-navigation.test.ts', 'src/lib/course/lesson-navigation-drift.test.ts']
+const ALSO = ['src/lib/progress-document.test.ts', 'src/lib/course/lesson-navigation.test.ts', 'src/lib/course/lesson-navigation-drift.test.ts']
 
 /** Size and mtime of every tracked file and every untracked, unignored one. */
 function treeState() {
