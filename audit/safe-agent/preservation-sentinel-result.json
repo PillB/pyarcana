@@ -1,17 +1,20 @@
 {
   "ok": true,
-  "head": "4dc00c18124c4f9b1b259622302b9f9f2274f610",
-  "base": "535bd4d7b603283af9a39a813a79f05afbc47b48",
+  "head": "8f387b04ed6752ad8e4b7759acb11ee02abb62f1",
+  "base": "c33c95039e890b17eb685175b5fd3144206bf72a",
   "unauthorized_deletes": [],
   "authorized_deletes": [],
   "curriculum": {
     "before_count": 52,
     "after_count": 52,
+    "expected_count": 52,
     "removed_section_ids": [],
-    "removed_exercise_ids": []
+    "renamed_section_ids": [],
+    "removed_exercise_ids": [],
+    "ledgered_removed_exercise_ids": []
   },
   "failure_count": 0,
   "failures": [],
   "warnings": [],
-  "checked_at": "2026-09-12T23:29:51.213Z"
+  "checked_at": "2026-11-24T02:48:43.685Z"
 }
