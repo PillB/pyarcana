@@ -6,7 +6,7 @@
 //      script-src, base-uri 'none', and no fonts.googleapis.com;
 //   2. the page loads in Chromium with no CSP violation (securitypolicyviolation events and console),
 //      signed out, and /admin and /qa signed in as the seeded admin (they render user text);
-//   3. a missing path gets the 404 page under the /* policy, also without violations;
+//   3. a missing path gets the 404 page under the /* policy (unhashed), also without violations;
 //   4. the icons, the manifest, sitemap.xml and the robots Sitemap line are served (S21).
 import { chromium } from 'playwright'
 import { launchOptions } from './sandbox-trust.mjs'
@@ -40,7 +40,10 @@ const headerFailures = results.filter((r) => !r.ok).length
 record(`every page path answers one hashed policy (${pages.length} pages, with and without the trailing slash)`, headerFailures === 0)
 const missing = await fetch(`${BASE}/no-such-page-${Date.now()}`)
 const nfCsp = missing.headers.get('content-security-policy') ?? ''
-record('a missing path: 404 with the /* policy (404.html\'s hashes), one header', missing.status === 404 && /'sha256-/.test(nfCsp) && !nfCsp.includes(', '), `status=${missing.status}`)
+// The /* policy has no hashes since 24 Nov 2026 (headers.ts buildHeadersFile): a hashed /* blocked
+// the home page live when Cloudflare applied "/" before "/*". wrangler dev keeps file order, so this
+// run cannot see that order; headers.test.ts and cloud-headers.mjs check every order instead.
+record('a missing path: 404 with the /* policy (no hashes, so never stricter than a page), one header', missing.status === 404 && /script-src [^;]*'unsafe-inline'/.test(nfCsp) && !/'sha256-/.test(nfCsp) && !nfCsp.includes(', '), `status=${missing.status} ${nfCsp.slice(0, 160)}`)
 
 // 1b. The files browsers and crawlers ask for on their own (S21): served, not the 404 page.
 const ICON_SIZES = { '/favicon.ico': null, '/apple-touch-icon.png': 180, '/apple-touch-icon-precomposed.png': 180, '/icon-192.png': 192, '/icon-512.png': 512, '/icon-maskable-512.png': 512 }

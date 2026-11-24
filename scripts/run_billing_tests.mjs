@@ -147,7 +147,7 @@ const CLIENT_SUITES = [
   ["gate", 16],
   ["handoff", 8],
   ["handoff-import", 6],
-  ["headers", 18],
+  ["headers", 23],
   ["hotkeys", 2],
   ["import-boundary", 2],
   ["legal-content", 9],
