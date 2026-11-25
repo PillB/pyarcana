@@ -356,9 +356,9 @@ eps 2.220446049250313e-16`,
       heading: "Vectorización frente a loops",
       subtopicId: "S14-T4-A",
       paragraphs: [
-        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C que procesa varios elementos a la vez (SIMD, una instrucción para varios datos): `dot`, ufuncs y `@`, el operador de producto matriz-vector. `np.vectorize(f)` no es eso: llama a `f` una vez por elemento, es un loop con una API más cómoda y no es más rápido que una ufunc. Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud. El número exacto **depende de tu máquina**; por eso el demo reporta `ratio_gt_1` y no un SLA (acuerdo de nivel de servicio) fijo.",
+        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C que procesa varios elementos a la vez (SIMD, una instrucción para varios datos): `dot`, ufuncs y `@`, el operador de producto matriz-vector. `np.vectorize(f)` no es eso: llama a `f` una vez por elemento, es un loop con una API más cómoda y no es más rápido que una ufunc. Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud. El número exacto **depende de tu máquina**, y no es un SLA (acuerdo de nivel de servicio) fijo. Por eso el demo mide tus tiempos sin fijarlos en la salida, y la salida fija usa los tiempos de una corrida de referencia.",
         "Benchmark **honesto**: mismo input, mismo dtype y el reloj de alta resolución `time.perf_counter`. No uses `time.time`: es el reloj de pared y puede saltar si el sistema ajusta la hora. Reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10 ni imprimas dentro del loop: el `print` cuesta más que la suma y entra en el tiempo medido. Tampoco omitas el check de igualdad, porque un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. Un solo par de tiempos varía mucho entre corridas, así que el demo repite cada medición 5 veces y compara las medianas.",
-        "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en la **nota del portfolio**. Caso sintético: `n=50_000` producto punto loop vs. `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.",
+        "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en la **nota del portfolio**. Caso sintético: `n=50_000` producto punto loop vs. `np.dot` con `equal True` y un ratio de mediana de cientos en la corrida de referencia; en el portfolio CP-N2-A repites el patrón con `X @ w`.",
       ],
       code: {
         language: 'python',
@@ -391,9 +391,16 @@ eps 2.220446049250313e-16`,
     s_loop, t_loop = mediana_de_tiempos(con_loop)
     s_vec, t_vec = mediana_de_tiempos(lambda: float(np.dot(a, b)))
     print("equal", abs(s_loop - s_vec) < 1e-6)
-    print("ratio_gt_1", t_loop / max(t_vec, 1e-12) > 1.0)  # el valor exacto varía entre máquinas
+    # Tus tiempos cambian con la máquina y con la carga: míralos con print(t_loop, t_vec).
+    # La salida fija usa los cinco tiempos de una corrida de referencia, en segundos.
+    ref_loop = [0.0121, 0.0119, 0.0187, 0.0120, 0.0122]  # en una repetición corría otra tarea
+    ref_vec = [0.000031, 0.000030, 0.000030, 0.000095, 0.000031]
+    print("ref_loop mediana", statistics.median(ref_loop), "media", round(statistics.mean(ref_loop), 4))
+    print("ratio_mediana_ref", round(statistics.median(ref_loop) / statistics.median(ref_vec)))
 
     # Error: imprimir dentro del loop mide el print, no la suma
+    llamadas = {"print": 0}
+
     def suma_limpia():
         s = 0.0
         for i in range(2_000):
@@ -404,17 +411,19 @@ eps 2.220446049250313e-16`,
         s, salida = 0.0, io.StringIO()
         for i in range(2_000):
             s += a[i]
+            llamadas["print"] += 1
             print(s, file=salida)
         return s
 
-    _, t_limpio = mediana_de_tiempos(suma_limpia)
-    _, t_print = mediana_de_tiempos(suma_con_print)
-    print("print_infla_el_tiempo", t_print > t_limpio)
+    mediana_de_tiempos(suma_limpia)
+    mediana_de_tiempos(suma_con_print)
+    print("prints_dentro_del_tiempo_medido", llamadas["print"] // 5, "vs", 0)
 
 s14_th_7()`,
         output: `equal True
-ratio_gt_1 True
-print_infla_el_tiempo True`,
+ref_loop mediana 0.0121 media 0.0134
+ratio_mediana_ref 390
+prints_dentro_del_tiempo_medido 2000 vs 0`,
       },
       callout: {
         type: "info",
@@ -688,12 +697,13 @@ nanmean_solo_nan 0.7125`,
         environment: "local-python",
         description: "Comparar loop vs vectorizado para score ponderado con timing honesto",
         preamble:
-          "Vectorizar el score ponderado del tablero solo se defiende si (1) el resultado **coincide** con el loop y (2) el tiempo del loop supera al de `X @ w` en N grande. Observa el demo con n=20_000: `perf_counter`, sin prints dentro del loop, `allclose` primero, luego `ratio_gt_1`. El número exacto del ratio **depende de tu máquina**; no lo trates como SLA del portfolio.",
+          "Vectorizar el score ponderado del tablero solo se defiende si (1) el resultado **coincide** con el loop y (2) el tiempo del loop supera al de `X @ w` en N grande. Observa el demo con n=20_000: `perf_counter`, sin prints dentro del loop, `allclose` primero, luego el ratio de medianas de la corrida de referencia. El número exacto del ratio **depende de tu máquina**; no lo trates como SLA del portfolio.",
         code: {
           language: 'python',
           title: "demo_bench.py",
           code: `def s14_ido_7():
     import numpy as np
+    import statistics
     import time
 
     rng = np.random.default_rng(42)
@@ -715,12 +725,13 @@ nanmean_solo_nan 0.7125`,
     out_vec = X @ w
     t_vec = time.perf_counter() - t1
     print("allclose", np.allclose(out_loop, out_vec))
-    ratio = t_loop / max(t_vec, 1e-12)
-    print("ratio_gt_1", ratio > 1.0)
+    # Tu ratio es t_loop / t_vec y cambia con la máquina; la salida fija usa una corrida de referencia.
+    ref_loop, ref_vec = [0.0412, 0.0409, 0.0415], [0.000052, 0.000049, 0.000050]
+    print("ratio_mediana_ref", round(statistics.median(ref_loop) / statistics.median(ref_vec)))
 
 s14_ido_7()`,
           output: `allclose True
-ratio_gt_1 True`,
+ratio_mediana_ref 824`,
         },
         why: "Benchmark honesto: mismo input y dtype, el reloj de alta resolución `time.perf_counter` y equivalencia (`allclose`) **antes** del ratio de tiempo. `time.time` no sirve: es el reloj de pared y puede saltar si el sistema ajusta la hora. Un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En CP-N2-A, `bench_weighted_mean` devuelve ambos; el número exacto del ratio depende de la máquina.",
         retrospective:
