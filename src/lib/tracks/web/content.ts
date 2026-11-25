@@ -539,7 +539,7 @@ gh repo create mi-sitio --public --source . --push`,
           id: 'despliegue.cloudflare',
           title: 'O publica en Cloudflare con un Worker de archivos estáticos',
           body: [
-            'Cloudflare sirve una carpeta de archivos desde un **Worker**, su programa que corre en servidores repartidos por el mundo. Necesitas Node.js instalado, porque la herramienta `wrangler` se ejecuta con `npx`, y una cuenta gratuita de Cloudflare.',
+            'Cloudflare sirve una carpeta de archivos desde un **Worker**, su programa que corre en servidores repartidos por el mundo. Necesitas Node.js, el programa que ejecuta JavaScript fuera del navegador, porque `wrangler` está escrita en JavaScript. Node.js trae `npx`, un comando que descarga una herramienta y la ejecuta sin instalarla aparte. También necesitas una cuenta gratuita de Cloudflare.',
             'Un archivo `wrangler.jsonc` en la carpeta del proyecto le dice qué carpeta publicar. `wrangler login` abre el navegador para autorizar tu cuenta y `wrangler deploy` sube los archivos y te devuelve una dirección que termina en `workers.dev`. Vercel ofrece lo mismo con `npx vercel deploy`.',
           ],
           code: [
@@ -558,7 +558,7 @@ gh repo create mi-sitio --public --source . --push`,
           fixes: [
             {
               symptom: '`npx` no se reconoce como comando.',
-              steps: ['Falta Node.js. Instala la versión LTS desde nodejs.org y abre una terminal nueva antes de repetir el comando.'],
+              steps: ['Falta Node.js. Instala desde nodejs.org la versión LTS, es decir, la de soporte a largo plazo, que recibe correcciones por más tiempo, y abre una terminal nueva antes de repetir el comando.'],
             },
           ],
           guide: { label: 'Cloudflare Docs: archivos estáticos en Workers', url: 'https://developers.cloudflare.com/workers/static-assets/' },
