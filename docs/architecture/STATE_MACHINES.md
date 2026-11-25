@@ -191,7 +191,7 @@ and «Continuar» that said not done (they read `completedSections`), until the 
 Tests: `section-completion.test.ts` drives all 120 step orders; browser: `states.e2e.mjs` C1, C2.
 
 Not changed, stated: a step's button is still a toggle of the store's copy. Within one tab that copy
-is live; across tabs it is stale until PR 196's `progress-cross-tab.ts` lands.
+is live; across tabs it is stale until `progress-cross-tab.ts` (PR 196, now merged) re-reads it.
 
 ## 8. Subscription (workers/billing/src/ledger.mjs, mp-sync.mjs, creem-sync.mjs)
 
@@ -268,7 +268,7 @@ so a level can lag by that much traffic. No defect found.
 | 3 | Sign-in methods | `failed` final until reload | fixed, tested |
 | 4 | Section completion | header and menu disagree when the check is not last | fixed, tested, browser C1, C2 |
 | 5 | Report triage | duplicate cycles close the only report | fixed, tested |
-| 6 | Course store across tabs | stale tab toggles and overwrites | PR 196 (not duplicated here) |
+| 6 | Course store across tabs | stale tab toggles and overwrites | fixed in PR 196 (merged) |
 | 7 | Checkout | abandoned checkout blocks one hour | kept, stated (§9) |
 | 8 | Budget meter | level lags other isolates by up to 5 min | kept, stated (§12) |
 
