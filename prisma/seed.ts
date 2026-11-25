@@ -5119,10 +5119,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Calcular la suma y el conteo más rápido que con `sum()` y `count()`',
         'Fijar los nombres de salida del resumen: `total` y `n`',
         'Agrupar por `total` y por `n` a la vez',
-        'Evitar que los NaN de `monto` entren en el conteo `n`',
+        'Contar también las filas NaN de `monto` en `n`',
       ],
       correctIndex: 1,
-      explanation: 'Cada argumento nombra una columna de salida (`total`, `n`) y dice de qué columna y con qué función sale. No es más rápida que `sum()`, y no agrupa por esos nombres: se agrupa por lo que va en `groupby`. `count` excluye los NaN con o sin named aggregation.',
+      explanation: 'Cada argumento nombra una columna de salida (`total`, `n`) y dice de qué columna y con qué función sale. No es más rápida que `sum()`, y no agrupa por esos nombres: se agrupa por lo que va en `groupby`. Y `count` deja fuera los NaN, con o sin named aggregation; para contar también esas filas se usa `size`.',
     },
     {
       concept: 'windows-dates-cohorts',
