@@ -9,7 +9,6 @@
  */
 import { advanceFurthest, type PlacedSection } from './placement'
 import {
-  commitTrackStep,
   markTrackFinished,
   saveTrackProgressPreserving,
   setTrackStep,
@@ -53,49 +52,57 @@ export function createTrackState(trackId: string, store: () => KeyValueStore | n
   const listeners = new Set<() => void>()
   let snapshot: TrackSnapshot = EMPTY_TRACK_SNAPSHOT
   let loaded = false
+  /**
+   * Ticks the browser refused to save, as intents (step id -> done), in click order. They are
+   * re-applied to the latest stored record on every read and retried on the next tick, so a refused
+   * save neither loses this page's ticks nor, once storage works again, erases what another tab
+   * saved meanwhile: the outbox pattern, with storage as the destination (STATE_MACHINES.md SM2).
+   */
+  const pending = new Map<string, boolean>()
+  let allIds: readonly string[] = []
   const publish = (next: TrackSnapshot) => {
     if (same(snapshot, next)) return
     snapshot = next
     for (const fn of [...listeners]) fn()
   }
-  const read = (saveFailed: boolean): TrackSnapshot => ({
-    progress: loadTrackProgress(store(), trackId),
+  /** The latest stored record with this page's unsaved intents applied on top. */
+  const current = (): TrackProgress => {
+    let p = loadTrackProgress(store(), trackId)
+    for (const [id, done] of pending) p = setTrackStep(p, id, done)
+    return pending.size > 0 ? markTrackFinished(p, allIds) : p
+  }
+  const read = (): TrackSnapshot => ({
+    progress: current(),
     furthestSeen: loadTrackFurthest(store(), trackId),
-    saveFailed,
+    saveFailed: pending.size > 0,
   })
   const state: TrackState = {
     subscribe(listener) {
       listeners.add(listener)
       if (!loaded) {
         loaded = true
-        publish(read(false))
+        publish(read())
       }
       return () => void listeners.delete(listener)
     },
     getSnapshot: () => snapshot,
-    // While the browser refuses writes, this page's ticks exist only in memory: re-reading storage
-    // would throw them away, so the progress is kept and only the furthest mark is re-read.
-    refresh: () => publish(snapshot.saveFailed ? { ...snapshot, furthestSeen: loadTrackFurthest(store(), trackId) } : read(false)),
-    setStep(id, done, allIds) {
-      if (snapshot.saveFailed) {
-        // Codex review on PR #196: rebuilding from storage dropped every earlier unsaved tick.
-        const progress = markTrackFinished(setTrackStep(snapshot.progress, id, done), allIds)
-        const saved = saveTrackProgressPreserving(store(), trackId, progress)
-        publish({ progress, furthestSeen: snapshot.furthestSeen, saveFailed: !saved })
-        return saved
-      }
-      const r = commitTrackStep(store(), trackId, id, done, Date.now, allIds)
-      publish({ progress: r.progress, furthestSeen: loadTrackFurthest(store(), trackId), saveFailed: !r.saved })
-      return r.saved
+    refresh: () => publish(read()),
+    setStep(id, done, ids) {
+      allIds = ids
+      pending.delete(id) // re-inserted last, so the click order is kept
+      pending.set(id, done)
+      const progress = current()
+      const saved = saveTrackProgressPreserving(store(), trackId, progress)
+      if (saved) pending.clear()
+      publish({ progress, furthestSeen: loadTrackFurthest(store(), trackId), saveFailed: !saved })
+      return saved
     },
     visit(sections, sectionId) {
       const stored = loadTrackFurthest(store(), trackId)
       const next = advanceFurthest(sections, stored, sectionId)
       if (next && next !== stored) saveTrackFurthest(store(), trackId, next)
-      // Shown even when the browser refused to keep it, for this visit.
-      // Unsaved ticks stay as they are while the browser refuses writes (Codex, PR #196).
-      const progress = snapshot.saveFailed ? snapshot.progress : loadTrackProgress(store(), trackId)
-      publish({ ...snapshot, progress, furthestSeen: next ?? snapshot.furthestSeen })
+      // The mark is shown even when the browser refused to keep it, for this visit.
+      publish({ ...snapshot, progress: current(), furthestSeen: next ?? snapshot.furthestSeen })
     },
     handleStorageEvent(key) {
       if (key === null || keys.includes(key)) state.refresh()

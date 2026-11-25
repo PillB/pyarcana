@@ -53,9 +53,14 @@ Patterns Pablo named, and why each does or does not apply here:
   because one tick is one idempotent set-or-clear of one id, and `localStorage` writes in one tab
   are synchronous, so read-change-write cannot interleave within a tab. Two tabs writing in the same
   millisecond still serialize through the browser's storage, and each applies its own single change.
-- **Outbox**: not applicable. There is no server write to make reliable; the ticks never leave the
-  browser (DESIGN.md §4). If ticks ever sync to an account, an outbox (queue the change locally,
-  send, then mark it sent) is the pattern to use, and the progress document is where it would live.
+- **Outbox**: applied when the browser refuses a save (Codex review rounds on PR #196). The page
+  keeps the refused ticks as intents (step id → done), shows them on top of the latest stored record,
+  and retries them on the next tick; a successful save clears them. Without it, a refused save first
+  lost earlier ticks, then (once fixed) a retry wrote the page's stale copy over another tab's ticks.
+  Remaining limit: a retried intent is applied at retry time, so if another tab changed the same
+  step meanwhile, the retrying tab's intent wins. The intents live in memory, so closing the page
+  loses them, which is what the warning says. Server sync would need a real outbox in the progress
+  document.
 - **Connection pooling**: not applicable. The track opens no connection. The learner's own
   programs (SM6) open one connection per request with `urllib`, which is right at that scale.
 

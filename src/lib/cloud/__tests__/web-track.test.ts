@@ -744,3 +744,30 @@ test('unsaved ticks survive opening a section, and a retry still never overwrite
     stop()
   }
 })
+
+test('a tab whose saves failed retries its own intents on the latest record, keeping what another tab saved meanwhile', async () => {
+  const { createTrackState } = await import('@/lib/tracks/shared-state')
+  const m = new Map<string, string>()
+  let aRefused = true
+  const kvA = { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => { if (aRefused) throw new Error('QuotaExceededError'); m.set(k, v) } }
+  const kvB = { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => void m.set(k, v) }
+  const a = createTrackState(WEB_TRACK_ID, () => kvA)
+  const b = createTrackState(WEB_TRACK_ID, () => kvB)
+  const stopA = a.subscribe(() => {})
+  const stopB = b.subscribe(() => {})
+  // Codex's case (PR #196): A fails to tick html.reparto, B saves http.navegador, A then saves
+  // sitio.servir. Defect guarded: A wrote its whole stale copy and erased B's tick.
+  a.setStep('html.reparto', true, WEB_TRACK_STEP_IDS)
+  b.setStep('http.navegador', true, WEB_TRACK_STEP_IDS)
+  a.handleStorageEvent(trackProgressKey(WEB_TRACK_ID))
+  assert.deepEqual([...a.getSnapshot().progress.done].sort(), ['html.reparto', 'http.navegador'], 'A shows its unsaved tick and B\'s saved one')
+  aRefused = false
+  assert.equal(a.setStep('sitio.servir', true, WEB_TRACK_STEP_IDS), true)
+  assert.deepEqual(loadTrackProgress(kvB, WEB_TRACK_ID).done, ['http.navegador', 'html.reparto', 'sitio.servir'])
+  // After a successful save nothing is pending: a later untick in B is not undone by A.
+  b.setStep('html.reparto', false, WEB_TRACK_STEP_IDS)
+  a.handleStorageEvent(trackProgressKey(WEB_TRACK_ID))
+  assert.deepEqual(a.getSnapshot().progress.done, ['http.navegador', 'sitio.servir'])
+  assert.equal(a.getSnapshot().saveFailed, false)
+  stopA(); stopB()
+})
