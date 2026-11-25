@@ -1019,3 +1019,18 @@ back. Read this list before a section round; every item cost at least one failed
   prose, hints and starter comments with «la región pedida» or «esa región», which gives 54.
   Guard: before editing a section, count its city tokens (`test_over_localized_language`). If the
   count is at the cap, budget every added name against a repeat you remove.
+- **A distractor that states a true fact (Codex on #189, 25 Nov 2026; the same check then found
+  three in S18).** The S17 named-aggregation item asked what `agg(total=..., n=('monto',
+  'count'))` is for. One distractor said it keeps NaN out of `n`, which `count` does anyway. A
+  learner who picked a true statement was marked wrong. The length and odd-feature ratchets cannot
+  see this, because they measure the form of an option and not whether it is true. Rereading the
+  S18 bank with that question found three more:
+  - a trimmed mean «resiste» an outlier;
+  - a median above the mean does signal a dragging tail;
+  - listing the non-significant tests is the practice the lesson teaches.
+
+  Root cause: a distractor was written as «a plausible wrong practice». Several of them were bad
+  practice only because of a detail, not false as an answer to the question asked. Fix: each
+  distractor now makes a claim that the lesson or a run refutes, and the S17 one is checked by
+  running pandas. Guard: before a bank ships, read each distractor alone and ask whether it is a
+  true answer to the question as worded. When the claim is about code behaviour, run it.
