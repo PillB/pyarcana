@@ -162,15 +162,18 @@ export function getProgressSync(): ProgressSync {
 }
 
 /**
- * A 401 from progress sync while /v1/me still says "ok": re-read /v1/me once, so the session state
- * (panel, access, SyncController) learns the session ended instead of contradicting the sync line.
- * Skipped while a read is already in flight or the page already knows it is signed out.
+ * A 401 from progress sync while the page still believes it is signed in: re-read /v1/me once, so
+ * the session state (panel, access, SyncController) learns the session ended instead of
+ * contradicting the sync line. Also after an `unavailable` read (red-team round 3: offline, then
+ * back online with an expired session, kept the cached licence's Pro beside a refused sync).
+ * Skipped while a read is in flight (`pending`) or the page already knows (`signed_out`).
  */
 export function recheckSessionAfter401(deps: { meStatus: () => string; refresh: () => Promise<unknown> } = {
   meStatus: () => useCloudRuntime.getState().meStatus,
   refresh: () => refreshMe(),
 }): boolean {
-  if (deps.meStatus() !== 'ok') return false
+  const status = deps.meStatus()
+  if (status === 'pending' || status === 'signed_out' || status === 'idle') return false
   void deps.refresh()
   return true
 }

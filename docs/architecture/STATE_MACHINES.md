@@ -143,7 +143,7 @@ document, back-off, budget hint, forced-sync state (`forgetAccount`).
 | Errant state (25 Nov 2026) | Before | Now | Test (mutation that turns it red) |
 |---|---|---|---|
 | Sign out of A, sign in to an empty B on the same page, «Unir» | `push()` matched A's acknowledged document, said `synced` and uploaded nothing: B's server stayed empty | sign-out (and a direct A to B start) forgets the ack | `sync-session-machines.test.ts` (drop the reset; drop the A to B check) |
-| A 401 on sync while `/v1/me` said ok | sync line `signed_out`, panel «Mi cuenta», access Pro, every change uploaded and refused again | `onUnauthorized` re-reads `/v1/me` once (only while meStatus is `ok`); its 401 moves the session to `signed_out` and stops the sync | same file (drop the callback; call it for any failure; ignore meStatus) |
+| A 401 on sync while `/v1/me` said ok | sync line `signed_out`, panel «Mi cuenta», access Pro, every change uploaded and refused again | `onUnauthorized` re-reads `/v1/me` once (unless a read is in flight or the page already knows; also after an `unavailable` read); its 401 moves the session to `signed_out` and stops the sync | same file (drop the callback; call it for any failure; ignore meStatus) |
 
 ## 4a. Session and sign-in methods (src/lib/cloud/session.ts, components/account/runtime.ts)
 

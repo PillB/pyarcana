@@ -127,16 +127,18 @@ test('a 401 from the progress server while signed in tells the session machine; 
   assert.deepEqual(calls, ['401'], 'after sign-out there is no account to report: no call')
 })
 
-test('recheckSessionAfter401 re-reads /v1/me only while the page believes it is signed in', async () => {
+test('recheckSessionAfter401 re-reads /v1/me unless a read is in flight or the page already knows', async () => {
   const { recheckSessionAfter401 } = await import('@/components/account/runtime')
   let reads = 0
   const refresh = async () => void (reads += 1)
-  assert.equal(recheckSessionAfter401({ meStatus: () => 'ok', refresh }), true)
-  assert.equal(reads, 1, 'meStatus ok + a sync 401: one /v1/me read')
-  for (const s of ['pending', 'signed_out', 'unavailable', 'error', 'idle']) {
-    assert.equal(recheckSessionAfter401({ meStatus: () => s, refresh }), false, `meStatus ${s}: no read (in flight or already known)`)
+  for (const s of ['ok', 'unavailable', 'error']) {
+    assert.equal(recheckSessionAfter401({ meStatus: () => s, refresh }), true, `meStatus ${s} + a sync 401: the page may still think it is signed in, re-read /v1/me`)
   }
-  assert.equal(reads, 1)
+  assert.equal(reads, 3)
+  for (const s of ['pending', 'signed_out', 'idle']) {
+    assert.equal(recheckSessionAfter401({ meStatus: () => s, refresh }), false, `meStatus ${s}: no read (in flight, already known, or never loaded)`)
+  }
+  assert.equal(reads, 3)
 })
 
 // --- sign-in methods: `failed` was an absorbing state ----------------------------------------------
