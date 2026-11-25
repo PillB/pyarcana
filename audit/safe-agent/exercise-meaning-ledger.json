@@ -3500,6 +3500,16 @@
       "reason": "WEDO-24.1, IDO-08.2: a zip with ocr_fail must be rejected at admission, and the size field is n_bytes. Same task: mime, size, then the OCR fallback.",
       "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 351,
+      "id": "S24-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "121d06ea86d487f140c540a2e59147eea2dd6fe5ff26a40cc3b9931415db7c20",
+      "to_fp": "88ecd45e47b6f9b6d2ab5b94608a053f92ad9cbdb952f37a2cd460b2c1ff4a9f",
+      "reason": "Codex review on #204: the second batch used 20600000001, a new RUC-shaped value (sections/AGENTS.md D2). It reuses 20123456789, a placeholder the section already had; outputs are unchanged. Same task.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
