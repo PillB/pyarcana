@@ -990,3 +990,15 @@ back. Read this list before a section round; every item cost at least one failed
   in it. Fix: the outcome says «`melt` y su operación inversa». Guard: a term added to a tagline,
   job-relevance line or outcome must be one an earlier section taught, or be glossed in place;
   and the full suites run before every push, as the city-cap entry above already says.
+- **A new pandas test passed locally and failed CI as an unlisted skip (#189, 25 Nov 2026).**
+  The Codex fix added `ExamBank.test_the_named_aggregation_nan_distractor_is_false` behind
+  `@needs_pandas`. Here `.venv-content` exists, so the test ran and passed. The adversarial CI job
+  has no pandas, so it skipped, and `run_adversarial_py.py` failed the job because
+  `skip_allowlist.json` did not name that skip. Root cause: the allowlist is checked against the
+  skips that happen, and which skips happen depends on the machine. A missing entry is invisible
+  on every machine where a change is written: a check that reads the run can only see what this
+  run did. Fix: the entry was added. Guard:
+  `tests/adversarial/test_content_skips_are_allowlisted.py` reads the decorators with `ast`
+  instead of the run. Any module-level `unittest.skipUnless/skipIf` whose reason names the pinned
+  content interpreter marks a content skip, and every test it decorates must have an allowlist
+  entry, on any machine. Before the entry it failed on exactly this test; with it, it passes.
