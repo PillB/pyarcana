@@ -184,7 +184,9 @@ const CLIENT_SUITES = [
   ["storage-resilience", 4],
   // Theory parts read, synced through the progress document (2026-11-20).
   ["theory-parts-sync", 15],
-  ["ui-state", 12]
+  ["ui-state", 12],
+  // The applied web track (#ruta-web): placement by slug and phase, own ticks, every snippet run (2026-11-25).
+  ["web-track", 41]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
 
 /** Every suite: group, file (repo-relative), floor and, for TypeScript, execArgv. */
