@@ -58,7 +58,7 @@ import {
   optionOrders,
   revealsKey,
 } from '@/lib/self-check'
-import { quizPassChanges } from '@/lib/section-completion'
+import { needsCompletionRepair, quizPassChanges, stepToggleChanges } from '@/lib/section-completion'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { InlineText, RichText } from './RichText'
@@ -132,14 +132,26 @@ export function SectionView({
     completedSubSteps,
     completedSections,
     toggleSubStep,
-    toggleSectionComplete,
     quizScores,
     setQuizScore,
     setLastVisited,
   } = useProgressStore()
 
   const subStepsDone = completedSubSteps[section.id] || []
-  const allDone = SUB_STEPS.every((s) => subStepsDone.includes(s))
+  const sectionComplete = completedSections.includes(section.id)
+  // One answer to "is this section done" for the header, the menu and the dashboard: completedSections.
+  const allDone = sectionComplete
+  // A step marked last (not only the check) completes the section (section-completion.ts).
+  const toggleStep = (step: SubStep) => {
+    const { markSection } = stepToggleChanges(step, subStepsDone, sectionComplete, SUB_STEPS)
+    toggleSubStep(section.id, step)
+    if (markSection) markSectionComplete(section.id)
+  }
+  // Repairs what the old rule left: every step done, section never recorded. Adds only.
+  const repair = needsCompletionRepair(subStepsDone, sectionComplete, SUB_STEPS)
+  useEffect(() => {
+    if (repair) markSectionComplete(section.id)
+  }, [repair, section.id])
 
   // Scroll: new sections open at top; returning to a section restores the last offset.
   // Positions are session-scoped (sessionStorage) so refresh keeps resume only for this tab.
@@ -296,7 +308,7 @@ export function SectionView({
             {section.level}
           </span>
           {allDone && (
-            <Badge className="ml-auto gap-1 bg-green-600 text-white h-5 px-1.5 text-[10px]">
+            <Badge className="ml-auto gap-1 bg-green-600 text-white h-5 px-1.5 text-[10px]" data-testid="section-complete-badge">
               <Award className="h-3 w-3" />
               Completada
             </Badge>
@@ -339,16 +351,16 @@ export function SectionView({
             className="mt-3 mx-12 lg:ml-0 lg:mr-24"
           >
             <TabsContent value="theory" className="mt-0 focus-visible:outline-none">
-              <TheoryTab section={section} onDone={() => toggleSubStep(section.id, 'theory')} done={subStepsDone.includes('theory')} />
+              <TheoryTab section={section} onDone={() => toggleStep('theory')} done={subStepsDone.includes('theory')} />
             </TabsContent>
             <TabsContent value="ido" className="mt-0 focus-visible:outline-none">
-              <IDoTab section={section} onDone={() => toggleSubStep(section.id, 'ido')} done={subStepsDone.includes('ido')} />
+              <IDoTab section={section} onDone={() => toggleStep('ido')} done={subStepsDone.includes('ido')} />
             </TabsContent>
             <TabsContent value="wedo" className="mt-0 focus-visible:outline-none">
-              <WeDoTab section={section} onDone={() => toggleSubStep(section.id, 'wedo')} done={subStepsDone.includes('wedo')} />
+              <WeDoTab section={section} onDone={() => toggleStep('wedo')} done={subStepsDone.includes('wedo')} />
             </TabsContent>
             <TabsContent value="youdo" className="mt-0 focus-visible:outline-none">
-              <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
+              <YouDoTab section={section} onDone={() => toggleStep('youdo')} done={subStepsDone.includes('youdo')} />
             </TabsContent>
             <TabsContent value="quiz" className="mt-0 focus-visible:outline-none">
               {session?.user ? (
@@ -364,7 +376,7 @@ export function SectionView({
                     // A pass only adds (quizPassChanges): toggling here un-finished the section.
                     const { markQuiz, markSection } = quizPassChanges(subStepsDone, completedSections.includes(section.id), SUB_STEPS)
                     if (markQuiz) toggleSubStep(section.id, 'quiz')
-                    if (markSection) toggleSectionComplete(section.id)
+                    if (markSection) markSectionComplete(section.id)
                   }}
                   done={subStepsDone.includes('quiz')}
                   score={quizScores[section.id] || 0}
@@ -409,6 +421,14 @@ export function SectionView({
 }
 
 // === Theory Tab ===
+/**
+ * Adds a section to completedSections unless it is there: idempotent, unlike the store's toggle, so a
+ * repeated effect (React StrictMode runs effects twice in development) can never un-complete it.
+ */
+function markSectionComplete(sectionId: string) {
+  useProgressStore.setState((s) => (s.completedSections.includes(sectionId) ? {} : { completedSections: [...s.completedSections, sectionId] }))
+}
+
 function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {
   const lang = useI18n((state) => state.lang)
   const parts = useMemo(() => theoryParts(section.theory, t('theory.parts.intro', lang)), [section.theory, lang])

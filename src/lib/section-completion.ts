@@ -20,3 +20,34 @@ export function quizPassChanges(
   const markSection = !sectionComplete && allSteps.every((s) => after.includes(s))
   return { markQuiz, markSection }
 }
+
+/**
+ * What pressing a step's «Marcar…» or «Desmarcar» button changes (state-machine audit, 25 Nov 2026).
+ *
+ * Before, only a self-check pass could mark the section complete. A learner who passed the check
+ * first and finished «Tú haces» last had every step done: the section header said «Completada»
+ * (it reads the steps) while the menu, the dashboard count and «Continuar» (they read
+ * `completedSections`) said it was not, until a retake of the check.
+ *
+ * Marking a step marks the section when that step was the last one missing, whichever it is.
+ * Unmarking only unmarks the step: completion is sticky, like a pass (W01), so «Desmarcar» never
+ * takes away a finished section, and the header reads `completedSections` as well.
+ */
+export function stepToggleChanges(
+  step: string,
+  stepsDone: readonly string[],
+  sectionComplete: boolean,
+  allSteps: readonly string[],
+): { toggleStep: true; markSection: boolean } {
+  if (stepsDone.includes(step)) return { toggleStep: true, markSection: false }
+  const after = [...stepsDone, step]
+  return { toggleStep: true, markSection: !sectionComplete && allSteps.every((s) => after.includes(s)) }
+}
+
+/**
+ * Every step done but the section not recorded complete: the state the old code left behind for
+ * learners who finished a step other than the check last. Opening the section repairs it (adds only).
+ */
+export function needsCompletionRepair(stepsDone: readonly string[], sectionComplete: boolean, allSteps: readonly string[]): boolean {
+  return !sectionComplete && allSteps.length > 0 && allSteps.every((s) => stepsDone.includes(s))
+}
