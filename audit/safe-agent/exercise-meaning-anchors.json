@@ -15209,14 +15209,16 @@
     },
     "S17-T1-A-E1": {
       "section": "S17",
-      "sha256": "c8ae6307ee1b370023ac0b10e8b5e09bb4f4826b817162ff8be7ae88584f71c6",
+      "sha256": "8f7d63fe5748d67780444a7fe6554219c52bd249200e99fffb360a77eed3002d",
       "tokens": [
         "0",
         "1",
         "2",
+        "4",
         "as",
         "c001",
         "c002",
+        "c009",
         "cli",
         "cliente_id",
         "clientes",
@@ -15495,7 +15497,7 @@
     },
     "S17-T2-A-E3": {
       "section": "S17",
-      "sha256": "218708e118684b93a50f9f6e147dc860e2ac58d06ff5918c3d67df74527204d2",
+      "sha256": "f049381862a91970f9a00fa87da5648b36b0ac36ef9f75188638d1bc5b5ab0ae",
       "tokens": [
         "1",
         "2",
@@ -15567,7 +15569,7 @@
     },
     "S17-T2-B-E2": {
       "section": "S17",
-      "sha256": "c0c4522bceaba3e9a3620d94990d8ccfd9f5a7f897881ecb265402dab9ebab8d",
+      "sha256": "90ee9563bfdbc0889a60b5005ab65a0de034c3eefe5ec9f86f8d743c90996b89",
       "tokens": [
         "as",
         "cliente_id",
@@ -15576,17 +15578,22 @@
         "con",
         "dataframe",
         "df",
+        "ene",
         "expected",
+        "feb",
         "gate",
         "import",
         "monto_ene",
+        "monto_feb",
         "output",
         "pandas",
         "pd",
         "print",
+        "rename",
         "salida",
         "set",
         "solution",
+        "sorted",
         "true"
       ]
     },
@@ -15803,7 +15810,7 @@
     },
     "S17-T3-B-E3": {
       "section": "S17",
-      "sha256": "baf89ec197f66d017eac1d38a8bdeec30d55a719cfd2ee7fa0bf1c6246265872",
+      "sha256": "327d20dd7e08478a8dbae42136e34cc252b7c5603b8a864957408051e6334058",
       "tokens": [
         "0",
         "01",
@@ -15813,7 +15820,6 @@
         "2",
         "2024",
         "3",
-        "5",
         "antes",
         "as",
         "coincide",
@@ -15912,7 +15918,7 @@
     },
     "S17-T4-B-E1": {
       "section": "S17",
-      "sha256": "6f48b1c3a5ab31fc472e42b201eed255e02c12cb28e366becb1fdb2069f2c774",
+      "sha256": "ad11f84e75bdcfe80537579f63995b5989d9cb42094ed981a4681e4d12879fb2",
       "tokens": [
         "0",
         "01",
@@ -15920,6 +15926,7 @@
         "1",
         "2024",
         "31",
+        "4",
         "9",
         "as",
         "coincide",
@@ -15946,12 +15953,13 @@
     },
     "S17-T4-B-E2": {
       "section": "S17",
-      "sha256": "99edc77459c58825f1c6be97b2ec62a73af6be2e390b0e52e158e402295152ba",
+      "sha256": "68957a0a513d61ffb808a7b853f1964d3954845ae61de25568c9a221eb810983",
       "tokens": [
         "0",
         "01",
         "03",
         "10",
+        "2",
         "2024",
         "31",
         "5",
@@ -15984,21 +15992,22 @@
     },
     "S17-T4-B-E3": {
       "section": "S17",
-      "sha256": "87def0c1f1afa44528592f10497b79bfea36bf41a0bcbbf810cc56151895207c",
+      "sha256": "966b6b0b788edbfc159aee14a4e793c655c7938cfffbaae2c3063a4d37d225eb",
       "tokens": [
         "0",
         "01",
         "02",
         "05",
         "10",
-        "15",
         "2",
         "2024",
         "3",
+        "4",
         "5",
         "as",
         "c001",
         "c002",
+        "c003",
         "cli",
         "cliente_id",
         "coincide",
