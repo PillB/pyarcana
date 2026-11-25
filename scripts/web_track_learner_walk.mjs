@@ -52,6 +52,81 @@ function findPython() {
   return refuse('no Python 3.12 or later (set PYTHON=...). The track is written for 3.12.')
 }
 
+/** Compare `uv --version` with the minimum the D1 step names; null when uv is missing. */
+function uvAtLeast(min) {
+  const r = spawnSync('uv', ['--version'], { encoding: 'utf8' })
+  const v = /uv (\d+)\.(\d+)\.(\d+)/.exec(r.stdout ?? '')
+  if (!v) return null
+  const [a, b, c] = v.slice(1).map(Number)
+  const [x, y, z] = min.split('.').map(Number)
+  return { version: v.slice(1).join('.'), ok: a > x || (a === x && (b > y || (b === y && c >= z))) }
+}
+
+async function getText(url, tries = 150) {
+  for (let i = 0; i < tries; i++) {
+    try {
+      const r = await fetch(url)
+      return { status: r.status, text: await r.text() }
+    } catch {
+      await new Promise((res) => setTimeout(res, 1000))
+    }
+  }
+  return { status: 0, text: 'no answer' }
+}
+
+async function devRun(dir, port, paths) {
+  const child = spawn('uv', ['run', 'pywrangler', 'dev', '--port', String(port)], { cwd: dir, detached: true })
+  let log = ''
+  const out = []
+  child.stdout.on('data', (d) => (log += d))
+  child.stderr.on('data', (d) => (log += d))
+  try {
+    for (const p of paths) out.push(await getText(`http://127.0.0.1:${port}${p}`))
+    return out
+  } finally {
+    try { process.kill(-child.pid, 'SIGTERM') } catch { child.kill() }
+    await new Promise((res) => setTimeout(res, 1500))
+    out.log = log
+  }
+}
+
+async function walkPrototype(project) {
+  const id = 'prototipo.worker-d1'
+  const body = steps.get(id).body.join(' ')
+  const min = /pide la (\d+\.\d+\.\d+)/.exec(body)?.[1]
+  if (!min) refuse(`${id} no longer names the minimum uv version ("pide la X.Y.Z"); the walk checks it.`)
+  const uv = uvAtLeast(min)
+  if (!uv) return console.log(`note  ${id}  uv is not installed here; the local Worker run was not done (not a pass)`)
+  if (!uv.ok) return console.log(`note  ${id}  uv ${uv.version} is older than ${min}, which pywrangler needs (see the step's fix); not run, not a pass`)
+  const dir = path.join(project, 'ventas-api')
+  mkdirSync(path.join(dir, 'src'), { recursive: true })
+  mkdirSync(path.join(dir, 'migrations'), { recursive: true })
+  cpSync(path.join(project, 'site'), path.join(dir, 'site'), { recursive: true })
+  for (const title of ['pyproject.toml', 'wrangler.jsonc', 'migrations/0001_inicial.sql', 'src/entry.py']) writeFileSync(path.join(dir, title), code(id, title))
+  const script = code(id, 'probar_en_local.sh').split('\n')
+  const sync = spawnSync('sh', ['-c', script[0]], { cwd: dir, encoding: 'utf8', timeout: 300_000 })
+  check(id, `\`${script[0]}\` installs workers-py`, sync.status === 0, 'exit 0', sync.stderr)
+
+  // The fix «no such table: ventas»: the API before the migration is applied locally.
+  const port = await freePort()
+  const [before] = await devRun(dir, port, ['/api/ventas?sede=SED-01'])
+  check(id, 'before the local migration, the error is the one the fix names', /no such table: ventas/.test(before.text), 'no such table: ventas', `${before.status} ${before.text.slice(0, 200)}`)
+
+  const apply = script.find((l) => l.includes('migrations apply'))
+  const m = spawnSync('sh', ['-c', apply], { cwd: dir, encoding: 'utf8', timeout: 240_000 })
+  check(id, `\`${apply}\` applies the migration to the local copy`, m.status === 0 && /0001_inicial\.sql/.test(m.stdout), 'exit 0, 0001_inicial.sql listed', (m.stderr || m.stdout).slice(-300))
+
+  const expect = steps.get(id).expect
+  const promised = /`(\{"sede": "SED-01", [^`]+\})`/.exec(expect)?.[1]
+  const injected = /\?sede=([^`]+)`/.exec(expect.split('y con')[1] ?? '')?.[1]
+  if (!promised || !injected) refuse(`${id}: «Deberías ver» no longer quotes the JSON and the injected address; the walk compares both.`)
+  const run = await devRun(dir, await freePort(), ['/api/ventas?sede=SED-01', `/api/ventas?sede=${injected}`, '/'])
+  const [api, inj, home] = run
+  check(id, 'the local API answers exactly what «Deberías ver» quotes (rows and filas_leidas)', api.text === promised, promised, `${api.text} | log: ${(run.log ?? '').slice(-300)}`)
+  check(id, 'the injected sede returns an empty list', /"ventas": \[\]/.test(inj.text), '"ventas": []', inj.text)
+  check(id, 'other addresses still serve the site folder', home.status === 200 && /<table/.test(home.text), '200 with the table page', `${home.status} ${home.text.slice(0, 120)}`)
+}
+
 async function freePort() {
   return new Promise((resolve) => {
     const s = createServer().listen(0, '127.0.0.1', () => {
@@ -202,6 +277,11 @@ async function main() {
     const w = spawnSync('npx', ['--yes', 'wrangler@4', 'deploy', '--dry-run'], { cwd: project, encoding: 'utf8', timeout: 240_000 })
     check('despliegue.cloudflare', 'wrangler accepts wrangler.jsonc and finds the site folder (dry run)', w.status === 0, 'exit 0', (w.stderr || w.stdout).split('\n').slice(-6).join(' | '))
   } else console.log('note  despliegue.cloudflare  wrangler dry run not run (set WALK_WRANGLER=1); not a pass')
+
+  // 4.5 Prototype: the Python Worker with D1, run locally as probar_en_local.sh says (no account:
+  // `d1 create` needs one, so the placeholder database_id stays and only --local is used).
+  if (process.env.WALK_WRANGLER === '1') await walkPrototype(project)
+  else console.log('note  prototipo.worker-d1  local Python Worker run not done (set WALK_WRANGLER=1); not a pass')
 
   console.log(`\n${checks - failures.length} of ${checks} checks passed${failures.length ? `; failed in: ${[...new Set(failures)].join(', ')}` : ''}.`)
   if (failures.length) {

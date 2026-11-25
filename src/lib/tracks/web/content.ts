@@ -568,7 +568,7 @@ gh repo create mi-sitio --public --source . --push`,
           title: 'Reconoce cuándo el sitio necesita Python en el servidor',
           body: [
             'Si el sitio debe recibir un formulario o consultar una base de datos en cada visita, ya no basta un archivo: necesitas código que corra en el servidor. Vercel detecta una app FastAPI en un archivo `app.py` con una variable `app`, y Cloudflare ejecuta Python en Workers con la herramienta `pywrangler`. Las dos opciones tienen planes gratuitos con límites de uso.',
-            'Ese camino trae decisiones nuevas, como dónde guardar los secretos, cómo validar lo que llega y cómo probar la API. El curso las trata en S41 (FastAPI y contratos HTTP) y en S42 (seguridad de servicios). Para este desvío basta con que sepas reconocerlo y elegir el sitio estático mientras tus datos no cambien con cada visita.',
+            'Ese camino trae decisiones nuevas, como dónde guardar los secretos, cómo validar lo que llega y cómo probar la API. El curso las trata en S41 (FastAPI y contratos HTTP) y en S42 (seguridad de servicios). Mientras tus datos no cambien con cada visita, elige el sitio estático; el módulo siguiente da el primer paso con una API pequeña y su base de datos.',
           ],
           expect: 'Puedes explicar por qué tu sitio de ventas no necesita Python en el servidor, y qué cambio en los requisitos lo haría necesario.',
           guide: { label: 'Vercel Docs: el runtime de Python', url: 'https://vercel.com/docs/functions/runtimes/python' },
@@ -593,6 +593,385 @@ absolutas = re.findall(r'(?:src|href)="(/[^/"][^"]*)"', pagina)
 print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`rutas que fallarán en una subcarpeta: ['/estilos.css']` },
           },
           expect: 'Solo `/estilos.css` aparece en la lista.',
+        },
+      ],
+    },
+    {
+      id: 'prototipo',
+      title: 'Un prototipo con base de datos, sin agotar la cuota ni recibir una factura',
+      goal: 'Publicas una API pequeña con Python y Cloudflare D1, mides cuántas filas lee cada consulta, separas la prueba de la producción y sigues una lista de despliegue que puedes repetir.',
+      buildsOn: ['setup', 'modules-packaging-cli', 'apis-sql-geo'],
+      intro: [
+        'El módulo anterior publicó archivos que no cambian, pero un **prototipo** con datos que cambian, como un registro de pedidos de prueba, necesita una base de datos en internet. Aquí usas Cloudflare D1, una base SQLite que vive junto a tu Worker, porque habla el mismo SQL que practicaste en S12.',
+        'Estos servicios no cobran por consulta, sino por lo que cuentan: D1 cuenta cada fila que revisa y un Worker, cada petición que recibe. Una consulta sin índice, repetida en cada visita, puede agotar en pocas horas la cuota gratuita de un día.',
+        'Los pasos vienen de la lista que usa este curso para publicar pyarcana.dev. También vienen de facturas de 2026, de 134 a más de 4000 dólares, que sus dueños contaron en público, y casi todas vinieron de consultas sin índice.',
+      ],
+      steps: [
+        {
+          id: 'prototipo.camino',
+          title: 'Elige el camino más corto para un prototipo',
+          body: [
+            'Para publicar pyarcana.dev hacen falta un dominio propio, un correo, el inicio de sesión con Google, un token de Cloudflare y un plan para volver atrás. Un prototipo no necesita casi nada de eso.',
+            'De esa lista conservas los hábitos: publicar solo lo que pasó las pruebas, saber qué versión está en internet, poder volver a la anterior y no dejar credenciales vivas. Cloudflare Pages también se conecta a D1, pero aquí sigues con un Worker, como en el módulo anterior.',
+          ],
+          table: {
+            caption: 'Caminos para un prototipo, según lo que necesita',
+            columns: ['Necesitas', 'Opción', 'Si pasas el plan gratuito'],
+            rows: [
+              ['Archivos que no cambian', 'GitHub Pages o un Worker de archivos estáticos, como en el módulo anterior', 'Los archivos estáticos de un Worker son gratis y no tienen límite de peticiones.'],
+              ['Una API con una base de datos SQL', 'Un Worker de Python con Cloudflare D1', 'En el plan gratuito, las consultas fallan hasta las 00:00 UTC (19:00 en Lima) y los datos se conservan.'],
+              ['Probar cada cambio en una dirección aparte antes de publicarlo', 'Vercel, con una vista previa por cada cambio y una producción', 'El plan Hobby detiene la función hasta 30 días, sin cobrarte.'],
+              ['Dominio propio, correo y cuentas de usuarios', 'Una lista completa, como la de pyarcana.dev', 'Queda fuera de este módulo: lo retoman S41 y S42.'],
+            ],
+          },
+          expect: 'Para un registro de pedidos de prueba eliges un Worker de Python con D1, sin dominio propio ni correo.',
+          guide: { label: 'Cloudflare Docs: precios de D1', url: 'https://developers.cloudflare.com/d1/platform/pricing/' },
+        },
+        {
+          id: 'prototipo.indices',
+          title: 'Mide cuántas filas revisa una consulta y agrega el índice que falta',
+          body: [
+            'D1 cobra por **filas leídas**, que son todas las filas que revisa para responder, aunque devuelva una sola. Una consulta que filtra por una columna sin índice revisa la tabla entera, como viste en S12.',
+            '`EXPLAIN QUERY PLAN` antes de una consulta muestra cómo la resolverá SQLite, sin ejecutarla. `SCAN` significa que lee todas las filas, y `SEARCH ... USING INDEX` significa que va directo a las que coinciden.',
+            'El bloque cuenta además las filas revisadas con una función propia, `contar`, que SQLite llama una vez por cada fila que mira. Va primero en el `WHERE` para que SQLite la llame antes de descartar la fila.',
+          ],
+          code: [
+            {
+              language: 'python',
+              title: 'filas_leidas.py',
+              code: String.raw`import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE ventas (id INTEGER PRIMARY KEY, sede_id TEXT NOT NULL, monto INTEGER NOT NULL)")
+con.executemany(
+    "INSERT INTO ventas (sede_id, monto) VALUES (?, ?)",
+    [(f"SED-{i % 50:02d}", i % 900) for i in range(10_000)],
+)
+revisadas = {"filas": 0}
+
+def contar(_):
+    revisadas["filas"] += 1
+    return 1
+
+# SQLite llama a contar() una vez por cada fila que revisa
+con.create_function("contar", 1, contar)
+CONSULTA = "SELECT SUM(monto) FROM ventas WHERE contar(id) AND sede_id = ?"
+
+def medir(etiqueta):
+    revisadas["filas"] = 0
+    total = con.execute(CONSULTA, ("SED-07",)).fetchone()[0]
+    plan = con.execute("EXPLAIN QUERY PLAN " + CONSULTA, ("SED-07",)).fetchone()[3]
+    print(f"{etiqueta}: total {total}, filas revisadas {revisadas['filas']}, plan: {plan}")
+
+# Error: sin índice, SQLite revisa la tabla entera para hallar 200 filas
+medir("sin índice")
+
+# Corrección: un índice sobre la columna del filtro
+con.execute("CREATE INDEX idx_ventas_sede ON ventas (sede_id)")
+medir("con índice")
+con.close()`,
+              output: String.raw`sin índice: total 85600, filas revisadas 10000, plan: SCAN ventas
+con índice: total 85600, filas revisadas 200, plan: SEARCH ventas USING INDEX idx_ventas_sede (sede_id=?)`,
+            },
+          ],
+          expect: 'El mismo total dos veces: sin índice se revisan 10000 filas con `SCAN ventas`, y con índice 200 filas con `SEARCH ventas USING INDEX`.',
+          fixes: [
+            {
+              symptom: 'El plan dice `SCAN` aunque creaste el índice.',
+              steps: [
+                'Revisa que el índice esté sobre la columna que filtra el `WHERE`, y que esa columna no esté dentro de una función como `lower(sede_id)`, porque así SQLite no puede usarlo.',
+                'En D1, ejecuta `PRAGMA optimize` después de crear un índice, como recomienda Cloudflare, para que SQLite tenga estadísticas al elegirlo.',
+              ],
+            },
+          ],
+          guide: { label: 'Cloudflare Docs: usar índices en D1', url: 'https://developers.cloudflare.com/d1/best-practices/use-indexes/' },
+        },
+        {
+          id: 'prototipo.cuotas',
+          title: 'Calcula cuántas filas lee tu prototipo en un día',
+          body: [
+            'D1 también cuenta las **filas escritas** de cada `INSERT`, `UPDATE` o `DELETE`, y cada índice sobre una columna que cambias suma una fila escrita más. Crea índices para las columnas por las que filtras u ordenas, y no para todas.',
+            'En el plan gratuito, al pasar el límite del día las consultas fallan con un error hasta la medianoche UTC, y tus datos no se pierden. El plan de pago no frena por sí solo, porque cobra el exceso, así que antes de pagar para quitar el error busca la consulta que lo causa.',
+            'El bloque multiplica las filas que revisa la consulta del paso anterior por dos consultas por visita y dos mil visitas al día, y lo compara con el límite gratuito.',
+          ],
+          table: {
+            caption: 'Límites de Cloudflare revisados el 25 de noviembre de 2026',
+            columns: ['Qué se cuenta', 'Plan gratuito', 'Al pasar el límite gratuito', 'Plan de pago'],
+            rows: [
+              ['Filas leídas en D1', '5 millones por día', 'Las consultas fallan hasta las 00:00 UTC (19:00 en Lima).', '25 mil millones al mes incluidos y luego US$ 0.001 por millón'],
+              ['Filas escritas en D1', '100 mil por día', 'Igual que con las filas leídas.', '50 millones al mes incluidos y luego US$ 1 por millón'],
+              ['Almacenamiento en D1', '5 GB en total', 'No puedes insertar hasta borrar datos.', '5 GB incluidos y luego US$ 0.75 por GB al mes'],
+              ['Peticiones a un Worker', '100 mil por día; los archivos estáticos no cuentan', 'Cloudflare responde con el error 1027 hasta las 00:00 UTC.', '10 millones al mes incluidos y luego US$ 0.30 por millón'],
+            ],
+          },
+          code: [
+            {
+              language: 'python',
+              title: 'cuota_diaria.py',
+              code: String.raw`LIMITE_GRATIS = 5_000_000  # filas leídas por día en el plan gratuito de D1
+VISITAS_POR_DIA = 2_000
+CONSULTAS_POR_VISITA = 2
+
+for etiqueta, filas in [("sin índice", 10_000), ("con índice", 200)]:
+    por_visita = filas * CONSULTAS_POR_VISITA
+    al_dia = por_visita * VISITAS_POR_DIA
+    print(f"{etiqueta}: {al_dia:,} filas al día; la cuota alcanza para {LIMITE_GRATIS // por_visita:,} visitas")`,
+              output: String.raw`sin índice: 40,000,000 filas al día; la cuota alcanza para 250 visitas
+con índice: 800,000 filas al día; la cuota alcanza para 12,500 visitas`,
+            },
+          ],
+          expect: 'Sin índice, la cuota del día se acaba en la visita 250; con índice alcanza para 12,500 visitas, más de las 2,000 del día.',
+          guide: { label: 'Cloudflare Docs: límites de Workers', url: 'https://developers.cloudflare.com/workers/platform/limits/' },
+        },
+        {
+          id: 'prototipo.paginar',
+          title: 'Pagina por la última fila que mostraste',
+          body: [
+            '`LIMIT 20 OFFSET 5000` parece leer 20 filas, pero SQLite revisa y descarta las 5000 anteriores, y D1 las cuenta todas. Si en cambio pides las filas que siguen al último `id` que mostraste, la clave primaria salta directo a ellas.',
+            'Esa forma se llama **paginación por clave**, y la página siguiente recibe el último `id` en la dirección, por ejemplo `?despues=5000`. Pide también en una sola consulta, con `JOIN`, lo que necesita la página, en lugar de una consulta por cada fila que muestras.',
+          ],
+          code: [
+            {
+              language: 'python',
+              title: 'paginar.py',
+              code: String.raw`import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE ventas (id INTEGER PRIMARY KEY, sede_id TEXT NOT NULL, monto INTEGER NOT NULL)")
+con.executemany(
+    "INSERT INTO ventas (sede_id, monto) VALUES (?, ?)",
+    [(f"SED-{i % 50:02d}", i % 900) for i in range(10_000)],
+)
+revisadas = {"filas": 0}
+
+def contar(_):
+    revisadas["filas"] += 1
+    return 1
+
+con.create_function("contar", 1, contar)
+
+def pagina(sql, parametros):
+    revisadas["filas"] = 0
+    ids = [fila[0] for fila in con.execute(sql, parametros)]
+    return f"ids {ids[0]} a {ids[-1]}, filas revisadas {revisadas['filas']}"
+
+# Error: OFFSET revisa y descarta todas las filas de las páginas anteriores
+print("OFFSET:", pagina("SELECT id FROM ventas WHERE contar(id) ORDER BY id LIMIT 20 OFFSET 5000", ()))
+
+# Corrección: pide las filas que siguen al último id que mostraste
+print("después del id 5000:", pagina("SELECT id FROM ventas WHERE contar(id) AND id > ? ORDER BY id LIMIT 20", (5000,)))
+con.close()`,
+              output: String.raw`OFFSET: ids 5001 a 5020, filas revisadas 5020
+después del id 5000: ids 5001 a 5020, filas revisadas 20`,
+            },
+          ],
+          expect: 'Las dos consultas devuelven los ids 5001 a 5020, pero `OFFSET` revisa 5020 filas y la paginación por clave revisa 20.',
+        },
+        {
+          id: 'prototipo.worker-d1',
+          title: 'Crea la base D1 y una API de Python que la consulte con parámetros',
+          body: [
+            'Necesitas Node.js, como en el módulo anterior, y `uv`, la herramienta que crea entornos de Python y que S01 menciona como alternativa a `venv`. Instálala desde docs.astral.sh/uv; `pywrangler`, la versión de Wrangler para Workers de Python, pide la 0.13.4 o una más nueva.',
+            'El esquema va en una **migración**, un archivo SQL numerado que Wrangler aplica una sola vez y en orden. Pruébalo primero con `--local`, que crea una copia de la base en tu carpeta, y solo después aplícalo con `--remote` a la de internet.',
+            'En `entry.py`, `async def` y `await` dejan que el Worker espere la respuesta de la base sin detener a las demás visitas, y S27 lo explica a fondo. `bind()` pasa el valor aparte del SQL, como el marcador `?` de S12.',
+          ],
+          code: [
+            {
+              language: 'toml',
+              title: 'pyproject.toml',
+              code: String.raw`[project]
+name = "ventas-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["workers-py"]`,
+            },
+            {
+              language: 'json',
+              title: 'wrangler.jsonc',
+              code: String.raw`{
+  "name": "ventas-api",
+  "main": "src/entry.py",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["python_workers"],
+  "assets": { "directory": "./site" },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "ventas-prototipo", "database_id": "pega-aqui-el-id-de-d1-create" }
+  ]
+}`,
+            },
+            {
+              language: 'sql',
+              title: 'migrations/0001_inicial.sql',
+              code: String.raw`CREATE TABLE ventas (
+  id INTEGER PRIMARY KEY,
+  sede_id TEXT NOT NULL,
+  monto INTEGER NOT NULL
+);
+CREATE INDEX idx_ventas_sede ON ventas (sede_id);
+INSERT INTO ventas (sede_id, monto) VALUES ('SED-01', 1250), ('SED-02', 980), ('SED-01', 430);`,
+            },
+            {
+              language: 'python',
+              runtime: 'cloudflare',
+              title: 'src/entry.py',
+              code: String.raw`from urllib.parse import parse_qs, urlparse
+
+from workers import Response, WorkerEntrypoint
+
+
+class Default(WorkerEntrypoint):
+    async def fetch(self, request):
+        url = urlparse(request.url)
+        if url.path != "/api/ventas":
+            return await self.env.ASSETS.fetch(request)
+        sede = parse_qs(url.query).get("sede", [""])[0]
+        # bind() pasa el valor aparte del SQL: nunca lo pegues dentro del texto
+        resultado = await self.env.DB.prepare(
+            "SELECT id, monto FROM ventas WHERE sede_id = ? ORDER BY id LIMIT 50"
+        ).bind(sede).all()
+        ventas = [{"id": fila.id, "monto": fila.monto} for fila in resultado.results]
+        return Response.json({"sede": sede, "ventas": ventas, "filas_leidas": resultado.meta.rows_read})`,
+            },
+            {
+              language: 'bash',
+              title: 'probar_en_local.sh',
+              code: String.raw`uv sync
+uv run pywrangler d1 create ventas-prototipo
+uv run pywrangler d1 migrations apply ventas-prototipo --local
+uv run pywrangler dev`,
+            },
+          ],
+          expect: 'En `http://localhost:8787/api/ventas?sede=SED-01` ves `{"sede": "SED-01", "ventas": [{"id": 1, "monto": 1250}, {"id": 3, "monto": 430}], "filas_leidas": 3}`, y con `?sede=SED-01%27%20OR%201=1--` la lista sale vacía.',
+          fixes: [
+            {
+              symptom: '`d1 create` pide iniciar sesión o no reconoce tu cuenta.',
+              steps: ['Ejecuta `npx wrangler login`, como en el módulo anterior, y repite el comando. Copia en `wrangler.jsonc` el `database_id` que imprime, en lugar del texto de ejemplo.'],
+            },
+            {
+              symptom: 'La API responde con un error que dice `no such table: ventas`.',
+              steps: ['La migración no está en tu copia local: ejecuta `uv run pywrangler d1 migrations apply ventas-prototipo --local` y vuelve a abrir `uv run pywrangler dev`.'],
+            },
+            {
+              symptom: '`pywrangler` dice que necesita una versión de `uv` más nueva.',
+              steps: ['Actualízala con `uv self update`, o reinstálala desde docs.astral.sh/uv si la instalaste con otro programa, y abre una terminal nueva.'],
+            },
+          ],
+          guide: { label: 'Cloudflare Docs: consultar D1 desde Workers de Python', url: 'https://developers.cloudflare.com/d1/examples/query-d1-from-python-workers/' },
+        },
+        {
+          id: 'prototipo.entornos',
+          title: 'Separa la prueba de la producción',
+          body: [
+            '**Producción** es la versión que usan las personas, y una **vista previa** es una copia en otra dirección para probar un cambio antes. Vercel las separa con dos comandos, y Cloudflare con `--local` para tu copia y `--remote` para la de internet.',
+            'La primera vez que publicas un proyecto en Vercel, la publicación va a producción aunque no uses `--prod`. Por eso conviene publicar primero una versión que no tenga nada privado.',
+            'Cada entorno necesita su propia base de datos y sus propios secretos. En Vercel, cada variable de entorno se guarda para Production, Preview o Development; nunca apuntes una prueba a la base de producción.',
+          ],
+          code: [
+            {
+              language: 'bash',
+              title: 'vercel_entornos.sh',
+              code: String.raw`cd site
+npx vercel          # vista previa: una dirección nueva para probar el cambio
+npx vercel --prod   # producción: la dirección que compartes`,
+            },
+          ],
+          expect: 'Tienes dos direcciones: la de la vista previa, que cambia con cada `npx vercel`, y la de producción, que solo cambia con `--prod`.',
+          guide: { label: 'Vercel Docs: entornos de despliegue', url: 'https://vercel.com/docs/deployments/environments' },
+        },
+        {
+          id: 'prototipo.lista',
+          title: 'Sigue una lista de despliegue que puedas repetir',
+          body: [
+            'Esta lista resume la que usa el curso para publicar pyarcana.dev, y cada paso está porque alguna vez faltó. El 25 de noviembre de 2026, una publicación hecha desde una copia atrasada puso en internet la versión anterior.',
+            'Guárdala en un archivo de texto junto al proyecto, recórrela de arriba abajo antes de cada publicación y anota qué versión quedó en internet.',
+          ],
+          table: {
+            caption: 'Lista de despliegue de un prototipo',
+            columns: ['Cuándo', 'Paso', 'Por qué'],
+            rows: [
+              ['Antes', 'Las pruebas pasan en `main`, y publicas desde una copia limpia y actualizada: `git status` sin cambios y luego `git pull`.', 'Una copia atrasada publica una versión vieja sin avisar.'],
+              ['Antes', 'Si un script necesita un token, lo creas con el permiso mínimo y una fecha de vencimiento cercana. En tu computadora basta `wrangler login`.', 'Un token amplio y sin vencimiento es una llave que otra persona puede usar.'],
+              ['Antes', 'Aplicas cada migración primero con `--local` y luego con `--remote`.', 'Un error en el SQL aparece en tu copia y no en los datos reales.'],
+              ['Publicar', '`uv run pywrangler deploy` o `npx vercel --prod`, y anotas el commit con `git rev-parse --short HEAD`.', 'Así sabes qué versión está en internet.'],
+              ['Después', 'Abres la dirección pública y pruebas la API con una consulta real.', 'Que el comando termine bien no prueba que el sitio funcione.'],
+              ['Si falla', 'Vuelves a la versión anterior con `npx wrangler rollback`, o con Instant Rollback en el panel de Vercel.', 'El código vuelve atrás, pero la base de datos no: por eso las migraciones solo agregan.'],
+              ['Después', 'Borras el token que creaste para este despliegue.', 'Un token olvidado sigue abriendo tu cuenta.'],
+              ['Si pasas a un plan de pago', 'Activas las alertas de uso y un límite de gasto antes de publicar.', 'En el plan de pago, nadie detiene el exceso por ti.'],
+            ],
+          },
+          expect: 'Tu lista tiene pasos para antes, durante y después de publicar, y anotaste el commit que quedó en internet.',
+          guide: { label: 'Cloudflare Docs: volver a una versión anterior de un Worker', url: 'https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/' },
+        },
+        {
+          id: 'prototipo.ia',
+          title: 'Si un asistente de IA ejecuta los pasos, ponle tú los límites',
+          body: [
+            'Un **asistente de IA**, un programa que escribe código y ejecuta comandos por ti, obedece el texto que lee y no solo el tuyo. Un archivo, una página o un comentario pueden traerle instrucciones escondidas, y eso se llama **inyección de instrucciones**.',
+            'En abril de 2026, un asistente que arreglaba otra cosa encontró un token amplio en un archivo y borró en nueve segundos la base de producción de una empresa. También borró sus copias de seguridad, que estaban guardadas en el mismo lugar.',
+            'En julio de 2025, otro asistente borró una base de producción en pleno congelamiento de cambios que le habían pedido respetar. Por eso los límites van en los permisos y en la herramienta, no solo en lo que le pides.',
+          ],
+          table: {
+            caption: 'Qué hacer cuando un asistente de IA despliega por ti',
+            columns: ['Haz esto', 'Porque'],
+            rows: [
+              ['Dale un token propio, con el permiso mínimo, sobre una sola cuenta y con vencimiento cercano, y bórralo al terminar.', 'Si se equivoca o lo engañan, el daño queda limitado a lo que ese token permite.'],
+              ['Haz que trabaje con la base `--local` o con una de prueba, nunca con la de producción.', 'Un `DROP TABLE` en tu copia se repara aplicando otra vez las migraciones.'],
+              ['Aprueba tú cada comando que borra o publica, como `DROP`, `DELETE`, `--remote` o `deploy`.', 'Una aprobación en la herramienta detiene el comando; una instrucción escrita en el chat no siempre lo hace.'],
+              ['No pegues tokens ni contraseñas en el chat: guárdalos con `wrangler secret put` o en las variables de entorno del panel.', 'Lo que pegas en un chat queda en un historial que no controlas.'],
+              ['Comprueba en pypi.org o npmjs.com que cada paquete que te sugiere exista y sea el que buscas.', 'Los asistentes a veces inventan nombres de paquetes, y hay quien publica paquetes dañinos con esos nombres.'],
+              ['Exige `?` y `bind()` en cada consulta que escriba.', 'Un asistente también puede armar el SQL pegando texto, que es el error de inyección de S12.'],
+              ['Guarda una copia de los datos en tu computadora con `wrangler d1 export`.', 'Una copia que el mismo token puede borrar no te protege.'],
+              ['Lee los cambios antes de aceptarlos y confirma que las pruebas pasan.', 'Para que algo «funcione», un asistente puede quitar una validación o una prueba.'],
+            ],
+          },
+          expect: 'Puedes decir qué permiso le darías a un asistente para probar una migración en `--local`, y qué comandos aprobarías tú antes de que los ejecute.',
+        },
+        {
+          id: 'prototipo.practica',
+          title: 'Encuentra la consulta que lee toda la tabla',
+          body: [
+            'Una tabla `pedidos` recibe dos consultas en cada visita: un pedido por su `id`, y los últimos 20 pedidos de un cliente, del más nuevo al más viejo. Usa `EXPLAIN QUERY PLAN` para encontrar la que revisa toda la tabla.',
+            'Después crea el índice que la arregla y vuelve a revisar las dos. Una consulta que ordena sin índice muestra además `USE TEMP B-TREE FOR ORDER BY`, que significa que SQLite ordena las filas aparte.',
+          ],
+          exercise: {
+            hint: 'Un índice sobre dos columnas, `(cliente_id, creado)`, sirve a la vez para filtrar por cliente y para ordenar por fecha. La consulta por `id` ya usa la clave primaria.',
+            solution: { language: 'python', title: 'revisar_consultas.py', code: String.raw`import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.execute("""
+CREATE TABLE pedidos (
+    id INTEGER PRIMARY KEY,
+    cliente_id TEXT NOT NULL,
+    creado TEXT NOT NULL,
+    monto TEXT NOT NULL
+)""")
+CONSULTAS = {
+    "un pedido": "SELECT * FROM pedidos WHERE id = ?",
+    "últimos de un cliente": "SELECT * FROM pedidos WHERE cliente_id = ? ORDER BY creado DESC LIMIT 20",
+}
+
+def revisar():
+    for nombre, sql in CONSULTAS.items():
+        pasos = [fila[3] for fila in con.execute("EXPLAIN QUERY PLAN " + sql, ("CLI-0001",))]
+        print(f"  {nombre}: {' | '.join(pasos)}")
+
+print("antes:")
+revisar()
+# Un índice compuesto sirve al filtro (cliente_id) y al orden (creado)
+con.execute("CREATE INDEX idx_pedidos_cliente_creado ON pedidos (cliente_id, creado)")
+print("después:")
+revisar()
+con.close()`, output: String.raw`antes:
+  un pedido: SEARCH pedidos USING INTEGER PRIMARY KEY (rowid=?)
+  últimos de un cliente: SCAN pedidos | USE TEMP B-TREE FOR ORDER BY
+después:
+  un pedido: SEARCH pedidos USING INTEGER PRIMARY KEY (rowid=?)
+  últimos de un cliente: SEARCH pedidos USING INDEX idx_pedidos_cliente_creado (cliente_id=?)` },
+          },
+          expect: 'Antes, «últimos de un cliente» muestra `SCAN pedidos`; después del índice muestra `SEARCH pedidos USING INDEX idx_pedidos_cliente_creado`, sin `TEMP B-TREE`.',
         },
       ],
     },

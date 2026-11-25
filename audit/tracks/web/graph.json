@@ -564,6 +564,86 @@
    "definition": "Registros A/CNAME que apuntan un nombre a tu hosting.",
    "status": "deferred",
    "where": "S42 (solo mención; no se enseña a fondo)"
+  },
+  {
+   "id": "filas-leidas-escritas",
+   "label": "Filas leídas y escritas",
+   "definition": "Lo que D1 cuenta y cobra: cada fila que revisa una consulta y cada fila (e índice) que cambia una escritura.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "explain-query-plan",
+   "label": "EXPLAIN QUERY PLAN",
+   "definition": "Ver si SQLite resuelve una consulta con SCAN (toda la tabla) o con SEARCH ... USING INDEX.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "indice-compuesto",
+   "label": "Índice compuesto",
+   "definition": "Un índice sobre dos columnas que sirve a la vez al filtro y al orden.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "paginacion-clave",
+   "label": "Paginación por clave",
+   "definition": "Pedir las filas que siguen al último id mostrado en vez de OFFSET.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "cuota-gratuita",
+   "label": "Cuota gratuita frente a factura",
+   "definition": "El plan gratuito falla al pasar el límite diario; el de pago cobra el exceso.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "d1-worker-python",
+   "label": "Worker de Python con D1",
+   "definition": "Una API en src/entry.py que consulta D1 con prepare, bind y all, probada con pywrangler dev.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "migracion-sql",
+   "label": "Migración",
+   "definition": "Un archivo SQL numerado que Wrangler aplica una vez y en orden, primero --local y luego --remote.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "entornos-preview-produccion",
+   "label": "Vista previa y producción",
+   "definition": "Dos direcciones y dos bases: probar un cambio antes de publicarlo.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "lista-despliegue",
+   "label": "Lista de despliegue",
+   "definition": "Antes, publicar, después, si falla: pasos tomados del runbook de pyarcana.dev.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "agente-ia-limites",
+   "label": "Límites para un asistente de IA",
+   "definition": "Token mínimo y con vencimiento, base local, aprobación de comandos destructivos, inyección de instrucciones.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
   }
  ],
  "edges": [
@@ -1026,6 +1106,76 @@
    "from": "desplegar",
    "to": "dominio-dns",
    "reason": "Un dominio propio apunta al sitio ya desplegado."
+  },
+  {
+   "from": "consultas-parametrizadas",
+   "to": "d1-worker-python",
+   "reason": "bind() es el marcador ? de S12 en un Worker."
+  },
+  {
+   "from": "sql-crud-join",
+   "to": "filas-leidas-escritas",
+   "reason": "Hay que saber leer y escribir filas antes de contarlas."
+  },
+  {
+   "from": "filas-leidas-escritas",
+   "to": "explain-query-plan",
+   "reason": "El plan explica por qué una consulta revisa tantas filas."
+  },
+  {
+   "from": "explain-query-plan",
+   "to": "indice-compuesto",
+   "reason": "Se elige el índice mirando el plan."
+  },
+  {
+   "from": "filas-leidas-escritas",
+   "to": "paginacion-clave",
+   "reason": "OFFSET se entiende como filas revisadas y descartadas."
+  },
+  {
+   "from": "filas-leidas-escritas",
+   "to": "cuota-gratuita",
+   "reason": "La cuota se mide en filas."
+  },
+  {
+   "from": "worker-static-assets",
+   "to": "d1-worker-python",
+   "reason": "El Worker de archivos del módulo anterior recibe una API."
+  },
+  {
+   "from": "clases-herencia",
+   "to": "d1-worker-python",
+   "reason": "Default hereda de WorkerEntrypoint."
+  },
+  {
+   "from": "migracion-sql",
+   "to": "d1-worker-python",
+   "reason": "La API lee la tabla que crea la migración."
+  },
+  {
+   "from": "d1-worker-python",
+   "to": "entornos-preview-produccion",
+   "reason": "Separar entornos exige tener algo que publicar dos veces."
+  },
+  {
+   "from": "git-commit-push",
+   "to": "lista-despliegue",
+   "reason": "La lista anota el commit publicado."
+  },
+  {
+   "from": "entornos-preview-produccion",
+   "to": "lista-despliegue",
+   "reason": "La lista aplica primero en local y luego en remoto."
+  },
+  {
+   "from": "secretos-entorno",
+   "to": "agente-ia-limites",
+   "reason": "Un token es un secreto; al asistente se le da uno propio y mínimo."
+  },
+  {
+   "from": "lista-despliegue",
+   "to": "agente-ia-limites",
+   "reason": "Los límites se ponen sobre los pasos de la lista."
   }
  ],
  "loose": [
@@ -1076,6 +1226,12 @@
    "was": "Se enseña el arreglo de file:// para fetch, pero el sitio del módulo 4 nunca llama a fetch: index.html solo carga app.js, que ordena el DOM. data.json se genera y nadie lo lee; el síntoma descrito no aparece.",
    "action": "REPHRASE",
    "how": "El sitio ya no promete un fetch que no hace: data.json se publica para otros programas, el fetch se prueba desde la consola, y el «Si no funciona» de file:// está en ese paso."
+  },
+  {
+   "node": "d1-worker-python",
+   "was": "src/entry.py usa async def y await, que el curso enseña en S27, después del desvío.",
+   "action": "GLOSS",
+   "how": "prototipo.worker-d1 explica en una frase qué hacen async def y await y remite a S27."
   }
  ],
  "revised": "2026-11-25: loose dependencies resolved in the same round are listed under \"resolved\" with the action taken (REMOVE, REPHRASE, GLOSS, TEACH, DEFER)."

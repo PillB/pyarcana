@@ -258,7 +258,7 @@ test('every Python block runs and prints exactly its declared output', () => {
   let ran = 0
   for (const { step } of ALL_STEPS) {
     for (const c of blocksOf(step)) {
-      if (c.language !== 'python') continue
+      if (c.language !== 'python' || c.runtime === 'cloudflare') continue
       assert.ok(c.output, `${step.id}/${c.title}: a Python block must declare what it prints`)
       // A fresh, empty folder per block, as a learner's project folder: construir_sitio.py writes site/ there.
       const cwd = mkdtempSync(path.join(tmpdir(), 'ruta-web-'))
@@ -273,7 +273,7 @@ test('every Python block runs and prints exactly its declared output', () => {
       ran++
     }
   }
-  assert.ok(ran >= 12, `expected at least 12 Python blocks (7 worked examples, 5 solutions), ran ${ran}`)
+  assert.ok(ran >= 16, `expected at least 16 Python blocks (10 worked examples, 6 solutions), ran ${ran}`)
 })
 
 /** A DOM just big enough for app.js: header buttons, a tbody, aria-sort on the headers. */
@@ -802,4 +802,101 @@ test('a completion re-read from another tab is not counted as this tab\'s own (n
     w.localStorage = previous
     useProgressStore.setState({ completedSections: [] })
   }
+})
+
+// ---------------------------------------------------------------------------------------------
+// The prototype module: D1, quotas and the Worker's code, held to what the prose promises
+// ---------------------------------------------------------------------------------------------
+
+const protoStep = (id: string) => {
+  const s = ALL_STEPS.find((x) => x.step.id === id)?.step
+  assert.ok(s, `step ${id} is missing from src/lib/tracks/web/content.ts; the prototype tests read it`)
+  return s
+}
+const protoCode = (id: string, title: string) => {
+  const c = blocksOf(protoStep(id)).find((x) => x.title === title)
+  assert.ok(c, `${id} has no block titled ${title}`)
+  return c
+}
+
+test('a Worker file is compiled, not run, and the run loop skips only those (runtime "cloudflare")', () => {
+  const py = python()
+  const workers = ALL_STEPS.flatMap(({ step }) => blocksOf(step).filter((c) => c.runtime === 'cloudflare').map((c) => ({ step, c })))
+  assert.ok(workers.length >= 1, 'expected the D1 step to show its Worker file (runtime "cloudflare")')
+  for (const { step, c } of workers) {
+    assert.equal(c.language, 'python', `${step.id}/${c.title}: runtime "cloudflare" is for Python Worker files`)
+    // Defect guarded: a Worker file is exempt from the run, so a typo in it would ship unseen.
+    const r = spawnSync(py.bin, ['-I', '-c', 'import ast,sys; ast.parse(sys.stdin.read())'], { input: c.code, encoding: 'utf8' })
+    assert.equal(r.status, 0, `${step.id}/${c.title} does not parse as Python:\n${r.stderr}`)
+    assert.ok(/from workers import/.test(c.code), `${step.id}/${c.title}: runtime "cloudflare" must import workers; otherwise run it like any other block`)
+    assert.equal(c.output, undefined, `${step.id}/${c.title}: a Worker file cannot declare a printed output the unit test never checks`)
+  }
+})
+
+test('the migration, the Worker query and «Deberías ver» agree: the index is used, the rows match, an injected sede returns nothing', () => {
+  const migration = protoCode('prototipo.worker-d1', 'migrations/0001_inicial.sql').code
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const query = /prepare\(\s*"([^"]+)"\s*\)/.exec(entry)?.[1]
+  assert.ok(query, 'src/entry.py lost its prepare("...") query; this test runs it against the migration')
+  // Defect guarded: SQL built by pasting text (S12's injection) instead of a ? bound with bind().
+  assert.ok(query.includes('?') && /\.bind\(/.test(entry), 'the Worker query must use ? and bind()')
+  assert.ok(!/f"[^"]*(SELECT|INSERT|UPDATE|DELETE)/i.test(entry), 'the Worker builds SQL with an f-string')
+  const script = `
+import json, sqlite3, sys
+con = sqlite3.connect(":memory:")
+con.executescript(sys.argv[1])
+q = sys.argv[2]
+plan = [r[3] for r in con.execute("EXPLAIN QUERY PLAN " + q, ("SED-01",))]
+rows = [{"id": a, "monto": b} for a, b in con.execute(q, ("SED-01",))]
+inj = con.execute(q, ("SED-01' OR 1=1--",)).fetchall()
+print(json.dumps({"plan": plan, "rows": json.dumps(rows), "inj": inj}))
+`
+  const py = python()
+  const r = spawnSync(py.bin, ['-I', '-c', script, migration, query], { encoding: 'utf8' })
+  assert.equal(r.status, 0, `the migration or the query fails in SQLite:\n${r.stderr}`)
+  // rows: printed by Python's json.dumps, the same separators the Worker's Response.json uses
+  const out = JSON.parse(r.stdout) as { plan: string[]; rows: string; inj: unknown[] }
+  // Defect guarded: the migration drops the index, so the API the step deploys scans the table.
+  assert.ok(out.plan.some((p) => /USING (COVERING )?INDEX idx_ventas_sede/.test(p)), `the Worker query does not use idx_ventas_sede: ${out.plan.join(' | ')}`)
+  const expect = protoStep('prototipo.worker-d1').expect ?? ''
+  assert.ok(expect.includes(`"ventas": ${out.rows}`), `«Deberías ver» must show the rows the migration gives for SED-01: ${out.rows}`)
+  assert.deepEqual(out.inj, [], 'an injected sede must return no rows')
+})
+
+test('the quota numbers in the prose, the table and the calculator are the same numbers', () => {
+  const step = protoStep('prototipo.cuotas')
+  const calc = protoCode('prototipo.cuotas', 'cuota_diaria.py').code
+  const limit = Number(/LIMITE_GRATIS = ([\d_]+)/.exec(calc)?.[1].replace(/_/g, ''))
+  const row = step.table?.rows.find((r) => r[0] === 'Filas leídas en D1')
+  assert.ok(row, 'the quota table lost its "Filas leídas en D1" row')
+  // Defect guarded (drift): a round updates Cloudflare's limit in the table and forgets the code, or
+  // the reverse, so the calculator tells the learner the wrong day their prototype stops.
+  const millions = Number(/^(\d+) millones/.exec(row[1])?.[1])
+  assert.equal(limit, millions * 1_000_000, `cuota_diaria.py uses ${limit}, the table says "${row[1]}"`)
+  const rows = Number(/\("sin índice", ([\d_]+)\)/.exec(calc)?.[1].replace(/_/g, ''))
+  const scanned = /filas revisadas (\d+), plan: SCAN/.exec(protoCode('prototipo.indices', 'filas_leidas.py').output ?? '')?.[1]
+  assert.equal(String(rows), scanned, 'the calculator must multiply the rows the index step measured without an index')
+  // Simulated drift: a future limit of 10 million in the table must make the comparison fail.
+  assert.notEqual(limit, 10 * 1_000_000, 'sanity: the simulated drift value must differ from today')
+})
+
+test('every SQLite plan the prose quotes is one the code prints (EXPLAIN QUERY PLAN wording drift)', () => {
+  // Defect guarded: SQLite rewords plans between versions ("SCAN TABLE ventas" before 3.36); a
+  // «Deberías ver» quoting the old wording would send the learner looking for a line that never appears.
+  for (const id of ['prototipo.indices', 'prototipo.practica']) {
+    const s = protoStep(id)
+    const printed = blocksOf(s).map((c) => c.output ?? '').join('\n')
+    const quoted = [...(s.expect ?? '').matchAll(/`((?:SCAN|SEARCH)[^`]*)`/g)].map((m) => m[1])
+    assert.ok(quoted.length >= 1, `${id}: «Deberías ver» should quote the plan line the learner compares with`)
+    for (const q of quoted) assert.ok(printed.includes(q), `${id}: «Deberías ver» quotes \`${q}\`, which the code does not print`)
+  }
+})
+
+test('the prototype module closes the deploy part: it comes right after despliegue and before modelo', () => {
+  const ids = WEB_TRACK.modules.map((m) => m.id)
+  // Defect guarded: the owner asked for the runbook-based steps "in the last part of the deploy
+  // track"; a module placed after modelo would teach D1 before the learner has published anything.
+  assert.equal(ids.indexOf('prototipo'), ids.indexOf('despliegue') + 1, `module order is ${ids.join(', ')}`)
+  const said = ALL_STEPS.find((x) => x.step.id === 'despliegue.python-servidor')?.step.body.join(' ') ?? ''
+  assert.ok(/módulo siguiente/.test(said), 'despliegue.python-servidor must point to the next module instead of saying the detour stops at static sites')
 })

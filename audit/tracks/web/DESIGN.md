@@ -154,3 +154,66 @@ horizontal overflow; no console error or CSP report. `npm run test:static-journe
 - **What failed:** the mutation script's first search string did not exist (the output line ends in
   a newline, not a backtick). Root cause: assumed the shape of generated text. Guard: each mutation
   asserts its target occurs exactly once before applying it.
+
+## 10. Prototype module (`prototipo`, 25 Nov 2026): our runbook, D1, quotas and AI-agent safety
+
+Pablo's ask: use the owner's redeploy runbook (`workers/billing/REDEPLOY.md`) as a design input for
+the last part of the deploy track; for prototypes, a simple Vercel preview/production and
+Cloudflare with a D1 database instead of the full domain, email and hosting steps; teach reads,
+writes and indexes and the dos and don'ts that keep a learner inside the free quota and away from a
+large bill; and cover security when an AI assistant runs the steps.
+
+**Expert and benchmark.** A database engineer reviewing a first SQL API would ask whether the
+learner can tell a scan from an index seek before the bill does (SQLite's query planner docs,
+Cloudflare's "Use indexes" page); an SRE would ask for a repeatable release checklist with a
+rollback (the runbook, Google SRE's release engineering chapter); a security reviewer would ask for
+least-privilege, short-lived credentials and tool-level gates on destructive commands (OWASP
+LLM01 prompt injection, the April 2026 PocketOS and July 2025 Replit post-mortems).
+
+**Pre-execution round, routes tried at small scale.**
+
+| Route | Tried | Result | Decision |
+|---|---|---|---|
+| Full runbook (domain, email, OAuth, scoped account token) | Read REDEPLOY.md end to end | About twenty steps across four accounts; most exist for accounts and a custom domain a prototype does not have | Rejected as the route; its habits kept as the checklist (`prototipo.lista`) |
+| Vercel preview and production only | Docs read (environments, Hobby limits) | Hobby pauses for up to 30 days instead of billing; no SQL database without a third-party integration, which adds an account | Kept for the preview/production lesson (`prototipo.entornos`), not for the database |
+| Cloudflare Pages + D1 | Docs read | Works through Pages Functions; Cloudflare's migration guide says Workers has "a distinctly broader set of features", and the track's previous module already deploys a Worker | Rejected for continuity; named in the prose so a learner who reads about Pages knows it is an option |
+| JavaScript Worker + D1 | Built and run locally with `wrangler dev` (wrangler 4.168.0) | Works with Node only. `meta.rows_read` was 1000 without the index and 23 with it on 1000 rows | Works; rejected in favour of Python |
+| Python Worker + D1 (`pywrangler`, GA 21 Sep 2026) | Built and run locally with `uv run pywrangler dev` | Same responses, same `rows_read`, injection returns nothing, assets still served. Needs uv ≥ 0.13.4 (0.11.32 refused) and Node | **Chosen**: the learner reads and changes the server code in the language of the course, and `?` + `bind()` is S12's placeholder |
+
+**Measurement without an account.** Python's `sqlite3` does not expose SQLite's scan counters, so
+the lessons count visited rows with a user function placed first in the `WHERE`
+(`contar(id) AND sede_id = ?`). Probed both orders: placed last, SQLite evaluates `sede_id = ?`
+first and the counter under-reports a full scan (200 instead of 10000). The output is pinned by the
+test, so a SQLite release that reorders terms fails loudly instead of teaching a wrong number.
+
+**Trade-offs taken (stated, not absorbed).**
+- Python Workers add a tool (uv ≥ 0.13.4) on top of Node. The JavaScript route needs only Node.
+- Python Workers have been GA for two months; `pywrangler`'s flags may move. The learner walk runs
+  the step's own commands with `WALK_WRANGLER=1`, so a change shows up as a failed check.
+- The Workers Free plan allows 10 ms of CPU per request. A Python Worker's startup on the real
+  platform was not measured (no account here); locally the first request took 2.6 s, which is not
+  evidence either way. A learner who hits error 1102 (CPU limit) would need the JavaScript route.
+- Prices and limits are quoted with the date they were read (25 Nov 2026). Nothing re-checks them
+  automatically; the test only keeps the table and the calculator equal.
+- The local `rows_read` (3 for two matching rows) may differ from remote D1's count. «Deberías ver»
+  quotes the local run only.
+- `d1 create`, `--remote` and `deploy` were not run: they need the learner's account.
+- Vercel's "first deployment is always production" is taught as a fact from its docs, not observed.
+
+**Tests (each turned red by the named mutation).** Worker file parses and imports `workers` (syntax
+error); the migration, the Worker query and «Deberías ver» agree, the index is used, an injected
+sede returns nothing (drop the index; f-string SQL; change a row in the expect); quota table equals
+the calculator's constant and the measured scan (table says 10 million); every plan the prose quotes
+is printed by the code (`SCAN TABLE ventas`); the module sits right after `despliegue` and the
+earlier step points to it (old sentence). Learner walk: 32/32 with `WALK_WRANGLER=1`, including the
+«no such table» fix reproduced before the local migration.
+
+**Red team.** Sentences over 32 words and a D13 pair (fixed by the gate); decimal commas in prices
+where the course writes `S/ 3660.75` (changed to points); "the paid plan has no brake" while
+Cloudflare offers a spending limit (reworded to "does not stop by itself", and the checklist adds the
+limit); `npx wrangler d1 create` beside `uv run pywrangler` (made consistent); "volume" jargon in the
+incident (plain words). Open: the incidents are cited from secondary write-ups; the dollar range
+comes from self-reported posts.
+
+**Not done.** AGENTS.md gets no new text from this round: it is a protected file. The proposed
+"agents that deploy" rule is in `/mnt/project-files/web-track/PROTOTYPE_PROPOSAL.md` for Pablo.
