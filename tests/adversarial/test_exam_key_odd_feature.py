@@ -39,11 +39,12 @@ FEATURES = {"code": CODE, "an absolute": ABSOLUTE}
 #: questions are repaired; delete the entry at zero.
 #: 2026-11-25, proposal 12 S25: streamlit-dashboards leaves (its bank was rewritten without absolutes
 #: or code spans in any option).
+#: 2026-11-25, proposal 12 S26: integrator-phase1 leaves the same way.
 KEY_ODD_FEATURE_OWED = {
     "advanced-models": 1, "ai-apis-advanced": 1, "async-concurrency": 2, "collections": 1,
     "exceptions-logging": 2,
     "files-ingestion": 3, "functions-contracts": 2, "gpu-computing": 1,
-    "integrator-phase1": 1, "integrator-phase2": 1, "iteration-summaries": 4, "llmops": 2,
+    "integrator-phase2": 1, "iteration-summaries": 4, "llmops": 2,
     "microservices": 1, "modules-packaging-cli": 3, "performance-extreme": 1,
     "security-infra": 2, "setup": 6,
     "system-design": 1, "tech-leadership": 1, "text-unicode-regex": 3,

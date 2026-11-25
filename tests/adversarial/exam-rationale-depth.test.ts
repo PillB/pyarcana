@@ -107,11 +107,13 @@ const STOP_WORDS = new Set(`
  * explanations; its 11 thin ones are gone.
  * 2026-11-25: 438 - proposal 12 S25 rewrote all 24 streamlit-dashboards (AI assistant)
  * explanations; its 12 thin ones are gone.
+ * 2026-11-25: 423 - proposal 12 S26 rewrote all 24 integrator-phase1 (orchestration and the VP)
+ * explanations; its 15 thin ones are gone.
  */
-const THIN_RATIONALES_OWED = 438
+const THIN_RATIONALES_OWED = 423
 /** Banks where at least half the explanations (12 of 24) are thin. 2026-11-25: 20 -> 19, proposal 12 S25
- * (streamlit-dashboards was at 12 of 24). */
-const THIN_BANKS_OWED = 19
+ * (streamlit-dashboards was at 12 of 24). 19 -> 18, proposal 12 S26 (integrator-phase1 was at 15 of 24). */
+const THIN_BANKS_OWED = 18
 /**
  * The same debt by bank, so a failure can name the bank that grew and list its thin items. Every
  * bank is listed, the clean ones at 0, so a bank that stops being read is noticed: losing a bank
@@ -122,7 +124,7 @@ const THIN_BY_BANK_OWED: Record<string, number> = {
   collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 1,
   'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 0, 'stdlib-deep': 0, 'wxpython-gui': 0, packaging: 0,
   'data-engineering': 0, 'databases-orm': 0, rag: 0, fastapi: 0, 'rapidfuzz-entity': 0,
-  'computer-vision': 0, 'rpa-advanced': 0, 'streamlit-dashboards': 0, 'integrator-phase1': 15,
+  'computer-vision': 0, 'rpa-advanced': 0, 'streamlit-dashboards': 0, 'integrator-phase1': 0,
   'async-concurrency': 4, 'llm-agents': 5, mlops: 13, 'security-infra': 4, 'streaming-data': 7,
   microservices: 18, 'advanced-models': 20, 'cv-ai-integration': 11, 'system-design': 3,
   'ai-apis-advanced': 19, 'dbt-bigquery': 22, 'performance-extreme': 18, 'integrator-phase2': 18,

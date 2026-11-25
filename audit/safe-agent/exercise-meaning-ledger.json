@@ -3720,6 +3720,206 @@
       "reason": "WEDO-24.1/24.2: decision(0.99, False) prints human_review; roadmap removed and the score role explained. Same task: score is not fraud.",
       "decided_by": "owner 2026-11-21 (proposal 12, S25 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 373,
+      "id": "S26-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "d23084c87c030e24f3e743d40602e5ae2b1e8a3356be4f3f5983caa6e93608fe",
+      "to_fp": "3323f616c9ea83006e5414aa8b7d05b19c07d1385ebd581def1e54ddcd0d2bc0",
+      "reason": "WEDO-01.1: a second, shorter partial path, so a literal list fails. Same task: derive the order from edges.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 374,
+      "id": "S26-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "63b46b6f6ca9cf6f4894f757f233be97b55ae5e895a642860dc4a3b5519b0a8f",
+      "to_fp": "1069994e955a03d689f99b814ac122d35a5ef0a20cb3f788139f3c2b5ca05096",
+      "reason": "A second node list prints 1 edge. Same task: consecutive edges with zip.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 375,
+      "id": "S26-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "8e774f729bdd9f0954c720846cb05a774de0cb435d1b1baa91317faee324528f",
+      "to_fp": "4ce1ed80edbca28b9beb82ac4c1ad668331a622ecd722111582c0c7021bc009a",
+      "reason": "WEDO-03.1: a run with skipped prints success. Same task: the global flow state.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 376,
+      "id": "S26-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "53a985c3e74ec33caae822b8fe2291b653e4be336863a2881d4080591deb0a75",
+      "to_fp": "290dba9ae9c7627f8853c8412a3421f151a1a237ab510274bf7d06237af4fcff",
+      "reason": "A second run's metadata. Same task: the two-key start snapshot.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 377,
+      "id": "S26-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "fd47ed353af05275534c606f073c724ea24750dfc404b4425516c65a65ad06f1",
+      "to_fp": "451f1b600000badc5e328103ddce25f653ae0f7f1e518fd1caac80108914fa01",
+      "reason": "WEDO-05.1/05.2: 60 and 61 pin the strict boundary; the English starter note is gone. Same task: the rpm preflight.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 378,
+      "id": "S26-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "a9afa3b169ee0c3d6655b66cd84ee709eb3473d3048346d2929d3e52734453bb",
+      "to_fp": "dca9f84604d990030ac25fe15a1ae1bbc06d7ee94c5c28386710d1e5931dd977",
+      "reason": "WEDO-06.1: a 06:00 UTC control schedule prints blocked; the DST edge case says Lima has none. Same task: cron with the Lima zone.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 379,
+      "id": "S26-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "95fbae64b453d9602ae477769ec202f0de0ea48e5589b7d766282199a3b03a32",
+      "to_fp": "6f091196dd653fff790689fbb42f9fad3ceebf0e3c4729a55c09e220ab901ef1",
+      "reason": "WEDO-07.1: attempts 1, 3 and 4 separate linear from exponential. Same task: the backoff formula.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 380,
+      "id": "S26-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "9b18cb09bf041cee09ed1b99ca64ce13738b20a7aa4e5f1981fe3b5dd312c50d",
+      "to_fp": "18056b586a523c038b49873ed9f9bf86f4f40c014e0fd7d8fc8719db384ef8ce",
+      "reason": "WEDO-08.1: attempts=1 keeps the DLQ empty. Same task: DLQ with owner after the last attempt.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 381,
+      "id": "S26-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "7ba2b87ee7b706994f68cf45817ca277da512f11513894fb88b6215b738bcad5",
+      "to_fp": "ea056618f79a8bf66ce6149cde770d6ac4a1f75d18e02f34c0ddacecbdb07996",
+      "reason": "WEDO-09.1: a second checkpoint. Same task: pending items after a crash.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 382,
+      "id": "S26-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "ebe2ee9abdbb9196812eea93dae8e1a39e245c1a112bc4ccc1f98688e510ab21",
+      "to_fp": "0ebb138a5b80c7f493b9847e47e86df0e929457b03d872fc5670feda45d0706e",
+      "reason": "WEDO-11.1/11.2: the report is the theory's dict and keeps its body; a run without a draft. Same task: compensation.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 383,
+      "id": "S26-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "e7d57783f257d3fe95dfd8992915d3bc2cf8f65f50d4abde54bbee0fe0dfa33a",
+      "to_fp": "39499b5396dece7ffea663b7733dd388711c7232d9b202015c964e242a840e1d",
+      "reason": "WEDO-12.1: an unlocked entity prints enter. Same task: the fail-closed lock.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 384,
+      "id": "S26-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "9e52955bc3d7761f75b737b6a2b15067a3d6d91e3459c8370ede94c3033776f6",
+      "to_fp": "624c3cd6224f3741b3ed9c9672f8c01c9073c316a85f33eab5ffca79102a4c11",
+      "reason": "WEDO-14.1: report=2 and an all-clear state. Same task: any() blocks.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 385,
+      "id": "S26-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "a2dfcd709307fc603e728c2330e054970986865a6228bcf42e397692850f1ae5",
+      "to_fp": "438f649dfc4f6a8fd38dd2ea84da30eaccc586755b1f0b80352c5c72a887ad20",
+      "reason": "WEDO-15.1: a second queue state. Same task: list the pending queues.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 386,
+      "id": "S26-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "bba3dcc206af21b60273d52030fc533f40621217e9bc9bc9a329a429b979b068",
+      "to_fp": "8dbd4c3ba20d87db35f9740385b33283a67a64f8bb02ce7a279cba4853bab849",
+      "reason": "Two approve events from synthetic actors. Same task: append-only audit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 387,
+      "id": "S26-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "63f6937602bad225047b6cac1c18b5cf0f5e33a5e4dd023660f0704d9bcfd1a7",
+      "to_fp": "5c338d4d8bcdb4a4d2c2adbde766aa72dc3635492cf01e8c7a4c928da0c74da4",
+      "reason": "WEDO-17.1/17.2: an empty reason is invalid too. Same task: reject needs a reason.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 388,
+      "id": "S26-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "6c247827a1f91c4dc5f1ec67a28fd28b248eaba3c8e1719f1fe49710f1f75e19",
+      "to_fp": "e229ca332aaebb1d5a7490d061e7bde299d313e1331d1b1d51dfbd64f0285fcb",
+      "reason": "WEDO-18.1/18.2/18.3: from and to are printed; actor r1. Same task: a versioned edit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 389,
+      "id": "S26-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "b5931932f289d1c81b51feb05f6a6750d76c7f4958bf283fe4fb53e8746e32fc",
+      "to_fp": "91be6c9625dfdd942fa94a257344a9d5e135d8b2028803cdb0db565b3012abd7",
+      "reason": "WEDO-19.1: 0.97 and 0.95 print ok. Same task: the success-rate alert.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 390,
+      "id": "S26-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "5cea2c0f4e19970923e2dfbd7a865d160194a74ddf894562b538962a7f1d8daf",
+      "to_fp": "6efc0bbaa53259ea45bce790d4ae862b42f469fb2c31cc3e0e51f2adf5b3cdb7",
+      "reason": "WEDO-20.1/20.2: n=0 prints ok. Same task: the P0 for an unapproved send.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 391,
+      "id": "S26-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "f50923c26d27677943c22d516a2eb974cbee13b6cea2899097ef3c29ad9fd647",
+      "to_fp": "6c586e06cc857dfcca84180176471b2a5ed5acb24c519d3cebdb5ad5c3671859",
+      "reason": "WEDO-23.1: an unapproved package and one with a label print fail. Same task: fraud_labels and approved.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 392,
+      "id": "S26-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "eac6a0e06e27ec04cb644ce2a74290340a8dea9418b5a062891c72feae2aaee8",
+      "to_fp": "38db1eee2ec7184c3f5bf2ae3ccb30030bf6f247ae21edcfe753ad790fff14bd",
+      "reason": "WEDO-24.1/24.2: n2_regression comes from a regression log (pass or not_run); cf2 names the three interfaces. Same task: the defence package.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }

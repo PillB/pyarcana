@@ -1179,3 +1179,21 @@ back. Read this list before a section round; every item cost at least one failed
   exercise asks the learner to fix, not a second key. Root cause: the anchor matched the word, not
   the syntax that makes it a key. Fix: match `'auto_fraud':` or `auto_fraud =` only. Anchor a
   check on the structure it is about.
+- **A function whose output is a literal cannot be evidence (proposal 12 S26, 25 Nov 2026).** The
+  S26 E2E function took no input and returned `"success"` for every step and
+  `"n2_regression": "pass"`, with a comment saying "re-run real"; the demo printed the same
+  literals and the You Do starter shipped them, so a failing step could not change the defence
+  package. The same section's warning ("todo success hardcodeado" is the classic error) described
+  the code. Root cause: the example was written to print the target state instead of computing it.
+  Fix: `e2e_vp(run_state, audit, regression_log)` derives every value, and `n2_regression` is
+  `pass` only when a log of commands exists and every exit code is 0 (`not_run` otherwise). Guard:
+  `test_proposal12_s26` forbids any `n2_regression` literal `pass` in lesson code and runs the E2E
+  with a failed step. When a value is called evidence, check that some input can change it.
+- **A guard the prose promises must be in the code that the prose describes (S26, 25 Nov 2026).**
+  The DAG block said a cycle stops the pipeline; Kahn's algorithm returns a shorter order on a
+  cycle, with no error, so a runner trusting it skips steps. Root cause: the guard is a separate
+  line after the loop that the example left out. Fix: compare the length of the order with the
+  number of nodes and raise `ValueError` naming the nodes left out (the standard check:
+  [Kahn 1962](https://doi.org/10.1145/368996.369025); Python's `graphlib.TopologicalSorter` raises
+  `CycleError` the same way, [docs](https://docs.python.org/3/library/graphlib.html)). Guard: the
+  test removes the check and sees the cycle return `[]` without an error.
