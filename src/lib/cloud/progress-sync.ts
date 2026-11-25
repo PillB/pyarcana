@@ -267,6 +267,8 @@ export class ProgressSync {
   lastError: string | null = null
   private readonly deps: SyncDeps & { scheduler: Scheduler }
   private accountId: string | null = null
+  /** The account the server state below (rev, ack, hints) was learnt from; survives sign-out. */
+  private lastAccountId: string | null = null
   private baseRev = 0
   private changes: ChangeLog
   private applying = false
@@ -314,7 +316,15 @@ export class ProgressSync {
 
   start(accountId: string): Promise<SyncStatus> {
     this.attach()
+    // Straight from account A to B (no sign-out between, e.g. a session replaced in the panel):
+    // A's revision, ack and pending choice must not follow B.
+    if (this.lastAccountId !== null && this.lastAccountId !== accountId) {
+      this.cancelTimer()
+      this.pending = null
+      this.forgetAccount()
+    }
     this.accountId = accountId
+    this.lastAccountId = accountId
     return this.enqueue(() => this.pullNow())
   }
 

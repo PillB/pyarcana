@@ -169,3 +169,13 @@ test('sign-in methods: a failed load is retried by the next reader; ok and in-fl
   await loadAuthMethods(api)
   assert.equal(gets, 2, 'while a load is in flight, no second request')
 })
+
+test('straight from account A to account B (no sign-out in between): "Unir" still uploads to B', async () => {
+  // Mutation that turns this red: drop the lastAccountId check in start().
+  const h = harness()
+  await h.sync.start('A')
+  h.signInAs('B')
+  assert.equal(await h.sync.start('B'), 'needs_choice')
+  await h.sync.resolveOwnerChoice('merge')
+  assert.ok(h.puts.some((p) => p.account === 'B'), `nothing uploaded to B: ${JSON.stringify(h.puts)}`)
+})

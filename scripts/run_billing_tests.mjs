@@ -173,7 +173,7 @@ const CLIENT_SUITES = [
   // Retest checks and the QA supervisor (owner request 2026-11-19).
   ["qa-review", 9],
   ["section-completion", 8],
-  ["sync-session-machines", 5],
+  ["sync-session-machines", 6],
   ["site-icons", 8],
   ["remote-apply", 4],
   ["review-r3", 11],
