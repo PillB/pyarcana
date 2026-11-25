@@ -687,3 +687,28 @@ test('a glossary term taught after S12 is explained where the track first names 
   assert.ok(checked >= 1, 'expected the track to name at least one term taught later (FastAPI); the matcher may be broken')
   assert.deepEqual(problems, [], 'gloss the term at its first mention, as an apposition or in parentheses')
 })
+
+test('a browser that refuses storage keeps every tick of this visit, not only the last one', async () => {
+  const { createTrackState } = await import('@/lib/tracks/shared-state')
+  let refusing = true
+  const m = new Map<string, string>()
+  const kv = { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => { if (refusing) throw new Error('QuotaExceededError'); m.set(k, v) } }
+  const state = createTrackState(WEB_TRACK_ID, () => kv)
+  const stop = state.subscribe(() => {})
+  // Defect guarded (Codex review, PR #196): each tick was rebuilt from storage, which held nothing,
+  // so ticking html.reparto and then http.navegador left only http.navegador.
+  state.setStep('html.reparto', true, WEB_TRACK_STEP_IDS)
+  state.setStep('http.navegador', true, WEB_TRACK_STEP_IDS)
+  assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto', 'http.navegador'])
+  assert.equal(state.getSnapshot().saveFailed, true)
+  state.handleStorageEvent(trackProgressKey(WEB_TRACK_ID))
+  assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto', 'http.navegador'], 'a storage event must not wipe the unsaved ticks')
+  state.setStep('html.reparto', false, WEB_TRACK_STEP_IDS)
+  assert.deepEqual(state.getSnapshot().progress.done, ['http.navegador'], 'an untick works in memory too')
+  // Storage comes back: the next tick saves everything the page holds.
+  refusing = false
+  assert.equal(state.setStep('sitio.servir', true, WEB_TRACK_STEP_IDS), true)
+  assert.deepEqual(loadTrackProgress(kv, WEB_TRACK_ID).done, ['http.navegador', 'sitio.servir'])
+  assert.equal(state.getSnapshot().saveFailed, false)
+  stop()
+})

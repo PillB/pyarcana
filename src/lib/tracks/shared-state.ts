@@ -10,6 +10,9 @@
 import { advanceFurthest, type PlacedSection } from './placement'
 import {
   commitTrackStep,
+  markTrackFinished,
+  saveTrackProgress,
+  setTrackStep,
   loadTrackFurthest,
   loadTrackProgress,
   saveTrackFurthest,
@@ -70,8 +73,17 @@ export function createTrackState(trackId: string, store: () => KeyValueStore | n
       return () => void listeners.delete(listener)
     },
     getSnapshot: () => snapshot,
-    refresh: () => publish(read(snapshot.saveFailed)),
+    // While the browser refuses writes, this page's ticks exist only in memory: re-reading storage
+    // would throw them away, so the progress is kept and only the furthest mark is re-read.
+    refresh: () => publish(snapshot.saveFailed ? { ...snapshot, furthestSeen: loadTrackFurthest(store(), trackId) } : read(false)),
     setStep(id, done, allIds) {
+      if (snapshot.saveFailed) {
+        // Codex review on PR #196: rebuilding from storage dropped every earlier unsaved tick.
+        const progress = markTrackFinished(setTrackStep(snapshot.progress, id, done), allIds)
+        const saved = saveTrackProgress(store(), trackId, progress)
+        publish({ progress, furthestSeen: snapshot.furthestSeen, saveFailed: !saved })
+        return saved
+      }
       const r = commitTrackStep(store(), trackId, id, done, Date.now, allIds)
       publish({ progress: r.progress, furthestSeen: loadTrackFurthest(store(), trackId), saveFailed: !r.saved })
       return r.saved

@@ -94,6 +94,8 @@ const stored = (p) => p.evaluate((k) => JSON.parse(localStorage.getItem(k) || '{
   const C = await ctx2.newPage(); C.on('pageerror', (e) => errs.push(e.message)); await C.goto(BASE + '#ruta-web', { waitUntil: 'networkidle' }); await C.waitForTimeout(600)
   await box(C, 'html.reparto').check(); await C.waitForTimeout(200)
   check('refused storage: tick stays visible and the warning shows', (await box(C, 'html.reparto').isChecked()) && (await C.locator('[data-testid=track-save-failed]').count()) === 1, 'missing tick or warning')
+  await box(C, 'http.navegador').check(); await C.waitForTimeout(200)
+  check('refused storage: a second tick keeps the first (Codex review, PR #196)', (await box(C, 'html.reparto').isChecked()) && (await box(C, 'http.navegador').isChecked()), 'the first tick was dropped')
   // Phone: the entry sits in the drawer and closes it.
   const phone = await b.newContext({ viewport: { width: 375, height: 800 } })
   await phone.addInitScript(() => { try { if (window === window.top) localStorage.setItem('pyarcana:tourCompleted', '1') } catch {} })
