@@ -36,6 +36,20 @@ export function isApplyingRemote(): boolean {
   return remoteDepth > 0
 }
 
+/**
+ * Runs `apply` as a write that did not come from this tab's learner, so listeners that read
+ * isApplyingRemote() ignore it. Used when another tab's progress is re-read
+ * (src/lib/progress-cross-tab.ts): a completion made in tab A is not a second completion in tab B.
+ */
+export function applyAsRemote<T>(apply: () => T): T {
+  remoteDepth += 1
+  try {
+    return apply()
+  } finally {
+    remoteDepth -= 1
+  }
+}
+
 export const progressStoreAdapter: ProgressStoreAdapter = {
   getState: () => pick(useProgressStore.getState()),
   setState: (patch) => {
