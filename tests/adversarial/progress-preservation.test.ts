@@ -16,7 +16,7 @@ import {
   serializeProgressEnvelope,
 } from '../../src/lib/progress-sanitize.ts'
 import {
-  migrateSectionIds, renameSectionId, sectionIdAliases, withCanonicalSectionIds,
+  SECTION_ID_SCHEMA_VERSION, migrateSectionIds, renameSectionId, sectionIdAliases, withCanonicalSectionIds,
 } from '../../src/lib/section-id-migrations.ts'
 
 describe('progress field contract', () => {
@@ -208,6 +208,40 @@ describe('migration preserves completed work and is idempotent', () => {
     // Batches B-D append to the same map and bump the version; a v1 blob must still get them.
     const { state } = migrateProgressState({ completedSections: ['numpy'] }, 1, 2)
     assert.deepEqual(state.completedSections, ['collections'])
+  })
+
+  it("batch B: S40's pre-V3 slug carries across, and a blob saved at version 1 receives it (O25)", () => {
+    // The batch A pass stopped at S13, so a learner who finished S40 under `agentic-architecture`
+    // had that work keyed by a slug nothing reads. A blob already at version 1 only runs the
+    // remap again when the stored schema version has moved on, so the version is part of this.
+    const before = {
+      completedSections: ['setup', 'agentic-architecture'],
+      completedSubSteps: { 'agentic-architecture': ['theory', 'ido'] },
+      quizScores: { 'agentic-architecture': 85 },
+      bookmarks: ['agentic-architecture'],
+      lastVisited: 'agentic-architecture',
+    }
+    const { state, version } = migrateProgressState(before, 1, SECTION_ID_SCHEMA_VERSION)
+    assert.equal(version, SECTION_ID_SCHEMA_VERSION)
+    assert.deepEqual(state.completedSections, ['setup', 'architecture-ddd-decisions'])
+    assert.deepEqual(state.completedSubSteps, { 'architecture-ddd-decisions': ['theory', 'ido'] })
+    assert.deepEqual(state.quizScores, { 'architecture-ddd-decisions': 85 })
+    assert.deepEqual(state.bookmarks, ['architecture-ddd-decisions'])
+    assert.equal(state.lastVisited, 'architecture-ddd-decisions')
+  })
+
+  it('S40 can be found under both slugs, and server rows under the old one merge into the new', () => {
+    assert.deepEqual(sectionIdAliases('architecture-ddd-decisions'), ['architecture-ddd-decisions', 'agentic-architecture'])
+    assert.deepEqual(sectionIdAliases('agentic-architecture'), ['architecture-ddd-decisions', 'agentic-architecture'])
+    const merged = mergeServerProgress(
+      { completedSubSteps: { 'architecture-ddd-decisions': ['wedo'] }, bookmarks: [], completedSections: [], quizScores: {} },
+      { progress: { 'agentic-architecture': ['theory', 'wedo'] }, bookmarks: ['agentic-architecture'] },
+    )
+    assert.deepEqual(Object.keys(merged.completedSubSteps), ['architecture-ddd-decisions'])
+    assert.deepEqual([...merged.completedSubSteps['architecture-ddd-decisions']].sort(), ['theory', 'wedo'])
+    assert.deepEqual(merged.bookmarks, ['architecture-ddd-decisions'])
+    const rows = withCanonicalSectionIds([{ sectionId: 'agentic-architecture', score: 70 }])
+    assert.equal(rows[0].sectionId, 'architecture-ddd-decisions')
   })
 
   it('inherited object members are not section renames', () => {
