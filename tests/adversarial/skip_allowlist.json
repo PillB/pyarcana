@@ -138,6 +138,22 @@
     {
       "suite": "tests/adversarial",
       "kind": "skip",
+      "test": "test_proposal12_s14.TimingIsHonest.test_pinned_output_does_not_depend_on_machine_speed",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s14.TimingIsHonest.test_the_shaky_clock_moves_a_live_comparison",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S14 lesson code, which needs NumPy from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests.adversarial.test_proposal12_s14 with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
       "test": "test_proposal12_s15.DtypeRuleMatchesTheCsv.test_pandas_reads_a_mixed_csv_column_as_str_and_excel_or_a_list_as_object",
       "reason_contains": "needs the pinned content interpreter",
       "why": "It runs S15 lesson code, which needs pandas and openpyxl from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
