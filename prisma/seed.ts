@@ -7438,18 +7438,6 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'objective-context-constraints-examples',
-      question: 'El modelo devuelve un JSON sin mediana. REQUIRED pide hallazgo, n, mediana, evidence_ids y model. El gate:',
-      options: [
-        'Publica el resto y deja mediana como null',
-        'Devuelve schema_fail y el borrador no se publica',
-        'Rellena mediana con 0.0 para no bloquear el informe del VP',
-        'Pide al modelo que la complete en un segundo intento',
-      ],
-      correctIndex: 1,
-      explanation: 'El gate es fail-closed: si falta una clave required, la salida es schema_fail y no llega al informe. Rellenar con 0.0 o null inventa un dato que el VP leerá como medido. Pedir al modelo que la complete puede producir un número sin evidencia; el camino del lab es schema_fail y revisión humana.',
-    },
-    {
-      concept: 'objective-context-constraints-examples',
       question: 'Un raw trae las cinco claves de REQUIRED y una clave extra. ¿Qué devuelve REQUIRED.issubset(obj)?',
       options: [
         'False, porque la clave extra rompe el contrato',
@@ -7461,7 +7449,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'issubset pregunta si cada elemento de REQUIRED está en obj; recorrer un dict da sus claves, así que acepta el dict sin convertirlo. Las claves extra no cambian la respuesta: el contrato exige mínimos, no un conjunto exacto. Usar issuperset invierte la pregunta y falla con cualquier clave extra.',
     },
     {
-      concept: 'glm-thinking-tools-checkpoints',
+      concept: 'objective-context-constraints-examples',
       question: 'Los ejemplos few-shot de un prompt de extracción del lab deben ser:',
       options: [
         'Casos reales de clientes, para que el modelo aprenda el estilo',
@@ -7497,7 +7485,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'think es el paso en que el asistente razona sobre el plan; no lee archivos, no llama a la red y no cambia nada fuera del modelo. Por eso no necesita permiso. La allowlist controla tools, es decir, acciones con efecto. Si think pudiera ejecutar algo, dejaría de ser think y tendría que pasar por allow.',
     },
     {
-      concept: 'golden-schema-human-review',
+      concept: 'glm-thinking-tools-checkpoints',
       question: 'Antes de un tool que envía un correo al cliente, el checkpoint del asistente:',
       options: [
         'Se aprueba si el texto se ve correcto al modelo',
@@ -7507,6 +7495,18 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation: 'Un correo enviado no se puede deshacer, así que el checkpoint exige requires_human_approval antes del efecto. Que el texto se vea bien no prueba que sea correcto ni que no venga de una injection. Ejecutar dos veces duplica el envío, y sacar el paso del audit log borra la evidencia que justifica el checkpoint.',
+    },
+    {
+      concept: 'golden-schema-human-review',
+      question: 'El modelo devuelve un JSON sin mediana. REQUIRED pide hallazgo, n, mediana, evidence_ids y model. El gate:',
+      options: [
+        'Publica el resto y deja mediana como null',
+        'Devuelve schema_fail y el borrador no se publica',
+        'Rellena mediana con 0.0 para no bloquear el informe del VP',
+        'Pide al modelo que la complete en un segundo intento',
+      ],
+      correctIndex: 1,
+      explanation: 'El gate es fail-closed: si falta una clave required, la salida es schema_fail y no llega al informe. Rellenar con 0.0 o null inventa un dato que el VP leerá como medido. Pedir al modelo que la complete puede producir un número sin evidencia; el camino del lab es schema_fail y revisión humana.',
     },
     {
       concept: 'golden-schema-human-review',
