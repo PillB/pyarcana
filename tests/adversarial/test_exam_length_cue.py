@@ -111,7 +111,10 @@ import exam_bank  # noqa: E402
 #: 2026-11-25: 965 -> 947. Proposal 12 S17: every packaging (joins, reshape, groupby) distractor was
 #: rewritten as a misconception (pivot_table summing by default, left keeping orphan transactions,
 #: `<` as the as-of filter); the bank leaves the perfect-cue set, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 947
+#: 2026-11-25: 947 -> 931. Proposal 12 S18: every data-engineering (EDA and uncertainty) distractor was
+#: rewritten as a misconception (bias_pp read as 0.25 points, ddof=0 for a sample, the IC as the range
+#: of the data); the key is longest on 6 of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 931
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

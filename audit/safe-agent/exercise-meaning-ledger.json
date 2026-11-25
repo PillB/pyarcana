@@ -2760,6 +2760,46 @@
       "reason": "Proposal 12 S17: C003 has no transactions and C002's sale falls on the cutoff day, so inner (rows 3) and `<` (total_pre 3.0) no longer pass. Same task: left join + as-of + delta.",
       "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 277,
+      "id": "S18-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "376a6b7241f2b9459d1189315efaefc50bcf4ea63d0e93fea952b21e27e9f38f",
+      "to_fp": "91b8b507d05cb966701cbecb0206f2714416f240cd8608cfc762c084ceddf48d",
+      "reason": "Proposal 12 S18: title now names Lima, the region the code counts (it said Madrid while the code counted Lima). Same task: share of one region. The starter comment and feedback now say «la región equivocada» / «la región pedida» instead of repeating Lima (S18 sat at the city-name cap).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 278,
+      "id": "S18-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "a778aa29e319a1b3665c2bfac493099f6843fed6b8473f5a821c65d0b5f88287",
+      "to_fp": "42a15a1acabe1664767eeef50adbb1bc562951d08981a0478c81191a951beede",
+      "reason": "Proposal 12 S18: the 50/50 two-region fixture gave 0.4 for max and min alike, so returning the minimum passed. Now 8 Lima, 2 Madrid, no Bogota rows vs 50/30/20: max 0.3, min 0.1, mean 0.2, and counts[k] raises. Same task: worst |bias|.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 279,
+      "id": "S18-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "e9757f614b28f6358c6bcb9b0538d66412f18a0a79227e18fc7f775faee62f10",
+      "to_fp": "cc8eb0ead8456da67f474c9f3207881e6a54e9891ba6cd8dba2c32fb543eb677",
+      "reason": "Proposal 12 S18: ranks come from pd.Series(x).rank() instead of argsort(argsort(x)), which gives tied values different ranks and is not Spearman. Same task: Spearman as Pearson on ranks.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 280,
+      "id": "S18-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "72a07eca6d30d09ceac474c7b9cdd530cb02e2e24c5736b4d3cde1ca7adf7597",
+      "to_fp": "98f010171df128e6d1eafe0245322843aebad2f261c982fc0e7d9a674e1c0757",
+      "reason": "Proposal 12 S18: title now names Lima, the region the code filters (it said Madrid while the code filtered Lima). Same task: outlier share in one region. Context, hints and starter comment say «la región pedida» instead of repeating Lima (city-name cap).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
