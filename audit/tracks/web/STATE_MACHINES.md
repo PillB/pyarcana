@@ -59,8 +59,16 @@ Patterns Pablo named, and why each does or does not apply here:
 - **Connection pooling**: not applicable. The track opens no connection. The learner's own
   programs (SM6) open one connection per request with `urllib`, which is right at that scale.
 
-Evidence: `scripts/web_track_sync_check.cjs`, two real Chromium tabs on the static export,
-14/14. With the `storage` listener removed it fails 3 checks (B does not see A's tick, the counters
+**Same tab, found in the browser in the follow-up round:** the track page, the section banner and
+the new menu entry each kept their own copy, and a page never receives its own `storage` events,
+so a tick on the track page left the menu's count and standing old. Fix: one store per page
+(`src/lib/tracks/shared-state.ts`) read with `useSyncExternalStore`; every writer goes through it
+and it notifies every reader, and it keeps the same snapshot when nothing changed so React does
+not re-render in a loop. Test: "one copy per page" (notify only the first reader; always replace
+the snapshot).
+
+Evidence: `scripts/web_track_sync_check.cjs`, two real Chromium tabs and a phone viewport on the
+static export, 22/22 (14/14 before the follow-up round). With the `storage` listener removed it fails 3 checks (B does not see A's tick, the counters
 differ, the untick does not reach A).
 
 ## SM3. The track's standing
@@ -96,20 +104,30 @@ required". The exhaustive test
 crosses 5 completion sets, 4 open sections and done/not done, asserts `done` always wins, never
 "upcoming" past S12, never "optional" in phase 2, and that all four states are reachable.
 
-**Backward transitions, kept on purpose:** unticking a step, or a later round adding a step,
-moves `done` back. Kept because "done" claims every step is ticked; the cost is that adding a
-step to the track demotes learners who finished it. This round added five practice steps (16 →
-21) before release, so no learner is affected now; a future addition should be weighed against it.
+**Backward transitions:** unticking a step moves `done` back, on purpose. Adding a step used to as
+well, demoting every learner who had finished (and S27 told them again that the track was
+required). Fixed in the follow-up round: the record carries `finished: true` once every step is
+ticked, and only an untick clears it. New steps then show unticked in the count, while the
+standing stays "done". Test: "a learner who finished stays done" (ignore the flag; keep it on
+untick).
 
 Resetting the course's progress does not lower the furthest mark, so the standing stays
 "required" for a learner who had reached phase 2. Kept: reaching the advanced level is a fact
 about this browser's history, and the mark lives in the track's own key, not the course record.
 
-**Remaining gap, named:** the course's own progress (`useProgressStore`, a protected path) does
-not sync between tabs. The track's standing no longer depends on it for this case (the furthest
-mark syncs through the `storage` event; checked with a tab left open), but other course views in a
-second tab still show stale completion until reloaded. Fixing that means rehydrating the whole
-course store on a `storage` event, which changes every view; left for the owner of that store.
+**Course progress across tabs (fixed in the follow-up round):** the course store did not follow
+other tabs, so a tab left open showed old completion. `src/lib/progress-cross-tab.ts` re-reads
+`python-ds-progress` through the store's own `persist` (parse, sanitize, migrate) when another tab
+writes it, following the precedent of `theory-checkpoints.ts`; the store file is not changed. Routes
+compared: (a) re-read through `persist.rehydrate()`, chosen, because it reuses the store's
+validation; (b) parse the record here, rejected, because it duplicates a protected format and
+drifts when the schema moves; (c) `BroadcastChannel` messages, rejected, because every writer would
+have to post them and the store's writes do not. A removal (`newValue` null, also `clear()`) is not
+re-read: re-reading an absent record keeps this tab's copy and writes it back at once. Trade-off:
+for a signed-in learner, the second tab records the same changes in its cloud change log and
+uploads them once more; the merge is last-write-wins per item, so the server state is the same.
+Browser: a section completed in tab A shows in tab B's menu without reload, and tab A receives at
+most one echo (no ping-pong).
 
 ## SM4. The banner on a section
 
@@ -178,3 +196,19 @@ were run against a repository created with `master` and a remote: `main` arrived
 | 2. Coherence between views | Compare the standing on S12, S27, S02 and the track page, in one tab and in two | Three contradictions found and fixed (SM3 twice, SM4); the cross-tab course store gap named |
 | 3. Drift | Renumber the sections the prose cites ("FastAPI en S41") | The prose cites 15 sections by number. A test now pins each number to the slug it meant and simulates an insertion before S12; any change names the number and the file |
 | 4. Learner side | Walk SM6 to SM8 on a fresh machine profile | The `master` branch case found and taught; the rest already covered and run |
+
+## Follow-up round (Pablo: "fix issues identified")
+
+| Issue named in the first round | Done |
+|---|---|
+| Course progress does not follow other tabs | Fixed (SM3, course progress across tabs) |
+| Adding a step demotes learners who finished | Fixed (`finished` flag) |
+| No menu entry for the track | Added beside Sesión 0, outside the 52-item list (the list's count is pinned by `lesson-navigation.test.ts` and announced by screen readers, so an entry inside it was rejected) |
+| "Required" is advisory | Not changed: enforcing it changes what the level-3 badge claims. Put to Pablo as a decision |
+| Ticks do not sync to an account | Not changed: needs a field in the progress document and its schema (protected). Put to Pablo |
+| Content is Spanish only | Not changed: translating the learner prose is new prose for approval; the UI strings exist in all three languages |
+
+Red team of the follow-up: a removal event resurrecting the record (fixed: not re-read); a re-read
+loop between tabs (checked: one echo at most); a cloud double upload (stated above); the shared
+store re-rendering on every storage event (fixed: snapshot kept when unchanged); the menu entry on
+a phone (opens the track and closes the drawer, no overflow).

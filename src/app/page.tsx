@@ -21,6 +21,7 @@ import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
 import { SetupIntro } from '@/components/setup/SetupIntro'
 import { WebTrackView } from '@/components/tracks/WebTrackView'
+import { followCourseProgressInOtherTabs } from '@/lib/progress-cross-tab'
 import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
 import { AccountButton } from '@/components/account/AccountButton'
 import { AccountDialog } from '@/components/account/AccountDialog'
@@ -107,6 +108,8 @@ export default function Home() {
 
   // Sync progress from server when user is logged in
   useServerProgressSync()
+  // Another tab completed a section: show it here too (src/lib/progress-cross-tab.ts).
+  useEffect(() => followCourseProgressInOtherTabs(window), [])
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -291,6 +294,18 @@ export default function Home() {
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // The web track opens in place too, from the menu entry beside Sesión 0.
+  const handleOpenWebTrack = () => {
+    if (typeof window !== 'undefined' && activeSectionId) {
+      sessionStorage.setItem(`pyarcana:sectionScroll:${activeSectionId}`, String(window.scrollY || 0))
+    }
+    setView('webtrack')
+    setActiveSectionId(null)
+    updateUrl(null, 'webtrack')
+    setSidebarOpen(false)
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const handleOpenAuth = (tab: 'login' | 'register' = 'login') => {
     // Where cloud accounts run (stage not off), "Entrar" opens the account dialog instead.
     if (openCloudAccount()) return
@@ -353,6 +368,7 @@ export default function Home() {
           onSelectSection={handleSelectSection}
           onHome={handleHome}
           onOpenSessionZero={handleOpenSessionZero}
+          onOpenWebTrack={handleOpenWebTrack}
           view={view}
         />
       </aside>
@@ -381,6 +397,7 @@ export default function Home() {
                 onSelectSection={handleSelectSection}
                 onHome={handleHome}
                 onOpenSessionZero={handleOpenSessionZero}
+          onOpenWebTrack={handleOpenWebTrack}
                 view={view}
               />
             </motion.aside>

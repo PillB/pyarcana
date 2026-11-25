@@ -22,6 +22,7 @@ import type { CourseSection } from '@/lib/types'
 import { useI18n, t } from '@/lib/i18n'
 import { countDone, loadSetupProgress, type SetupProgress } from '@/lib/setup/progress'
 import { setupStepIds } from '@/lib/setup/content'
+import { WebTrackSidebarLink } from '@/components/tracks/WebTrackSidebarLink'
 
 interface SidebarProps {
   sections: CourseSection[]
@@ -30,6 +31,8 @@ interface SidebarProps {
   onHome: () => void
   /** Opens Sesión 0 inside the course shell. Without it the link loads /empezar as a page. */
   onOpenSessionZero?: () => void
+  /** Opens the web track inside the shell. Without it the entry is a plain `#ruta-web` link. */
+  onOpenWebTrack?: () => void
   view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0' | 'webtrack'
 }
 
@@ -64,7 +67,7 @@ function fill(template: string, vars: Record<string, string | number>): string {
   )
 }
 
-export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, onOpenSessionZero, view }: SidebarProps) {
+export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, onOpenSessionZero, onOpenWebTrack, view }: SidebarProps) {
   const { completedSections, completedSubSteps, toggleBookmark, bookmarks, setLastVisited } = useProgressStore()
   const lang = useI18n((s) => s.lang)
   const [mounted, setMounted] = useState(false)
@@ -127,6 +130,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, on
 
       <div className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3">
       <SessionZeroLink mounted={mounted} active={view === 'session0'} onOpen={onOpenSessionZero} />
+      <WebTrackSidebarLink active={view === 'webtrack'} onOpen={onOpenWebTrack} />
       <div
         data-testid="sidebar-sections"
         role="list"

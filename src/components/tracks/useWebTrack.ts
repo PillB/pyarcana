@@ -1,19 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { COURSE_SECTIONS } from '@/lib/course'
 import { useProgressStore } from '@/lib/progress-store'
-import { advanceFurthest, trackStanding, type TrackStanding } from '@/lib/tracks/placement'
-import {
-  commitTrackStep,
-  countTrackDone,
-  loadTrackFurthest,
-  loadTrackProgress,
-  saveTrackFurthest,
-  trackFurthestKey,
-  trackProgressKey,
-  type TrackProgress,
-} from '@/lib/tracks/progress'
+import { trackStanding, type TrackStanding } from '@/lib/tracks/placement'
+import { countTrackDone, isTrackComplete } from '@/lib/tracks/progress'
+import { createTrackState, EMPTY_TRACK_SNAPSHOT } from '@/lib/tracks/shared-state'
 import { WEB_TRACK_ID } from '@/lib/tracks/web/content'
 import { WEB_TRACK_PLACEMENT, WEB_TRACK_STEP_IDS } from '@/lib/tracks/web/placed'
 
@@ -25,47 +17,37 @@ function storage(): Storage | null {
   }
 }
 
+/** One per page: the track page, the section banners and the menu read and write the same copy. */
+const webTrackState = createTrackState(WEB_TRACK_ID, storage)
+
+function subscribe(listener: () => void): () => void {
+  const stop = webTrackState.subscribe(listener)
+  const onStorage = (e: StorageEvent) => webTrackState.handleStorageEvent(e.key)
+  window.addEventListener('storage', onStorage)
+  return () => {
+    stop()
+    window.removeEventListener('storage', onStorage)
+  }
+}
+
 /**
- * The learner's ticks on the web track and its standing for them. Ticks are read after mount (the
- * prerendered HTML has no storage), again whenever another tab writes them (`storage` event), and
- * every tick is applied to the latest stored record, so two open tabs never erase each other's
- * ticks (audit/tracks/web/STATE_MACHINES.md, SM1 and SM2).
+ * The learner's ticks on the web track and its standing for them. Every component reads the same
+ * per-page store (`shared-state.ts`), so a tick on the track page shows in the menu at once; other
+ * tabs' writes arrive through the `storage` event; every tick is applied to the latest stored
+ * record, so two tabs never erase each other's ticks. The prerendered HTML has no storage and
+ * renders the empty state (STATE_MACHINES.md, SM1 to SM3).
  */
 export function useWebTrack(currentSectionId?: string | null) {
   const completedSections = useProgressStore((s) => s.completedSections)
   const completedSubSteps = useProgressStore((s) => s.completedSubSteps)
   const lastVisited = useProgressStore((s) => s.lastVisited)
-  const [progress, setProgress] = useState<TrackProgress>({ done: [] })
-  const [saveFailed, setSaveFailed] = useState(false)
-  const [furthestSeen, setFurthestSeen] = useState<string | null>(null)
+  const { progress, furthestSeen, saveFailed } = useSyncExternalStore(subscribe, webTrackState.getSnapshot, () => EMPTY_TRACK_SNAPSHOT)
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setProgress(loadTrackProgress(storage(), WEB_TRACK_ID))
-    setFurthestSeen(loadTrackFurthest(storage(), WEB_TRACK_ID))
-    const key = trackProgressKey(WEB_TRACK_ID)
-    const furthestKey = trackFurthestKey(WEB_TRACK_ID)
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === key || e.key === null) setProgress(loadTrackProgress(storage(), WEB_TRACK_ID))
-      if (e.key === furthestKey || e.key === null) setFurthestSeen(loadTrackFurthest(storage(), WEB_TRACK_ID))
-    }
-    window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
-  }, [])
-  useEffect(() => {
-    // Advance from the stored mark, not this page's copy, so an older tab never lowers it.
-    const stored = loadTrackFurthest(storage(), WEB_TRACK_ID)
-    const next = advanceFurthest(COURSE_SECTIONS, stored, currentSectionId)
-    if (next && next !== stored) saveTrackFurthest(storage(), WEB_TRACK_ID, next)
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (next) setFurthestSeen(next)
+    if (currentSectionId) webTrackState.visit(COURSE_SECTIONS, currentSectionId)
   }, [currentSectionId])
-  const setStep = useCallback((id: string, isDone: boolean) => {
-    const r = commitTrackStep(storage(), WEB_TRACK_ID, id, isDone)
-    setProgress(r.progress)
-    setSaveFailed(!r.saved)
-  }, [])
+  const setStep = useCallback((id: string, isDone: boolean) => void webTrackState.setStep(id, isDone, WEB_TRACK_STEP_IDS), [])
   const done = countTrackDone(progress, WEB_TRACK_STEP_IDS)
-  const complete = done === WEB_TRACK_STEP_IDS.length
+  const complete = isTrackComplete(progress, WEB_TRACK_STEP_IDS)
   const standing: TrackStanding = trackStanding(
     WEB_TRACK_PLACEMENT,
     COURSE_SECTIONS,

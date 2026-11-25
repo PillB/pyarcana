@@ -145,6 +145,10 @@ const translations: Record<Language, Dict> = {
     'sidebar.session0.title': 'Sesión 0',
     'sidebar.session0.tagline': 'Prepara tu computadora',
     'sidebar.session0.progress': '{done} de {total} pasos',
+    'sidebar.webTrack.title': 'Python en la web',
+    'sidebar.webTrack.optional': 'Ruta opcional · {done} de {total}',
+    'sidebar.webTrack.required': 'Pendiente para avanzado · {done} de {total}',
+    'sidebar.webTrack.done': 'Ruta completada',
 
     'section.theory': 'Teoría',
     'section.ido': 'Yo hago',
@@ -1268,6 +1272,10 @@ const translations: Record<Language, Dict> = {
     'sidebar.session0.title': 'Sesión 0',
     'sidebar.session0.tagline': 'Prepara tu computadora',
     'sidebar.session0.progress': '{done} de {total} pasos',
+    'sidebar.webTrack.title': 'Python en la web',
+    'sidebar.webTrack.optional': 'Ruta opcional · {done} de {total}',
+    'sidebar.webTrack.required': 'Pendiente para avanzado · {done} de {total}',
+    'sidebar.webTrack.done': 'Ruta completada',
 
     'section.theory': 'Teoría',
     'section.ido': 'Yo hago',
@@ -2391,6 +2399,10 @@ const translations: Record<Language, Dict> = {
     'sidebar.session0.title': 'Session 0',
     'sidebar.session0.tagline': 'Set up your computer',
     'sidebar.session0.progress': '{done} of {total} steps',
+    'sidebar.webTrack.title': 'Python on the web',
+    'sidebar.webTrack.optional': 'Optional track · {done} of {total}',
+    'sidebar.webTrack.required': 'Due for advanced · {done} of {total}',
+    'sidebar.webTrack.done': 'Track completed',
 
     'section.theory': 'Theory',
     'section.ido': 'I Do',

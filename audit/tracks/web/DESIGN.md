@@ -120,17 +120,16 @@ one touches the progress schema (a protected path) and is left for a separate ch
 
 - "Required" is advisory (§3).
 - Ticks do not sync across devices (§4).
-- No sidebar or dashboard entry: discoverability is S12, S13, S27 and the link. Adding a sidebar
-  item touches a component two other threads are changing today.
+- No dashboard card. The menu has an entry beside Sesión 0 (follow-up round); the dashboard is
+  left as it is.
 - The track has no graded exercises or quiz; checkpoints are self-checks («Deberías ver») like
   Sesión 0. Auto-graded exercises would need the Pyodide playground, which cannot run a server or
   write files.
 - The English UI strings exist; the content is Spanish only, as Sesión 0's is.
 - Publishing is checked up to `wrangler deploy --dry-run` and a local Pages-style server; no real
   GitHub Pages or Cloudflare deployment was made, because that needs the learner's own accounts.
-- Adding a step later moves learners who finished the track back from "done" (STATE_MACHINES.md SM3).
-- The course's own progress does not sync between tabs (a protected store); the track's standing
-  no longer depends on it, other course views still do.
+- (Fixed in the follow-up round, STATE_MACHINES.md: adding a step no longer demotes learners who
+  finished; course progress follows other tabs.)
 
 ## 8. Browser evidence (static export, base path /pyarcana, Chromium)
 

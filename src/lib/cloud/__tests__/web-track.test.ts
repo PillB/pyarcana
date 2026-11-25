@@ -28,6 +28,7 @@ import {
   saveTrackProgress,
   serializeTrackProgress,
   toggleTrackStep,
+  isTrackComplete,
   trackProgressKey,
 } from '@/lib/tracks/progress'
 import { WEB_TRACK, WEB_TRACK_ANCHORS, WEB_TRACK_ID } from '@/lib/tracks/web/content'
@@ -526,4 +527,102 @@ test('the standing does not forget S27 when the learner goes back to S12: the fu
   assert.equal(advanceFurthest(secs, 'gone-slug', slugAt(3)), slugAt(3))
   assert.equal(advanceFurthest(secs, slugAt(30), 'gone-slug'), slugAt(30))
   assert.equal(advanceFurthest(secs, slugAt(30), null), slugAt(30))
+})
+
+test('a learner who finished stays "done" when a later round adds steps; only an untick undoes it', () => {
+  const { kv } = mapStore()
+  const ids = [...WEB_TRACK_STEP_IDS]
+  let last = { progress: loadTrackProgress(kv, WEB_TRACK_ID), saved: true }
+  for (const id of ids) last = commitTrackStep(kv, WEB_TRACK_ID, id, true, Date.now, ids)
+  assert.equal(isTrackComplete(last.progress, ids), true)
+  // Simulated drift: two steps are added to the track after the learner finished.
+  const grown = [...ids, 'html.nuevo', 'sitio.nuevo']
+  const stored = loadTrackProgress(kv, WEB_TRACK_ID)
+  // Defect guarded: "done" was "every current step ticked", so adding a step demoted every learner
+  // who had finished, and S27 started telling them the track was required again.
+  assert.equal(isTrackComplete(stored, grown), true, 'finished before the steps were added')
+  assert.equal(trackLinkFor(WEB_TRACK_PLACEMENT.requiredBefore.id, WEB_TRACK_PLACEMENT, isTrackComplete(stored, grown)), null)
+  // Ticking a new step keeps it; unticking any step clears "finished".
+  assert.equal(isTrackComplete(commitTrackStep(kv, WEB_TRACK_ID, 'html.nuevo', true, Date.now, grown).progress, grown), true)
+  const unticked = commitTrackStep(kv, WEB_TRACK_ID, ids[0], false, Date.now, grown).progress
+  assert.equal(isTrackComplete(unticked, grown), false)
+  assert.equal(isTrackComplete(loadTrackProgress(kv, WEB_TRACK_ID), grown), false, 'the untick is stored')
+  // An unfinished learner is not "done" because of the new steps, and nothing invents the mark.
+  assert.equal(isTrackComplete({ done: ids.slice(1) }, ids), false)
+  assert.equal(parseTrackProgress(JSON.stringify({ v: 1, done: [], finished: 'yes' })).finished, undefined)
+})
+
+test('a section completed in another tab reaches this tab: the course store re-reads on that key only', async () => {
+  const { followCourseProgressInOtherTabs } = await import('@/lib/progress-cross-tab')
+  const listeners: ((e: { key: string | null; newValue: string | null }) => void)[] = []
+  const target = {
+    addEventListener: (_: string, fn: (e: { key: string | null; newValue: string | null }) => void) => void listeners.push(fn),
+    removeEventListener: (_: string, fn: (e: { key: string | null; newValue: string | null }) => void) => void listeners.splice(listeners.indexOf(fn), 1),
+  }
+  let rereads = 0
+  const stop = followCourseProgressInOtherTabs(target as never, () => { rereads += 1 })
+  // Defect guarded: a tab left open kept old completion, so its track standing and sidebar disagreed
+  // with the tab where the learner had just worked.
+  const events = [
+    { key: 'python-ds-progress', newValue: '{"state":{},"version":3}' },
+    { key: 'python-ds-progress', newValue: null }, // removed in the other tab
+    { key: null, newValue: null }, // localStorage.clear()
+    { key: 'pyarcana:track:ruta-web:v1', newValue: '{}' },
+    { key: 'pyarcana:theory-checkpoints', newValue: '{}' },
+  ]
+  for (const e of events) listeners.forEach((fn) => fn(e))
+  assert.equal(rereads, 1, 'only a new course record re-reads; a removal would be written straight back, other keys are not ours')
+  stop()
+  assert.equal(listeners.length, 0, 'the listener is removed on unmount')
+})
+
+test('the menu has a web track entry beside Sesión 0, outside the list of the 52 sections', async () => {
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { createElement } = await import('react')
+  const { Sidebar } = await import('@/components/course/Sidebar')
+  const html = renderToStaticMarkup(
+    createElement(Sidebar, { sections: COURSE_SECTIONS, activeSectionId: null, onSelectSection: () => {}, onHome: () => {}, view: 'webtrack' }),
+  )
+  const entry = html.indexOf('data-testid="sidebar-webtrack"')
+  const session0 = html.indexOf('data-testid="sidebar-session0"')
+  const list = html.indexOf('data-testid="sidebar-sections"')
+  // Defects guarded: no way to reach the track except three banners; and an entry placed inside
+  // the list would make screen readers announce 53 sections.
+  assert.ok(entry > session0 && entry < list, `expected Sesión 0 < web track < section list, got ${session0} / ${entry} / ${list}`)
+  assert.match(html, /<a[^>]*href="#ruta-web"[^>]*data-testid="sidebar-webtrack"/)
+  assert.match(html, /data-testid="sidebar-webtrack"[^>]*aria-current="page"/, 'the entry is marked current on the track page')
+  assert.equal((html.slice(list).match(/role="listitem"/g) ?? []).length, COURSE_SECTIONS.length)
+  for (const lang of ['es-PE', 'es-ES', 'en'] as const) {
+    for (const k of ['title', 'optional', 'required', 'done']) assert.notEqual(t(`sidebar.webTrack.${k}`, lang), `sidebar.webTrack.${k}`, `${lang} lacks sidebar.webTrack.${k}`)
+  }
+  assert.match(t('sidebar.webTrack.optional', 'es-PE'), /\{done\}.*\{total\}/)
+})
+
+test('one copy per page: a tick on the track page reaches the menu and the banner in the same tab at once', async () => {
+  const { createTrackState } = await import('@/lib/tracks/shared-state')
+  const { kv } = mapStore()
+  const state = createTrackState(WEB_TRACK_ID, () => kv)
+  const secs = liveSections()
+  let menuRenders = 0
+  let bannerRenders = 0
+  const stopMenu = state.subscribe(() => { menuRenders += 1 })
+  const stopBanner = state.subscribe(() => { bannerRenders += 1 })
+  // Defect guarded (found in the browser): each component kept its own copy, and a page never
+  // receives its own storage events, so the menu kept the old count until it remounted.
+  state.setStep('html.reparto', true, WEB_TRACK_STEP_IDS)
+  assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto'])
+  assert.ok(menuRenders === 1 && bannerRenders === 1, `both readers notified once, got menu ${menuRenders}, banner ${bannerRenders}`)
+  const before = state.getSnapshot()
+  state.refresh()
+  state.handleStorageEvent('pyarcana:theory-checkpoints')
+  assert.equal(state.getSnapshot(), before, 'no change, same snapshot: React must not re-render in a loop')
+  assert.equal(menuRenders, 1)
+  state.visit(secs, WEB_TRACK_PLACEMENT.requiredBefore.id)
+  assert.equal(state.getSnapshot().furthestSeen, WEB_TRACK_PLACEMENT.requiredBefore.id)
+  assert.equal(menuRenders, 2, 'a visit to S27 reaches the menu')
+  // Another tab writes: the event re-reads.
+  commitTrackStep(kv, WEB_TRACK_ID, 'sitio.servir', true)
+  state.handleStorageEvent(trackProgressKey(WEB_TRACK_ID))
+  assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto', 'sitio.servir'])
+  stopMenu(); stopBanner()
 })

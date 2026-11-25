@@ -11,6 +11,11 @@
 export interface TrackProgress {
   /** Ids of the steps ticked, in the order they were ticked. */
   done: string[]
+  /**
+   * Set when every step was ticked, cleared when the learner unticks one. A step added to the
+   * track later does not clear it, so a learner who finished stays "done" (STATE_MACHINES.md, SM3).
+   */
+  finished?: boolean
 }
 
 /** `pyarcana:track:<id>:v1`. One key per track, so two tracks never share ticks. */
@@ -44,19 +49,21 @@ export function parseTrackProgress(raw: string | null | undefined): TrackProgres
   try {
     const data: unknown = JSON.parse(raw)
     if (!data || typeof data !== 'object' || Array.isArray(data)) return { done: [] }
-    return { done: cleanIds((data as Record<string, unknown>).done) }
+    const record = data as Record<string, unknown>
+    const done = cleanIds(record.done)
+    return record.finished === true ? { done, finished: true } : { done }
   } catch {
     return { done: [] }
   }
 }
 
 export function serializeTrackProgress(p: TrackProgress): string {
-  return JSON.stringify({ v: 1, done: cleanIds(p.done) })
+  return JSON.stringify(p.finished ? { v: 1, done: cleanIds(p.done), finished: true } : { v: 1, done: cleanIds(p.done) })
 }
 
 export function toggleTrackStep(p: TrackProgress, id: string): TrackProgress {
   if (!isTrackStepId(id)) return p
-  return p.done.includes(id) ? { done: p.done.filter((d) => d !== id) } : { done: [...p.done, id] }
+  return setTrackStep(p, id, !p.done.includes(id))
 }
 
 /**
@@ -66,7 +73,19 @@ export function toggleTrackStep(p: TrackProgress, id: string): TrackProgress {
  */
 export function setTrackStep(p: TrackProgress, id: string, done: boolean): TrackProgress {
   if (!isTrackStepId(id) || p.done.includes(id) === done) return p
-  return done ? { done: [...p.done, id] } : { done: p.done.filter((d) => d !== id) }
+  if (done) return { ...p, done: [...p.done, id] }
+  return { done: p.done.filter((d) => d !== id) } // an untick clears `finished`
+}
+
+/** Marks the record finished once every current step is ticked; never unmarks (only an untick does). */
+export function markTrackFinished(p: TrackProgress, allIds: readonly string[]): TrackProgress {
+  if (p.finished || allIds.length === 0 || countTrackDone(p, allIds) < allIds.length) return p
+  return { ...p, finished: true }
+}
+
+/** Done for the standing and the banner: every step ticked now, or finished before steps were added. */
+export function isTrackComplete(p: TrackProgress, allIds: readonly string[]): boolean {
+  return p.finished === true || (allIds.length > 0 && countTrackDone(p, allIds) === allIds.length)
 }
 
 export function countTrackDone(p: TrackProgress, ids: readonly string[]): number {
@@ -129,8 +148,9 @@ export function commitTrackStep(
   id: string,
   done: boolean,
   now: () => number = Date.now,
+  allIds: readonly string[] = [],
 ): { progress: TrackProgress; saved: boolean } {
-  const progress = setTrackStep(loadTrackProgress(store, trackId), id, done)
+  const progress = markTrackFinished(setTrackStep(loadTrackProgress(store, trackId), id, done), allIds)
   if (!backUpForeignRecord(store, trackId, now)) return { progress, saved: false }
   return { progress, saved: saveTrackProgress(store, trackId, progress) }
 }
