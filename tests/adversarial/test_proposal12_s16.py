@@ -144,12 +144,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def bank() -> list[dict]:
@@ -230,7 +239,8 @@ class OneOutcomePerCase(unittest.TestCase):
 
     def test_a_required_null_has_one_outcome(self) -> None:
         texts = strings(s16())
-        self.assertFalse([t for t in texts if "cuarentena o fail" in t or "tumba el gate" in t])
+        self.assertFalse([t for t in texts if "cuarentena o fail" in t or "tumba el gate" in t],
+            "a required null must have one outcome; these texts still offer two: got " + repr([t for t in texts if "cuarentena o fail" in t or "tumba el gate" in t])[:300])
         self.assertIn("`pass=False`", prose("Nulls y políticas por campo"))
         figure = FIGURES.read_text(encoding="utf-8")
         self.assertNotIn("'cuarentena o fail'", figure)
@@ -248,7 +258,8 @@ class OneOutcomePerCase(unittest.TestCase):
         self.assertTrue(reasons, "the reason scanner found nothing")
         self.assertLessEqual(reasons, REASONS, f"unknown reason codes: {reasons - REASONS}")
         events = set(re.findall(r'event\\?"?: \\?"(\w+)', source))
-        self.assertTrue(events)
+        self.assertTrue(events,
+            "the audit must record events; an empty list proves nothing: got " + repr(events)[:300])
         self.assertLessEqual(events, EVENTS, f"unknown audit events: {events - EVENTS}")
         for gone in ("null_required_monto", "conflict_region", "fail_impute_cap", "1e6"):
             self.assertNotIn(gone, source)
@@ -374,8 +385,9 @@ class WeDoChecksCanFail(unittest.TestCase):
                 continue
             with self.subTest(ex_id, mutation=new[:50]):
                 self.assertIn(old, sol["code"], "mutation anchor not found")
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(old, new, 1)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(old, new, 1)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
             ran += 1
         return ran
 
@@ -561,7 +573,8 @@ class ExamBank(unittest.TestCase):
         q = s16()["selfCheck"]["questions"][7]
         others = [o for i, o in enumerate(q["options"]) if i != q["correctIndex"]]
         self.assertIn("cuarentena", q["options"][q["correctIndex"]])
-        self.assertTrue(all("borrar" in o or "keep='first'" in o or "seguir" in o for o in others))
+        self.assertTrue(all("borrar" in o or "keep='first'" in o or "seguir" in o for o in others),
+            "each non-key option in the conflict item must be clearly indefensible: checked " + repr(others)[:300])
         ranks = key_length_ranks(s16()["selfCheck"]["questions"])
         self.assertLessEqual(ranks.count(1), 2)
 

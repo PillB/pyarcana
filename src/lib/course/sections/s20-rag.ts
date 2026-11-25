@@ -1997,8 +1997,15 @@ def reconcile(det_sum, portada, n_det, n_portada, tol=0.01):
     # COMPLETAR: return abs(det_sum - portada) < tol and n_det == n_portada
     return False
 
-def correr(master, out):
-    """Una corrida: copia el master, valida headers, lee la portada, materializa y guarda."""
+def salida_ok(sal, det_sum, n_rows, tol=0.01):
+    """Lo entregado: D1 y D2 leídos del archivo guardado, no las variables en memoria."""
+    total, n = sal["D1"].value, sal["D2"].value
+    return isinstance(total, (int, float)) and abs(total - det_sum) < tol and n == n_rows
+
+def correr(master, out, bak):
+    """Una corrida: respalda la salida previa, copia el master, valida, materializa y guarda."""
+    if out.exists():
+        shutil.copy(out, bak)  # backup del resultado anterior antes de sobrescribirlo
     shutil.copy(master, out)  # siempre desde el master, nunca desde la salida anterior
     wb = load_workbook(out)
     if not headers_ok(wb["Entrada"], ["region", "monto"]):
@@ -2008,8 +2015,10 @@ def correr(master, out):
     det_sum = sum(m for _, m in rows)
     materialize_salida(wb, det_sum, len(rows))
     wb.save(out)
-    leidas = list(load_workbook(out)["Entrada"].iter_rows(min_row=2, max_col=2, values_only=True))
-    return reconcile(det_sum, portada, len(rows), n_portada), rows, dig_rows(leidas)
+    releido = load_workbook(out)
+    leidas = list(releido["Entrada"].iter_rows(min_row=2, max_col=2, values_only=True))
+    ok = reconcile(det_sum, portada, len(rows), n_portada) and salida_ok(releido["Salida"], det_sum, len(rows))
+    return ok, rows, dig_rows(leidas)
 
 def classify(path):
     try:
@@ -2044,10 +2053,8 @@ master_antes = sha8(master)
 
 out = out_dir / "results.xlsx"
 bak = out_dir / "results.prev.xlsx"
-if out.exists():
-    shutil.copy(out, bak)  # backup del resultado anterior antes de sobrescribirlo
-ok_1, rows, dig_1 = correr(master, out)
-ok_2, _, dig_2 = correr(master, out)  # re-run sobre la misma salida
+ok_1, rows, dig_1 = correr(master, out, bak)
+ok_2, _, dig_2 = correr(master, out, bak)  # re-run: respalda la primera salida y la rehace
 
 payload = ("region,monto\\n" + "".join(f"{a},{b}\\n" for a, b in rows)).encode()
 manifest = {
@@ -2067,6 +2074,7 @@ print("carpeta", CARPETA)
 print("master_intact", manifest["master_intact"])
 print("reconcile_ok", manifest["reconcile_ok"])
 print("idempotent", manifest["idempotent"])
+print("backup", manifest["backup"])
 print("batch", manifest["batch"])
 print("manifest_written", man_path.exists())
 `,

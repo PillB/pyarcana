@@ -106,12 +106,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def bank() -> list[dict]:
@@ -228,7 +237,9 @@ class ExercisesCheckTheCaseTheyTeach(unittest.TestCase):
             with self.subTest(ex_id):
                 sol = exercise(ex_id)["solutionCode"]
                 self.assertEqual(sol["code"].count(old), 1, old)
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(old, new)))
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(old, new)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     def test_the_success_line_states_the_new_pin(self) -> None:
         for ex_id, _ in self.WRONG:
@@ -283,7 +294,8 @@ class SelfCheckAndBank(unittest.TestCase):
     def test_clip_is_a_distractor_not_part_of_the_key(self) -> None:
         q = next(q for q in bank() if q["question"].startswith("Overflow o divisiones"))
         self.assertNotIn("clip", q["options"][q["correctIndex"]])
-        self.assertTrue(any("np.clip" in o for i, o in enumerate(q["options"]) if i != q["correctIndex"]))
+        self.assertTrue(any("np.clip" in o for i, o in enumerate(q["options"]) if i != q["correctIndex"]),
+            "np.clip must stay a distractor; the key is the explicit rule: checked " + repr(q["options"])[:300])
 
     def test_no_joke_distractor_is_left(self) -> None:
         jokes = ("SUNAT", "Encriptar", "Encripta", "JOIN SQL", "hash git", "Crear venv", "Usar eval",
@@ -294,7 +306,8 @@ class SelfCheckAndBank(unittest.TestCase):
                 self.assertNotIn(joke.lower(), text.lower())
 
     def test_ownership_is_gone_from_the_key(self) -> None:
-        self.assertFalse(any(re.search("ownership", o) for q in bank() for o in q["options"]))
+        self.assertFalse(any(re.search("ownership", o) for q in bank() for o in q["options"]),
+            "the bank must not mention ownership, which the section never teaches: checked " + repr([q["options"] for q in bank()])[:300])
 
 
 if __name__ == "__main__":
