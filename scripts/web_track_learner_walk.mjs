@@ -16,7 +16,7 @@
  * it needs is missing, because a walk that could not run did not pass.
  */
 import { spawn, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -125,6 +125,19 @@ async function walkPrototype(project) {
   check(id, 'the local API answers exactly what «Deberías ver» quotes (rows and filas_leidas)', api.text === promised, promised, `${api.text} | log: ${(run.log ?? '').slice(-300)}`)
   check(id, 'the injected sede returns an empty list', /"ventas": \[\]/.test(inj.text), '"ventas": []', inj.text)
   check(id, 'other addresses still serve the site folder', home.status === 200 && /<table/.test(home.text), '200 with the table page', `${home.status} ${home.text.slice(0, 120)}`)
+
+  // prototipo.ia promises how a dropped local table is repaired. Codex (PR #208) found the first
+  // wording wrong: re-applying alone does nothing, because d1_migrations still lists 0001.
+  const ia = steps.get('prototipo.ia').table.rows.map((r) => r.join(' ')).join(' ')
+  const sh = (cmd) => spawnSync('sh', ['-c', cmd], { cwd: dir, encoding: 'utf8', timeout: 240_000 })
+  sh('uv run pywrangler d1 execute ventas-prototipo --local --command "DROP TABLE ventas"')
+  const again = sh(apply)
+  check('prototipo.ia', 're-applying after a DROP alone applies nothing (why the step says to delete .wrangler/state first)', /No migrations to apply/.test(again.stdout), 'No migrations to apply', again.stdout.slice(-200))
+  check('prototipo.ia', 'the step names the folder to delete', ia.includes('.wrangler/state'), '.wrangler/state in the table', ia.slice(0, 200))
+  rmSync(path.join(dir, '.wrangler', 'state'), { recursive: true, force: true })
+  sh(apply)
+  const count = sh('uv run pywrangler d1 execute ventas-prototipo --local --json --command "SELECT COUNT(*) AS n FROM ventas"')
+  check('prototipo.ia', 'after deleting .wrangler/state and re-applying, the table is back with its 3 rows', /"n": 3/.test(count.stdout), '"n": 3', (count.stderr || count.stdout).slice(-200))
 }
 
 async function freePort() {

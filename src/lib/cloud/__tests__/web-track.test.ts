@@ -634,9 +634,10 @@ function trackProse(): { where: string; text: string }[] {
   add('summary', WEB_TRACK.summary)
   for (const m of WEB_TRACK.modules) {
     add(`${m.id}.goal`, m.goal)
-    ;(Array.isArray(m.intro) ? m.intro : [m.intro]).forEach((x, i) => add(`${m.id}.intro${i}`, x as string))
+    // Paragraphs are read in sequence, so D13 is checked across their boundaries (Codex, PR #208).
+    add(`${m.id}.intro`, (Array.isArray(m.intro) ? m.intro : [m.intro]).join(' '))
     for (const st of m.steps) {
-      st.body.forEach((x, i) => add(`${st.id}.body${i}`, x))
+      add(`${st.id}.body`, st.body.join(' '))
       st.table?.rows.forEach((r, i) => r.forEach((c, j) => add(`${st.id}.table${i}.${j}`, c)))
       add(`${st.id}.expect`, st.expect)
       st.fixes?.forEach((f, i) => { add(`${st.id}.fix${i}`, f.symptom); f.steps.forEach((x, j) => add(`${st.id}.fix${i}.${j}`, x)) })
@@ -899,4 +900,25 @@ test('the prototype module closes the deploy part: it comes right after desplieg
   assert.equal(ids.indexOf('prototipo'), ids.indexOf('despliegue') + 1, `module order is ${ids.join(', ')}`)
   const said = ALL_STEPS.find((x) => x.step.id === 'despliegue.python-servidor')?.step.body.join(' ') ?? ''
   assert.ok(/módulo siguiente/.test(said), 'despliegue.python-servidor must point to the next module instead of saying the detour stops at static sites')
+})
+
+test('a term the track defines in bold is not used earlier in the same module (A1: explain at first use)', () => {
+  // Defect guarded (Codex, PR #208): the first prototipo table offered «vista previa» and
+  // «producción» as choices four steps before prototipo.entornos defined them.
+  const problems: string[] = []
+  for (const m of WEB_TRACK.modules) {
+    // The goal is the module's promise, shown above the intro, so it may name what the intro defines.
+    const ordered = trackProse().filter((p) => p.where.startsWith(`${m.id}.`) && p.where !== `${m.id}.goal`)
+    ordered.forEach((p, i) => {
+      for (const [, term] of p.text.matchAll(/\*\*([^*]{3,40})\*\*/g)) {
+        if (term.includes('→')) continue // a menu path in bold is a UI label, not a definition
+        const rx = new RegExp(`(?<![\\wáéíóúñ])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\wáéíóúñ])`, 'i')
+        const before = [...ordered.slice(0, i).map((x) => x.text), p.text.slice(0, p.text.indexOf(`**${term}**`))]
+          .map((x) => x.replace(/`[^`]*`/g, ' '))
+        const k = before.findIndex((x) => rx.test(x))
+        if (k >= 0) problems.push(`${m.id}: «${term}» is defined in ${p.where} but already used in ${k < i ? ordered[k].where : p.where}`)
+      }
+    })
+  }
+  assert.deepEqual(problems, [], 'define the term where it first appears, or describe the idea without the label until it is defined')
 })

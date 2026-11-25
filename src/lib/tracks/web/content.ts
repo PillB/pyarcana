@@ -453,7 +453,7 @@ print(f"<p>Total de las {len(ventas)} sedes: S/ {total}</p>")`, output: String.r
       buildsOn: ['setup', 'modules-packaging-cli'],
       intro: [
         '**Desplegar** es copiar tu sitio a una computadora que está siempre encendida y conectada, para que cualquiera lo abra con un enlace. Mientras el sitio solo vive en `localhost`, nadie más lo puede ver.',
-        'Todo lo que publiques en un sitio estático es público, incluidos `data.json` y `app.js`. Publica solo datos sintéticos o agregados, como los de este curso, y nunca una clave o un token: cualquiera puede abrir esos archivos desde su navegador.',
+        'Todo lo que publiques en un sitio estático es público, incluidos `data.json` y `app.js`, porque el navegador de cada visitante los descarga. Publica solo datos sintéticos o agregados, como los de este curso, y nunca una clave o un token: cualquiera puede abrir esos archivos desde su navegador.',
       ],
       steps: [
         {
@@ -539,8 +539,8 @@ gh repo create mi-sitio --public --source . --push`,
           id: 'despliegue.cloudflare',
           title: 'O publica en Cloudflare con un Worker de archivos estáticos',
           body: [
-            'Cloudflare sirve una carpeta de archivos desde un **Worker**, su programa que corre en servidores repartidos por el mundo. Necesitas Node.js, el programa que ejecuta JavaScript fuera del navegador, porque `wrangler` está escrita en JavaScript. Node.js trae `npx`, un comando que descarga una herramienta y la ejecuta sin instalarla aparte. También necesitas una cuenta gratuita de Cloudflare.',
-            'Un archivo `wrangler.jsonc` en la carpeta del proyecto le dice qué carpeta publicar. `wrangler login` abre el navegador para autorizar tu cuenta y `wrangler deploy` sube los archivos y te devuelve una dirección que termina en `workers.dev`. Vercel ofrece lo mismo con `npx vercel deploy`.',
+            'Cloudflare sirve una carpeta de archivos desde un **Worker**, su programa que corre en servidores repartidos por el mundo. Necesitas Node.js, el programa que ejecuta JavaScript fuera del navegador, porque `wrangler` está escrita en JavaScript. Node.js trae `npx`, un comando que descarga una herramienta y la ejecuta sin instalarla aparte. También necesitas una cuenta gratuita de Cloudflare, y un archivo `wrangler.jsonc` en la carpeta del proyecto que le dice qué carpeta publicar.',
+            '`wrangler login` abre el navegador para autorizar tu cuenta y `wrangler deploy` sube los archivos y te devuelve una dirección que termina en `workers.dev`. Vercel ofrece lo mismo con `npx vercel deploy`.',
           ],
           code: [
             {
@@ -599,7 +599,7 @@ print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`
     {
       id: 'prototipo',
       title: 'Un prototipo con base de datos, sin agotar la cuota ni recibir una factura',
-      goal: 'Publicas una API pequeña con Python y Cloudflare D1, mides cuántas filas lee cada consulta, separas la prueba de la producción y sigues una lista de despliegue que puedes repetir.',
+      goal: 'Publicas una API pequeña con Python y Cloudflare D1, mides cuántas filas lee cada consulta, pruebas cada cambio antes de que otros lo usen y sigues una lista de despliegue repetible.',
       buildsOn: ['setup', 'modules-packaging-cli', 'apis-sql-geo'],
       intro: [
         'El módulo anterior publicó archivos que no cambian, pero un **prototipo** con datos que cambian, como un registro de pedidos de prueba, necesita una base de datos en internet. Aquí usas Cloudflare D1, una base SQLite que vive junto a tu Worker, porque habla el mismo SQL que practicaste en S12.',
@@ -620,7 +620,7 @@ print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`
             rows: [
               ['Archivos que no cambian', 'GitHub Pages o un Worker de archivos estáticos, como en el módulo anterior', 'Los archivos estáticos de un Worker son gratis y no tienen límite de peticiones.'],
               ['Una API con una base de datos SQL', 'Un Worker de Python con Cloudflare D1', 'En el plan gratuito, las consultas fallan hasta las 00:00 UTC (19:00 en Lima) y los datos se conservan.'],
-              ['Probar cada cambio en una dirección aparte antes de publicarlo', 'Vercel, con una vista previa por cada cambio y una producción', 'El plan Hobby detiene la función hasta 30 días, sin cobrarte.'],
+              ['Probar cada cambio en una dirección aparte antes de publicarlo', 'Vercel, que da a cada cambio su propia dirección de prueba y guarda la dirección pública para la versión final', 'El plan Hobby detiene la función hasta 30 días, sin cobrarte.'],
               ['Dominio propio, correo y cuentas de usuarios', 'Una lista completa, como la de pyarcana.dev', 'Queda fuera de este módulo: lo retoman S41 y S42.'],
             ],
           },
@@ -866,7 +866,7 @@ uv run pywrangler dev`,
           title: 'Separa la prueba de la producción',
           body: [
             '**Producción** es la versión que usan las personas, y una **vista previa** es una copia en otra dirección para probar un cambio antes. Vercel las separa con dos comandos, y Cloudflare con `--local` para tu copia y `--remote` para la de internet.',
-            'La primera vez que publicas un proyecto en Vercel, la publicación va a producción aunque no uses `--prod`. Por eso conviene publicar primero una versión que no tenga nada privado.',
+            'La primera vez que publicas un proyecto en Vercel, la publicación va a producción aunque no uses `--prod`. Por eso, la primera vez publica una versión sin datos ni secretos, porque cualquiera con el enlace podrá abrirla.',
             'Cada entorno necesita su propia base de datos y sus propios secretos. En Vercel, cada variable de entorno se guarda para Production, Preview o Development; nunca apuntes una prueba a la base de producción.',
           ],
           code: [
@@ -899,7 +899,7 @@ npx vercel --prod   # producción: la dirección que compartes`,
               ['Después', 'Abres la dirección pública y pruebas la API con una consulta real.', 'Que el comando termine bien no prueba que el sitio funcione.'],
               ['Si falla', 'Vuelves a la versión anterior con `npx wrangler rollback`, o con Instant Rollback en el panel de Vercel.', 'El código vuelve atrás, pero la base de datos no: por eso las migraciones solo agregan.'],
               ['Después', 'Borras el token que creaste para este despliegue.', 'Un token olvidado sigue abriendo tu cuenta.'],
-              ['Si pasas a un plan de pago', 'Activas las alertas de uso y un límite de gasto antes de publicar.', 'En el plan de pago, nadie detiene el exceso por ti.'],
+              ['Si pasas a un plan de pago', 'Activas el límite de gasto de Workers en Billing → Spend Management, y revisas cada semana las filas leídas de D1.', 'Ese límite cubre peticiones y tiempo de CPU, no los cobros de D1, y tarda unos minutos en actuar.'],
             ],
           },
           expect: 'Tu lista tiene pasos para antes, durante y después de publicar, y anotaste el commit que quedó en internet.',
@@ -918,7 +918,7 @@ npx vercel --prod   # producción: la dirección que compartes`,
             columns: ['Haz esto', 'Porque'],
             rows: [
               ['Dale un token propio, con el permiso mínimo, sobre una sola cuenta y con vencimiento cercano, y bórralo al terminar.', 'Si se equivoca o lo engañan, el daño queda limitado a lo que ese token permite.'],
-              ['Haz que trabaje con la base `--local` o con una de prueba, nunca con la de producción.', 'Un `DROP TABLE` en tu copia se repara aplicando otra vez las migraciones.'],
+              ['Haz que trabaje con la base `--local` o con una de prueba, nunca con la de producción.', 'Un `DROP TABLE` en tu copia se repara borrando la carpeta `.wrangler/state` y aplicando otra vez las migraciones, porque Wrangler recuerda cuáles ya aplicó.'],
               ['Aprueba tú cada comando que borra o publica, como `DROP`, `DELETE`, `--remote` o `deploy`.', 'Una aprobación en la herramienta detiene el comando; una instrucción escrita en el chat no siempre lo hace.'],
               ['No pegues tokens ni contraseñas en el chat: guárdalos con `wrangler secret put` o en las variables de entorno del panel.', 'Lo que pegas en un chat queda en un historial que no controlas.'],
               ['Comprueba en pypi.org o npmjs.com que cada paquete que te sugiere exista y sea el que buscas.', 'Los asistentes a veces inventan nombres de paquetes, y hay quien publica paquetes dañinos con esos nombres.'],
@@ -933,8 +933,8 @@ npx vercel --prod   # producción: la dirección que compartes`,
           id: 'prototipo.practica',
           title: 'Encuentra la consulta que lee toda la tabla',
           body: [
-            'Una tabla `pedidos` recibe dos consultas en cada visita: un pedido por su `id`, y los últimos 20 pedidos de un cliente, del más nuevo al más viejo. Usa `EXPLAIN QUERY PLAN` para encontrar la que revisa toda la tabla.',
-            'Después crea el índice que la arregla y vuelve a revisar las dos. Una consulta que ordena sin índice muestra además `USE TEMP B-TREE FOR ORDER BY`, que significa que SQLite ordena las filas aparte.',
+            'Una tabla `pedidos` recibe dos consultas en cada visita: un pedido por su `id`, y los últimos 20 pedidos de un cliente, del más nuevo al más viejo. Usa `EXPLAIN QUERY PLAN` para encontrar la que revisa toda la tabla, crea el índice que la arregla y vuelve a revisar las dos.',
+            'Una consulta que ordena sin índice muestra además `USE TEMP B-TREE FOR ORDER BY`, que significa que SQLite ordena las filas aparte.',
           ],
           exercise: {
             hint: 'Un índice sobre dos columnas, `(cliente_id, creado)`, sirve a la vez para filtrar por cliente y para ordenar por fecha. La consulta por `id` ya usa la clave primaria.',
