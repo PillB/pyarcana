@@ -125,12 +125,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 
@@ -269,6 +278,16 @@ class DemosComputeWhatTheyClaim(unittest.TestCase):
         broken = self.mutated(ido, "Lima,28.0\\nBogota", "Lima,28.5\\nBogota")
         self.assertIn("parity False", broken)
 
+    def test_a_table_missing_a_region_fails_parity(self) -> None:
+        """Codex review on #199 (P2): all() over the rows left passed a CSV without Bogota, or empty."""
+        th = block("Estado, performance y alternativas accesibles")["code"]
+        self.assertIn("match_tabla_sin_bogota False", th["output"].splitlines(),
+                      "the theory block must show that a table missing a region is not parity")
+        old = self.mutated(th["code"], "return tabla.keys() == chart.keys() and all(", "return all(")
+        self.assertIn("match_tabla_sin_bogota True", old,
+                      "negative control: without the region check the missing row passes; if it does not, "
+                      "the fixture no longer tests the case the review found")
+
     def test_claims_are_classified_by_a_rule(self) -> None:
         """IDO-08.1, THEORY-10.7: verdicts were flags typed next to each claim."""
         ido = demo("S19-T4-B-DEMO")["code"]["code"]
@@ -287,8 +306,10 @@ class OneFooter(unittest.TestCase):
     def test_theory_and_demo_use_the_same_pie_function(self) -> None:
         th = self.PIE.search(block("Unidades, fuente y limitaciones")["code"]["code"])
         ido = self.PIE.search(demo("S19-T4-A-DEMO")["code"]["code"])
-        self.assertIsNotNone(th)
-        self.assertIsNotNone(ido)
+        self.assertIsNotNone(th,
+            "the theory block no longer computes the share with the pie function the demo uses: the pattern did not match")
+        self.assertIsNotNone(ido,
+            "the I Do demo no longer computes the share with the pie function the theory uses: the pattern did not match")
         self.assertEqual(th.group(1), ido.group(1))
 
     def test_every_footer_uses_lowercase_key_colon_value(self) -> None:
@@ -369,8 +390,9 @@ class WeDoChecksCanFail(unittest.TestCase):
                 continue
             with self.subTest(ex_id, mutation=new[:50]):
                 self.assertIn(old, sol["code"], "mutation anchor not found")
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(old, new, 1)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(old, new, 1)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
             ran += 1
         return ran
 

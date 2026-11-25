@@ -297,7 +297,7 @@ filtro Bogota -> Bogota: 22.5 PEN (n=32)`,
  paragraphs: [
  "El **estado** del dashboard (filtros activos) debe ser serializable (`json.dumps`). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. Ejemplo de honestidad de performance: “viewport muestra sample 5 000 de 50 000 filas” — nunca ocultes el sesgo muestral del viewport ni lo presentes como censo. Declarar solo `sample_n` sin `universe_n` es un defecto de transparencia.",
  "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con **los mismos números** que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. El alt text no es “imagen de barras”: es el hallazgo principal + n + unidad + marco (sintético / canal web). Un lector de pantalla debe poder reconstruir la idea del chart sin verlo.",
- "Caso: `filtro_region=Bogota` → estado JSON compacto con `sample_n` y `universe_n` cuando aplique; `alt_text` une cada par `region=v PEN (n=…)` con el separador `;`. La tabla se lee de su propio CSV, no se copia del dict del chart: así la comparación puede fallar, y la demo muestra el caso que falla. La paridad se verifica con igualdad de valores a la precisión publicada (mismo redondeo en chart y tabla). Si redondeas a 1 decimal en el gráfico, la tabla no puede mostrar 3 “más precisos” sin documentarlo.",
+ "Caso: `filtro_region=Bogota` → estado JSON compacto con `sample_n` y `universe_n` cuando aplique; `alt_text` une cada par `region=v PEN (n=…)` con el separador `;`. La tabla se lee de su propio CSV, no se copia del dict del chart: así la comparación puede fallar, y la demo muestra el caso que falla. La paridad exige primero las mismas regiones en la tabla y en el chart, y luego igualdad de valores a la precisión publicada (mismo redondeo en ambos). Si redondeas a 1 decimal en el gráfico, la tabla no puede mostrar 3 “más precisos” sin documentarlo.",
  ],
  code: {
  language: 'python',
@@ -315,7 +315,9 @@ filtro Bogota -> Bogota: 22.5 PEN (n=32)`,
         return [linea.split(",") for linea in csv_text.splitlines()[1:]]
 
     def paridad(filas):
-        return all(chart[region] == float(valor) for region, valor, _ in filas)
+        tabla = {region: float(valor) for region, valor, _ in filas}
+        # Mismas regiones primero: con all() sobre las filas que quedan, una tabla sin Bogota pasaría
+        return tabla.keys() == chart.keys() and all(chart[r] == v for r, v in tabla.items())
 
     tabla = lee_tabla("region,ticket_mediano_pen,n\\nLima,28.0,40\\nMadrid,24.0,28\\nBogota,22.5,32")
     print("; ".join(f"{region}={valor} PEN (n={n})" for region, valor, n in tabla))
@@ -323,13 +325,17 @@ filtro Bogota -> Bogota: 22.5 PEN (n=32)`,
     # Error: la tabla de la diapositiva redondeó Bogota a entero
     tabla_redondeada = lee_tabla("region,ticket_mediano_pen,n\\nLima,28.0,40\\nMadrid,24.0,28\\nBogota,23,32")
     print("match_tabla_redondeada", paridad(tabla_redondeada))
+    # Error: la tabla perdió la fila de Bogota (y una tabla vacía tampoco es paridad)
+    tabla_sin_bogota = lee_tabla("region,ticket_mediano_pen,n\\nLima,28.0,40\\nMadrid,24.0,28")
+    print("match_tabla_sin_bogota", paridad(tabla_sin_bogota))
 
 s19_th_6()`,
  output: `{"filtro_region": "Bogota", "metric": "median", "sample_n": 5000, "universe_n": 50000}
 viewport sample 5000 de 50000; no es censo
 Lima=28.0 PEN (n=40); Madrid=24.0 PEN (n=28); Bogota=22.5 PEN (n=32)
 match True
-match_tabla_redondeada False`,
+match_tabla_redondeada False
+match_tabla_sin_bogota False`,
  },
  callout: {
  type: "success",
