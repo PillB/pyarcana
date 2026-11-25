@@ -2310,6 +2310,386 @@
       "reason": "WEDO-19.1: both sums are printed with the flag, so a literal print cannot match.",
       "decided_by": "owner 2026-11-21 (proposal 12, S14 P1/P2/P3 fixes)",
       "date": "2026-11-21"
+    },
+    {
+      "row": 232,
+      "id": "S15-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "4a48f7aceddc30e6e89e9e65c64ef505164af8cdccfdd7575b4b2aa3253a54db",
+      "to_fp": "ab5d05f3aa1915fd0b78ba7f21699e03511b176ee8d61807cfb18a94bffe6498",
+      "reason": "Proposal 12 S15 WEDO-02: the fixture let iloc[1] pass; the check now reads C002 in the series and in the same series sorted descending, so no fixed position gives 0.9 twice.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 233,
+      "id": "S15-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "7e6cef931cf0e49efeba23eeb59e9c93d25d12db5038eb98836d2df6f82869a0",
+      "to_fp": "b7a9b74d8d3a0619f53342120637cf7d0305fd0c907609eae9dcd1fbca538881",
+      "reason": "Proposal 12 S15 WEDO-06: the check also prints the columns, so dropping usecols fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 234,
+      "id": "S15-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "e863d68dc61ff51bf03c7a8a1e14ba214317060f4a5bc84d080e46766be51bc0",
+      "to_fp": "d52f08b6c8a4f2ab7d1f45b38a9c35ef23d39826a68b3b701806023a6edcc757",
+      "reason": "Proposal 12 S15 WEDO-08: the check prints df's columns after assign, so an in-place mutation fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 235,
+      "id": "S15-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "5ff935f001f8a46b99fae4549adc69a4779705e07bfa1e7f26400ee1cfe5987b",
+      "to_fp": "7a8cada0b8a7e82dae85be6a860e588e8926828ba8a018c9a5d887c67027d584",
+      "reason": "Proposal 12 S15 WEDO-09: the fixture has index ['A','B'], so loc[1, 0] raises KeyError and only iloc[1, 0] reads 3.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 236,
+      "id": "S15-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "90541f49d7511d3edd23bc4c1c9f0fc1f3876d77e736eae233f562109d60d93e",
+      "to_fp": "a251d277d928f3f55198717c41dfe2585eb093d0140ad00898b47e7e7d44a863",
+      "reason": "Proposal 12 S15 WEDO-13: the check prints the categories, so skipping str.title() gives ['Lima', 'lima'] and fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 237,
+      "id": "S15-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "569c0b5510d095ca2a2f11c40021c53fab56171f9a2e51a76029a510fd5e6158",
+      "to_fp": "199f86113c6c33b3c6edc221038672f9c2f70c2bc857536bfdea2e1d9ff15d7e",
+      "reason": "Proposal 12 S15 WEDO-16: the fixture has a prior None, so the total (2) and the delta (1) differ.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 238,
+      "id": "S15-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "7ac59f7e0d48c2e38c257873452f2bdc56f9b79ec4d10f034c65db6ea8ae2289",
+      "to_fp": "03055426f7a5951109c5d744c6ae6dc631493c296ca27227a8c88b4f4eb0ff01",
+      "reason": "Proposal 12 S15 WEDO-17: check() runs on an extract with and without monto, so a hardcoded 'missing' fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 239,
+      "id": "S15-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "948db3aef53d9f0a3852c8e424f24036b77920c51ee954492d4db2c382e3146e",
+      "to_fp": "3a4223e0bfe058a5c3cc5ae6f0dbcd3f51ec45311827c8847d62454df9f9585c",
+      "reason": "Proposal 12 S15 WEDO-19: the check prints the first CSV line, so writing the index and hiding it with index_col=0 fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 240,
+      "id": "S15-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "be109f400024dd28f99c786adac59bbc05ea8e818b1d84a61470bbbe0c30cdf5",
+      "to_fp": "26d95fd55984636dab441a5b236e8b5314757f7e735659c7111b450ad68faa50",
+      "reason": "Proposal 12 S15 WEDO-20: the check is the b'PK' signature and the frame read back with read_excel, not a byte count.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 241,
+      "id": "S15-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "9e7ac31552621ae0d5863c4ad8af90458aa5f612b443525560a256a9e9352ba9",
+      "to_fp": "451025612ba8bc42ea8521fdcb2f3f68e530e77253b4b326e54ec12a112282a0",
+      "reason": "Proposal 12 S15 WEDO-22: the check compares deep with shallow memory, since any frame is > 0 bytes.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 242,
+      "id": "S15-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "755198f611af1170e119429e913ae47fe32d3dd3769eb3af10e22fdfb994b275",
+      "to_fp": "77220920bf535c286e8825d6ce3bd1ba83c8d72d0c1f38af56335475edb60a84",
+      "reason": "Proposal 12 S15 WEDO-23: manifest_of runs on two frames, so a hardcoded manifest fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 243,
+      "id": "S15-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "4d5121a12328cee2ea632bac61d996601c3d79c41d17a7e235e0193fb51ba850",
+      "to_fp": "89ba784570a2ef5d2af20e05ff87f31b3fd03e5bd906be2b81f59c89ef9bfd95",
+      "reason": "Proposal 12 S15 WEDO-24: to_csv fixes lineterminator='\\n', so the canonical hash 309b0e45 holds on Windows too.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S15 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 244,
+      "id": "S16-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "52153cf1cf793ea1485c017cd2b8bfa08a3fd07fb065236966eb1adada8cc275",
+      "to_fp": "413b4ed8da239fd939b6dc99e63539438684010ef8f25346556cebccd33d41f5",
+      "reason": "Proposal 12 S16 WEDO-01: revisar(df) runs on a lot with a null id and one without, so a hardcoded '1 violates' fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 245,
+      "id": "S16-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "dd5b8ee37fee5fdfc552eed5e5e3ae2235b00f88c37aab841e336384117f5726",
+      "to_fp": "21cc2fb6fd0167dce31f9a538274d95b2ad889c2d08e81ba3ea4e460b3d2e343",
+      "reason": "Proposal 12 S16 WEDO-01/02: a second lot without nulls in a must give {}; the independent starter and instruction no longer state the one-token fix.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 246,
+      "id": "S16-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "0bc88d2f4194c82fe42b38638c1c40d1ab42d85c5f99acf9b61630f712470e2a",
+      "to_fp": "687eac909a1f14727de4e9f35f518267547f3478a361392d8e98367c5331df6b",
+      "reason": "Proposal 12 S16 WEDO-01: gate(df) runs on a null lot and a complete lot, so a literal 'fail' fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 247,
+      "id": "S16-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "f3b2423460b5219de8875dbf189be76746dea2097f57eb0855e22ef2359674e0",
+      "to_fp": "cf1e450411888065ee25bcece622407c6ebe45fa6fe6ecbf7fbd4fca3a0e1ccb",
+      "reason": "Proposal 12 S16 WEDO-01: two lots; the imputed field is descuento (optional) filled with its median, not monto with 0, which the section forbids.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 248,
+      "id": "S16-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "3a29634750e5267d2f67194cc5f133b2ff2f9ef6d7e6588c5311bf192234af8a",
+      "to_fp": "d158d3d18505c361e922cb10f54a428b36d72a400cd1e3674b566add52d6db73",
+      "reason": "Proposal 12 S16 WEDO-05: the cap is 0.25 and the second lot sits exactly on it, so '>=' fails; the cap is inclusive, as theory says.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 249,
+      "id": "S16-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "a012b953f5f1cb5e95811ce2a31b5a041f317708dc287fd3dc8fddcb80e80d0c",
+      "to_fp": "cb881f7307b2bb69032f9c754b7945bc872dcbe21ec19042cfc87bf596983e94",
+      "reason": "Proposal 12 S16 WEDO-06: fixtures where the mean and the median differ (2.0 vs 4.0, 20.0 vs 40.0), so filling with the mean fails; descuento, not monto.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 250,
+      "id": "S16-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "24a299ca8f20d83d8fa796076f87ff2525645dbf963f8f2ba560de7d07e9cb54",
+      "to_fp": "87ba6a88ea7a40af9db7fe42e251f015bba801a7fb96d2c0c2ab91c01e2e3ab9",
+      "reason": "Proposal 12 S16 WEDO-07: a second lot with three copies; the hint names the real default keep='first', not True.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 251,
+      "id": "S16-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "1e6d33b909580994659a231fae12fd16caebb3344c5e1b00febf328013e4a713",
+      "to_fp": "ec1a13df51de75f132135df713ca7b9c7340742c8d8e870eb089416fc862f2e6",
+      "reason": "Proposal 12 S16 WEDO-01: conflictos(df) runs on two lots, so a hardcoded ['C001'] fails; the independent starter no longer states the fix.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 252,
+      "id": "S16-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "16aca64b8d56da52911269f6c1d83711287fe308a6ed73f057d376c3ee58be7b",
+      "to_fp": "db322387cf8119c5a1c1a106e190443ce0a711f323912dd88a51ef51c556aee5",
+      "reason": "Proposal 12 S16 WEDO-09.1/09.2: four keys cover clean, exact and two conflicts; a key repeated with only score different is a conflict, as the T2-A definition says.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 253,
+      "id": "S16-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "84b6f39183995e7a24fdc10133e757d87187575523de778f40aa63c7f830fb7f",
+      "to_fp": "0521cf3290b2d9b7ff27a03cedfe0a7e9da2c4c0831f9d0f5dec71278c94f5ac",
+      "reason": "Proposal 12 S16 P1 IDO-04/THEORY-07/WEDO-22: clean and quarantine partition the input; a conflicting key leaves no row in clean, and the check prints the sum.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 254,
+      "id": "S16-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "196639469f319b1faf93a9045dc6e4d933127c73d00b65cbcb582a1945ce773b",
+      "to_fp": "dfc249f058ddcc45ddcbdc25bdb6432d63459abad74af68cd3f1aa83706c626a",
+      "reason": "Proposal 12 S16 WEDO-01: a second lot with other evidence columns, so a hardcoded column list fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 255,
+      "id": "S16-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "272f093e017f6607a8f48df830024cc09595397b602f7d7c75828fcd4267f366",
+      "to_fp": "a8a2161443efe1c2b131277a7b4dff81b1ed27882c189401bc59e25f74f0137d",
+      "reason": "Proposal 12 S16 WEDO-01: cardinalidad(df) runs on a repeated and a unique lot.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 256,
+      "id": "S16-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "c86c9cbd2f11cfcb67dcd3caed88f88e32b7c9b888a031a4be4aa3532a6bc21c",
+      "to_fp": "5ee17b40ad802d608c273a0862c776813045b8aa05a79bd1139c0bc104f2380e",
+      "reason": "Proposal 12 S16 WEDO-01: a second series (puno, ICA), so a hardcoded list fails.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 257,
+      "id": "S16-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "0f9a44d680c0516600a82cc06c06d4caf75c7b99127453e75f4b4e5e9b6c2235",
+      "to_fp": "3f79c8b86b0f4f20f7be92ab5cd8f332cea0bd00498e98db853e47daf014aa25",
+      "reason": "Proposal 12 S16 WEDO-01: a second series (0,75 and S/2).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 258,
+      "id": "S16-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "c9212ac6f9587257452b500966eeb38b416e84f2f30cba74bb124f6f095d1226",
+      "to_fp": "e303dea9c13ca266c5431f121c3b529f4c1ecd37f3a478969b6ee84ebcb9b1ad",
+      "reason": "Proposal 12 S16 WEDO-01: a second frame with two rows.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 259,
+      "id": "S16-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "96f964b077eae6cfbb36d1b089a7064b8f5c7b76f896330ad51d9147317a4770",
+      "to_fp": "045611aed6abc1ede71e27677a7102e8ff0555d74dcb9c631f2cb39064342a4c",
+      "reason": "Proposal 12 S16 WEDO-16: the fixture holds 0.0, valid in the domain [0, 10000], so '<= 0' fails; a second series.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 260,
+      "id": "S16-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "a85493b5dc661085928585612dacd9bf726ff0c7c43f807d3de412ba4785dcae",
+      "to_fp": "296a4f829600bb7ba97d58e96b3bba6f292c2bec686b32a002fddb8f28ec7a90",
+      "reason": "Proposal 12 S16 WEDO-01: a second series whose only outlier is below the lower fence.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 261,
+      "id": "S16-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "98eabf7328b228236457a6d3a1df246c73d740e82e96d54c85bb2294ee4a5d3f",
+      "to_fp": "6db8fd3d8c74575e1e73dab11da190bd50cae9dd2a833df5a6cc70c0ba3a5165",
+      "reason": "Proposal 12 S16 WEDO-01: probes include 20000 (domain error that IQR also flags), so checking IQR before the domain fails; a second series.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 262,
+      "id": "S16-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "8500984890c7580a5b9d57851b677350dcf6a78458ea3bcb0d39a21e20eb7ee7",
+      "to_fp": "f0616a825bca615f3d81a71a5e6bfb6333b32130f8376e820e476540e4b78772",
+      "reason": "Proposal 12 S16 WEDO-01: a second frame missing id instead of monto.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 263,
+      "id": "S16-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "4ed5f5e0429643da462b80a47d5718c5fc2e2f5fb32019b4e3a9ae39e8fffcdc",
+      "to_fp": "4e0c69881da9f998afd63bc52e027490a2e5e2f066022b376900447daf574c2d",
+      "reason": "Proposal 12 S16 WEDO-20: a row with fin == inicio, valid under fin >= inicio, so '<=' fails; a second frame.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 264,
+      "id": "S16-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "c312336c6c4f2227fe89d7b6493df45ca67bfcf5250ffc33354b1fcbacc26cca",
+      "to_fp": "61140e393381ec2b99714eaf4d6ee81d0ec83c150bab300869ab33f552b7f815",
+      "reason": "Proposal 12 S16 WEDO-21: the drift result names the missing column, as the T4-A callout requires; a complete frame gives schema_ok.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 265,
+      "id": "S16-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "7eba4ee01f7a503a107de72310934e53cfd40728797989ba47e1818e9cca5545",
+      "to_fp": "e20dae0f419ba3a196eeeb4205603f8064a9b99bbe0d33b14d1f5c108868673b",
+      "reason": "Proposal 12 S16 WEDO-22/YOUDO-01: rows_clean = rows_in - len(quarantine) now holds because the sets partition; a second run with no quarantine gives pass true; no schema_drift row reason.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 266,
+      "id": "S16-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "755d72c102134cd5ba7b05750edd8ba55a5e829ce9e66e52424449df03ef2e52",
+      "to_fp": "d8bfd1dc009b5ab6354a8bcd06c58dd7a702b0a5b3786a8b8a0017599a96ece1",
+      "reason": "Proposal 12 S16 THEORY-12.1/WEDO-23: the first audit event is ingest (theory's name), registrar appends to the list it receives, and it runs twice.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 267,
+      "id": "S16-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "5ff63a0770b01899fb70a055c0f9ec999dbbb419feef3a67e90a555f727a5784",
+      "to_fp": "a706998d9d4a25e1be83877e59e4bfb88a7458bdb4e1e2709c5243b2dc781ee6",
+      "reason": "Proposal 12 S16 WEDO-01: metrics_of runs for n_q=1 and n_q=0.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 268,
+      "id": "S16-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "db322387cf8119c5a1c1a106e190443ce0a711f323912dd88a51ef51c556aee5",
+      "to_fp": "e4e52326d26abb2209b27b57072baeb9d93189542aad1bfd845a31176a0e9884",
+      "reason": "Proposal 12 S16, Codex review on #184: exact now means one distinct row, so a key with two versions, each repeated, is a conflict. Fixture key C005 covers it.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-21"
+    },
+    {
+      "row": 269,
+      "id": "S16-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "e4e52326d26abb2209b27b57072baeb9d93189542aad1bfd845a31176a0e9884",
+      "to_fp": "129ad1a41d63daddb9538b5eebfe2e14d3a95674441a76a1822cb745c93afd83",
+      "reason": "Proposal 12 S16: fixture key C005 uses Puno and Ica instead of Lima and Cusco, which kept S16 under the city-name cap (62 > 55). Same case: two versions, each repeated, is a conflict.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
+      "date": "2026-11-23"
     }
   ]
 }

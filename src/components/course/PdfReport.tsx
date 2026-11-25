@@ -74,7 +74,7 @@ export const SECTION_NAMES: Record<string, string> = {
   "evidence-dashboard": '13. RPA',
   security: '14. Security',
   "stdlib-deep": '15. stdlib',
-  "wxpython-gui": '16. GUI',
+  "wxpython-gui": '16. Calidad de datos',
   packaging: '17. Packaging',
   "data-engineering": '18. Data Eng',
   "databases-orm": '19. DB/ORM',

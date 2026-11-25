@@ -846,3 +846,137 @@ back. Read this list before a section round; every item cost at least one failed
 - **Plan the key's length rank first, then write the distractors.** Writing each distractor to a
   target rank (6 questions each at ranks 1 to 4) gave an even spread on the first run. Writing
   them first and fixing ranks afterwards is how S13 ended with one rank at 8.
+
+## Proposal 12, S15: errors met and how they were closed (21 Nov 2026)
+
+- **A `\n` inside Python code in a TS template literal becomes a real newline.** The S15 hash
+  examples gained `lineterminator="\n"`. Written into the section's template literal as `\n`, the
+  TS string held a line break, so the pinned code read `lineterminator="` + newline + `"` and
+  three snippets failed with `SyntaxError: unterminated string literal`. Root cause: a template
+  literal processes escapes like any JS string; `\n` there is the newline, not two characters.
+  Fix: write `\\n` in the `.ts` file (the Python source then shows `\n`). Double-quoted prose
+  strings in the section need the same `\\n`. Guard: after any edit to lesson code, run every
+  snippet of the section against its pin before anything else (the scratch `s15check.py` loop
+  or `npm run test:python-content`); a syntax error shows at once.
+- **pandas 3 renamed the copy warning, and old prose keeps the old name.** The pinned pandas is
+  3.0.5. There Copy-on-Write is the default, a chained write never reaches the parent, and the
+  warning is `ChainedAssignmentError` (a `Warning` subclass: the script continues, catch it with
+  `warnings.catch_warnings(record=True)`). `SettingWithCopyWarning` is the pandas 2.x name and
+  2.x sometimes wrote through. Writing in an uncopied subset (`sub = df[mask]; sub['x'] = 1`)
+  raises nothing in pandas 3 and leaves the parent unchanged. Source: the pandas Copy-on-Write
+  user guide (pandas.pydata.org/docs/user_guide/copy_on_write.html). Guard:
+  `test_proposal12_s15` fails when "SettingWithCopy" appears in S15 or its bank without
+  "pandas 2.x" beside it. Expect the same name in later sections that use pandas.
+- **The dtype of a mixed column depends on where it came from.** In pandas 3, a CSV column that
+  mixes numbers and text reads as `str`; a Python list `[1, 'a']` and an Excel column with mixed
+  cells give `object`. S15 said "mixed means object" in four places, which the learner's own CSV
+  contradicted. Guard: before stating a dtype rule, run the read the learner will run (CSV, Excel
+  and list) under `.venv-content`.
+- **An exercise check passes the usual wrong answer when the fixture makes two answers agree.**
+  Twelve S15 checks did: label and position matched, a RangeIndex made `loc` and `iloc` agree, no
+  prior null made the delta equal the total, `> 0` held for any frame. Fix: change the fixture so
+  the two answers differ, or print a second value that only the right answer gets. Guard: plant
+  the wrong answer in the solution and confirm the pinned output catches it (the `MUTATIONS`
+  table in `test_proposal12_s15`).
+- **Two guards reach outside the file a round edits.** Trimming a sentence broke
+  `concept-definition-detector.test.mjs`, which keeps the phrase "bloques de filas llamados
+  **row groups**" as its real-course example of a definition. Adding category outputs
+  (`['Lima']`) pushed S15 to 57 Peruvian city tokens, over the cap of 55 in
+  `test_over_localized_language`. Fix: keep the guarded phrase; describe the categories without
+  repeating the city. Guard: before rewording a sentence, `grep -rn` a distinctive part of it in
+  `tests/` and `scripts/`; count city tokens when an edit adds fixture text.
+
+## Proposal 12, S16: errors met and how they were closed (21 Nov 2026)
+
+- **Two sets that must partition the input were built by two different operations.** S16 built
+  `clean` with `drop_duplicates(key, keep='first')` and `quarantine` with
+  `duplicated(key, keep=False)`, so the surviving row of a conflicting key sat in both. Two blocks
+  later, the metrics and the You Do computed `rows_clean = rows_in - rows_quarantine`, which only
+  holds for a partition: the learner got two counts for the same data (the review's P1). Root
+  cause: each block stated its own rule and none stated the invariant between them. Fix: one
+  rule for the whole section (exact copies leave one row in clean and the rest as `dup_exact`;
+  every row of a conflicting key goes to quarantine as `dup_conflict`; schema drift holds the
+  whole batch), the identity `rows_in == rows_clean + rows_quarantine` stated in prose, and
+  demos that print the sum. Guard: when two sections of a lesson split or count the same rows,
+  run the demos and assert the identity (`OnePartition` in `test_proposal12_s16`), with the old
+  split as a negative control.
+- **Peruvian money is written with a comma for thousands and a dot for decimals.**
+  `Intl.NumberFormat('es-PE', {style: 'currency', currency: 'PEN'})` prints `S/ 1,250.50` (CLDR
+  es-PE: group ",", decimal "."). The S16 parser took "if both, the dot is thousands" from the
+  es-ES habit and read that receipt as 1.2505, 1000 times too small. Fix: the separator that
+  appears last is the decimal; a single separator followed by exactly three digits (`1,250`) is
+  ambiguous and raises `ValueError` so the row goes to quarantine. Guard: the test feeds the
+  parser the string Node prints for es-PE, so a rule written from another locale fails.
+- **Trying date formats until one parses is a silent guess.** A loop over `%d/%m/%Y`, `%Y-%m-%d`,
+  ... accepts the first format that does not raise, so a month-first source with day <= 12
+  (`03/04/2024`) parses as day-first with no error. pandas documents the same trap for
+  `dayfirst`, which is not strict (pandas `to_datetime` reference; pandas-dev/pandas#12585), and
+  recommends an explicit `format`. Fix: one documented format per separator and per source; a
+  value that does not match becomes `NaT` and is reviewed. Guard: the theory fixture keeps a
+  month-first date that must pin as `NaT`.
+- **One fixture and one printed value is a check a hardcoded print passes.** All 24 S16 We Do
+  exercises compared one output on one fixture. Fix: each solution is a small function run on two
+  fixtures with different answers, or on one fixture that separates the usual mistake (a rate equal
+  to the cap for `>` vs `>=`, a 0.0 for `< 0` vs `<= 0`, `fin == inicio` for `<` vs `<=`, mean and
+  median that differ). Guard: the `MUTATIONS` table plants each usual wrong answer and the pin
+  must catch it; a test also requires every pin to hold more than one result.
+- **A guard at its cap leaves no room for a substitution.** S16 already had 55 Peruvian city
+  tokens, the cap of `test_over_localized_language`. Replacing "Madrid" with any city in that
+  guard's list would have failed it. Puno and Ica are real Peruvian regions outside the list.
+  Guard: count city tokens before choosing a replacement place name.
+- **`skip_allowlist.json` has two lists.** The first list in the file is `_doc`, the prose
+  header; the entries live in `allowed`. A script that appended to "the first list" wrote the
+  entries into the header. Guard: address the key by name (`d["allowed"]`) and read the diff,
+  which should show additions only.
+- **Browser Regression failed twice on trees that had passed (#175, #176).** Symptoms:
+  `exercise-feedback` count 24 vs 0 in `revealSolutions`, and `section-root` not found after a
+  hash change. Both re-runs on the same tree passed. The job starts `bun run dev` and waits a fixed
+  15 s; the spec already gives the first navigation 30 s for the dev server's cold compile, but
+  later section switches keep the 5 s default. Leading hypothesis, not yet confirmed (CI traces
+  cannot be downloaded through the proxy): a section's chunk compiles on demand and a click lands
+  before React hydrates it, so the click does nothing. Next step if it recurs: wait for a hydration
+  signal before clicking, or run the job against `next build && next start`.
+- **It recurred on #180 and on main (4abf8058), three runs in a row, and the hydration hypothesis
+  is wrong.** The failure is on S02's We Do: 24 buttons clicked, 0 solutions shown. The spec
+  reproduces it locally on a cold `next dev` and passes on a warm one (three runs). Two
+  hypotheses were ruled out by experiment:
+  - The 3 s first call to `/api/auth/session` is not it. Delaying that route by 3 s on a warm
+    server still passes.
+  - A plain Fast Refresh is not it. Touching `s02-basics.ts` after revealing the solutions keeps
+    all 24 open.
+
+  What the cold run does show is that the first visits compile chunks on demand:
+  `[Fast Refresh] rebuilding` at 13.9 s, `done in 4644ms`, then a server refresh
+  (`GET /?_rsc=…`) at 19.7 s. Both land inside the S01–S03 walk. The tab is in the URL hash
+  (`#basics/wedo`), so anything that remounts the page keeps the tab and drops the We Do's local
+  `showSolutions` state. That is the symptom.
+
+  Production has no hot reload, so learners never see this. The cause is that the job tests
+  `next dev`. Fixes, in order of fidelity:
+  - run the job against `next build && next start`, as Playwright's docs recommend for CI;
+  - make `revealSolutions` re-click until every solution shows, and re-check the count before
+    reading the code blocks, so a remount can't shrink what the spec compares.
+
+  A green run does not close it: #180 at e6625c86 passed the same job an hour after main failed
+  it. In CI it depends on where the rebuild lands in the walk. Locally on a cold server it failed
+  once in one try, and on a warm server it passed three times.
+- **The Proposal 12 section tests failed the first time CI ran them (#181, 22–23 Nov 2026).**
+  The stacked PRs target other branches, so CI never ran on them. Their content-gates step first
+  ran when #181 was retargeted to main, and it failed twice:
+  - First, `ERR_MODULE_NOT_FOUND`: the job installed Python packages but no Node packages, and
+    the tests read each section through `tsx`. Fix: the job runs `ci_bun_install.sh` first.
+  - Then, `does not provide an export named 'section14'`. `tsx` loads a `.ts` file in this
+    CommonJS package as CommonJS. Node 22 exposes its named exports to ESM, but Node 20, which
+    this job pins, puts them only on `default`. Locally (Node 22) the test passed.
+
+  Fix: read with `const mod = await import(path)` and `mod.sectionNN ?? mod.default?.sectionNN`.
+  It was reproduced on Node 20.20.2 (`npm i --no-save node@20` in the scratchpad) with the pinned
+  environment: the old read gave 44 errors and the new one passes. Guard: before pushing a test
+  that shells out to `node`, run it under the Node version of the job that will run it, and
+  remember that a stacked PR's CI only runs once it targets main.
+- **A review fix pushed a section over the city-name cap (#184, 23 Nov 2026).** The fixture added
+  for Codex's finding used Lima and Cusco. The cap in `test_over_localized_language` counts city
+  tokens in code as well as prose, so S16 went from 52 to 62 (cap 55). Before pushing, only the
+  section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
+  too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
+  Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).

@@ -87,7 +87,7 @@ export const MISC_FIGURES: Record<string, FigureData> = {
     headline: 'Un nulo no significa lo mismo en cada campo',
     input: 'campo nulo',
     branches: [
-      { test: 'política == "required"', result: 'cuarentena o fail', tint: 5 },
+      { test: 'política == "required"', result: 'cuarentena; el run no aprueba', tint: 5 },
       { test: 'optional y rate > cap', result: 'blocked, no rellenes', tint: 4 },
       { test: 'optional y rate ≤ cap', result: 'imputar + was_null', tint: 2 },
     ],
@@ -213,10 +213,10 @@ export const MISC_FIGURES: Record<string, FigureData> = {
   'S16-groupby-nunique': {
     kind: 'table',
     headline: 'Agrupar por clave convierte tres filas en un conteo por clave',
-    left: { title: 'Filas de entrada', head: ['cliente_id', 'region'], rows: [['C001', 'Lima'], ['C001', 'Madrid'], ['C002', 'Cusco']], tint: 3 },
+    left: { title: 'Filas de entrada', head: ['cliente_id', 'region'], rows: [['C001', 'Lima'], ['C001', 'Puno'], ['C002', 'Cusco']], tint: 3 },
     right: { title: 'Conteo por clave', head: ['cliente_id (índ)', 'regiones'], rows: [['C001', '2'], ['C002', '1']], tint: 2 },
     forward: 'groupby + nunique',
-    note: 'C001 reúne Lima y Madrid y queda en 2; C002 solo tiene Cusco y queda en 1.',
+    note: 'C001 reúne Lima y Puno y queda en 2; C002 solo tiene Cusco y queda en 1.',
   },
 
   // -------------------------------------------------------------- numberline
