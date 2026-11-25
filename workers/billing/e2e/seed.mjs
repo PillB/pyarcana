@@ -5,7 +5,7 @@ import { createHash, randomBytes } from 'node:crypto'
 import { writeFileSync } from 'node:fs'
 const now = Math.floor(Date.now() / 1000)
 const DAY = 86400
-const people = ['free', 'gift', 'tester', 'paid', 'trial', 'admin']
+const people = ['free', 'gift', 'tester', 'paid', 'trial', 'admin', 'supervisor']
 const tokens = {}
 const sql = []
 const q = (v) => (v === null ? 'NULL' : typeof v === 'number' ? String(v) : `'${String(v).replace(/'/g, "''")}'`)
@@ -27,6 +27,14 @@ g('gift', 'gift', 30)
 g('tester', 'tester', null)
 g('trial', 'trial', 7)
 sql.push(`INSERT INTO account_roles (account_id, role, created_at, note) VALUES (${[tokens.tester.id, 'tester', now - 100, 'e2e'].map(q).join(', ')});`)
+sql.push(`INSERT INTO account_roles (account_id, role, created_at, note) VALUES (${[tokens.supervisor.id, 'qa_supervisor', now - 100, 'e2e'].map(q).join(', ')});`)
+// The admin again, with a Google session older than 12 h: /v1/me says adminReauth (team.e2e.mjs).
+{
+  const token = randomBytes(32).toString('base64url')
+  tokens.adminStale = { id: tokens.admin.id, email: tokens.admin.email, token }
+  const hash = createHash('sha256').update(token).digest('hex')
+  sql.push(`INSERT INTO sessions (id, account_id, token_hash, method, created_at, renewed_at, expires_at, identity_subject) VALUES (${['sess_e2e_admin_stale', tokens.admin.id, hash, 'google', now - 13 * 3600, now - 60, now + 30 * DAY, 'g-admin-e2e'].map(q).join(', ')});`)
+}
 sql.push(`INSERT INTO subscriptions (id, account_id, provider, provider_ref, plan, amount_minor, currency, status, created_at, updated_at) VALUES (${['sub_e2e_paid', tokens.paid.id, 'mercadopago', 'ref_e2e', 'pro_monthly', 1990, 'PEN', 'active', now - 100, now - 100].map(q).join(', ')});`)
 sql.push(`INSERT INTO charges (id, provider, provider_charge_id, subscription_id, account_id, amount_minor, currency, status, approved_at, period_start, period_end, created_at, updated_at) VALUES (${['ch_e2e_paid', 'mercadopago', 'ch_e2e_paid', 'sub_e2e_paid', tokens.paid.id, 1990, 'PEN', 'approved', now - 100, now - 100, now + 30 * DAY, now - 100, now - 100].map(q).join(', ')});`)
 writeFileSync(new URL('./seed.sql', import.meta.url), sql.join('\n') + '\n')
