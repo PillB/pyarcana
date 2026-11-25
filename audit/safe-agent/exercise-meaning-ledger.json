@@ -3120,6 +3120,36 @@
       "reason": "Proposal 12 S21 (WEDO-24.1, P1): ready requires the three named keys; a third call without doc prints False. Same task: all, not any.",
       "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 313,
+      "id": "S22-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "f53674b4fb2d6aa29a80c923c5658f7a1af497ff9f4ac907f84d571a9f6ee7b2",
+      "to_fp": "f8db4ca3ebbc40a3cd3ac61479e4caec6322e9b365eec382415c266dbe5b6176",
+      "reason": "Proposal 12 S22 (WEDO-06.1): own subdomains are accepted, as the theory says, with fixtures for portal.example.pe and the example.pe.evil.test bypass. Same task: classify URLs by their parsed host.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 314,
+      "id": "S22-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "98925d22789bbb050b7115caa021383cea17d2fdb8faa70fb5310c5d12b9ceda",
+      "to_fp": "1abe1a94ce8ba9ec20caa822a540d7c9f2180a2bcd2494e7008088bbc1d88fc1",
+      "reason": "Proposal 12 S22 (WEDO-12.1): a third draft created already expired must print usable_caducado False, so a hardcoded True fails. Same task: sequential ids and is_usable.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 315,
+      "id": "S22-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "609fa55c1e5d1b2b53974013024f4d39f732ea8aa3af0b7fd612dd70461bf057",
+      "to_fp": "dccc917b699279733e7f3db8e2b77ee986593faf1d6100a3aefccc482e01c6de",
+      "reason": "Proposal 12 S22 (WEDO-21.2): the solution also shows that approve from draft raises ValueError, which the edge case promised. Same task: apply with actor in the audit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }

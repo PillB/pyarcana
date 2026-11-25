@@ -23,14 +23,14 @@ export const section22: CourseSection = {
   icon: "Mail",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes en Lima o Arequipa), el peaje más caro no es «enviar el correo»: es enviarlo mal — destinatario incorrecto, HTML inseguro, un reintento que duplica el mensaje o un bot con scopes de más. Aquí aprendes a separar borrador → aprobación humana → envío, dejando evidencia de quién aprobó, con qué draft y bajo qué key. El producto es un draft de sandbox fail-closed que una revisora de turno puede inspeccionar antes de cualquier acción de envío (simulada).",
+    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes en Lima o Arequipa), el peaje más caro no es «enviar el correo». Es enviarlo mal: destinatario incorrecto, HTML inseguro, un reintento que duplica el mensaje o un bot con scopes de más. Aquí aprendes a separar borrador → aprobación humana → envío, dejando evidencia de quién aprobó, con qué draft y bajo qué key. El producto es un draft de sandbox fail-closed que una revisora de turno puede inspeccionar antes de cualquier acción de envío (simulada).",
   learningOutcomes: [
     { text: "Construir mensajes MIME multiparte (plain+HTML+adjunto) con UTF-8 y serializarlos a `.eml`/string" },
     { text: "Sanitizar templates HTML con escape y allowlist de host real (sin substring)" },
     { text: "Diseñar OAuth/service account con scopes mínimos orientados a draft" },
     { text: "Crear drafts vía adaptadores con expiración y store de sandbox" },
     { text: "Resolver y verificar destinatarios sintéticos (dominio allowlisted, match ≠ fraude)" },
-    { text: "Aplicar privacidad y mínima divulgación en listas (dedupe, externos a BCC)" },
+    { text: "Aplicar privacidad y mínima divulgación en listas (dedupe, es decir, quitar duplicados; externos a BCC)" },
     { text: "Implementar cola de aprobación con máquina de estados canónica (pending_review / needs_edit)" },
     { text: "Garantizar idempotencia (sha256[:16]), audit log con actor y reintentos sin duplicar" },
   ],
@@ -40,13 +40,13 @@ export const section22: CourseSection = {
       paragraphs: [
         "Todo lo anterior producía artefactos que alguien iba a buscar. Un correo es distinto: llega sin que nadie lo pida, a una dirección concreta, y no se puede deshacer. Por eso esta sección construye el canal de notificación con una condición que no se negocia — lo que el sistema prepara es un **borrador**, y quien decide enviarlo es una persona.",
         "Esa decisión de diseño ordena todo lo demás. El sistema puede resolver a quién correspondería avisar, redactar el asunto y el cuerpo a partir del reporte ya reconciliado, adjuntar lo que haga falta y dejarlo listo. No aprieta el botón. La aprobación humana no es un trámite añadido al final: es el control que hace responsable a un flujo automático que toca a terceros.",
-        "Hay un error de destinatarios que se comete una sola vez y se recuerda para siempre: poner en copia visible a una lista de personas que no se conocen entre sí. Eso expone las direcciones de todas a todas. La copia oculta existe justamente para eso, y la regla es de mínima divulgación — cada destinatario recibe lo que necesita y nada sobre los demás.",
+        "Hay un error de destinatarios que se comete una sola vez y se recuerda para siempre: poner en copia visible (CC) a una lista de personas que no se conocen entre sí. Eso expone las direcciones de todas a todas. La copia oculta (BCC) existe justamente para eso, y la regla es de mínima divulgación — cada destinatario recibe lo que necesita y nada sobre los demás.",
         "El contenido también necesita cuidado. Un asunto que resume el caso puede filtrar información sensible en la bandeja de entrada de alguien, visible en la pantalla de bloqueo del teléfono. Y el cuerpo se construye con la misma disciplina de S21: plantilla que escapa lo que inserta, datos que vienen de la corrida y no de la memoria de nadie.",
         "La pregunta que gobierna la sección es la que conviene hacerse antes de cada envío: **¿quién recibe esto, qué ve exactamente, y quién autorizó que saliera?** Ninguna ruta de la lección envía correo real: se generan archivos locales o borradores en un entorno de pruebas, con contactos de laboratorio.",
       ],
       callout: {
         type: "info",
-        title: "Límite operativo (gates)",
+        title: "Límite operativo (controles de paso, o gates)",
         content:
           "Solo se crean `.eml` locales o drafts de sandbox con contactos de laboratorio (`@example.pe` es allowlist del curso, no un dominio “imposible de enrutar” por RFC). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
       },
@@ -56,7 +56,7 @@ export const section22: CourseSection = {
       optional: true,
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas y contexto del capstone.",
-        "**Orden de los subtemas.** T1 arma el mensaje: estructura MIME y plantillas seguras. T2 pasa al proveedor: autorización, alcances y adaptadores de borrador. T3 trata al destinatario: resolución, verificación, copia oculta y mínima divulgación. T4 cierra con la aprobación humana y el rastro de auditoría.",
+        "**Orden de los subtemas.** T1 arma el mensaje: estructura MIME y plantillas seguras. T2 pasa al proveedor: autorización, scopes (alcances) y adaptadores de borrador. T3 trata al destinatario: resolución, verificación, copia oculta y mínima divulgación. T4 cierra con la aprobación humana y el rastro de auditoría.",
         "**Contexto.** Aquí inicia CP-N2-C, el canal de notificación con aprobación humana, que toma el paquete de reporte ya reconciliado en S21 y prepara el borrador seguro.",
         "**Seguridad del laboratorio.** Solo se crean archivos `.eml` locales o borradores en entorno de pruebas, con contactos del curso.",
       ],
@@ -81,7 +81,7 @@ auto_send_ok False`,
       },
      },
      {
-      heading: "MIME, encoding, HTML/text y attachments",
+      heading: "MIME, codificación, HTML/texto y adjuntos",
       figure: {
         id: "S22-mime-parts",
         caption:
@@ -91,9 +91,9 @@ auto_send_ok False`,
       },
       subtopicId: "S22-T1-A",
       paragraphs: [
-        "**MIME** (`email.mime`) es el formato con el que construyes un correo profesional: no es un string suelto, sino un **árbol** de partes con tipo, charset y disposición. En operaciones (mesa de control, tickets, notificaciones a clientes sintéticos) el borrador suele llevar text/plain + text/html + un adjunto de meta del run. Charset **UTF-8** evita mojibake en nombres y acentos del español peruano. `MIMEMultipart('alternative')` ofrece ambas representaciones del cuerpo; el cliente de correo elige cuál mostrar.",
+        "**MIME** (*Multipurpose Internet Mail Extensions*, el formato de partes de un correo; en Python, `email.mime`) es el formato con el que construyes un correo profesional. No es un string suelto, sino un **árbol** de partes con tipo, charset y disposición. En operaciones (mesa de control, tickets, notificaciones a clientes sintéticos) el borrador suele llevar text/plain + text/html + un adjunto de meta del run. Charset **UTF-8** evita el mojibake (letras cambiadas por otras al leer el texto, como `Ã¡` en lugar de `á`) en nombres y acentos del español peruano. `MIMEMultipart('alternative')` ofrece ambas representaciones del cuerpo; el cliente de correo elige cuál mostrar.",
         "Contrato operativo: `MIMEText(..., 'plain'|'html', 'utf-8')` para el cuerpo; adjuntos con `MIMEApplication` + header `Content-Disposition` y `filename` legible. **Nunca** incrustes secretos (tokens OAuth, DNI, contraseñas) en el cuerpo ni en el nombre del archivo. Limita el tamaño de adjuntos de laboratorio y márcalos como demo. Serializar con `as_string()` te deja inspeccionar el árbol antes de guardarlo como `.eml`.",
-        "Caso sintético Caso 22: `MIMEText('Hola','plain','utf-8')` produce content-type `text/plain`; un contenedor `mixed` con `alternative` (plain+html) y `MIMEApplication` de `meta.txt` genera varios headers `Content-Type`. Contar esos headers en los ejercicios guiados valida que el árbol multiparte quedó bien anidado — base del borrador que luego pedirá aprobación humana.",
+        "Caso sintético Caso 22: `MIMEText('Hola','plain','utf-8')` produce content-type `text/plain`; un contenedor `mixed` con `alternative` (plain+html) y `MIMEApplication` de `meta.txt` genera varios headers `Content-Type`. Dos accesores comprueban una parte: `msg.get_content_type()` devuelve `text/plain` y `str(msg.get_charset())` devuelve `utf-8`. Contar esos headers en los ejercicios guiados valida que el árbol multiparte quedó bien anidado — base del borrador que luego pedirá aprobación humana.",
       ],
       code: {
         language: 'python',
@@ -135,7 +135,7 @@ has_attachment True`,
       heading: "Templates y sanitización de HTML",
       subtopicId: "S22-T1-B",
       paragraphs: [
-        "Los **templates** de correo interpolan variables de negocio (nombre de contacto, `run_id`, montos del informe de S21). Cualquier dato que no sea 100 % confiable se trata como **no confiable**: se escapa con `html.escape` (o autoescape del motor de plantillas). Eso es **escape contextual**, el primer control obligatorio; no sustituye un sanitizador HTML de producción ni un render seguro de plantillas. La política de links usa allowlist de **hosts reales** (`example.pe` o subdominios propios) o rutas relativas, y bloquea los esquemas `javascript:` y `data:`. **Nunca** uses substring (`'example.pe' in url`). Un host como `example.pe.evil.test` lo burlaría, y el curso no enseña ese bypass como solución.",
+        "Los **templates** de correo interpolan variables de negocio (nombre de contacto, `run_id`, montos del informe de S21). Cualquier dato que no sea 100 % confiable se trata como **no confiable**: se escapa con `html.escape` (o autoescape del motor de plantillas). Eso es **escape contextual**, el primer control obligatorio; no sustituye un sanitizador HTML de producción ni un render seguro de plantillas. La política de links usa allowlist de **hosts reales** (`example.pe` o subdominios propios) o rutas relativas, y bloquea los esquemas `javascript:` y `data:`. **Nunca** uses substring (`'example.pe' in url`). Un host como `example.pe.evil.test` lo burla: la demo de abajo lo imprime, `substring_acepta_bypass True`, y el host exacto da False.",
         "Contrato: el template `Hola {name}` con `name = '<b>Ana</b>'` debe producir entidades HTML escapadas (`&lt;b&gt;…`), no markup activo. Para links: parsea el host (`urlparse` o strip del esquema) y compara **igualdad exacta** o sufijo de subdominio controlado; cualquier otro host → `blocked` / enlace neutralizado. XSS (inyección de script en sitio) en el cuerpo del correo es phishing interno real: una revisora de la mesa puede hacer clic en un enlace malicioso si el pipeline no sanitiza.",
         "Caso sintético: el cuerpo del borrador incluye un enlace al portal de revisión del run. Sin allowlist correcta, un fragmento malicioso redirige a un dominio externo. Por eso el gate de sanitización es **obligatorio** antes de encolar el draft en `pending_review`: la revisora humana debe ver HTML seguro, no un vector de ataque.",
       ],
@@ -145,6 +145,7 @@ has_attachment True`,
         code: `def s22_th_2():
     import html
     import re
+    from urllib.parse import urlparse
 
     def sanitize_html(fragment: str, allowed_hosts=None) -> str:
         allowed_hosts = allowed_hosts or {"example.pe"}
@@ -162,21 +163,36 @@ has_attachment True`,
     user = '<script>alert(1)</script> {{link:https://example.pe/r}} {{link:javascript:alert(1)}}'
     print(sanitize_html(user))
 
+    # Error: substring. Corrección: host exacto o subdominio propio.
+    bypass = "https://example.pe.evil.test/x"
+    print("substring_acepta_bypass", "example.pe" in bypass)
+    host = urlparse(bypass).hostname
+    print("host_acepta_bypass", host == "example.pe" or host.endswith(".example.pe"))
+
+    # Error: insertar sin escape. Corrección: html.escape.
+    nombre = "<script>alert(1)</script>"
+    print("sin_escape", f"<p>Hola {nombre}</p>")
+    print("con_escape", f"<p>Hola {html.escape(nombre)}</p>")
+
 s22_th_2()`,
-        output: `&lt;script&gt;alert(1)&lt;/script&gt; <a href="https://example.pe/r">enlace</a> [link bloqueado]`,
+        output: `&lt;script&gt;alert(1)&lt;/script&gt; <a href="https://example.pe/r">enlace</a> [link bloqueado]
+substring_acepta_bypass True
+host_acepta_bypass False
+sin_escape <p>Hola <script>alert(1)</script></p>
+con_escape <p>Hola &lt;script&gt;alert(1)&lt;/script&gt;</p>`,
       },
       callout: {
         type: "danger",
         title: "HTML de usuario = XSS",
         content:
-          "Nunca marques como safe un string de destinatario o de un documento OCR (reconocimiento óptico de caracteres) sin sanitizar.",
+          "Nunca insertes sin escape, ni marques como seguro, un string de destinatario o de un documento OCR (reconocimiento óptico de caracteres). La demo lo muestra: `sin_escape` deja una etiqueta `<script>` activa y `con_escape` la convierte en texto.",
       },
     },
     {
       heading: "OAuth, service account y scopes",
       subtopicId: "S22-T2-A",
       paragraphs: [
-        "Cuando un bot de notificaciones habla con Gmail u otro proveedor, no “inicia sesión” con contraseña en el código: usa **OAuth** (o, en Workspace, una **service account** con delegación de dominio e impersonación explícita). En este laboratorio modelamos **capacidades sintéticas** (`mail.draft`, `mail.readonly`, `mail.send`, `mail.full`) para practicar least privilege sin acoplarte a un proveedor. En Gmail real los scopes son URI (p. ej. `https://www.googleapis.com/auth/gmail.compose`) y **no hay** un scope universal “solo crear draft”: `gmail.compose` también puede enviar. Por eso el gate draft-only del curso es **política de aplicación** + scopes justos del proveedor, no magia del token.",
+        "Cuando un bot de notificaciones habla con Gmail u otro proveedor, no “inicia sesión” con contraseña en el código: usa **OAuth**. En Workspace también sirve una **service account**: una identidad de máquina con delegación de dominio e impersonación explícita, es decir, que actúa en nombre de un usuario del dominio. En este laboratorio modelamos **capacidades sintéticas** (`mail.draft`, `mail.readonly`, `mail.send`, `mail.full`) para practicar least privilege (mínimo privilegio: pedir solo lo que el producto usa) sin acoplarte a un proveedor. En Gmail real los scopes son URI (dirección única del recurso) (p. ej. `https://www.googleapis.com/auth/gmail.compose`) y **no hay** un scope universal “solo crear draft”: `gmail.compose` también puede enviar. Por eso el gate draft-only del curso es **política de aplicación** + scopes justos del proveedor, no magia del token.",
         "Contrato de least privilege: `granted ⊆ allowed` y `requested ∩ allowed` define lo que se pide de verdad. Imprimes evidencia de que `granted` no contiene capacidades peligrosas del lab (`mail.full`, `admin`, a veces `mail.send` si el producto es draft-only). Los tokens del curso son sintéticos; lo que evalúas es el **diseño de permisos** y la separación adaptador/workflow, no un flujo OAuth real de producción.",
         "Caso: el pipeline pide `mail.draft` y por error también `mail.full`. La política filtra a `allowed` y deja `granted` sin privilegios de envío masivo. En sandbox, un scope de más es un **hallazgo de seguridad del diseño**, no un “detalle de configuración” que se ignora. La mesa de control puede auditar scopes pedidos vs. concedidos en el mismo paquete de evidencia del run.",
       ],
@@ -209,14 +225,14 @@ least_privilege_ok True`,
         type: "warning",
         title: "Scopes y envío",
         content:
-          "En el lab, deniega `mail.send`/`mail.full` si solo creas drafts. En Gmail real, revisa el URI de scope: `gmail.compose` puede enviar; el fail-closed del producto sigue siendo obligatorio: sin botón de envío y con **HITL** (*human in the loop*, una persona que aprueba antes de que algo salga).",
+          "En el lab, deniega `mail.send`/`mail.full` si solo creas drafts. En Gmail real, revisa el URI de scope: `gmail.compose` puede enviar. El fail-closed del producto sigue siendo obligatorio: sin botón de envío y con **HITL** (*human in the loop*, una persona que aprueba antes de que algo salga).",
       },
     },
     {
       heading: "Drafts, expiración y adaptadores",
       subtopicId: "S22-T2-B",
       paragraphs: [
-        "Un **adaptador** (`GmailAdapter`, `SmtpFileAdapter`, adaptador de archivo local) expone `create_draft` / `get_draft` sin acoplar el workflow de aprobación al SDK del proveedor. Así puedes probar el mismo flujo contra un `.eml` en disco y, más adelante, contra una API real. Los drafts llevan **expiración**: pasado `expires_at` no se promueven a envío sin regenerar el mensaje y volver a pasar por la cola humana — el SLA de la mesa de control exige contenido fresco (cifras del informe de S21 pueden haber cambiado).",
+        "Un **adaptador** (`GmailAdapter`, `SmtpFileAdapter`, adaptador de archivo local) expone `create_draft` / `is_usable` sin acoplar el workflow de aprobación al SDK del proveedor. Así puedes probar el mismo flujo contra un `.eml` en disco y, más adelante, contra una API real. Los drafts llevan **expiración**: pasado `expires_at` no se promueven a envío sin regenerar el mensaje y volver a pasar por la cola humana. El SLA (acuerdo de nivel de servicio) de la mesa de control exige contenido fresco, porque las cifras del informe de S21 pueden haber cambiado.",
         "Contrato: store en memoria o carpeta `out/drafts/`; ids legibles secuenciales (`d001`, `d002`); `is_usable(draft_id)` es False si el status ya no es draft o si `now >= expires_at`. En este curso **solo** se escriben `.eml` o estructuras de sandbox: cero SMTP real, cero envío automático.",
         "Caso: creas `d001` con status `draft`; si `expires_at = now − 1s`, `is_usable` devuelve False y el job no debe “aprovechar” ese borrador. Los ids secuenciales evitan colisiones en el laboratorio; el reintento seguro (misma key → mismo draft) se formaliza en T4-B con idempotencia y audit log.",
       ],
@@ -271,7 +287,7 @@ bytes 184`,
       },
       subtopicId: "S22-T3-A",
       paragraphs: [
-        "Antes de poner un `To:` en el borrador, el pipeline **resuelve** y **verifica** al destinatario. Resolución: mapear un id de negocio (`C001`) a un email desde un directorio sintético. Verificación: formato básico, dominio allowlisted (`example.pe`) y estado activo. Los estados del contacto van de `unresolved` → `candidate` → `verified` | `rejected`. Sin `verified`, fail-closed: no se encola aprobación para envío (aunque en el curso solo simules).",
+        "Antes de poner un `To:` en el borrador, el pipeline **resuelve** y **verifica** al destinatario. Resolución: mapear un id de negocio (`C001`) a un email desde un directorio sintético. Verificación: formato básico, dominio allowlisted (`example.pe`) y estado activo. Los estados del contacto son `unresolved` (el id no está en el directorio), `verified` o `rejected`. Sin `verified`, fail-closed: no se encola aprobación para envío (aunque en el curso solo simules).",
         "Contrato ético y técnico: si usas un score de similitud de nombres o emails, **siempre** acompáñalo de la nota **`match_no_es_fraude`**. En el ejercicio de transferencia calculas un prefijo común que da **0.86**. El self-check usa **0.92** solo como número de un MCQ (pregunta de opción múltiple) ético. En ambos casos un score “alto” **no** autoriza claims de identidad legal, parentesco ni colusión: solo prioriza la revisión de **entrega correcta**. Matching de contactos ≠ investigación de fraude.",
         "Caso: `ana@example.pe` pasa formato y dominio; `bad` se rechaza; `C001` queda `verified` en el directorio de laboratorio; `C002` con dominio no allowlisted queda `rejected`. Si el id no existe, el estado es `unresolved` y la mesa de control decide a mano. Al comparar dos strings de email, el ejercicio imprime el score sintético **0.86** y la nota anti-claim — nunca `fraude_probable`.",
       ],
@@ -324,7 +340,7 @@ note: match≠fraude`,
       heading: "Listas, CC/BCC, privacidad y mínima divulgación",
       subtopicId: "S22-T3-B",
       paragraphs: [
-        "**CC** expone a todos los destinatarios entre sí (en jerga de operaciones, “filtra” significa filtrar o exponer la lista de quién trabaja el caso). **BCC** oculta la lista a los demás. Cuando hay externos (p. ej. un partner fuera de `@example.pe`), prefiere BCC o envíos individuales. **Mínima divulgación**: no pongas DNI, teléfono ni secretos en el cuerpo si el detalle ya vive en el adjunto controlado o en un portal con acceso acotado.",
+        "**CC** expone a todos los destinatarios entre sí: si la lista va en CC, cada persona ve las direcciones de las demás. **BCC** oculta la lista a los demás. BCC oculta las direcciones, pero no cifra el cuerpo: lo sensible va en el portal o en un adjunto controlado. Cuando hay externos (p. ej. un partner fuera de `@example.pe`), prefiere BCC o envíos individuales. **Mínima divulgación**: no pongas DNI, teléfono ni secretos en el cuerpo si el detalle ya vive en el adjunto controlado o en un portal con acceso acotado.",
         "Contrato de higiene de listas: (1) dedupe preservando el orden de primera aparición; (2) forzar `role='bcc'` si el dominio es externo; (3) contar cuántos emails quedarían **visibles** (`to`+`cc`) tras la política. En laboratorio también modelas tope de tamaño de lista y un flag sintético de opt-out — hábitos que luego mapean a políticas reales de la mesa.",
         "Caso: la lista trae duplicados de `ana@example.pe` y un `externo@other.test` en CC. Tras higiene, el externo pasa a BCC y el conteo de visibles baja. El audit del run registra la política aplicada. Esto es **privacidad operativa** del día a día, no una lista de verificación de cumplimiento que se tacha y se olvida.",
       ],
@@ -338,30 +354,33 @@ note: match≠fraude`,
         {"email": "ana@example.pe", "role": "to"},
         {"email": "luis@example.pe", "role": "cc"},
         {"email": "ana@example.pe", "role": "to"},  # dup
-        {"email": "externo@other.test", "role": "bcc"},
+        {"email": "externo@other.test", "role": "cc"},
     ]
     seen = OrderedDict()
     for r in recipients:
-        seen[r["email"]] = r
+        seen[r["email"]] = dict(r)
     clean = list(seen.values())
+    # Error: sin política, el externo en CC queda visible para todos
+    print("visibles_antes", [r["email"] for r in clean if r["role"] in ("to", "cc")])
     for r in clean:
-        if r["email"].endswith("@other.test") and r["role"] != "bcc":
+        if not r["email"].endswith("@example.pe") and r["role"] != "bcc":
             r["role"] = "bcc"
     by_role = {}
     for r in clean:
         by_role.setdefault(r["role"], []).append(r["email"])
     print("n", len(clean), "by_role", {k: len(v) for k, v in by_role.items()})
-    print("to_visible_to_others", by_role.get("to", []) + by_role.get("cc", []))
+    print("visibles_despues", by_role.get("to", []) + by_role.get("cc", []))
 
 s22_th_6()`,
-        output: `n 3 by_role {'to': 1, 'cc': 1, 'bcc': 1}
-to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
+        output: `visibles_antes ['ana@example.pe', 'luis@example.pe', 'externo@other.test']
+n 3 by_role {'to': 1, 'cc': 1, 'bcc': 1}
+visibles_despues ['ana@example.pe', 'luis@example.pe']`,
       },
       callout: {
         type: "warning",
         title: "CC expone la lista de trabajo",
         content:
-          "Un CC masivo expone a todos entre sí (en jerga de operaciones, “filtra” significa filtrar o exponer la lista de trabajo). Usa BCC o tickets internos cuando haya externos.",
+          "Un CC masivo expone a todos entre sí: la demo imprime `visibles_antes` con el externo dentro. Usa BCC o tickets internos cuando haya externos.",
       },
     },
     {
@@ -375,9 +394,9 @@ to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
       },
       subtopicId: "S22-T4-A",
       paragraphs: [
-        "La **cola de aprobación** es el corazón human-in-the-loop de CP-N2-C: una máquina de estados `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. Cada transición lleva **actor** (quién) y, en producción, timestamp. Sin transición válida, fail-closed: no hay envío ni promoción del draft. En tu código y en el You Do usa siempre `pending_review` (nunca el atajo `pending`) y `needs_edit` cuando la revisora pide cambios.",
-        "Contrato: tabla `TRANSITIONS` como única fuente de verdad. `submit` desde `draft` → `pending_review`; `approve` desde `draft` → `invalid`; `request_edit` desde `pending_review` → `needs_edit` y luego otro `submit`. La UI y los jobs leen el estado; no “envían porque alguien pulsó un botón” sin validar la máquina. En mesa de control, un `pending_review` sin respuesta dentro del SLA suele **escalar** a la revisora de turno o volver a `needs_edit` con nota — no se autoaprueba por timeout. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule el envío).",
-        "Caso de laboratorio: el analista hace `submit`; la revisora `rev1` hace `approve` y el log registra `{from: pending_review, to: approved, action, actor}`. Si alguien intenta aprobar desde `draft`, el sistema responde `invalid`. El portfolio adjunta ese audit: evidencia de cumplimiento y de fail-closed para el hilo que en S23 saldrá a un adaptador web.",
+        "La **cola de aprobación** es el corazón human-in-the-loop de CP-N2-C: una máquina de estados `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. Cada transición lleva **actor** (quién) y, en producción, timestamp. Sin transición válida, fail-closed: no hay envío ni promoción del draft. En tu código y en el You Do usa siempre `pending_review` y `needs_edit` cuando la revisora pide cambios. No uses el atajo `pending`: a secas no dice quién debe actuar, y `pending_review` sí dice que falta la revisión de una persona. Además, `pending` no existe en la tabla, así que ninguna acción sale de él.",
+        "Contrato: tabla `TRANSITIONS` como única fuente de verdad. `submit` desde `draft` → `pending_review`; `approve` desde `draft` lanza `ValueError` con el texto `invalid draft->approve`; `request_edit` desde `pending_review` → `needs_edit` y luego otro `submit`. La UI y los jobs leen el estado; no “envían porque alguien pulsó un botón” sin validar la máquina. En mesa de control, un `pending_review` sin respuesta dentro del SLA suele **escalar** a la revisora de turno o volver a `needs_edit` con nota — no se autoaprueba por timeout. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule el envío).",
+        "Caso de laboratorio: el analista hace `submit`; la revisora `rev1` hace `approve` y el log registra `{from: pending_review, to: approved, action, actor}`. Si alguien intenta aprobar desde `draft`, `apply` lanza `ValueError` y no escribe nada en el log. El portfolio adjunta ese audit: evidencia de cumplimiento y de fail-closed para el hilo que en S23 saldrá a un adaptador web.",
       ],
       code: {
         language: 'python',
@@ -405,11 +424,18 @@ to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
     print("final", st)
     print("steps", len(log))
     print(log[-1]["actor"], log[-1]["to"])
+    try:
+        apply("draft", "approve", "reviewer", log)
+    except ValueError as e:
+        print(e, "| steps", len(log))
+    print("acciones desde pending:", TRANSITIONS.get("pending", {}))
 
 s22_th_7()`,
         output: `final approved
 steps 2
-reviewer approved`,
+reviewer approved
+invalid draft->approve | steps 2
+acciones desde pending: {}`,
       },
       callout: {
         type: "tip",
@@ -423,8 +449,8 @@ reviewer approved`,
       subtopicId: "S22-T4-B",
       paragraphs: [
         "Un reintento de red o un doble clic del operador no debe spamear al destinatario. La **idempotency key** — `sha256(...).hexdigest()[:16]` de `run_id|destinatario|versión del cuerpo` — es el contrato único de esta sección: **16** caracteres hex en teoría, I Do, ejercicios y You Do. El **audit log** registra `create`, `submit`, `approve` y `retry_hit` con actor (y timestamp en producción).",
-        "Contrato de reintento: si la key ya existe (draft activo o terminal), devuelves el **mismo** `draft_id` y anotas `retry_hit`; no creas un segundo mensaje. Solo un cambio de `body_ver` (o de destinatario/run) genera una key distinta y un draft nuevo. Así el reintento es seguro y auditable.",
-        "Caso: dos `create_draft_once` con la misma key → mismos ids (`same_id True`) y audit `['create','retry_hit',…]`. Con esto cierras el **inicio de CP-N2-C**: el borrador con aprobación y key estable queda listo para el canal web de S23 (browser RPA), sin reabrir el paquete de informe de S21 ni duplicar notificaciones.",
+        "Contrato de reintento: si la key ya existe (draft activo o terminal), devuelves el **mismo** `draft_id` y anotas `retry_hit`; no creas un segundo mensaje. Solo un cambio de `body_ver` (o de destinatario/run) genera una key distinta y un draft nuevo. Así el reintento es seguro y auditable. Si la key existe pero el draft ya caducó, no devuelvas ese id: crea un draft nuevo y vuelve a la cola humana. La demo de abajo no modela la caducidad, para aislar la idempotencia; el control que la cubre es `is_usable`, de T2-B.",
+        "Caso: dos `create_draft_once` con la misma key → mismos ids (`same_id True`) y audit `['create','retry_hit',…]`. Con esto cierras el **inicio de CP-N2-C**: el borrador con aprobación y key estable queda listo para el canal web de S23 (browser RPA). No reabres el paquete de informe de S21 ni duplicas notificaciones.",
       ],
       code: {
         language: 'python',
@@ -478,7 +504,7 @@ audit_events ['create', 'retry_hit', 'create']`,
         environment: "local/sandbox proveedor",
         description: "Construir mensaje MIME multi-parte seguro (text+HTML+adjunto sintético).",
         preamble:
-          "Antes de encolar un borrador de CP-N2-C, el analista debe *ver* un mensaje como árbol MIME, no como un string suelto. En esta demo se arma `mixed` con `alternative` (texto plano + HTML) y un adjunto de meta del run (`run.json`, sin secretos). No escribas aún: sigue los `print` y comprueba que el serializado contiene el adjunto y UTF-8. Si confundes “pegar HTML” con un correo multiparte, la revisora de la mesa no puede auditar el `.eml` con claridad.",
+          "Antes de encolar un borrador de CP-N2-C, el analista debe *ver* un mensaje como árbol MIME, no como un string suelto. En esta demo se arma `mixed` con `alternative` (texto plano + HTML) y un adjunto de meta del run (`meta.txt`, sin secretos). No escribas aún: sigue los `print` y comprueba que el serializado contiene el adjunto y UTF-8. Si confundes “pegar HTML” con un correo multiparte, la revisora de la mesa no puede auditar el `.eml` con claridad.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -495,11 +521,11 @@ audit_events ['create', 'retry_hit', 'create']`,
     alt.attach(MIMEText("Versión texto", "plain", "utf-8"))
     alt.attach(MIMEText("<p>Versión <i>HTML</i></p>", "html", "utf-8"))
     msg.attach(alt)
-    att = MIMEApplication(b'{"run_id":"cpn2c-01"}', Name="run.json")
-    att.add_header("Content-Disposition", "attachment", filename="run.json")
+    att = MIMEApplication(b"run_id=cpn2c-01\\n", Name="meta.txt")
+    att.add_header("Content-Disposition", "attachment", filename="meta.txt")
     msg.attach(att)
     s = msg.as_string()
-    print("ok", "run.json" in s and "utf-8" in s.lower())
+    print("ok", "meta.txt" in s and "utf-8" in s.lower())
     print("n_headers_subj", s.count("Subject:"))
 
 s22_ido_1()`,
@@ -532,7 +558,7 @@ n_headers_subj 1`,
         s = html.escape(s)
         return re.sub(
             r"https?://[^\\s<]+",
-            lambda m: m.group(0) if host_ok(m.group(0)) else "[blocked]",
+            lambda m: f'<a href="{m.group(0)}">enlace</a>' if host_ok(m.group(0)) else "[blocked]",
             s,
         )
 
@@ -540,7 +566,7 @@ n_headers_subj 1`,
     print(sanitize(raw))
 
 s22_ido_2()`,
-          output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] https://example.pe/ok [blocked]`,
+          output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] <a href="https://example.pe/ok">enlace</a> [blocked]`,
         },
         why:
           "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). El escape contextual es el primer control; parsear el host evita el bypass de subdominio malicioso. Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo rechaza como solución. En We Do practicarás escape, interpolación segura y allowlist con `urlparse`.",
@@ -553,26 +579,31 @@ s22_ido_2()`,
         environment: "local/sandbox proveedor",
         description: "Configurar scopes mínimos en sandbox y detectar exceso de privilegios.",
         preamble:
-          "Un bot de notificaciones de CP-N2-C solo necesita crear drafts, no enviar ni administrar. En esta demo se piden scopes sintéticos (`mail.draft`, `mail.send`, `mail.full`) y una política máxima de laboratorio filtra lo concedido. No escribas: predice qué queda en `granted` y qué se deniega. Si dejas `mail.full` “por si acaso”, un token filtrado multiplica el daño en la mesa de control.",
+          "Un bot de notificaciones de CP-N2-C solo necesita crear drafts, no enviar ni administrar. En esta demo se piden scopes sintéticos (`mail.draft`, `mail.send`, `mail.full`) y dos políticas filtran lo concedido: la del laboratorio y una laxa. No escribas: predice qué queda en `granted` con cada una y cuál pasa el control `least_ok`. Si dejas `mail.full` “por si acaso”, un token filtrado multiplica el daño en la mesa de control.",
         code: {
           language: 'python',
           title: "demo.py",
           code: `def s22_ido_3():
     requested = ["mail.draft", "mail.send", "mail.full"]
-    policy_max = {"mail.draft", "mail.readonly"}
-    granted = [s for s in requested if s in policy_max]
-    denied = [s for s in requested if s not in policy_max]
-    print("granted", granted)
-    print("denied", denied)
-    print("least_ok", "mail.full" not in granted and "mail.send" not in granted)
+    peligrosos = {"mail.send", "mail.full"}
+    politicas = {
+        "lab": {"mail.draft", "mail.readonly"},
+        "laxa": {"mail.draft", "mail.send", "mail.full"},
+    }
+    for nombre, policy_max in politicas.items():
+        granted = [s for s in requested if s in policy_max]
+        denied = [s for s in requested if s not in policy_max]
+        print(nombre, "granted", granted, "denied", denied)
+        print(nombre, "least_ok", peligrosos.isdisjoint(granted))
 
 s22_ido_3()`,
-          output: `granted ['mail.draft']
-denied ['mail.send', 'mail.full']
-least_ok True`,
+          output: `lab granted ['mail.draft'] denied ['mail.send', 'mail.full']
+lab least_ok True
+laxa granted ['mail.draft', 'mail.send', 'mail.full'] denied []
+laxa least_ok False`,
         },
         why:
-          "Decisión: si el producto solo crea drafts, denegar `mail.send` y `mail.full` reduce el impacto de un token filtrado. Least privilege es diseño de producto, no un flag opcional. En Gmail real los URI de scope no magizan “solo draft”; el fail-closed de envío sigue siendo HITL + política de aplicación. En We Do filtrarás a allowed y comprobarás scopes peligrosos.",
+          "Decisión: si el producto solo crea drafts, denegar `mail.send` y `mail.full` reduce el impacto de un token filtrado. Least privilege es diseño de producto, no un flag opcional. En Gmail real, los URI de scope no ofrecen un scope solo para drafts; el fail-closed de envío sigue siendo HITL + política de aplicación. En We Do filtrarás a allowed y comprobarás scopes peligrosos.",
         retrospective:
           "Granted debe ser la intersección con lo permitido, no la lista soñada. El error clásico es pedir `mail.full` “para no fallar después”. Pregunta: si el token se filtra, ¿qué daño extra abre `mail.send` frente a solo `mail.draft`? We Do: filtrar a allowed, `isdisjoint` con peligrosos y clasificar por `expires_at`.",
       },
@@ -582,7 +613,7 @@ least_ok True`,
         environment: "local/sandbox proveedor",
         description: "Crear drafts vía adaptador con expiración.",
         preamble:
-          "El workflow de aprobación no debe acoplarse al SDK de Gmail: llama `create_draft` y pregunta si el borrador sigue usable. En esta demo un adaptador en memoria crea un draft con expiración y reporta si ya caducó. No escribas: observa id, `expired` y el tamaño del store. Si promueves un draft viejo, la revisora aprueba cifras del informe que ya no existen en S21.",
+          "El workflow de aprobación no debe acoplarse al SDK de Gmail: llama `create_draft` y pregunta si el borrador sigue usable. En esta demo un adaptador en memoria crea dos drafts con la API de la teoría (`d001`, `is_usable`): uno vigente y otro creado ya caducado. No escribas: observa los ids, `usable` y el tamaño del store. Si promueves un draft viejo, la revisora aprueba cifras del informe que ya no existen en S21.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -592,22 +623,27 @@ least_ok True`,
     class Adapter:
         def __init__(self):
             self.drafts = {}
-        def create(self, body, hours=2):
-            i = f"D{len(self.drafts)+1}"
-            self.drafts[i] = {"body": body, "exp": datetime.now(timezone.utc)+timedelta(hours=hours)}
+        def create_draft(self, body, hours=2):
+            i = f"d{len(self.drafts)+1:03d}"
+            exp = datetime.now(timezone.utc) + timedelta(hours=hours)
+            self.drafts[i] = {"body": body, "status": "draft", "expires_at": exp}
             return i
-        def expired(self, i, now=None):
+        def is_usable(self, i, now=None):
             now = now or datetime.now(timezone.utc)
-            return now >= self.drafts[i]["exp"]
+            d = self.drafts[i]
+            return d["status"] == "draft" and now < d["expires_at"]
 
     ad = Adapter()
-    d = ad.create("borrador sintético", hours=1)
-    print("id", d, "expired", ad.expired(d))
+    vigente = ad.create_draft("borrador sintético", hours=1)
+    viejo = ad.create_draft("cifras de ayer", hours=-1)
+    print("id", vigente, "usable", ad.is_usable(vigente))
+    print("id", viejo, "usable", ad.is_usable(viejo))
     print("n", len(ad.drafts))
 
 s22_ido_4()`,
-          output: `id D1 expired False
-n 1`,
+          output: `id d001 usable True
+id d002 usable False
+n 2`,
         },
         why:
           "Decisión: la expiración fuerza regenerar y reaprobar contenido viejo (cifras del informe de S21 pueden haber cambiado). El adaptador es dueño del ciclo de vida; el workflow solo pregunta si el draft sigue usable. En este curso solo `.eml` o sandbox: cero SMTP real. Un draft caducado no se promueve a envío.",
@@ -690,7 +726,7 @@ s22_ido_6()`,
         environment: "local/sandbox proveedor",
         description: "Modelar cola de aprobación con estados canónicos (pending_review) y actor en el audit.",
         preamble:
-          "La cola de aprobación es el corazón human-in-the-loop de CP-N2-C: `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. En esta demo el analista hace `submit` y la revisora `rev1` hace `approve`; el log guarda from/to/action/actor. No escribas: sigue el trail y el último actor. Si alguien “aprueba” desde draft sin pasar por la tabla, no hay audit ni fail-closed — y el destinatario sintético queda desprotegido.",
+          "La cola de aprobación es el corazón human-in-the-loop de CP-N2-C: `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. En esta demo el analista hace `submit` y la revisora `rev1` hace `approve`; el log guarda from/to/action/actor. No escribas: sigue el trail, el último actor y qué devuelve la tabla para `approve` desde `draft`. Si alguien “aprueba” desde draft sin pasar por la tabla, no hay audit ni fail-closed — y el destinatario sintético queda desprotegido.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -712,14 +748,16 @@ s22_ido_6()`,
     print("final", state)
     print("trail", [e["to"] for e in log])
     print("last_actor", log[-1]["actor"])
+    print("approve_desde_draft", sm["draft"].get("approve", "invalid"))
 
 s22_ido_7()`,
           output: `final approved
 trail ['pending_review', 'approved']
-last_actor rev1`,
+last_actor rev1
+approve_desde_draft invalid`,
         },
         why:
-          "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. El actor es accountability. Los estados canónicos son `pending_review`/`needs_edit` (nunca el atajo `pending`). `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
+          "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. El actor es accountability. Los estados canónicos son `pending_review`/`needs_edit`; el atajo `pending` no dice quién debe actuar. `approve` desde draft no existe en la tabla, y la última línea lo muestra: fail-closed protege al destinatario y deja rastro de quién actuó.",
         retrospective:
           "El estado es la verdad; el botón no envía sin la máquina. El error clásico es hardcodear `approved` o el atajo `pending`. Pregunta: ¿quién aparece como actor en el último evento del trail de la demo? We Do: transición submit, fail-closed invalid y apply con actor en el log.",
       },
@@ -775,7 +813,7 @@ s22_ido_8()`,
           "from email.mime.text import MIMEText",
           "subtype 'plain' y charset 'utf-8'; usa get_content_type y get_charset.",
         ],
-        edgeCases: ["charset None en algunos builds — usa utf-8 explícito"],
+        edgeCases: ["sin el tercer argumento, MIMEText elige us-ascii si el texto es ASCII y utf-8 si lleva acentos: pásalo explícito para que el charset no dependa del contenido"],
         tests: "salida coincide con solution output",
         feedback:
           "`text/plain` + `utf-8` es el cuerpo mínimo legible en español peruano. Si dejas `html` o imprimes `ascii`, la revisora ve un tipo incorrecto o mojibake en el `.eml` de laboratorio.",
@@ -989,13 +1027,13 @@ print('Hola ' + html.escape(name))`,
         kind: "transfer",
         title: "Allowlist de host real con urlparse",
         preamble:
-          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URL aceptando solo host exactamente `example.pe` vía `urlparse`.\n- **Éxito:** dos líneas — `https://example.pe/a ok` y `https://evil.test blocked`.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
+          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URL con `urlparse`: acepta el host `example.pe` o un subdominio propio (`*.example.pe`), como dice la teoría.\n- **Éxito:** cuatro líneas — `example.pe` y `portal.example.pe` ok; `evil.test` y `example.pe.evil.test` blocked.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
         instruction:
-          "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'`; si no, `blocked`.\n4. No uses substring del URL completo.",
+          "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'` o termina en `'.example.pe'`; si no, `blocked`.\n4. No uses substring del URL completo.",
         hint: "urlparse(u).hostname",
         hints: [
           "from urllib.parse import urlparse",
-          "host == 'example.pe' (igualdad exacta, no 'in url')",
+          "host == 'example.pe' o host.endswith('.example.pe'), nunca 'in url'",
         ],
         edgeCases: ["Subdominios maliciosos como example.pe.evil.test: el host real no es example.pe."],
         tests: "salida coincide con solution output",
@@ -1010,7 +1048,7 @@ print('Hola ' + html.escape(name))`,
 # A corregir: marca todo ok sin chequear host
 # Contrato: parsear host; solo example.pe es ok
 from urllib.parse import urlparse
-urls = ['https://example.pe/a', 'https://evil.test']
+urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x']
 for u in urls:
     print(u, 'ok')
 `,
@@ -1019,12 +1057,14 @@ for u in urls:
           language: 'python',
           title: "exercise.py",
           code: `from urllib.parse import urlparse
-urls = ['https://example.pe/a', 'https://evil.test']
+urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x']
 for u in urls:
     host = urlparse(u).hostname or ""
-    print(u, 'ok' if host == 'example.pe' else 'blocked')`,
+    print(u, 'ok' if host == 'example.pe' or host.endswith('.example.pe') else 'blocked')`,
           output: `https://example.pe/a ok
-https://evil.test blocked`,
+https://portal.example.pe/r ok
+https://evil.test blocked
+https://example.pe.evil.test/x blocked`,
         },
       },
       {
@@ -1079,7 +1119,7 @@ print([s for s in requested if s in allowed])`,
         hint: "all(x not in granted for x in ...)",
         hints: [
           "all(x not in granted for x in ...)",
-          "set isdisjoint",
+          "set.isdisjoint(x) es True si ningún elemento de x está en el set; aquí True significa que no hay scopes peligrosos.",
         ],
         edgeCases: ["scopes custom del proveedor"],
         tests: "salida coincide con solution output",
@@ -1113,15 +1153,15 @@ print(bad.isdisjoint(granted))`,
         kind: "transfer",
         title: "Clasificar expires_at: refresh o valid",
         preamble:
-          "- **Contexto:** un token OAuth o un draft caducado no debe entrar a la cola de envío simulada de CP-N2-C; el mismo reloj aplica a ambos (puente a T2-B).\n- **Meta:** clasificar dos `expires_at` sintéticos frente a `now` UTC: caducado → `refresh`, vigente → `valid`.\n- **Éxito:** dos líneas `refresh` luego `valid`.\n- **Límites:** `exp < now` → refresh; no inviertas la comparación; sin SMTP.",
+          "- **Contexto:** un token OAuth o un draft caducado no debe entrar a la cola de envío simulada de CP-N2-C; el mismo reloj aplica a ambos (puente a T2-B).\n- **Meta:** clasificar dos `expires_at` sintéticos frente a `now` UTC: caducado → `refresh`, vigente → `valid`.\n- **Éxito:** dos líneas `refresh` luego `valid`.\n- **Límites:** `exp <= now` → refresh, la misma frontera que `is_usable` de T2-B; no inviertas la comparación; sin SMTP.",
         instruction:
           "1. El starter imprime `valid` cuando `exp < now` (bug).\n2. Invierte la condición: caducado → `refresh`.\n3. Conserva el orden del for (pasado, futuro).\n4. No hardcodees las dos strings fuera del if.",
         hint: "compara con now UTC",
         hints: [
-          "exp < now → refresh",
+          "exp <= now → refresh (en el instante exacto ya caducó)",
           "en caso contrario → valid",
         ],
-        edgeCases: ["fromisoformat con Z en 3.11+"],
+        edgeCases: ["exp == now: ya caducó; usa <= para coincidir con is_usable, que pide now < expires_at"],
         tests: "salida coincide con solution output",
         feedback:
           "Token o draft caducado → `refresh`; vigente → `valid`. Comparar al revés deja pasar credenciales expiradas a la cola de envío simulada — el reloj es el mismo gate en T2-B.",
@@ -1145,7 +1185,7 @@ for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):
           code: `from datetime import datetime, timezone, timedelta
 now = datetime.now(timezone.utc)
 for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):
-    print('refresh' if exp < now else 'valid')`,
+    print('refresh' if exp <= now else 'valid')`,
           output: `refresh
 valid`,
         },
@@ -1241,9 +1281,9 @@ print(now < expires_at)`,
         kind: "transfer",
         title: "Adaptador: ids d001/d002 y usable",
         preamble:
-          "- **Contexto:** el adaptador es el único dueño del ciclo de vida del draft en el laboratorio de CP-N2-C.\n- **Meta:** implementar `create_draft()` con ids `d{len+1:03d}`, status `draft` y `expires_at = now+1h`; reportar usable del segundo.\n- **Éxito:** `d001 d002` y `usable True`.\n- **Límites:** no reutilices siempre `d001`; no inventes SMTP; thread-safety fuera de alcance.",
+          "- **Contexto:** el adaptador es el único dueño del ciclo de vida del draft en el laboratorio de CP-N2-C.\n- **Meta:** implementar `create_draft()` con ids `d{len+1:03d}`, status `draft` y `expires_at = now+1h`; reportar usable del segundo y de un tercero creado ya caducado.\n- **Éxito:** `d001 d002`, `usable True` y `usable_caducado False`.\n- **Límites:** no reutilices siempre `d001`; no inventes SMTP; thread-safety fuera de alcance.",
         instruction:
-          "1. El starter fija `d001`, no guarda expiración e imprime usable False (bugs).\n2. Genera id con `f\"d{len(store)+1:03d}\"`.\n3. Guarda status y expires_at.\n4. Imprime ambos ids y `usable` del segundo con `now < expires_at` y status draft.",
+          "1. El starter fija `d001`, no guarda expiración e imprime usable False (bugs).\n2. Genera id con `f\"d{len(store)+1:03d}\"`.\n3. Guarda status y expires_at.\n4. Imprime ambos ids, `usable` del segundo y `usable_caducado` del tercero (creado con `ttl` negativo), con `now < expires_at` y status draft.",
         hint: "len(store)+1 y timedelta",
         hints: [
           "id secuencial a partir de len(store); no reutilices un literal fijo",
@@ -1260,18 +1300,20 @@ print(now < expires_at)`,
           title: "exercise.py",
           code: `# Caso 22 · adaptador: ids secuenciales + usable
 # A corregir: id fijo d001; sin expires_at; usable invertido
-# Contrato: d001 d002 / usable True
+# Contrato: d001 d002 / usable True / usable_caducado False
 from datetime import datetime, timezone, timedelta
 store = {}
 now = datetime.now(timezone.utc)
 
-def create_draft():
+def create_draft(ttl=timedelta(hours=1)):
     i = "d001"
     store[i] = {'status': 'draft'}
     return i
 a, b = create_draft(), create_draft()
+c = create_draft(ttl=timedelta(seconds=-1))
 print(a, b)
 print('usable', False)
+print('usable_caducado', False)
 `,
         },
         solutionCode: {
@@ -1280,19 +1322,23 @@ print('usable', False)
           code: `from datetime import datetime, timezone, timedelta
 store = {}
 now = datetime.now(timezone.utc)
-
-def create_draft():
+def create_draft(ttl=timedelta(hours=1)):
     i = f"d{len(store)+1:03d}"
     store[i] = {
         'status': 'draft',
-        'expires_at': now + timedelta(hours=1),
+        'expires_at': now + ttl,
     }
     return i
+def usable(i):
+    return now < store[i]['expires_at'] and store[i]['status'] == 'draft'
 a, b = create_draft(), create_draft()
+c = create_draft(ttl=timedelta(seconds=-1))
 print(a, b)
-print('usable', now < store[b]['expires_at'] and store[b]['status'] == 'draft')`,
+print('usable', usable(b))
+print('usable_caducado', usable(c))`,
           output: `d001 d002
-usable True`,
+usable True
+usable_caducado False`,
         },
       },
       {
@@ -1387,7 +1433,7 @@ C002 rejected`,
         kind: "transfer",
         title: "Score de match con nota no-fraude",
         preamble:
-          "- **Contexto:** dos emails sintéticos se parecen; un score alto solo prioriza revisión de **entrega**, nunca claims de fraude.\n- **Meta:** calcular prefijo común, redondear a 2 decimales y anexar siempre `match_no_es_fraude`.\n- **Éxito:** `0.86 match_no_es_fraude`.\n- **Límites:** nunca `fraude_probable`; score alto ≠ identidad legal ni parentesco.",
+          "- **Contexto:** dos emails sintéticos se parecen; un score alto solo prioriza revisión de **entrega**, nunca claims de fraude.\n- **Meta:** calcular score = caracteres del prefijo común / longitud del email más largo, redondear a 2 decimales y anexar siempre `match_no_es_fraude`.\n- **Éxito:** `0.86 match_no_es_fraude`.\n- **Límites:** nunca `fraude_probable`; score alto ≠ identidad legal ni parentesco.",
         instruction:
           "1. El starter etiqueta `fraude_probable` (bug ético).\n2. Conserva el cálculo del prefijo con `zip`.\n3. Imprime `round(score, 2)` y la nota correcta.\n4. No cambies los dos emails del fixture.",
         hint: "loop zip + round",
@@ -1442,7 +1488,7 @@ print(round(score, 2), 'match_no_es_fraude')`,
           "1. Corre el starter (bug de orden): `sorted(set(xs))` quita el duplicado pero ordena alfabéticamente, e imprime `['a@x', 'b@x']`.\n2. Aplica `dict.fromkeys` (o equivalente estable).\n3. Imprime la lista resultante.\n4. No alteres el fixture de tres elementos.",
         hint: "dict.fromkeys",
         hints: [
-          "dict.fromkeys",
+          "dict.fromkeys(xs) guarda cada clave en su primera aparición, igual que el OrderedDict de la teoría",
           "list(...)",
         ],
         edgeCases: ["case folding opcional"],
@@ -1611,7 +1657,7 @@ print(state)`,
         preamble:
           "- **Contexto:** fail-closed protege al destinatario cuando la acción no existe en la tabla.\n- **Meta:** intentar `approve` desde `draft` y obtener `invalid`.\n- **Éxito:** una línea `invalid`.\n- **Límites:** no inventes un `ok` cuando `nxt` es None; no silencies el hallazgo.",
         instruction:
-          "1. El starter imprime `'ok'` si falta la transición (bug).\n2. Usa `.get` en la tabla.\n3. Si no hay `nxt`, imprime `invalid`.\n4. No agregues approve a draft “para que pase”.",
+          "1. El starter imprime `'ok'` si falta la transición (bug).\n2. Conserva el `.get` en la tabla.\n3. Cambia el valor de respaldo de `ok` a `invalid`: si no hay `nxt`, imprime `invalid`.\n4. No agregues approve a draft “para que pase”.",
         hint: "try/except o .get",
         hints: [
           "try/except o .get",
@@ -1657,15 +1703,15 @@ print(nxt if nxt else 'invalid')`,
         kind: "transfer",
         title: "apply con audit y actor en approve",
         preamble:
-          "- **Contexto:** el portfolio de CP-N2-C adjunta el audit: quién aprobó, desde qué estado, con qué acción.\n- **Meta:** implementar `apply` sobre la máquina canónica; ejecutar submit y approve; imprimir solo el evento de approve.\n- **Éxito:** lista con un dict `from pending_review → approved`, action `approve`, actor `rev1`.\n- **Límites:** consulta TRANSITIONS; no hardcodees approved en apply; estados canónicos.",
+          "- **Contexto:** el portfolio de CP-N2-C adjunta el audit: quién aprobó, desde qué estado, con qué acción.\n- **Meta:** implementar `apply` sobre la máquina canónica; ejecutar submit y approve; imprimir solo el evento de approve.\n- **Éxito:** dos líneas: la lista con un dict `from pending_review → approved`, action `approve`, actor `rev1`; luego `invalid draft->approve`.\n- **Límites:** consulta TRANSITIONS; no hardcodees approved en apply; estados canónicos.",
         instruction:
-          "1. El starter no usa TRANSITIONS ni guarda actor/action (bug).\n2. Completa `apply`: resuelve `nxt`, falla si no hay, append con from/to/action/actor.\n3. Ejecuta submit (analyst) y approve (rev1).\n4. Imprime la lista filtrada por action == approve.",
+          "1. El starter no usa TRANSITIONS ni guarda actor/action (bug).\n2. Completa `apply`: resuelve `nxt`, falla si no hay, append con from/to/action/actor.\n3. Ejecuta submit (analyst) y approve (rev1).\n4. Imprime la lista filtrada por action == approve; el `try` final debe imprimir el `ValueError` de `approve` desde `draft`.",
         hint: "apply + log con actor",
         hints: [
-          "TRANSITIONS con pending_review y request_edit → needs_edit",
+          "apply consulta TRANSITIONS y lanza ValueError si no hay transición",
           "resuelve nxt con la tabla; append from/to/action/actor; filtra el approve al imprimir",
         ],
-        edgeCases: ["approve desde draft debe ser invalid; el audit es inmutable en producción."],
+        edgeCases: ["approve desde draft: apply lanza ValueError con el texto invalid draft->approve; el try lo captura y lo imprime", "el audit es inmutable en producción"],
         tests: "salida coincide con solution output",
         feedback:
           "El audit del approve debe llevar from/to/action/actor. Sin actor no hay accountability en la mesa de control; sin TRANSITIONS no hay fail-closed ni rastro defendible.",
@@ -1693,6 +1739,10 @@ st = 'draft'
 st = apply(st, 'submit', 'analyst', log)
 st = apply(st, 'approve', 'rev1', log)
 print([e for e in log if e.get('action') == 'approve'])
+try:
+    apply('draft', 'approve', 'rev1', log)
+except ValueError as e:
+    print(e)
 `,
         },
         solutionCode: {
@@ -1703,20 +1753,23 @@ print([e for e in log if e.get('action') == 'approve'])
     'pending_review': {'approve': 'approved', 'reject': 'rejected', 'request_edit': 'needs_edit'},
     'needs_edit': {'submit': 'pending_review'},
 }
-
 def apply(state, action, actor, log):
     nxt = TRANSITIONS.get(state, {}).get(action)
     if not nxt:
         raise ValueError(f'invalid {state}->{action}')
     log.append({'from': state, 'to': nxt, 'action': action, 'actor': actor})
     return nxt
-
 log = []
 st = 'draft'
 st = apply(st, 'submit', 'analyst', log)
 st = apply(st, 'approve', 'rev1', log)
-print([e for e in log if e['action'] == 'approve'])`,
-          output: `[{'from': 'pending_review', 'to': 'approved', 'action': 'approve', 'actor': 'rev1'}]`,
+print([e for e in log if e['action'] == 'approve'])
+try:
+    apply('draft', 'approve', 'rev1', log)
+except ValueError as e:
+    print(e)`,
+          output: `[{'from': 'pending_review', 'to': 'approved', 'action': 'approve', 'actor': 'rev1'}]
+invalid draft->approve`,
         },
       },
       {
@@ -1892,7 +1945,8 @@ True`,
       "No inferir fraude ni parentesco desde matching de contactos",
       "Textos de usuario en español profesional (es-PE)",
       "Máquina de estados canónica: `pending_review` / `needs_edit` (no atajos `pending`)",
-      "Aceptación impresa: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1",
+      "Aceptación impresa: verified True, key_len 16, draft_id no nulo, state pending_review, store_status pending_review, reintento_reusa True, audit_n ≥ 1",
+      "Entregables en tu carpeta de trabajo: el mensaje en out/drafts/d001.eml y la frase de impacto en README.md",
     ],
     starterCode: `from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -1910,7 +1964,8 @@ allow = {"example.pe"}
 # 4) submit → pending_review con audit log (actor)
 # Sin SMTP real. Match ≠ fraude.
 # Aceptación (imprime evidencia al final):
-#   verified True | key_len 16 | draft_id d… | state pending_review | audit_n ≥ 1
+#   verified True | key_len 16 | draft_id d… | state pending_review |
+#   store_status pending_review | reintento_reusa True | audit_n ≥ 1
 
 def domain_ok(email: str) -> bool:
     return "@" in email and email.split("@")[1] in allow
@@ -1948,7 +2003,7 @@ msg["From"] = "noreply@example.pe"
 msg["To"] = to
 alt = MIMEMultipart("alternative")
 alt.attach(MIMEText(f"Run {run_id} listo para revisión (texto).", "plain", "utf-8"))
-# Completa: adjunta también HTML seguro (sin secretos) a alt
+# Completa: adjunta también HTML seguro (sin secretos) a alt; escapa todo texto variable con html.escape
 msg.attach(alt)
 # Completa: adjunto meta (p. ej. run_id=... en MIMEApplication + Content-Disposition)
 
@@ -1962,7 +2017,7 @@ if key not in store:
         "draft_id": draft_id,
         "status": "draft",
         "expires_at": datetime.now(timezone.utc) + timedelta(hours=24),
-        # Completa: guarda msg.as_string() o un .eml de sandbox (sin SMTP)
+        # Completa: guarda msg.as_string() en out/drafts/d001.eml (sandbox, sin SMTP)
     }
 else:
     draft_id = store[key]["draft_id"]
@@ -1971,18 +2026,26 @@ else:
 audit: list = []
 state = "draft"
 # Completa: state = apply(state, "submit", "analyst", audit)
+# Completa: store[key]["status"] = state  (el store es el registro que leen la UI y los jobs)
+
+# E) Reintento: la misma entrada debe dar la misma key y el mismo draft
+reintento = idem_key(run_id, to, 1)
+reintento_reusa = reintento in store and store[reintento]["draft_id"] == draft_id
 
 print("verified", verified)
 print("key_len", len(key))
 print("draft_id", draft_id)
 print("state", state)
+print("store_status", store[key]["status"])
+print("reintento_reusa", reintento_reusa)
 print("audit_n", len(audit))
-# Al terminar: verified True, key_len 16, draft_id d001, state pending_review, audit_n ≥ 1
+# Al terminar: verified True, key_len 16, draft_id d001, state pending_review,
+# store_status pending_review, reintento_reusa True, audit_n ≥ 1
 `,
     portfolioNote:
       "Entregable inicio CP-N2-C: borrador sandbox (.eml o string MIME) + audit de aprobación; listo para web adapter (S23). Aceptación mínima: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1 con actor en el evento de submit. Defiende en 30 s: cero envíos automáticos y 100 % de drafts por pending_review.",
     retrospective:
-      "Antes de marcar listo: (1) ¿qué gate demuestras con los prints de aceptación (verified, key_len 16, pending_review, audit con actor)? (2) ¿qué harías distinto con destinatarios reales vs. `@example.pe` (PII, opt-out, BCC)? (3) Escribe en el README una frase de impacto medible — p. ej. “cero envíos automáticos; 100 % de drafts pasan por `pending_review`” — que puedas defender en 30 segundos ante la mesa. En S23 el canal web reutilizará este contrato; no reabras el paquete de S21 ni relajes el fail-closed.",
+      "Antes de marcar listo: (1) ¿qué gate demuestras con los prints de aceptación (verified, key_len 16, pending_review, audit con actor)? (2) ¿qué harías distinto con destinatarios reales vs. `@example.pe` (PII, opt-out, BCC)? (3) Escribe en README.md, en tu carpeta de trabajo, una frase de impacto medible — p. ej. “cero envíos automáticos; 100 % de drafts pasan por `pending_review`” — que puedas defender en 30 segundos ante la mesa. En S23 el canal web reutilizará este contrato; no reabras el paquete de S21 ni relajes el fail-closed.",
     rubric: [
       { criterion: "Gates de seguridad: draft-only, aprobación humana, destinatario verificado, sin SMTP real", weight: "25%" },
       { criterion: "MIME multiparte (plain+HTML+adjunto meta) y draft con expires_at + idempotency key [:16]", weight: "20%" },
@@ -2017,7 +2080,7 @@ print("audit_n", len(audit))
       },
       {
         question: "La idempotency key al reintentar create_draft debe:",
-        options: ["Crear un draft nuevo y descartar el anterior por si cambió", "Reutilizar el draft solo si el contenido no cambió", "Reutilizar el mismo draft_id si la key existe", "Devolver error para que quien llama decida qué hacer"],
+        options: ["Crear un draft nuevo y descartar el anterior por si cambió", "Pedir a la revisora que elija entre los dos drafts", "Reutilizar el mismo draft_id si la key existe", "Devolver error para que quien llama decida qué hacer"],
         correctIndex: 2,
         explanation:
           "Misma key (`sha256(run|to|body_ver)[:16]`) → mismo draft_id y evento `retry_hit` en el audit. Así un doble clic o un reintento de red no spamea al destinatario.",
@@ -2025,7 +2088,7 @@ print("audit_n", len(audit))
       {
         question:
           "Un score de similitud 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?",
-        options: ["Declarar fraude o parentesco y bloquear al cliente automáticamente", "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica", "Enviar el correo sin aprobación porque el score supera 0.9", "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”"],
+        options: ["Declarar fraude o parentesco y bloquear al cliente automáticamente", "Priorizar la revisión de entrega, con la nota match≠fraude", "Enviar el correo sin aprobación porque el score supera 0.9", "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”"],
         correctIndex: 1,
         explanation:
           "Un 0.92 (como el 0.86 del ejercicio de prefijo) solo ordena prioridad de revisión de entrega. No autoriza claims de fraude, envío sin aprobación ni PII en el cuerpo. Draft + pending_review siguen siendo obligatorios.",
