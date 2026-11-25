@@ -489,11 +489,14 @@ export function liveShaVerdict(builtText, liveText) {
  * @returns {Promise<{text: string, reason: string}>} Body ("" when unreadable) and why not.
  */
 async function readLive(url) {
+  // One deadline for the request and the body: a site that accepts the connection and then stalls,
+  // or trickles a body, must not hold the deploy script (Codex review on PR 193).
+  const signal = AbortSignal.timeout(Math.max(1, Number(process.env.PYARCANA_LIVE_TIMEOUT_MS || 10000)));
   try {
-    const res = await fetch(`${url}?deploy-check=${Date.now()}`, { headers: { "cache-control": "no-cache" } });
+    const res = await fetch(`${url}?deploy-check=${Date.now()}`, { headers: { "cache-control": "no-cache" }, signal });
     return res.ok ? { text: await res.text(), reason: "" } : { text: "", reason: `HTTP ${res.status}` };
   } catch (error) {
-    return { text: "", reason: error?.cause?.code || error?.message || "unreachable" };
+    return { text: "", reason: error?.name === "TimeoutError" ? "timed out" : error?.cause?.code || error?.message || "unreachable" };
   }
 }
 
@@ -524,7 +527,8 @@ function liveFailure(verdict, { url, tries, reason, builtFile }) {
  * After `wrangler deploy`: wait until the site serves the commit this deploy built, and say so.
  * 25 Nov 2026: pyarcana.dev kept serving a8a2c2b2 after a redeploy, while main and GitHub Pages
  * were at the merge of PR 190; nothing said so until a person looked at the page.
- * Tries PYARCANA_LIVE_TRIES times (default 12), PYARCANA_LIVE_WAIT_MS apart (default 5000).
+ * Tries PYARCANA_LIVE_TRIES times (default 12), PYARCANA_LIVE_WAIT_MS apart (default 5000), each
+ * bounded by PYARCANA_LIVE_TIMEOUT_MS (default 10000) for the request and its body together.
  * @param {string} builtFile out/deployment.json.
  * @param {string} site Origin, such as https://pyarcana.dev.
  * @returns {Promise<number>} 0 same commit, 1 another commit, 2 unreachable or unreadable.

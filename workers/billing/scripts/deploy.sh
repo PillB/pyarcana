@@ -74,6 +74,12 @@ To deploy this commit on purpose (a rollback), set PYARCANA_DEPLOY_ANY_COMMIT=1.
   [ -z "$local_changes" ] || die "STOP: this checkout has local changes besides workers/billing/wrangler.toml, so the site would not be $(git rev-parse --short HEAD):
 $local_changes
 Commit or discard them, or set PYARCANA_DEPLOY_ANY_COMMIT=1 on purpose. Nothing was deployed."
+  # The build copies src/ and public/ whole, untracked files included, so an uncommitted page would
+  # go live under a commit that does not contain it (Codex review on PR 193).
+  untracked="$(git ls-files --others --exclude-standard -- src public scripts next.config.ts package.json)"
+  [ -z "$untracked" ] || die "STOP: untracked files would be built into the site, but are not in $(git rev-parse --short HEAD):
+$untracked
+Commit, move or delete them, or set PYARCANA_DEPLOY_ANY_COMMIT=1 on purpose. Nothing was deployed."
   say "Deploying $(git log -1 --format='%h %s (%cd)' --date=short), the current origin/$DEPLOY_BRANCH"
 fi
 

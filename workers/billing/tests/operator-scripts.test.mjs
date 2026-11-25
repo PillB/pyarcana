@@ -775,7 +775,7 @@ test("deploy.sh at origin/main deploys, and PYARCANA_DEPLOY_ANY_COMMIT=1 deploys
   rmSync(t.root, { recursive: true, force: true });
 });
 
-test("deploy.sh refuses a tree outside git, and local changes besides wrangler.toml", () => {
+test("deploy.sh refuses a tree outside git, local changes besides wrangler.toml, and untracked build inputs", () => {
   const outside = deployable();
   const r = run(outside, "deploy.sh", { env: { PYARCANA_DEPLOY_ANY_COMMIT: undefined } });
   assert.notEqual(r.status, 0);
@@ -789,6 +789,13 @@ test("deploy.sh refuses a tree outside git, and local changes besides wrangler.t
   assert.notEqual(dirty.status, 0);
   assert.match(dirty.out, /STOP: this checkout has local changes besides workers\/billing\/wrangler\.toml/);
   assert.deepEqual(dirty.state.deploys, []);
+  git(t.root, "checkout", "--", "package.json");
+  mkdirSync(path.join(t.root, "public"), { recursive: true });
+  writeFileSync(path.join(t.root, "public", "unreviewed.html"), "<p>not committed</p>\n");
+  const untracked = gitDeploy(t);
+  assert.notEqual(untracked.status, 0, "an untracked page under public/ would be built into the site");
+  assert.match(untracked.out, /STOP: untracked files would be built into the site[\s\S]*public\/unreviewed\.html/);
+  assert.deepEqual(untracked.state.deploys, []);
   rmSync(t.root, { recursive: true, force: true });
 });
 

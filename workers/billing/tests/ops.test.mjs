@@ -118,3 +118,33 @@ test("liveShaVerdict: the same commit passes; another commit or an unreadable an
   }
   assert.equal(liveShaVerdict("{}", a).kind, "unreadable", "a build with no git_sha cannot be compared");
 });
+
+// Codex review on PR 193: a site that accepts the connection and never finishes must not hold deploy.sh.
+test("live-sha gives up on a stalled site within its per-request deadline and says it timed out", async () => {
+  const { createServer } = await import("node:http");
+  const { mkdtempSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { main } = await import("../scripts/ops.mjs");
+  const server = createServer((req, res) => res.writeHead(200, { "content-type": "application/json" }) && res.write("{")); // never ends
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const dir = mkdtempSync(join(tmpdir(), "live-sha-"));
+  const built = join(dir, "deployment.json");
+  writeFileSync(built, JSON.stringify({ git_sha: "a".repeat(40) }));
+  Object.assign(process.env, { PYARCANA_LIVE_TRIES: "2", PYARCANA_LIVE_WAIT_MS: "0", PYARCANA_LIVE_TIMEOUT_MS: "200" });
+  const errors = [];
+  const original = console.error;
+  console.error = (m) => errors.push(String(m));
+  const started = Date.now();
+  try {
+    const code = await main(["live-sha", built, `http://127.0.0.1:${server.address().port}`]);
+    assert.equal(code, 2, "an unreadable site is exit 2, never a pass");
+    assert.ok(Date.now() - started < 3000, `took ${Date.now() - started} ms: the deadline did not hold`);
+    assert.match(errors.join("\n"), /timed out/);
+  } finally {
+    console.error = original;
+    for (const k of ["PYARCANA_LIVE_TRIES", "PYARCANA_LIVE_WAIT_MS", "PYARCANA_LIVE_TIMEOUT_MS"]) delete process.env[k];
+    server.closeAllConnections();
+    server.close();
+  }
+});
