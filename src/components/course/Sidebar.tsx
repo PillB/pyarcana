@@ -30,7 +30,7 @@ interface SidebarProps {
   onHome: () => void
   /** Opens Sesión 0 inside the course shell. Without it the link loads /empezar as a page. */
   onOpenSessionZero?: () => void
-  view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0'
+  view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0' | 'webtrack'
 }
 
 const SUB_STEP_ICONS: Record<SubStep, React.ElementType> = {

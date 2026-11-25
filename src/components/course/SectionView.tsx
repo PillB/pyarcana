@@ -66,6 +66,7 @@ import { FigureFrame } from './Figure'
 import { SectionScreenshot } from './SectionScreenshot'
 import { proseSegments, shotsAfter } from '@/lib/course/section-shots'
 import { SetupIntroLink } from '@/components/setup/SetupIntroLink'
+import { WebTrackLink } from '@/components/tracks/WebTrackLink'
 import { SteppedCode } from './SteppedCode'
 import { ProgressRing } from './ProgressRing'
 import { StepNavButtons, StepNextInline } from './StepNavButtons'
@@ -306,6 +307,8 @@ export function SectionView({
 
       {/* Section 1 assumes a computer that is already set up; Sesión 0 is the way there. */}
       <SetupIntroLink when={section.index === 1} className="mb-3" />
+      {/* The optional web track: a detour on S12 and S13, required from the advanced level (src/lib/tracks). */}
+      <WebTrackLink sectionId={section.id} className="mb-3" />
 
       {/* Tabs — compact horizontal, no per-trigger CheckCircle (uses color) */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SubStep)}>

@@ -20,6 +20,7 @@ import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
 import { SetupIntro } from '@/components/setup/SetupIntro'
+import { WebTrackView } from '@/components/tracks/WebTrackView'
 import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
 import { AccountButton } from '@/components/account/AccountButton'
 import { AccountDialog } from '@/components/account/AccountDialog'
@@ -44,6 +45,7 @@ import {
   resolveCourseSectionId as resolveId,
   sessionZeroRoute,
   type CourseView,
+  WEB_TRACK_HASH,
 } from '@/lib/course/hash-route'
 import { SETUP_PARTS } from '@/lib/setup/content'
 
@@ -177,7 +179,7 @@ export default function Home() {
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
-    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : id || ''
+    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : newView === 'webtrack' ? WEB_TRACK_HASH : id || ''
     // The path follows the view too: /empezar for Sesión 0, the course root for the rest.
     const path = coursePathFor(newView, window.location.pathname)
     const newUrl = hash ? `${path}#${hash}` : path
@@ -635,6 +637,7 @@ export default function Home() {
             )}
             {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
             {view === 'session0' && <SetupIntro onContinue={() => handleSelectSection('S01')} />}
+            {view === 'webtrack' && <WebTrackView />}
             {view === 'familiarity' && <FamiliarityDashboard animateEntrance={animateViewChanges} />}
             {view === 'capstones' && (
               <CapstonesPage animateEntrance={animateViewChanges} onOpenSection={handleSelectSection} />
