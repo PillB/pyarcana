@@ -279,7 +279,10 @@ async function cancelAtProvider(ctx, sub) {
 }
 
 /**
- * Store a confirmed cancel and its event, together.
+ * Store a confirmed cancel and its event, together. A blind write that moves the
+ * version on, so a ledger change planned from the row before it loses its
+ * compare-and-set and re-reads instead of writing the old status back
+ * (ledger.mjs versionGuard).
  * @param {Object} ctx Context.
  * @param {Object} sub Subscription row.
  * @param {string} status Confirmed status.
@@ -287,7 +290,7 @@ async function cancelAtProvider(ctx, sub) {
  */
 async function recordCancel(ctx, sub, status) {
   await ctx.db.batch([
-    ctx.db.prepare("UPDATE subscriptions SET status = ?2, cancel_at_period_end = 1, updated_at = ?3 WHERE id = ?1").bind(sub.id, status, ctx.now),
+    ctx.db.prepare("UPDATE subscriptions SET status = ?2, cancel_at_period_end = 1, updated_at = ?3, version = version + 1 WHERE id = ?1").bind(sub.id, status, ctx.now),
     ctx.db
       .prepare("INSERT INTO subscription_events (subscription_id, account_id, provider, kind, detail, created_at) VALUES (?1, ?2, ?3, 'cancel.account_deletion', ?4, ?5)")
       .bind(sub.id, sub.account_id, sub.provider, JSON.stringify({ status }), ctx.now)
