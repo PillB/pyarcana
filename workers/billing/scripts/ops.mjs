@@ -16,6 +16,9 @@
  *   node ops.mjs licence-key <kid> <jwkFile> -> base64 PKCS#8 on stdout (for a pipe), public JWK written to <jwkFile>
  *   node ops.mjs token-check                 -> asks Cloudflare whether $CLOUDFLARE_API_TOKEN is active
  *                                               (exit 0 active, 1 refused, 2 Cloudflare unreachable)
+ *   node ops.mjs live-sha <built.json> <site> -> after a deploy, waits until <site>/deployment.json names
+ *                                               the commit in <built.json> (exit 0 same, 1 another commit,
+ *                                               2 unreachable or unreadable)
  *
  * The generated secrets are written to stdout only so the calling script can pipe them straight
  * into `wrangler secret put`; the scripts never let them reach a terminal or a file.
@@ -458,6 +461,102 @@ async function cmdTokenCheck() {
   return 1;
 }
 
+/**
+ * Compare the commit a deploy built with the commit the site says it serves.
+ * Both are deployment.json texts (scripts/build_static_export.mjs writes `git_sha`).
+ * @param {string} builtText out/deployment.json as built.
+ * @param {string} liveText The site's /deployment.json, or "" when it could not be read.
+ * @returns {{kind: "same"|"other"|"unreadable", built: string, live: string}} Verdict.
+ */
+export function liveShaVerdict(builtText, liveText) {
+  const sha = (text) => {
+    try {
+      const value = JSON.parse(text)?.git_sha;
+      return typeof value === "string" && /^[0-9a-f]{40}$/.test(value) ? value : "";
+    } catch {
+      return "";
+    }
+  };
+  const built = sha(builtText);
+  const live = sha(liveText);
+  if (!built || !live) return { kind: "unreadable", built, live };
+  return { kind: built === live ? "same" : "other", built, live };
+}
+
+/**
+ * Read the site's deployment.json once, bypassing caches.
+ * @param {string} url Its URL.
+ * @returns {Promise<{text: string, reason: string}>} Body ("" when unreadable) and why not.
+ */
+async function readLive(url) {
+  // One deadline for the request and the body: a site that accepts the connection and then stalls,
+  // or trickles a body, must not hold the deploy script (Codex review on PR 193).
+  const signal = AbortSignal.timeout(Math.max(1, Number(process.env.PYARCANA_LIVE_TIMEOUT_MS || 10000)));
+  try {
+    const res = await fetch(`${url}?deploy-check=${Date.now()}`, { headers: { "cache-control": "no-cache" }, signal });
+    return res.ok ? { text: await res.text(), reason: "" } : { text: "", reason: `HTTP ${res.status}` };
+  } catch (error) {
+    return { text: "", reason: error?.name === "TimeoutError" ? "timed out" : error?.cause?.code || error?.message || "unreachable" };
+  }
+}
+
+/**
+ * Say why the live check failed, with the next step.
+ * @param {{kind: string, built: string, live: string}} verdict Last verdict.
+ * @param {{url: string, tries: number, reason: string, builtFile: string}} ctx Context.
+ * @returns {number} Exit code: 1 another commit, 2 unknown.
+ */
+function liveFailure(verdict, { url, tries, reason, builtFile }) {
+  if (!verdict.built) {
+    console.error(`REFUSED: ${builtFile} has no git_sha, so the commit this deploy built is unknown.`);
+    return 2;
+  }
+  if (verdict.kind === "other") {
+    console.error(
+      `FAILED: after ${tries} tries ${url} still names ${verdict.live.slice(0, 8)}, not ${verdict.built.slice(0, 8)}, the commit this deploy built.\n` +
+        "Likely causes: the deploy went to another Worker or account, or the CDN is still serving the old files.\n" +
+        `Check again with: curl -s "${url}?t=$(date +%s)"`
+    );
+    return 1;
+  }
+  console.error(`FAILED: could not read the commit from ${url} after ${tries} tries (${reason || "no git_sha in the answer"}). The deploy itself ran; check the site by hand.`);
+  return 2;
+}
+
+/**
+ * After `wrangler deploy`: wait until the site serves the commit this deploy built, and say so.
+ * 25 Nov 2026: pyarcana.dev kept serving a8a2c2b2 after a redeploy, while main and GitHub Pages
+ * were at the merge of PR 190; nothing said so until a person looked at the page.
+ * Tries PYARCANA_LIVE_TRIES times (default 12), PYARCANA_LIVE_WAIT_MS apart (default 5000), each
+ * bounded by PYARCANA_LIVE_TIMEOUT_MS (default 10000) for the request and its body together.
+ * @param {string} builtFile out/deployment.json.
+ * @param {string} site Origin, such as https://pyarcana.dev.
+ * @returns {Promise<number>} 0 same commit, 1 another commit, 2 unreachable or unreadable.
+ */
+async function cmdLiveSha(builtFile, site) {
+  if (!builtFile || !existsSync(builtFile)) {
+    console.error(`REFUSED: ${builtFile || "(no file)"} does not exist, so the commit this deploy built is unknown.`);
+    return 2;
+  }
+  const builtText = readFileSync(builtFile, "utf8");
+  const tries = Math.max(1, Number(process.env.PYARCANA_LIVE_TRIES || 12));
+  const wait = Math.max(0, Number(process.env.PYARCANA_LIVE_WAIT_MS ?? 5000));
+  const url = `${String(site || "").replace(/\/+$/, "")}/deployment.json`;
+  let verdict = liveShaVerdict(builtText, "");
+  let reason = "";
+  for (let i = 1; i <= tries; i += 1) {
+    const live = await readLive(url);
+    reason = live.reason;
+    verdict = liveShaVerdict(builtText, live.text);
+    if (verdict.kind === "same") {
+      process.stdout.write(`${url} serves ${verdict.live.slice(0, 8)}, the commit this deploy built.\n`);
+      return 0;
+    }
+    if (i < tries) await new Promise((resolve) => setTimeout(resolve, wait));
+  }
+  return liveFailure(verdict, { url, tries, reason, builtFile });
+}
+
 const COMMANDS = {
   "d1-id-from-list": ([name]) => (process.stdout.write(d1IdFromList(stdin(), name)), 0),
   "d1-id-from-create": () => (process.stdout.write(d1IdFromCreate(stdin())), 0),
@@ -471,7 +570,8 @@ const COMMANDS = {
   "licence-key": ([kid, jwkFile]) => cmdLicenceKey(kid, jwkFile),
   "token-check": () => cmdTokenCheck(),
   holder: ([file, field]) => cmdHolder(file, field),
-  "holder-html": ([htmlFile, file]) => cmdHolderHtml(htmlFile, file)
+  "holder-html": ([htmlFile, file]) => cmdHolderHtml(htmlFile, file),
+  "live-sha": ([builtFile, site]) => cmdLiveSha(builtFile, site)
 };
 
 /**
