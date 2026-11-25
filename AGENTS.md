@@ -69,6 +69,10 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   happy path cannot alert when the issue comes back. Tautological tests are considered harmful.
 - Every task and every round ships with such a test, and the PR names the mutation that turned
   it red.
+- A skip is not a pass. A test that skips itself must skip on a condition that can only mean
+  "this guard no longer applies", never on text another change can add. 21 Nov 2026: a guard
+  skipped when any build script contained "prisma generate", and an unrelated error message
+  that named the command turned it off while CI stayed green (#173). Count skips in the report.
 - Counts are floors that catch loss, not ceilings on teaching (D6). Convert one only after
   probing that it actually blocks added content — most exact counts match canonical ids
   and already tolerate extras.
@@ -151,7 +155,8 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
 For every non-trivial decision, name the expert and the published benchmark they would use.
 If you can say why they would reject your choice, it is already wrong — change it. Prefer
 the feasible ideal over the cheap satisfier. Research before deciding, not after being
-challenged. Weight methodological correctness, current practice, usability of the actual
+challenged: look it up (official docs, standards, papers, the issue tracker) and cite the source in
+the PR. Weight methodological correctness, current practice, usability of the actual
 path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 
 - **Ask of every feature: is it correct and production-ready?** Research it online before
@@ -168,6 +173,9 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 - **Pre-execution round.** Before building, name at least two routes, try each at the smallest
   scale that can tell them apart (a spike, a probe, a measurement), and choose against the
   expert's benchmark. The PR names the routes rejected and why.
+- **Preamble and retrospective.** Open a round by reading the last rounds' lessons and the issues
+  they left (`docs/agents/lessons.md`, open PRs); close it by recording what failed, its root cause,
+  and the guard that now catches it.
 - **Red-team before shipping.** Attack the chosen route as a hostile reviewer would: edge cases,
   bad input, the path a confused person takes, and every other place that shares the root cause.
   Fix the class, not the instance.
@@ -175,7 +183,10 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 - **Simulate drift.** Code that reads lesson content, or a value another file owns, gets a
   test that applies the edits a future round will make (insert, retitle, untag, delete, a new
   id format, a changed constant) and states what must survive. A value kept in two files gets
-  a test that reads both.
+  a test that reads both. An operator runbook is such a reader: every script line it quotes,
+  path it names and version it pins is tested against the scripts, and every dashboard step
+  cites the official doc it was checked against, with the date
+  (`workers/billing/tests/redeploy-runbook.test.mjs`).
 - **Simulate the platform, not only the content.** A local stack that behaves differently from
   production on an undocumented point is not evidence for that point. Name the assumption (rule
   order, header merging, caching), make the code correct under every plausible behaviour, and
