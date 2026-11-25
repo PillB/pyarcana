@@ -341,6 +341,24 @@ test("admins see contact and account emails, triage with PATCH, and every admin 
   assert.equal(await count(env, "FROM audit_log WHERE action = 'admin.reports.list' AND actor_account_id = ?1", tester.account.id), 1, "the refused tester is audited too");
 });
 
+test("state-machine audit: a duplicate must point at a report that is not itself a duplicate (no A<->B cycle)", async () => {
+  // Defect guarded: A -> B, then B -> A was accepted, closing both as copies of each other with no open
+  // report left. Mutation that turns this red: accept any existing target (the old reportRow check).
+  const { env, admin, learner } = await people();
+  const a = await submit(env, report({ title: "Uno" }));
+  const b = await submit(env, report({ title: "Dos" }), { cookie: learner.token, now: NOW + 1 });
+  const c = await submit(env, report({ title: "Tres" }), { cookie: learner.token, now: NOW + 2 });
+  const patch = (id, body) => api(env, "PATCH", `/v1/admin/reports/${id}`, { cookie: admin.token, body, now: NOW + 30 });
+  const ab = await patch(a.body.id, { duplicateOf: b.body.id });
+  assert.deepEqual([ab.status, ab.body.report.status], [200, "duplicate"], "precondition: A is a duplicate of B");
+  const ba = await patch(b.body.id, { duplicateOf: a.body.id });
+  assert.deepEqual([ba.status, ba.body.reason], [400, "bad_duplicate_of"], "B -> A would close the only open copy: refused");
+  const cb = await patch(c.body.id, { duplicateOf: b.body.id });
+  assert.deepEqual([cb.status, cb.body.report.duplicateOf], [200, b.body.id], "pointing at the open original still works");
+  const supervisorPath = await api(env, "PATCH", `/v1/qa/reports/${b.body.id}`, { cookie: admin.token, body: { duplicateOf: a.body.id }, now: NOW + 31 });
+  assert.equal(supervisorPath.status, 400, "the QA supervisor route applies the same rule");
+});
+
 test("review F2: one IPv6 /64 cannot exhaust the 50/day anonymous budget; an honest reporter elsewhere still files", async () => {
   const { env } = await people();
   const day = NOW - (NOW % 86400);

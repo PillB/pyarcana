@@ -84,7 +84,7 @@ const WORKER_SUITES = [
   ["admin-roles", 5],
   ["admin-accounts", 4],
   ["progress", 9],
-  ["reports", 22],
+  ["reports", 24],
   ["privacy", 8],
   // Review round 1.
   ["identities", 6],
