@@ -6514,18 +6514,6 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'drafts-expiry-adapters',
-      question: 'Antes de la aprobación humana, el artefacto que produce el pipeline de la sección es:',
-      options: [
-        'Un correo enviado a la bandeja de la revisora para que lo lea',
-        'Un borrador de sandbox o un archivo .eml local',
-        'Un mensaje en cola SMTP con envío programado',
-        'Un PDF del cuerpo adjunto a un ticket',
-      ],
-      correctIndex: 1,
-      explanation: 'La sección es draft-only: produce un .eml local o un borrador de sandbox, y una persona decide en la cola de aprobación. Enviar el correo a la revisora ya es un envío real, y una cola SMTP con hora programada envía sin aprobación. Un PDF en un ticket no es el borrador que se revisa.',
-    },
-    {
-      concept: 'drafts-expiry-adapters',
       question: 'El adaptador de la sección expone al workflow los métodos:',
       options: [
         'send y retry, para que el workflow controle el envío',
@@ -6549,7 +6537,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'La expiración fuerza contenido fresco: las cifras del informe de S21 pudieron cambiar, así que el borrador se regenera y pasa otra vez por la cola humana. is_usable devuelve False cuando now >= expires_at. El proveedor no lo borra, el id sigue siendo único y la revisora conserva el acceso.',
     },
     {
-      concept: 'resolve-verify-recipients',
+      concept: 'drafts-expiry-adapters',
       question: 'En el instante exacto de expires_at, el draft:',
       options: [
         'Sigue usable hasta el segundo siguiente, porque el borde es inclusivo',
@@ -6585,7 +6573,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'Un score de similitud solo ordena qué destinatario revisar primero para que el correo llegue a quien debe. No prueba fraude, identidad ni parentesco, y no reemplaza la verificación ni la cola humana. Por eso el print canónico lleva la nota match_no_es_fraude y nunca fraude_probable.',
     },
     {
-      concept: 'lists-cc-bcc-privacy-min',
+      concept: 'resolve-verify-recipients',
       question: 'Un contacto existe en el directorio, pero su email está en un dominio fuera de la allowlist. Resultado:',
       options: [
         'verified, porque el id existe en el directorio',
@@ -6621,7 +6609,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'BCC oculta la dirección a los otros destinatarios, pero el cuerpo y los adjuntos llegan igual a todos. Por eso lo sensible no va en el cuerpo, sino en un portal o un adjunto controlado. BCC no cifra nada, no restringe adjuntos y no cambia lo que registra el audit.',
     },
     {
-      concept: 'approval-queue-state-machine',
+      concept: 'lists-cc-bcc-privacy-min',
       question: 'La lista trae ana@example.pe dos veces. La higiene de la sección:',
       options: [
         'Ordena la lista alfabéticamente y quita los duplicados',
@@ -6657,7 +6645,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'request_edit lleva de pending_review a needs_edit; tras el cambio, otro submit vuelve a pending_review y la revisora decide de nuevo. Un cuerpo distinto cambia body_ver, así que es otra key y otro draft. No existe una transición que edite y apruebe a la vez, y submit no devuelve a draft.',
     },
     {
-      concept: 'idempotency-audit-retry',
+      concept: 'approval-queue-state-machine',
       question: 'Alguien llama apply con approve sobre un borrador en draft. Pasa que:',
       options: [
         'Se aprueba, porque la revisora tiene permiso',
@@ -6667,6 +6655,18 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation: 'La tabla no tiene approve desde draft, así que apply lanza ValueError con el texto invalid draft->approve y no escribe en el log: es el fail-closed de la cola. Los permisos de la revisora no cambian la tabla. apply no salta estados ni devuelve el estado anterior en silencio.',
+    },
+    {
+      concept: 'idempotency-audit-retry',
+      question: 'Cambias body_ver de 1 a 2 para el mismo run y el mismo destinatario. La idempotency key:',
+      options: [
+        'Se mantiene, porque el run y el destinatario son los mismos',
+        'Cambia, y el sistema crea un draft nuevo para revisar',
+        'Cambia cuando también cambia el destinatario',
+        'Se mantiene y el draft viejo se sobrescribe',
+      ],
+      correctIndex: 1,
+      explanation: 'La key es el sha256 de run_id|destinatario|body_ver, recortado a 16 hex. Si body_ver cambia, la key cambia y el sistema crea un draft nuevo que vuelve a pending_review: no es un reintento del mismo mensaje. Mantener la key reutilizaría el draft viejo con el cuerpo anterior, y sobrescribirlo borraría lo que la revisora ya revisó. El destinatario es solo una de las tres partes de la key.',
     },
     {
       concept: 'idempotency-audit-retry',

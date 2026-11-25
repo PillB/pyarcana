@@ -129,12 +129,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -193,7 +202,9 @@ class TheoryRunsTheErrorItNames(unittest.TestCase):
         th = block("S22-T3-B")["code"]
         out = th["output"].splitlines()
         self.assertIn("externo@other.test", out[0])
-        self.assertTrue(out[0].startswith("visibles_antes"))
+        self.assertTrue(out[0].startswith("visibles_antes"),
+            "the policy demo must show the CC exposure before the policy: expected the start " + repr("visibles_antes")
+            + ", got " + repr((out[0])[:160]))
         self.assertNotIn("externo@other.test", out[-1])
         # Negative control: without the move to BCC, the external stays visible after the policy.
         no_policy = mutated(th["code"], '            r["role"] = "bcc"\n', '            pass\n')
@@ -221,7 +232,7 @@ class DemosShowBothSides(unittest.TestCase):
         """IDO-02.1: the demo blocked every URL, so 'allowed' never showed."""
         d = demo("S22-T1-B")["code"]
         self.assertIn('<a href="https://example.pe/ok">enlace</a>', d["output"])
-        self.assertEqual(d["output"].count("[blocked]"), 2)
+        self.assertEqual(d["output"].count("[blocked]"), 3, "evil.test, the subdomain bypass and the backslash URL are blocked")
         substring = mutated(d["code"], 'return host == "example.pe" or host.endswith(".example.pe")',
                             'return "example.pe" in url')
         self.assertIn('href="https://example.pe.evil.test/x"', stdout_of(substring))
@@ -272,6 +283,20 @@ class OneStory(unittest.TestCase):
         self.assertIn("portal.example.pe/r ok", e["solutionCode"]["output"])
         self.assertIn("example.pe.evil.test/x blocked", e["solutionCode"]["output"])
 
+    @needs_content_py
+    def test_a_backslash_url_is_not_a_link(self) -> None:
+        """Codex review on #202 (P2): host_ok took evil.test\\a.example.pe as a subdomain, and a browser
+        (WHATWG URL parsing) reads the backslash as / and opens evil.test."""
+        d = demo("S22-T1-B")["code"]
+        self.assertTrue(d["output"].endswith("[blocked] [blocked]"),
+                        "the demo must block the backslash URL as well as the subdomain bypass; got " + repr(d["output"]))
+        self.assertIn("https://evil.test\\a.example.pe/x blocked", exercise("S22-T1-B-E3")["solutionCode"]["output"],
+                      "the We Do allowlist must block the backslash URL too")
+        old_rule = mutated(d["code"], '        if "\\\\" in url or "@" in url:\n            return False\n', "")
+        self.assertIn('<a href="https://evil.test\\a.example.pe/x">', stdout_of(old_rule),
+                      "negative control: without the ambiguity check the backslash URL becomes a link; "
+                      "if it does not, the fixture no longer shows the case")
+
     def test_expiry_uses_one_boundary(self) -> None:
         """WEDO-09.1/.2: `exp < now` here, `now < expires_at` in is_usable."""
         self.assertIn("exp <= now", exercise("S22-T2-A-E3")["solutionCode"]["code"])
@@ -298,6 +323,7 @@ class OneStory(unittest.TestCase):
 MUTATIONS = [
     ("S22-T1-B-E3", "host == 'example.pe' or host.endswith('.example.pe')", "'example.pe' in host"),
     ("S22-T1-B-E3", "host == 'example.pe' or host.endswith('.example.pe')", "host == 'example.pe'"),
+    ("S22-T1-B-E3", "'ok' if not ambiguo and (", "'ok' if ("),
     ("S22-T2-B-E3", "now < store[i]['expires_at'] and ", ""),
     ("S22-T3-A-E2", "em and em.endswith('@example.pe')", "em"),
     ("S22-T3-A-E3", "max(len(a), len(b))", "len(a)"),
@@ -311,8 +337,9 @@ class WeDoChecksCanFail(unittest.TestCase):
         for ex_id, old, new in MUTATIONS:
             sol = exercise(ex_id)["solutionCode"]
             with self.subTest(ex_id, mutation=new[:50]):
-                self.assertTrue(caught(sol["code"], sol["output"], mutated(sol["code"], old, new)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], mutated(sol["code"], old, new)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     @needs_content_py
     def test_the_expiry_boundary_is_refresh(self) -> None:
@@ -331,7 +358,7 @@ YOU_DO_FILL = {
         'att = MIMEApplication(f"run_id={run_id}\\n".encode(), Name="meta.txt")\n'
         'att.add_header("Content-Disposition", "attachment", filename="meta.txt")\nmsg.attach(att)',
     "        # Completa: guarda msg.as_string() en out/drafts/d001.eml (sandbox, sin SMTP)":
-        '        "eml": "out/drafts/d001.eml",',
+        '        "eml": f"out/drafts/{draft_id}.eml",',
     '# Completa: state = apply(state, "submit", "analyst", audit)':
         'state = apply(state, "submit", "analyst", audit)',
     '# Completa: store[key]["status"] = state  (el store es el registro que leen la UI y los jobs)':
@@ -374,6 +401,18 @@ class YouDo(unittest.TestCase):
                      "store_status pending_review", "reintento_reusa True", "audit_n 1", "eml_parts 5"):
             with self.subTest(line):
                 self.assertIn(line, out)
+
+    @needs_content_py
+    def test_a_create_that_ignores_the_key_fails_the_retry(self) -> None:
+        """Codex review on #202 (P1): reintento_reusa only looked up the record just inserted, so
+        "always create" still printed True. The retry now calls create_once a second time."""
+        always = mutated(you_do_solution(self.starter()), "    if key in store:\n", "    if False:\n")
+        out = stdout_of(always).splitlines()
+        self.assertIn("reintento_reusa False", out,
+                      "a create_once that never reuses the key still passes the retry acceptance; "
+                      f"the starter's retry does not run creation twice. Output: {out}")
+        self.assertIn("store_status draft", out,
+                      f"the duplicate create should overwrite the reviewed record; output: {out}")
 
     @needs_content_py
     def test_forgetting_the_store_shows_in_the_acceptance(self) -> None:
@@ -448,6 +487,37 @@ class ExamBank(unittest.TestCase):
         for q in self.bank():
             with self.subTest(q["question"][:40]):
                 self.assertGreaterEqual(len(q["explanation"]), 200)
+
+
+class ExamItemsSitUnderTheirConcept(unittest.TestCase):
+    """Codex review on #202 (P2): rewritten items kept the concept tag of the item they replaced.
+
+    src/lib/exam-draw.ts draws one variant per concept, so a mislabelled item lets an attempt
+    test one concept twice and skip another. These items moved to the concept they assess."""
+
+    MOVED = {
+        'En el instante exacto de expires_at': 'drafts-expiry-adapters',
+        'Un contacto existe en el directorio': 'resolve-verify-recipients',
+        'La lista trae ana@example.pe dos veces': 'lists-cc-bcc-privacy-min',
+        'Alguien llama apply con approve': 'approval-queue-state-machine',
+        'Cambias body_ver de 1 a 2': 'idempotency-audit-retry',
+    }
+
+    def test_each_moved_item_is_under_the_concept_it_assesses(self) -> None:
+        bank = exam_bank.bank_for('rapidfuzz-entity')
+        for prefix, concept in self.MOVED.items():
+            with self.subTest(prefix):
+                hits = [q for q in bank if q["question"].startswith(prefix)]
+                self.assertEqual(len(hits), 1, f"expected one item starting {prefix!r}, found {len(hits)}")
+                self.assertEqual(hits[0]["concept"], concept,
+                                 f"{prefix!r} is drawn as {hits[0]['concept']}; it assesses {concept}")
+
+    def test_every_concept_keeps_three_variants_in_one_block(self) -> None:
+        concepts = [q["concept"] for q in exam_bank.bank_for('rapidfuzz-entity')]
+        counts = {c: concepts.count(c) for c in dict.fromkeys(concepts)}
+        self.assertEqual(set(counts.values()), {3}, f"each concept needs three variants to draw from: {counts}")
+        blocks = [c for i, c in enumerate(concepts) if i == 0 or concepts[i - 1] != c]
+        self.assertEqual(len(blocks), len(counts), f"a concept's variants are split across the bank: {blocks}")
 
 
 if __name__ == "__main__":
