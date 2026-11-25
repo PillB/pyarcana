@@ -48,7 +48,15 @@ async function checkRoute(browser, hash, crumb) {
   const page = await ctx.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
-  const res = await page.goto(`${BASE}/${hash}`, { waitUntil: 'networkidle', timeout: 60_000 })
+  // 'load', not 'networkidle': Playwright discourages networkidle for checks, and on the live site
+  // it timed out at random (25 Nov 2026) while the page had long since hydrated. Hydration is
+  // awaited below by its own signal. A navigation error is a recorded failure, not a crash.
+  const res = await page.goto(`${BASE}/${hash}`, { waitUntil: 'load', timeout: 60_000 }).catch((e) => e)
+  if (res instanceof Error) {
+    fail(hash, 'page loads', 'a response within 60 s', res.message.split('\n')[0])
+    await ctx.close()
+    return
+  }
   const cspHeaders = (await res.headersArray()).filter((h) => h.name.toLowerCase() === 'content-security-policy').length
   // Two policies on "/" are expected where the platform applies "/" before "/*" (both enforced;
   // the /* one has no hashes, so it allows what the page policy allows). Zero is a failure.
