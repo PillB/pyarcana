@@ -1231,3 +1231,31 @@ back. Read this list before a section round; every item cost at least one failed
   re-read. Guard: `workers/billing/tests/ledger-concurrency.test.mjs` races both orders and checks
   that the status events form one chain. Any new read-decide-write on shared rows gets a
   `Promise.all` test over the D1 fake, which yields between statements the way D1 does.
+- **A rewritten exam item keeps the concept tag of the item it replaced (S21, S22, S25; 25 Nov 2026).**
+  Bank rewrites replaced question, options and explanation in place, so a new item about DOCX
+  headings stayed under `conditions-tables-safe-format`, and S22 lost its only idempotency items.
+  Root cause: `concept` is the first field of each item and nobody reads it while rewriting, yet
+  `src/lib/exam-draw.ts` draws exactly one variant per concept, so a mislabelled item lets an
+  attempt test one concept twice and skip another. Every per-bank test (counts, ranks, cues)
+  passed. Fix: after a rewrite, list `[concept] question || key` and read each row against its
+  concept; move items (stable regroup) and pin the moves in a test that fails on the base.
+- **`assertTrue(caught(...))` fails as "False is not true" (S24, 25 Nov 2026).** The proposal 12
+  mutation tests threw away what a surviving mutant printed. Root cause: a bool helper inside a
+  bare assertTrue. Fix: `escaped()` returns "" when the mistake shows, otherwise the mutant's
+  output, and the call is `assertEqual(escaped(...), "", msg)`; `test_assertion_messages.py`
+  rejects assertTrue/assertFalse/assertIsNone/assertIsNotNone/assert without a message.
+- **Python's `urlsplit` and a browser disagree on `\` (S22, 25 Nov 2026).** For
+  `https://evil.test\a.example.pe/x`, `urlsplit(...).hostname` is `evil.test\a.example.pe`, which
+  ends in `.example.pe`, but the WHATWG URL parser treats `\` as `/` in http(s) URLs and opens
+  `evil.test` ([WHATWG URL](https://url.spec.whatwg.org), [bpo-40338](https://bugs.python.org/issue40338),
+  [URL interop](https://daniel.haxx.se/docs/URL-interop.html)). Fix: an allowlist that feeds a link
+  rejects `\` and `@` before parsing the host, with that URL in the negative table.
+- **`"\n"` in Python inside a TS template literal is a real newline (S26, 25 Nov 2026).** A starter
+  edit wrote `f.write(json.dumps(entry) + "\n")` into the `.ts` file; the template literal turned it
+  into a line break and the starter failed with "unterminated string literal". Root cause: two
+  escaping layers. Fix: write `\\n` in the `.ts` source, and run the extracted code (the section
+  test does) after every starter edit.
+- **Stacked branches each append to the exercise-meaning ledger (S22 to S27, 25 Nov 2026).** Rows
+  must number 1..n, so a row added to S22 collides with S23's first row on the next merge. Fix:
+  resolve with the base branch's rows in full, then ours-only rows renumbered after them (matched
+  by id, from_fp, to_fp), and check `exercise_meaning.mjs --ledger-base origin/<base>`.
