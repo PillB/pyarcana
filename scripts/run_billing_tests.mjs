@@ -97,6 +97,7 @@ const WORKER_SUITES = [
   ["checkout", 14],
   ["webhook-mp", 23],
   ["webhook-creem", 16],
+  ["ledger-concurrency", 5],
   ["subscription", 10],
   ["reconcile", 6],
   // Stage 2c: the licence (DESIGN-v3-delta D-ORCH-03), events and experiments (DESIGN-v3 §F),
