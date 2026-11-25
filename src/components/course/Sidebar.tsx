@@ -28,7 +28,9 @@ interface SidebarProps {
   activeSectionId: string | null
   onSelectSection: (id: string, subStep?: SubStep) => void
   onHome: () => void
-  view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
+  /** Opens Sesión 0 inside the course shell. Without it the link loads /empezar as a page. */
+  onOpenSessionZero?: () => void
+  view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0'
 }
 
 const SUB_STEP_ICONS: Record<SubStep, React.ElementType> = {
@@ -62,7 +64,7 @@ function fill(template: string, vars: Record<string, string | number>): string {
   )
 }
 
-export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, view }: SidebarProps) {
+export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, onOpenSessionZero, view }: SidebarProps) {
   const { completedSections, completedSubSteps, toggleBookmark, bookmarks, setLastVisited } = useProgressStore()
   const lang = useI18n((s) => s.lang)
   const [mounted, setMounted] = useState(false)
@@ -124,7 +126,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
       </div>
 
       <div className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3">
-      <SessionZeroLink mounted={mounted} />
+      <SessionZeroLink mounted={mounted} active={view === 'session0'} onOpen={onOpenSessionZero} />
       <div
         data-testid="sidebar-sections"
         role="list"
@@ -339,14 +341,18 @@ function setupStore(): Storage | null {
  * Outside the section list on purpose: Sesión 0 is not one of the 52 sections (empezar/page.tsx),
  * so it must not join the list a screen reader counts as «N de 52 secciones». Its progress is the
  * one /empezar keeps, read once after mount; with no system chosen yet it shows no count.
+ *
+ * Marked as the current page while Sesión 0 is open, as a section is. A plain click opens it in
+ * place through `onOpen`; a modified click (new tab, new window) keeps the browser's own handling.
+ * The progress is read again on each open, so ticks made in Sesión 0 show on the way back.
  */
-function SessionZeroLink({ mounted }: { mounted: boolean }) {
+function SessionZeroLink({ mounted, active, onOpen }: { mounted: boolean; active: boolean; onOpen?: () => void }) {
   const lang = useI18n((s) => s.lang)
   const [progress, setProgress] = useState<SetupProgress | null>(null)
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (mounted) setProgress(loadSetupProgress(setupStore()))
-  }, [mounted])
+  }, [mounted, active])
   const ids = progress?.os ? setupStepIds(progress.os) : []
   const done = progress ? countDone(progress, ids) : 0
   const complete = ids.length > 0 && done === ids.length
@@ -354,7 +360,16 @@ function SessionZeroLink({ mounted }: { mounted: boolean }) {
     <Link
       href="/empezar"
       data-testid="sidebar-session0"
-      className="mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all hover:bg-sidebar-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      aria-current={active ? 'page' : undefined}
+      onClick={(e) => {
+        if (!onOpen || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+        e.preventDefault()
+        onOpen()
+      }}
+      className={cn(
+        'mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        active ? 'bg-sidebar-accent shadow-sm' : 'hover:bg-sidebar-accent/50'
+      )}
     >
       <div
         className={cn(
@@ -365,7 +380,7 @@ function SessionZeroLink({ mounted }: { mounted: boolean }) {
         {complete ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : <span>0</span>}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium text-foreground/80">{t('sidebar.session0.title', lang)}</div>
+        <div className={cn('truncate text-sm font-medium', active ? 'text-foreground' : 'text-foreground/80')}>{t('sidebar.session0.title', lang)}</div>
         <div className="truncate text-xs text-muted-foreground">
           {ids.length > 0 && !complete
             ? fill(t('sidebar.session0.progress', lang), { done, total: ids.length })
