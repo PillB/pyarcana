@@ -1158,3 +1158,24 @@ back. Read this list before a section round; every item cost at least one failed
   inch ([Pillow, image file formats](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html)).
   Guard: no lesson code in S24 may match `max(...dpi`, and the theory test plants the upscale and
   sees the gate pass.
+- **A contract written in prose drifted from the code that enforces it (proposal 12 S25, 25 Nov
+  2026).** S25's contract block named five narrative keys (hallazgo, n, mediana, evidence_ids,
+  model). The prompt, the demo gate and three exercises checked four, with `limite` in place of
+  evidence_ids and model, so the gate a learner copies accepted a draft with no evidence. Root
+  cause: each snippet typed its own `REQUIRED` literal; nothing tied them to the prose. Fix: one
+  set, written the same way in every snippet and the You Do (`SCHEMA_KEYS`). Guard:
+  `test_proposal12_s25.OneNarrativeContract` reads every `REQUIRED`/`SCHEMA_KEYS` literal that holds
+  hallazgo or mediana and compares it with the contract, and runs the old four-key set as a
+  negative control (it accepts the draft without evidence). When a section states a schema, find
+  every literal that restates it before closing the finding.
+- **A sentence boundary hidden by Markdown is not a boundary for the prose audit (S25, 25 Nov
+  2026).** `prose_quality_audit.sentences` splits after `.`, `!` or `?` followed by whitespace, so
+  `**¿...no?** La respuesta...` is one sentence: the `?` is followed by `**`. A 35-word "sentence"
+  was two short ones on screen. Fix: end the question outside the bold run or start the next
+  sentence after a full stop. Writing `?**.` to force a split leaves a stray full stop the learner
+  sees; reword instead.
+- **A word search is not a key search (S25, 25 Nov 2026).** The test for one metadata key first
+  searched `\bauto_fraud\b` and failed on the starter's `'policy': 'auto_fraud'`, a value the
+  exercise asks the learner to fix, not a second key. Root cause: the anchor matched the word, not
+  the syntax that makes it a key. Fix: match `'auto_fraud':` or `auto_fraud =` only. Anchor a
+  check on the structure it is about.
