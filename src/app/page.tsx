@@ -20,6 +20,8 @@ import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
 import { SetupIntro } from '@/components/setup/SetupIntro'
+import { WebTrackView } from '@/components/tracks/WebTrackView'
+import { followCourseProgressInOtherTabs } from '@/lib/progress-cross-tab'
 import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
 import { AccountButton } from '@/components/account/AccountButton'
 import { AccountDialog } from '@/components/account/AccountDialog'
@@ -44,6 +46,7 @@ import {
   resolveCourseSectionId as resolveId,
   sessionZeroRoute,
   type CourseView,
+  WEB_TRACK_HASH,
 } from '@/lib/course/hash-route'
 import { SETUP_PARTS } from '@/lib/setup/content'
 
@@ -105,6 +108,8 @@ export default function Home() {
 
   // Sync progress from server when user is logged in
   useServerProgressSync()
+  // Another tab completed a section: show it here too (src/lib/progress-cross-tab.ts).
+  useEffect(() => followCourseProgressInOtherTabs(window), [])
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -177,7 +182,7 @@ export default function Home() {
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
-    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : id || ''
+    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : newView === 'webtrack' ? WEB_TRACK_HASH : id || ''
     // The path follows the view too: /empezar for Sesión 0, the course root for the rest.
     const path = coursePathFor(newView, window.location.pathname)
     const newUrl = hash ? `${path}#${hash}` : path
@@ -289,6 +294,18 @@ export default function Home() {
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // The web track opens in place too, from the menu entry beside Sesión 0.
+  const handleOpenWebTrack = () => {
+    if (typeof window !== 'undefined' && activeSectionId) {
+      sessionStorage.setItem(`pyarcana:sectionScroll:${activeSectionId}`, String(window.scrollY || 0))
+    }
+    setView('webtrack')
+    setActiveSectionId(null)
+    updateUrl(null, 'webtrack')
+    setSidebarOpen(false)
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const handleOpenAuth = (tab: 'login' | 'register' = 'login') => {
     // Where cloud accounts run (stage not off), "Entrar" opens the account dialog instead.
     if (openCloudAccount()) return
@@ -351,6 +368,7 @@ export default function Home() {
           onSelectSection={handleSelectSection}
           onHome={handleHome}
           onOpenSessionZero={handleOpenSessionZero}
+          onOpenWebTrack={handleOpenWebTrack}
           view={view}
         />
       </aside>
@@ -379,6 +397,7 @@ export default function Home() {
                 onSelectSection={handleSelectSection}
                 onHome={handleHome}
                 onOpenSessionZero={handleOpenSessionZero}
+          onOpenWebTrack={handleOpenWebTrack}
                 view={view}
               />
             </motion.aside>
@@ -470,6 +489,7 @@ export default function Home() {
               {view === 'resources' && tr('nav.resources')}
               {/* Every view names itself here; #familiarity used to leave the crumb empty. */}
               {view === 'familiarity' && 'Familiarity'}
+              {view === 'webtrack' && tr('nav.webTrack')}
               {view === 'capstones' && (
                 <span className="flex items-center gap-1">
                   <Boxes className="h-3.5 w-3.5 text-primary" />
@@ -635,6 +655,7 @@ export default function Home() {
             )}
             {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
             {view === 'session0' && <SetupIntro onContinue={() => handleSelectSection('S01')} />}
+            {view === 'webtrack' && <WebTrackView />}
             {view === 'familiarity' && <FamiliarityDashboard animateEntrance={animateViewChanges} />}
             {view === 'capstones' && (
               <CapstonesPage animateEntrance={animateViewChanges} onOpenSection={handleSelectSection} />
