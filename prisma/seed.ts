@@ -6734,7 +6734,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'auto-waiting-assertions',
-      question: 'Un sleep fijo de 300 ms antes del clic, en una corrida donde el control llega a los 600 ms:',
+      question: 'En el lab, tras un sleep fijo de 300 ms se mira una sola vez si el botón ya está. Si el botón aparece a los 600 ms:',
       options: [
         'Funciona, porque Playwright alarga el sleep hasta que aparece el control',
         'Lee el control como no listo y el paso falla, aunque la página iba a cargar',
@@ -6742,7 +6742,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Convierte el timeout en un error de red que el robot puede reintentar sin límite',
       ],
       correctIndex: 1,
-      explanation: 'Es el contraejemplo de la teoría: después de 300 ms fijos el control todavía no está, así que el paso falla en una corrida lenta, y en una rápida el mismo sleep desperdicia tiempo. Playwright no alarga un sleep de Python, wait_until espera la condición en vez del reloj, y el fallo es de readiness, no un error de red.',
+      explanation: 'Es el contraejemplo de la teoría: después de 300 ms fijos el control todavía no está, así que el paso falla en una corrida lenta, y en una rápida el mismo sleep desperdicia tiempo. Un clic real con un locator de Playwright sí esperaría solo (auto-wait) hasta su timeout; falla porque el lab mira una sola vez. Playwright no alarga un sleep de Python, wait_until espera la condición en vez del reloj, y el fallo es de readiness, no un error de red.',
     },
     {
       concept: 'auto-waiting-assertions',
