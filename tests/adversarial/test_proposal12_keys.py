@@ -30,8 +30,10 @@ KEYS = [
      "Un script reejecutable con seed, filtros y versiones declarados", "seed"),
     ("databases-orm", "Un encoding visual honesto implica:",
      "Mapear variables a canal visual sin distorsión injustificada y con leyenda clara", "canal visual"),
-    ("async-concurrency", "La idea de mutación conceptual en tests es:",
-     "Romper código a propósito para ver si los tests fallan de forma útil", "mutante"),
+    # 2026-11-25, proposal 12 S27: the bank rewrite (length cues, thin rationales) reworded this item.
+    # Same question and same key: break the code on purpose, never delete the asserts.
+    ("async-concurrency", "¿En qué consiste la mutación conceptual?",
+     "Romper el código adrede y ver si alguna prueba falla", "mutante"),
 ]
 
 

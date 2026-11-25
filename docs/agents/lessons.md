@@ -1197,3 +1197,27 @@ back. Read this list before a section round; every item cost at least one failed
   [Kahn 1962](https://doi.org/10.1145/368996.369025); Python's `graphlib.TopologicalSorter` raises
   `CycleError` the same way, [docs](https://docs.python.org/3/library/graphlib.html)). Guard: the
   test removes the check and sees the cycle return `[]` without an error.
+- **`str.isdigit()` and `\d` are not "the digits 0 to 9" (proposal 12 S27, 25 Nov 2026).** The S27
+  RUC validator checked `s.isdigit() and len(s) == 11` for an "11 digits" contract, and accepted
+  `2012345678²`. Root cause: `isdigit()` is true for every character with a Unicode digit value,
+  "such as the compatibility superscript digits"
+  ([str.isdigit](https://docs.python.org/3/library/stdtypes.html#str.isdigit)); `isdecimal()`
+  rejects `²` but accepts Arabic-Indic digits, and so does `re` `\d` unless `re.ASCII` is set
+  ([re syntax](https://docs.python.org/3/library/re.html#regular-expression-syntax)). Checked under 3.12:
+  `'٢٠١٢٣٤٥٦٧٨٩'` passes `isdigit()`, `isdecimal()` and `\d{11}`. Fix: `re.fullmatch(r"[0-9]{11}", s)`,
+  with the superscript case in the negative table. When a format means ASCII digits, write the class.
+- **A mutation that breaks two tests cannot show which one guards the code (S27, 25 Nov 2026).**
+  The S27 test broke `normalize_name` and expected the demo to stop, to prove the email test now
+  calls it. The base demo stopped too, on the other test, so the check passed on the code it was
+  meant to reject. Root cause: the mutation was observed at the level of the whole script. Fix:
+  find the email test by name, check its body calls `normalize_name(`, and run that test alone with
+  the broken function. The negative control (the test run on the base files) is what showed it: a
+  check that passes on the old code is not testing the fix.
+- **A tool's name in a code comment is a worked example to the concept map (S27, 25 Nov 2026).**
+  The S27 band counter carried the comment "esto no es cobertura de código (eso lo mide
+  coverage.py)". `scripts/concept_map.py` matches glossary aliases in code, so the comment counted
+  as a worked example of `coverage`: the concept went from L1 to L2, became load-bearing (3
+  sections) and raised the figure and D3 ratchets, while the code still exemplifies nothing about
+  coverage. Root cause: the warning that a block is *not* X used X's alias. Fix: the comment says
+  the count does not measure the real code, and coverage.py is named only in the prose. A ratchet
+  that rises after an edit is a measurement to read, not a constant to raise.

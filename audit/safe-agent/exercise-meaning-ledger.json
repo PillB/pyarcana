@@ -3920,6 +3920,166 @@
       "reason": "WEDO-24.1/24.2: n2_regression comes from a regression log (pass or not_run); cf2 names the three interfaces. Same task: the defence package.",
       "decided_by": "owner 2026-11-21 (proposal 12, S26 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 393,
+      "id": "S27-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "ed6362f8ae51404a530924cfc8ff0c8b51032a7c6ee152d24853b1553da588ac",
+      "to_fp": "cd5b2262484d08ea4cc98e49ae338c13fe167ef92669549e15ba9739e01b9e96",
+      "reason": "WEDO-02.1: three areas whose order by impact alone and by sum differ from the order by product. Same task: sort by risk, descending.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 394,
+      "id": "S27-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "095f41dae25d96cd4041e49762a8ee1ca051bd3e0b14f85c09168a5a77621ce2",
+      "to_fp": "3072574c04ab456583ab8f7fa5fc9195e009fa692ed8c61cf60c50e8428c23c9",
+      "reason": "WEDO-03.1/03.2: the top row is not first and the learner writes the score key. Same task: the layer of the top-risk area.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 395,
+      "id": "S27-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "fdd16dd716087ff4cea52533e909164a53aaa7caa3c8a4069996e8292cd7340c",
+      "to_fp": "66797d0c58e5902181235a79895b7da1be90d1f431f71404c954f302cc551077",
+      "reason": "WEDO-05.1: a second call with a broken oracle must stop at the assert. Same task: report pass after the assert.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 396,
+      "id": "S27-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "e9544a5446fc26d2e1cc4a289f0665082478fca7669f341d710e0afbacc6e5b1",
+      "to_fp": "17750350b3d305e5fe78788fc87087b96898e0057d29d7ed57d9ef104b66f538",
+      "reason": "WEDO-07.1: latest_score contains test but does not start with it. Same task: keep the test_ names.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 397,
+      "id": "S27-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "1845f06da7df29b5fbc9521dbf2825249222f19e145a8f6ce14c3d16f6c7f861",
+      "to_fp": "1f2d91b6ac711d7a0204034a656aaaf00e55a54bb53a6fce6deb5a54e6610d46",
+      "reason": "WEDO-08.1: retitled as a comparison; a second, equal pair must print ok. Same task: ok or fail by equality.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 398,
+      "id": "S27-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "ad327a1f8edd2f74d1175997b0689062e83e08f24217da21c4a437c3de0d5fac",
+      "to_fp": "2dc2cc840fefffcd30b19b5be1deac42ce09a8b4ec922244fedc5952bf971dbb",
+      "reason": "A third row the strip oracle must reject. Same task: apply the oracle to each row of the table.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 399,
+      "id": "S27-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "d1160b8e78eeb0b025f9ad8fa9a469e8a4b537076517178d658235bd26adc2ac",
+      "to_fp": "ca514d83f1e5d3885e806d27353d2be25e403b1c6d48fbe4c5f177e34c95ffe2",
+      "reason": "WEDO-12.1: sizes 3 and 0 from make, and a new list does not see a mutation. Same task: the factory.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 400,
+      "id": "S27-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "10b79b82e9f2f618b34a2213171455dccccbba8f26b498755d66719dd5994d81",
+      "to_fp": "dd068a5f801949c375032c39be7b4352a9bbb0a394b7e9dbae6b675eeeb3aeba",
+      "reason": "WEDO-13.1: a near-zero comparison with and without abs_tol. Same task: isclose instead of ==.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 401,
+      "id": "S27-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "fc56d9734a5c929b83a814b12776d5152550cd8a04b56e03a19e7aded6ad09eb",
+      "to_fp": "5eb21dd2dc70090274147152435bb30515f4b43446ad482a7fd57b57085c6d55",
+      "reason": "WEDO-14.1: the same type with another message must give False. Same task: type and message fragment.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 402,
+      "id": "S27-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "5c3bce23f1625a9fb8248d01e36f39b70872681c131551e0b7034daf4f9d5175",
+      "to_fp": "02b0fb27e8d03db89b36c4368724be244ad70980f933c0179b52a8d0d0a2b2cc",
+      "reason": "WEDO-15.1/15.2: a computed text is read back and the file is deleted in finally. Same task: read the temporary file.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 403,
+      "id": "S27-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "4d4929a621370f7c5324f86b2cc5d4e21bb5b62dfc8b2dad1375727f2e2b7531",
+      "to_fp": "c3e545b30cd7f59813b5f7d6bf954314a8ce2cb81f4b141c4468d6544d7b182e",
+      "reason": "A second input with an at sign must print ok. Same task: the at-sign check.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 404,
+      "id": "S27-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "25b5289e9abe1e3e2cb81537e92ed81f7419343983f033384f5bc9024ace9174",
+      "to_fp": "95e78927709dddcf984011bb6086f6e64078f17f91e2c09dfc21b3a88d68fd52",
+      "reason": "WEDO-18.1: a text value where !r shows the quotes and spaces. Same task: a message with field and value.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 405,
+      "id": "S27-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "fadd336418bfebc29121dddca04ec52a5f12e4193a9127db965683da1dbb271d",
+      "to_fp": "18196144901d87515c395305b2d144df857788d31a652ed2ee3ba9805dd73491",
+      "reason": "The border 0 is added. Same task: exercise both branches.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 406,
+      "id": "S27-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "4b099fe1e3defef77b32f4430534d03ebd3264637cd9f04fb2abb932376769cf",
+      "to_fp": "c7bff3c157fb46984e70cd95462a11832ddcfa50de9fcd73d7fb473bf5e817b5",
+      "reason": "Band names from classify_pair; two sets, missing bands as a list. Same task: detect the missing band.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 407,
+      "id": "S27-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "fa87fc51409a023af4b875a826739a1d58fb7cc31b53b79c5457b29ded4032d2",
+      "to_fp": "0a7ddaa89398535a4670a8de892fc36aaae1a7650f5d392f5215a41117a4fb82",
+      "reason": "WEDO-22.1/22.2: both conditions printed as a tuple; the mutant is a function. Same task: the mutant must fail the oracle.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 408,
+      "id": "S27-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "ff664aada0c2dad3affc281f5eef8b78628bb759b9d251fe487b13d67e73de99",
+      "to_fp": "974959f7476c499356471889f3695edc1c8f06c14a018ab0bfd575ecb6795519",
+      "reason": "WEDO-24.1: assert then print pass, so a broken normalization stops the run. Same task: from the bug reproduction to a regression test.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S27 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
