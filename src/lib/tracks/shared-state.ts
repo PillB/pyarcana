@@ -11,7 +11,7 @@ import { advanceFurthest, type PlacedSection } from './placement'
 import {
   commitTrackStep,
   markTrackFinished,
-  saveTrackProgress,
+  saveTrackProgressPreserving,
   setTrackStep,
   loadTrackFurthest,
   loadTrackProgress,
@@ -80,7 +80,7 @@ export function createTrackState(trackId: string, store: () => KeyValueStore | n
       if (snapshot.saveFailed) {
         // Codex review on PR #196: rebuilding from storage dropped every earlier unsaved tick.
         const progress = markTrackFinished(setTrackStep(snapshot.progress, id, done), allIds)
-        const saved = saveTrackProgress(store(), trackId, progress)
+        const saved = saveTrackProgressPreserving(store(), trackId, progress)
         publish({ progress, furthestSeen: snapshot.furthestSeen, saveFailed: !saved })
         return saved
       }
@@ -93,7 +93,9 @@ export function createTrackState(trackId: string, store: () => KeyValueStore | n
       const next = advanceFurthest(sections, stored, sectionId)
       if (next && next !== stored) saveTrackFurthest(store(), trackId, next)
       // Shown even when the browser refused to keep it, for this visit.
-      publish({ ...snapshot, progress: loadTrackProgress(store(), trackId), furthestSeen: next ?? snapshot.furthestSeen })
+      // Unsaved ticks stay as they are while the browser refuses writes (Codex, PR #196).
+      const progress = snapshot.saveFailed ? snapshot.progress : loadTrackProgress(store(), trackId)
+      publish({ ...snapshot, progress, furthestSeen: next ?? snapshot.furthestSeen })
     },
     handleStorageEvent(key) {
       if (key === null || keys.includes(key)) state.refresh()

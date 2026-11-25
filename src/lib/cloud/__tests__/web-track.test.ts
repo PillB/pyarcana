@@ -712,3 +712,35 @@ test('a browser that refuses storage keeps every tick of this visit, not only th
   assert.equal(state.getSnapshot().saveFailed, false)
   stop()
 })
+
+test('unsaved ticks survive opening a section, and a retry still never overwrites an unreadable record without a backup', async () => {
+  const { createTrackState } = await import('@/lib/tracks/shared-state')
+  const key = trackProgressKey(WEB_TRACK_ID)
+  // Case 1 (Codex, PR #196): storage refuses every write; opening a section re-read storage and
+  // dropped the ticks of this visit.
+  {
+    const m = new Map<string, string>()
+    const kv = { getItem: (k: string) => m.get(k) ?? null, setItem: () => { throw new Error('QuotaExceededError') } }
+    const state = createTrackState(WEB_TRACK_ID, () => kv)
+    const stop = state.subscribe(() => {})
+    state.setStep('html.reparto', true, WEB_TRACK_STEP_IDS)
+    state.visit(liveSections(), WEB_TRACK_PLACEMENT.recommendedAfter.id)
+    assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto'], 'visiting a section must not drop the unsaved tick')
+    stop()
+  }
+  // Case 2 (Codex, PR #196): an unreadable record whose backup cannot be written. The first tick
+  // refused to overwrite it; the retry path wrote straight over it on the second tick.
+  {
+    const foreign = JSON.stringify({ v: 2, done: { 'html.reparto': '2026-11-25' } })
+    const m = new Map<string, string>([[key, foreign]])
+    const kv = { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => { if (k.includes(':unreadable:')) throw new Error('QuotaExceededError'); m.set(k, v) } }
+    const state = createTrackState(WEB_TRACK_ID, () => kv)
+    const stop = state.subscribe(() => {})
+    state.setStep('html.reparto', true, WEB_TRACK_STEP_IDS)
+    state.setStep('http.navegador', true, WEB_TRACK_STEP_IDS)
+    assert.equal(m.get(key), foreign, 'the unreadable record must survive every click while it has no backup')
+    assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto', 'http.navegador'], 'the ticks are still shown for this visit')
+    assert.equal(state.getSnapshot().saveFailed, true)
+    stop()
+  }
+})

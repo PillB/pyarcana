@@ -151,8 +151,21 @@ export function commitTrackStep(
   allIds: readonly string[] = [],
 ): { progress: TrackProgress; saved: boolean } {
   const progress = markTrackFinished(setTrackStep(loadTrackProgress(store, trackId), id, done), allIds)
-  if (!backUpForeignRecord(store, trackId, now)) return { progress, saved: false }
-  return { progress, saved: saveTrackProgress(store, trackId, progress) }
+  return { progress, saved: saveTrackProgressPreserving(store, trackId, progress, now) }
+}
+
+/**
+ * Saves, but first copies a stored record this code cannot read to a backup key; if that copy
+ * fails, nothing is written. Every write of a tick goes through here, including retries after a
+ * refused save, so no path overwrites an unreadable record without a backup (Codex, PR #196).
+ */
+export function saveTrackProgressPreserving(
+  store: KeyValueStore | null | undefined,
+  trackId: string,
+  p: TrackProgress,
+  now: () => number = Date.now,
+): boolean {
+  return backUpForeignRecord(store, trackId, now) && saveTrackProgress(store, trackId, p)
 }
 
 function backUpForeignRecord(store: KeyValueStore | null | undefined, trackId: string, now: () => number): boolean {
