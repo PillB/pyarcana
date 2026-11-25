@@ -1555,7 +1555,7 @@ for g in (rows, rows + [extra]):
 lotes = [
     ([{"ruc_pred": "20123456789", "ruc_true": "20123456789"},
       {"ruc_pred": "20123456780", "ruc_true": "20123456789"}], 7, 3),
-    ([{"ruc_pred": "20600000001", "ruc_true": "20600000001"}], 3, 2),
+    ([{"ruc_pred": "20123456789", "ruc_true": "20123456789"}], 3, 2),
 ]
 for golden, auto, review in lotes:
     print(1.0, review / (auto + review))
@@ -1567,7 +1567,7 @@ for golden, auto, review in lotes:
           code: `lotes = [
     ([{"ruc_pred": "20123456789", "ruc_true": "20123456789"},
       {"ruc_pred": "20123456780", "ruc_true": "20123456789"}], 7, 3),
-    ([{"ruc_pred": "20600000001", "ruc_true": "20600000001"}], 3, 2),
+    ([{"ruc_pred": "20123456789", "ruc_true": "20123456789"}], 3, 2),
 ]
 for golden, auto, review in lotes:
     acc_ruc = sum(1 for r in golden if r["ruc_pred"] == r["ruc_true"]) / len(golden)
@@ -1777,7 +1777,7 @@ docs = [
     {"id": "d3", "img": {"w": 1000, "h": 1400, "dpi": 200, "skew_deg": 0.0},
      "tokens": [
          {"text": "RUC:", "conf": 0.96, "bbox": [10, 50, 60, 70]},
-         {"text": "20600000001", "bbox": [70, 50, 200, 70]},  # el adapter no dio conf
+         {"text": "20123456789", "bbox": [70, 50, 200, 70]},  # el adapter no dio conf
          {"text": "Total:", "conf": 0.95, "bbox": [10, 80, 70, 100]},
          {"text": "1,150", "conf": 0.9, "bbox": [80, 80, 140, 100]},
          {"text": "Fecha:", "conf": 0.9, "bbox": [10, 110, 70, 130]},
@@ -1790,7 +1790,7 @@ docs = [
 truth = {
     "d1": {"ruc_true": "20123456789", "total_true": 1150.5},
     "d2": {"ruc_true": "20123456789", "total_true": 150.0},
-    "d3": {"ruc_true": "20600000001", "total_true": 1150.0},
+    "d3": {"ruc_true": "20123456789", "total_true": 1150.0},
 }
 
 def preprocess(meta):

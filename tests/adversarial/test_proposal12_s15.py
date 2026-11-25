@@ -124,12 +124,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def bank() -> list[dict]:
@@ -183,7 +192,8 @@ class PandasThreeCopyRule(unittest.TestCase):
 
     def test_the_self_check_stem_and_the_exam_stem_use_the_pandas_3_name(self) -> None:
         stems = [q["question"] for q in s15()["selfCheck"]["questions"]]
-        self.assertTrue(any("ChainedAssignmentError" in s for s in stems))
+        self.assertTrue(any("ChainedAssignmentError" in s for s in stems),
+            "the self-check and exam stems must use the pandas 3 name ChainedAssignmentError: checked " + repr(stems)[:300])
         self.assertIn("ChainedAssignmentError", bank_question("En pandas 3, el aviso")["question"])
 
     @needs_pandas
@@ -303,7 +313,9 @@ class ExercisesCatchTheUsualWrongAnswer(unittest.TestCase):
             with self.subTest(f"{ex_id}: {wrong[:40]!r}"):
                 sol = exercise(ex_id)["solutionCode"]
                 self.assertEqual(sol["code"].count(right), 1, "the solution text moved")
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(right, wrong)))
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(right, wrong)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     def test_the_hidden_index_trick_still_shows_in_the_first_line(self) -> None:
         """Writing the index and hiding it with index_col=0 gives the right columns on re-read;
@@ -390,7 +402,8 @@ class YouDoTextAgrees(unittest.TestCase):
     def test_the_objective_and_the_schema_agree_with_the_requirements(self) -> None:
         yd = s15()["youDo"]
         self.assertIn("sha256 del CSV", " ".join(yd["objectives"]))
-        self.assertTrue(any(o.startswith("Opcional, si eliges particionar") for o in yd["objectives"]))
+        self.assertTrue(any(o.startswith("Opcional, si eliges particionar") for o in yd["objectives"]),
+            "the optional partition objective must say it is optional: checked " + repr(yd["objectives"])[:300])
         self.assertIn("astype('datetime64')", " ".join(yd["requirements"]))
 
 

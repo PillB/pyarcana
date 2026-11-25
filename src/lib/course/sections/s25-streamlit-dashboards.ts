@@ -1122,9 +1122,9 @@ for label in ('other', 'billing'):
         kind: "transfer",
         title: "Batch mock HF: model, label y score",
         preamble:
-          "- **Contexto:** el adapter del asistente procesa batches; cada item debe llevar model, label y score para el contract test.\n- **Meta:** implementar `mock_pipeline` sobre ['Factura X','hola','FACTURA 2'] con billing/0.9 y other/0.6. Esos scores son constantes fijas del mock, no confianzas reales ni umbrales.\n- **Éxito:** lista de dos dicts exacta de la solución.\n- **Límites:** no devuelvas lista de strings; case-insensitive; orden = orden del input.",
+          "- **Contexto:** el adapter del asistente procesa batches; cada item debe llevar model, label y score para el contract test.\n- **Meta:** implementar `mock_pipeline` sobre ['Factura X','hola','FACTURA 2'] con billing/0.9 y other/0.6. Esos scores son constantes fijas del mock, no confianzas reales ni umbrales.\n- **Éxito:** tres líneas, un dict por texto, en el orden del input.\n- **Límites:** no devuelvas lista de strings; case-insensitive; orden = orden del input.",
         instruction:
-          "1. Lee el DEFECT: solo devuelve `['other', ...]`.\n2. Por cada texto calcula label y score.\n3. Append `{model, label, score}`.\n4. Imprime la lista completa.",
+          "1. Lee el DEFECT: solo devuelve `['other', ...]`.\n2. Por cada texto calcula label y score.\n3. Append `{model, label, score}`.\n4. Imprime un dict por línea, como ya hace el `for` del starter.",
         hint: "Misma forma que el mock de teoría: lista de dicts con model, label y score",
         hints: [
           "label = 'billing' if 'factura' in t.lower() else 'other'",
@@ -1144,7 +1144,8 @@ for label in ('other', 'billing'):
 def mock_pipeline(texts, model_id='demo-cls-v1'):
     return ['other' for t in texts]
 
-print(mock_pipeline(['Factura X', 'hola', 'FACTURA 2']))
+for item in mock_pipeline(['Factura X', 'hola', 'FACTURA 2']):
+    print(item)
 `,
         },
         solutionCode: {
