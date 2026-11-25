@@ -1246,6 +1246,30 @@
       "reason_contains": "needs the pinned content interpreter",
       "why": "It runs S26 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
       "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s26.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s26.TheYouDoNeedsAPersonAndARealRun.test_a_broken_invariant_says_which_one",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S26 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s26.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s26.TheYouDoNeedsAPersonAndARealRun.test_a_second_process_resumes_with_the_approval",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S26 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s26.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s26.TheYouDoNeedsAPersonAndARealRun.test_the_entry_point_keeps_the_checkpoint_for_resume",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S26 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s26.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }
