@@ -124,12 +124,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -259,7 +268,9 @@ class TheDpiGateIsOnTheCapture(unittest.TestCase):
     def test_the_exercise_catches_an_upscale(self) -> None:
         e = exercise("S24-T1-A-E1")
         sol, pin = e["solutionCode"]["code"], e["solutionCode"]["output"]
-        self.assertTrue(caught(sol, pin, mutated(sol, "    print(dpi, dpi < 200)", "    dpi = max(dpi, 200)\n    print(dpi, dpi < 200)")))
+        self.assertEqual(escaped(sol, pin, mutated(sol, "    print(dpi, dpi < 200)", "    dpi = max(dpi, 200)\n    print(dpi, dpi < 200)")), "",
+            "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+            "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
 
 class PeruvianAmounts(unittest.TestCase):
@@ -296,7 +307,9 @@ class PeruvianAmounts(unittest.TestCase):
     def test_the_exam_item_keys_the_right_value(self) -> None:
         hits = [q for q in exam_bank.bank_for("rpa-advanced") if "S/ 1,234.50" in q["question"]]
         self.assertEqual(len(hits), 1)
-        self.assertTrue(hits[0]["options"][hits[0]["correctIndex"]].startswith("1234.5,"))
+        self.assertTrue(hits[0]["options"][hits[0]["correctIndex"]].startswith("1234.5,"),
+            "the es-PE amount 'S/ 1,234.50' must be keyed as 1234.5: expected the start " + repr("1234.5,")
+            + ", got " + repr((hits[0]["options"][hits[0]["correctIndex"]])[:160]))
 
 
 #: (exercise, old, new): the usual wrong answer, planted in the solution; the pin must catch it.
@@ -342,7 +355,9 @@ class ExercisesCatchTheUsualMistake(unittest.TestCase):
             e = exercise(ex_id)
             sol, pin = e["solutionCode"]["code"], e["solutionCode"]["output"]
             with self.subTest(ex_id, old=old[:40]):
-                self.assertTrue(caught(sol, pin, mutated(sol, old, new)))
+                self.assertEqual(escaped(sol, pin, mutated(sol, old, new)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     @needs_content_py
     def test_the_planted_mistakes_pass_the_old_fixtures(self) -> None:
@@ -533,6 +548,29 @@ class LearnerFacingText(unittest.TestCase):
     def test_golden_set_is_glossed_before_t4(self) -> None:
         """THEORY-07.4."""
         self.assertIn("golden set (el conjunto de referencia etiquetado a mano", prose("S24-T3-A"))
+
+
+class NoNewIdentifierShapedValue(unittest.TestCase):
+    """Codex review on #204 (P1): the second batch added 20600000001, an 11-digit RUC-shaped value.
+
+    sections/AGENTS.md D2 bars identifier-shaped values in synthetic data. The two placeholders
+    S24 already used before proposal 12 (sequential digits, one with a wrong last digit) stay,
+    because the section teaches normalisation of exactly that shape; this test stops any new one."""
+
+    BEFORE_P12 = {"20123456789", "20123456780"}
+
+    def test_every_ruc_shaped_value_is_one_the_section_already_had(self) -> None:
+        text = SECTION.read_text(encoding="utf-8")
+        found = set(re.findall(r"(?<!\d)\d{11}(?!\d)", text))
+        self.assertTrue(found, "the scan found no 11-digit value at all, so it checks nothing")
+        self.assertEqual(found - self.BEFORE_P12, set(),
+                         "a new RUC-shaped value entered S24; reuse a placeholder already in the section "
+                         "or an opaque id such as CLI-0001 (sections/AGENTS.md D2)")
+
+    def test_the_scan_sees_a_new_value(self) -> None:
+        """Negative control: the same regex flags the value the review found."""
+        self.assertEqual(set(re.findall(r"(?<!\d)\d{11}(?!\d)", '"ruc_true": "20600000001"')) - self.BEFORE_P12,
+                         {"20600000001"}, "the scan regex misses an 11-digit value in a JSON-like fixture")
 
 
 class SelfCheckHasNoGiveaway(unittest.TestCase):

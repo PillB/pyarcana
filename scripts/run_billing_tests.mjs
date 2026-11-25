@@ -77,7 +77,7 @@ const WORKER_SUITES = [
   ["runner", 6],
   // Stage 1b: entitlement, trial, admin, progress, reports, privacy.
   ["access", 35],
-  ["me", 6],
+  ["me", 8],
   ["trial", 12],
   ["admin-auth", 10],
   ["admin-grants", 9],
@@ -97,6 +97,7 @@ const WORKER_SUITES = [
   ["checkout", 14],
   ["webhook-mp", 23],
   ["webhook-creem", 16],
+  ["ledger-concurrency", 5],
   ["subscription", 10],
   ["reconcile", 6],
   // Stage 2c: the licence (DESIGN-v3-delta D-ORCH-03), events and experiments (DESIGN-v3 §F),
@@ -116,7 +117,9 @@ const WORKER_SUITES = [
   // Retest checks and the QA supervisor (owner request 2026-11-19).
   ["report-verify", 11],
   // How a tester gets in while sign-up is closed (red-team round on PR #168, 2026-11-20).
-  ["tester-onboarding", 4]
+  ["tester-onboarding", 4],
+  // REDEPLOY.md, the owner's click-by-click runbook, against the scripts it quotes (2026-11-23).
+  ["redeploy-runbook", 7]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -168,7 +171,7 @@ const CLIENT_SUITES = [
   ["qa-session-stats", 4],
   ["qa-tour-layout", 6],
   // Retest checks and the QA supervisor (owner request 2026-11-19).
-  ["qa-review", 7],
+  ["qa-review", 9],
   ["section-completion", 4],
   ["site-icons", 8],
   ["remote-apply", 4],

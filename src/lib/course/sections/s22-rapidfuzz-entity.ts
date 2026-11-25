@@ -543,15 +543,19 @@ n_headers_subj 1`,
         environment: "local/sandbox proveedor",
         description: "Sanitizar HTML de templates de correo con escape y allowlist de host real.",
         preamble:
-          "Un template de correo interpola datos de negocio; cualquier fragmento no confiable es un vector. En esta demo se escapa HTML y se valida el **host real** de cada URL (no un substring). Observa tres destinos: un host malicioso, `example.pe` legítimo y el bypass `example.pe.evil.test`. No escribas: predice qué queda como enlace y qué se bloquea. Si confías en `'example.pe' in url`, el phishing interno gana.",
+          "Un template de correo interpola datos de negocio; cualquier fragmento no confiable es un vector. En esta demo se escapa HTML y se valida el **host real** de cada URL (no un substring). Observa cuatro destinos: un host malicioso, `example.pe` legítimo, el bypass `example.pe.evil.test` y una barra invertida (`evil.test\\a.example.pe`), que el navegador lee como `/`. No escribas: predice qué queda como enlace y qué se bloquea. Si confías en `'example.pe' in url`, el phishing interno gana.",
         code: {
           language: 'python',
           title: "demo.py",
           code: `def s22_ido_2():
     import html, re
+    from urllib.parse import urlsplit
 
     def host_ok(url: str) -> bool:
-        host = re.sub(r"^https?://", "", url).split("/")[0].split(":")[0]
+        # El navegador lee \\ como / y user@host como host: esas formas ambiguas no pasan
+        if "\\\\" in url or "@" in url:
+            return False
+        host = urlsplit(url).hostname or ""
         return host == "example.pe" or host.endswith(".example.pe")
 
     def sanitize(s):
@@ -562,11 +566,12 @@ n_headers_subj 1`,
             s,
         )
 
-    raw = '<b>Hola</b> https://evil.test/x https://example.pe/ok https://example.pe.evil.test/x'
+    raw = ('<b>Hola</b> https://evil.test/x https://example.pe/ok https://example.pe.evil.test/x'
+           ' https://evil.test\\\\a.example.pe/x')
     print(sanitize(raw))
 
 s22_ido_2()`,
-          output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] <a href="https://example.pe/ok">enlace</a> [blocked]`,
+          output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] <a href="https://example.pe/ok">enlace</a> [blocked] [blocked]`,
         },
         why:
           "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). El escape contextual es el primer control; parsear el host evita el bypass de subdominio malicioso. Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo rechaza como solución. En We Do practicarás escape, interpolación segura y allowlist con `urlparse`.",
@@ -1027,15 +1032,15 @@ print('Hola ' + html.escape(name))`,
         kind: "transfer",
         title: "Allowlist de host real con urlparse",
         preamble:
-          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URL con `urlparse`: acepta el host `example.pe` o un subdominio propio (`*.example.pe`), como dice la teoría.\n- **Éxito:** cuatro líneas — `example.pe` y `portal.example.pe` ok; `evil.test` y `example.pe.evil.test` blocked.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
+          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URL con `urlparse`: acepta el host `example.pe` o un subdominio propio (`*.example.pe`), como dice la teoría.\n- **Éxito:** cinco líneas — `example.pe` y `portal.example.pe` ok; `evil.test`, `example.pe.evil.test` y el URL con barra invertida blocked.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
         instruction:
-          "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'` o termina en `'.example.pe'`; si no, `blocked`.\n4. No uses substring del URL completo.",
+          "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'` o termina en `'.example.pe'`; si no, `blocked`.\n4. Bloquea también un URL con `\\` o `@`: el navegador lee `\\` como `/` y lo que va antes de `@` no es el host.\n5. No uses substring del URL completo.",
         hint: "urlparse(u).hostname",
         hints: [
           "from urllib.parse import urlparse",
           "host == 'example.pe' o host.endswith('.example.pe'), nunca 'in url'",
         ],
-        edgeCases: ["Subdominios maliciosos como example.pe.evil.test: el host real no es example.pe."],
+        edgeCases: ["Subdominios maliciosos como example.pe.evil.test: el host real no es example.pe.", "Una barra invertida: urlparse da el host evil.test\\a.example.pe, que termina en .example.pe, pero el navegador abre evil.test."],
         tests: "salida coincide con solution output",
         feedback:
           "Parsea el host real (`urlparse.hostname`). Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo trata como bypass de phishing interno, no como solución de allowlist.",
@@ -1048,7 +1053,8 @@ print('Hola ' + html.escape(name))`,
 # A corregir: marca todo ok sin chequear host
 # Contrato: parsear host; solo example.pe es ok
 from urllib.parse import urlparse
-urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x']
+urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x',
+        'https://evil.test\\\\a.example.pe/x']
 for u in urls:
     print(u, 'ok')
 `,
@@ -1057,14 +1063,17 @@ for u in urls:
           language: 'python',
           title: "exercise.py",
           code: `from urllib.parse import urlparse
-urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x']
+urls = ['https://example.pe/a', 'https://portal.example.pe/r', 'https://evil.test', 'https://example.pe.evil.test/x',
+        'https://evil.test\\\\a.example.pe/x']
 for u in urls:
     host = urlparse(u).hostname or ""
-    print(u, 'ok' if host == 'example.pe' or host.endswith('.example.pe') else 'blocked')`,
+    ambiguo = "\\\\" in u or "@" in u  # el navegador lee \\ como /: no confíes en ese host
+    print(u, 'ok' if not ambiguo and (host == 'example.pe' or host.endswith('.example.pe')) else 'blocked')`,
           output: `https://example.pe/a ok
 https://portal.example.pe/r ok
 https://evil.test blocked
-https://example.pe.evil.test/x blocked`,
+https://example.pe.evil.test/x blocked
+https://evil.test\\a.example.pe/x blocked`,
         },
       },
       {
@@ -2008,19 +2017,22 @@ msg.attach(alt)
 # Completa: adjunto meta (p. ej. run_id=... en MIMEApplication + Content-Disposition)
 
 # B–C) Draft store + key de 16 hex (idempotente)
-key = idem_key(run_id, to, 1)
-store = {}
-draft_id = None
-if key not in store:
-    draft_id = "d001"
+def create_once(store: dict, key: str) -> str:
+    """Devuelve el draft de esa key; solo crea uno nuevo si la key no existe."""
+    if key in store:
+        return store[key]["draft_id"]
+    draft_id = f"d{len(store) + 1:03d}"
     store[key] = {
         "draft_id": draft_id,
         "status": "draft",
         "expires_at": datetime.now(timezone.utc) + timedelta(hours=24),
         # Completa: guarda msg.as_string() en out/drafts/d001.eml (sandbox, sin SMTP)
     }
-else:
-    draft_id = store[key]["draft_id"]
+    return draft_id
+
+key = idem_key(run_id, to, 1)
+store = {}
+draft_id = create_once(store, key)
 
 # D) Cola humana: draft → pending_review con actor en audit
 audit: list = []
@@ -2028,9 +2040,10 @@ state = "draft"
 # Completa: state = apply(state, "submit", "analyst", audit)
 # Completa: store[key]["status"] = state  (el store es el registro que leen la UI y los jobs)
 
-# E) Reintento: la misma entrada debe dar la misma key y el mismo draft
-reintento = idem_key(run_id, to, 1)
-reintento_reusa = reintento in store and store[reintento]["draft_id"] == draft_id
+# E) Reintento real: la misma entrada vuelve a llamar a create_once.
+# Debe devolver el mismo draft y no dejar un segundo registro en el store.
+segundo = create_once(store, idem_key(run_id, to, 1))
+reintento_reusa = segundo == draft_id and len(store) == 1
 
 print("verified", verified)
 print("key_len", len(key))

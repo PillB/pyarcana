@@ -1225,41 +1225,49 @@ print(ctx['auth'])`,
         kind: "independent",
         title: "Denegar reporte sin autenticación",
         preamble:
-          "- **Contexto:** sin sesión, el adaptador no debe continuar al download del reporte sintético; el guard es parte del contrato, no un detalle de UI.\n- **Meta:** capturar `PermissionError` e imprimir `denied`.\n- **Éxito:** una línea `denied`.\n- **Límites:** no dejes la excepción sin capturar; no imprimas `ok` sin auth.",
+          "- **Contexto:** sin sesión, el adaptador no debe continuar al download del reporte sintético; el guard es parte del contrato, no un detalle de UI.\n- **Meta:** con los estados de E1 (`'authenticated'` o `'anonymous'`), capturar `PermissionError` e imprimir `denied` si no hay sesión.\n- **Éxito:** dos líneas: `denied` para el login fallido y `ok` para la sesión válida.\n- **Límites:** no dejes la excepción sin capturar; no imprimas `ok` sin auth.",
         instruction:
-          "1. Envuelve el `if not auth` / raise en `try/except PermissionError`.\n2. En el except: `print('denied')`.\n3. El path con auth imprimiría `ok` (fuera de este fixture).\n4. No cambies `ctx={'auth':False}`.",
+          "1. Compara el estado con `'authenticated'`: `'anonymous'` es un texto no vacío, así que `not ctx.get('auth')` lo deja pasar.\n2. Envuelve el raise en `try/except PermissionError`.\n3. En el except: `print('denied')`.\n4. Mantén las dos llamadas: el login fallido de E1 y la sesión válida.",
         hint: "Envuelve el raise en try/except PermissionError.",
         hints: [
           "Sin autenticación el robot no debe seguir al download.",
+          "`'anonymous'` es truthy: compara con `'authenticated'`, no con `not`.",
           "try/except convierte el error en una decisión de negocio ('denied').",
           "En UI real el análogo puede ser redirect a login; aquí modelamos con excepción.",
         ],
-        edgeCases: ["redirect a login en UI real"],
-        tests: "Stdout exacto: `denied`. El proceso no debe terminar con excepción no capturada.",
+        edgeCases: ["redirect a login en UI real", "un estado de texto distinto de 'authenticated' (por ejemplo 'anonymous') cuenta como sin sesión"],
+        tests: "Stdout exacto (2 líneas): `denied` y `ok`. El proceso no debe terminar con excepción no capturada.",
         feedback:
-          "Sin auth capturas `PermissionError` e imprimes `denied`. Seguir ciego al download deja un timeout opaco más tarde; el guard es decisión de negocio legible para el runbook y el on-call.",
+          "Sin auth capturas `PermissionError` e imprimes `denied`. Con estados de texto, `not ctx.get('auth')` no basta: `'anonymous'` es truthy y pasaría como sesión. Seguir ciego al download deja un timeout opaco más tarde; el guard es decisión de negocio legible para el runbook y el on-call.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-023 · guard de auth
-# Arregla: no captura PermissionError
-ctx={'auth':False}
-if not ctx.get('auth'):
-    raise PermissionError('login required')
-print('ok')
+# Arregla: no captura PermissionError y deja pasar 'anonymous'
+def abrir_reporte(ctx):
+    if not ctx.get('auth'):
+        raise PermissionError('login required')
+    print('ok')
+
+abrir_reporte({'auth': 'anonymous'})  # login fallido de E1
+abrir_reporte({'auth': 'authenticated'})
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ctx={'auth':False}
-try:
-    if not ctx.get('auth'):
-        raise PermissionError('login required')
-    print('ok')
-except PermissionError:
-    print('denied')`,
-          output: `denied`,
+          code: `def abrir_reporte(ctx):
+    try:
+        if ctx.get('auth') != 'authenticated':
+            raise PermissionError('login required')
+        print('ok')
+    except PermissionError:
+        print('denied')
+
+abrir_reporte({'auth': 'anonymous'})  # login fallido de E1
+abrir_reporte({'auth': 'authenticated'})`,
+          output: `denied
+ok`,
         },
         retrospective:
           "El guard de auth es un **gate** del adaptador: convierte `PermissionError` en señal legible (`denied`) antes de tocar el export. Así el runbook no confunde “portal lento” con “nunca hubo sesión”. Pregunta: ¿dónde loguearías `denied` para el on-call? Luego (E3) modelas anonymous → authenticated sin auth fantasma.",

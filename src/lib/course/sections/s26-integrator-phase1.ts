@@ -1811,6 +1811,7 @@ for log in logs:
     starterCode: `# VP RPA + AI Analyst — esqueleto de la práctica integradora (no es el capstone CP-N2-C)
 # Path canónico (no renombres): ingest→validate→analyze→ai_assist→report→approve→draft_email
 import json
+import sys
 from pathlib import Path
 
 STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
@@ -1821,13 +1822,22 @@ dlq = []
 fraud_labels = 0  # debe permanecer 0: matching ≠ fraude
 run_meta = {"run_id": "cpn2c-close-01", "api_rpm": 30, "tz": "America/Lima"}
 CKPT_PATH = Path("ckpt_cpn2c-close-01.json")  # el checkpoint vive fuera del proceso
+AUDIT_PATH = Path("audit_cpn2c-close-01.jsonl")  # append-only: una decisión por línea
 regression_log = []  # (comando, código de salida) de cada test re-ejecutado
 
 def load_ckpt():
+    """Pasos terminados y, con ellos, las decisiones humanas ya tomadas (el audit)."""
+    if AUDIT_PATH.exists():
+        audit[:] = [json.loads(line) for line in AUDIT_PATH.read_text().splitlines()]
     return set(json.loads(CKPT_PATH.read_text())) if CKPT_PATH.exists() else set()
 
 def save_ckpt(ckpt):
     CKPT_PATH.write_text(json.dumps(sorted(ckpt)))
+
+def reset():
+    """Corrida nueva: borra checkpoint y audit. Nunca la llames al reanudar."""
+    CKPT_PATH.unlink(missing_ok=True)
+    AUDIT_PATH.unlink(missing_ok=True)
 
 def clear():
     return all(v == 0 for v in hitl.values())
@@ -1836,7 +1846,10 @@ def approve(actor):
     """Decisión humana: solo con las tres colas en 0 y un actor con nombre."""
     if not actor or not clear():
         return False
-    audit.append({"action": "approve", "actor": actor})
+    entry = {"action": "approve", "actor": actor}
+    audit.append(entry)
+    with AUDIT_PATH.open("a") as f:  # la decisión sobrevive al proceso
+        f.write(json.dumps(entry) + "\\n")
     return True
 
 def can_draft():
@@ -1847,8 +1860,8 @@ def run_all(fail_at=None):
     """Recorre STEPS; approve espera la decisión humana; fail_at simula un crash."""
     ckpt = load_ckpt()
     for i, s in enumerate(STEPS):
-        if s in ckpt:
-            state[s] = "success"
+        if s in ckpt and (s != "approve" or any(a.get("action") == "approve" for a in audit)):
+            state[s] = "success"  # sin la decisión en el audit, approve vuelve a quedar pending
             continue
         if fail_at == s:
             state[s] = "failed"
@@ -1885,28 +1898,30 @@ def package_e2e():
 def check_invariants():
     """Copia estos asserts a test_vp.py y hazlos pasar con tu implementación."""
     hitl["report"] = 1
-    assert approve("r1") is False          # cola abierta: approve no entra al audit
+    assert approve("r1") is False, "approve entró al audit con la cola de reporte abierta"
     hitl["report"] = 0
-    assert approve("") is False            # sin actor no hay decisión
-    assert fraud_labels == 0
-    assert package_e2e()["n2_regression"] != "pass" or regression_log
+    assert approve("") is False, "approve aceptó una decisión sin actor con nombre"
+    assert fraud_labels == 0, f"fraud_labels es {fraud_labels}: el matching no etiqueta fraude"
+    pkg = package_e2e()
+    assert pkg["n2_regression"] != "pass" or regression_log, "n2_regression dice pass sin comandos en regression_log"
     # Completa: reject sin reason es invalid; resume desde CKPT_PATH no repite steps;
     # un flaky que agota intentos va a dlq con owner; ninguna función envía correo.
 
 # Completa en el portafolio (sobre este esqueleto ejecutable):
-# 1) Corre run_all(fail_at='analyze') y luego run_all() en otro proceso: reanuda desde CKPT_PATH.
+# 1) Corre run_all(fail_at='analyze') y luego, en otro proceso, python vp.py --resume:
+#    reanuda desde CKPT_PATH y recupera las decisiones de AUDIT_PATH.
 # 2) HITL: sube pending, decide reject con reason / edit versionado / approve(actor); audit append-only.
 # 3) Implementa las tres interfaces CF-2 del contexto, cada una con su test.
 # 4) Corre la regresión N2 y anota cada comando con su código de salida en regression_log.
 # No envíes correo real.
 
-CKPT_PATH.unlink(missing_ok=True)
+if "--resume" not in sys.argv:
+    reset()  # esta demo empieza de cero; con --resume continúa la corrida anterior
 st, au = run_all()
 print("states", [st[s] for s in STEPS])
 print("approve", approve("r1"), "can_draft", can_draft(), "fraud_labels", fraud_labels)
 st, au = run_all()
 print("draft_email", st["draft_email"], "package", package_e2e()["n2_regression"])
-CKPT_PATH.unlink(missing_ok=True)
 `,
     portfolioNote:
       "Práctica integradora del VP para portafolio (el capstone CP-N2-C se entrega aparte). Incluye pipeline con evidencia por estado, HITL triple, draft en sandbox y una sección explícita de **regresión N2** (S14–S26) más las tres interfaces **CF-2** (Familiarity, el proyecto que reúne S01 a S25 ↔ reporting ↔ automatización). Documenta los límites: datos sintéticos, `fraud_labels=0` y cero envíos reales. Artefactos mínimos sugeridos: manifest de estados por step, muestra de audit append-only, línea de costo (tokens/minutos) y nota de privacidad.",

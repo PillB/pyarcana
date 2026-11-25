@@ -125,12 +125,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -211,11 +220,15 @@ class TheoryRunsTheErrorItNames(unittest.TestCase):
         th = block("S23-T2-A")["code"]
         out = th["output"].splitlines()
         self.assertIn("sesion reuse | login", out)
-        self.assertTrue(out[-2].startswith("download {'ok': True"))
+        self.assertTrue(out[-2].startswith("download {'ok': True"),
+            "a matching checksum must let the download step pass: expected the start " + repr("download {'ok': True")
+            + ", got " + repr((out[-2])[:160]))
         self.assertIn("'error': 'checksum_mismatch'", out[-1])
         self.assertIn("'sha256': '3cdfe594'", th["output"])
         same = mutated(th["code"], 'b"synthetic-xlsx-truncado"', 'b"synthetic-xlsx"')
-        self.assertTrue(stdout_of(same).splitlines()[-1].startswith("download {'ok': True"))
+        self.assertTrue(stdout_of(same).splitlines()[-1].startswith("download {'ok': True"),
+            "the download step must pass when the digest matches: expected the start " + repr("download {'ok': True")
+            + ", got " + repr((stdout_of(same).splitlines()[-1])[:160]))
         self.assertIn("manifiesto que publica el portal", prose("S23-T2-A"))
 
     @needs_content_py
@@ -225,7 +238,9 @@ class TheoryRunsTheErrorItNames(unittest.TestCase):
         out = th["output"].splitlines()
         self.assertEqual(out[0], "keys ['console', 'error', 'ok', 'screenshot', 'step', 'trace']")
         self.assertEqual(out[1], "TimeoutError: 30000ms")
-        self.assertTrue(out[2].endswith("['ERR red lenta', 'ERR timeout button']"))
+        self.assertTrue(out[2].endswith("['ERR red lenta', 'ERR timeout button']"),
+            "the evidence package must keep only the errors, sorted: expected the end " + repr("['ERR red lenta', 'ERR timeout button']")
+            + ", got " + repr((out[2])[-160:]))
         unfiltered = mutated(th["code"], '[line for line in console if "ERR" in line][-3:]', "console[-3:]")
         self.assertIn("info: retry", stdout_of(unfiltered))
 
@@ -352,6 +367,8 @@ MUTATIONS = [
     ("S23-T1-B-E3", "page.get('title') == 'Portal demo' and ", ""),
     ("S23-T2-A-E3", "'reuse' if state.get('token') else 'login'", "'reuse' if 'token' in state else 'login'"),
     ("S23-T2-B-E1", "self.ctx['auth'] = 'authenticated' if ok else 'anonymous'", "self.ctx['auth'] = ok"),
+    # Codex review on #203 (P2): E2 kept a boolean guard after E1 moved to string states.
+    ("S23-T2-B-E2", "if ctx.get('auth') != 'authenticated':", "if not ctx.get('auth'):"),
     ("S23-T2-B-E3", "    return state", "    return 'anonymous'"),
     ("S23-T3-A-E3", "    if not ok:\n        pkg['trace']=f'traces/{step}.zip'\n", "    pkg['trace']=f'traces/{step}.zip'\n"),
     ("S23-T3-B-E1", "return k in {'timeout', '429'}", "return k != 'captcha'"),
@@ -366,8 +383,9 @@ class WeDoChecksCanFail(unittest.TestCase):
         for ex_id, old, new in MUTATIONS:
             sol = exercise(ex_id)["solutionCode"]
             with self.subTest(ex_id, mutation=new[:50]):
-                self.assertTrue(caught(sol["code"], sol["output"], mutated(sol["code"], old, new)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], mutated(sol["code"], old, new)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     def test_hints_match_the_output_shape(self) -> None:
         """WEDO-24.2, -22.2, -02.2."""
@@ -405,7 +423,9 @@ class YouDo(unittest.TestCase):
                      "sha_truncado_ok False"):
             with self.subTest(line):
                 self.assertIn(line, out)
-        self.assertTrue(next(x for x in out if x.startswith("sha ")).endswith("ok True"))
+        self.assertTrue(next(x for x in out if x.startswith("sha ")).endswith("ok True"),
+            "the filled project must compare the digest, not only print it: expected the end " + repr("ok True")
+            + ", got " + repr((next(x for x in out if x.startswith("sha ")))[-160:]))
         self.assertIn("'trace': 'traces/export.zip'", next(x for x in out if x.startswith("evidence_ok")))
 
     @needs_content_py
@@ -490,6 +510,20 @@ class ExamBank(unittest.TestCase):
         for q in self.bank():
             with self.subTest(q["question"][:40]):
                 self.assertGreaterEqual(len(q["explanation"]), 200)
+
+
+class TheSleepItemIsAboutTheLab(unittest.TestCase):
+    """Codex review on #203 (P2): a real Playwright locator click auto-waits, so "a 300 ms sleep
+    before the click fails" had no correct option outside the lab's one-shot readiness check."""
+
+    def test_the_stem_names_the_one_shot_check_and_the_explanation_names_auto_wait(self) -> None:
+        hits = [q for q in exam_bank.bank_for("computer-vision") if "sleep fijo de 300 ms" in q["question"]]
+        self.assertEqual(len(hits), 1, f"expected one sleep item, found {len(hits)}")
+        q = hits[0]
+        self.assertIn("una sola vez", q["question"],
+                      "the stem must say the lab checks once; otherwise the keyed failure is not what Playwright does")
+        self.assertIn("auto-wait", q["explanation"],
+                      "the explanation must say a real locator click would wait on its own")
 
 
 if __name__ == "__main__":

@@ -124,12 +124,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -258,7 +267,8 @@ class ExercisesCatchTheUsualMistake(unittest.TestCase):
         fixed_output = {"S25-T1-A-E3", "S25-T1-B-E2", "S25-T2-A-E2"}
         for e in s25()["weDo"]["steps"]:
             with self.subTest(e["id"]):
-                self.assertTrue(e["id"] in planted or e["id"] in fixed_output)
+                self.assertTrue(e["id"] in planted or e["id"] in fixed_output,
+                    "every exercise whose output depends on logic must have a planted mistake")
 
     @needs_content_py
     def test_each_planted_mistake_changes_the_output(self) -> None:
@@ -266,7 +276,9 @@ class ExercisesCatchTheUsualMistake(unittest.TestCase):
             e = exercise(ex_id)
             sol, pin = e["solutionCode"]["code"], e["solutionCode"]["output"]
             with self.subTest(ex_id, old=old[:40]):
-                self.assertTrue(caught(sol, pin, mutated(sol, old, new)))
+                self.assertEqual(escaped(sol, pin, mutated(sol, old, new)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     @needs_content_py
     def test_the_planted_mistakes_pass_the_old_fixtures(self) -> None:
@@ -342,9 +354,56 @@ class LearnerFacingText(unittest.TestCase):
         """WEDO-03.1, YOUDO-01.4: the key is auto_fraud_label (a starter may still print the policy value)."""
         for name, code in all_code():
             with self.subTest(name):
-                self.assertIsNone(re.search(r"""['"]auto_fraud['"]\s*:|\bauto_fraud\s*=""", code))
+                self.assertIsNone(re.search(r"""['"]auto_fraud['"]\s*:|\bauto_fraud\s*=""", code),
+                    "the fraud policy key is auto_fraud_label; a second spelling splits the metadata: found " + repr(re.search(r"""['"]auto_fraud['"]\s*:|\bauto_fraud\s*=""", code)))
 
     def test_subset_and_think_are_explained_where_used(self) -> None:
         """WEDO-13.1, 17.2."""
         self.assertIn("«A está contenida en B»", exercise("S25-T3-A-E1")["preamble"])
         self.assertIn("`think` es el paso de razonar del propio asistente, no un tool", exercise("S25-T3-B-E2")["preamble"])
+
+
+class TheStarterPrintsWhatTheSolutionPrints(unittest.TestCase):
+    """Codex review on #205 (P2): S25-T2-A-E3's starter and instruction 4 printed the whole list,
+    while the solution prints one dict per line, so a correct learner never matched the output."""
+
+    def test_the_starter_and_the_solution_share_the_print_loop(self) -> None:
+        e = exercise("S25-T2-A-E3")
+        loop = "for item in mock_pipeline(['Factura X', 'hola', 'FACTURA 2']):\n    print(item)"
+        self.assertIn(loop, e["solutionCode"]["code"], "the solution's print loop changed; update this test")
+        self.assertIn(loop, e["starterCode"]["code"],
+                      "the starter prints in another shape than the solution's pinned output")
+        self.assertEqual(len(e["solutionCode"]["output"].splitlines()), 3,
+                         "the output is one dict per input text")
+        text = e["preamble"] + e["instruction"]
+        self.assertNotIn("lista completa", text, "the instruction still asks to print the whole list")
+        self.assertNotIn("dos dicts", text, "the success line miscounts the dicts (there are three texts)")
+
+
+class ExamItemsSitUnderTheirConcept(unittest.TestCase):
+    """Codex review on #205 (P2): rewritten items kept the concept tag of the item they replaced.
+
+    src/lib/exam-draw.ts draws one variant per concept, so a mislabelled item lets an attempt
+    test one concept twice and skip another. These items moved to the concept they assess."""
+
+    MOVED = {
+        'Los ejemplos few-shot': 'objective-context-constraints-examples',
+        'Antes de un tool que envía un correo': 'glm-thinking-tools-checkpoints',
+        'El modelo devuelve un JSON sin mediana': 'golden-schema-human-review',
+    }
+
+    def test_each_moved_item_is_under_the_concept_it_assesses(self) -> None:
+        bank = exam_bank.bank_for('streamlit-dashboards')
+        for prefix, concept in self.MOVED.items():
+            with self.subTest(prefix):
+                hits = [q for q in bank if q["question"].startswith(prefix)]
+                self.assertEqual(len(hits), 1, f"expected one item starting {prefix!r}, found {len(hits)}")
+                self.assertEqual(hits[0]["concept"], concept,
+                                 f"{prefix!r} is drawn as {hits[0]['concept']}; it assesses {concept}")
+
+    def test_every_concept_keeps_three_variants_in_one_block(self) -> None:
+        concepts = [q["concept"] for q in exam_bank.bank_for('streamlit-dashboards')]
+        counts = {c: concepts.count(c) for c in dict.fromkeys(concepts)}
+        self.assertEqual(set(counts.values()), {3}, f"each concept needs three variants to draw from: {counts}")
+        blocks = [c for i, c in enumerate(concepts) if i == 0 or concepts[i - 1] != c]
+        self.assertEqual(len(blocks), len(counts), f"a concept's variants are split across the bank: {blocks}")

@@ -22,6 +22,7 @@ and a keyed E2E path that left out ai_assist.
 '''
 from __future__ import annotations
 
+import ast
 import json
 import os
 import re
@@ -126,12 +127,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -240,7 +250,9 @@ class TheCodeDoesWhatTheProseSays(unittest.TestCase):
         th = block("S26-T2-A")["code"]
         self.assertEqual(th["output"].splitlines()[2], "(['b', 'c'], [], ['a', 'b', 'c'])")
         self.assertIn("'waits_ms': [100, 200]", th["output"])
-        self.assertTrue(demo("S26-T2-A")["code"]["output"].startswith("resume_from ['b', 'c']"))
+        self.assertTrue(demo("S26-T2-A")["code"]["output"].startswith("resume_from ['b', 'c']"),
+            "resume must start from the checkpoint argument, at the first unfinished step: expected the start " + repr("resume_from ['b', 'c']")
+            + ", got " + repr((demo("S26-T2-A")["code"]["output"])[:160]))
 
 
 class TheYouDoNeedsAPersonAndARealRun(unittest.TestCase):
@@ -270,6 +282,69 @@ class TheYouDoNeedsAPersonAndARealRun(unittest.TestCase):
                '    if ok and step == "approve":\n        audit.append({"action": "approve", "actor": "r1"})\n'
                'advance("approve")\nprint(len(audit))\n')
         self.assertEqual(stdout_of(old), "1")
+
+    def in_one_folder(self, *runs: tuple[str, list[str]]) -> list[str]:
+        """Run several processes, one after another, in one folder: the resume the project asks for."""
+        if CONTENT_PY is None:
+            raise unittest.SkipTest("needs the pinned content interpreter")
+        outs = []
+        with tempfile.TemporaryDirectory() as tmp:
+            for i, (source, args) in enumerate(runs):
+                path = Path(tmp) / f"run{i}.py"
+                path.write_text(source, encoding="utf-8")
+                done = subprocess.run([str(CONTENT_PY), "-I", str(path), *args], capture_output=True,
+                                      text=True, timeout=120, encoding="utf-8", cwd=tmp)
+                self.assertEqual(done.returncode, 0, f"run {i} raised: {done.stderr[-600:]}")
+                outs.append(done.stdout.rstrip("\n"))
+            outs.append(" ".join(sorted(p.name for p in Path(tmp).iterdir() if not p.name.startswith("run"))))
+        return outs
+
+    @needs_content_py
+    def test_a_second_process_resumes_with_the_approval(self) -> None:
+        """Codex review on #206 (P2): a new process restored approve as success with an empty audit,
+        so draft_email stayed blocked after a real human approval."""
+        defs = self.code.split("# Completa en el portafolio")[0]
+        first = defs + '\nreset()\nrun_all()\napprove("r1")\nrun_all(fail_at="draft_email")\n'
+        report = '\nst, au = run_all()\nprint(st["approve"], st["draft_email"], len(au))\n'
+        outs = self.in_one_folder((first, []), (defs + report, []))
+        self.assertEqual(outs[1], "success success 1",
+                         "the resumed process must keep the approval and finish draft_email")
+        # Negative control: without reading the audit back, approve falls back to pending.
+        read_back = ("    if AUDIT_PATH.exists():\n"
+                     "        audit[:] = [json.loads(line) for line in AUDIT_PATH.read_text().splitlines()]\n")
+        forgets = defs.replace(read_back, "")
+        self.assertNotEqual(forgets, defs, "the audit read-back anchor is gone from the starter")
+        old = self.in_one_folder((first, []), (forgets + report, []))
+        self.assertEqual(old[1], "pending blocked 0",
+                         "without the audit a checkpointed approve must stay pending, not success")
+
+    @needs_content_py
+    def test_the_entry_point_keeps_the_checkpoint_for_resume(self) -> None:
+        """Codex review on #206 (P2): the starter unlinked the checkpoint at start and at the end."""
+        fresh, resumed, files = self.in_one_folder((self.code, []), (self.code, ["--resume"]))
+        self.assertIn("ckpt_cpn2c-close-01.json", files, "the checkpoint must survive the run for the next process")
+        self.assertIn("audit_cpn2c-close-01.jsonl", files, "the approval log must survive the run")
+        self.assertEqual(resumed.splitlines()[0],
+                         "states ['success', 'success', 'success', 'success', 'success', 'success', 'success']",
+                         "with --resume the second process must continue, not start over")
+        again = self.in_one_folder((self.code, []), (self.code, []))
+        self.assertEqual(again[0], again[1], "without --resume each run must start from zero")
+        self.assertEqual(fresh, again[0], "the first run must print the pinned output")
+
+    @needs_content_py
+    def test_a_broken_invariant_says_which_one(self) -> None:
+        """Codex review on #206 (P1): check_invariants() used bare asserts the learner copies to test_vp.py."""
+        defs = self.code.split("# Completa en el portafolio")[0]
+        open_queue = defs.replace("    if not actor or not clear():", "    if not actor:")
+        self.assertNotEqual(open_queue, defs, "the approve gate anchor is gone from the starter")
+        done = run_py(open_queue + "\ncheck_invariants()\n")
+        self.assertNotEqual(done.returncode, 0, "an approve that ignores the open queue passed check_invariants")
+        self.assertIn("approve entró al audit con la cola de reporte abierta", done.stderr,
+                      f"the failure must name the broken gate; stderr: {done.stderr[-300:]}")
+        fn = next(n for n in ast.walk(ast.parse(defs))
+                  if isinstance(n, ast.FunctionDef) and n.name == "check_invariants")
+        bare = [n.lineno for n in ast.walk(fn) if isinstance(n, ast.Assert) and n.msg is None]
+        self.assertEqual(bare, [], "check_invariants still has asserts without a message")
 
     def test_cf2_is_defined_and_graded(self) -> None:
         for fn in ("familiarity_to_reporting", "reporting_to_automation", "automation_to_audit"):
@@ -322,7 +397,9 @@ class ExercisesCatchTheUsualMistake(unittest.TestCase):
             e = exercise(ex_id)
             sol, pin = e["solutionCode"]["code"], e["solutionCode"]["output"]
             with self.subTest(ex_id, old=old[:40]):
-                self.assertTrue(caught(sol, pin, mutated(sol, old, new)))
+                self.assertEqual(escaped(sol, pin, mutated(sol, old, new)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     @needs_content_py
     def test_the_planted_mistakes_pass_the_old_fixtures(self) -> None:
@@ -352,7 +429,9 @@ class LearnerFacingText(unittest.TestCase):
         s = s26()
         self.assertIn("vicepresidente", s["tagline"])
         self.assertIn("E2E (de extremo a extremo)", " ".join(o["text"] for o in s["learningOutcomes"]))
-        self.assertTrue(s["theory"][0]["heading"].startswith("Seis piezas"))
+        self.assertTrue(s["theory"][0]["heading"].startswith("Seis piezas"),
+            "the first theory heading must name the six pieces of the integrator: expected the start " + repr("Seis piezas")
+            + ", got " + repr((s["theory"][0]["heading"])[:160]))
         self.assertIn("orden topológico** (un orden en que cada nodo va después", prose("S26-T1-A"))
         t1b = " ".join(prose("S26-T1-B").split())
         for phrase in ("Lima no tiene horario de verano", "ventana de solape", "encuentras los logs de un run"):
