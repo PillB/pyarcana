@@ -246,7 +246,9 @@ ls -l ~/.config/pyarcana/holder
 
 ### D1. Run `redeploy.sh`
 
-In Terminal, in the deploy checkout from B3:
+In Terminal, in the deploy checkout from B3. Always deploy with `redeploy.sh`, never with
+`deploy.sh` on its own: only `redeploy.sh` pulls `main` first. On 25 Nov 2026 a `deploy.sh` run
+from a checkout one merge behind put the previous commit live while GitHub Pages showed the new one.
 
 ```
 git checkout -- workers/billing/wrangler.toml
@@ -305,8 +307,10 @@ curl -s -H 'Cache-Control: no-cache' "https://pyarcana.dev/deployment.json?v=$(d
 workers/billing/e2e/live.sh anon
 ```
 
-- In the JSON, `git_sha` must match the `Deploying:` commit from D1. Do not compare it with the
-  GitHub Pages preview, which is a different site.
+- In the JSON, `git_sha` must match the `Deploying:` commit from D1 and the newest `main`:
+  `git rev-parse origin/main` (after `git fetch origin`) prints the full hash to compare. If it
+  shows an older commit, the deploy ran from a stale checkout: go back to B3. Do not compare it
+  with the GitHub Pages preview, which is a different site.
 - `live.sh anon` checks health, sign-in methods, licence keys, pages, security headers and the
   sign-up mode on the privacy page. Every line should pass. The first run installs Playwright and
   its Chromium in `workers/billing/e2e/` (not in git); it needs no Cloudflare token.
