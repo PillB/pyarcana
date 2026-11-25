@@ -3240,6 +3240,246 @@
       "reason": "Proposal 12 S23 (WEDO-15.2): a second run that succeeds must print no trace, so an unconditional trace no longer passes. Same task: attach the trace path only on failure.",
       "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 325,
+      "id": "S24-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "65a9b57eb0d5afee866a1869022012b6ef3c3377bcf484005316e24c841d14e3",
+      "to_fp": "dc108f0ac58ad8281cbd32df24c6b4e169818873f63805d7cfeead682fd70940",
+      "reason": "WEDO-01 / THEORY-03.1 (P1): the old task raised 96 to 200 with max(), the upscale the theory says recovers nothing. Same subtopic, corrected rule: flag rescan_needed when the captured dpi is below 200, on two captures.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 326,
+      "id": "S24-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "b69a4848fb6e0e9af4fa096f25219baf6e57f9d8306c0feec1cea33d6659f917",
+      "to_fp": "7f5588f884dd784dfd56a1d6072636f2f724aa624aded5daae6b820a2114a564",
+      "reason": "Proposal 12 S24 (two-fixture rule): sesgos 1.2, -0.8 and 0.3, so a missing abs() or a constant fails. Same task: deskew when abs(skew) >= 0.5.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 327,
+      "id": "S24-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "1d16df2a1c247bb69e72a4c78894fd423a0383056390fcc9e76db75e5737a267",
+      "to_fp": "fbdd6684e7b58d8ef2b78a55583c42cdd737aef891c414ccba065ba1d933ec7b",
+      "reason": "THEORY-03.1 (P1), WEDO-03.1: preprocess_meta is now a function, keeps the source dpi and returns rescan_needed, run on two images. Same contract: dpi gate, deskew flag and crop box.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 328,
+      "id": "S24-T1-B-E1",
+      "kind": "changed",
+      "from_fp": "532e07371ff7ffb5f188656500ab5264930dd950333c29733108bce99442309f",
+      "to_fp": "93794b002d8f011c0d81abf4e52ff51a00036d49213f628dd37e8111dd888687",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second page whose best rotation is 180. Same task: the key of the max score, not min.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 329,
+      "id": "S24-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "3dd50cf1b361a2995e4840e1700c523f40926b9ab4a4b291737a4fd709963dd1",
+      "to_fp": "467b4028f49610ace9e2af71e5de0c8efe12fd99f3c34784d3f19ccb46236b6d",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second vector with no noise. Same task: count flags with sum, not len.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 330,
+      "id": "S24-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "d43f04931c04d5ef0d1a4e0dea4867daf7a6150903c303c38bccfc2ae3118e14",
+      "to_fp": "218809a23cdc8357344402db0ea661742159e6da2180df09225c3742acacc4b9",
+      "reason": "WEDO-04.2: a tie in the best score now goes to manual_orient, with a second page that ties. Same task: best, score and action.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 331,
+      "id": "S24-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "b4d44bd4eb92a73bab6cf5c4c762e7c0d787b09e0095a791818412eb526e322a",
+      "to_fp": "166bba58f54d7d87f5e3844a849ccc21eef1947126757e4a1369e52fa9d485bb",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second batch with a token at exactly 0.85 and one at 0.84. Same task: keep conf >= 0.85.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 332,
+      "id": "S24-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "f1d08ee960bb144373357d99bb18e457ca738c43f24ff3989a7af4ad7aa4c2cb",
+      "to_fp": "e00a3d376c73f8c0b0889fa1cb0fc2ac30f827c0952434c3cdd8ccf51ec24abc",
+      "reason": "WEDO-08.1: the fixture now has Total and its value, so sorting by (x0, y0) gives a different order and fails. Same task: reading order by (y0, x0).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 333,
+      "id": "S24-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "bd969462ffa80d8b84fee71691d649cdf59f215a2e7b00a75609f2bc48598850",
+      "to_fp": "b633f7eac8c39573ab4446f91da96624f9c8b654c11e4dd4e13f5922c3089e7c",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second document that passes. Same task: min conf, status and weak list, no average.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 334,
+      "id": "S24-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "d6cdc1d3cb0d9717bcedefbc63e1e05c8c75604790230297fe9ec4ce54cf8761",
+      "to_fp": "190c3fde4678a6a0190f61e5ff59a41cd64087ffca63885ae51fe56c290d4cb0",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second line whose value has a colon. Same task: split once and strip both sides.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 335,
+      "id": "S24-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "981614a0b3973dc0192bde39a799522c3c042621b45f1afae0ca22b983b0ddf8",
+      "to_fp": "efa5968b3e1198d5d881adaa9e1c1e5bee53262b5f20f0b28d21845ed0f53560",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second table with three data rows. Same task: data rows are len(table) - 1.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 336,
+      "id": "S24-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "f96a2b28df70ddf5ed7bce052d7a31bfbe93dcb797091267fb0b342132d29f1e",
+      "to_fp": "bea3a5a8c33658fd1f9dcc15b402b050e53cec4bb188008fab43022a3ddf866e",
+      "reason": "WEDO-12.1/12.2: each key now has a label box and a value box, and one key has no box, so the label box or a KeyError fails. Same task: fields with the value's bbox.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 337,
+      "id": "S24-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "e7ae41b7e9adea3e0729ee671c682f2891fb9cb429350ef13bb50b7c13e2aedf",
+      "to_fp": "6b6eec597def3d31c5ebc2da43dc417a8646d0accdb4df488541ac2951c052d0",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second identifier with dots and a space. Same task: keep digits only.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 338,
+      "id": "S24-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "d627cb01b7dae2ea1cc64bfdde926a79dfd634ca2c97c0c85cb083b113e185f1",
+      "to_fp": "7673468006dd2a1e25d2f8612edad1cfdef0eb4c9d8682133a3eb63a49debbae",
+      "reason": "WEDO-14.1: 05/01/2026 added, the date the US format swaps in silence. Same task: day-first to ISO.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 339,
+      "id": "S24-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "46d4a0a6cee4eb436278064265ba510feb7f6a7eb76b7854106522458d0979e0",
+      "to_fp": "9545ae2cc7bb7653330c4c0a25dfff48fb66fbb3b087d10f72bf4c6cbc1612e4",
+      "reason": "THEORY-07.1 (P1), WEDO-15.1: the total is S/ 1,150.50 under the S16 rule (the last separator is the decimal; 1,150 raises), and the letter and short RUC cases are printed. Same task: RUC 11 and total normalised.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 340,
+      "id": "S24-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "bc7d3a2f7c783ada5af96812190e62ef90dfe0935541e013b914c697a972982e",
+      "to_fp": "24c45badb2d5b1c163767a174ccf8fb8f8104dcbf77d9af99d0ba24d8ca16f7c",
+      "reason": "Proposal 12 S24 (two-fixture rule): a second document inside the 0.01 tolerance. Same task: mismatch to needs_review.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 341,
+      "id": "S24-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "b0114140b3b229d7f772f8f536cb712ee219a475daac31f03b44240237f02276",
+      "to_fp": "b91af12638d06846d527a8bde41a06b768212b1e638c54e5805db149dfd14b59",
+      "reason": "Proposal 12 S24 (two-fixture rule), WEDO-17.2: a second document with a RUC; 'rules' is now 'reglas'. Same task: accumulate ruc_missing.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 342,
+      "id": "S24-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "def355a5defcf3176ee546938e8867d859ef35038f2d2ac9924feee70338016f",
+      "to_fp": "5161b33d6e96698aee89a58f5d47ecf106bafd09ea2e97a01a9897dd39bc3a05",
+      "reason": "WEDO-18.1: d3 without conf_ruc is added, so a default of 1.0 fails. Same task: validate with reasons and review_not_fraud.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 343,
+      "id": "S24-T4-A-E1",
+      "kind": "changed",
+      "from_fp": "2279eb58ff2583b8e0d0ff30566988e1b2884c8aa6f012adc0de16f06ef460eb",
+      "to_fp": "3a59bdd45f43a8c87d350c3297df6414c163a2107bfd4f579a787d1d9b1962eb",
+      "reason": "WEDO-19.1: a second pair (2 of 5), so a printed constant fails. Same task: correct / n.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 344,
+      "id": "S24-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "426e5bf93f8c082a1ca27fcd0254bbf8a696fda86bc83bded71a81682f634b8a",
+      "to_fp": "c255aaa4e554f0ab58c543e4b75c2126b9c27b5307ebf3764163903ead3f4ce6",
+      "reason": "WEDO-20.1: the accuracy is printed for the rows and for the rows plus one hit, so a constant fails. Same task: field accuracy over the golden.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 345,
+      "id": "S24-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "54df8130c82a1521990d601a000c48a4c7eef435cd1adcc748ff94837abf3a2f",
+      "to_fp": "121d06ea86d487f140c540a2e59147eea2dd6fe5ff26a40cc3b9931415db7c20",
+      "reason": "WEDO-21.1: a second batch with a different accuracy and coverage. Same task: acc_ruc and coverage_auto together.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 346,
+      "id": "S24-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "59836293a7fabbaac078bb3bc69d7375323cda8140b270cb02d0135f1674079d",
+      "to_fp": "027403dd7cf2e63e2f1df5053a4b9881a3cb89e66ced3901ed604c6f53b2efab",
+      "reason": "Proposal 12 S24 (two-fixture rule): a PDF that passes next to the zip. Same task: reject a mime outside the allowlist.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 347,
+      "id": "S24-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "6da66a1a4dfdac56da33383f391727a348afdc513a768cc0005ee7764de4a451",
+      "to_fp": "3be9f517a761298f4b1604012371ff4127c8ef1db41e8a66cf051cdf207512f7",
+      "reason": "WEDO-23.1: a file of exactly 5_000_000 bytes is admitted, so >= fails. Same task: reject above the cap.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 348,
+      "id": "S24-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "88f3a585b86eaba9701cc6fe7aacda7bb78fd8a23091b54f583656606c488a06",
+      "to_fp": "b075c7942c5fc733c19557d30a09b9db3f148f946dc34a030b0cd6de8d675692",
+      "reason": "WEDO-24.1, IDO-08.2: a zip with ocr_fail must be rejected at admission, and the size field is n_bytes. Same task: mime, size, then the OCR fallback.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S24 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }

@@ -133,7 +133,11 @@ import exam_bank  # noqa: E402
 #: was rewritten; distractors are misconceptions (a fixed sleep read as a wait, the download's own hash
 #: as the expected digest, the checkpoint read as idempotence, a handoff that overrides ToS), the key is
 #: longest on 6 of 24, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 846
+#: 2026-11-25: 846 -> 828. Proposal 12 S24: every rpa-advanced (OCR and Document AI) item was
+#: rewritten; distractors are misconceptions (an upscaled dpi read as a passed gate, the Peruvian
+#: comma read as a decimal, a missing confidence read as 1.0, a size cap read as a zip-bomb guard),
+#: the key is longest on 6 of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 828
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
@@ -143,9 +147,10 @@ LONGEST_IS_CORRECT_OWED = 846
 #: 2026-11-25: proposal 12 S17 repaired packaging (joins, reshape, groupby); it leaves the set.
 #: 2026-11-25: proposal 12 S20 repaired rag (Excel automation); it leaves the set.
 #: 2026-11-25: proposal 12 S22 repaired rapidfuzz-entity (email and approval); it leaves the set.
+#: 2026-11-25: proposal 12 S24 repaired rpa-advanced (OCR and Document AI); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
-    "rpa-advanced", "security-infra",
+    "security-infra",
 })
 
 

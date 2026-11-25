@@ -1139,3 +1139,22 @@ back. Read this list before a section round; every item cost at least one failed
   and the distractors were lengthened without reusing its words. Fix: one stem word moved into a
   distractor on each of those items. Guard: `exam-strategy-simulation.test.ts` holds the owed list;
   run it on a rewritten bank before calling the bank done, not only the length ratchets.
+- **A rule fixed in one section survived in another (proposal 12 S24, 25 Nov 2026).** S16 had
+  already been corrected to the es-PE money rule above, and S24 still taught the inverted one
+  ("coma decimal": `1,150.00` → 1.15 with no error, `S/ 1,150.50` → a crash on the symbol). Root
+  cause: the S16 fix searched S16, not the course; the two sections each carried their own parser.
+  Fix: S24 uses the S16 rule verbatim (the last separator is the decimal; a lone separator before
+  exactly three digits raises and the document goes to review as `total_unparsed`), and strips
+  `S/` and `PEN`. Guard: `test_proposal12_s24.PeruvianAmounts` parses the string Node prints for
+  `Intl.NumberFormat('es-PE', {style: 'currency', currency: 'PEN'})` and runs the old rule as a
+  negative control. When a fact about a locale, an API default or a unit is corrected, grep every
+  section for the old statement and the old code before closing the finding.
+- **A quality gate that can be met by editing the number teaches the opposite of the gate (S24,
+  25 Nov 2026).** The S24 prose said an upscale from 96 to 200 DPI recovers nothing, and the code
+  then did `dpi = max(dpi, 200)`, so the "dpi >= 200" check passed on every capture. Root cause:
+  the gate read a field the pipeline itself wrote. Fix: the gate reads the captured value and sets
+  `rescan_needed`; the value is never raised. The metadata key stays `dpi` because Pillow stores a
+  file's resolution as `img.info["dpi"]` even though, for a captured image, it measures pixels per
+  inch ([Pillow, image file formats](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html)).
+  Guard: no lesson code in S24 may match `max(...dpi`, and the theory test plants the upscale and
+  sees the gate pass.

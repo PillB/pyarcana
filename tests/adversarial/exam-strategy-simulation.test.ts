@@ -97,7 +97,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'opensource', 'performance-extreme',
-  'rpa-advanced', 'security-infra', 'setup',
+  'security-infra', 'setup',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
   'text-unicode-regex',
 ]
@@ -132,6 +132,8 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 2026-11-25, proposal 12 S23: computer-vision (browser RPA with Playwright) leaves "longest" the
 // same way; a first draft of its bank joined "clang" (8.0%) until four distractors took the stem
 // word the key shared. 36 -> 35.
+// 2026-11-25, proposal 12 S24: rpa-advanced (OCR and Document AI) leaves "longest" the same
+// way, with no clang cue after one distractor took the stem word the key shared. 35 -> 34.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'dbt-bigquery',

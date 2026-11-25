@@ -103,8 +103,10 @@ const STOP_WORDS = new Set(`
  * explanations; its 1 thin one is gone.
  * 2026-11-25: 461 - proposal 12 S23 rewrote all 24 computer-vision (browser RPA with Playwright)
  * explanations; its 6 thin ones are gone.
+ * 2026-11-25: 450 - proposal 12 S24 rewrote all 24 rpa-advanced (OCR and Document AI)
+ * explanations; its 11 thin ones are gone.
  */
-const THIN_RATIONALES_OWED = 461
+const THIN_RATIONALES_OWED = 450
 /** Banks where at least half the explanations (12 of 24) are thin. */
 const THIN_BANKS_OWED = 20
 /**
@@ -117,7 +119,7 @@ const THIN_BY_BANK_OWED: Record<string, number> = {
   collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 1,
   'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 0, 'stdlib-deep': 0, 'wxpython-gui': 0, packaging: 0,
   'data-engineering': 0, 'databases-orm': 0, rag: 0, fastapi: 0, 'rapidfuzz-entity': 0,
-  'computer-vision': 0, 'rpa-advanced': 11, 'streamlit-dashboards': 12, 'integrator-phase1': 15,
+  'computer-vision': 0, 'rpa-advanced': 0, 'streamlit-dashboards': 12, 'integrator-phase1': 15,
   'async-concurrency': 4, 'llm-agents': 5, mlops: 13, 'security-infra': 4, 'streaming-data': 7,
   microservices: 18, 'advanced-models': 20, 'cv-ai-integration': 11, 'system-design': 3,
   'ai-apis-advanced': 19, 'dbt-bigquery': 22, 'performance-extreme': 18, 'integrator-phase2': 18,
