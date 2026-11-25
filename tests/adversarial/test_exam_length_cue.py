@@ -129,7 +129,11 @@ import exam_bank  # noqa: E402
 #: rewritten; distractors are misconceptions (BCC read as encryption, an expired draft still usable at
 #: expires_at, approve from draft accepted, a similarity score read as fraud), the key is longest on 6
 #: of 24, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 863
+#: 2026-11-25: 863 -> 846. Proposal 12 S23: every computer-vision (browser RPA with Playwright) item
+#: was rewritten; distractors are misconceptions (a fixed sleep read as a wait, the download's own hash
+#: as the expected digest, the checkpoint read as idempotence, a handoff that overrides ToS), the key is
+#: longest on 6 of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 846
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

@@ -15,14 +15,14 @@ export const section23: CourseSection = {
   index: 23,
   title: "Browser RPA con Playwright",
   shortTitle: "Playwright RPA",
-  tagline: "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y retries selectivos con handoff",
+  tagline: "robot contra un sitio de prueba controlado, con traza de éxito y de falla, descarga verificada, reintentos selectivos y traspaso a una persona",
   estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
   icon: "Monitor",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Automatizar un sitio web controlado con Playwright significa elegir locators estables (esto es, selectores que sobreviven a rediseños), dejar traces, reintentar con criterio y preferir la API pública antes que el clic cuando exista. Aquí aprendes a hacerlo sin evadir CAPTCHA ni términos de servicio: el handoff humano es parte del contrato. En operaciones (backoffice, mesas de control) el valor es el dato verificado y auditable, no «haber automatizado el clic».",
+    "**Playwright** es una librería de Python que maneja un navegador real desde código; aquí practicas con un modelo en dicts, sin navegador. Automatizar un sitio web controlado con Playwright es **RPA** de browser (*robotic process automation*: un robot hace en pantalla lo que haría una persona). Significa elegir locators estables (esto es, selectores que sobreviven a rediseños), dejar traces, reintentar con criterio y preferir la API pública antes que el clic cuando exista. Aquí aprendes a hacerlo sin evadir un **CAPTCHA** (la prueba que distingue a una persona de un bot) ni los términos de servicio. El **handoff** humano, pasar el caso a una persona con la evidencia, es parte del contrato. En operaciones (backoffice, mesas de control) el valor es el dato verificado y auditable, no «haber automatizado el clic».",
   learningOutcomes: [
     { text: "Usar locators orientados a usuario" },
     { text: "Aplicar auto-waiting y assertions fiables" },
@@ -37,17 +37,17 @@ export const section23: CourseSection = {
     {
             heading: "Automatizar un sitio es escribir instrucciones para algo que cambia",
       paragraphs: [
-        "El reporte que necesitas está detrás de un portal: iniciar sesión, filtrar, descargar. Hacerlo a mano cada lunes es tedioso; automatizarlo es fácil de empezar y sorprendentemente fácil de romper, porque la página que describiste hoy puede tener otra estructura la semana que viene sin que nadie te avise.",
-        "De ahí sale la decisión que más determina si el robot sobrevive: cómo señalas un control. Buscarlo por su posición en el árbol de la página —el tercer div dentro del segundo formulario— funciona hasta el primer rediseño. Buscarlo por lo que **es** para quien lo usa —el botón que dice «Descargar», el campo etiquetado «Usuario»— sobrevive a los cambios de maquetado, porque esa identidad es la que el sitio no puede cambiar sin cambiar también lo que ve la persona.",
-        "El segundo problema es el tiempo. Una página moderna no termina de cargar de una vez: pide datos, dibuja, vuelve a pedir. Un robot que actúa inmediatamente encuentra un botón que todavía no existe, y la reacción instintiva —esperar tres segundos y seguir— produce lo peor de los dos mundos: lento cuando la red va bien y frágil cuando va mal. La forma correcta es esperar **una condición**: que el elemento esté ahí y sea utilizable.",
-        "Después está lo que el robot deja atrás. Una sesión abierta, un archivo descargado a medias, una pestaña colgada. Un proceso desatendido tiene que poder repetirse sin acumular basura, y tiene que dejar rastro de qué hizo — porque cuando falle a las seis de la mañana, ese rastro es lo único que habrá.",
+        "El reporte que necesitas está detrás de un portal: iniciar sesión, filtrar, descargar. Hacerlo a mano cada lunes es tedioso. Automatizarlo es fácil de empezar y sorprendentemente fácil de romper: la página que describiste hoy puede tener otra estructura la semana que viene sin que nadie te avise.",
+        "De ahí sale la decisión que más determina si el robot sobrevive: cómo señalas un control. Buscarlo por su posición en el árbol de la página —el tercer div dentro del segundo formulario— funciona hasta el primer rediseño. Buscarlo por lo que **es** para quien lo usa —el botón que dice «Descargar», el campo etiquetado «Usuario»— sobrevive a los cambios de maquetado. Esa identidad es la que el sitio no puede cambiar sin cambiar también lo que ve la persona.",
+        "El segundo problema es el tiempo. Una página moderna no termina de cargar de una vez: pide datos, dibuja, vuelve a pedir. Un robot que actúa inmediatamente encuentra un botón que todavía no existe. La reacción instintiva —esperar tres segundos y seguir— produce lo peor de los dos mundos: lento cuando la red va bien y frágil cuando va mal. La forma correcta es esperar **una condición**: que el elemento esté ahí y sea utilizable.",
+        "Después está lo que el robot deja atrás. Una sesión abierta, un archivo descargado a medias, una pestaña colgada. Un proceso desatendido tiene que poder repetirse sin acumular basura, y tiene que dejar rastro de qué hizo. Cuando falle a las seis de la mañana, ese rastro es lo único que habrá.",
         "La pregunta que atraviesa la sección es de robustez: **si la página cambia un poco, ¿esto falla de forma clara o hace algo incorrecto en silencio?** Practicas el contrato modelando el árbol de la página y la sesión con diccionarios, reproducible en cualquier máquina; la misma lógica se traslada a Playwright real cuando lo instales.",
       ],
       callout: {
         type: "info",
         title: "Dos modos de práctica",
         content:
-          "En los ejercicios calificados modelamos DOM y sesión con dicts (reproducible sin Chromium). Cuando instales Playwright en local, el mismo contrato aplica a `page.get_by_role`, downloads y traces reales. El sketch de arriba es la forma API; no se ejecuta en el grader.",
+          "En los ejercicios calificados modelamos el DOM (el árbol de elementos que el navegador construye a partir de la página) y la sesión con dicts, reproducibles sin Chromium. Cuando instales Playwright en local, el mismo contrato aplica a `page.get_by_role`, downloads y traces reales. El sketch del bloque siguiente muestra la forma de la API; no se ejecuta en la prueba automática.",
       },
      },
      {
@@ -62,7 +62,7 @@ export const section23: CourseSection = {
         language: 'python',
         title: "playwright_sketch.py",
         code: `# Solo local (requiere: pip install playwright && playwright install)
-# Muestra la forma real de la API; los ejercicios graded usan dicts equivalentes.
+# Muestra la forma real de la API; los ejercicios calificados usan dicts equivalentes.
 from playwright.sync_api import sync_playwright
 
 def export_report(base_url: str) -> str:
@@ -72,13 +72,15 @@ def export_report(base_url: str) -> str:
         page = context.new_page()
         page.goto(base_url)
         # Locator de usuario (rol + nombre), no CSS frágil
-        page.get_by_role("button", name="Exportar").click()
+        page.get_by_role("button", name="Exportar", exact=True).click()
         with page.expect_download() as dl_info:
-            page.get_by_role("link", name="Descargar reporte").click()
+            page.get_by_role("link", name="Descargar reporte", exact=True).click()
         download = dl_info.value
-        path = download.path()
+        # El archivo temporal se borra al cerrar el contexto: guárdalo antes
+        dest = f"out/{download.suggested_filename}"
+        download.save_as(dest)
         browser.close()
-        return path or ""
+        return dest
 
 # En el lab: no llames esto sin un servidor local de práctica.
 print("sketch_ready", True)
@@ -91,32 +93,49 @@ maps_to get_by_role + expect_download + trace`,
       heading: "DOM y locators orientados a usuario",
       subtopicId: "S23-T1-A",
       paragraphs: [
-        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. Cuando el layout del portal demo cambia y el rol se mantiene, el robot sigue estable: **accesibilidad = estabilidad**. En portales sintéticos PE de demo, pide `data-testid` si falta rol; el testid es contrato de producto con el equipo de UI, no un parche silencioso del robot.",
-        "Orden de estrategia didáctico: **role → label → testid → texto → CSS**. `get_by_label` va junto a `role` porque una etiqueta asociada es tan estable como el rol y suele ser más específica en formularios. El `testid` va por delante del texto —aunque el párrafo anterior los nombre en el otro orden— porque el texto cambia con cada revisión de copy y con cada idioma, mientras que un `data-testid` es un contrato acordado con el equipo de UI. CSS queda como último recurso; si solo hay CSS frágil, el producto también es menos usable para personas con lector de pantalla. Modelamos locators como consultas sobre nodos `{role, name, id}`: misma semántica en el lab con dicts y en local con Playwright real (`page.get_by_role(...)`).",
-        "Caso sintético CASO-LIM-023: botón “Descargar reporte” id `b1` se resuelve por role+name; un logo `img` sin role de control interactivo **no** sustituye al botón de negocio. `LookupError` (o `need_testid`) si no hay match enseña fallar **ruidoso** en setup — no clic ciego al primer div. Ese fallo temprano es más barato que un download silencioso del archivo equivocado.",
+        "Prefiere **get_by_role**, **get_by_label** y **get_by_test_id** antes que **get_by_text**, y todos ellos antes que CSS o XPath (un lenguaje de rutas sobre el árbol del documento) frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. Cuando el layout del portal demo cambia y el rol se mantiene, el robot sigue estable: **accesibilidad = estabilidad**. En portales sintéticos PE de demo, pide `data-testid` si falta rol; el testid es contrato de producto con el equipo de UI, no un parche silencioso del robot.",
+        "Orden de estrategia didáctico: **role → label → testid → texto → CSS**. `get_by_label` va junto a `role` porque una etiqueta asociada es tan estable como el rol y suele ser más específica en formularios. El `testid` va por delante del texto porque el texto cambia con cada revisión de copy y con cada idioma; un `data-testid` es un contrato acordado con el equipo de UI.",
+        "CSS queda como último recurso; si solo hay CSS frágil, el producto también es menos usable para personas con lector de pantalla. Modelamos locators como consultas sobre nodos `{role, name, id}`, y en el lab `name` se compara exacto.",
+        "En Playwright, por defecto, `name` busca una subcadena sin distinguir mayúsculas: `name=\"Enviar\"` también encuentra «Enviar y guardar». Con dos coincidencias el clic falla, porque los locators de Playwright son estrictos. Para igualdad exacta pasa `exact=True`; la demo de abajo imprime las dos cuentas.",
+        "Caso sintético CASO-LIM-023: link “Descargar reporte” id `l1` se resuelve por role+name; un logo `img` sin role de control interactivo **no** sustituye al botón de negocio. `LookupError` (o `need_testid`) si no hay match enseña fallar **ruidoso** en setup — no clic ciego al primer div. Ese fallo temprano es más barato que un download silencioso del archivo equivocado.",
       ],
       code: {
         language: 'python',
         title: "locators.py",
         code: `DOM = {
     "nodes": [
-        {"role": "button", "name": "Descargar reporte", "id": "b1"},
+        {"role": "link", "name": "Descargar reporte", "id": "l1"},
         {"role": "textbox", "name": "Usuario", "id": "t1"},
-        {"role": "link", "name": "Ayuda", "id": "l1"},
+        {"role": "button", "name": "Enviar", "id": "b1"},
+        {"role": "button", "name": "Enviar y guardar", "id": "b2"},
     ]
 }
 
 def get_by_role(role, name=None):
+    # Lab: name exacto, como Playwright con exact=True
     hits = [n for n in DOM["nodes"] if n["role"] == role and (name is None or n["name"] == name)]
     if not hits:
         raise LookupError(f"no {role}/{name}")
     return hits[0]
 
-btn = get_by_role("button", "Descargar reporte")
-print(btn["id"], btn["name"])
-print("prefer_role_over_css", True)`,
-        output: `b1 Descargar reporte
-prefer_role_over_css True`,
+def coincidencias_playwright(role, name, exact=False):
+    # Playwright por defecto: subcadena, sin distinguir mayúsculas
+    if exact:
+        return [n["id"] for n in DOM["nodes"] if n["role"] == role and n["name"] == name]
+    return [n["id"] for n in DOM["nodes"] if n["role"] == role and name.lower() in n["name"].lower()]
+
+link = get_by_role("link", "Descargar reporte")
+print(link["id"], link["name"])
+print("por defecto", coincidencias_playwright("button", "Enviar"))
+print("exact=True", coincidencias_playwright("button", "Enviar", exact=True))
+try:
+    get_by_role("button", "Exportar")
+except LookupError as e:
+    print("LookupError", e)`,
+        output: `l1 Descargar reporte
+por defecto ['b1', 'b2']
+exact=True ['b1']
+LookupError no button/Exportar`,
       },
       callout: {
         type: "tip",
@@ -127,18 +146,11 @@ prefer_role_over_css True`,
     },
     {
       heading: "Auto-waiting y assertions",
-      figure: {
-        id: "S23-rpa-recovery",
-        caption:
-          "Un CAPTCHA no es un fallo transitorio: es una condición de parada con traspaso humano.",
-        alt:
-          "Cuatro etapas —login, formulario, export, verificar— con una frontera tras export donde el efecto ya está en el portal.",
-      },
       subtopicId: "S23-T1-B",
       paragraphs: [
-        "Playwright **auto-espera** a que el elemento sea interactuable (visible, estable, habilitado, recibe eventos). Evita `time.sleep` fijos: un sleep de 5 s **falla en CI lento** y **desperdicia** tiempo en CI rápido. Usa `expect` con timeout explícito y condiciones de readiness del paso de negocio (título, fila de tabla, download started).",
+        "Playwright **auto-espera** a que el elemento sea interactuable (visible, estable, habilitado, recibe eventos). Evita `time.sleep` fijos: un sleep de 5 s **falla en CI lento** y **desperdicia** tiempo en CI rápido. Usa `expect` con timeout explícito y condiciones de readiness del paso de negocio (título, fila de tabla, download started). El bloque de código lo muestra con un reloj simulado: 300 ms fijos no bastan cuando la página tarda 600 ms.",
         "Las **assertions** (`expect(locator).to_be_visible()`, título esperado) documentan la **postcondición** del paso y fallan con mensaje útil. En el lab simulamos reloj y `wait_until(pred)` con un intervalo (`step`) en ms hasta timeout — misma idea que el auto-wait del runtime real.",
-        "Caso: `ready_at=250ms`, timeout 500 → ready True. Si tras N intentos no ready → `'timeout'` y adjunta **trace**. El robot del portal demo asserta título **antes** de descargar el CSV sintético; sin postcondición no hay evidencia de éxito.",
+        "Caso: `ready_at=250ms`, timeout 500 → ready True. Si tras N intentos no está listo, `wait_until` devuelve `False` (timeout) y el paso adjunta **trace**. El robot del portal demo asserta título **antes** de descargar el CSV sintético; sin postcondición no hay evidencia de éxito.",
       ],
       code: {
         language: 'python',
@@ -168,8 +180,19 @@ def poll():
     return state["ready"]
 
 ok = wait_until(poll, clock, timeout_ms=500)
-print("ready", ok, "t", clock.t)`,
-        output: `ready True t 300`,
+print("ready", ok, "t", clock.t)
+
+# Error: sleep fijo de 300 ms, en una corrida lenta donde el control llega a los 600 ms
+lento = FakeClock()
+def poll_lento():
+    return lento.t >= 600
+lento.advance(300)
+print("sleep fijo de 300 ms, listo:", poll_lento())
+# Corrección: esperar la condición, con timeout explícito
+print("wait_until, listo:", wait_until(poll_lento, lento, timeout_ms=1000), "t", lento.t)`,
+        output: `ready True t 300
+sleep fijo de 300 ms, listo: False
+wait_until, listo: True t 600`,
       },
       callout: {
         type: "warning",
@@ -183,15 +206,19 @@ print("ready", ok, "t", clock.t)`,
       subtopicId: "S23-T2-A",
       paragraphs: [
         "Flujos típicos del adaptador: **fill** campos de negocio (usuario, periodo de reporte), **set_input_files** / upload de plantilla, clic de export, esperar **download** y verificar path, tamaño o hash. En Playwright real envuelves el clic en `expect_download()`; en el lab modelamos el binario como bytes y calculamos un digest. El éxito del step **no** es “el clic no lanzó excepción”: es el **archivo correcto**.",
-        "**storage_state** (cookies y localStorage serializados) reutiliza la sesión autenticada entre corridas para no volver a iniciar sesión en cada caso. En el lab un dict `{token: 't'}` modela ese reuso: si hay token → `reuse`; si no → `login`. Nunca hardcodees contraseñas reales de bancos o SUNAT; el sandbox de CP-N2-C usa credenciales demo (`demo` / `sandbox`).",
-        "Caso PE sintético (Lima, America/Lima): form con periodo `2026-01`, upload de `plantilla.xlsx` sintética y download con `sha256` hex corto. Si el checksum no coincide con el esperado → fallo de step y paquete de evidencia (T3), nunca un “éxito silencioso” que contamine el reporte del run CP-N2-C.",
+        "**storage_state** (cookies y localStorage serializados) reutiliza la sesión autenticada entre corridas para no volver a iniciar sesión en cada caso. En el lab un dict `{token: 't'}` modela ese reuso: si hay token → `reuse`; si no → `login`. Nunca hardcodees contraseñas reales de bancos o SUNAT: el código las lee del entorno, y el sandbox de CP-N2-C usa credenciales demo (`demo` / `sandbox`).",
+        "Caso PE sintético (Lima, America/Lima): form con periodo `2026-01`, upload de `plantilla.xlsx` sintética y download con `sha256` truncado a 8 caracteres hex, el mismo largo que usan las demos y los ejercicios. Si el checksum no coincide con el esperado → fallo de step y paquete de evidencia (T3), nunca un “éxito silencioso” que contamine el reporte del run CP-N2-C. El valor esperado viene de fuera del download: del manifiesto que publica el portal, o del digest que el runbook registró en una corrida revisada.",
       ],
       code: {
         language: 'python',
         title: "form_download.py",
         code: `import hashlib
+import os
 
-session = {"storage_state": {"user": "demo"}, "files": {}}
+session = {"storage_state": {"user": "demo", "token": "t"}, "files": {}}
+
+def session_mode(state):
+    return "reuse" if state.get("token") else "login"
 
 def fill(form, **fields):
     form.update(fields)
@@ -201,18 +228,30 @@ def upload(session, name, content: bytes):
     session["files"][name] = content
     return len(content)
 
-def download(session, name):
+def download(session, name, expected):
     data = session["files"][name]
-    return {"path": f"/tmp/{name}", "sha256": hashlib.sha256(data).hexdigest()[:12], "n": len(data)}
+    sha = hashlib.sha256(data).hexdigest()[:8]
+    if sha != expected:
+        return {"ok": False, "error": "checksum_mismatch", "sha256": sha}
+    return {"ok": True, "path": f"/tmp/{name}", "sha256": sha, "n": len(data)}
 
+# La contraseña no va en el código: se lee del entorno (en el lab, la demo del sandbox)
+password = os.environ.get("PORTAL_PASSWORD", "sandbox")
+print("credencial", "entorno" if "PORTAL_PASSWORD" in os.environ else "demo del sandbox")
+print("sesion", session_mode(session["storage_state"]), "|", session_mode({}))
 form = {}
 fill(form, usuario="analista", periodo="2026-01")
+ESPERADO = "3cdfe594"  # del manifiesto del portal, no del propio download
 upload(session, "plantilla.xlsx", b"synthetic-xlsx")
-meta = download(session, "plantilla.xlsx")
 print("form", form)
-print("download", meta)`,
-        output: `form {'usuario': 'analista', 'periodo': '2026-01'}
-download {'path': '/tmp/plantilla.xlsx', 'sha256': '3cdfe594e427', 'n': 14}`,
+print("download", download(session, "plantilla.xlsx", ESPERADO))
+upload(session, "plantilla.xlsx", b"synthetic-xlsx-truncado")
+print("download", download(session, "plantilla.xlsx", ESPERADO))`,
+        output: `credencial demo del sandbox
+sesion reuse | login
+form {'usuario': 'analista', 'periodo': '2026-01'}
+download {'ok': True, 'path': '/tmp/plantilla.xlsx', 'sha256': '3cdfe594', 'n': 14}
+download {'ok': False, 'error': 'checksum_mismatch', 'sha256': '0819cd8c'}`,
       },
       callout: {
         type: "tip",
@@ -226,8 +265,8 @@ download {'path': '/tmp/plantilla.xlsx', 'sha256': '3cdfe594e427', 'n': 14}`,
       subtopicId: "S23-T2-B",
       paragraphs: [
         "Un **Page Object** (PO) encapsula selectores y acciones de una pantalla (`LoginPage.submit`, `ReportPage.open`). La idea es separar **setup de auth** (fixture `storage_state` o iniciar sesión una vez) del **test de negocio** del reporte, para no copiar el mismo fill de usuario en veinte archivos. Si el label del botón Login cambia, tocas un método — no reescribes la suite entera.",
-        "Estados de página: `anonymous` → `authenticated` (en sistemas reales puede existir `mfa_pending`; aquí el sandbox es binario). `ReportPage.open` lanza `PermissionError` si no hay sesión: el robot **captura** y reporta `denied` en vez de seguir ciego al download. Ese guard es parte del contrato del adaptador, no un detalle de UI.",
-        "Contrato de laboratorio CASO-LIM-023: `LoginPage.submit(ctx, password)` con password `sandbox` setea `ctx['auth']`; password incorrecto deja `anonymous` / `False`. El PO **no** contiene `sleeps` mágicos ni selectores CSS frágiles embebidos en el test: expone acciones que el test compone. El estado de sesión vive en el contexto (`ctx` o `storage_state`), no como atributo suelto del robot global.",
+        "Estados de página: `anonymous` → `authenticated` (en sistemas reales puede existir `mfa_pending`; aquí el sandbox tiene dos estados). En un lab con MFA no se salta el segundo factor: se pide una cuenta de prueba sin MFA o se pasa el caso a una persona. `ReportPage.open` lanza `PermissionError` si no hay sesión: el robot **captura** y reporta `denied` en vez de seguir ciego al download. Ese guard es parte del contrato del adaptador, no un detalle de UI.",
+        "Contrato de laboratorio CASO-LIM-023: `LoginPage(ctx).submit('demo', 'sandbox')` pone `ctx['auth'] = 'authenticated'`; una contraseña incorrecta deja `'anonymous'`. El estado es siempre uno de esos strings, nunca un booleano, porque un sistema real tiene un tercero (`mfa_pending`). El PO **no** contiene `sleeps` mágicos ni selectores CSS frágiles embebidos en el test: expone acciones que el test compone. El estado de sesión vive en el contexto (`ctx` o `storage_state`), no como atributo suelto del robot global.",
       ],
       code: {
         language: 'python',
@@ -268,9 +307,9 @@ auth authenticated`,
       heading: "Trace, screenshot y logs",
       subtopicId: "S23-T3-A",
       paragraphs: [
-        "Ante falla, empaqueta **trace** (zip de Playwright con pasos, red y DOM), **screenshot** y un **error** tipado (string o clase). Las keys del paquete se ordenan alfabéticamente para diffs estables en CI. Sin ese trío, el on-call (equipo de guardia) de operaciones en Lima no puede reproducir el flake del portal demo ni decidir si es selector, red o timeout de negocio.",
+        "Ante falla, empaqueta **trace** (zip de Playwright con pasos, red y DOM), **screenshot** y un **error** tipado (el nombre de la clase de la excepción, como `TimeoutError`, y su mensaje). Las keys del paquete se ordenan alfabéticamente para diffs estables en CI. Sin ese trío, el on-call (equipo de guardia) de operaciones en Lima no puede reproducir el flake del portal demo ni decidir si es selector, red o timeout de negocio.",
         "Filtra console logs por marcadores como `ERR`; el ruido de `info`/`nav ok` no debe ocultar el timeout del botón. Si `ok=False`, adjunta el path determinista `traces/{step}.zip` al paquete del step. En Playwright real activas tracing alrededor del flujo crítico y abres el zip en Trace Viewer; en el lab modelamos las mismas keys.",
-        "Caso: step `download_report` / `s1` falla → paquete con `trace` + `screenshot` + `error`. Política de disco: traces en **falla** siempre; en éxito, sample rate bajo o desactivado para no saturar el runner. Fixtures sintéticos de operaciones (Lima, America/Lima); **nunca** PII real de clientes en screenshots ni en logs del ticket.",
+        "Caso: step `download_report` / `s1` falla → paquete con `trace` + `screenshot` + `error`. Política de disco: traces en **falla** siempre. En éxito, el trace se desactiva o se muestrea, salvo en CP-N2-C, que exige un trace de éxito por run para la evidencia. Fixtures sintéticos de operaciones (Lima, America/Lima); **nunca** PII real de clientes en screenshots ni en logs del ticket.",
       ],
       screenshots: [
         { id: "s23-trace-viewer", after: 1 },
@@ -279,47 +318,59 @@ auth authenticated`,
         language: 'python',
         title: "trace_fail.py",
         code: `def on_failure(step, error, console):
-    return {
+    pkg = {
         "step": step,
-        "error": str(error),
+        "error": f"{type(error).__name__}: {error}",
         "screenshot": f"shots/{step}.png",
         "trace": f"traces/{step}.zip",
-        "console": console[-3:],
+        "console": [line for line in console if "ERR" in line][-3:],
         "ok": False,
     }
+    return dict(sorted(pkg.items()))
 
-console = ["nav ok", "fill ok", "ERR timeout button"]
+console = ["nav ok", "ERR red lenta", "fill ok", "info: retry", "ERR timeout button"]
 ev = on_failure("download_report", TimeoutError("30000ms"), console)
-print(ev["trace"], ev["console"][-1])
-print("has_screenshot", ev["screenshot"].endswith(".png"))`,
-        output: `traces/download_report.zip ERR timeout button
-has_screenshot True`,
+print("keys", list(ev))
+print(ev["error"])
+print(ev["trace"], ev["console"])`,
+        output: `keys ['console', 'error', 'ok', 'screenshot', 'step', 'trace']
+TimeoutError: 30000ms
+traces/download_report.zip ['ERR red lenta', 'ERR timeout button']`,
       },
       callout: {
         type: "tip",
         title: "Evidencia reproducible",
         content:
-          "El adaptador web de CP-N2-C exige trace de éxito y de falla que otro analista pueda abrir y reproducir.",
+          "El adaptador web de CP-N2-C exige un trace de falla y uno de éxito por run, la excepción a la política de disco, que otro analista pueda abrir y reproducir.",
       },
     },
     {
       heading: "Selectores robustos, retries y recovery",
+      figure: {
+        id: "S23-rpa-recovery",
+        caption:
+          "Un CAPTCHA no es un fallo transitorio: es una condición de parada con traspaso humano.",
+        alt:
+          "Cuatro etapas —login, formulario, export, verificar— con una frontera tras export donde el efecto ya está en el portal.",
+      },
       subtopicId: "S23-T3-B",
       paragraphs: [
-        "Retries solo para errores **transitorios** (timeout, red, 429), **nunca** para CAPTCHA, 403 de negocio ni ToS. `should_retry(kind)` codifica esa política en una sola función legible para el runbook y el grader. Tras `max_attempts` de timeout → fail con conteo de intentos, no un loop infinito que castigue al portal demo ni al runner de CI.",
+        "Retries solo para errores **transitorios** (timeout, red, 429, 503), **nunca** para CAPTCHA, 403 de negocio ni ToS. `should_retry(kind)` codifica esa política en una sola función legible para el runbook y la prueba automática. Tras `max_attempts` de timeout → fail con conteo de intentos, no un loop infinito que castigue al portal demo ni al runner de CI.",
         "Recuperación ante DOM inestable: si `err=='stale'` (nodo reemplazado tras un re-render), la action es `goto_home` o renavegar al listado — **no** `continue` sobre un handle viejo. Tras la renavegación, reobtienes el locator; reutilizar un handle de un árbol anterior es una fuente clásica de flakes en browser RPA.",
-        "Reanudación con checkpoint: el robot guarda `last_ok_step` (p. ej. `login`, `form`) y, al reintentar la corrida, salta al **siguiente** paso en vez de rehacer todo el flujo. Eso evita rehacer el flujo entero, pero no alcanza para llamarlo idempotente, y la diferencia es donde viven los incidentes: entre el momento en que el efecto ocurre en el portal y el momento en que escribes `last_ok_step` hay una ventana, y un crash ahí deja el envío hecho y el checkpoint sin escribir — al reintentar, lo envías dos veces. El checkpoint ahorra trabajo; lo que evita el duplicado es que el propio paso sea repetible sin consecuencia, porque el portal deduplica por una clave de negocio (mismo periodo, mismo export) o porque compruebas el estado antes de reenviar. Saltarte pasos previos también supone que ninguno dejó estado que el siguiente necesite.",
-        "Caso sintético CASO-LIM-023: tres timeouts seguidos → fail con `attempts=3`. Un captcha en medio no se “reintenta con otro user-agent”: va a `human_handoff` (T4). El runbook documenta `max_attempts=3`, backoff opcional y la lista de pasos seguros de reanudar frente a los que exigen revisión humana.",
+        "Reanudación con checkpoint: el robot guarda `last_ok_step` (p. ej. `login`, `form`) y, al reintentar la corrida, salta al **siguiente** paso en vez de rehacer todo el flujo. Eso ahorra trabajo, pero no hace idempotente la corrida.",
+        "Entre el momento en que el efecto ocurre en el portal y el momento en que escribes `last_ok_step` hay una ventana. Un crash ahí deja el envío hecho y el checkpoint sin escribir: al reintentar, lo envías dos veces. Lo que evita el duplicado es que el propio paso sea repetible sin consecuencia. Lo es si el portal deduplica por una clave de negocio (mismo periodo, mismo export) o si compruebas el estado antes de reenviar. Saltarte pasos previos también supone que ninguno dejó estado que el siguiente necesite.",
+        "Caso sintético CASO-LIM-023: tres timeouts seguidos → fail con `attempts=3`. Un captcha en medio no se “reintenta con otro user-agent”: va a `human_handoff` (T4). El runbook documenta `max_attempts=3`, backoff opcional y la lista de pasos seguros de reanudar frente a los que exigen revisión humana. En el código, `simulate_retry` recibe el resultado de cada intento (`None` = éxito): modela la política sin llamar a una acción real.",
       ],
       code: {
         language: 'python',
         title: "retry_policy.py",
         code: `def should_retry(err_kind):
-    return err_kind in {"timeout", "network", "429"}
+    return err_kind in {"timeout", "network", "429", "503"}
 
-def run_with_retry(fn, errors, max_attempts=3):
+def simulate_retry(outcomes, max_attempts=3):
+    # outcomes: el resultado de cada intento, en orden (None = éxito)
     attempts = 0
-    for err in errors:
+    for err in outcomes:
         attempts += 1
         if err is None:
             return {"ok": True, "attempts": attempts}
@@ -327,9 +378,9 @@ def run_with_retry(fn, errors, max_attempts=3):
             return {"ok": False, "attempts": attempts, "err": err}
     return {"ok": False, "attempts": attempts}
 
-print(run_with_retry(None, ["timeout", None]))
-print(run_with_retry(None, ["captcha"]))
-print(run_with_retry(None, ["timeout", "timeout", "timeout"]))`,
+print(simulate_retry(["timeout", None]))
+print(simulate_retry(["captcha"]))
+print(simulate_retry(["timeout", "timeout", "timeout"]))`,
         output: `{'ok': True, 'attempts': 2}
 {'ok': False, 'attempts': 1, 'err': 'captcha'}
 {'ok': False, 'attempts': 3, 'err': 'timeout'}`,
@@ -347,27 +398,29 @@ print(run_with_retry(None, ["timeout", "timeout", "timeout"]))`,
       paragraphs: [
         "Jerarquía de preferencia del adaptador: **api > export > rpa > human**. Si el sistema ofrece un endpoint o un CSV/xlsx export del **mismo** reporte, úsalo: menos flakes de UI, menos zonas grises de ToS, menos costo de operación. **RPA de browser es el último recurso de automatización**, no el default del web adapter de CP-N2-C — aunque sepas usar Playwright con maestría.",
         "Toda caída a RPA registra un `reason` (`no_api`, `export_stale`, `export_missing`, etc.) en el dict de decisión de la corrida. Ese rastro habilita el ticket de “reemplazar por API” cuando el producto madure. Documenta la decisión en el **runbook** del adaptador: qué capacidades se probaron, en qué orden y por qué se eligió el canal actual.",
-        "Caso de laboratorio: flags `api=False`, `export=True`, `rpa=True` → choice `export`. Si solo queda RPA → `method: rpa` con `reason: no_api`. El valor de negocio es el **dato verificado y auditable**, no el trofeo de “haber automatizado el clic”. En operaciones sintéticas de backoffice eso se traduce en menos páginas rotas y más tiempo para el analista humano en excepciones reales.",
+        "Caso de laboratorio: flags `api=False`, `export=True`, `rpa=True` → `method: export`. Si solo queda RPA → `method: rpa` con `reason: no_api`. El valor de negocio es el **dato verificado y auditable**, no el trofeo de “haber automatizado el clic”. En operaciones sintéticas de backoffice eso se traduce en menos páginas rotas y más tiempo para el analista humano en excepciones reales.",
       ],
       code: {
         language: 'python',
         title: "api_first.py",
         code: `def choose_integration(options):
-    # options: dict capability -> available
+    # options: capacidad -> disponible (api, export, rpa)
     if options.get("api"):
-        return "api"
-    if options.get("export_url"):
-        return "export"
-    if options.get("rpa_allowed"):
-        return "rpa"
-    return "human"
+        return {"method": "api", "reason": "api_ok"}
+    if options.get("export"):
+        return {"method": "export", "reason": "export_ok"}
+    if options.get("rpa"):
+        return {"method": "rpa", "reason": "no_api"}
+    return {"method": "human", "reason": "no_channel"}
 
-print(choose_integration({"api": True, "rpa_allowed": True}))
-print(choose_integration({"api": False, "export_url": True}))
-print(choose_integration({"api": False, "export_url": False, "rpa_allowed": False}))`,
-        output: `api
-export
-human`,
+print(choose_integration({"api": True, "rpa": True}))
+print(choose_integration({"api": False, "export": True, "rpa": True}))
+print(choose_integration({"api": False, "export": False, "rpa": True}))
+print(choose_integration({}))`,
+        output: `{'method': 'api', 'reason': 'api_ok'}
+{'method': 'export', 'reason': 'export_ok'}
+{'method': 'rpa', 'reason': 'no_api'}
+{'method': 'human', 'reason': 'no_channel'}`,
       },
       callout: {
         type: "info",
@@ -380,9 +433,9 @@ human`,
       heading: "Términos, CAPTCHA, desktop fallback y handoff humano",
       subtopicId: "S23-T4-B",
       paragraphs: [
-        "Si **ToS prohíbe** la automatización, `action=abort` (**ToS gana** sobre CAPTCHA y sobre el argumento “pero es urgente”). Si `captcha=True` y los términos permiten intervención humana, la action es **human_handoff** con payload mínimo `url` / `step` / `screenshot` — nunca scripts de evasión, granjas de captcha ni user-agents rotativos en este curso ni en operación responsable.",
+        "Si **ToS prohíbe** la automatización, `action=abort` (**ToS gana** sobre CAPTCHA y sobre el argumento “pero es urgente”). Si `captcha=True` y los términos permiten intervención humana, la action es **human_handoff** con payload mínimo `url` / `step` / `screenshot`. Nunca scripts de evasión, granjas de captcha ni user-agents rotativos en este curso ni en operación responsable.",
         "Desktop fallback (app nativa, OCR de pantalla, etc.) solo si el **contrato del sistema** lo contempla y está en el alcance del adaptador; no es una puerta trasera para evadir políticas web. El handoff debe ser actuable en minutos: un analista de operaciones en Lima abre el ticket, ve el step y la captura, y continúa sin reconstruir el contexto desde cero.",
-        "Caso PE sintético: portal demo muestra captcha de prueba → `human_handoff`; `tos_forbidden=True` → `abort` aunque también haya captcha. El matching o la validación de datos **después** del download sigue siendo evidencia de integridad del reporte, **no** prueba de fraude ni parentesco. El adaptador web de CP-N2-C respeta límites legales, de producto y de ética profesional.",
+        "Caso PE sintético: portal demo muestra captcha de prueba → `human_handoff`; `tos_forbidden=True` → `abort` aunque también haya captcha. El matching o la validación de datos **después** del download sigue siendo evidencia de integridad del reporte, **no** prueba de fraude ni de parentesco. Como en S02, los datos son campos de texto, no una afirmación genealógica. El adaptador web de CP-N2-C respeta límites legales, de producto y de ética profesional.",
       ],
       code: {
         language: 'python',
@@ -391,15 +444,23 @@ human`,
     if signals.get("tos_forbidden"):
         return {"action": "abort", "reason": "tos"}
     if signals.get("captcha"):
-        return {"action": "human_handoff", "reason": "captcha", "queue": "ops_review"}
+        return {
+            "action": "human_handoff",
+            "reason": "captcha",
+            "queue": "ops_review",
+            "url": signals.get("url"),
+            "step": signals.get("step"),
+            "screenshot": signals.get("screenshot"),
+        }
     if signals.get("ui_changed"):
         return {"action": "human_handoff", "reason": "selector_break"}
     return {"action": "continue"}
 
-print(handle_blockers({"captcha": True}))
-print(handle_blockers({"tos_forbidden": True}))
+portal = {"url": "https://demo.test/app", "step": "export", "screenshot": "shots/export.png"}
+print(handle_blockers({"captcha": True, **portal}))
+print(handle_blockers({"tos_forbidden": True, "captcha": True, **portal}))
 print(handle_blockers({}))`,
-        output: `{'action': 'human_handoff', 'reason': 'captcha', 'queue': 'ops_review'}
+        output: `{'action': 'human_handoff', 'reason': 'captcha', 'queue': 'ops_review', 'url': 'https://demo.test/app', 'step': 'export', 'screenshot': 'shots/export.png'}
 {'action': 'abort', 'reason': 'tos'}
 {'action': 'continue'}`,
       },
@@ -422,22 +483,31 @@ print(handle_blockers({}))`,
         description:
           "Resolver el botón Enviar por role+name (no por índice CSS) en un DOM sintético de dos botones.",
         preamble:
-          "Antes de automatizar el export del portal demo de CP-N2-C, el robot debe *ver* el control como lo ve un usuario (y el árbol de accesibilidad). En esta demo un DOM sintético tiene dos botones; resolvemos “Enviar” por `role` + `name`, no por posición. No escribas aún: predice qué fallaría si el layout reordena los botones y el robot usara `nth-child`. Observa la salida y el flag `locators role_first`. Misma semántica que Playwright real; el lab usa dicts sin Chromium.",
+          "Antes de automatizar el export del portal demo de CP-N2-C, el robot debe *ver* el control como lo ve un usuario (y el árbol de accesibilidad). En esta demo un DOM sintético tiene dos botones; resolvemos “Enviar” por `role` + `name`, no por posición. No escribas aún: predice qué fallaría si el layout reordena los botones y el robot usara `nth-child`. Observa qué devuelve cada estrategia tras el rediseño. Misma semántica que Playwright real; el lab usa dicts sin Chromium.",
         code: {
           language: 'python',
           title: "demo.py",
           code: `nodes = [{"role": "button", "name": "Enviar"}, {"role": "button", "name": "Cancelar"}]
 
-def by_role(role, name):
-    return next(n for n in nodes if n["role"] == role and n["name"] == name)
+def by_role(nodes, role, name):
+    hit = next((n for n in nodes if n["role"] == role and n["name"] == name), None)
+    if hit is None:
+        raise LookupError(f"no {role}/{name}")
+    return hit
 
-print(by_role("button", "Enviar")["name"])
-print("locators", "role_first")
-print("ok", True)
-`,
-          output: `Enviar
-locators role_first
-ok True`,
+print("role+name", by_role(nodes, "button", "Enviar")["name"])
+# El rediseño invierte el orden de los botones
+nuevo = list(reversed(nodes))
+print("tras el rediseño, role+name", by_role(nuevo, "button", "Enviar")["name"])
+print("tras el rediseño, primer botón", nuevo[0]["name"])
+try:
+    by_role(nuevo, "button", "Guardar")
+except LookupError as e:
+    print("LookupError", e)`,
+          output: `role+name Enviar
+tras el rediseño, role+name Enviar
+tras el rediseño, primer botón Cancelar
+LookupError no button/Guardar`,
         },
         why:
           "El usuario y ARIA ven el nombre accesible, no la jerarquía CSS: “Enviar” no es `div:nth-child(2)`. Si el layout reordena columnas y el rol se mantiene, el robot sigue estable — accesibilidad es estabilidad. Un `LookupError` ruidoso al no hallar match es preferible a un clic ciego al primer botón. En el lab modelamos locators como consultas sobre nodos; en local es `page.get_by_role`. En We Do corregirás predicados invertidos, el orden role→testid→css y el fail-closed sin control usable.",
@@ -451,26 +521,25 @@ ok True`,
         description:
           "Simular auto-wait: sondear hasta que el control esté listo en el intento 3; sin sleep fijo.",
         preamble:
-          "El portal demo a veces tarda en habilitar el botón de export. En esta demo un reloj simulado solo está listo en el intento 3: el robot espera una **condición**, no un `sleep` fijo. No escribas: predice qué valor de `visible` sale y por qué un sleep de 5 s fallaría en CI lento y desperdiciaría tiempo en CI rápido. Datos sintéticos, sin browser real; en local Playwright auto-espera usabilidad del control.",
+          "El portal demo a veces tarda en habilitar el botón de export. En esta demo el control solo está listo en el tercer sondeo: el robot espera una **condición**, no un `sleep` fijo. No escribas: predice qué intento se imprime, qué pasa si el control nunca llega, y por qué un sleep de 5 s fallaría en CI lento y desperdiciaría tiempo en CI rápido. Datos sintéticos, sin browser real; en local Playwright auto-espera usabilidad del control.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def wait_visible(max_i=5, ready_at=3):
-    for i in range(max_i):
-        if i == ready_at:
-            return i
-    return None
+          code: `def wait_visible(ready_attempt, max_attempts=5):
+    for intento in range(1, max_attempts + 1):
+        if intento == ready_attempt:
+            break
+    else:
+        return None  # el for terminó sin break: timeout
+    return intento
 
-print("visible", wait_visible())
-print("auto_wait", True)
-print("ok", True)
-`,
-          output: `visible 3
-auto_wait True
-ok True`,
+print("visible en el intento", wait_visible(3))
+print("nunca listo:", wait_visible(9))`,
+          output: `visible en el intento 3
+nunca listo: None`,
         },
         why:
-          "Playwright auto-espera usabilidad del control (visible, estable, habilitado); un sleep fijo es raíz de flakes: falla en CI lento y desperdicia tiempo en CI rápido. El lab modela el mismo contrato con un contador de intentos hasta `ready_at`. Devolver el intento en que se cumplió la condición (no la última i del for) documenta cuándo el control estuvo listo. En We Do: imprimir i al ready, for-else timeout y assertion de título más botones.",
+          "Playwright auto-espera usabilidad del control (visible, estable, habilitado); un sleep fijo es raíz de flakes: falla en CI lento y desperdicia tiempo en CI rápido. El lab modela el mismo contrato con un contador de intentos hasta `ready_attempt`. El `else` de un `for` corre solo si el loop terminó sin `break`: aquí es el timeout. Devolver el intento en que se cumplió la condición (no la última i del for) documenta cuándo el control estuvo listo. En We Do: imprimir i al ready, for-else timeout y assertion de título más botones.",
         retrospective:
           "Si puedes explicar por qué devolver el intento en que se cumplió la condición (no la última i del for) importa, ya tienes el hábito de wait por postcondición. El misconception “más sleep = más estable” no sobrevive a CI. We Do: break al ready, timeout legítimo y assert combinado del portal.",
       },
@@ -481,7 +550,7 @@ ok True`,
         description:
           "Rellenar un form de periodo, simular download y verificar el binario con sha256 truncado a 8 (contrato de integridad).",
         preamble:
-          "El adaptador de CP-N2-C no termina cuando el botón deja de lanzar excepción: termina cuando el **binario** del reporte es el esperado. Esta demo rellena un form de periodo y calcula un sha256 truncado de `b\"data\"`. No escribas: mira el dict filled y el `sha`; en el lab el checksum mismatch debe fallar con evidencia, no con éxito silencioso. Ese archivo verificado es el que S24 usará en OCR.",
+          "El adaptador de CP-N2-C no termina cuando el botón deja de lanzar excepción: termina cuando el **binario** del reporte es el esperado. Esta demo rellena un form de usuario y periodo, y compara el sha256 truncado de dos descargas con el valor esperado del manifiesto. No escribas: mira el dict filled y el `sha`; en el lab el checksum mismatch debe fallar con evidencia, no con éxito silencioso. Ese archivo verificado es el que S24 usará en OCR.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -494,15 +563,15 @@ def fill(form, **fields):
 def download_sha(blob):
     return hashlib.sha256(blob).hexdigest()[:8]
 
-form = fill({}, q="enero", periodo="2026-01")
-sha = download_sha(b"data")
+ESPERADO = "3a6eb079"  # del manifiesto del portal, no del propio download
+form = fill({}, usuario="analista", periodo="2026-01")
 print("filled", form)
-print("sha", sha)
-print("ok", True)
-`,
-          output: `filled {'q': 'enero', 'periodo': '2026-01'}
-sha 3a6eb079
-ok True`,
+for blob in (b"data", b"dat"):
+    sha = download_sha(blob)
+    print("sha", sha, "ok", sha == ESPERADO)`,
+          output: `filled {'usuario': 'analista', 'periodo': '2026-01'}
+sha 3a6eb079 ok True
+sha 947d5a35 ok False`,
         },
         why:
           "Fill de campos de negocio (periodo del reporte) y download modelado como bytes: la postcondición es hash o tamaño, no “el clic no falló”. Un checksum mismatch debe fallar el step y adjuntar evidencia, nunca un éxito silencioso que contamine CP-N2-C. En Playwright real envuelves el clic en `expect_download()`; aquí el digest es el contrato del lab. En We Do: fill completo, SHA-256 (no MD5) y reuso de sesión con storage_state conceptual.",
@@ -516,23 +585,31 @@ ok True`,
         description:
           "Encapsular el login en un Page Object que muta el contexto de sesión (auth).",
         preamble:
-          "Cuando el label del botón Login cambia, no quieres reescribir veinte tests de reporte. Esta demo encapsula el login en un Page Object que muta el **contexto** de sesión. No escribas: observa que `auth` vive en `ctx`, no como atributo suelto del robot. Mismo patrón que mapearás a `LoginPage.submit` en local con Playwright; credenciales solo demo/sandbox, nunca banco ni SUNAT.",
+          "Cuando el label del botón Login cambia, no quieres reescribir veinte tests de reporte. Esta demo encapsula el login en un Page Object que muta el **contexto** de sesión y es el único que conoce el selector del botón. No escribas: observa que `auth` vive en `ctx`, no como atributo suelto del robot, y que el rediseño se arregla en una línea. Mismo patrón que mapearás a `LoginPage.submit` en local con Playwright; credenciales solo demo/sandbox, nunca banco ni SUNAT.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `class Login:
-    def go(self, ctx):
-        ctx["auth"] = True
-        return ctx
+          code: `class LoginPage:
+    BOTON = ("button", "Ingresar")  # el único lugar que conoce el selector
 
-ctx = Login().go({})
-print("auth", ctx["auth"])
-print("page_object", True)
-print("ok", True)
-`,
-          output: `auth True
-page_object True
-ok True`,
+    def __init__(self, ctx, dom):
+        self.ctx, self.dom = ctx, dom
+
+    def submit(self, user, password):
+        role, name = self.BOTON
+        if not any(n["role"] == role and n["name"] == name for n in self.dom):
+            raise LookupError(f"no {role}/{name}")
+        ok = (user, password) == ("demo", "sandbox")
+        self.ctx["auth"] = "authenticated" if ok else "anonymous"
+        return self.ctx["auth"]
+
+ctx = {}
+print("auth", LoginPage(ctx, [{"role": "button", "name": "Ingresar"}]).submit("demo", "sandbox"))
+# El sitio renombra el botón: cambia BOTON, no los tests que llaman a submit
+LoginPage.BOTON = ("button", "Iniciar sesión")
+print("auth tras el rediseño", LoginPage({}, [{"role": "button", "name": "Iniciar sesión"}]).submit("demo", "sandbox"))`,
+          output: `auth authenticated
+auth tras el rediseño authenticated`,
         },
         why:
           "El Page Object reduce acoplamiento: un cambio de selector del botón Login toca un método, no la suite entera de reportes. El estado de sesión vive en `ctx` (análogo a storage_state), no en `self.auth` del robot global. Así separas setup de auth del test de negocio del export. En We Do: submit con password sandbox, guard denied sin sesión y transición anonymous → authenticated sin auth fantasma.",
@@ -551,22 +628,20 @@ ok True`,
           language: 'python',
           title: "demo.py",
           code: `def failure_package(step, err):
-    return {
+    pkg = {
         "step": step,
         "trace": f"traces/{step}.zip",
-        "shot": f"shots/{step}.png",
-        "error": err,
+        "screenshot": f"shots/{step}.png",
+        "error": f"{type(err).__name__}: {err}",
         "ok": False,
     }
+    return dict(sorted(pkg.items()))
 
-pkg = failure_package("export", "TimeoutError")
+pkg = failure_package("export", TimeoutError("30000ms"))
 print(pkg)
-print("keys", sorted(pkg.keys()))
-print("ok", True)
-`,
-          output: `{'step': 'export', 'trace': 'traces/export.zip', 'shot': 'shots/export.png', 'error': 'TimeoutError', 'ok': False}
-keys ['error', 'ok', 'shot', 'step', 'trace']
-ok True`,
+print("keys", list(pkg))`,
+          output: `{'error': 'TimeoutError: 30000ms', 'ok': False, 'screenshot': 'shots/export.png', 'step': 'export', 'trace': 'traces/export.zip'}
+keys ['error', 'ok', 'screenshot', 'step', 'trace']`,
         },
         why:
           "El trío mínimo trace + screenshot + error tipado hace la falla actuable para el on-call; un print suelto del mensaje no es paquete de evidencia. Keys estables permiten comparar la **forma** del paquete en CI aunque el texto del error cambie entre corridas. Paths deterministas por step (`traces/{step}.zip`) predicen el disco del runner. En We Do: keys vs. values, filtro ERR en logs y adjuntar trace solo cuando ok es False.",
@@ -580,27 +655,29 @@ ok True`,
         description:
           "Retry selectivo: un timeout se reintenta y llega a ok; un captcha va a handoff (no se reintenta).",
         preamble:
-          "No todos los errores merecen un reintento. Esta demo recorre kinds: un timeout se reintenta y llega a ok en el intento 2; un captcha va directo a `human_handoff`. No escribas: predice qué sale en cada `print` y por qué un loop infinito ante captcha es a la vez flaky y antiético. El handoff es política del adapter, no vergüenza del automatizador.",
+          "No todos los errores merecen un reintento. Esta demo recorre kinds: un timeout se reintenta y llega a ok en el intento 2; un captcha va directo a `human_handoff`. No escribas: predice qué sale en cada `print` y por qué un loop infinito ante captcha es a la vez flaky y antiético. `attempt(i)` ejecuta el paso en el intento `i` y devuelve `None` si salió bien, como en la teoría. El handoff es política del adapter, no vergüenza del automatizador.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def retry(kinds):
-    for i, k in enumerate(kinds, 1):
-        if k == "ok":
-            return i
-        if k == "captcha":
-            return "human_handoff"
-    return "exhausted"
+          code: `def should_retry(kind):
+    return kind in {"timeout", "network", "429", "503"}
 
-print(retry(["timeout", "ok"]))
-print(retry(["captcha"]))
-print("retry_ok", True)
-print("ok", True)
-`,
-          output: `2
-human_handoff
-retry_ok True
-ok True`,
+def retry(attempt, max_attempts=3):
+    for i in range(1, max_attempts + 1):
+        err = attempt(i)
+        if err is None:
+            return {"ok": True, "attempts": i}
+        if not should_retry(err):
+            action = "human_handoff" if err == "captcha" else "abort"
+            return {"ok": False, "action": action, "err": err, "attempts": i}
+    return {"ok": False, "action": "exhausted", "attempts": max_attempts}
+
+print(retry(lambda i: "timeout" if i == 1 else None))
+print(retry(lambda i: "captcha"))
+print(retry(lambda i: "timeout"))`,
+          output: `{'ok': True, 'attempts': 2}
+{'ok': False, 'action': 'human_handoff', 'err': 'captcha', 'attempts': 1}
+{'ok': False, 'action': 'exhausted', 'attempts': 3}`,
         },
         why:
           "Retries solo para fallas transitorias (timeout, 429); CAPTCHA es stop condition del contrato del adapter — handoff humano, nunca “otro user-agent” ni granja. Handoff no es fracaso de carrera: es política ética y operativa. Un loop infinito ante captcha castiga al portal y viola el runbook. En We Do: codificar `should_retry`, recovery distinta para stale vs. timeout, y `next_step` tras checkpoint `last_ok_step`.",
@@ -621,19 +698,29 @@ ok True`,
           code: `def choose_channel(opts):
     if opts.get("api"):
         return "api"
-    if opts.get("export_url"):
+    if opts.get("export"):
         return "export"
     if opts.get("rpa"):
         return "rpa"
-    return "none"
+    return "human"
 
-print(choose_channel({"api": False, "export_url": True, "rpa": True}))
-print("api_first", True)
-print("ok", True)
-`,
-          output: `export
-api_first True
-ok True`,
+def choose_channel_rpa_primero(opts):
+    # Error clásico: la skill de browser está caliente y se pregunta por rpa primero
+    if opts.get("rpa"):
+        return "rpa"
+    if opts.get("api"):
+        return "api"
+    if opts.get("export"):
+        return "export"
+    return "human"
+
+caso = {"api": False, "export": True, "rpa": True}
+print("api > export > rpa:", choose_channel(caso))
+print("rpa primero:", choose_channel_rpa_primero(caso))
+print("sin canal:", choose_channel({}))`,
+          output: `api > export > rpa: export
+rpa primero: rpa
+sin canal: human`,
         },
         why:
           "La jerarquía api > export > rpa > human codifica el criterio de diseño: mismo dato con menos UI frágil y menos riesgo de ToS. Aunque `rpa=True`, el CSV/export del reporte gana si existe. Cuando caigas a RPA, documenta reason (`no_api`) para el ticket de reemplazo. El orden de los ifs **es** la política de integración. En We Do: invertir anti-patrones de orden, cascada cuando api falta y decide con method/reason.",
@@ -647,22 +734,22 @@ ok True`,
         description:
           "Ante captcha en el portal demo, detener el robot y escalar a humano (sin bypass).",
         preamble:
-          "CAPTCHA y ToS no son “otro timeout”. Esta demo, ante `captcha: True`, detiene el robot y devuelve `human_handoff` — sin bypass ni granja. No escribas: observa que handoff es parte del **contrato** del adapter, no un fracaso de carrera. El curso y la operación responsable no resuelven captcha con bots; el analista recibe evidencia, no un dump de cookies.",
+          "CAPTCHA y ToS no son “otro timeout”. Esta demo, ante `captcha: True`, detiene el robot y devuelve `human_handoff` con su payload, sin bypass ni granja. Ante `tos_forbidden: True` aborta, aunque también haya captcha. No escribas: observa que handoff es parte del **contrato** del adapter, no un fracaso de carrera. El curso y la operación responsable no resuelven captcha con bots; el analista recibe evidencia, no un dump de cookies.",
         code: {
           language: 'python',
           title: "demo.py",
           code: `def handoff(sig):
-    if sig.get("captcha") or sig.get("tos"):
-        return "human_handoff"
-    return "continue"
+    if sig.get("tos_forbidden"):
+        return {"action": "abort", "reason": "tos"}
+    if sig.get("captcha"):
+        return {"action": "human_handoff", "url": sig["url"], "step": sig["step"], "screenshot": sig["screenshot"]}
+    return {"action": "continue"}
 
-print(handoff({"captcha": True}))
-print("no_bypass", True)
-print("ok", True)
-`,
-          output: `human_handoff
-no_bypass True
-ok True`,
+portal = {"url": "https://demo.test/app", "step": "export", "screenshot": "shots/export.png"}
+print(handoff({"captcha": True, **portal}))
+print(handoff({"captcha": True, "tos_forbidden": True, **portal}))`,
+          output: `{'action': 'human_handoff', 'url': 'https://demo.test/app', 'step': 'export', 'screenshot': 'shots/export.png'}
+{'action': 'abort', 'reason': 'tos'}`,
         },
         why:
           "Stop conditions éticas: CAPTCHA → handoff con evidencia; ToS prohibido → abort (gana sobre handoff). Handoff no se “arregla” con más retries ni con otro user-agent. El payload para el analista es mínimo y actuable (url, step, screenshot), sin secretos ni storage_state. Bypass de CAPTCHA/ToS queda fuera del curso y de la operación responsable. En We Do: ternaria correcta, prioridad ToS y keys del payload.",
@@ -721,7 +808,7 @@ print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
         preamble:
           "- **Contexto:** el equipo de UI del portal demo a veces deja solo testid o CSS; el adaptador necesita un orden de intento, no el orden alfabético del string.\n- **Meta:** ordenar estrategias con `order` (role primero, css al final).\n- **Éxito:** `['role', 'testid', 'css']` exacto.\n- **Límites:** no uses `sorted(strats)` sin `key`; no reordenes a mano el literal.",
         instruction:
-          "1. Revisa el starter: `sorted(strats)` sin key (bug).\n2. Usa `key=lambda s: order[s]`.\n3. Imprime la lista resultante.\n4. No alteres el dict `order`.",
+          "1. Revisa el starter: `sorted(strats)` sin key (bug).\n2. Usa `key=lambda s: order[s]`.\n3. Imprime la lista resultante.\n4. No alteres el dict `order`. Label y texto quedan fuera de este ejercicio: aquí ordenas tres de las cinco estrategias.",
         hint: "Usa order={...} como key de sorted, no sorted(strats) a secas.",
         hints: [
           "La política didáctica es role primero, luego testid, CSS al final.",
@@ -759,9 +846,9 @@ print(sorted(strats, key=lambda s: order[s]))`,
         kind: "transfer",
         title: "Fallar si no hay control usable",
         preamble:
-          "- **Contexto:** en setup del robot, un logo decorativo no sustituye al botón “Descargar reporte”; clicar el primer nodo contamina el run de CP-N2-C.\n- **Meta:** fallar cerrado: si no hay `button`, imprimir `need_testid` (señal para el equipo de UI).\n- **Éxito:** una línea `need_testid`.\n- **Límites:** no imprimas el name del `img`; no asumas `nodes[0]`.",
+          "- **Contexto:** en setup del robot, un logo decorativo no sustituye al botón “Descargar reporte”; clicar el primer nodo contamina el run de CP-N2-C.\n- **Meta:** fallar cerrado: si no hay `button`, imprimir `need_testid` (señal para el equipo de UI).\n- **Éxito:** dos líneas: `need_testid` para la página sin botón y `Enviar` para la que sí lo tiene.\n- **Límites:** no imprimas el name del `img`; no asumas `nodes[0]`.",
         instruction:
-          "1. Filtra `hits` por `role=='button'` (el starter ya lo prepara).\n2. Si `hits` vacío → imprime `need_testid`; si no, el name del button.\n3. Deja de imprimir `nodes[0]['name']`.\n4. Sin inventar un botón fake en el DOM.",
+          "1. Filtra `hits` por `role=='button'` (el starter ya lo prepara).\n2. Si `hits` vacío → imprime `need_testid`; si no, el name del primer button.\n3. Deja de imprimir `nodes[0]['name']`.\n4. Sin inventar un botón fake en el DOM.",
         hint: "Filtra hits por role=='button'; si la lista está vacía → need_testid.",
         hints: [
           "Un logo img no es un control interactivo de negocio.",
@@ -769,7 +856,7 @@ print(sorted(strats, key=lambda s: order[s]))`,
           "Coordina con frontend un data-testid si el producto no expone rol.",
         ],
         edgeCases: ["coordina con frontend"],
-        tests: "Stdout exacto: `need_testid`. No imprimas el name del img decorativo.",
+        tests: "Stdout exacto (2 líneas): `need_testid` y luego `Enviar`. No imprimas el name del img decorativo.",
         feedback:
           "Sin button usable la respuesta es need_testid: señal al frontend, no el name del logo. “Algo clicó” no prueba que el control de negocio exista.",
         starterCode: {
@@ -777,18 +864,27 @@ print(sorted(strats, key=lambda s: order[s]))`,
           title: "exercise.py",
           code: `# CASO-LIM-023 · sin role usable → need_testid
 # Arregla: asume primer nodo sin filtrar role
-nodes=[{'role':'img','name':'logo'}]
-hits=[n for n in nodes if n['role']=='button']
-print(nodes[0]['name'])
+paginas = [
+    [{'role':'img','name':'logo'}],
+    [{'role':'img','name':'logo'}, {'role':'button','name':'Enviar'}],
+]
+for nodes in paginas:
+    hits=[n for n in nodes if n['role']=='button']
+    print(nodes[0]['name'])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes=[{'role':'img','name':'logo'}]
-hits=[n for n in nodes if n['role']=='button']
-print(hits[0]['name'] if hits else 'need_testid')`,
-          output: `need_testid`,
+          code: `paginas = [
+    [{'role':'img','name':'logo'}],
+    [{'role':'img','name':'logo'}, {'role':'button','name':'Enviar'}],
+]
+for nodes in paginas:
+    hits=[n for n in nodes if n['role']=='button']
+    print(hits[0]['name'] if hits else 'need_testid')`,
+          output: `need_testid
+Enviar`,
         },
         retrospective:
           "Fail-closed en setup es más barato que un download silencioso del archivo equivocado. El error clásico es “algo clicó, debe estar bien”. Pregunta de cierre: ¿qué pedirías al frontend si solo hay CSS frágil?",
@@ -891,9 +987,9 @@ else:
         kind: "transfer",
         title: "Assert de portal listo (título y botones)",
         preamble:
-          "- **Contexto:** antes de descargar el CSV sintético, el adaptador debe afirmar que el portal demo está listo: título correcto **y** al menos un control usable.\n- **Meta:** implementar `assert_ready(page)` con predicado combinado.\n- **Éxito:** dos líneas `pass` luego `fail` (página buena vs. vacía con buttons=0).\n- **Límites:** no hardcodees `pass` siempre; no ignores `buttons`.",
+          "- **Contexto:** antes de descargar el CSV sintético, el adaptador debe afirmar que el portal demo está listo: título correcto **y** al menos un control usable.\n- **Meta:** implementar `assert_ready(page)` con predicado combinado.\n- **Éxito:** tres líneas `pass`, `fail`, `fail` (página buena, vacía con buttons=0, y otra página con botones).\n- **Límites:** no hardcodees `pass` siempre; no ignores `buttons`.",
         instruction:
-          "1. Completa `assert_ready`: título == `'Portal demo'` **y** `buttons >= 1`.\n2. Mantén las dos llamadas (good / empty).\n3. Imprime solo el resultado de cada una.\n4. Función reutilizable, no un if suelto en el main.",
+          "1. Completa `assert_ready`: título == `'Portal demo'` **y** `buttons >= 1`.\n2. Mantén las tres llamadas (good / empty / otra).\n3. Imprime solo el resultado de cada una.\n4. Función reutilizable, no un if suelto en el main.",
         hint: "Define assert_ready con el predicado combinado; invócala dos veces.",
         hints: [
           "Una assertion web-first documenta la postcondición completa del paso, no un solo campo.",
@@ -901,7 +997,7 @@ else:
           "En Playwright real: expect(page).to_have_title(...) y expect(get_by_role(...)).to_be_visible().",
         ],
         edgeCases: ["soft assertions fuera de alcance", "buttons=0 debe fallar"],
-        tests: "Stdout exacto (2 líneas): pass luego fail. Función reutilizable, no un if suelto hardcodeado.",
+        tests: "Stdout exacto (3 líneas): pass, fail, fail. Función reutilizable, no un if suelto hardcodeado.",
         feedback:
           "La página buena pasa; la vacía (buttons=0) falla aunque el título diga Portal demo. Una assertion web-first mira la postcondición completa, no un solo campo.",
         starterCode: {
@@ -914,8 +1010,10 @@ def assert_ready(page):
 
 good = {'title': 'Portal demo', 'buttons': 1}
 empty = {'title': 'Portal demo', 'buttons': 0}
+otra = {'title': 'Ingreso', 'buttons': 2}
 print(assert_ready(good))
 print(assert_ready(empty))
+print(assert_ready(otra))
 `,
         },
         solutionCode: {
@@ -927,9 +1025,12 @@ print(assert_ready(empty))
 
 good = {'title': 'Portal demo', 'buttons': 1}
 empty = {'title': 'Portal demo', 'buttons': 0}
+otra = {'title': 'Ingreso', 'buttons': 2}
 print(assert_ready(good))
-print(assert_ready(empty))`,
+print(assert_ready(empty))
+print(assert_ready(otra))`,
           output: `pass
+fail
 fail`,
         },
         retrospective:
@@ -983,7 +1084,7 @@ print(form)`,
         kind: "independent",
         title: "Hash SHA-256 del download",
         preamble:
-          "- **Contexto:** en CP-N2-C el runbook fija SHA-256 (truncado a 8 en el lab) para comparar el archivo del portal demo; MD5 no es el contrato del grader ni el hábito del curso.\n- **Meta:** calcular digest de `b'data'` con sha256 y truncar a 8 hex.\n- **Éxito:** `3a6eb079`.\n- **Límites:** no uses `md5`; no imprimas el digest completo.",
+          "- **Contexto:** en CP-N2-C el runbook fija SHA-256 (truncado a 8 en el lab) para comparar el archivo del portal demo. MD5 no es lo que pide la prueba del ejercicio ni el hábito del curso.\n- **Meta:** calcular digest de `b'data'` con sha256 y truncar a 8 hex.\n- **Éxito:** `3a6eb079`.\n- **Límites:** no uses `md5`; no imprimas el digest completo.",
         instruction:
           "1. Cambia `hashlib.md5` por `hashlib.sha256`.\n2. Mantén `.hexdigest()[:8]`.\n3. Imprime solo ese string.\n4. No alteres el blob de prueba.",
         hint: "hashlib.sha256(blob).hexdigest()[:8]",
@@ -1021,9 +1122,9 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
         kind: "transfer",
         title: "Reusar sesión o forzar login",
         preamble:
-          "- **Contexto:** re-loguear en cada caso multiplica flakes y tiempo de suite; Playwright guarda `storage_state` para reusar cookies entre corridas.\n- **Meta:** implementar `session_mode(state)`: con token → `reuse`, sin token → `login`.\n- **Éxito:** dos líneas `reuse` luego `login`.\n- **Límites:** no siempre `login`; no hardcodees el resultado de las dos llamadas.",
+          "- **Contexto:** re-loguear en cada caso multiplica flakes y tiempo de suite; Playwright guarda `storage_state` para reusar cookies entre corridas.\n- **Meta:** implementar `session_mode(state)`: con token → `reuse`, sin token → `login`.\n- **Éxito:** tres líneas: `reuse`, `login` y `login` (un token vacío no es sesión).\n- **Límites:** no siempre `login`; no hardcodees el resultado de las dos llamadas.",
         instruction:
-          "1. Completa el cuerpo de `session_mode` (starter siempre devuelve login).\n2. Usa `state.get('token')` para decidir.\n3. Mantén los dos `print` de prueba.\n4. Función reutilizable sobre el dict.",
+          "1. Completa el cuerpo de `session_mode` (starter siempre devuelve login).\n2. Usa `state.get('token')` para decidir.\n3. Mantén los tres `print` de prueba; el tercero pasa un token vacío.\n4. Función reutilizable sobre el dict.",
         hint: "Si ya hay token guardado se reutiliza la sesión; si no, toca autenticarse.",
         hints: [
           "storage_state en Playwright reutiliza cookies/localStorage entre tests.",
@@ -1031,7 +1132,7 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
           "La función debe servir para ambos estados: con y sin token.",
         ],
         edgeCases: ["expiry del token", "token vacío string"],
-        tests: "Stdout exacto (2 líneas): reuse luego login. Función reutilizable sobre el dict state.",
+        tests: "Stdout exacto (3 líneas): reuse, login, login. Función reutilizable sobre el dict state.",
         feedback:
           "Con token → reuse; sin token → login. Reuso de sesión es setup de auth, no test de negocio: re-loguear en cada caso multiplica flakes y tiempo de suite.",
         starterCode: {
@@ -1044,6 +1145,7 @@ def session_mode(state):
 
 print(session_mode({'token': 't'}))
 print(session_mode({}))
+print(session_mode({'token': ''}))
 `,
         },
         solutionCode: {
@@ -1053,8 +1155,10 @@ print(session_mode({}))
     return 'reuse' if state.get('token') else 'login'
 
 print(session_mode({'token': 't'}))
-print(session_mode({}))`,
+print(session_mode({}))
+print(session_mode({'token': ''}))`,
           output: `reuse
+login
 login`,
         },
         retrospective:
@@ -1066,17 +1170,17 @@ login`,
         kind: "guided",
         title: "LoginPage setea auth en el contexto",
         preamble:
-          "- **Contexto:** el sandbox de CP-N2-C autentica solo con password `sandbox` (credencial demo, no banco ni SUNAT).\n- **Meta:** en `LoginPage.submit`, setear `ctx['auth'] = (password == 'sandbox')`.\n- **Éxito:** imprime `True` tras submit con sandbox.\n- **Límites:** no hardcodees secretos reales; el estado va en `ctx`, no en `self.auth`.",
+          "- **Contexto:** el sandbox de CP-N2-C autentica solo con `demo` / `sandbox` (credencial demo, no banco ni SUNAT).\n- **Meta:** en `LoginPage.submit`, poner `ctx['auth']` en `'authenticated'` o `'anonymous'`, como en la teoría.\n- **Éxito:** imprime `authenticated` tras submit con demo/sandbox.\n- **Límites:** no hardcodees secretos reales; el estado va en `ctx`, no en `self.auth`.",
         instruction:
-          "1. Dentro de `submit`, asigna `ctx['auth']` con la comparación de password.\n2. No cambies la firma ni el print final.\n3. Llama ya existente con `'sandbox'`.\n4. Corrige solo el cuerpo del método.",
+          "1. Dentro de `submit`, asigna `self.ctx['auth']`: `'authenticated'` si user y password son `demo` y `sandbox`; si no, `'anonymous'`.\n2. No cambies la firma ni el print final.\n3. La llamada ya existe: `LoginPage(ctx).submit('demo', 'sandbox')`.\n4. Corrige solo el cuerpo del método.",
         hint: "El estado de sesión lo escribe `submit`, no el llamador: ¿qué tiene que quedar guardado en `ctx` para que el siguiente paso sepa que hubo login?",
         hints: [
           "El Page Object encapsula la acción; el estado de sesión vive en ctx.",
-          "No reescribas la firma: submit(self, ctx, password).",
+          "No reescribas la firma: ctx llega al constructor y submit recibe (user, password).",
           "Sandbox del lab: solo password 'sandbox' autentica (nunca secretos reales).",
         ],
         edgeCases: ["no hardcodees secretos reales"],
-        tests: "Stdout exacto: `True`. ctx['auth'] debe mutarse dentro de submit, no en el print.",
+        tests: "Stdout exacto: `authenticated`. ctx['auth'] debe mutarse dentro de submit, no en el print.",
         feedback:
           "El PO encapsula la acción; el print solo lee `ctx['auth']`. Si dejas `pass`, el contexto queda vacío y el test de reporte creería que no hay sesión.",
         starterCode: {
@@ -1084,12 +1188,15 @@ login`,
           title: "exercise.py",
           code: `# CASO-LIM-023 · Page Object login sandbox
 class LoginPage:
-    def submit(self, ctx, password):
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def submit(self, user, password):
         # Arregla: no setea auth en ctx
         pass
 
 ctx = {}
-LoginPage().submit(ctx, 'sandbox')
+LoginPage(ctx).submit('demo', 'sandbox')
 print(ctx.get('auth'))
 `,
         },
@@ -1097,12 +1204,17 @@ print(ctx.get('auth'))
           language: 'python',
           title: "exercise.py",
           code: `class LoginPage:
-    def submit(self, ctx, password):
-        ctx['auth'] = password == 'sandbox'
-ctx={}
-LoginPage().submit(ctx, 'sandbox')
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def submit(self, user, password):
+        ok = user == 'demo' and password == 'sandbox'
+        self.ctx['auth'] = 'authenticated' if ok else 'anonymous'
+
+ctx = {}
+LoginPage(ctx).submit('demo', 'sandbox')
 print(ctx['auth'])`,
-          output: `True`,
+          output: `authenticated`,
         },
         retrospective:
           "Auth en el contexto permite reusar el mismo PO en varios tests sin copiar selectores. El error clásico es mutar un atributo global del robot. Siguiente (E2): denegar el reporte si no hay sesión.",
@@ -1158,9 +1270,9 @@ except PermissionError:
         kind: "transfer",
         title: "Transición anonymous a authenticated",
         preamble:
-          "- **Contexto:** los estados de página guían qué acciones son legales en el adaptador; un login fallido no debe fingir sesión.\n- **Meta:** `apply_login(state, login_ok)` avanza solo si `login_ok` y state es `anonymous`.\n- **Éxito:** `authenticated` luego `anonymous` (True / False).\n- **Límites:** no siempre `authenticated`; no inventes estado MFA aquí.",
+          "- **Contexto:** los estados de página guían qué acciones son legales en el adaptador; un login fallido no debe fingir sesión.\n- **Meta:** `apply_login(state, login_ok)` avanza solo si `login_ok` y state es `anonymous`.\n- **Éxito:** `authenticated`, `anonymous` y `authenticated` (el tercero ya estaba autenticado y conserva su estado).\n- **Límites:** no siempre `authenticated`; no inventes estado MFA aquí.",
         instruction:
-          "1. Si `login_ok` y `state == 'anonymous'` → devuelve `'authenticated'`.\n2. Si no, devuelve el `state` original.\n3. Mantén los dos prints.\n4. Función pura y reutilizable.",
+          "1. Si `login_ok` y `state == 'anonymous'` → devuelve `'authenticated'`.\n2. Si no, devuelve el `state` original.\n3. Mantén los tres prints.\n4. Función pura y reutilizable.",
         hint: "Solo muta cuando login_ok es True; en False devuelve el state original.",
         hints: [
           "Los estados de página (anonymous → authenticated) guían qué acciones son legales.",
@@ -1168,7 +1280,7 @@ except PermissionError:
           "En sistemas reales puede existir mfa_pending como estado intermedio (fuera de alcance aquí).",
         ],
         edgeCases: ["mfa_pending intermedio", "doble apply idempotente"],
-        tests: "Stdout exacto (2 líneas): authenticated luego anonymous.",
+        tests: "Stdout exacto (3 líneas): authenticated, anonymous, authenticated.",
         feedback:
           "login_ok True avanza a authenticated; False deja anonymous. Auth fantasma dejaría pasar el guard del reporte con sesión inventada y contaminaría el run de CP-N2-C.",
         starterCode: {
@@ -1181,6 +1293,7 @@ def apply_login(state, login_ok):
 
 print(apply_login('anonymous', True))
 print(apply_login('anonymous', False))
+print(apply_login('authenticated', False))
 `,
         },
         solutionCode: {
@@ -1192,9 +1305,11 @@ print(apply_login('anonymous', False))
     return state
 
 print(apply_login('anonymous', True))
-print(apply_login('anonymous', False))`,
+print(apply_login('anonymous', False))
+print(apply_login('authenticated', False))`,
           output: `authenticated
-anonymous`,
+anonymous
+authenticated`,
         },
         retrospective:
           "La transición honesta evita “auth fantasma” que deja pasar el guard del reporte. El error clásico es setear authenticated en cualquier submit. Pregunta de cierre: ¿dónde pondrías `mfa_pending` en un sistema real?",
@@ -1217,7 +1332,7 @@ anonymous`,
         edgeCases: ["PII en screenshots"],
         tests: "Stdout exacto: `['error', 'screenshot', 'trace']`. Keys ordenadas, no values.",
         feedback:
-          "Keys ordenadas (error, screenshot, trace) hacen el contrato del grader y del runbook determinista. Dump de values con paths que cambian rompe CI sin aportar forma estable.",
+          "Keys ordenadas (error, screenshot, trace) hacen determinista la prueba automática del ejercicio y el runbook. Dump de values con paths que cambian rompe CI sin aportar forma estable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1235,7 +1350,7 @@ print(sorted(ev.keys()))`,
           output: `['error', 'screenshot', 'trace']`,
         },
         retrospective:
-          "Comparar la **forma** del paquete (keys) es el contrato del grader y del runbook; el texto del error puede cambiar entre corridas. El error clásico es dump de values con paths volátiles. Pregunta: ¿qué key mínima añadirías si el step es `download_report`? Siguiente (E2): filtrar ruido de logs para ver ERR.",
+          "Comparar la **forma** del paquete (keys) es lo que comprueban la prueba automática del ejercicio y el runbook; el texto del error puede cambiar entre corridas. El error clásico es dump de values con paths volátiles. Pregunta: ¿qué key mínima añadirías si el step es `download_report`? Siguiente (E2): filtrar ruido de logs para ver ERR.",
       },
       {
         id: "S23-T3-A-E2",
@@ -1250,7 +1365,7 @@ print(sorted(ev.keys()))`,
         hints: [
           "El on-call necesita ver ERR, no el stream completo de info.",
           "Una list comp con 'ERR' in l filtra sin mutar la lista original.",
-          "Imprimir los logs enteros falla el contrato del grader.",
+          "Imprimir los logs enteros no pasa la prueba del ejercicio.",
         ],
         edgeCases: ["niveles de log"],
         tests: "Stdout exacto: `['ERR timeout']`. Solo líneas que contienen ERR.",
@@ -1281,38 +1396,39 @@ print([l for l in logs if 'ERR' in l])`,
         kind: "transfer",
         title: "Adjuntar trace solo en falla",
         preamble:
-          "- **Contexto:** en falla del step `s1` el adaptador debe adjuntar un path determinista `traces/s1.zip`; en éxito no se llena el disco por defecto.\n- **Meta:** si `not ok`, setear `pkg['trace']` e imprimir el dict.\n- **Éxito:** `{'step': 's1', 'trace': 'traces/s1.zip'}`.\n- **Límites:** no adjuntes trace con ok True en este ejercicio; path fijo por step.",
+          "- **Contexto:** en falla del step `s1` el adaptador debe adjuntar un path determinista `traces/s1.zip`; en éxito no se llena el disco por defecto.\n- **Meta:** si `not ok`, setear `pkg['trace']` e imprimir el dict, para un step que falla (`s1`) y otro que sale bien (`s2`).\n- **Éxito:** dos líneas: `{'step': 's1', 'trace': 'traces/s1.zip'}` y `{'step': 's2'}`.\n- **Límites:** no adjuntes trace con ok True en este ejercicio; path fijo por step.",
         instruction:
-          "1. Tras crear `pkg`, si `not ok` asigna el path de trace.\n2. Luego imprime `pkg`.\n3. No cambies `ok=False` ni el step.\n4. Path exacto del contrato.",
-        hint: "if not ok: pkg['trace'] = 'traces/s1.zip'",
+          "1. Tras crear `pkg`, si `not ok` asigna el path `traces/{step}.zip`.\n2. Luego imprime `pkg`.\n3. No cambies la lista de corridas (`s1` falla, `s2` sale bien).\n4. Path exacto del contrato.",
+        hint: "if not ok: pkg['trace'] = f'traces/{step}.zip'",
         hints: [
           "Sin trace, el fallo del portal demo no es actuable para el on-call (equipo de guardia).",
-          "El path traces/{step}.zip debe ser determinista para el grader y para CI.",
+          "El path traces/{step}.zip debe ser determinista, para que la prueba y el CI lo encuentren igual.",
           "Solo adjunta trace cuando ok es False (política de no llenar disco).",
         ],
         edgeCases: ["retener traces N días"],
-        tests: "Stdout exacto: dict con step s1 y trace traces/s1.zip (orden de keys de inserción).",
+        tests: "Stdout exacto (2 líneas): el dict de s1 con trace traces/s1.zip y el dict de s2 sin trace (orden de keys de inserción).",
         feedback:
-          "Con ok=False el pkg incluye trace traces/s1.zip. Path determinista + adjunto solo en falla = evidencia actuable sin llenar disco en happy path.",
+          "Con ok=False el pkg de s1 incluye trace traces/s1.zip; el de s2, que salió bien, no lleva trace. Path determinista + adjunto solo en falla = evidencia actuable sin llenar disco en happy path.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-023 · adjuntar trace en falla
 # Arregla: no adjunta trace cuando ok=False
-ok=False
-pkg={'step':'s1'}
-print(pkg)
+for step, ok in (('s1', False), ('s2', True)):
+    pkg={'step':step}
+    print(pkg)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ok=False
-pkg={'step':'s1'}
-if not ok:
-    pkg['trace']='traces/s1.zip'
-print(pkg)`,
-          output: `{'step': 's1', 'trace': 'traces/s1.zip'}`,
+          code: `for step, ok in (('s1', False), ('s2', True)):
+    pkg={'step':step}
+    if not ok:
+        pkg['trace']=f'traces/{step}.zip'
+    print(pkg)`,
+          output: `{'step': 's1', 'trace': 'traces/s1.zip'}
+{'step': 's2'}`,
         },
         retrospective:
           "Trace en falla + path determinista = evidencia actuable y CI predecible. El error clásico es solo un print del error. Pregunta de cierre: ¿cuántos días retendrías traces en el runner del lab?",
@@ -1323,19 +1439,19 @@ print(pkg)`,
         kind: "guided",
         title: "Reintentar solo timeout y 429",
         preamble:
-          "- **Contexto:** en el portal demo, timeout y 429 son transitorios; CAPTCHA es stop condition ética — no se “reintenta con otro user-agent”.\n- **Meta:** `should_retry(k)` True solo para `timeout` y `429`.\n- **Éxito:** tres líneas `timeout True`, `captcha False`, `429 True`.\n- **Límites:** no incluyas captcha ni 403 de negocio en el set.",
+          "- **Contexto:** en el portal demo, timeout y 429 son transitorios; CAPTCHA es stop condition ética — no se “reintenta con otro user-agent”.\n- **Meta:** `should_retry(k)` True solo para `timeout` y `429`.\n- **Éxito:** cinco líneas `timeout True`, `captcha False`, `429 True`, `403 False`, `tos False`.\n- **Límites:** no incluyas captcha ni 403 de negocio en el set.",
         instruction:
-          "1. Quita `'captcha'` del set en `should_retry`.\n2. Mantén el loop de impresión sobre timeout, captcha, 429.\n3. No reordenes las tres líneas.\n4. Corrige solo la política.",
+          "1. Quita `'captcha'` del set en `should_retry`.\n2. Mantén el loop de impresión sobre timeout, captcha, 429, 403 y tos.\n3. No reordenes las tres líneas.\n4. Corrige solo la política.",
         hint: "Pregúntate cuáles de los tres se resuelven solos si esperas y vuelves a intentar. El que necesita a una persona no pertenece al conjunto.",
         hints: [
           "Reintentar CAPTCHA es un anti-patrón ético y técnico.",
           "Timeout y 429 son transitorios; captcha es stop condition.",
-          "El orden de impresión es timeout, captcha, 429.",
+          "El orden de impresión es timeout, captcha, 429, 403, tos.",
         ],
         edgeCases: ["no reintentar 403"],
-        tests: "Stdout exacto (3 líneas): timeout True / captcha False / 429 True.",
+        tests: "Stdout exacto (5 líneas): timeout True / captcha False / 429 True / 403 False / tos False.",
         feedback:
-          "captcha False no es un detalle del grader: es la frontera ética del robot. Timeout y 429 pueden reintentarse; reintentar captcha castiga al portal y viola la política del curso.",
+          "captcha False no es un detalle de la prueba del ejercicio: es la frontera ética del robot. Timeout y 429 pueden reintentarse; reintentar captcha castiga al portal y viola la política del curso.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1344,7 +1460,7 @@ def should_retry(k):
     # Arregla: reintenta captcha también
     return k in {'timeout', '429', 'captcha'}
 
-for k in ['timeout','captcha','429']:
+for k in ['timeout','captcha','429','403','tos']:
     print(k, should_retry(k))
 `,
         },
@@ -1353,14 +1469,16 @@ for k in ['timeout','captcha','429']:
           title: "exercise.py",
           code: `def should_retry(k):
     return k in {'timeout', '429'}
-for k in ('timeout','captcha','429'):
+for k in ('timeout','captcha','429','403','tos'):
     print(k, should_retry(k))`,
           output: `timeout True
 captcha False
-429 True`,
+429 True
+403 False
+tos False`,
         },
         retrospective:
-          "`should_retry` es el runbook en una función: solo transitorios (`timeout`, `429`). Incluir captcha en el set no es un detalle del grader — es un anti-patrón ético que castiga al portal. Pregunta: ¿por qué un 403 de negocio tampoco debería reintentarse? Siguiente (E2): recovery distinta para stale DOM vs. timeout.",
+          "`should_retry` es el runbook en una función: solo transitorios (`timeout`, `429`). Incluir captcha en el set no es un detalle de la prueba del ejercicio: es un anti-patrón ético que castiga al portal. Pregunta: ¿por qué un 403 de negocio tampoco debería reintentarse? Siguiente (E2): recovery distinta para stale DOM vs. timeout.",
       },
       {
         id: "S23-T3-B-E2",
@@ -1368,9 +1486,9 @@ captcha False
         kind: "independent",
         title: "Recover stale con goto_home",
         preamble:
-          "- **Contexto:** tras un re-render, un handle de locator viejo hace clic mal o lanza stale; seguir con `continue` perpetúa el flake.\n- **Meta:** `recover(err)`: stale → `goto_home`, timeout → `retry`.\n- **Éxito:** dos líneas `goto_home` luego `retry`.\n- **Límites:** no uses continue para stale; no unifiques todo en retry.",
+          "- **Contexto:** tras un re-render, un handle de locator viejo hace clic mal o lanza stale; seguir con `continue` perpetúa el flake.\n- **Meta:** `recover(err)`: stale → `goto_home`, timeout → `retry`, y lo desconocido (captcha incluido) → `human_handoff`.\n- **Éxito:** tres líneas `goto_home`, `retry` y `human_handoff`.\n- **Límites:** no uses continue para stale; no unifiques todo en retry.",
         instruction:
-          "1. En la rama stale, devuelve `'goto_home'` (no `'continue'`).\n2. Mantén timeout → retry.\n3. Imprime recover de stale y de timeout.\n4. No agregues ramas extra.",
+          "1. En la rama stale, devuelve `'goto_home'` (no `'continue'`).\n2. Mantén timeout → retry.\n3. Imprime recover de stale, de timeout y de captcha.\n4. No cambies la rama por defecto: lo que la función no conoce va a una persona.",
         hint: "if/elif sobre err; no uses continue para stale.",
         hints: [
           "Un handle de locator viejo tras un re-render suele fallar o hacer clic mal.",
@@ -1378,7 +1496,7 @@ captcha False
           "timeout es transitorio → retry; stale es DOM reemplazado → renavegar.",
         ],
         edgeCases: ["checkpoint de paso para reanudar", "selector_break → handoff en T4"],
-        tests: "Stdout exacto (2 líneas): goto_home luego retry.",
+        tests: "Stdout exacto (3 líneas): goto_home, retry, human_handoff.",
         feedback:
           "stale → goto_home; timeout → retry. Un solo retry ciego ante handle viejo no resetea el DOM y el flake vuelve en el siguiente clic.",
         starterCode: {
@@ -1391,10 +1509,11 @@ def recover(err):
         return 'continue'
     if err == 'timeout':
         return 'retry'
-    return 'continue'
+    return 'human_handoff'
 
 print(recover('stale'))
 print(recover('timeout'))
+print(recover('captcha'))
 `,
         },
         solutionCode: {
@@ -1405,12 +1524,14 @@ print(recover('timeout'))
         return 'goto_home'
     if err == 'timeout':
         return 'retry'
-    return 'continue'
+    return 'human_handoff'
 
 print(recover('stale'))
-print(recover('timeout'))`,
+print(recover('timeout'))
+print(recover('captcha'))`,
           output: `goto_home
-retry`,
+retry
+human_handoff`,
         },
         retrospective:
           "Stale y timeout se sienten “igual de rojos” en el log, pero piden acciones distintas: renavegar vs. reintentar el paso. El error clásico es un solo retry ciego. Luego (E3) reanudas por checkpoint sin rehacer login.",
@@ -1454,7 +1575,7 @@ print(steps[i + 1])`,
           output: `form`,
         },
         retrospective:
-          "Checkpoint `last_ok_step` hace la corrida idempotente a nivel de paso y protege al backend del portal. El error clásico es “desde el principio por si acaso”. Pregunta de cierre: ¿qué documentarías en el runbook si last_ok_step es el último step?",
+          "El checkpoint evita rehacer pasos ya confirmados; la idempotencia la da la clave de negocio del portal o la comprobación de estado antes de reenviar. El error clásico es “desde el principio por si acaso”. Pregunta de cierre: ¿qué documentarías en el runbook si last_ok_step es el último step?",
       },
       {
         id: "S23-T4-A-E1",
@@ -1561,17 +1682,17 @@ print(c)`,
         kind: "transfer",
         title: "Decidir canal con method y reason",
         preamble:
-          "- **Contexto:** sin reason, el equipo no sabe si RPA es temporal; `no_api` habilita el ticket de “reemplazar por API”.\n- **Meta:** `decide(caps)` → dict method/reason; export gana sobre rpa cuando export=True.\n- **Éxito:** dos dicts: rpa/no_api luego export/export_ok.\n- **Límites:** no siempre rpa; evalúa api y export antes.",
+          "- **Contexto:** sin reason, el equipo no sabe si RPA es temporal; `no_api` habilita el ticket de “reemplazar por API”.\n- **Meta:** `decide(caps)` → dict method/reason; export gana sobre rpa cuando export=True.\n- **Éxito:** tres dicts: rpa/no_api, export/export_ok y api/api_ok.\n- **Límites:** no siempre rpa; evalúa api y export antes.",
         instruction:
-          "1. Si api → method api reason api_ok (en la función; los prints de prueba no lo cubren).\n2. Si export → export / export_ok.\n3. Si rpa_allowed → rpa / no_api.\n4. Mantén los dos prints del starter.",
+          "1. Si api → method api reason api_ok.\n2. Si export → export / export_ok.\n3. Si rpa → rpa / no_api.\n4. Mantén los tres prints del starter.",
         hint: "Evalúa api primero, luego export, luego rpa con reason.",
         hints: [
           "Sin reason el equipo no sabe si RPA es temporal o permanente.",
           "reason='no_api' habilita el ticket de 'reemplazar por API'.",
-          "Con export disponible no debes caer a RPA aunque rpa_allowed=True.",
+          "Con export disponible no debes caer a RPA aunque rpa=True.",
         ],
         edgeCases: ["ticket de reemplazo API", "export_stale como reason alternativo"],
-        tests: "Stdout exacto (2 líneas de dict): rpa/no_api luego export/export_ok.",
+        tests: "Stdout exacto (3 líneas de dict): rpa/no_api, export/export_ok, api/api_ok.",
         feedback:
           "Primera decisión: RPA con reason `no_api`. Segunda: export con `export_ok`. RPA silencioso sin reason no habilita el ticket de reemplazo por API en la reunión de ops.",
         starterCode: {
@@ -1582,8 +1703,9 @@ print(c)`,
 def decide(caps):
     return {'method': 'rpa', 'reason': 'no_api'}
 
-print(decide({'api': False, 'export': False, 'rpa_allowed': True}))
-print(decide({'api': False, 'export': True, 'rpa_allowed': True}))
+print(decide({'api': False, 'export': False, 'rpa': True}))
+print(decide({'api': False, 'export': True, 'rpa': True}))
+print(decide({'api': True, 'export': True, 'rpa': True}))
 `,
         },
         solutionCode: {
@@ -1594,14 +1716,16 @@ print(decide({'api': False, 'export': True, 'rpa_allowed': True}))
         return {'method': 'api', 'reason': 'api_ok'}
     if caps.get('export'):
         return {'method': 'export', 'reason': 'export_ok'}
-    if caps.get('rpa_allowed'):
+    if caps.get('rpa'):
         return {'method': 'rpa', 'reason': 'no_api'}
     return {'method': 'human', 'reason': 'no_channel'}
 
-print(decide({'api': False, 'export': False, 'rpa_allowed': True}))
-print(decide({'api': False, 'export': True, 'rpa_allowed': True}))`,
+print(decide({'api': False, 'export': False, 'rpa': True}))
+print(decide({'api': False, 'export': True, 'rpa': True}))
+print(decide({'api': True, 'export': True, 'rpa': True}))`,
           output: `{'method': 'rpa', 'reason': 'no_api'}
-{'method': 'export', 'reason': 'export_ok'}`,
+{'method': 'export', 'reason': 'export_ok'}
+{'method': 'api', 'reason': 'api_ok'}`,
         },
         retrospective:
           "Documentar method+reason es el artefacto de gobernanza del adaptador. El error clásico es RPA silencioso sin ticket de reemplazo. Pregunta de cierre: ¿qué reason pondrías si el export existe pero está stale?",
@@ -1619,12 +1743,12 @@ print(decide({'api': False, 'export': True, 'rpa_allowed': True}))`,
         hints: [
           "CAPTCHA es stop condition ética: no se reintenta ni se resuelve con bots.",
           "El starter invierte la ternaria y además solo prueba un caso: corrige ambos.",
-          "El handoff debe incluir evidencia (url/step/screenshot) en el You Do.",
+          "El handoff debe incluir evidencia (url, step, screenshot), como el payload del ejercicio E3.",
         ],
         edgeCases: ["no resolver captcha en bot", "False debe permitir continue"],
         tests: "Stdout exacto (2 líneas): human_handoff luego continue.",
         feedback:
-          "`continue` con captcha activo es el defecto más grave del adaptador: silencia una frontera legal/ética. Ambos casos (True → handoff, False → continue) deben quedar en el contrato del grader.",
+          "`continue` con captcha activo es el defecto más grave del adaptador: silencia una frontera legal/ética. Ambos casos (True → handoff, False → continue) deben quedar en la prueba del ejercicio.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1696,12 +1820,12 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
         preamble:
           "- **Contexto:** el ticket de handoff debe permitir a un analista de ops en Lima continuar en minutos: url, step y screenshot — sin cookies ni passwords.\n- **Meta:** imprimir keys ordenadas del payload y el step.\n- **Éxito:** `['screenshot', 'step', 'url'] export`.\n- **Límites:** no imprimas solo el step; no agregues secretos al payload.",
         instruction:
-          "1. Imprime `sorted(payload.keys())` y `payload['step']` en un print.\n2. Mantén el dict del starter.\n3. No filtres keys a mano.\n4. Contrato exacto del grader (espacio entre lista y step).",
+          "1. Imprime `sorted(payload.keys())` y `payload['step']` en un print.\n2. Mantén el dict del starter.\n3. No filtres keys a mano.\n4. Salida exacta esperada: la lista y el step en la misma línea, separados por un espacio.",
         hint: "Imprime las claves en orden alfabético y, aparte, el valor de `step`.",
         hints: [
           "El ticket de handoff debe ser actuable en minutos, no un dump de sesión.",
           "No incluyas passwords ni storage_state en el payload público.",
-          "sorted(keys) + step export es el contrato exacto del grader.",
+          "Un solo print con dos argumentos: print(sorted(payload.keys()), payload['step']). Dos print darían dos líneas.",
         ],
         edgeCases: ["sin cookies en el ticket público"],
         tests: "Stdout exacto: `['screenshot', 'step', 'url'] export` (keys sorted + step).",
@@ -1731,13 +1855,13 @@ print(sorted(payload.keys()), payload['step'])`,
   youDo: {
     title: "Robot de prueba con trace (web adapter CP-N2-C)",
     context:
-      "Tras el borrador con aprobación humana de S22, el run CP-N2-C necesita un **reporte verificado** desde un portal de práctica. Automatiza un portal sintético (DOM en dicts; opcionalmente Playwright local con el sketch de la teoría): iniciar sesión vía Page Object, descarga con hash, retry solo de timeouts, stop en captcha/ToS, y evidencia de éxito + falla forzada. Entrega además un runbook corto en es-PE y el contrato de `last_ok_step` para reanudar sin doble envío. En S24 ese binario alimentará OCR/Document AI.",
+      "Tras el borrador con aprobación humana de S22, el run CP-N2-C necesita un **reporte verificado** desde un portal de práctica. Automatiza un portal sintético (DOM en dicts; opcionalmente Playwright local con el sketch de la teoría). El flujo: iniciar sesión vía Page Object, descarga con hash, retry solo de timeouts, stop en captcha/ToS, y evidencia de éxito + falla forzada. Entrega además un runbook corto en es-PE y el contrato de `last_ok_step` para reanudar sin doble envío. En S24 ese binario alimentará OCR/Document AI.",
     objectives: [
       "Locators por rol (accesibles) en el flujo de descarga — a11y = estabilidad",
       "Download con verificación de integridad (hash o tamaño)",
       "Retry solo transitorios + handoff en captcha / abort en ToS",
       "Paquete de evidencia trace/screenshot/error por step",
-      "Checkpoint last_ok_step documentado para reanudación idempotente a nivel de paso",
+      "Checkpoint last_ok_step documentado; la idempotencia depende de la clave de negocio o de la comprobación de estado",
     ],
     requirements: [
       "Sitio de prueba controlado o simulación con dicts (sin red a bancos/SUNAT reales)",
@@ -1763,8 +1887,11 @@ def by_role(role, name):
     return next(n for n in DOM if n["role"] == role and n["name"] == name)
 
 class LoginPage:
-    def submit(self, ctx, user, password):
-        # Completa: autenticar solo con demo/sandbox; mutar ctx['auth'] a True/False
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def submit(self, user, password):
+        # Completa: autenticar solo con demo/sandbox; poner self.ctx['auth'] en 'authenticated' o 'anonymous'
         pass
 
 def verify_download(blob: bytes) -> str:
@@ -1774,16 +1901,18 @@ def should_retry(kind: str) -> bool:
     return kind in {"timeout", "network", "429"}
 
 def on_blocker(signals: dict) -> str:
-    if signals.get("tos"):
+    if signals.get("tos_forbidden"):
         return "abort"
     if signals.get("captcha"):
         return "human_handoff"
     return "continue"
 
-def evidence(step: str, ok: bool, error: str | None = None) -> dict:
+def evidence(step: str, ok: bool, error: str | None = None, keep_trace: bool = False) -> dict:
+    # Falla: trace siempre. Éxito: solo el trace muestreado que CP-N2-C exige por run
     pkg = {"step": step, "ok": ok}
-    if not ok:
+    if not ok or keep_trace:
         pkg["trace"] = f"traces/{step}.zip"
+    if not ok:
         pkg["screenshot"] = f"shots/{step}.png"
         pkg["error"] = error or "unknown"
     return pkg
@@ -1796,19 +1925,22 @@ def next_step(last_ok_step: str | None) -> str:
 
 # --- Corrida de aceptación (completa login; el resto ya modela el contrato) ---
 ctx = {}
-LoginPage().submit(ctx, "demo", "sandbox")
+LoginPage(ctx).submit("demo", "sandbox")
+# Valor esperado: viene del manifiesto del portal de práctica, no del propio download
+EXPECTED_SHA = "3e1a231b"
 blob = b"synthetic-report-xlsx"
 sha = verify_download(blob)
 print("auth", ctx.get("auth"))
 print("export_btn", by_role("button", "Exportar")["id"])
 print("download_link", by_role("link", "Descargar reporte")["id"])
-print("sha", sha)
+print("sha", sha, "ok", sha == EXPECTED_SHA)
+print("sha_truncado_ok", verify_download(b"synthetic-report-xls") == EXPECTED_SHA)
 print("blocker_captcha", on_blocker({"captcha": True}))
-print("blocker_tos", on_blocker({"tos": True}))
+print("blocker_tos", on_blocker({"tos_forbidden": True, "captcha": True}))
 print("retry_timeout", should_retry("timeout"))
 print("retry_captcha", should_retry("captcha"))
 print("evidence_fail", evidence("export", False, "TimeoutError"))
-print("evidence_ok", evidence("export", True))
+print("evidence_ok", evidence("export", True, keep_trace=True))
 print("resume_after_login", next_step("login"))
 # Runbook es-PE: last_ok_step, política captcha/ToS, por qué no hubo API/export, puente a OCR (S24)
 `,
@@ -1843,14 +1975,14 @@ print("resume_after_login", next_step("login"))
       },
       {
         question: "API/export primero significa:",
-        options: ["Automatizar la UI primero y migrar a la API si falla", "Buscar integración no-UI antes de automatizar el browser", "Pedir al proveedor una API antes de empezar el proyecto", "Usar la UI solo cuando el volumen sea bajo"],
+        options: ["Automatizar la UI primero y migrar a la API si falla", "Buscar integración no-UI antes de automatizar el browser", "Pedir al proveedor una API solo después de automatizar la UI", "Usar la UI solo cuando el volumen sea bajo"],
         correctIndex: 1,
         explanation:
           "Jerarquía api > export > rpa > human: RPA es último recurso de automatización.",
       },
       {
         question: "Un retry seguro reintenta:",
-        options: ["Cualquier error, siempre que el reintento sea idempotente", "Todo salvo los 5xx, que indican un fallo del servidor", "Los 403, porque suelen resolverse cambiando de user-agent", "Solo fallas transitorias (timeout/red/429), no captcha ni 403 de negocio"],
+        options: ["Cualquier error, siempre que el reintento sea idempotente", "Todo salvo los 5xx, que indican un fallo del servidor", "Los 403, porque suelen resolverse cambiando de user-agent", "Solo fallas transitorias (timeout, red, 429 o 503), no captcha ni 403 de negocio"],
         correctIndex: 3,
         explanation:
           "Retry selectivo evita loops dañinos y respeta stop conditions éticas.",
@@ -1877,8 +2009,8 @@ print("resume_after_login", next_step("login"))
           "El éxito del step es el binario correcto, no solo el clic. Checksum mismatch → fallo con evidencia.",
       },
       {
-        question: "Si last_ok_step='login' y los steps son login → form → export, ¿qué debe ejecutar el robot al reanudar?",
-        options: ["Volver a login: la sesión pudo expirar entre corridas", "export, porque form ya quedó implícito al guardar el paso", "Reiniciar desde el principio para dejar el estado limpio", "form (el siguiente step), evitando el doble envío del login"],
+        question: "Si last_ok_step='login', la sesión sigue activa y los steps son login → form → export, ¿qué debe ejecutar el robot al reanudar?",
+        options: ["Volver a login: la sesión pudo expirar entre corridas", "export, porque form ya quedó implícito al guardar el paso", "Reiniciar desde el principio para dejar el estado limpio", "form (el siguiente step), sin reenviar el paso ya completado"],
         correctIndex: 3,
         explanation:
           "La reanudación por checkpoint salta al siguiente paso tras `last_ok_step`; rehacer login/form puede enviar dos veces el formulario al portal.",
