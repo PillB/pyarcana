@@ -49,7 +49,7 @@ if (process.env.FAKE_BUILD_FAIL === "1") { console.error("build failed"); proces
 const base = process.env.FAKE_BUILD_MODE === "current" ? (env || "/pyarcana") : (env ?? "/pyarcana");
 mkdirSync("out", { recursive: true });
 writeFileSync("out/index.html", "<html></html>");
-writeFileSync("out/deployment.json", JSON.stringify({ schema_version: 1, base_path: base }, null, 2) + "\\n");
+writeFileSync("out/deployment.json", JSON.stringify({ schema_version: 1, git_sha: "1234567890abcdef1234567890abcdef12345678", base_path: base }, null, 2) + "\\n");
 // The privacy page as AccountEditionPrivacy renders it from NEXT_PUBLIC_HOLDER_* (React escapes text;
 // FAKE_DROP_NAME stands for a build that lost the name).
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
@@ -131,6 +131,12 @@ function run(t, script, options = {}) {
     FAKE_WRANGLER_STATE: t.stateFile,
     FAKE_LOG: t.log,
     PYARCANA_CF_API: CF_API,
+    // deploy.sh's commit check needs a git checkout at origin/main; most trees here are not git, so
+    // it is skipped by default and tested on its own below. The live check reads the fake site.
+    PYARCANA_DEPLOY_ANY_COMMIT: "1",
+    PYARCANA_LIVE_URL: `${CF_API}/live/${encodeURIComponent(t.root)}`,
+    PYARCANA_LIVE_TRIES: "2",
+    PYARCANA_LIVE_WAIT_MS: "0",
     ...options.env
   };
   for (const [key, value] of Object.entries(env)) {
@@ -526,7 +532,7 @@ const afterPrompt = (out) => out.slice(out.indexOf("Paste your Cloudflare API to
  * @returns {Promise<{status: number, out: string, state: Object}>} Result.
  */
 function runTyped(t, answers, env) {
-  const full = { PATH: `${t.bin}:${process.env.PATH}`, HOME: t.root, SHELL: "/bin/bash", TERM: "dumb", PYARCANA_WRANGLER: path.join(t.bin, "wrangler"), FAKE_WRANGLER_STATE: t.stateFile, FAKE_LOG: t.log, PYARCANA_CF_API: CF_API, ...env };
+  const full = { PATH: `${t.bin}:${process.env.PATH}`, HOME: t.root, SHELL: "/bin/bash", TERM: "dumb", PYARCANA_WRANGLER: path.join(t.bin, "wrangler"), FAKE_WRANGLER_STATE: t.stateFile, FAKE_LOG: t.log, PYARCANA_CF_API: CF_API, PYARCANA_DEPLOY_ANY_COMMIT: "1", PYARCANA_LIVE_URL: `${CF_API}/live/${encodeURIComponent(t.root)}`, PYARCANA_LIVE_TRIES: "2", PYARCANA_LIVE_WAIT_MS: "0", ...env };
   for (const [key, value] of Object.entries(full)) {
     if (value === undefined) {
       delete full[key];
@@ -613,7 +619,7 @@ function deployCheckout() {
   return t;
 }
 
-const redeploy = (t, opts = {}) => run(t, "redeploy.sh", { ...opts, env: { ...GIT_ENV, ...(opts.env || {}) } });
+const redeploy = (t, opts = {}) => run(t, "redeploy.sh", { ...opts, env: { ...GIT_ENV, PYARCANA_DEPLOY_ANY_COMMIT: undefined, ...(opts.env || {}) } });
 
 test("redeploy.sh stops on the wrong branch, and with other local changes, before touching anything", () => {
   const t = deployCheckout();
@@ -731,4 +737,77 @@ test("setup.sh accepts an account-owned token (verified on the account's own end
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /Cloudflare accepts the token \(active\)/);
   rmSync(t.root, { recursive: true, force: true });
+});
+
+// --- what goes live (25 Nov 2026) -----------------------------------------------------------------
+// A redeploy put a8a2c2b2 on pyarcana.dev, a main from before PR 190, while main and GitHub Pages had
+// the merge. deploy.sh built whatever was checked out and never looked at what the site then served.
+
+const deployCheckoutWithId = () => {
+  const t = deployCheckout();
+  const toml = path.join(t.billing, "wrangler.toml");
+  writeFileSync(toml, readFileSync(toml, "utf8").replace("TODO_REPLACE_WITH_D1_DATABASE_ID", UUID));
+  return t;
+};
+const gitDeploy = (t, env = {}) => run(t, "deploy.sh", { env: { ...GIT_ENV, PYARCANA_DEPLOY_ANY_COMMIT: undefined, ...env } });
+
+test("deploy.sh refuses a checkout behind origin/main before building, and names both commits", () => {
+  const t = deployCheckoutWithId();
+  const r = gitDeploy(t);
+  assert.notEqual(r.status, 0, "a stale checkout must not deploy");
+  assert.match(r.out, /STOP: this checkout is at [0-9a-f]+ first, but origin\/main is at [0-9a-f]+ the new work/);
+  assert.match(r.out, /redeploy\.sh/);
+  assert.doesNotMatch(r.log, /static-build/, "no build");
+  assert.deepEqual(r.state.deploys, [], "no deploy");
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("deploy.sh at origin/main deploys, and PYARCANA_DEPLOY_ANY_COMMIT=1 deploys a stale checkout on purpose, saying so", () => {
+  const t = deployCheckoutWithId();
+  git(t.root, "pull", "-q", "--ff-only", "origin", BRANCH);
+  const ok = gitDeploy(t);
+  assert.equal(ok.status, 0, ok.out);
+  assert.match(ok.out, /Deploying [0-9a-f]+ the new work .*the current origin\/main/);
+  git(t.root, "checkout", "-q", "HEAD~1"); // behind origin/main again, keeping the local D1 id
+  const forced = gitDeploy(t, { PYARCANA_DEPLOY_ANY_COMMIT: "1" });
+  assert.equal(forced.status, 0, forced.out);
+  assert.match(forced.out, /Commit check SKIPPED \(PYARCANA_DEPLOY_ANY_COMMIT=1\)/);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("deploy.sh refuses a tree outside git, and local changes besides wrangler.toml", () => {
+  const outside = deployable();
+  const r = run(outside, "deploy.sh", { env: { PYARCANA_DEPLOY_ANY_COMMIT: undefined } });
+  assert.notEqual(r.status, 0);
+  assert.match(r.out, /REFUSED: .* is not a git checkout/);
+  assert.deepEqual(r.state.deploys, []);
+  rmSync(outside.root, { recursive: true, force: true });
+  const t = deployCheckoutWithId();
+  git(t.root, "pull", "-q", "--ff-only", "origin", BRANCH);
+  writeFileSync(path.join(t.root, "package.json"), '{"name":"changed"}\n');
+  const dirty = gitDeploy(t);
+  assert.notEqual(dirty.status, 0);
+  assert.match(dirty.out, /STOP: this checkout has local changes besides workers\/billing\/wrangler\.toml/);
+  assert.deepEqual(dirty.state.deploys, []);
+  rmSync(t.root, { recursive: true, force: true });
+});
+
+test("after deploying, deploy.sh confirms the site serves the commit it built, and fails loudly when it does not", () => {
+  const same = deployable();
+  const ok = run(same, "deploy.sh");
+  assert.equal(ok.status, 0, ok.out);
+  assert.match(ok.out, /serves 12345678, the commit this deploy built/);
+  rmSync(same.root, { recursive: true, force: true });
+
+  const stale = deployable();
+  writeFileSync(path.join(stale.root, "live.json"), JSON.stringify({ git_sha: "a8a2c2b2bfbcdef7abada8554e9923839b71f5d2" }));
+  const r = run(stale, "deploy.sh");
+  assert.notEqual(r.status, 0, "a site still on the old commit must fail the deploy");
+  assert.match(r.out, /FAILED: after 2 tries .* still names a8a2c2b2, not 12345678/);
+  assert.equal(r.state.deploys.length, 1, "the Worker was deployed: the failure is about what the site serves");
+
+  const skipped = run(stale, "deploy.sh", { env: { PYARCANA_SKIP_LIVE_CHECK: "1" } });
+  assert.equal(skipped.status, 0, skipped.out);
+  assert.match(skipped.out, /Live check SKIPPED/);
+  rmSync(stale.root, { recursive: true, force: true });
 });

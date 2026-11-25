@@ -12,6 +12,7 @@ import {
   d1IdFromCreate,
   d1IdFromList,
   extractJson,
+  liveShaVerdict,
   parseAdminEmails,
   parseHolder,
   privacyHtmlProblems,
@@ -104,4 +105,16 @@ test("privacyHtmlProblems: open needs the escaped name and address and no closed
   assert.deepEqual(privacyHtmlProblems(open + "<p>no abrimos cuentas nuevas</p>", holder), ['the page still says "no abrimos cuentas nuevas"']);
   assert.deepEqual(privacyHtmlProblems("<p>Hasta entonces, no abrimos cuentas nuevas al público.</p>", null), []);
   assert.equal(privacyHtmlProblems(open, null).length, 1, "a page naming a holder while the deploy is closed is refused");
+});
+
+// deploy.sh's live check (25 Nov 2026: pyarcana.dev served a8a2c2b2 after a redeploy, unnoticed).
+test("liveShaVerdict: the same commit passes; another commit or an unreadable answer never does", () => {
+  const a = JSON.stringify({ git_sha: "a".repeat(40) });
+  const b = JSON.stringify({ git_sha: "b".repeat(40) });
+  assert.equal(liveShaVerdict(a, a).kind, "same");
+  assert.equal(liveShaVerdict(a, b).kind, "other", "the stale site of 25 Nov must be caught");
+  for (const live of ["", "<!DOCTYPE html>", "{}", JSON.stringify({ git_sha: "a8a2c2b2" }), JSON.stringify({ git_sha: "A".repeat(40) })]) {
+    assert.equal(liveShaVerdict(a, live).kind, "unreadable", `live ${JSON.stringify(live)} is not a commit`);
+  }
+  assert.equal(liveShaVerdict("{}", a).kind, "unreadable", "a build with no git_sha cannot be compared");
 });

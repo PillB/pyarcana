@@ -11,7 +11,14 @@
 #      out/; it is what `bun run build:static` runs, minus bun's folder walk, below), and
 #      refuse unless out/deployment.json says the site was built at the root;
 #   3. `node scripts/cloud-headers.mjs out` when that script exists (out/_headers, out/ads.txt);
-#   4. `wrangler deploy` from workers/billing/.
+#   4. `wrangler deploy` from workers/billing/;
+#   5. wait until https://pyarcana.dev/deployment.json names the commit just built (ops.mjs live-sha).
+#
+# Before step 2 it refuses a checkout that is not exactly origin/main (PYARCANA_DEPLOY_BRANCH), or
+# that has local changes besides wrangler.toml: on 25 Nov 2026 a redeploy shipped a8a2c2b2, a main
+# from before PR 190, and nothing said so. redeploy.sh pulls first, so it always passes this check.
+# PYARCANA_DEPLOY_ANY_COMMIT=1 deploys whatever is checked out (a rollback), and says so.
+# PYARCANA_SKIP_LIVE_CHECK=1 skips step 5; PYARCANA_LIVE_URL points it at another origin.
 #
 # Sign-up and the data bank's holder (round of 19 Oct 2026, item 3): the holder's NAME, ADDRESS
 # and optional RUC live in a file on this computer, never in the repository (it is public):
@@ -47,6 +54,29 @@ Run workers/billing/scripts/setup.sh first: it writes this account's ids into yo
 fi
 
 cd "$ROOT"
+
+# The commit: exactly the deploy branch as GitHub has it, so what goes live is what was previewed.
+DEPLOY_BRANCH="${PYARCANA_DEPLOY_BRANCH:-main}"
+if [ "${PYARCANA_DEPLOY_ANY_COMMIT:-}" = 1 ]; then
+  say "Commit check SKIPPED (PYARCANA_DEPLOY_ANY_COMMIT=1): deploying $(git rev-parse --short HEAD 2>/dev/null || echo 'a tree outside git') as it is."
+else
+  git rev-parse --git-dir >/dev/null 2>&1 || die "REFUSED: $ROOT is not a git checkout, so the commit being deployed is unknown.
+Deploy from a clone of PillB/pyarcana (workers/billing/scripts/redeploy.sh), or set PYARCANA_DEPLOY_ANY_COMMIT=1 on purpose. Nothing was deployed."
+  git fetch -q origin "$DEPLOY_BRANCH" || die "STOP: could not fetch origin/$DEPLOY_BRANCH to check the commit. Nothing was deployed."
+  head="$(git rev-parse HEAD)"
+  want="$(git rev-parse FETCH_HEAD)"
+  if [ "$head" != "$want" ]; then
+    die "STOP: this checkout is at $(git log -1 --format='%h %s' HEAD), but origin/$DEPLOY_BRANCH is at $(git log -1 --format='%h %s' FETCH_HEAD).
+Deploying it would put an old site live. Run workers/billing/scripts/redeploy.sh, which pulls $DEPLOY_BRANCH first.
+To deploy this commit on purpose (a rollback), set PYARCANA_DEPLOY_ANY_COMMIT=1. Nothing was deployed."
+  fi
+  local_changes="$(git status --porcelain --untracked-files=no | grep -v ' workers/billing/wrangler.toml$' || true)"
+  [ -z "$local_changes" ] || die "STOP: this checkout has local changes besides workers/billing/wrangler.toml, so the site would not be $(git rev-parse --short HEAD):
+$local_changes
+Commit or discard them, or set PYARCANA_DEPLOY_ANY_COMMIT=1 on purpose. Nothing was deployed."
+  say "Deploying $(git log -1 --format='%h %s (%cd)' --date=short), the current origin/$DEPLOY_BRANCH"
+fi
+
 # The holder: from the file only. Inherited NEXT_PUBLIC_HOLDER_* would open the page without the
 # Worker (or the other way round), so they are cleared first.
 unset NEXT_PUBLIC_HOLDER_NAME NEXT_PUBLIC_HOLDER_ADDRESS NEXT_PUBLIC_HOLDER_RUC
@@ -104,4 +134,11 @@ else
   wr deploy
 fi
 say "Deployed"
+if [ "${PYARCANA_SKIP_LIVE_CHECK:-}" = 1 ]; then
+  echo "Live check SKIPPED (PYARCANA_SKIP_LIVE_CHECK=1): nothing confirmed which commit the site serves."
+else
+  say "Checking that the site serves this commit"
+  node "$HERE/ops.mjs" live-sha "$ROOT/out/deployment.json" "${PYARCANA_LIVE_URL:-https://pyarcana.dev}" \
+    || die "The Worker was deployed, but the site does not yet serve the commit just built (above)."
+fi
 echo "Check: https://pyarcana.dev/api/v1/health ({ok, db}), https://pyarcana.dev/api/v1/auth/methods and https://pyarcana.dev/api/v1/jwks; the full configuration is on /admin, tab Uso"
