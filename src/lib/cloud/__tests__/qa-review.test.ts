@@ -52,13 +52,25 @@ test('the account window names the staff role from the worker\'s /v1/me and link
     return m ? renderToStaticMarkup(h(StaffSection, { me: m })) : ''
   }
   const adminHtml = await html(admin)
-  assert.ok(adminHtml.includes(t('account.staff.role.admin', 'es-PE')) && adminHtml.includes('href="/admin"') && adminHtml.includes(t('account.staff.link.admin', 'es-PE')), adminHtml)
+  assert.ok(adminHtml.includes(t('qarev.staff.role.admin', 'es-PE')) && adminHtml.includes('href="/admin"') && adminHtml.includes(t('qarev.staff.link.admin', 'es-PE')), adminHtml)
   assert.ok(!adminHtml.includes('account-staff-reauth'), 'a fresh admin is not told to sign in again')
   const testerHtml = await html(tester)
-  assert.ok(testerHtml.includes(`>${t('account.staff.role.tester', 'es-PE')}<`) && testerHtml.includes('href="/admin"') && testerHtml.includes(t('account.staff.link.qa', 'es-PE')), testerHtml)
-  assert.ok(!testerHtml.includes(t('account.staff.role.admin', 'es-PE')), 'a tester is never labelled admin')
+  assert.ok(testerHtml.includes(`>${t('qarev.staff.role.tester', 'es-PE')}<`) && testerHtml.includes('href="/admin"') && testerHtml.includes(t('qarev.staff.link.qa', 'es-PE')), testerHtml)
+  assert.ok(!testerHtml.includes(t('qarev.staff.role.admin', 'es-PE')), 'a tester is never labelled admin')
   assert.ok((await html(admin, NOW + 13 * 3600)).includes('account-staff-reauth'), 'a stale admin gets the sign-in-with-Google note')
   assert.equal(await html(learner), '', 'a learner sees no staff line and no /admin link')
+})
+
+// Drift: a role the client does not know yet (a future worker adds one) must not widen into a
+// staff line, and a cached /v1/me from before adminReauth existed must read as false.
+test('an unknown role or a payload without adminReauth never makes a staff line', () => {
+  const base = { ok: true, account: { id: 'acct_x', email: 'x@example.test', emailVerified: true, isAdmin: false, roles: ['qa_lead'] }, access: {} }
+  const me = parseMe(base)
+  assert.ok(me, 'the payload parses')
+  assert.equal(me?.account.adminReauth, false, 'a payload from before the field reads as false')
+  assert.equal(staffRole(me), null, 'an unknown role is not a staff role')
+  const both = parseMe({ ...base, account: { ...base.account, roles: ['tester'], adminReauth: true } })
+  assert.deepEqual(staffRole(both), { role: 'admin', reauth: true }, 'a stale admin who also tests is named admin and told to sign in again')
 })
 
 const tr = (key: string, vars?: Record<string, string | number>) => t(key, 'es-PE').replace(/\{(\w+)\}/g, (_, k: string) => String(vars?.[k] ?? ''))
@@ -152,7 +164,7 @@ test('the QA window shows no admin tab to a tester or a supervisor, and the revi
 })
 
 test('every new text exists in the three interface languages', () => {
-  const keys = ['account.staff.heading', 'account.staff.role.admin', 'account.staff.role.supervisor', 'account.staff.link.admin', 'account.staff.link.qa', 'account.staff.reauth', 'qarev.h', 'qarev.result.reproduced', 'qarev.result.not_reproduced', 'qarev.result.fixed', 'qarev.fixedHint', 'qarev.review.h', 'qarev.tab.queue', 'qarev.menuLink', 'qarev.count.fixed', 'qarev.error.result', 'adm.role.qa_supervisor', 'adm.supervisors.what', 'adm.supervisors.revokeBody']
+  const keys = ['qarev.staff.heading', 'qarev.staff.role.admin', 'qarev.staff.role.supervisor', 'qarev.staff.link.admin', 'qarev.staff.link.qa', 'qarev.staff.reauth', 'qarev.h', 'qarev.result.reproduced', 'qarev.result.not_reproduced', 'qarev.result.fixed', 'qarev.fixedHint', 'qarev.review.h', 'qarev.tab.queue', 'qarev.menuLink', 'qarev.count.fixed', 'qarev.error.result', 'adm.role.qa_supervisor', 'adm.supervisors.what', 'adm.supervisors.revokeBody']
   for (const lang of ['es-PE', 'es-ES', 'en'] as const) {
     for (const key of keys) assert.notEqual(t(key, lang), key, `${lang} ${key}`)
   }

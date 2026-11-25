@@ -55,7 +55,7 @@ function AdminActive() {
   if (access === 'admin') return <AdminTabs />
   if (access === 'supervisor' || access === 'tester') return <QaWorkspace access={access} />
   // A listed admin whose Google sign-in is stale: say how to get the tabs back, not "not for you".
-  if (me?.account.adminReauth) return <p className="text-sm" data-testid="admin-reauth">{tr('account.staff.reauth')}</p>
+  if (me?.account.adminReauth) return <p className="text-sm" data-testid="admin-reauth">{tr('qarev.staff.reauth')}</p>
   return <p className="text-sm">{tr('adm.notAdmin')}</p>
 }
 

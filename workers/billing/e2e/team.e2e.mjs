@@ -71,7 +71,8 @@ const api = (page, method, path, body) => page.evaluate(async ([m, p, b]) => {
 async function staffLine(who) {
   const ctx = await contextFor(who)
   const page = await open(ctx, '/')
-  await page.getByTestId('account-button').click()
+  // Both headers render the button (desktop and phone); click the one this viewport shows.
+  await page.getByTestId('account-button').locator('visible=true').first().click()
   await page.getByTestId('account-panel').waitFor({ timeout: 15000 })
   const role = page.getByTestId('account-staff-role')
   const seen = {
@@ -86,7 +87,7 @@ async function staffLine(who) {
 await flow('account window', async () => {
   const expected = {
     admin: { role: 'Administración', href: '/admin', reauth: false },
-    supervisor: { role: 'Supervisión de QA', href: '/admin', reauth: false },
+    supervisor: { role: 'Supervisor de QA', href: '/admin', reauth: false },
     tester: { role: 'Tester', href: '/admin', reauth: false },
     free: { role: null, href: null, reauth: false },
     adminStale: { role: 'Administración', href: '/admin', reauth: true },
