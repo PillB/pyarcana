@@ -154,6 +154,17 @@ the feasible ideal over the cheap satisfier. Research before deciding, not after
 challenged. Weight methodological correctness, current practice, usability of the actual
 path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
 
+- **Ask of every feature: is it correct and production-ready?** Research it online before
+  deciding. Name the authoritative source (a standard, the library's documentation, a
+  peer-reviewed paper, or the weight of published practice) and cite it in the PR. Prefer what
+  that source supports over what satisfies the stated constraints most cheaply. Weight
+  scientific and methodological correctness first, then current state-of-the-art practice,
+  then the usability and quality-of-life of the learner's or maintainer's actual path.
+- **Retrospective and plan for every round.** Before a round, read the wiki
+  (`docs/agents/lessons.md`) for the class of issue at hand and write the plan: routes, risks,
+  the tests that will prove it. After the round, record what failed, its root cause and the
+  guard that stops it recurring, so the next round does not re-diagnose it.
+
 - **Pre-execution round.** Before building, name at least two routes, try each at the smallest
   scale that can tell them apart (a spike, a probe, a measurement), and choose against the
   expert's benchmark. The PR names the routes rejected and why.
