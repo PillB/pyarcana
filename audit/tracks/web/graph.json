@@ -1,0 +1,1082 @@
+{
+ "nodes": [
+  {
+   "id": "terminal-y-python-m",
+   "label": "Terminal y `python -m`",
+   "definition": "Ejecutar órdenes y módulos de Python desde la terminal.",
+   "status": "course",
+   "where": "S01"
+  },
+  {
+   "id": "git-commit-push",
+   "label": "Git: commit y push a GitHub",
+   "definition": "Registrar cambios y enviarlos a un repositorio remoto con gh/git.",
+   "status": "course",
+   "where": "sesion-0"
+  },
+  {
+   "id": "secretos-entorno",
+   "label": "Secretos fuera del código",
+   "definition": "Claves y tokens en variables de entorno o .env, nunca en el repositorio.",
+   "status": "course",
+   "where": "S01"
+  },
+  {
+   "id": "funciones",
+   "label": "Funciones y contratos",
+   "definition": "Agrupar pasos con entradas y salidas definidas.",
+   "status": "course",
+   "where": "S05"
+  },
+  {
+   "id": "texto-utf8",
+   "label": "Texto y UTF-8",
+   "definition": "Cadenas Unicode y su codificación a bytes.",
+   "status": "course",
+   "where": "S07"
+  },
+  {
+   "id": "json-python",
+   "label": "JSON en Python",
+   "definition": "json.dumps/json.loads: serializar dict y list a texto.",
+   "status": "course",
+   "where": "S08"
+  },
+  {
+   "id": "csv-lectura",
+   "label": "Leer CSV",
+   "definition": "csv.DictReader y contratos de ingesta.",
+   "status": "course",
+   "where": "S08"
+  },
+  {
+   "id": "pathlib-archivos",
+   "label": "Rutas y escritura de archivos",
+   "definition": "pathlib.Path, write_text, carpetas.",
+   "status": "course",
+   "where": "S08"
+  },
+  {
+   "id": "excepciones",
+   "label": "Excepciones",
+   "definition": "Capturar y nombrar errores como IntegrityError.",
+   "status": "course",
+   "where": "S09"
+  },
+  {
+   "id": "clases-herencia",
+   "label": "Clases y herencia",
+   "definition": "Definir una clase que extiende otra y sobreescribe métodos.",
+   "status": "course",
+   "where": "S11"
+  },
+  {
+   "id": "modelo-dominio",
+   "label": "Modelo de dominio",
+   "definition": "Identificar objetos del negocio y sus relaciones en código.",
+   "status": "course",
+   "where": "S11"
+  },
+  {
+   "id": "sql-crud-join",
+   "label": "SQL: CREATE, SELECT, JOIN",
+   "definition": "Crear tablas en SQLite, consultar y unir.",
+   "status": "course",
+   "where": "S12"
+  },
+  {
+   "id": "consultas-parametrizadas",
+   "label": "Consultas parametrizadas",
+   "definition": "El marcador ? trata el dato como valor, no como SQL (misma idea que escapar HTML).",
+   "status": "course",
+   "where": "S12"
+  },
+  {
+   "id": "cliente-http-urllib",
+   "label": "Cliente HTTP con timeout",
+   "definition": "urlopen con timeout y lectura de status; en S12 solo simulado.",
+   "status": "course",
+   "where": "S12"
+  },
+  {
+   "id": "reparto-python-navegador",
+   "label": "Qué hace Python y qué hace el navegador",
+   "definition": "Python calcula; el navegador presenta, adapta y deja interactuar.",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "documento-html",
+   "label": "Documento HTML",
+   "definition": "Texto con etiquetas que el navegador convierte en página (doctype, html, head, body).",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "elemento-atributo",
+   "label": "Elemento y atributo",
+   "definition": "Una etiqueta con su contenido; los atributos le dan propiedades (lang, scope).",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "metadatos-html",
+   "label": "charset, lang y viewport",
+   "definition": "Metadatos que fijan la codificación, el idioma y el ancho en móvil.",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "escape-html",
+   "label": "Escapar datos en HTML",
+   "definition": "html.escape convierte & < > \" ' en entidades para que el dato no se lea como etiqueta.",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "tabla-semantica",
+   "label": "Tabla semántica",
+   "definition": "table con caption, thead/tbody y th scope=col: datos tabulares legibles por lectores de pantalla.",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "accesibilidad-basica",
+   "label": "Accesibilidad básica",
+   "definition": "Idioma declarado, controles que se pulsan con teclado (button) y estado anunciado (aria-sort).",
+   "status": "track",
+   "where": "modulo:html",
+   "module": "html"
+  },
+  {
+   "id": "css-basico",
+   "label": "CSS mínimo",
+   "definition": "Una hoja de estilo: selector, propiedad, valor; ancho de tabla, alineación de números, foco visible.",
+   "status": "track",
+   "where": "modulo:html (propuesto)",
+   "module": "html",
+   "proposed": true
+  },
+  {
+   "id": "jinja-autoescape",
+   "label": "Autoescape de plantillas",
+   "definition": "Jinja con autoescape hace el escape por ti en plantillas grandes.",
+   "status": "deferred",
+   "where": "S21"
+  },
+  {
+   "id": "cliente-servidor",
+   "label": "Cliente y servidor",
+   "definition": "Un programa pide (cliente) y otro responde (servidor).",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "localhost-puerto",
+   "label": "localhost y puerto",
+   "definition": "127.0.0.1 es tu propia máquina; el puerto distingue qué programa escucha.",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "peticion-respuesta",
+   "label": "Petición y respuesta HTTP",
+   "definition": "Método + ruta en la petición; status, encabezados y cuerpo en la respuesta.",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "codigo-estado",
+   "label": "Código de estado",
+   "definition": "200 ok, 404 no existe, 500 error del servidor; response.ok es 200–299.",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "content-type",
+   "label": "Encabezado Content-Type",
+   "definition": "Dice al cliente cómo leer el cuerpo (application/json, text/html).",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "json-http",
+   "label": "JSON por HTTP",
+   "definition": "El formato común entre Python (json) y JavaScript (JSON.parse).",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "hilo-threading",
+   "label": "Hilo de ejecución",
+   "definition": "Segunda línea de ejecución en el mismo programa (servidor en un hilo).",
+   "status": "deferred",
+   "where": "S38"
+  },
+  {
+   "id": "js-sintaxis-minima",
+   "label": "JavaScript mínimo",
+   "definition": "const, funciones flecha, if, ternario, métodos de arreglos; el lenguaje del navegador.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "http",
+   "proposed": true
+  },
+  {
+   "id": "async-await-js",
+   "label": "await y promesas en JS",
+   "definition": "fetch devuelve una promesa; await espera su resultado (solo en módulos o la consola).",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "fetch-navegador",
+   "label": "fetch en el navegador",
+   "definition": "Pedido HTTP desde JavaScript; revisar response.ok antes de leer.",
+   "status": "track",
+   "where": "modulo:http",
+   "module": "http"
+  },
+  {
+   "id": "devtools-consola-red",
+   "label": "Herramientas del navegador",
+   "definition": "F12: consola para errores y pestaña Red para ver cada petición.",
+   "status": "track",
+   "where": "modulo:http (propuesto)",
+   "module": "http",
+   "proposed": true
+  },
+  {
+   "id": "metodo-post-formularios",
+   "label": "POST y formularios",
+   "definition": "Enviar datos al servidor; requiere código en el servidor.",
+   "status": "deferred",
+   "where": "S41"
+  },
+  {
+   "id": "cors",
+   "label": "CORS y mismo origen",
+   "definition": "El navegador solo deja leer respuestas de otro origen si el servidor lo permite.",
+   "status": "deferred",
+   "where": "S42"
+  },
+  {
+   "id": "entidad",
+   "label": "Entidad",
+   "definition": "Cosa de la que guardas datos (sede, producto); será una tabla.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "atributo",
+   "label": "Atributo",
+   "definition": "Propiedad de una entidad; será una columna.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "relacion",
+   "label": "Relación",
+   "definition": "Vínculo entre entidades (una sede registra ventas).",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "cardinalidad-1n",
+   "label": "Cardinalidad uno a muchos",
+   "definition": "Una fila de A con muchas de B; la FK va en el lado muchos.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "cardinalidad-nm",
+   "label": "Cardinalidad muchos a muchos",
+   "definition": "Muchas de A con muchas de B; no cabe en una columna.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "clave-primaria",
+   "label": "Clave primaria (PK)",
+   "definition": "Atributo que identifica cada fila sin repetirse.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "clave-foranea",
+   "label": "Clave foránea (FK)",
+   "definition": "Columna que apunta a la PK de otra tabla.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "tabla-intermedia",
+   "label": "Tabla intermedia",
+   "definition": "Una fila por par (sede, producto) para guardar N:M, con atributos propios del vínculo.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "clave-compuesta",
+   "label": "Clave compuesta",
+   "definition": "PK formada por dos columnas, p. ej. (sede_id, producto_id).",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "integridad-referencial",
+   "label": "Integridad referencial",
+   "definition": "Ninguna FK apunta a una fila que no existe (sin huérfanas).",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "pragma-foreign-keys",
+   "label": "PRAGMA foreign_keys = ON",
+   "definition": "SQLite no aplica FK por defecto; se activa en cada conexión.",
+   "status": "track",
+   "where": "modulo:modelo",
+   "module": "modelo"
+  },
+  {
+   "id": "probar-modelo-con-datos",
+   "label": "Probar el modelo con filas",
+   "definition": "Insertar filas de ejemplo (incluida una mala) para ver si el diseño las acepta o rechaza.",
+   "status": "track",
+   "where": "modulo:modelo (propuesto)",
+   "module": "modelo",
+   "proposed": true
+  },
+  {
+   "id": "normalizacion",
+   "label": "Normalización (1FN–3FN)",
+   "definition": "Quitar repeticiones para que cada dato viva en un solo lugar.",
+   "status": "deferred",
+   "where": "S29"
+  },
+  {
+   "id": "on-delete-cascade",
+   "label": "ON DELETE / ON UPDATE",
+   "definition": "Qué pasa con las hijas cuando borras o cambias la madre.",
+   "status": "deferred",
+   "where": "S29"
+  },
+  {
+   "id": "indices",
+   "label": "Índices",
+   "definition": "Estructura que acelera búsquedas por una columna.",
+   "status": "deferred",
+   "where": "S29"
+  },
+  {
+   "id": "sitio-estatico",
+   "label": "Sitio estático",
+   "definition": "Carpeta de archivos que el servidor entrega tal cual, sin ejecutar Python en cada visita.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "generar-html-python",
+   "label": "Generar HTML con una plantilla",
+   "definition": "str.format o plantilla + escape para escribir index.html.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "dom",
+   "label": "DOM",
+   "definition": "El árbol de elementos que JavaScript lee y cambia (querySelector, rows, cells).",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "evento-listener",
+   "label": "Escuchar un evento",
+   "definition": "addEventListener('click', ...) ejecuta código al pulsar.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "textcontent-sumidero-seguro",
+   "label": "textContent, no innerHTML",
+   "definition": "Escribir texto en el DOM sin que se interprete como HTML (sumidero seguro).",
+   "status": "track",
+   "where": "modulo:sitio (propuesto)",
+   "module": "sitio",
+   "proposed": true
+  },
+  {
+   "id": "mejora-progresiva",
+   "label": "Mejora progresiva",
+   "definition": "La tabla funciona sin JavaScript; JS solo agrega orden.",
+   "status": "track",
+   "where": "modulo:sitio (propuesto)",
+   "module": "sitio",
+   "proposed": true
+  },
+  {
+   "id": "origen-file-vs-http",
+   "label": "file:// frente a http://",
+   "definition": "Un archivo abierto con doble clic tiene origen opaco y fetch falla; hay que servirlo.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "servidor-estatico-local",
+   "label": "Servir la carpeta en local",
+   "definition": "python -m http.server --directory site; solo para desarrollo.",
+   "status": "track",
+   "where": "modulo:sitio",
+   "module": "sitio"
+  },
+  {
+   "id": "desplegar",
+   "label": "Desplegar",
+   "definition": "Copiar el sitio a una máquina siempre encendida para que cualquiera lo abra.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "datos-publicos-privados",
+   "label": "Datos públicos frente a privados",
+   "definition": "Todo archivo de un sitio estático es descargable; publicar solo datos sintéticos o agregados.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "url-relativa-absoluta",
+   "label": "URL relativa y absoluta",
+   "definition": "'/x' va a la raíz del dominio; 'x' se busca junto a la página.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "github-pages",
+   "label": "GitHub Pages",
+   "definition": "Hosting estático desde un repositorio; 1 GB, 100 GB/mes blando, sin uso comercial.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "cdn-edge",
+   "label": "CDN / borde",
+   "definition": "Servidores repartidos que entregan la copia más cercana.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "node-npx",
+   "label": "Node.js y npx",
+   "definition": "Entorno para ejecutar herramientas JS como wrangler o vercel CLI.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue",
+   "proposed": true
+  },
+  {
+   "id": "worker-static-assets",
+   "label": "Cloudflare Workers: archivos estáticos",
+   "definition": "wrangler.jsonc con assets.directory y wrangler deploy.",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "terminos-hosting",
+   "label": "Términos y límites del hosting",
+   "definition": "Qué permite cada plan gratuito (uso comercial, tamaño, tráfico).",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "funcion-serverless",
+   "label": "Función serverless",
+   "definition": "Código que corre por petición sin administrar un servidor (Vercel Functions, Python Workers).",
+   "status": "track",
+   "where": "modulo:despliegue",
+   "module": "despliegue"
+  },
+  {
+   "id": "python-en-servidor",
+   "label": "Python en el servidor (FastAPI)",
+   "definition": "API que ejecuta Python en cada visita.",
+   "status": "deferred",
+   "where": "S41"
+  },
+  {
+   "id": "contenedor",
+   "label": "Contenedor",
+   "definition": "Imagen reproducible de la app y su entorno.",
+   "status": "deferred",
+   "where": "S43"
+  },
+  {
+   "id": "ci-cd-pages",
+   "label": "Publicar con CI (Actions)",
+   "definition": "Construir el sitio con Python y desplegar en cada push.",
+   "status": "deferred",
+   "where": "S44"
+  },
+  {
+   "id": "nube-aws",
+   "label": "Nube (AWS) e infraestructura",
+   "definition": "Servidores, almacenamiento y colas administrados.",
+   "status": "deferred",
+   "where": "S45"
+  },
+  {
+   "id": "dominio-dns",
+   "label": "Dominio propio y DNS",
+   "definition": "Registros A/CNAME que apuntan un nombre a tu hosting.",
+   "status": "deferred",
+   "where": "S42 (solo mención; no se enseña a fondo)"
+  }
+ ],
+ "edges": [
+  {
+   "from": "texto-utf8",
+   "to": "metadatos-html",
+   "reason": "charset=utf-8 solo se entiende si sabes qué es UTF-8."
+  },
+  {
+   "from": "documento-html",
+   "to": "elemento-atributo",
+   "reason": "Los elementos viven dentro de un documento."
+  },
+  {
+   "from": "elemento-atributo",
+   "to": "metadatos-html",
+   "reason": "charset, lang y viewport son atributos de elementos de head."
+  },
+  {
+   "from": "reparto-python-navegador",
+   "to": "documento-html",
+   "reason": "Primero decides que la salida será HTML, luego aprendes su forma."
+  },
+  {
+   "from": "elemento-atributo",
+   "to": "escape-html",
+   "reason": "Para escapar hay que saber qué es una etiqueta y un atributo."
+  },
+  {
+   "from": "consultas-parametrizadas",
+   "to": "escape-html",
+   "reason": "Misma idea ya vista: separar dato de código."
+  },
+  {
+   "from": "elemento-atributo",
+   "to": "tabla-semantica",
+   "reason": "caption, th y scope son elementos y atributos."
+  },
+  {
+   "from": "escape-html",
+   "to": "tabla-semantica",
+   "reason": "Las celdas se llenan con datos ya escapados."
+  },
+  {
+   "from": "tabla-semantica",
+   "to": "accesibilidad-basica",
+   "reason": "scope y caption son la base de lo que lee un lector de pantalla."
+  },
+  {
+   "from": "metadatos-html",
+   "to": "accesibilidad-basica",
+   "reason": "lang decide la pronunciación del lector."
+  },
+  {
+   "from": "elemento-atributo",
+   "to": "css-basico",
+   "reason": "Los selectores apuntan a elementos y atributos."
+  },
+  {
+   "from": "escape-html",
+   "to": "jinja-autoescape",
+   "reason": "El autoescape automatiza lo que aquí se hace a mano."
+  },
+  {
+   "from": "cliente-http-urllib",
+   "to": "cliente-servidor",
+   "reason": "En S12 viste solo el lado cliente (simulado); aquí aparecen los dos extremos."
+  },
+  {
+   "from": "cliente-servidor",
+   "to": "localhost-puerto",
+   "reason": "El servidor local escucha en una dirección y un puerto."
+  },
+  {
+   "from": "cliente-servidor",
+   "to": "peticion-respuesta",
+   "reason": "La conversación cliente-servidor se hace con petición y respuesta."
+  },
+  {
+   "from": "peticion-respuesta",
+   "to": "codigo-estado",
+   "reason": "El status es parte de la respuesta."
+  },
+  {
+   "from": "peticion-respuesta",
+   "to": "content-type",
+   "reason": "Content-Type es un encabezado de la respuesta."
+  },
+  {
+   "from": "json-python",
+   "to": "json-http",
+   "reason": "Serializar en Python antes de enviarlo por la red."
+  },
+  {
+   "from": "content-type",
+   "to": "json-http",
+   "reason": "application/json le dice al cliente que el cuerpo es JSON."
+  },
+  {
+   "from": "clases-herencia",
+   "to": "peticion-respuesta",
+   "reason": "El servidor del ejemplo hereda de BaseHTTPRequestHandler y sobreescribe do_GET."
+  },
+  {
+   "from": "hilo-threading",
+   "to": "localhost-puerto",
+   "reason": "El ejemplo de un solo archivo corre el servidor en un hilo (alternativa: dos terminales)."
+  },
+  {
+   "from": "funciones",
+   "to": "js-sintaxis-minima",
+   "reason": "Las funciones flecha son funciones; el concepto se transfiere."
+  },
+  {
+   "from": "js-sintaxis-minima",
+   "to": "async-await-js",
+   "reason": "await es sintaxis JS."
+  },
+  {
+   "from": "async-await-js",
+   "to": "fetch-navegador",
+   "reason": "fetch devuelve una promesa."
+  },
+  {
+   "from": "codigo-estado",
+   "to": "fetch-navegador",
+   "reason": "response.ok resume el status."
+  },
+  {
+   "from": "json-http",
+   "to": "fetch-navegador",
+   "reason": "response.json() lee el cuerpo JSON."
+  },
+  {
+   "from": "devtools-consola-red",
+   "to": "fetch-navegador",
+   "reason": "Sin la consola no ves el error ni el resultado de fetch."
+  },
+  {
+   "from": "peticion-respuesta",
+   "to": "metodo-post-formularios",
+   "reason": "POST es otro método de petición."
+  },
+  {
+   "from": "fetch-navegador",
+   "to": "cors",
+   "reason": "CORS solo importa cuando el navegador pide a otro origen."
+  },
+  {
+   "from": "origen-file-vs-http",
+   "to": "cors",
+   "reason": "Origen es el concepto base de CORS."
+  },
+  {
+   "from": "modelo-dominio",
+   "to": "entidad",
+   "reason": "Las clases del dominio de S11 son candidatas a entidades."
+  },
+  {
+   "from": "entidad",
+   "to": "atributo",
+   "reason": "Un atributo pertenece a una entidad."
+  },
+  {
+   "from": "entidad",
+   "to": "relacion",
+   "reason": "Una relación une dos entidades."
+  },
+  {
+   "from": "atributo",
+   "to": "clave-primaria",
+   "reason": "La PK es un atributo elegido para identificar."
+  },
+  {
+   "from": "relacion",
+   "to": "cardinalidad-1n",
+   "reason": "La cardinalidad describe una relación."
+  },
+  {
+   "from": "relacion",
+   "to": "cardinalidad-nm",
+   "reason": "Idem, el caso muchos a muchos."
+  },
+  {
+   "from": "clave-primaria",
+   "to": "clave-foranea",
+   "reason": "Una FK apunta a una PK."
+  },
+  {
+   "from": "cardinalidad-1n",
+   "to": "clave-foranea",
+   "reason": "En 1:N la FK va en el lado muchos."
+  },
+  {
+   "from": "cardinalidad-nm",
+   "to": "tabla-intermedia",
+   "reason": "N:M se resuelve con una tabla intermedia."
+  },
+  {
+   "from": "clave-foranea",
+   "to": "tabla-intermedia",
+   "reason": "La tabla intermedia tiene dos FK."
+  },
+  {
+   "from": "tabla-intermedia",
+   "to": "clave-compuesta",
+   "reason": "Su PK natural es el par de FK."
+  },
+  {
+   "from": "clave-foranea",
+   "to": "integridad-referencial",
+   "reason": "La integridad es la promesa que hace una FK."
+  },
+  {
+   "from": "sql-crud-join",
+   "to": "pragma-foreign-keys",
+   "reason": "Hay que saber crear tablas e insertar en SQLite."
+  },
+  {
+   "from": "integridad-referencial",
+   "to": "pragma-foreign-keys",
+   "reason": "El pragma es lo que hace cumplir la integridad en SQLite."
+  },
+  {
+   "from": "excepciones",
+   "to": "pragma-foreign-keys",
+   "reason": "La violación llega como sqlite3.IntegrityError."
+  },
+  {
+   "from": "pragma-foreign-keys",
+   "to": "probar-modelo-con-datos",
+   "reason": "Con FK activas, una fila mala falla y revela el diseño."
+  },
+  {
+   "from": "clave-compuesta",
+   "to": "probar-modelo-con-datos",
+   "reason": "Un par duplicado debe fallar."
+  },
+  {
+   "from": "integridad-referencial",
+   "to": "normalizacion",
+   "reason": "Normalizar presupone tablas unidas por claves."
+  },
+  {
+   "from": "integridad-referencial",
+   "to": "on-delete-cascade",
+   "reason": "Las acciones referenciales extienden la integridad."
+  },
+  {
+   "from": "clave-primaria",
+   "to": "indices",
+   "reason": "La PK ya es un índice; los demás se eligen después."
+  },
+  {
+   "from": "documento-html",
+   "to": "sitio-estatico",
+   "reason": "Un sitio estático es, ante todo, un index.html."
+  },
+  {
+   "from": "json-http",
+   "to": "sitio-estatico",
+   "reason": "data.json es la otra mitad del sitio."
+  },
+  {
+   "from": "pathlib-archivos",
+   "to": "generar-html-python",
+   "reason": "Escribir index.html y data.json en una carpeta."
+  },
+  {
+   "from": "csv-lectura",
+   "to": "generar-html-python",
+   "reason": "Los datos llegan de un CSV."
+  },
+  {
+   "from": "escape-html",
+   "to": "generar-html-python",
+   "reason": "Cada celda se escapa al armar la plantilla."
+  },
+  {
+   "from": "tabla-semantica",
+   "to": "generar-html-python",
+   "reason": "La plantilla contiene la tabla semántica."
+  },
+  {
+   "from": "generar-html-python",
+   "to": "sitio-estatico",
+   "reason": "El script produce los archivos del sitio."
+  },
+  {
+   "from": "elemento-atributo",
+   "to": "dom",
+   "reason": "El DOM es el árbol de elementos y atributos."
+  },
+  {
+   "from": "dom",
+   "to": "evento-listener",
+   "reason": "Se escucha un evento sobre un nodo del DOM."
+  },
+  {
+   "from": "js-sintaxis-minima",
+   "to": "evento-listener",
+   "reason": "addEventListener recibe una función flecha."
+  },
+  {
+   "from": "dom",
+   "to": "textcontent-sumidero-seguro",
+   "reason": "textContent es una propiedad de un nodo."
+  },
+  {
+   "from": "escape-html",
+   "to": "textcontent-sumidero-seguro",
+   "reason": "Es el equivalente en el navegador de escapar en Python."
+  },
+  {
+   "from": "accesibilidad-basica",
+   "to": "mejora-progresiva",
+   "reason": "Botones y tabla sin JS siguen siendo usables."
+  },
+  {
+   "from": "evento-listener",
+   "to": "mejora-progresiva",
+   "reason": "JS agrega comportamiento sobre HTML que ya funciona."
+  },
+  {
+   "from": "localhost-puerto",
+   "to": "servidor-estatico-local",
+   "reason": "http.server escucha en localhost:8000."
+  },
+  {
+   "from": "terminal-y-python-m",
+   "to": "servidor-estatico-local",
+   "reason": "Se lanza con python -m http.server."
+  },
+  {
+   "from": "sitio-estatico",
+   "to": "servidor-estatico-local",
+   "reason": "Lo que se sirve es la carpeta del sitio."
+  },
+  {
+   "from": "fetch-navegador",
+   "to": "origen-file-vs-http",
+   "reason": "El fallo con file:// aparece al usar fetch."
+  },
+  {
+   "from": "origen-file-vs-http",
+   "to": "servidor-estatico-local",
+   "reason": "La solución es servir por http://localhost."
+  },
+  {
+   "from": "servidor-estatico-local",
+   "to": "desplegar",
+   "reason": "Primero funciona en local, luego en internet."
+  },
+  {
+   "from": "sitio-estatico",
+   "to": "desplegar",
+   "reason": "Lo que se despliega es la carpeta."
+  },
+  {
+   "from": "desplegar",
+   "to": "datos-publicos-privados",
+   "reason": "Desplegar hace públicos todos los archivos."
+  },
+  {
+   "from": "secretos-entorno",
+   "to": "datos-publicos-privados",
+   "reason": "Ya sabes que los secretos no van al repo; aquí tampoco al sitio."
+  },
+  {
+   "from": "desplegar",
+   "to": "url-relativa-absoluta",
+   "reason": "Las rutas cambian al publicar en una subcarpeta."
+  },
+  {
+   "from": "git-commit-push",
+   "to": "github-pages",
+   "reason": "Pages publica lo que subiste con push."
+  },
+  {
+   "from": "url-relativa-absoluta",
+   "to": "github-pages",
+   "reason": "Pages publica en /repo/; '/data.json' se rompe."
+  },
+  {
+   "from": "datos-publicos-privados",
+   "to": "github-pages",
+   "reason": "Repositorio público en el plan gratuito."
+  },
+  {
+   "from": "github-pages",
+   "to": "terminos-hosting",
+   "reason": "Pages prohíbe uso comercial y tiene límites."
+  },
+  {
+   "from": "desplegar",
+   "to": "cdn-edge",
+   "reason": "Los hostings estáticos entregan desde una CDN."
+  },
+  {
+   "from": "node-npx",
+   "to": "worker-static-assets",
+   "reason": "wrangler se ejecuta con npx."
+  },
+  {
+   "from": "cdn-edge",
+   "to": "worker-static-assets",
+   "reason": "Workers sirve desde el borde."
+  },
+  {
+   "from": "url-relativa-absoluta",
+   "to": "worker-static-assets",
+   "reason": "Mismo cuidado con rutas."
+  },
+  {
+   "from": "desplegar",
+   "to": "funcion-serverless",
+   "reason": "Siguiente escalón cuando hace falta código por visita."
+  },
+  {
+   "from": "peticion-respuesta",
+   "to": "funcion-serverless",
+   "reason": "Una función responde peticiones."
+  },
+  {
+   "from": "funcion-serverless",
+   "to": "python-en-servidor",
+   "reason": "FastAPI en Vercel corre como una función."
+  },
+  {
+   "from": "secretos-entorno",
+   "to": "python-en-servidor",
+   "reason": "Una API real necesita secretos en el entorno del hosting."
+  },
+  {
+   "from": "metodo-post-formularios",
+   "to": "python-en-servidor",
+   "reason": "Recibir formularios exige servidor."
+  },
+  {
+   "from": "python-en-servidor",
+   "to": "contenedor",
+   "reason": "Empaquetar la API para correrla igual en todas partes."
+  },
+  {
+   "from": "git-commit-push",
+   "to": "ci-cd-pages",
+   "reason": "CI se dispara con push."
+  },
+  {
+   "from": "sitio-estatico",
+   "to": "ci-cd-pages",
+   "reason": "CI construye el sitio con Python."
+  },
+  {
+   "from": "contenedor",
+   "to": "nube-aws",
+   "reason": "Los contenedores se ejecutan en la nube."
+  },
+  {
+   "from": "desplegar",
+   "to": "dominio-dns",
+   "reason": "Un dominio propio apunta al sitio ya desplegado."
+  }
+ ],
+ "loose": [
+  {
+   "node": "devtools-consola-red",
+   "why": "Parcial: la consola (F12) se nombra y se usa en http.navegador; la pestaña Red (Network), que Full Stack Open enseña en su Parte 0, no se enseña. Propuesta abierta."
+  }
+ ],
+ "resolved": [
+  {
+   "node": "js-sintaxis-minima",
+   "was": "leer_datos.js y app.js usan const, funciones flecha, ternario, spread [...] y métodos de arreglo; ninguna sección S01–S52 enseña JavaScript y el track no lo introduce.",
+   "action": "GLOSS",
+   "how": "sitio.ordenar glosa const, funciones flecha, llaves, el ternario y [...] frente a sus equivalentes en Python."
+  },
+  {
+   "node": "async-await-js",
+   "was": "leer_datos.js usa await en el nivel superior: funciona en la consola o en <script type=\"module\">, pero lanza SyntaxError en un <script src> clásico. Ni el curso ni el track lo explican.",
+   "action": "REPHRASE",
+   "how": "El bloque con await suelto se presenta como código de consola (en_la_consola_del_navegador.js) y el texto dice que en un archivo .js iría dentro de una función async; el test exige que un bloque con await suelto se titule como de consola."
+  },
+  {
+   "node": "dom",
+   "was": "app.js usa querySelectorAll, closest, rows, cells, append; el track solo nombra el script, no qué es el DOM.",
+   "action": "GLOSS",
+   "how": "sitio.ordenar define el DOM: la página tal como la ve JavaScript, un árbol de elementos que puede leer y cambiar."
+  },
+  {
+   "node": "hilo-threading",
+   "was": "servidor_y_cliente.py arranca el servidor en threading.Thread; los hilos se enseñan en S38 (Concurrencia), muy después de S12. El track lo define en una frase.",
+   "action": "GLOSS",
+   "how": "http.servidor-cliente define el hilo y remite a S38 para la concurrencia."
+  },
+  {
+   "node": "node-npx",
+   "was": "La ruta Cloudflare (y 'npx vercel deploy') exige Node.js; el track dice 'Necesitas Node.js instalado' sin instrucciones; Sesión 0 no lo instala.",
+   "action": "GLOSS",
+   "how": "despliegue.cloudflare nombra el requisito y su «Si no funciona» indica instalar Node.js LTS."
+  },
+  {
+   "node": "git-commit-push",
+   "was": "Sesión 0 enseña 'gh repo create ... --source . --push' desde una carpeta; el paso de Pages hace 'cd mi-sitio; git add; git push' sin mostrar cómo nace ese repositorio local (falta git init / gh repo create).",
+   "action": "REPHRASE",
+   "how": "despliegue.github-pages usa git init y gh repo create --source . --push, el mismo comando de la Sesión 0."
+  },
+  {
+   "node": "origen-file-vs-http",
+   "was": "Se enseña el arreglo de file:// para fetch, pero el sitio del módulo 4 nunca llama a fetch: index.html solo carga app.js, que ordena el DOM. data.json se genera y nadie lo lee; el síntoma descrito no aparece.",
+   "action": "REPHRASE",
+   "how": "El sitio ya no promete un fetch que no hace: data.json se publica para otros programas, el fetch se prueba desde la consola, y el «Si no funciona» de file:// está en ese paso."
+  }
+ ],
+ "revised": "2026-11-25: loose dependencies resolved in the same round are listed under \"resolved\" with the action taken (REMOVE, REPHRASE, GLOSS, TEACH, DEFER)."
+}
