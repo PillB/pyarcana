@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, CheckCircle2, Laptop, Smartphone } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Laptop, Smartphone } from 'lucide-react'
 import { useI18n, t } from '@/lib/i18n'
 import { browserOsSignals, detectOs, FALLBACK_OS, type OsGuess, type SetupOs } from '@/lib/setup/os'
 import {
@@ -32,8 +32,13 @@ function storage(): Storage | null {
  *
  * The first render (also the prerendered HTML) shows the fallback track; after mount the page
  * reads the learner's stored choice, else guesses from the browser, and says which it did.
+ *
+ * It renders inside the course shell (src/app/page.tsx), which owns the page's <main>, the top
+ * bars and the menu. So the root is a <div>, and there is no "back to the course" link of its own:
+ * the header's ← Inicio and the menu do that, as they do on every section. `onContinue` opens
+ * Section 1 in place; the link's href stays for a new tab and for readers without JavaScript.
  */
-export function SetupIntro() {
+export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
   const [guess, setGuess] = useState<OsGuess>({ os: FALLBACK_OS, detected: false, mobile: false })
@@ -61,11 +66,7 @@ export function SetupIntro() {
   const origin = progress.os ? 'chosen' : guess.detected ? 'detected' : 'fallback'
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8" data-testid="setup-intro" data-os={os} data-ready={mounted ? '1' : '0'}>
-      <Link href="/" className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        {tr('setup.back')}
-      </Link>
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8" data-testid="setup-intro" data-os={os} data-ready={mounted ? '1' : '0'}>
       <p className="text-sm font-medium uppercase tracking-wide text-primary">{tr('setup.kicker')}</p>
       <h1 className="mt-1 text-3xl font-bold tracking-tight">{SETUP_INTRO.title}</h1>
       <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-foreground/90">
@@ -182,11 +183,16 @@ export function SetupIntro() {
           href="/#setup"
           className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           data-testid="setup-to-s01"
+          onClick={(e) => {
+            if (!onContinue || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+            e.preventDefault()
+            onContinue()
+          }}
         >
           {tr('setup.toS01')}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </section>
-    </main>
+    </div>
   )
 }
