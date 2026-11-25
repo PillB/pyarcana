@@ -32,6 +32,8 @@ const AGENTS_RULES = [
   ['one failed hypothesis, then research', /One failed hypothesis, then research/],
   ['pre-execution round comparing routes', /Pre-execution round\.\*\* Before building, name at least two\s+routes/],
   ['red-team before shipping', /Red-team before shipping/],
+  ['production-readiness question with researched authoritative sources', /Ask of every feature: is it correct and production-ready\?\*\* Research it online/],
+  ['a retrospective and plan for every round', /Retrospective and plan for every round\./],
   ['simulate drift for code that reads lesson content', /Simulate drift\.\*\* Code that reads lesson content/],
   ['static journeys in the done list', /npm run test:static-journeys/],
   ['fail loudly with a diagnosis', /## Fail loudly[\s\S]*expected against actual[\s\S]*REFUSED/],
