@@ -12,6 +12,7 @@ import {
   d1IdFromCreate,
   d1IdFromList,
   extractJson,
+  liveShaVerdict,
   parseAdminEmails,
   parseHolder,
   privacyHtmlProblems,
@@ -104,4 +105,46 @@ test("privacyHtmlProblems: open needs the escaped name and address and no closed
   assert.deepEqual(privacyHtmlProblems(open + "<p>no abrimos cuentas nuevas</p>", holder), ['the page still says "no abrimos cuentas nuevas"']);
   assert.deepEqual(privacyHtmlProblems("<p>Hasta entonces, no abrimos cuentas nuevas al público.</p>", null), []);
   assert.equal(privacyHtmlProblems(open, null).length, 1, "a page naming a holder while the deploy is closed is refused");
+});
+
+// deploy.sh's live check (25 Nov 2026: pyarcana.dev served a8a2c2b2 after a redeploy, unnoticed).
+test("liveShaVerdict: the same commit passes; another commit or an unreadable answer never does", () => {
+  const a = JSON.stringify({ git_sha: "a".repeat(40) });
+  const b = JSON.stringify({ git_sha: "b".repeat(40) });
+  assert.equal(liveShaVerdict(a, a).kind, "same");
+  assert.equal(liveShaVerdict(a, b).kind, "other", "the stale site of 25 Nov must be caught");
+  for (const live of ["", "<!DOCTYPE html>", "{}", JSON.stringify({ git_sha: "a8a2c2b2" }), JSON.stringify({ git_sha: "A".repeat(40) })]) {
+    assert.equal(liveShaVerdict(a, live).kind, "unreadable", `live ${JSON.stringify(live)} is not a commit`);
+  }
+  assert.equal(liveShaVerdict("{}", a).kind, "unreadable", "a build with no git_sha cannot be compared");
+});
+
+// Codex review on PR 193: a site that accepts the connection and never finishes must not hold deploy.sh.
+test("live-sha gives up on a stalled site within its per-request deadline and says it timed out", async () => {
+  const { createServer } = await import("node:http");
+  const { mkdtempSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { main } = await import("../scripts/ops.mjs");
+  const server = createServer((req, res) => res.writeHead(200, { "content-type": "application/json" }) && res.write("{")); // never ends
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const dir = mkdtempSync(join(tmpdir(), "live-sha-"));
+  const built = join(dir, "deployment.json");
+  writeFileSync(built, JSON.stringify({ git_sha: "a".repeat(40) }));
+  Object.assign(process.env, { PYARCANA_LIVE_TRIES: "2", PYARCANA_LIVE_WAIT_MS: "0", PYARCANA_LIVE_TIMEOUT_MS: "200" });
+  const errors = [];
+  const original = console.error;
+  console.error = (m) => errors.push(String(m));
+  const started = Date.now();
+  try {
+    const code = await main(["live-sha", built, `http://127.0.0.1:${server.address().port}`]);
+    assert.equal(code, 2, "an unreadable site is exit 2, never a pass");
+    assert.ok(Date.now() - started < 3000, `took ${Date.now() - started} ms: the deadline did not hold`);
+    assert.match(errors.join("\n"), /timed out/);
+  } finally {
+    console.error = original;
+    for (const k of ["PYARCANA_LIVE_TRIES", "PYARCANA_LIVE_WAIT_MS", "PYARCANA_LIVE_TIMEOUT_MS"]) delete process.env[k];
+    server.closeAllConnections();
+    server.close();
+  }
 });
