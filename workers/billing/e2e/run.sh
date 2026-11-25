@@ -11,7 +11,7 @@
 #   npm install --prefix . --no-save wrangler@4 playwright@1.63.0   (not repo deps; --prefix keeps
 #   npm from writing them into workers/billing/package.json, the nearest package.json above)
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
-#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, team, progress, tour, setup, csp)
+#   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, team, progress, states, tour, setup, csp)
 #   ./run.sh --no-build reuse the last build
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -86,6 +86,10 @@ start
 stop
 start
 (cd "$HERE" && node progress.e2e.mjs) || STATUS=1
+# The state-machine audit (25 Nov 2026): one fact, every view, after every step; account switch; 401.
+stop
+start
+(cd "$HERE" && node states.e2e.mjs) || STATUS=1
 # The QA tutorial's highlight: never under its panel, at four window sizes (no database needed).
 (cd "$HERE" && node tour.e2e.mjs) || STATUS=1
 # Sesión 0 (/empezar): tracks, keyboard switch, ticks and storage, at desktop and phone sizes.
