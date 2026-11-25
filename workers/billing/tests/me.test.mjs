@@ -95,6 +95,7 @@ test("a fresh account's payload has every field, with nothing granted", async ()
       emailVerified: true,
       displayName: null,
       isAdmin: false,
+      adminReauth: false,
       roles: [],
       trialAvailable: true,
       firstSigninAt: NOW,
@@ -206,6 +207,27 @@ test("isAdmin needs a listed, verified email and a Google session younger than 1
   const { createSession } = await import("../src/sessions.mjs");
   const email = await createSession({ env, db: env.DB, now: NOW }, google.account.id, "email");
   assert.equal((await api(env, "GET", "/v1/me", { cookie: email.token })).body.account.isAdmin, false);
+});
+
+// Owner request 25 Nov 2026: the account window names the admin role and links to /admin. A listed
+// admin whose Google sign-in is stale must be told to sign in with Google again, not that the page
+// is not for them; nobody else may learn whether an address is on the admin list.
+test("adminReauth is true only for a listed, verified admin whose session fails the Google part", async () => {
+  const { env } = await createHarness();
+  const google = await seedAccount(env, { email: "owner@gmail.com", method: "google" });
+  const flags = async (token, now = NOW) => {
+    const a = (await api(env, "GET", "/v1/me", { cookie: token, now })).body.account;
+    return [a.isAdmin, a.adminReauth];
+  };
+  assert.deepEqual(await flags(google.token), [true, false], "fresh Google session: admin, nothing to redo");
+  assert.deepEqual(await flags(google.token, NOW + 12 * 3600 + 1), [false, true], "stale: sign in with Google again");
+  const { createSession } = await import("../src/sessions.mjs");
+  const email = await createSession({ env, db: env.DB, now: NOW }, google.account.id, "email");
+  assert.deepEqual(await flags(email.token), [false, true], "listed admin signed in by email code: Google again");
+  const learner = await seedAccount(env, { email: "ana@example.test", method: "google" });
+  assert.deepEqual(await flags(learner.token, NOW + 13 * 3600), [false, false], "not listed: nothing to learn");
+  await sql(env, "UPDATE accounts SET email_verified = 0 WHERE id = ?1", google.account.id);
+  assert.deepEqual(await flags(google.token, NOW + 13 * 3600), [false, false], "listed but unverified: forbidden, not reauth");
 });
 
 test("review: someone else's open checkout or pending subscription never makes MY checkoutPending true", async () => {
