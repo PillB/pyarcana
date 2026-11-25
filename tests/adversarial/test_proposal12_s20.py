@@ -128,12 +128,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -179,7 +188,9 @@ class ChecksCanFail(unittest.TestCase):
         """IDO-02.1: a str != int comparison was presented as proof."""
         d = demo("S20-T1-B")
         self.assertNotIn("formula != py_val", d["code"]["code"])
-        self.assertTrue(d["code"]["output"].endswith("cache_sin_motor None"))
+        self.assertTrue(d["code"]["output"].endswith("cache_sin_motor None"),
+            "the demo must show that openpyxl reads no cached value (None) from a file no engine recalculated: expected the end " + repr("cache_sin_motor None")
+            + ", got " + repr((d["code"]["output"])[-160:]))
         self.assertIn("la fórmula devuelve `None`", prose("S20-T1-B"))
 
     @needs_openpyxl
@@ -363,8 +374,9 @@ class WeDoChecksCanFail(unittest.TestCase):
         for ex_id, old, new in MUTATIONS:
             sol = exercise(ex_id)["solutionCode"]
             with self.subTest(ex_id, mutation=new[:50]):
-                self.assertTrue(caught(sol["code"], sol["output"], mutated(sol["code"], old, new)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], mutated(sol["code"], old, new)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     def test_the_tests_line_of_the_first_exercise_says_what_passing_means(self) -> None:
         self.assertIn("Dos líneas exactas", exercise("S20-T1-A-E1")["tests"])
@@ -432,6 +444,38 @@ class YouDo(unittest.TestCase):
                           .replace('    sal["D2"] = n_rows\n', '    sal["D2"] = n_rows\n    wb["Entrada"].append(["TOTAL", det_sum])\n'))
         self.assertNotEqual(accumulates, sol)
         self.assertEqual(run_you_do(accumulates)["idempotent"], "False")
+
+    @needs_openpyxl
+    def test_the_delivered_cells_are_read_back(self) -> None:
+        """Codex review on #200 (P2): blank or wrong D1/D2 still printed reconcile_ok True."""
+        sol = you_do_solution(self.starter())
+        for name, bad in (("blank D1", 'sal["D1"] = None'), ("wrong D1", 'sal["D1"] = det_sum + 1'),
+                          ("blank D2", None)):
+            code = (sol.replace('    sal["D2"] = n_rows\n', '    sal["D2"] = None\n') if bad is None
+                    else sol.replace('    sal["D1"] = det_sum\n', f"    {bad}\n"))
+            with self.subTest(name):
+                self.assertNotEqual(code, sol, f"{name}: the mutation anchor is gone from the solution")
+                got = run_you_do(code)
+                self.assertEqual(got["reconcile_ok"], "False",
+                                 f"{name} in Salida was accepted: the gate checks memory, not the saved file")
+                self.assertEqual(got["manifest_written"], "False", f"{name}: the manifest was written anyway")
+
+    @needs_openpyxl
+    def test_without_the_read_back_a_blank_cell_passes(self) -> None:
+        """Negative control: removing salida_ok lets the blank D1 through, so the test above has teeth."""
+        sol = you_do_solution(self.starter())
+        no_check = sol.replace(' and salida_ok(releido["Salida"], det_sum, len(rows))', "")
+        blank = no_check.replace('    sal["D1"] = det_sum\n', '    sal["D1"] = None\n')
+        self.assertNotEqual(blank, sol, "the anchors for the negative control are gone")
+        self.assertEqual(run_you_do(blank)["reconcile_ok"], "True",
+                         "without the read-back the blank cell should pass; if not, the fixture changed")
+
+    @needs_openpyxl
+    def test_the_second_run_backs_up_the_first(self) -> None:
+        """Codex review on #200 (P2): mkdtemp made out.exists() always False, so backup was always null."""
+        got = run_you_do(you_do_solution(self.starter()))
+        self.assertEqual(got["backup"], "results.prev.xlsx", f"the re-run overwrote without a backup: {got}")
+        self.assertIn("results.prev.xlsx", got["files"], f"the backup is named but not on disk: {got['files']}")
 
     @needs_openpyxl
     def test_the_batch_reports_the_damaged_file(self) -> None:
