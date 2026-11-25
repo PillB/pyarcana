@@ -31,6 +31,22 @@ export function qaAccess(me: MePayload | null): QaAccess {
   return me.account.roles.includes('tester') ? 'tester' : null
 }
 
+/**
+ * The role line of the account window (owner request 2026-11-25): which staff role this session
+ * holds and whether it opens /admin. `reauth` is a listed admin whose Google sign-in is stale or
+ * missing: /admin would refuse the admin tabs until they sign in with Google again. A learner gets
+ * null, so the window shows nothing new to them.
+ */
+export type StaffRole = { role: 'admin' | 'supervisor' | 'tester'; reauth: boolean } | null
+
+export function staffRole(me: MePayload | null): StaffRole {
+  if (!me) return null
+  const access = qaAccess(me)
+  const reauth = !me.account.isAdmin && me.account.adminReauth
+  if (reauth) return { role: 'admin', reauth: true }
+  return access ? { role: access, reauth: false } : null
+}
+
 /** Whether this person may close or reopen a report (PATCH /v1/qa/reports/:id). */
 export function canReview(access: QaAccess): boolean {
   return access === 'admin' || access === 'supervisor'

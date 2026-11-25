@@ -27,6 +27,8 @@ export interface MeAccount {
   emailVerified: boolean
   displayName: string | null
   isAdmin: boolean
+  /** A listed admin whose session fails the Google part (the worker's adminReauth). */
+  adminReauth: boolean
   roles: string[]
   firstSigninAt: number | null
   trialAvailable: boolean
@@ -117,6 +119,7 @@ function parseAccount(raw: unknown): MeAccount | null {
     emailVerified: raw.emailVerified === true,
     displayName: str(raw.displayName),
     isAdmin: raw.isAdmin === true,
+    adminReauth: raw.adminReauth === true,
     roles: list(raw.roles).filter((r): r is string => typeof r === 'string'),
     firstSigninAt: num(raw.firstSigninAt),
     trialAvailable: raw.trialAvailable === true,

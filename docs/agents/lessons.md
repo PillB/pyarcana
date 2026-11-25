@@ -1119,3 +1119,13 @@ back. Read this list before a section round; every item cost at least one failed
   four files, not the repository. Fix: copy `src/`, `scripts/exam_bank.py`, `package.json` and
   `tsconfig.json`, take the section and `prisma/seed.ts` from `git show HEAD:`, and symlink
   `node_modules` and `.venv-content`. Check `df` before any extract.
+- **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
+  a webhook was not older than the stored row and that `canceled` was terminal, then awaited
+  more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
+  racing left the row past_due with its provider time moved back, and two status events both
+  said `from: active`. Every test sent webhooks one at a time. Root cause: a check-then-act on a
+  row with no compare-and-set at the write. Fix: `subscriptions.version` and a guard that writes
+  NULL into the NOT NULL column when the row moved on, which rolls the D1 batch back, then a
+  re-read. Guard: `workers/billing/tests/ledger-concurrency.test.mjs` races both orders and checks
+  that the status events form one chain. Any new read-decide-write on shared rows gets a
+  `Promise.all` test over the D1 fake, which yields between statements the way D1 does.

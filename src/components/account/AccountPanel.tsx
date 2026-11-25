@@ -3,9 +3,10 @@
 import type { MePayload } from '@/lib/cloud/session'
 import { ArchiveSection, DataSection, LinkSection, SignOutSection, SyncSection } from './AccountSections'
 import { PlanSection, SubscriptionSection, TrialSection, UpgradeSection } from './PlanSections'
+import { StaffSection } from './StaffSection'
 import { useText } from './text'
 
-/** The signed-in view: plan, trial, upgrade, subscriptions, sync, archives, sign-in methods, data, sign out. */
+/** The signed-in view: staff role and /admin link (staff only), plan, trial, upgrade, subscriptions, sync, archives, sign-in methods, data, sign out. */
 export function AccountPanel({ me }: { me: MePayload }) {
   const { tr } = useText()
   return (
@@ -13,6 +14,7 @@ export function AccountPanel({ me }: { me: MePayload }) {
       <p className="text-sm text-muted-foreground">
         {me.account.email ? tr('account.panel.signedInAs', { email: me.account.email }) : tr('account.panel.signedIn')}
       </p>
+      <StaffSection me={me} />
       <PlanSection me={me} />
       <TrialSection me={me} />
       <UpgradeSection me={me} />
