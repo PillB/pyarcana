@@ -29,10 +29,10 @@ import { MovedBanner } from '@/components/account/MovedBanner'
 import { SurveyPrompt } from '@/components/account/SurveyPrompt'
 import { TrialSoftCard } from '@/components/account/TrialSoftCard'
 import { openCloudAccount } from '@/components/account/runtime'
-import { useServerProgressSync, SUB_STEPS, type SubStep } from '@/lib/progress-store'
+import { useServerProgressSync, type SubStep } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
-import { renameSectionId } from '@/lib/section-id-migrations'
+import { findCourseSection, isSubStep, parseCourseHash, resolveCourseSectionId as resolveId, type CourseView } from '@/lib/course/hash-route'
 import { t, useI18n } from '@/lib/i18n'
 import { riseIn } from '@/lib/entrance'
 
@@ -48,7 +48,7 @@ const firebaseAuthUi: FirebaseAuthUi | null =
 const AuthModal = firebaseAuthUi?.AuthModal ?? null
 const UserMenu = firebaseAuthUi?.UserMenu ?? null
 
-type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
+type View = CourseView
 
 /**
  * The hash for a section and tab: `#basics` for Teoría (the links people already have), and
@@ -59,20 +59,8 @@ function stepHash(id: string, step: SubStep): string {
   return step === 'theory' ? id : `${id}/${step}`
 }
 
-function isSubStep(value: unknown): value is SubStep {
-  return typeof value === 'string' && (SUB_STEPS as readonly string[]).includes(value)
-}
-
 function resolveCourseSectionId(id: string): string {
-  const sMatch = /^S(\d{2})$/i.exec(id)
-  if (!sMatch) {
-    // The section id is also the URL hash, so a link someone bookmarked before the slugs were
-    // renamed must still land on the right section instead of silently falling back to home.
-    return renameSectionId(id)
-  }
-  const idx = parseInt(sMatch[1], 10)
-  const found = COURSE_SECTIONS.find((s) => s.index === idx)
-  return found ? found.id : id
+  return resolveId(id, COURSE_SECTIONS)
 }
 
 export default function Home() {
@@ -113,35 +101,19 @@ export default function Home() {
 
     // Sync with URL hash for shareable links (also on hashchange for SPA navigations)
     const syncFromHash = () => {
-      const hash = window.location.hash.slice(1)
-      if (hash === 'resources') {
-        setView('resources')
-        setActiveSectionId(null)
-      } else if (hash === 'admin' && !IS_STATIC_SITE) {
-        setView('admin')
-        setActiveSectionId(null)
-      } else if (hash === 'familiarity') {
-        setView('familiarity')
-        setActiveSectionId(null)
-      } else if (hash === 'capstones') {
-        setView('capstones')
-        setActiveSectionId(null)
-      } else if (hash === 'pricing' && !IS_STATIC_SITE) {
-        setView('pricing')
-        setActiveSectionId(null)
-      } else if (hash === 'home' || hash === '') {
-        setView('home')
-        setActiveSectionId(null)
-      } else {
-        const [rawId, rawStep] = hash.split('/')
-        const resolvedId = resolveCourseSectionId(rawId)
-        const section = COURSE_SECTIONS.find((s) => s.id === resolvedId)
-        if (section) {
-          setActiveSectionId(section.id)
-          setActiveSubStep(isSubStep(rawStep) ? rawStep : 'theory')
-          setView('section')
-        }
+      const route = parseCourseHash(window.location.hash, COURSE_SECTIONS, IS_STATIC_SITE)
+      if (!route) {
+        // Keep the current view rather than guess; say why, for whoever reads the console.
+        console.warn(`[pyarcana] the link ${JSON.stringify(window.location.hash)} names no view or section; staying on the current view`)
+        return
       }
+      if (route.view === 'section') {
+        setActiveSectionId(route.sectionId)
+        setActiveSubStep(route.step)
+      } else {
+        setActiveSectionId(null)
+      }
+      setView(route.view)
     }
 
     syncFromHash()
@@ -201,7 +173,15 @@ export default function Home() {
     } else {
       // Accept both slug IDs ("setup") and S## IDs ("S04") from the capstones
       // catalog gateSection field. Map S## to the section with matching index.
-      const resolvedId = resolveCourseSectionId(id)
+      const target = findCourseSection(id, COURSE_SECTIONS)
+      if (!target) {
+        // A section id no section has (a drifted capstone gateSection, tour step or glossary
+        // link) used to set view 'section' with nothing to render: a blank page. Stay put.
+        console.error(`[pyarcana] no section has the id ${JSON.stringify(id)}; staying on the current view`)
+        setSidebarOpen(false)
+        return
+      }
+      const resolvedId = target.id
       const nextStep: SubStep = isSubStep(subStep) ? subStep : 'theory'
       setActiveSectionId(resolvedId)
       setActiveSubStep(nextStep)
@@ -412,6 +392,8 @@ export default function Home() {
             <div className="min-w-0 truncate text-sm text-muted-foreground">
               {view === 'home' && tr('nav.home')}
               {view === 'resources' && tr('nav.resources')}
+              {/* Every view names itself here; #familiarity used to leave the crumb empty. */}
+              {view === 'familiarity' && 'Familiarity'}
               {view === 'capstones' && (
                 <span className="flex items-center gap-1">
                   <Boxes className="h-3.5 w-3.5 text-primary" />
