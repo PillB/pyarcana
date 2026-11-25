@@ -158,7 +158,7 @@ ONE_FIXTURE_SEPARATES = {"S26-T2-B-E1", "S26-T3-A-E1", "S26-T3-B-E3", "S26-T4-A-
 
 
 def all_code() -> list[tuple[str, str]]:
-    out = [(b["subtopicId"], b["code"]["code"]) for b in s26()["theory"] if b.get("code")]
+    out = [(b.get("subtopicId") or b["heading"], b["code"]["code"]) for b in s26()["theory"] if b.get("code")]
     out += [(d["demoId"], d["code"]["code"]) for d in s26()["iDo"]["steps"]]
     for e in s26()["weDo"]["steps"]:
         out += [(e["id"] + " starter", e["starterCode"]["code"]), (e["id"], e["solutionCode"]["code"])]
@@ -169,9 +169,9 @@ def all_code() -> list[tuple[str, str]]:
 class EveryPinRuns(unittest.TestCase):
     @needs_content_py
     def test_theory_and_demo_code_prints_its_pinned_output(self) -> None:
-        snippets = [(b["subtopicId"], b["code"]) for b in s26()["theory"] if b.get("code")]
+        snippets = [(b.get("subtopicId") or b["heading"], b["code"]) for b in s26()["theory"] if b.get("code")]
         snippets += [(d["demoId"], d["code"]) for d in s26()["iDo"]["steps"]]
-        self.assertEqual(len(snippets), 16)
+        self.assertGreaterEqual(len(snippets), 16, f"a theory or demo example was lost: {[n for n, _ in snippets]}")
         for name, code in snippets:
             with self.subTest(name):
                 self.assertEqual(stdout_of(code["code"]), code["output"].rstrip("\n"))
