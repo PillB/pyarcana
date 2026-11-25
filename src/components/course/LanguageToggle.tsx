@@ -32,6 +32,7 @@ export function LanguageToggle() {
         className="gap-1.5"
         title={t('nav.language', lang)}
         aria-label={t('nav.language', lang)}
+        aria-expanded={open}
       >
         <Globe className="h-3.5 w-3.5" />
         <span className="text-base leading-none">{current.flag}</span>

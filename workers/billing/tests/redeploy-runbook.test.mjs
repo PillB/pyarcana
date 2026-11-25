@@ -9,7 +9,7 @@
  *
  * Checks:
  *   1. every output line the D1 step quotes is still printed by redeploy.sh, setup.sh or deploy.sh;
- *   2. every repository path the runbook names exists;
+ *   2. every repository path the runbook names exists, also inside a command;
  *   3. the wrangler version it names is the one common.sh pins;
  *   4. it holds no mailbox other than role/example addresses, no Cloudflare token and no 32-hex id;
  *   5. every step that sends the owner to a dashboard cites the official doc it was checked against;
@@ -64,10 +64,13 @@ function renderScripts(texts, toml) {
  * `<...>` and `...` stand for variable parts. Keystrokes (`Ctrl + C`) are not output.
  * @returns {string[]} quoted lines no script prints
  */
+/** A command the owner types, not a line a script prints; check 2 holds the paths it names. */
+const COMMAND = /^(?:[A-Z_]+=\S+ )*(?:node|npx|git|curl|bun|wrangler|cd|ls)\b/;
+
 export function unprintedQuotes(doc, scripts) {
   const quotes = [...section(doc, "D1.").matchAll(/`([^`\n]+)`/g)].map((m) => m[1]);
   return quotes
-    .filter((q) => q.includes(" ") && !/^(Ctrl|Cmd) \+ /.test(q))
+    .filter((q) => q.includes(" ") && !/^(Ctrl|Cmd) \+ /.test(q) && !COMMAND.test(q))
     .filter((q) => {
       const pattern = squash(q).split(/<[^>]+>|\.\.\./).map(escapeRe).join(".+?");
       return !new RegExp(pattern).test(scripts);
@@ -76,7 +79,9 @@ export function unprintedQuotes(doc, scripts) {
 
 /** Check 2. @returns {string[]} named repository paths that do not exist */
 export function missingPaths(doc, root) {
-  const named = [...doc.matchAll(/`((?:workers|scripts|src)\/[\w./-]+)`/g)].map((m) => m[1]);
+  // Paths anywhere inside inline code, so a path in a command (`node scripts/x.mjs`) counts too.
+  const code = [...doc.matchAll(/`([^`\n]+)`/g)].map((m) => m[1]).join(" ");
+  const named = [...code.matchAll(/(?:^|[\s=(])((?:workers|scripts|src)\/[\w./-]+)/g)].map((m) => m[1]);
   return [...new Set(named)].filter((p) => !existsSync(path.join(root, p)));
 }
 
@@ -143,6 +148,9 @@ test("every repository path the runbook names exists", () => {
   assert.deepEqual(missingPaths(RUNBOOK, ROOT), [], "REDEPLOY.md names paths that are not in the repository");
   const moved = RUNBOOK + "\nRun `workers/billing/scripts/redeploy-old.sh`.\n";
   assert.deepEqual(missingPaths(moved, ROOT), ["workers/billing/scripts/redeploy-old.sh"]);
+  const renamed = RUNBOOK.replace("node scripts/hash_route_entry_check.mjs", "node scripts/hash_routes.mjs");
+  assert.notEqual(renamed, RUNBOOK, "the drift model found no hash_route_entry_check command to rename");
+  assert.deepEqual(missingPaths(renamed, ROOT), ["scripts/hash_routes.mjs"], "a path inside a command must be checked too");
 });
 
 test("the wrangler version in the runbook is the one the scripts pin", () => {

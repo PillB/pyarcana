@@ -91,19 +91,29 @@ export function pagePaths(file: string): string[] {
 }
 
 /**
- * The _headers file. Every path gets the security headers from one /* rule, whose CSP is 404.html's
- * (missing paths are answered with the 404 page: wrangler.toml not_found_handling). Then one rule
- * per page path detaches that CSP ("! Content-Security-Policy") and sets the page's own. Without
- * the detach line overlapping rules would merge into one comma-joined header, i.e. two enforced
- * policies. Cloudflare's asset worker applies matching rules in file order and, within a rule,
- * removes before it sets (workers-shared asset-worker headers.ts attachCustomHeaders), so /* must
- * come first. With no pages (a unit test, or before a build) the one /* rule carries buildCsp.
+ * The _headers file. Every path gets the security headers from one /* rule, then one rule per page
+ * path detaches the /* CSP ("! Content-Security-Policy") and sets the page's own, hashed policy.
+ *
+ * The /* policy is buildCsp itself: script-src with 'unsafe-inline' and NO hashes. It must never be
+ * stricter than any page's policy, because the rule order is not ours to rely on. Cloudflare's docs
+ * and workers-shared apply rules in file order, but pyarcana.dev answered "/" with the page policy
+ * FIRST and the /* policy appended after it (24 Nov 2026, c33c9503): two enforced policies, and the
+ * /* one (then 404.html's hashes) blocked 9 of the home page's 12 inline scripts, so React never
+ * hydrated (no Entrar button, dead theme and language toggles). "/" is the only rule key that sorts
+ * byte-wise before "/*", and every other page kept one header, so the platform appears to sort rule
+ * keys; whatever it does, the detach only works when /* comes first. With a lenient /*, either order
+ * gives the page's hashed policy: alone, or intersected with a policy that allows every inline
+ * script. verifyHeadersFile proves that for every page under file, sorted and reversed order.
+ *
+ * Trade-off: a missing path (the 404 page) gets the 'unsafe-inline' policy, as its <meta> copy
+ * already does, instead of 404.html's hashes. A hashed /* cannot be made order-proof: it would need
+ * every page's hashes (114 on 24 Nov 2026, about 6,300 characters, over Cloudflare's 2,000-character
+ * line limit). The 404 page is static and renders nothing from the request.
  */
 export function buildHeadersFile(cfg: CloudConfig, pages: BuiltPage[] = []): string {
   const notFound = pages.find((p) => p.file === '404.html')
-  if (pages.length && !notFound) throw new Error('_headers: the build has no 404.html, so missing paths would get no page policy')
-  const fallback = notFound ? hashedCsp(cfg, inlineScriptHashes(notFound.html)) : buildCsp(cfg)
-  const rules: string[][] = [['/*', `  Content-Security-Policy: ${fallback}`, ...SECURITY_HEADERS.map(([n, v]) => `  ${n}: ${v}`)]]
+  if (pages.length && !notFound) throw new Error('_headers: the build has no 404.html, so missing paths would be answered with no page at all (wrangler.toml not_found_handling = "404-page")')
+  const rules: string[][] = [['/*', `  Content-Security-Policy: ${buildCsp(cfg)}`, ...SECURITY_HEADERS.map(([n, v]) => `  ${n}: ${v}`)]]
   for (const page of pages) {
     if (page.file === '404.html') continue
     const csp = hashedCsp(cfg, inlineScriptHashes(page.html))
@@ -111,6 +121,79 @@ export function buildHeadersFile(cfg: CloudConfig, pages: BuiltPage[] = []): str
   }
   if (rules.length > HEADERS_RULES_MAX) throw new Error(`_headers: ${rules.length} rules, Cloudflare takes at most ${HEADERS_RULES_MAX}`)
   return `${rules.flat().map(checkHeaderLine).join('\n')}\n`
+}
+
+/** The rule orders verifyHeadersFile tries: the file's, byte-sorted keys (what "/" showed live), reversed. */
+export const RULE_ORDERS = ['file', 'sorted', 'reversed'] as const
+export type RuleOrder = (typeof RULE_ORDERS)[number]
+
+/** Cloudflare's rule pattern: "*" matches anything, the rest literally (workers-shared rules-engine). */
+function ruleMatches(rule: string, path: string): boolean {
+  const re = rule.split('*').map((part) => part.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('.*')
+  return new RegExp(`^${re}$`).test(path)
+}
+
+/**
+ * The header values a path would receive, applying the matching rules in the given order the way
+ * Cloudflare's asset worker does (workers-shared asset-worker attachCustomHeaders): per rule, delete
+ * the detached headers, then set each header the first time and append it after that.
+ */
+export function simulateHeaders(text: string, path: string, order: RuleOrder): Record<string, string[]> {
+  const parsed = parseHeadersFile(text)
+  let keys = Object.keys(parsed)
+  if (order === 'sorted') keys = [...keys].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+  if (order === 'reversed') keys = [...keys].reverse()
+  const out: Record<string, string[]> = {}
+  const set = new Set<string>()
+  for (const key of keys.filter((k) => ruleMatches(k, path))) {
+    const entries = Object.entries(parsed[key])
+    for (const [name] of entries.filter(([n]) => n.startsWith('! '))) delete out[name.slice(2).toLowerCase()]
+    for (const [name, value] of entries.filter(([n]) => !n.startsWith('! '))) {
+      const lower = name.toLowerCase()
+      out[lower] = set.has(lower) ? [...(out[lower] ?? []), value] : [value]
+      set.add(lower)
+    }
+  }
+  return out
+}
+
+/**
+ * Whether one CSP lets an inline script with this hash source run (CSP3 "does a source list allow
+ * all inline behavior"): listed by hash, or 'unsafe-inline' with no hash or nonce in the list
+ * (a hash or nonce makes browsers ignore 'unsafe-inline'). script-src falls back to default-src.
+ */
+export function policyAllowsInline(policy: string, hash: string): boolean {
+  const directives = policy.split(';').map((d) => d.trim().split(/\s+/))
+  const list = directives.find((d) => d[0] === 'script-src') ?? directives.find((d) => d[0] === 'default-src')
+  if (!list) return true
+  const sources = list.slice(1)
+  if (sources.includes(hash)) return true
+  return sources.includes("'unsafe-inline'") && !sources.some((s) => /^'(sha(256|384|512)|nonce)-/.test(s))
+}
+
+/**
+ * Every way the _headers file would block a page's own inline scripts: for each page path (and a
+ * missing path, answered with 404.html), under every RULE_ORDERS order, every enforced CSP must
+ * allow every inline script of the page. Empty means the file is safe whatever order the platform
+ * uses. Each failure names the path, the order, how many policies arrived and what they block.
+ */
+export function verifyHeadersFile(text: string, pages: BuiltPage[]): string[] {
+  const failures: string[] = []
+  const targets = pages.flatMap((page) =>
+    page.file === '404.html' ? [{ path: '/__pyarcana-missing-path__', page }] : pagePaths(page.file).map((path) => ({ path, page })),
+  )
+  for (const { path, page } of targets) {
+    const hashes = inlineScriptHashes(page.html)
+    for (const order of RULE_ORDERS) {
+      const policies = simulateHeaders(text, path, order)['content-security-policy'] ?? []
+      if (policies.length === 0) failures.push(`${path} (${order} order): no Content-Security-Policy at all; expected the page's hashed policy`)
+      policies.forEach((policy, i) => {
+        const blocked = hashes.filter((h) => !policyAllowsInline(policy, h))
+        if (blocked.length) failures.push(`${path} (${order} order): policy ${i + 1} of ${policies.length} blocks ${blocked.length} of ${hashes.length} inline scripts of ${page.file}, e.g. ${blocked[0]}`)
+      })
+    }
+  }
+  return failures
 }
 
 /** A line Cloudflare would reject (too long) or that would split into two (a line break) throws. */

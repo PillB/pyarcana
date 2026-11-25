@@ -291,7 +291,11 @@ It runs four numbered stages. What you should see, and what to answer:
      minutes), `Security headers and ads.txt`, `Deploying the Worker (static assets + API)`, and
      finally `Deployed`.
 
-If anything ends with `STOP` or "Nothing was deployed", the live site is unchanged. Read the
+If anything ends with `STOP`, `REFUSED` or "Nothing was deployed", the live site is unchanged.
+A `REFUSED` from `cloud-headers` means the security headers would block a page's own scripts in
+the order Cloudflare applies them; to look at it in a browser before deploying, build and run
+`node --import tsx scripts/serve_out_rule_order.mjs --order sorted` (it serves `out/` on
+<http://localhost:8788> with production's rule order; `wrangler dev` does not reproduce it). Read the
 message, fix that one thing, run `redeploy.sh` again. It is safe to repeat.
 
 ### D2. Check the live site
@@ -308,6 +312,12 @@ workers/billing/e2e/live.sh anon
   its Chromium in `workers/billing/e2e/` (not in git); it needs no Cloudflare token.
 - For the full guided run, `workers/billing/e2e/live.sh` without arguments: it asks before each
   signed-in step and has you sign in with your admin Gmail in your own Chrome.
+- Then the home page's routes, each opened directly in a fresh tab:
+  `BASE=https://pyarcana.dev node scripts/hash_route_entry_check.mjs`. It must end with 0
+  failures. It catches a page that loads but never starts (no **Entrar** button, dead theme and
+  language toggles), which happened on 24 Nov 2026 when "/" received two security policies.
+  If it says Playwright's browser is missing, run `npx playwright install chromium` once and
+  run it again.
 - By hand: <https://pyarcana.dev/admin> → **Testers** shows the role picker (Tester / QA
   supervisor).
 

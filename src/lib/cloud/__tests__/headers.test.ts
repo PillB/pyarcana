@@ -16,7 +16,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { CLOUD_CONFIG, type CloudConfig } from '@/lib/cloud/config'
 import { buildCsp, LEGACY_CSP } from '@/lib/cloud/csp'
-import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, checkHeaderLine, hashedCsp, robotsWithSitemap, inlineScriptHashes, pagePaths, parseHeadersFile, SECURITY_TXT_DAYS, type BuiltPage } from '@/lib/cloud/headers'
+import { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, checkHeaderLine, hashedCsp, policyAllowsInline, robotsWithSitemap, inlineScriptHashes, pagePaths, parseHeadersFile, RULE_ORDERS, SECURITY_TXT_DAYS, simulateHeaders, verifyHeadersFile, type BuiltPage } from '@/lib/cloud/headers'
 import { createHash } from 'node:crypto'
 
 const ON: CloudConfig = {
@@ -177,7 +177,7 @@ test('pagePaths: the paths a built page answers, with and without the trailing s
   assert.deepEqual(pagePaths('docs/a.html'), ['/docs/a', '/docs/a/'])
 })
 
-test('_headers with pages: /* first with 404.html\'s hashes, then per path a detach line and that page\'s own policy', () => {
+test('_headers with pages: /* first with the unhashed policy, then per path a detach line and that page\'s own policy', () => {
   const pages: BuiltPage[] = [
     { file: '404.html', html: '<script>nf()</script>' },
     { file: 'index.html', html: '<script>home()</script>' },
@@ -186,7 +186,8 @@ test('_headers with pages: /* first with 404.html\'s hashes, then per path a det
   const text = buildHeadersFile(ON, pages)
   assert.deepEqual(text.split('\n').filter((l) => l && !/^\s/.test(l)), ['/*', '/', '/privacy', '/privacy/'], 'file order: Cloudflare applies matching rules in it')
   const rules = parseHeadersFile(text)
-  assert.equal(rules['/*']['Content-Security-Policy'], hashedCsp(ON, [sha('nf()')]))
+  // Was hashedCsp(ON, [sha('nf()')]) until 24 Nov 2026: a hashed /* broke "/" live (see below).
+  assert.equal(rules['/*']['Content-Security-Policy'], buildCsp(ON), 'the /* policy carries no hashes, so it can never be stricter than a page policy')
   assert.equal(rules['/*']['X-Frame-Options'], 'DENY', 'the security headers stay on every path')
   for (const [path, body] of [['/', 'home()'], ['/privacy', 'priv()'], ['/privacy/', 'priv()']]) {
     assert.ok('! Content-Security-Policy' in rules[path], `${path} detaches the /* policy, or the two would be comma-joined into two`)
@@ -219,4 +220,62 @@ test('robots.txt gains exactly one Sitemap line, after our rules; none at stage 
   assert.equal(once, 'User-agent: *\nAllow: /\n\nSitemap: https://pyarcana.dev/sitemap.xml\n')
   assert.equal(robotsWithSitemap(ON, once), once, 'running the deploy step twice adds no second line')
   assert.equal(robotsWithSitemap({ ...ON, launchStage: 'off' }, 'x'), null)
+})
+
+// --- Rule order (24 Nov 2026: https://pyarcana.dev/ answered two CSPs and never hydrated) ----------
+
+const ORDER_PAGES: BuiltPage[] = [
+  { file: '404.html', html: '<script>shared()</script><script>nf()</script>' },
+  { file: 'index.html', html: '<script>shared()</script><script>home()</script><script>flight()</script>' },
+  { file: 'privacy.html', html: '<script>shared()</script><script>priv()</script>' },
+]
+
+/** The _headers file as buildHeadersFile wrote it before the fix: /* carried 404.html's hashes. */
+function preFixHeadersFile(pages: BuiltPage[]): string {
+  const current = buildHeadersFile(ON, pages)
+  return current.replace(`  Content-Security-Policy: ${buildCsp(ON)}`, `  Content-Security-Policy: ${hashedCsp(ON, inlineScriptHashes(pages[0].html))}`)
+}
+
+test('simulateHeaders reproduces what pyarcana.dev sent: sorted keys put "/" before "/*", so "/" gets two CSPs, page first', () => {
+  const text = preFixHeadersFile(ORDER_PAGES)
+  const home = simulateHeaders(text, '/', 'sorted')['content-security-policy']
+  assert.equal(home.length, 2, 'live: two Content-Security-Policy headers on /')
+  assert.equal(home[0], hashedCsp(ON, inlineScriptHashes(ORDER_PAGES[1].html)), 'live: the page policy came first')
+  assert.equal(simulateHeaders(text, '/', 'file')['content-security-policy'].length, 1, 'file order: the detach works, which is why wrangler dev and csp.e2e passed')
+  assert.equal(simulateHeaders(text, '/privacy', 'sorted')['content-security-policy'].length, 1, 'live: /privacy sorts after /* and kept one header')
+  assert.deepEqual(simulateHeaders(text, '/', 'sorted')['x-frame-options'], ['DENY'], 'the other /* headers still arrive')
+})
+
+test('verifyHeadersFile: the pre-fix file blocks the home page in sorted order; the current file is safe in every order', () => {
+  const before = verifyHeadersFile(preFixHeadersFile(ORDER_PAGES), ORDER_PAGES)
+  assert.ok(before.some((f) => f.startsWith('/ (sorted order): policy 2 of 2 blocks 2 of 3 inline scripts of index.html')), `defect not detected: ${JSON.stringify(before)}`)
+  assert.ok(!before.some((f) => f.startsWith('/privacy (sorted order)')), 'the check must not blame pages that worked live')
+  assert.deepEqual(verifyHeadersFile(buildHeadersFile(ON, ORDER_PAGES), ORDER_PAGES), [])
+})
+
+test('drift: a future page whose path sorts before "/*", or a /* that regains hashes, is caught or harmless', () => {
+  const early: BuiltPage = { file: '!promo.html', html: '<script>promo()</script>' }
+  const pages = [...ORDER_PAGES, early]
+  assert.ok('/!promo' < '/*', 'the drifted path really sorts first')
+  assert.deepEqual(verifyHeadersFile(buildHeadersFile(ON, pages), pages), [], 'a lenient /* is safe for any path in any order')
+  const regressed = verifyHeadersFile(preFixHeadersFile(pages), pages)
+  assert.ok(regressed.some((f) => f.startsWith('/!promo (sorted order)')), 'a hashed /* is refused for the drifted page too')
+  assert.ok(regressed.some((f) => f.startsWith('/privacy (reversed order)')), 'and for every page if the platform reverses the order')
+  assert.deepEqual([...RULE_ORDERS], ['file', 'sorted', 'reversed'])
+})
+
+test('verifyHeadersFile refuses a page that ends up with no CSP at all', () => {
+  const text = buildHeadersFile(ON, ORDER_PAGES).replace(/\n {2}Content-Security-Policy: [^\n]*/g, '')
+  const failures = verifyHeadersFile(text, ORDER_PAGES)
+  assert.ok(failures.some((f) => f.startsWith('/ (file order): no Content-Security-Policy at all')), JSON.stringify(failures))
+})
+
+test('policyAllowsInline follows CSP3: hash listed, or unsafe-inline only while no hash or nonce is listed', () => {
+  const h = sha('x()')
+  assert.equal(policyAllowsInline(`script-src 'self' ${h}`, h), true)
+  assert.equal(policyAllowsInline(`script-src 'self' 'unsafe-inline'`, h), true)
+  assert.equal(policyAllowsInline(`script-src 'self' 'unsafe-inline' ${sha('other()')}`, h), false, "a hash disables 'unsafe-inline'")
+  assert.equal(policyAllowsInline(`script-src 'self' 'unsafe-inline' 'nonce-abc'`, h), false, "a nonce disables 'unsafe-inline'")
+  assert.equal(policyAllowsInline(`default-src 'self'`, h), false, 'script-src falls back to default-src')
+  assert.equal(policyAllowsInline(`img-src 'self'`, h), true, 'no script-src and no default-src: scripts are unrestricted')
 })

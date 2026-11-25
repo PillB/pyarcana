@@ -168,6 +168,12 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
   path it names and version it pins is tested against the scripts, and every dashboard step
   cites the official doc it was checked against, with the date
   (`workers/billing/tests/redeploy-runbook.test.mjs`).
+- **Simulate the platform, not only the content.** A local stack that behaves differently from
+  production on an undocumented point is not evidence for that point. Name the assumption (rule
+  order, header merging, caching), make the code correct under every plausible behaviour, and
+  test all of them. 24 Nov 2026: `wrangler dev` applied `_headers` rules in file order and
+  pyarcana.dev did not, so "/" got two CSPs and never hydrated while every local check passed
+  (`src/lib/cloud/headers.ts` verifyHeadersFile, `scripts/serve_out_rule_order.mjs`).
 
 ## Fail loudly
 
