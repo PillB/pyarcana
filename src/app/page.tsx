@@ -110,18 +110,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
 
-    // Show the first-visit interactive tour for new users.
-    // Not over Sesión 0: whoever opens /empezar is installing programs, and the tour walks the
-    // course they cannot use yet. It waits for their first visit to the course itself.
-    let tourTimer: number | undefined
-    try {
-      if (!isSessionZeroPath(window.location.pathname) && localStorage.getItem(PYARCANA_TOUR_STORAGE_KEY) !== '1') {
-        // Defer slightly so layout settles and tour targets are present.
-        tourTimer = window.setTimeout(() => setTourOpen(true), 400)
-      }
-    } catch {
-      // localStorage unavailable — skip the tour.
-    }
 
     // Sync with URL hash for shareable links (also on hashchange for SPA navigations)
     const syncFromHash = () => {
@@ -147,10 +135,38 @@ export default function Home() {
     syncFromHash()
     window.addEventListener('hashchange', syncFromHash)
     return () => {
-      if (tourTimer !== undefined) window.clearTimeout(tourTimer)
       window.removeEventListener('hashchange', syncFromHash)
     }
   }, [])
+
+  // Show the first-visit interactive tour for new users, once per page load.
+  // Not over Sesión 0: whoever opens /empezar is installing programs, and the tour walks the
+  // course they cannot use yet. It is offered on the first view that is not Sesión 0, so a learner
+  // who starts at /empezar gets it when «Ir a la Sección 1» or the menu takes them into the course
+  // in place, without a reload (Codex review on PR 190).
+  // The timer outlives view changes (the hash router switches view right after mount); only
+  // unmounting cancels it.
+  const tourOffered = useRef(false)
+  const tourTimer = useRef<number | undefined>(undefined)
+  useEffect(
+    () => () => {
+      window.clearTimeout(tourTimer.current)
+      tourOffered.current = false
+    },
+    [],
+  )
+  useEffect(() => {
+    if (tourOffered.current || view === 'session0') return
+    tourOffered.current = true
+    try {
+      if (localStorage.getItem(PYARCANA_TOUR_STORAGE_KEY) !== '1') {
+        // Defer slightly so layout settles and tour targets are present.
+        tourTimer.current = window.setTimeout(() => setTourOpen(true), 400)
+      }
+    } catch {
+      // localStorage unavailable — skip the tour.
+    }
+  }, [view])
 
   // Armed one commit after the effect above, so the view it restores from the
   // hash (#capstones, #S05) is shown as it loads instead of fading in from 0.

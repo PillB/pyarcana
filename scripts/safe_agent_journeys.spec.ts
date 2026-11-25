@@ -378,6 +378,22 @@ test.describe('Lesson navigation journeys', () => {
     await context.close()
   })
 
+  // The first-visit tour waits while a new learner installs programs on /empezar, and opens when
+  // «Ir a la Sección 1» takes them into the course in place (Codex review on PR 190: the first
+  // version never offered it, because the check ran only once, at mount, on /empezar).
+  test('a new learner who starts at Sesión 0 gets the tour when entering the course, not before', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await page.goto(`${HOME}empezar`)
+    await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({ timeout: 20000 })
+    await page.waitForTimeout(1200)
+    await expect(page.getByTestId('tour-card'), 'the tour must not open over Sesión 0').toHaveCount(0)
+    await page.getByTestId('setup-to-s01').click()
+    await expect(page.getByTestId('section-root')).toBeVisible({ timeout: 20000 })
+    await expect(page.getByTestId('tour-card'), 'the tour must open on entering the course').toBeVisible({ timeout: 5000 })
+    await context.close()
+  })
+
   test('on a phone the next step is written in the page, not only on an icon', async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
     const page = await context.newPage()
