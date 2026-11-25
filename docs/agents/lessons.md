@@ -1034,3 +1034,15 @@ back. Read this list before a section round; every item cost at least one failed
   distractor now makes a claim that the lesson or a run refutes, and the S17 one is checked by
   running pandas. Guard: before a bank ships, read each distractor alone and ask whether it is a
   true answer to the question as worded. When the claim is about code behaviour, run it.
+- **One chart, two sets of numbers (proposal 12 S19, 25 Nov 2026).** S19 draws the same synthetic
+  chart in eight places. Lima was 28.0 with n=40 in the bar demo and 24.0 with n=28 in the tooltip
+  demo, and Madrid had the reverse. Two P1s came from it. The lookup exercise told the learner to
+  filter Lima in rows that had no Lima, which raises StopIteration. The You Do example alt said
+  Madrid leads with 28 PEN and n=40, which the starter's data contradicts. Each block was right
+  alone. Root cause: every demo typed its own literals, and nothing compared them. Fix: the
+  section has one dataset, Lima 28.0 (n=40), Madrid 24.0 (n=28) and Bogota 22.5 (n=32). The
+  section test reads every region and value pair in code, pins and prose, and fails on any value
+  that differs. Guard: a section that repeats a chart across blocks declares its dataset once in
+  its test, and every new block is checked against it. The same review found three checks that
+  could not fail: a parity test that compared a dict with its own copy, and export metadata and
+  claim verdicts typed by hand. Their tests now change the input and expect the output to move.
