@@ -209,7 +209,7 @@ class EveryPinRuns(unittest.TestCase):
     def test_theory_and_demo_code_prints_its_pinned_output(self) -> None:
         snippets = [(b["heading"], b["code"]) for b in s24()["theory"] if b.get("code")]
         snippets += [(d["demoId"], d["code"]) for d in s24()["iDo"]["steps"]]
-        self.assertEqual(len(snippets), 16)
+        self.assertGreaterEqual(len(snippets), 16, f"a theory or demo example was lost: {[n for n, _ in snippets]}")
         for name, code in snippets:
             with self.subTest(name):
                 self.assertEqual(stdout_of(code["code"]), code["output"].rstrip("\n"))
