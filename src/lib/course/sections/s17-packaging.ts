@@ -22,23 +22,23 @@ export const section17: CourseSection = {
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú, el analista que solo «hace `merge` y `groupby`» resume así su trabajo: **`merge`** combina tablas por sus claves y `groupby` reduce a un resumen las filas que comparten una clave. Si no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, cambiar entre disposición larga y ancha con columnas estables, agregar con un contrato explícito (suma vs. media) y reconciliar totales para que un stakeholder no técnico pueda auditarlos. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
+ "En un equipo de analytics de banca, fintech o retail en Perú, hay analistas que resumen su trabajo como «hacer `merge` y `groupby`». **`merge`** combina tablas por sus claves, y `groupby` reduce a un resumen las filas que comparten una clave. Si el analista no documenta la cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo), entrega números inflados al comité. Aquí aprendes a unir tablas con claves limpias, cambiar entre disposición larga y ancha con columnas estables, agregar con un contrato explícito (suma vs. media) y reconciliar totales para que un stakeholder no técnico pueda auditarlos. Entregas un script reproducible, evidencias numéricas y un memo de límites, sin PII real ni claims causales sin evidencia.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
- { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
- { text: "Cambiar tablas entre disposición larga y ancha con `concat`, `melt` y una regla explícita para combinar valores repetidos" },
+ { text: "Usar validate y anti-join (la lista de filas de un lado sin pareja en el otro) para detectar fan-out y filas huérfanas" },
+ { text: "Cambiar tablas entre disposición larga y ancha con `melt` y su operación inversa, con una regla explícita para combinar valores repetidos, y apilar lotes con `concat`" },
  { text: "Mantener nombres de columnas estables en long/wide y validar el set expected" },
  { text: "Agregar con groupby/agg (resúmenes) y transform (features a nivel fila)" },
- { text: "Construir ventanas rolling, fechas ordenadas y cohortes por primera observación" },
- { text: "Reconciliar denominadores y totales (diff, residual, tolerancia eps)" },
- { text: "Controlar leakage temporal —el uso de datos posteriores a la fecha de corte— con cutoff/as-of y reportar el delta de leakage" }
+ { text: "Construir ventanas móviles (rolling: un promedio de los últimos n periodos), fechas ordenadas y cohortes por primera observación" },
+ { text: "Reconciliar denominadores y totales (diff, residual y tolerancia eps, la diferencia máxima que se acepta)" },
+ { text: "Controlar leakage temporal —el uso de datos posteriores a la fecha de corte— con una fecha de corte as-of (solo datos conocidos hasta esa fecha) y reportar el delta de leakage" }
  ],
  theory: [
  {
   heading: "Unes dos tablas y de pronto hay más filas que antes",
  paragraphs: [
    "No es un error del código: es lo que ocurre cuando la clave por la que unes no es única en uno de los lados. Cada coincidencia múltiple multiplica filas, los totales se inflan y el resultado sigue pareciendo perfectamente normal. Contar las filas antes y después de una unión es el hábito más barato de esta sección y el que más disgustos evita.",
-   "Antes de unir hay que saber qué se espera. Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado crece hacia el lado de las transacciones. «Tantas filas como transacciones» solo es exacto en un `inner join` donde toda transacción tiene cliente: en un `left join` desde clientes, cada cliente sin transacciones aporta igualmente su fila con nulos, y las transacciones huérfanas no aparecen. Por eso el conteo esperado depende del tipo de join, y por eso se declara antes de unir. Si esperabas uno a uno y sale otra cosa, la sorpresa está en los datos, no en la operación — y es mejor enterarse ahí que en la reunión. También conviene mirar lo que **no** casó: las filas huérfanas suelen ser el hallazgo más interesante del día.",
+   "Antes de unir hay que saber qué se espera. Si cada cliente tiene muchas transacciones, la relación es de uno a muchos y el resultado crece hacia el lado de las transacciones. «Tantas filas como transacciones» solo es exacto en un `inner join` donde toda transacción tiene cliente. En un `left join` desde clientes, cada cliente sin transacciones aporta igualmente su fila con nulos, y las transacciones huérfanas no aparecen. Por eso el conteo esperado depende del tipo de join, y por eso se declara antes de unir. Si esperabas uno a uno y sale otra cosa, la sorpresa está en los datos, no en la operación — y es mejor enterarse ahí que en la reunión. También conviene mirar lo que **no** casó: las filas huérfanas suelen ser el hallazgo más interesante del día.",
    "Después viene la forma. Los mismos datos pueden estar **largos** —una fila por cliente y mes— o **anchos**, con un mes por columna. Ninguna es mejor: la larga es cómoda para agregar y la ancha para leer en una tabla. Cambiar de una a otra es rutinario, y lo único que hay que cuidar es que los nombres de columna sigan significando lo mismo después del cambio.",
    "Agrupar es el paso donde aparecen las respuestas de negocio, y también donde se cuela el error más silencioso: agregar sin declarar sobre qué población. «El ticket promedio es 42» no significa nada sin decir de cuántos clientes, en qué periodo y excluyendo qué. Un promedio sin denominador es un número decorativo.",
    "La sección cierra reconciliando: el total agregado debe cuadrar con el detalle, y si no cuadra hay que explicar la diferencia en lugar de ajustarla. La pregunta que la atraviesa es de control: **¿cuántas filas debería tener esto, y por qué tiene otras?** El entregable no es un paquete publicado sino un dataset limpio, un script que se puede volver a correr y un memo con los límites.",
@@ -73,7 +73,7 @@ export const section17: CourseSection = {
  type: "tip",
  title: "Antes de unir, alinea dtypes (puente S16)",
  content:
- "Tras S16, normaliza `cliente_id` a `str` en ambos lados y verifica unicidad en el lado 1. Una unión entre una clave `str` y otra `int` produce huérfanos falsos; un maestro con ids duplicados invalida el supuesto 1:1 antes de unir.",
+ "Tras S16, normaliza `cliente_id` a `str` en ambos lados y verifica unicidad en el lado 1. Una unión entre una clave `str` y otra `int` no devuelve huérfanos: pandas se detiene con `ValueError` («You are trying to merge on str and int64 columns»). Por eso normalizas ambas claves a `str` antes de unir. Un maestro con ids duplicados invalida el supuesto 1:1 antes de unir.",
  },
  },
  {
@@ -95,13 +95,13 @@ export const section17: CourseSection = {
     print("cli_unique", cli["cliente_id"].is_unique)
     print("tx_unique", tx["cliente_id"].is_unique)
     m = cli.merge(tx, on="cliente_id", how="left")
-    print(len(cli), len(tx), len(m))
+    print("rows_cli", len(cli), "rows_tx", len(tx), "rows_merge", len(m))
     print(m.to_dict(orient="list"))
 
 s17_th_1()`,
  output: `cli_unique True
 tx_unique False
-2 3 3
+rows_cli 2 rows_tx 3 rows_merge 3
 {'cliente_id': ['C001', 'C001', 'C002'], 'region': ['Lima', 'Lima', 'Cusco'], 'monto': [10.0, 5.0, nan]}`,
  },
  callout: {
@@ -152,7 +152,7 @@ validate_fail True`,
  type: "warning",
  title: "m:m accidental",
  content:
- "Duplicados en ambos lados explotan filas y sesgan sumas de PEN. Usa `validate` para fallar temprano; si el contrato es 1:m, declara ese supuesto y no uses `one_to_one`.",
+ "Duplicados en ambos lados explotan filas y sesgan sumas de PEN: con C001 dos veces en cada tabla, el merge devuelve 2 × 2 = 4 filas de C001. Usa `validate` para fallar temprano; si el contrato es 1:m, declara ese supuesto y no uses `one_to_one`.",
  },
  },
  {
@@ -161,7 +161,7 @@ validate_fail True`,
   "Un **reshape** reparte los mismos datos entre filas y columnas para responder otra pregunta. Existe porque una tabla larga —una fila por cliente y periodo— facilita agrupar, mientras una tabla ancha —una fila por cliente y una columna por periodo— facilita leer un reporte. El cambio no debe alterar los montos; solo cambia dónde aparecen.",
   "`melt` pasa de ancho a largo. `pivot` vuelve de largo a ancho cuando cada cruce de cliente y periodo tiene un solo monto. **`pivot_table`** convierte los datos de largo a ancho, pero resuelve los cruces repetidos con `aggfunc`: esa es la regla que indica si deben sumarse, promediarse o contarse.",
   "Trabajemos con tres filas: C001–ene–10, C001–ene–5 y C001–feb–3. Elige `cliente_id` para las filas, `mes` para las columnas, `monto` para los valores y `sum` para `aggfunc`. Lo correcto es una fila para C001 con `ene=15` y `feb=3`; el total sigue siendo 18.",
-  "Antes de ejecutar el código siguiente, predice sus formas: dos clientes por dos periodos pasan de una tabla ancha de 2×3 a una larga de 4×3, y regresan a una tabla de valores de 2×2. Ejecútalo y comprueba que la primera línea sea `(4, 3) (2, 2)` y que aparezcan dos valores `m1` y dos `m2`. Si no ocurre, revisa qué elegiste como identificador, periodo, valor y regla de combinación.",
+  "Antes de ejecutar la tercera demo del I Do (`demo_reshape.py`), predice sus formas. Dos clientes por dos periodos pasan de una tabla ancha de 2×3 a una larga de 4×3, y regresan a una tabla de valores de 2×2. Ejecútala y comprueba que la primera línea sea `(4, 3) (2, 2)` y que aparezcan dos valores `m1` y dos `m2`. Si no ocurre, revisa qué elegiste como identificador, periodo, valor y regla de combinación.",
  ],
  },
  {
@@ -177,7 +177,7 @@ validate_fail True`,
  paragraphs: [
  "`concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal para series por mes); `pivot` / `pivot_table` hacen **long→wide** para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",
  "Contrato: declara `id_vars` / `value_vars` o `index`+`columns`+`values`, y en `pivot_table` fija **`aggfunc` explícito** (p. ej. `sum`) para no depender del default. Tras concat, usa `ignore_index=True` o `keys=` si necesitas trazabilidad del origen.",
- "Fixture sintético: wide con columnas `ene`/`feb` por `cliente_id` → melt a (`cliente_id`,`mes`,`monto`) → pivot_table de regreso. Verifica `len(long)==n_clientes*n_meses` y que la suma de montos se conserve bajo aggfunc sum.",
+ "Fixture sintético: dos lotes de un cliente cada uno se apilan con `concat` en un wide con columnas `ene`/`feb` por `cliente_id` → melt a (`cliente_id`,`mes`,`monto`) → pivot_table de regreso. Verifica `len(long)==n_clientes*n_meses` y que la suma de montos se conserve bajo aggfunc sum.",
  ],
  code: {
  language: 'python',
@@ -185,15 +185,21 @@ validate_fail True`,
  code: `def s17_th_3():
     import pandas as pd
 
-    wide = pd.DataFrame({"cliente_id": ["C001", "C002"], "ene": [1, 2], "feb": [3, 4]})
+    lote_1 = pd.DataFrame({"cliente_id": ["C001"], "ene": [1], "feb": [3]})
+    lote_2 = pd.DataFrame({"cliente_id": ["C002"], "ene": [2], "feb": [4]})
+    wide = pd.concat([lote_1, lote_2], ignore_index=True)
     long = wide.melt(id_vars=["cliente_id"], var_name="mes", value_name="monto")
     back = long.pivot_table(index="cliente_id", columns="mes", values="monto", aggfunc="sum")
+    print("filas_wide", len(wide), "filas_long", len(long), "esperadas", len(wide) * 2)
     print(long.to_dict(orient="list"))
     print(back.reset_index().to_dict(orient="list"))
+    print("suma_long", int(long["monto"].sum()), "suma_back", int(back.to_numpy().sum()))
 
 s17_th_3()`,
- output: `{'cliente_id': ['C001', 'C002', 'C001', 'C002'], 'mes': ['ene', 'ene', 'feb', 'feb'], 'monto': [1, 2, 3, 4]}
-{'cliente_id': ['C001', 'C002'], 'ene': [1, 2], 'feb': [3, 4]}`,
+ output: `filas_wide 2 filas_long 4 esperadas 4
+{'cliente_id': ['C001', 'C002', 'C001', 'C002'], 'mes': ['ene', 'ene', 'feb', 'feb'], 'monto': [1, 2, 3, 4]}
+{'cliente_id': ['C001', 'C002'], 'ene': [1, 2], 'feb': [3, 4]}
+suma_long 10 suma_back 10`,
  },
  callout: {
  type: "tip",
@@ -207,7 +213,7 @@ s17_th_3()`,
  subtopicId: "S17-T2-B",
  paragraphs: [
  "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `feb`). El portfolio exige un **schema estable**: p. ej. `cliente_id`, `monto_ene`, `monto_feb`. Aplanar con f-strings o `map` y **validar** `set(df.columns)==expected` (el orden se documenta aparte si importa al export).",
- "Contrato de nombres: lista ordenada en el memo del portfolio; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere `rename(columns={...})` con dict explícito sobre mutaciones ad hoc de `.columns`.",
+ "Contrato de nombres: lista ordenada en el memo del portfolio; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere `rename(columns={...})` con dict explícito sobre mutaciones ad hoc de `.columns`: el dict deja escrito qué nombre pasa a cuál. Si la regla es una sola para todas las columnas, como poner el prefijo `monto_`, una comprensión `[f\"monto_{c}\" for c in w.columns]` también se audita en una línea.",
  "Caso: long (`cliente_id`,`mes`,`monto`) → pivot → prefijo `monto_`. Imprime columnas y un booleano de igualdad de sets. Si falta `monto_feb`, el gate de schema del portfolio debe fallar de forma explicable (concepto S16), no más adelante en el plot.",
  ],
  code: {
@@ -222,8 +228,7 @@ s17_th_3()`,
      "monto": [1.0, 2.0],
     })
     wide = long.pivot(index="cliente_id", columns="mes", values="monto")
-    wide.columns = [f"monto_{c}" for c in wide.columns]
-    wide = wide.reset_index()
+    wide = wide.rename(columns={"ene": "monto_ene", "feb": "monto_feb"}).reset_index()
     expected = ["cliente_id", "monto_ene", "monto_feb"]
     print(wide.columns.tolist())
     print(set(wide.columns) == set(expected))
@@ -245,7 +250,7 @@ True`,
  paragraphs: [
  "Con la forma long/wide ya estable, pasamos a **colapsar o reinyectar** números. `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
  "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.",
- "Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El análisis del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
+ "Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos. Son etiquetas sintéticas para tener claves distintas: `Madrid` no es una región del Perú y no se lee como desagregación geográfica. Con esos montos, `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El análisis del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
  ],
  code: {
  language: 'python',
@@ -279,8 +284,8 @@ s17_th_5()`,
  subtopicId: "S17-T3-B",
  paragraphs: [
  "`rolling` construye **ventanas móviles** sobre series ordenadas. Una **cohorte** etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
- "Contrato: **ordena por fecha** antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = `groupby(cliente_id)[fecha].transform('min').dt.to_period('M')` (o equivalente estable).",
- "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos. En S18 profundizarás la lectura de incertidumbre; aquí el contrato es series ordenadas y cohortes bien definidas.",
+ "Contrato: **ordena por fecha** antes de rolling; documenta tamaño de ventana (3 periodos, 7d) y el tratamiento de NaN iniciales. Una ventana de 3 necesita tres valores, así que las dos primeras filas salen `NaN`. No es un error; es la ventana incompleta. Cohorte = `groupby(cliente_id)[fecha].transform('min').dt.to_period('M')` (o equivalente estable).",
+ "Caso: transacciones de enero y febrero de 2024; C001 cohorte 2024-01; media móvil de montos diarios con ventana de 3 periodos. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos. En S18 profundizarás la lectura de incertidumbre; aquí el contrato es series ordenadas y cohortes bien definidas.",
  ],
  code: {
  language: 'python',
@@ -317,9 +322,9 @@ s17_th_6()`,
  heading: "Denominadores y totales",
  subtopicId: "S17-T4-A",
  paragraphs: [
- "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
+ "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (por ejemplo, la tasa de pago = pagados / activos) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
  "Contrato de **tabla puente**: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
- "Caso sintético: total consolidado 100 PEN; partes 60/30/10 en tres regiones del fixture; tasa de completitud 150/200=0.75. Las etiquetas de región del fixture (`Lima`, `Madrid`, `Cusco`) son identificadores sintéticos para tener claves distintas y ordenables: no son una desagregación geográfica real y no debes leerlas como tal. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
+ "Caso sintético: total consolidado 100 PEN; partes 60/30/10 en tres regiones del fixture; tasa de pago 150/200=0.75. Las etiquetas de región del fixture (`Lima`, `Madrid`, `Cusco`) son identificadores sintéticos para tener claves distintas y ordenables: no son una desagregación geográfica real y no debes leerlas como tal. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
  language: 'python',
@@ -330,7 +335,7 @@ s17_th_6()`,
     total = 100.0
     parts = pd.Series({"Lima": 60.0, "Madrid": 30.0, "Cusco": 10.0})
     print("sum_parts", float(parts.sum()), "ok", abs(parts.sum() - total) < 1e-9)
-    # tasa: pagados / clientes del universo declarado
+    # tasa de pago: pagados / activos, el universo declarado
     activos = 200
     pagados = 150
     print("tasa", pagados / activos, "denominador", activos)
@@ -367,7 +372,7 @@ tasa 0.75 denominador 200`,
     })
     cutoff = pd.Timestamp("2024-01-31")
     pre = tx[tx["fecha"] <= cutoff]
-    # mal: usar max global incluyendo febrero
+    # con leakage: suma todas las filas, febrero incluido
     leak = float(tx["monto"].sum())
     ok = float(pre["monto"].sum())
     print("con_leak_total", leak, "pre_cutoff", ok)
@@ -386,7 +391,7 @@ leakage_delta 100.0`,
  }
  ],
  iDo: {
- intro: "Yo demuestro (I Do): ocho demos alineadas a T1–T4 sobre el mismo hilo de clientes y transacciones sintéticas. Verás left join con conteo de filas (esto es, comparar len antes y después del merge) y validate + anti-join (un merge que falla si la cardinalidad no cuadra, más la lista de filas sin pareja). También melt/pivot (apilar y desparramar columnas) y schema estable (el contrato de columnas que el dashboard espera). Luego groupby/transform (colapsar a una fila por grupo vs. reinyectar el agregado a cada fila) y cohorte + rolling (etiquetar a cada cliente por su primera fecha y promediar ventanas temporales). Cierras con reconciliación de totales (verificar que las partes sumen el total de referencia) y cutoff anti-leakage (fecha de corte para no mirar el futuro). Lee cada `why` (qué se rompería si lo omitieras) y el output esperado antes de pasar al We Do. No copies a ciegas: el contrato de salida es el checklist del portfolio.",
+ intro: "Yo demuestro (I Do): ocho demos alineadas a T1–T4 sobre el mismo hilo de clientes y transacciones sintéticas. Verás left join con conteo de filas (esto es, comparar len antes y después del merge). También validate + anti-join: un merge que falla si la cardinalidad no cuadra, más la lista de filas sin pareja. También melt/pivot (apilar y desparramar columnas) y schema estable (el contrato de columnas que el dashboard espera). Luego groupby/transform (colapsar a una fila por grupo vs. reinyectar el agregado a cada fila) y cohorte + rolling (etiquetar a cada cliente por su primera fecha y promediar ventanas temporales). Cierras con reconciliación de totales (verificar que las partes sumen el total de referencia) y cutoff anti-leakage (fecha de corte para no mirar el futuro). Lee cada `why` (qué se rompería si lo omitieras) y el output esperado antes de pasar al We Do. No copies a ciegas: el contrato de salida es el checklist del portfolio.",
  steps: [
  {
  demoId: "S17-T1-A-DEMO",
@@ -404,7 +409,8 @@ leakage_delta 100.0`,
     tx = pd.DataFrame({"cliente_id": ["C001", "C001", "C002"], "monto": [3.0, 4.0, 5.0]})
     assert cli["cliente_id"].is_unique
     m = cli.merge(tx, on="cliente_id", how="left")
-    print("rows", len(cli), "->", len(m), "card", "1:m")
+    card = "1:1" if tx["cliente_id"].is_unique else "1:m"
+    print("rows", len(cli), "->", len(m), "card", card)
     print(m.groupby("cliente_id").size().to_dict())
 
 s17_ido_1()`,
@@ -429,7 +435,6 @@ s17_ido_1()`,
     import pandas as pd
     cli = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"]})
     tx = pd.DataFrame({"cliente_id": ["C001", "C001"], "monto": [1.0, 2.0]})
-    ok = cli.merge(tx.drop_duplicates("cliente_id"), on="cliente_id", how="left", validate="one_to_one")
     m = cli.merge(tx, on="cliente_id", how="left", indicator=True)
     anti = m.loc[m["_merge"] == "left_only", "cliente_id"].unique().tolist()
     print("anti", anti)
@@ -452,7 +457,7 @@ validate_caught_fanout True`,
  environment: "local-python",
  description: "Pasar wide↔long con melt y pivot_table",
  preamble:
- "El portfolio a veces necesita series por periodo (long) y a veces una fila por cliente con columnas por mes (wide). En esta demo un wide de dos clientes y dos periodos se apila con `melt` y regresa con `pivot_table(..., aggfunc='sum')`. Observa shapes y la lista de periodos: el total de montos se conserva solo si el aggfunc es suma, no el default (mean).",
+ "El portfolio a veces necesita series por periodo (long) y a veces una fila por cliente con columnas por mes (wide). En esta demo un wide de dos clientes y dos periodos se apila con `melt` y regresa con `pivot_table(..., aggfunc='sum')`. Observa shapes y la lista de periodos. Luego llega un ajuste de C001 en m1, y ese cruce queda con dos montos: el total de montos se conserva solo si el aggfunc es suma. El default (mean) promedia 10 y 5 en 7.5 y el total baja de 38 a 30.5.",
  code: {
  language: 'python',
  title: "demo_reshape.py",
@@ -463,10 +468,21 @@ validate_caught_fanout True`,
     wide2 = long.pivot_table(index="cliente_id", columns="periodo", values="monto", aggfunc="sum")
     print(long.shape, wide2.shape)
     print(long["periodo"].tolist())
+    # llega un ajuste de C001 en m1: ese cruce ahora tiene dos montos (10 y 5)
+    ajuste = pd.DataFrame({"cliente_id": ["C001"], "periodo": ["m1"], "monto": [5]})
+    long2 = pd.concat([long, ajuste], ignore_index=True)
+    por_defecto = long2.pivot_table(index="cliente_id", columns="periodo", values="monto")
+    con_suma = long2.pivot_table(index="cliente_id", columns="periodo", values="monto", aggfunc="sum")
+    print("total_detalle", float(long2["monto"].sum()))
+    print("total_por_defecto", float(por_defecto.to_numpy().sum()))
+    print("total_con_suma", float(con_suma.to_numpy().sum()))
 
 s17_ido_3()`,
  output: `(4, 3) (2, 2)
-['m1', 'm1', 'm2', 'm2']`,
+['m1', 'm1', 'm2', 'm2']
+total_detalle 38.0
+total_por_defecto 30.5
+total_con_suma 38.0`,
  },
  why: "Long sirve para multipunto temporal (una fila por cliente-periodo); wide para el tablero tabular (una columna por mes). `aggfunc` explícito es contrato de negocio, no detalle de API: con `sum` se conserva el total de montos; el default (`mean`) lo distorsiona sin error visible. En We Do medirás `len` del melt, columnas post-pivot y concat de lotes diarios.",
  retrospective:
@@ -478,7 +494,7 @@ s17_ido_3()`,
  environment: "local-python",
  description: "Estabilizar nombres de columnas post-pivot al schema del portfolio",
  preamble:
- "Tras un pivot, las columnas crudas (`ene`, `feb`) no son el contrato del dashboard. En esta demo se prefijan a `monto_*` y se valida `set(columns) == expected`. Observa la lista final y el booleano True: un rename ad hoc en el notebook no es auditable; el gate de schema sí.",
+ "Tras un pivot, las columnas crudas (`ene`, `feb`) no son el contrato del dashboard. En esta demo se renombran a `monto_*` con un dict explícito y se valida `set(columns) == expected`. Observa la lista final y el booleano True: un rename ad hoc en el notebook no es auditable; el gate de schema sí.",
  code: {
  language: 'python',
  title: "demo_names.py",
@@ -486,7 +502,7 @@ s17_ido_3()`,
     import pandas as pd
     long = pd.DataFrame({"cliente_id": ["C001", "C001"], "mes": ["ene", "feb"], "monto": [1.0, 2.0]})
     w = long.pivot(index="cliente_id", columns="mes", values="monto").reset_index()
-    w.columns = ["cliente_id" if c == "cliente_id" else f"monto_{c}" for c in w.columns]
+    w = w.rename(columns={"ene": "monto_ene", "feb": "monto_feb"})
     expected = {"cliente_id", "monto_ene", "monto_feb"}
     print(w.columns.tolist(), set(w.columns) == expected)
 
@@ -553,7 +569,7 @@ s17_ido_6()`,
  output: `{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}
 [None, 2.0, 2.5, 3.0]`,
  },
- why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series ordenadas por índice temporal; sin `sort_index` el análisis inventa tendencias. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
+ why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series ordenadas por índice temporal; sin `sort_index` el análisis inventa tendencias. Aquí `groupby` ya devuelve las fechas ordenadas, así que `sort_index` no cambia la salida. Lo dejamos porque un feed que llega sin agrupar sí puede venir desordenado, como en el ejercicio E3 de T3-B. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
  retrospective:
  "Si sabes por qué C001 y C002 pueden compartir cohorte 2024-01, entiendes “entrada”, no “última actividad”. El error clásico es usar `max` o la fecha del informe de hoy. We Do: window=2 con NaN honesto, min vs. max, y `sort_index` antes de rolling.",
  },
@@ -573,9 +589,10 @@ s17_ido_6()`,
     total_ref = 100.0
     diff = float(parts["monto"].sum() - total_ref)
     print("diff", diff, "reconciled", abs(diff) < 1e-9)
-    # denominador de tasa de completitud
-    n_clientes = 200
-    n_completos = 150
+    # denominador de tasa de completitud: el universo es la tabla de clientes
+    clientes = pd.DataFrame({"completo": [True] * 150 + [False] * 50})
+    n_clientes = len(clientes)
+    n_completos = int(clientes["completo"].sum())
     print("tasa", n_completos / n_clientes, "den", n_clientes)
 
 s17_ido_7()`,
@@ -622,7 +639,7 @@ delta 999.0`,
  ],
  },
  weDo: {
- intro: "Lo hacemos juntos (We Do): 24 ejercicios en liberación gradual, E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter (el código inicial que recibes) trae un bug intencional a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad y análisis — trátalo como puente, no como drill suelto.",
+ intro: "Lo hacemos juntos (We Do): 24 ejercicios en liberación gradual, E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter (el código inicial que recibes) trae un bug intencional a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad y análisis. Trátalo como puente, no como drill suelto.",
  steps: [
  {
  id: "S17-T1-A-E1",
@@ -630,7 +647,7 @@ delta 999.0`,
  kind: "guided",
  title: "Left join que conserva clientes sin tx",
  preamble:
- "- **Contexto:** el maestro de clientes del portfolio no debe desaparecer solo porque aún no hay transacciones.\n- **Meta:** practicar left merge por `cliente_id` y medir el largo del resultado.\n- **Éxito:** una línea con el entero `2` (C001 y C002 se conservan; C002 sin monto).\n- **Límites:** no uses `how='inner'`; no borres filas del maestro; imprime solo `len`, sin texto extra.",
+ "- **Contexto:** el maestro de clientes del portfolio no debe desaparecer solo porque aún no hay transacciones.\n- **Meta:** practicar left merge por `cliente_id` y medir el largo del resultado.\n- **Éxito:** una línea con el entero `2` (C001 y C002 se conservan; C002 sin monto; C009 no es cliente del maestro y no entra).\n- **Límites:** no uses `how='inner'` ni `how='outer'`; no borres filas del maestro; imprime solo `len`, sin texto extra.",
  instruction:
  "1. Abre el starter: el merge es `inner` (bug) y corta a 1 fila.\n2. Cambia a `how='left'` sobre `cli` y `tx`.\n3. Imprime solo `len(...)` del resultado.\n4. Verifica mentalmente: C002 debe seguir contando aunque no tenga tx.",
  hint: "Usa cli.merge(tx, on='cliente_id', how='left') para conservar clientes sin tx.",
@@ -638,10 +655,10 @@ delta 999.0`,
  "Usa cli.merge(tx, on='cliente_id', how='left') para conservar clientes sin tx.",
  "Imprime solo len(...) del resultado; el pass esperado es 2.",
  ],
- edgeCases: ["inner pierde C002", "how wrong"],
+ edgeCases: ["inner pierde C002 (imprime 1)", "outer suma C009, que no está en el maestro (imprime 3)"],
  tests: "salida coincide con solution output",
  feedback:
- "Si imprimiste `1`, usaste inner y perdiste C002. Left join conserva el maestro aunque no haya transacciones; el monto de huérfanos queda en NaN y se documenta aparte (anti-join en T1-B).",
+ "Si imprimiste `1`, usaste inner y perdiste C002. Si imprimiste `3`, usaste outer y entró C009, una transacción sin cliente en el maestro. Left join conserva el maestro aunque no haya transacciones; el monto de huérfanos queda en NaN y se documenta aparte (anti-join en T1-B).",
  retrospective:
  "Left = todos los del maestro, con o sin match; inner = solo intersección. El KPI de cobertura del maestro se rompe si empiezas con inner. Pregunta: si C002 no tiene tx, ¿debe aparecer en el merge? Siguiente (E2): medir unicidad de la clave **antes** del merge.",
  starterCode: {
@@ -651,7 +668,7 @@ delta 999.0`,
 # Bug a corregir: inner merge acorta filas (pierde clientes sin tx)
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
-tx = pd.DataFrame({"cliente_id": ["C001"], "monto": [1.0]})
+tx = pd.DataFrame({"cliente_id": ["C001", "C009"], "monto": [1.0, 4.0]})
 print(len(cli.merge(tx, on="cliente_id", how="inner")))`,
  },
  solutionCode: {
@@ -659,7 +676,7 @@ print(len(cli.merge(tx, on="cliente_id", how="inner")))`,
  title: "exercise.py",
  code: `import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
-tx = pd.DataFrame({"cliente_id": ["C001"], "monto": [1.0]})
+tx = pd.DataFrame({"cliente_id": ["C001", "C009"], "monto": [1.0, 4.0]})
 print(len(cli.merge(tx, on="cliente_id", how="left")))`,
  output: `2`,
  },
@@ -957,7 +974,7 @@ print(w.columns.tolist())`,
  preamble:
  "- **Contexto:** el portfolio une snapshots diarios; el memo debe decir cuántos lotes entraron y cuántas filas salieron.\n- **Meta:** `pd.concat` vertical de dos DataFrames de una fila e imprimir el dict de contrato.\n- **Éxito:** `{'n_lotes': 2, 'n_filas': 2}`.\n- **Límites:** no uses `axis=1` (alinea columnas, no apila casos); no midas solo `len(a)`.",
  instruction:
- "1. Lee el DEFECT: `n_filas` es `len(a)`.\n2. Apila los dos lotes en un solo DataFrame, sin arrastrar los índices originales.\n3. Imprime el dict con `n_lotes=2` y `n_filas=len(out)`.\n4. Si n_filas es 1, aún no apilaste.",
+ "1. Lee el DEFECT: `n_filas` es `len(a)`.\n2. Apila los dos lotes en un solo DataFrame, sin arrastrar los índices originales.\n3. Imprime el dict con `n_lotes=len(lotes)` y `n_filas=len(out)`: los dos números se calculan, no se escriben a mano.\n4. Si n_filas es 1, aún no apilaste.",
  hint: "pd.concat vertical de las dos tablas; mide el largo del resultado, no solo de a.",
  hints: [
  "pd.concat vertical de las dos tablas; mide el largo del resultado, no solo de a.",
@@ -977,7 +994,8 @@ print(w.columns.tolist())`,
 import pandas as pd
 a = pd.DataFrame({"x": [1]})
 b = pd.DataFrame({"x": [2]})
-print({"n_lotes": 2, "n_filas": len(a)})`,
+lotes = [a, b]
+print({"n_lotes": len(lotes), "n_filas": len(a)})`,
  },
  solutionCode: {
  language: 'python',
@@ -985,8 +1003,9 @@ print({"n_lotes": 2, "n_filas": len(a)})`,
  code: `import pandas as pd
 a = pd.DataFrame({"x": [1]})
 b = pd.DataFrame({"x": [2]})
-out = pd.concat([a, b], ignore_index=True)
-print({"n_lotes": 2, "n_filas": len(out)})`,
+lotes = [a, b]
+out = pd.concat(lotes, ignore_index=True)
+print({"n_lotes": len(lotes), "n_filas": len(out)})`,
  output: `{'n_lotes': 2, 'n_filas': 2}`,
  },
  },
@@ -1037,38 +1056,40 @@ print(list(w.columns))`,
  kind: "independent",
  title: "Gate set(columns) == expected",
  preamble:
- "- **Contexto:** el script del portfolio debe fallar de forma explicable si falta una columna de negocio.\n- **Meta:** comparar `set(df.columns)` con el set expected real.\n- **Éxito:** `True` con columns `cliente_id`, `monto_ene`.\n- **Límites:** expected debe listar columnas reales; no uses igualdad de listas ordenadas para este gate.",
+ "- **Contexto:** el script del portfolio debe fallar de forma explicable si falta una columna de negocio.\n- **Meta:** que el gate `set(df.columns) == expected` pase porque los datos cumplen el contrato, no porque cambiaste el contrato.\n- **Éxito:** `['cliente_id', 'monto_ene', 'monto_feb'] True`.\n- **Límites:** no edites `expected`: es el contrato del dashboard; no uses igualdad de listas ordenadas para este gate.",
  instruction:
- "1. Revisa el starter: expected pide `monto_feb` (bug).\n2. Corrige expected a las columnas reales del DF.\n3. Imprime `set(df.columns) == expected`.\n4. El orden no importa en el set; el orden de export va al memo.",
- hint: "expected debe listar exactamente las columnas reales del DF.",
+ "1. Corre el starter: el gate imprime `False` porque el rename olvidó `feb` (bug).\n2. Completa el dict del `rename` para que `feb` pase a `monto_feb`.\n3. Deja `expected` como está e imprime las columnas ordenadas y el resultado del gate.\n4. El orden no importa en el set; el orden de export va al memo.",
+ hint: "El gate está bien: lo que falta es renombrar feb a monto_feb en el dict del rename.",
  hints: [
- "expected debe listar exactamente las columnas reales del DF.",
- "Compara set(df.columns) == expected; no uses listas ordenadas para el gate de set.",
+ "El gate está bien: lo que falta es renombrar feb a monto_feb en el dict del rename.",
+ "rename(columns={'ene': 'monto_ene', 'feb': 'monto_feb'}); expected no se toca.",
  ],
- edgeCases: ["¿Orden importa en set? No", "list =="],
+ edgeCases: ["editar expected para que acepte feb (el gate pasa con datos malos)", "comparar listas ordenadas con =="],
  tests: "salida coincide con solution output",
  feedback:
- "Si salió False, expected pedía monto_feb y el DF solo tiene monto_ene. El gate de schema compara sets reales; un expected inventado da falsos rojos.",
+ "Si salió False, al DF le falta monto_feb porque el rename dejó feb sin prefijo. Si la lista muestra feb y el gate da True, editaste expected: el gate pasa y el dashboard recibe una columna que no conoce. El contrato se cumple arreglando los datos, no el contrato.",
  retrospective:
- "Expected mal escrito da falsos rojos o verdes. El gate compara la realidad del DF, no el deseo del slide. Luego (E3): `rename` con dict origen→destino documentable.",
+ "Cuando el gate de schema falla, el contrato suele tener razón y el dato no. Editar `expected` para ponerlo en verde esconde el fallo. Luego (E3): `rename` con dict origen→destino documentable.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · expected columns
-# Bug a corregir: expected pide monto_feb que no existe
+# Bug a corregir: el rename olvidó feb y el gate falla
 import pandas as pd
-df = pd.DataFrame(columns=["cliente_id", "monto_ene"])
-expected = {"cliente_id", "monto_feb"}
-print(set(df.columns) == expected)`,
+df = pd.DataFrame(columns=["cliente_id", "ene", "feb"])
+df = df.rename(columns={"ene": "monto_ene"})
+expected = {"cliente_id", "monto_ene", "monto_feb"}
+print(sorted(df.columns), set(df.columns) == expected)`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame(columns=["cliente_id", "monto_ene"])
-expected = {"cliente_id", "monto_ene"}
-print(set(df.columns) == expected)`,
- output: `True`,
+df = pd.DataFrame(columns=["cliente_id", "ene", "feb"])
+df = df.rename(columns={"ene": "monto_ene", "feb": "monto_feb"})
+expected = {"cliente_id", "monto_ene", "monto_feb"}
+print(sorted(df.columns), set(df.columns) == expected)`,
+ output: `['cliente_id', 'monto_ene', 'monto_feb'] True`,
  },
  },
  {
@@ -1115,7 +1136,7 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  kind: "guided",
  title: "Groupby sum de montos por región",
  preamble:
- "- **Contexto:** el tablero ejecutivo pide **total** de PEN por región, no el promedio de filas.\n- **Meta:** `groupby('region')['monto'].sum()` e imprimir dict.\n- **Éxito:** `{'Madrid': 3.0, 'Lima': 3.0}` (orden de keys según sort de pandas).\n- **Límites:** no uses mean; no mutes el DF original.",
+ "- **Contexto:** el tablero ejecutivo pide **total** de PEN por región, no el promedio de filas.\n- **Meta:** `groupby('region')['monto'].sum()` e imprimir dict.\n- **Éxito:** `{'Lima': 3.0, 'Madrid': 3.0}` (groupby ordena las keys alfabéticamente).\n- **Límites:** no uses mean; no mutes el DF original.",
  instruction:
  "1. Abre el starter: usa `.mean()` (bug).\n2. Cambia a `.sum()`.\n3. Imprime `.to_dict()`.\n4. Lima con dos filas (1+2) debe sumar 3.0, no 1.5.",
  hint: "groupby('region')['monto'].sum().to_dict() — suma, no media.",
@@ -1315,7 +1336,7 @@ print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict
  kind: "transfer",
  title: "Sort_index antes de rolling",
  preamble:
- "- **Contexto:** los feeds llegan desordenados; una ventana sobre el orden de llegada inventa tendencias.\n- **Meta:** ordenar el índice temporal, rolling(2).mean, reportar el último valor.\n- **Éxito:** float `2.5` (tras orden 1→2→3, ventana final (2+3)/2).\n- **Límites:** no hagas rolling sin `sort_index`; no cambies la window.",
+ "- **Contexto:** los feeds llegan desordenados; una ventana sobre el orden de llegada inventa tendencias.\n- **Meta:** ordenar el índice temporal, rolling(2).mean, reportar el último valor.\n- **Éxito:** float `2.0` (por fecha los montos son 2, 1 y 3; la ventana final es (1+3)/2).\n- **Límites:** no hagas rolling sin `sort_index`; no uses `sort_values`; no cambies la window.",
  instruction:
  "1. Lee el DEFECT: rolling directo sobre índice desordenado.\n2. `s = s.sort_index()` antes del rolling.\n3. Imprime `float(...iloc[-1])` del mean.\n4. Sin sort, el “último” no es el último día del calendario.",
  hint: "s.sort_index() antes de rolling(2).mean().",
@@ -1323,10 +1344,10 @@ print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict
  "s.sort_index() antes de rolling(2).mean().",
  "Tras ordenar el índice por fecha, la ventana de 2 periodos usa los dos últimos días del calendario, no el orden de llegada del feed.",
  ],
- edgeCases: ["sin ordenar", "window wrong"],
+ edgeCases: ["sin ordenar (imprime 1.5)", "sort_values ordena por monto (imprime 2.5)", "window wrong"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin sort_index el último punto de la ventana no es el último día del calendario. Ordena siempre antes de rolling; una “subida” por desorden miente al stakeholder.",
+ "Sin sort_index el último punto de la ventana no es el último día del calendario (sale 1.5). `sort_values` tampoco sirve: ordena por el monto, no por la fecha, y da 2.5. `sort_index` ordena por el índice de fechas. Ordena siempre por fecha antes de rolling; una “subida” por desorden miente al stakeholder.",
  retrospective:
  "Orden temporal es precondición de ventanas, no un detalle opcional. Pregunta: ¿qué le dirías al stakeholder si el gráfico “subió” solo por desorden? Puente a T4: reconciliar totales y denominadores.",
  starterCode: {
@@ -1335,17 +1356,17 @@ print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict
  code: `# CASO-LIM-017 · sort then rolling
 # Bug a corregir: rolling sobre índice desordenado
 import pandas as pd
-s = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime(["2024-01-03", "2024-01-01", "2024-01-02"]))
+s = pd.Series([3.0, 2.0, 1.0], index=pd.to_datetime(["2024-01-03", "2024-01-01", "2024-01-02"]))
 print(float(s.rolling(2).mean().iloc[-1]))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-s = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime(["2024-01-03", "2024-01-01", "2024-01-02"]))
+s = pd.Series([3.0, 2.0, 1.0], index=pd.to_datetime(["2024-01-03", "2024-01-01", "2024-01-02"]))
 s = s.sort_index()
 print(float(s.rolling(2).mean().iloc[-1]))`,
- output: `2.5`,
+ output: `2.0`,
  },
  },
  {
@@ -1469,7 +1490,7 @@ print({"total": total, "lima": lima, "residual": total - lima})`,
  kind: "guided",
  title: "Filtro as-of fecha <= cutoff",
  preamble:
- "- **Contexto:** el control as-of del portfolio solo usa datos conocidos hasta el cutoff.\n- **Meta:** filtrar montos con `fecha <= cutoff` e imprimir la lista.\n- **Éxito:** `[1.0]` (queda enero; sale febrero).\n- **Límites:** no uses `>`; cuidado con comparar strings de fecha en vez de timestamps.",
+ "- **Contexto:** el control as-of del portfolio solo usa datos conocidos hasta el cutoff.\n- **Meta:** filtrar montos con `fecha <= cutoff` e imprimir la lista.\n- **Éxito:** `[1.0, 4.0]` (queda enero, también la venta del mismo día del cutoff; sale febrero).\n- **Límites:** no uses `>` ni `<`; cuidado con comparar strings de fecha en vez de timestamps.",
  instruction:
  "1. Abre el starter: máscara `fecha > cutoff` (bug).\n2. Invierte a `fecha <= cutoff`.\n3. Imprime `.tolist()` de montos.\n4. El post-periodo (9.0) no debe aparecer.",
  hint: "Máscara tx['fecha'] <= cutoff; imprime montos de esas filas.",
@@ -1480,7 +1501,7 @@ print({"total": total, "lima": lima, "residual": total - lima})`,
  edgeCases: ["< vs. <=", "string compare"],
  tests: "salida coincide con solution output",
  feedback:
- "Si viste `[9.0]`, filtraste `fecha > cutoff` (post-periodo). El control as-of usa `fecha <= cutoff`; un signo al revés contamina el before/after y el score “a enero”.",
+ "Si viste `[9.0]`, filtraste `fecha > cutoff` (post-periodo). Si viste `[1.0]`, usaste `<` y perdiste la venta del 31 de enero, que ya se conocía en la fecha de corte. El control as-of usa `fecha <= cutoff`; un signo al revés contamina el before/after y el score “a enero”.",
  retrospective:
  "`<=` vs. `>` es el interruptor del as-of. Un signo al revés contamina el before/after. Siguiente (E2): reportar el delta de leakage, no solo el pre.",
  starterCode: {
@@ -1489,7 +1510,7 @@ print({"total": total, "lima": lima, "residual": total - lima})`,
  code: `# CASO-LIM-017 · cutoff filter
 # Bug a corregir: máscara fecha > cutoff (post-periodo)
 import pandas as pd
-tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-02-01"]), "monto": [1.0, 9.0]})
+tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-01-31", "2024-02-01"]), "monto": [1.0, 4.0, 9.0]})
 cutoff = pd.Timestamp("2024-01-31")
 print(tx.loc[tx["fecha"] > cutoff, "monto"].tolist())`,
  },
@@ -1497,10 +1518,10 @@ print(tx.loc[tx["fecha"] > cutoff, "monto"].tolist())`,
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-02-01"]), "monto": [1.0, 9.0]})
+tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-01-31", "2024-02-01"]), "monto": [1.0, 4.0, 9.0]})
 cutoff = pd.Timestamp("2024-01-31")
 print(tx.loc[tx["fecha"] <= cutoff, "monto"].tolist())`,
- output: `[1.0]`,
+ output: `[1.0, 4.0]`,
  },
  },
  {
@@ -1517,10 +1538,10 @@ print(tx.loc[tx["fecha"] <= cutoff, "monto"].tolist())`,
  "delta = sum(todos los montos) - sum(montos con fecha <= cutoff).",
  "Imprimir solo pre no reporta la contaminación; el memo necesita el delta.",
  ],
- edgeCases: ["delta invertido", "mean"],
+ edgeCases: ["delta invertido", "mean", "< en vez de <= (la venta del 31 de enero cuenta como leakage: 7.0)"],
  tests: "salida coincide con solution output",
  feedback:
- "Si imprimiste 10.0, reportaste solo el pre. El delta de leakage es total−pre (la tx de marzo); sin ese número el stakeholder no calibra el tamaño del problema.",
+ "Si imprimiste 12.0, reportaste solo el pre. Si imprimiste 7.0, usaste `<` y contaste como leakage la venta del 31 de enero. El delta de leakage es total−pre (la tx de marzo); sin ese número el stakeholder no calibra el tamaño del problema.",
  retrospective:
  "Delta = transparencia con el stakeholder. Solo pre sin delta oculta el tamaño del problema. Luego (E3): unir join + cutoff en un solo dict de contrato (puente al You Do).",
  starterCode: {
@@ -1529,7 +1550,7 @@ print(tx.loc[tx["fecha"] <= cutoff, "monto"].tolist())`,
  code: `# CASO-LIM-017 · post-cutoff sum
 # Bug a corregir: se imprime solo pre, no el delta de leakage
 import pandas as pd
-tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-03-01"]), "monto": [10.0, 5.0]})
+tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-01-31", "2024-03-01"]), "monto": [10.0, 2.0, 5.0]})
 cutoff = pd.Timestamp("2024-01-31")
 pre = tx.loc[tx["fecha"] <= cutoff, "monto"].sum()
 print(float(pre))`,
@@ -1538,7 +1559,7 @@ print(float(pre))`,
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-03-01"]), "monto": [10.0, 5.0]})
+tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-01-31", "2024-03-01"]), "monto": [10.0, 2.0, 5.0]})
 cutoff = pd.Timestamp("2024-01-31")
 pre = tx.loc[tx["fecha"] <= cutoff, "monto"].sum()
 print(float(tx["monto"].sum() - pre))`,
@@ -1551,7 +1572,7 @@ print(float(tx["monto"].sum() - pre))`,
  kind: "transfer",
  title: "Mini-integración join + cutoff + delta",
  preamble:
- "- **Contexto:** el portfolio exige cardinalidad, as-of y leakage juntos, no drills sueltos.\n- **Meta:** left merge, `total_pre` con `fecha<=cutoff` y `leakage_delta` en un solo dict.\n- **Éxito:** `{'rows_merge': 3, 'total_pre': 5.0, 'leakage_delta': 10.0}`.\n- **Límites:** no uses max por cliente sin merge; no omitas ninguna de las tres keys; no inviertas el delta.",
+ "- **Contexto:** el portfolio exige cardinalidad, as-of y leakage juntos, no drills sueltos.\n- **Meta:** left merge, `total_pre` con `fecha<=cutoff` y `leakage_delta` en un solo dict.\n- **Éxito:** `{'rows_merge': 4, 'total_pre': 5.0, 'leakage_delta': 10.0}` (C003 no tiene tx y conserva su fila; la venta de C002 cae justo en el cutoff y cuenta como pre).\n- **Límites:** no uses max por cliente sin merge; no omitas ninguna de las tres keys; no inviertas el delta.",
  instruction:
  "1. Lee el DEFECT: `groupby(...).max()` sin merge ni filtro.\n2. Left merge cli–tx; `rows_merge = len(m)`.\n3. `total_pre` = suma de montos con fecha <= cutoff; delta = suma total − total_pre.\n4. Imprime un solo dict con las tres keys del contrato.",
  hint: "Une maestro y tx con left merge; el dict debe incluir el largo del merge, no un max suelto por cliente.",
@@ -1560,7 +1581,7 @@ print(float(tx["monto"].sum() - pre))`,
  "Separa montos pre-cutoff de la suma total; el delta es la diferencia (contaminación), no el pre solo.",
  "Tres keys en un solo print de dict; si solo imprimes un max, aún no integraste.",
  ],
- edgeCases: ["max global sin merge", "olvido del left (pierde C002 si no hay tx)", "delta invertido"],
+ edgeCases: ["max global sin merge", "inner en vez de left (pierde C003, rows_merge 3)", "< en vez de <= (total_pre 3.0)", "delta invertido"],
  tests: "salida coincide con solution output",
  feedback:
  "Si imprimiste solo un max por cliente o un único float, no integraste join+cutoff. El puente al portfolio son rows_merge, total_pre y leakage_delta juntos — evidencia re-ejecutable para el comité.",
@@ -1572,10 +1593,10 @@ print(float(tx["monto"].sum() - pre))`,
  code: `# CASO-LIM-017 · mini-integración join+cutoff
 # Bug a corregir: max global sin merge ni filtro as-of (no hay rows_merge ni delta)
 import pandas as pd
-cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
+cli = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"]})
 tx = pd.DataFrame({
  "cliente_id": ["C001", "C001", "C002"],
- "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-01-15"]),
+ "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-02-01"]),
  "monto": [3.0, 10.0, 2.0],
 })
 cutoff = pd.Timestamp("2024-02-01")
@@ -1586,10 +1607,10 @@ print(feat.to_dict())`,
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
+cli = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"]})
 tx = pd.DataFrame({
  "cliente_id": ["C001", "C001", "C002"],
- "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-01-15"]),
+ "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-02-01"]),
  "monto": [3.0, 10.0, 2.0],
 })
 cutoff = pd.Timestamp("2024-02-01")
@@ -1597,7 +1618,7 @@ m = cli.merge(tx, on="cliente_id", how="left")
 total_pre = float(m.loc[m["fecha"] <= cutoff, "monto"].sum())
 leakage_delta = float(m["monto"].sum() - total_pre)
 print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_delta})`,
- output: `{'rows_merge': 3, 'total_pre': 5.0, 'leakage_delta': 10.0}`,
+ output: `{'rows_merge': 4, 'total_pre': 5.0, 'leakage_delta': 10.0}`,
  },
  },
  ],
@@ -1605,7 +1626,7 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
  youDo: {
  title: "Portfolio ejecutivo de calidad y análisis (cierre del nivel)",
  context:
- "Tú lo haces (You Do). Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable (el contrato columna→tipo esperado), groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff (fecha de corte que separa el pasado del futuro). Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims (esto es, sin afirmar causalidad sin evidencia) en español profesional. Sin PII real (datos personales identificables reales) ni datos de producción. Criterios de aceptación del dict (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs. total bajo eps). Este entregable es la base tabular; en S18 trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
+ "Tú lo haces (You Do). Integra clientes y transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join). Suma reshape long/wide con schema estable (el contrato columna→tipo esperado), groupby/agg/transform, reconciliación de totales y denominadores, y controles de leakage con cutoff (fecha de corte que separa el pasado del futuro). Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims (esto es, sin afirmar causalidad sin evidencia) en español profesional. Sin PII real (datos personales identificables reales) ni datos de producción. Criterios de aceptación del dict (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`). Suma `monto_tx_sin_cliente` (float, montos de transacciones cuyo cliente no está en el maestro) y `reconciled` (bool). `reconciled` compara contra el detalle: `abs(total_monto + monto_tx_sin_cliente - tx['monto'].sum()) < 1e-9`. Si el maestro trae un id duplicado, el merge duplica montos y `reconciled` sale `False`. Este entregable es la base tabular; en S18 trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
  objectives: [
  "Dataset limpio + script reproducible re-ejecutable por un colega",
  "Joins con filas pre/post, validate o anti-join documentados",
@@ -1628,30 +1649,35 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
 def portfolio_summary(clientes: pd.DataFrame, tx: pd.DataFrame, cutoff: str) -> dict:
  """Devuelve dict con al menos:
  rows_merge, n_huerfanos_left_only, total_monto, total_pre_cutoff,
- leakage_delta, reconciled (bool).
+ leakage_delta, monto_tx_sin_cliente, reconciled (bool).
 
  Contrato de métricas 'pre': solo filas con fecha <= cutoff (as-of).
- total_monto = suma de montos del merge completo (puede incluir post-cutoff).
+ total_monto = suma de montos del left merge clientes -> tx (puede incluir post-cutoff).
  leakage_delta = total_monto - total_pre_cutoff.
- reconciled = True si el residual de partes vs. total de referencia cabe en eps
- (o documenta residual en el memo si usas tabla puente externa).
+ monto_tx_sin_cliente = suma de montos de tx cuyo cliente_id no está en clientes
+ (el left merge desde clientes no los trae).
+ reconciled = abs(total_monto + monto_tx_sin_cliente - tx["monto"].sum()) < 1e-9
+ (eps 1e-9, como en el gate de T4-A). El total de referencia es el detalle de tx.
  """
  # Contrato: implementa la función (no dejes NotImplemented)
  # Sugerencia de pasos: left merge + indicator → anti-join count →
- # sumas con/sin filtro de fecha → delta → bool de reconciliación.
+ # sumas con/sin filtro de fecha → delta → tx sin cliente → bool de reconciliación.
  raise NotImplementedError
 
 if __name__ == "__main__":
  # Fixture sintético de laboratorio (sin PII real)
- clientes = pd.DataFrame({"cliente_id": ["C001", "C002"], "region": ["Lima", "Cusco"]})
+ clientes = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"], "region": ["Lima", "Cusco", "Puno"]})
  tx = pd.DataFrame({
- "cliente_id": ["C001", "C001", "C002"],
- "fecha": pd.to_datetime(["2024-01-10", "2024-03-01", "2024-01-20"]),
- "monto": [10.0, 50.0, 5.0],
+ "cliente_id": ["C001", "C001", "C002", "C009"],
+ "fecha": pd.to_datetime(["2024-01-10", "2024-03-01", "2024-01-20", "2024-01-25"]),
+ "monto": [10.0, 50.0, 5.0, 7.0],
  })
  print(portfolio_summary(clientes, tx, "2024-01-31"))
- # Esperado conceptual (ajusta si amplías fixtures):
- # rows_merge=3, n_huerfanos depende de matches, total_pre usa ene, leakage_delta > 0
+ # Esperado con este fixture:
+ # {'rows_merge': 4, 'n_huerfanos_left_only': 1, 'total_monto': 65.0,
+ #  'total_pre_cutoff': 15.0, 'leakage_delta': 50.0,
+ #  'monto_tx_sin_cliente': 7.0, 'reconciled': True}
+ # C003 no tiene tx (huérfano del maestro); C009 no está en el maestro (7.0 fuera del merge).
 `,
  portfolioNote:
  "Este cierre del portfolio de calidad y análisis debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre (intervalos, hallazgo vs. hipótesis) sobre estos números — no reescribas los joins; reutiliza el dataset limpio.",
@@ -1659,7 +1685,7 @@ if __name__ == "__main__":
  { criterion: "Joins con cardinalidad documentada (filas pre/post, validate o anti-join de huérfanos)", weight: "20%" },
  { criterion: "Reshape o schema estable long/wide con columnas expected validadas", weight: "15%" },
  { criterion: "Groupby/agg/transform alineado a la pregunta de negocio (suma vs. media)", weight: "15%" },
- { criterion: "Reconciliación de totales/denominadores con diff o residual documentado", weight: "15%" },
+ { criterion: "Reconciliación de totales/denominadores: `reconciled` contra el detalle de tx, con `monto_tx_sin_cliente` y el residual documentado", weight: "15%" },
  { criterion: "Control de leakage temporal (cutoff/as-of) con delta explícito", weight: "15%" },
  { criterion: "Privacidad: solo sintéticos, sin PII real ni secretos", weight: "10%" },
  { criterion: "Script reproducible (`if __name__`) + memo de límites/no-claims en español profesional", weight: "10%" }

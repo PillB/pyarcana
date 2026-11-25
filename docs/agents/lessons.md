@@ -980,3 +980,13 @@ back. Read this list before a section round; every item cost at least one failed
   section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
   too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
   Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).
+- **A one-line header edit used a term before anything defined it (proposal 12 S17, 25 Nov 2026).**
+  The review asked that a learning outcome stop calling `concat` a reshape tool. The rewrite named
+  `melt` and `pivot_table`. The outcomes come before the theory, and the section defines
+  `pivot_table` only in its T2-A block, so `test_surprising_uses_ratchet` (held at 0 since
+  2026-10-02) failed: `S17 packaging.outcome[2] pivot-table`. The section's own test and the
+  sentence-length check passed; only the full Python suite saw it. Root cause: a header was
+  treated as a summary, when the detector reads it as the learner's first contact with every term
+  in it. Fix: the outcome says «`melt` y su operación inversa». Guard: a term added to a tagline,
+  job-relevance line or outcome must be one an earlier section taught, or be glossed in place;
+  and the full suites run before every push, as the city-cap entry above already says.
