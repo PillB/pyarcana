@@ -1074,3 +1074,28 @@ back. Read this list before a section round; every item cost at least one failed
   each run before they were written: a formula it saved reads as None with `data_only=True`; writing
   to a merged non-anchor cell raises `AttributeError`; `merge_cells` drops the non-anchor values; it
   writes into a protected sheet; it does not move a defined name when the script inserts rows.
+- **A section's dependency was taught and never declared, so its pins were never checked (proposal
+  12 S21, 25 Nov 2026).** S21 told learners to `pip install reportlab`, but
+  `requirements-content.txt` did not pin it. The runtime audit skipped every PDF snippet as
+  `missing_dependency`, and `MISSING_DEPENDENCY_OWED` carried them as debt. Two findings hid behind
+  the skip: `import fitz` prints a deprecation line on stdout that no pin showed, and the parity,
+  `has_h1`, checklist and `ready` gates could not fail. Root cause: a skip reads like a pass in a
+  summary. Fix: reportlab is pinned at 5.1.0 (5.1.1 requires pillow>=13, which would move the
+  Pillow pin), every import is `import pymupdf`, and the ratchet fell 6 -> 1. Guard:
+  `tests/adversarial/test_proposal12_s21.py` runs every S21 pin under the pinned interpreter and
+  breaks each gate to see it flip. Facts found on the way. Python `round()` rounds ties to even
+  (`round(28.25, 1)` is 28.2); Excel `ROUND` rounds them away from zero (28.3), so a report that
+  must match a workbook uses `Decimal(str(x)).quantize(..., rounding=ROUND_HALF_UP)`
+  ([Mito, Excel ROUND in Python](https://www.trymito.io/excel-to-python/functions/math/ROUND)).
+  DOCX and PDF bytes change on every save (zip entry times, PDF creation date and ID), so a pin
+  never prints their hash; pin the check, not the digest. Jinja's `'%.2f'|format(None)` raises
+  `TypeError`, so the `is not none` branch goes before the filter.
+- **The pin helper wrote lesson artifacts into the repository root (S21, 25 Nov 2026).** The scratch
+  helper that computes `output:` pins ran each snippet with the worktree as its working directory,
+  and the S21 snippets write `informe.docx`, `manifest.json` and others next to themselves. Nine
+  untracked files appeared in the tree. Root cause: lesson code writes relative paths by design,
+  and the helper inherited the caller's directory. Fix: the helper runs every snippet in a fresh
+  `TemporaryDirectory`, as `run_py` in the section tests already did. Related slip: undoing a failed
+  scripted edit with `git checkout -- file` also discarded the earlier scripted edits on that file;
+  they were replayed because each edit was a script. Keep section edits as replayable scripts and
+  check what a restore will discard before running it.

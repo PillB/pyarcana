@@ -121,7 +121,11 @@ import exam_bank  # noqa: E402
 #: distractors are misconceptions (data_only read as a formula engine, exists() as proof the master is
 #: intact, the reversed-rows digest as an idempotence test), the key is longest on 6 of 24, and the
 #: ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 897
+#: 2026-11-25: 897 -> 881. Proposal 12 S21: every fastapi (documents and traceable reports) item was
+#: rewritten; distractors are misconceptions (Template escaping by default, None formatted as 0.00,
+#: all() of an empty list read as failing, a missing checklist key read as ready), the key is longest
+#: on 6 of 24, and the ranks are 6/6/6/6. One old item was keyed to a wrong option.
+LONGEST_IS_CORRECT_OWED = 881
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
