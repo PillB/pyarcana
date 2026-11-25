@@ -77,7 +77,7 @@ const WORKER_SUITES = [
   ["runner", 6],
   // Stage 1b: entitlement, trial, admin, progress, reports, privacy.
   ["access", 35],
-  ["me", 6],
+  ["me", 8],
   ["trial", 12],
   ["admin-auth", 10],
   ["admin-grants", 9],
@@ -168,7 +168,7 @@ const CLIENT_SUITES = [
   ["qa-session-stats", 4],
   ["qa-tour-layout", 6],
   // Retest checks and the QA supervisor (owner request 2026-11-19).
-  ["qa-review", 7],
+  ["qa-review", 9],
   ["section-completion", 4],
   ["site-icons", 8],
   ["remote-apply", 4],
