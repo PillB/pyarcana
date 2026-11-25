@@ -137,6 +137,29 @@ print(tabla_html("Ventas por sede (S/)", ["Sede", "Ventas"],
           expect: 'La salida empieza con `<table>`, tiene un `<caption>` y un `<th scope="col">` por columna.',
           guide: { label: 'Tablas en MDN: el elemento table', url: 'https://developer.mozilla.org/es/docs/Web/HTML/Element/table' },
         },
+        {
+          id: 'html.practica',
+          title: 'Agrega una fila de total a la tabla',
+          body: [
+            'Escribe una función `fila_total(filas)` que reciba las filas de `tabla_html` y devuelva una fila `<tr>` con la palabra «Total» y la suma de los montos. Suma con `Decimal`, como en S02, para que el total cuadre al céntimo.',
+            'La primera celda es un encabezado de fila, `<th scope="row">`, porque nombra lo que la fila contiene; así el lector de pantalla anuncia «Total» antes del monto. Ejecuta tu función con las dos sedes del paso anterior.',
+          ],
+          exercise: {
+            hint: '`Decimal(\'1250.00\') + Decimal(\'980.50\')` da `Decimal(\'2230.50\')`, y un f-string lo escribe tal cual.',
+            solution: { language: 'python', title: 'fila_total.py', code: String.raw`from decimal import Decimal
+
+filas = [("Sede A", "1250.00"), ("Bodega <Norte>", "980.50")]
+
+
+def fila_total(filas):
+    total = sum(Decimal(monto) for _, monto in filas)
+    return f'<tr><th scope="row">Total</th><td>{total}</td></tr>'
+
+
+print(fila_total(filas))`, output: String.raw`<tr><th scope="row">Total</th><td>2230.50</td></tr>` },
+          },
+          expect: 'La fila `<tr><th scope="row">Total</th><td>2230.50</td></tr>`.',
+        },
       ],
     },
     {
@@ -218,6 +241,51 @@ console.log(ventas.length, 'sedes')`,
             },
           ],
         },
+        {
+          id: 'http.practica',
+          title: 'Responde 404 cuando la ruta no existe',
+          body: [
+            'El servidor del paso 2.1 responde lo mismo a cualquier ruta. Cámbialo para que solo `/ventas` devuelva los datos y cualquier otra ruta responda status `404` con el JSON `{"error": "no existe"}`.',
+            'Comprueba el cambio desde el cliente pidiendo `/otra-ruta`. `urlopen` lanza `HTTPError` cuando el status es 4xx o 5xx, y ese error trae el status en `code` y el cuerpo de la respuesta, que puedes leer con `json.load`.',
+          ],
+          exercise: {
+            hint: '`self.path` contiene la ruta pedida, como `/ventas` u `/otra-ruta`.',
+            solution: { language: 'python', title: 'servidor_404.py', code: String.raw`import json
+import threading
+import urllib.error
+import urllib.request
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+
+class Ventas(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/ventas":
+            status, datos = 200, {"sede": "Sede A", "ventas": "1250.00"}
+        else:
+            status, datos = 404, {"error": "no existe"}
+        cuerpo = json.dumps(datos).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(cuerpo)))
+        self.end_headers()
+        self.wfile.write(cuerpo)
+
+    def log_message(self, *args):
+        pass
+
+
+servidor = ThreadingHTTPServer(("127.0.0.1", 0), Ventas)
+threading.Thread(target=servidor.serve_forever, daemon=True).start()
+url = f"http://127.0.0.1:{servidor.server_address[1]}/otra-ruta"
+
+try:
+    urllib.request.urlopen(url, timeout=5)
+except urllib.error.HTTPError as error:
+    print(error.code, json.load(error))
+servidor.shutdown()`, output: String.raw`404 {'error': 'no existe'}` },
+          },
+          expect: '`404 {\'error\': \'no existe\'}`.',
+        },
       ],
     },
     {
@@ -234,7 +302,7 @@ console.log(ventas.length, 'sedes')`,
           id: 'sitio.construir',
           title: 'Genera index.html y data.json con Python',
           body: [
-            'El script lee las ventas, arma las filas con `escape` y escribe dos archivos en la carpeta de destino. Para que el ejemplo se pueda ejecutar en cualquier lugar, escribe en una carpeta temporal; en tu proyecto usa `Path("site")` y crea la carpeta con `mkdir(exist_ok=True)`.',
+            'El script lee las ventas, arma las filas con `escape` y escribe dos archivos en la carpeta de destino. Los escribe en la carpeta `site`, junto al script: `mkdir(exist_ok=True)` la crea la primera vez y no falla si ya existe, así que puedes volver a ejecutarlo cada vez que cambien los datos.',
             'La plantilla declara `charset="utf-8"` para que las tildes se vean bien, `lang="es"` para que el lector de pantalla pronuncie en español y `viewport` para que la tabla se adapte al celular. Los encabezados son botones: así se pueden pulsar con el teclado, no solo con el mouse.',
           ],
           code: [
@@ -244,7 +312,6 @@ console.log(ventas.length, 'sedes')`,
               code: String.raw`import csv
 import io
 import json
-import tempfile
 from html import escape
 from pathlib import Path
 
@@ -277,6 +344,7 @@ PLANTILLA = """<!doctype html>
 
 
 def construir(destino: Path) -> list[str]:
+    destino.mkdir(exist_ok=True)
     ventas = list(csv.DictReader(io.StringIO(VENTAS_CSV)))
     filas = "\n".join(
         f"<tr><td>{escape(v['sede'])}</td><td>{escape(v['ventas'])}</td></tr>" for v in ventas
@@ -286,20 +354,19 @@ def construir(destino: Path) -> list[str]:
     return sorted(p.name for p in destino.iterdir())
 
 
-with tempfile.TemporaryDirectory() as carpeta:
-    sitio = Path(carpeta)
-    print(construir(sitio))
-    pagina = (sitio / "index.html").read_text(encoding="utf-8")
-    print("tiene caption:", "<caption>" in pagina)
-    print("nombre escapado:", "Bodega &lt;Norte&gt;" in pagina)
-    print(json.loads((sitio / "data.json").read_text(encoding="utf-8"))[1])`,
+sitio = Path("site")
+print(construir(sitio))
+pagina = (sitio / "index.html").read_text(encoding="utf-8")
+print("tiene caption:", "<caption>" in pagina)
+print("nombre escapado:", "Bodega &lt;Norte&gt;" in pagina)
+print(json.loads((sitio / "data.json").read_text(encoding="utf-8"))[1])`,
               output: String.raw`['data.json', 'index.html']
 tiene caption: True
 nombre escapado: True
 {'sede': 'Bodega <Norte>', 'ventas': '980.50'}`,
             },
           ],
-          expect: 'Dos archivos, `data.json` e `index.html`, el caption presente y la sede escapada.',
+          expect: 'Dos archivos, `data.json` e `index.html` (tres si ya guardaste `app.js` en `site`), el caption presente y la sede escapada.',
         },
         {
           id: 'sitio.ordenar',
@@ -307,7 +374,7 @@ nombre escapado: True
           body: [
             'JavaScript se lee parecido a Python, con otra puntuación: `const` crea un nombre que no se reasigna, `(a, b) => ...` es una función corta como un `lambda`, y las llaves `{ }` marcan el bloque que en Python marca la sangría. El **DOM** es la página tal como la ve JavaScript, un árbol de elementos que puede leer y cambiar; `document.querySelectorAll(\'th button\')` devuelve los botones de los encabezados, como una lista. Dos formas más aparecen abajo: `condición ? a : b` es el `a if condición else b` de Python, y `[...cuerpo.rows]` copia las filas en una lista nueva que se puede ordenar.',
             'Ordenar lo que ya está en pantalla es trabajo del navegador: no hace falta volver a ejecutar Python ni recargar la página. El script escucha el clic en cada botón de encabezado, ordena las filas por esa columna (como número si ambas celdas son números, como texto si no) y alterna entre ascendente y descendente.',
-            '`aria-sort` es el atributo que le dice al lector de pantalla por qué columna y en qué sentido está ordenada la tabla. Guarda el archivo como `app.js` junto a `index.html`.',
+            '`aria-sort` es el atributo que le dice al lector de pantalla por qué columna y en qué sentido está ordenada la tabla. Guarda el archivo como `app.js` dentro de `site`, junto a `index.html`.',
           ],
           code: [{ language: 'javascript', title: 'app.js', code: String.raw`// app.js: ordena la tabla cuando pulsas un encabezado, sin volver a ejecutar Python
 document.querySelectorAll('th button').forEach((boton, columna) => {
@@ -343,10 +410,39 @@ document.querySelectorAll('th button').forEach((boton, columna) => {
               steps: ['Abriste el archivo con doble clic. Deja el servidor corriendo y abre http://localhost:8000.'],
             },
             {
-              symptom: '`OSError: [Errno 98] Address already in use` o un mensaje parecido en Windows.',
-              steps: ['Otro programa usa el puerto 8000. Cambia el número: `python -m http.server 8001 --directory site`.'],
+              symptom: 'La terminal muestra `Address already in use` (en Windows, `WinError 10048`), o la página que abres no es la tuya.',
+              steps: ['Otro programa usa el puerto 8000. Cambia el número: `python -m http.server 8001 --directory site`, y abre http://localhost:8001.'],
+            },
+            {
+              symptom: 'En macOS o Linux, la terminal dice `command not found: python`.',
+              steps: ['Activa el entorno virtual de tu proyecto (S01), o escribe `python3` en lugar de `python`.'],
             },
           ],
+        },
+        {
+          id: 'sitio.practica',
+          title: 'Muestra el total de ventas, calculado en Python',
+          body: [
+            'Agrega a la página un párrafo con el total de ventas de las tres sedes. Por la regla del módulo 1, el total lo calcula Python con `Decimal` al construir el sitio, y la página solo lo muestra.',
+            'Escribe primero el cálculo y el párrafo en un script aparte. Cuando la salida sea la correcta, pon el párrafo en `PLANTILLA` con un segundo marcador, por ejemplo `{total}`.',
+          ],
+          exercise: {
+            hint: 'Lee las ventas con `csv.DictReader`, como `construir_sitio.py`, y suma `Decimal(v["ventas"])`.',
+            solution: { language: 'python', title: 'total_sitio.py', code: String.raw`import csv
+import io
+from decimal import Decimal
+
+VENTAS_CSV = """sede,ventas
+Sede A,1250.00
+Bodega <Norte>,980.50
+Sede C,1430.25
+"""
+
+ventas = list(csv.DictReader(io.StringIO(VENTAS_CSV)))
+total = sum(Decimal(v["ventas"]) for v in ventas)
+print(f"<p>Total de las {len(ventas)} sedes: S/ {total}</p>")`, output: String.raw`<p>Total de las 3 sedes: S/ 3660.75</p>` },
+          },
+          expect: 'El párrafo `<p>Total de las 3 sedes: S/ 3660.75</p>`.',
         },
       ],
     },
@@ -432,6 +528,10 @@ gh repo create mi-sitio --public --source . --push`,
               symptom: 'La tabla aparece, pero `fetch` falla con 404 en la consola.',
               steps: ['Busca rutas que empiecen con `/` en `index.html` y en `app.js`, y quítales la barra inicial (paso anterior).'],
             },
+            {
+              symptom: 'En **Settings → Pages** no aparece la rama `main`, solo `master`.',
+              steps: ['Tu Git creó la rama con el nombre antiguo. Renómbrala y súbela: `git branch -M main` y luego `git push -u origin main`. Para los proyectos siguientes, `git config --global init.defaultBranch main`, como en la Sesión 0.'],
+            },
           ],
           guide: { label: 'GitHub Docs: crear un sitio de GitHub Pages', url: 'https://docs.github.com/es/pages/getting-started-with-github-pages/creating-a-github-pages-site' },
         },
@@ -472,6 +572,27 @@ gh repo create mi-sitio --public --source . --push`,
           ],
           expect: 'Puedes explicar por qué tu sitio de ventas no necesita Python en el servidor, y qué cambio en los requisitos lo haría necesario.',
           guide: { label: 'Vercel Docs: el runtime de Python', url: 'https://vercel.com/docs/functions/runtimes/python' },
+        },
+        {
+          id: 'despliegue.practica',
+          title: 'Busca rutas absolutas antes de publicar',
+          body: [
+            'Antes de subir el sitio conviene revisar que ninguna ruta empiece con `/`, porque fallará en la subcarpeta de GitHub Pages. Escribe un script que encuentre, con una expresión regular como las de S07, cada `src` o `href` que empiece con una sola `/`.',
+            'Un enlace completo, como `https://docs.github.com/`, no es un problema: apunta a otro sitio y no depende de la subcarpeta. Pruébalo con una página que tenga una ruta absoluta, una relativa y un enlace completo.',
+          ],
+          exercise: {
+            hint: 'El patrón `/[^/"]` exige una barra seguida de algo que no sea otra barra ni comillas, así que las rutas relativas y los enlaces que empiezan con `//` quedan fuera.',
+            solution: { language: 'python', title: 'rutas_absolutas.py', code: String.raw`import re
+
+pagina = """<link rel="stylesheet" href="/estilos.css">
+<script src="app.js"></script>
+<a href="https://docs.github.com/">Ayuda</a>"""
+
+# Una ruta que empieza con una sola "/" apunta a la raíz del dominio
+absolutas = re.findall(r'(?:src|href)="(/[^/"][^"]*)"', pagina)
+print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`rutas que fallarán en una subcarpeta: ['/estilos.css']` },
+          },
+          expect: 'Solo `/estilos.css` aparece en la lista.',
         },
       ],
     },
@@ -603,6 +724,39 @@ segunda fila para el mismo par: UNIQUE constraint failed: stock.sede_id, stock.p
             },
           ],
           expect: 'Tres filas con sede, producto y unidades, y un `UNIQUE constraint failed` al repetir el par.',
+        },
+        {
+          id: 'modelo.practica',
+          title: 'Agrega los clientes al modelo',
+          body: [
+            'Cada venta pertenece a un cliente, y un cliente tiene muchas ventas. Decide en qué tabla va la clave foránea, escribe los dos `CREATE TABLE` y comprueba, con las claves foráneas encendidas, que SQLite rechaza una venta de un cliente que no existe.',
+            'Usa identificadores sintéticos como `CLI-0001`, nunca un DNI real ni un número con su forma, porque los datos de práctica no deben parecerse a los de una persona.',
+          ],
+          exercise: {
+            hint: 'La relación es uno a muchos, así que la FK va en el lado «muchos»: `ventas.cliente_id`.',
+            solution: { language: 'python', title: 'clientes_ventas.py', code: String.raw`import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.execute("PRAGMA foreign_keys = ON")
+con.executescript("""
+CREATE TABLE clientes (id TEXT PRIMARY KEY, nombre TEXT NOT NULL);
+CREATE TABLE ventas (
+    id TEXT PRIMARY KEY,
+    cliente_id TEXT NOT NULL REFERENCES clientes(id),
+    monto TEXT NOT NULL
+);
+INSERT INTO clientes VALUES ('CLI-0001', 'Ana Demo');
+INSERT INTO ventas VALUES ('V-1', 'CLI-0001', '120.00');
+""")
+print(con.execute("SELECT COUNT(*) FROM ventas").fetchone()[0], "venta guardada")
+try:
+    con.execute("INSERT INTO ventas VALUES ('V-2', 'CLI-0099', '80.00')")
+except sqlite3.IntegrityError as error:
+    print("cliente inexistente:", error)
+con.close()`, output: String.raw`1 venta guardada
+cliente inexistente: FOREIGN KEY constraint failed` },
+          },
+          expect: '`1 venta guardada` y luego `FOREIGN KEY constraint failed` para el cliente inexistente.',
         },
       ],
     },

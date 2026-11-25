@@ -68,8 +68,26 @@ function Fixes({ step, label }: { step: TrackStep; label: string }) {
   )
 }
 
+/** The hint in plain sight, the solution behind a disclosure, so trying comes before reading. */
+function Exercise({ exercise, hintLabel, solutionLabel }: { exercise: NonNullable<TrackStep['exercise']>; hintLabel: string; solutionLabel: string }) {
+  const s = exercise.solution
+  return (
+    <div className="mt-3" data-testid="track-exercise">
+      {exercise.hint && (
+        <p className="text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">{hintLabel}:</span> <InlineText text={exercise.hint} />
+        </p>
+      )}
+      <details className="mt-2 rounded-md border border-border p-3 text-sm">
+        <summary className="cursor-pointer font-semibold">{solutionLabel}</summary>
+        <CodeBlock code={s.code} language={s.language} title={s.title} output={s.output} />
+      </details>
+    </div>
+  )
+}
+
 /** One step: what to do and why, the code with what it prints, what the browser draws, the check. */
-export function TrackStepView({ step, number, done, onToggle }: { step: TrackStep; number: string; done: boolean; onToggle: () => void }) {
+export function TrackStepView({ step, number, done, onToggle }: { step: TrackStep; number: string; done: boolean; onToggle: (checked: boolean) => void }) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
   const checkId = `track-done-${step.id}`
@@ -80,6 +98,7 @@ export function TrackStepView({ step, number, done, onToggle }: { step: TrackSte
       data-step-id={step.id}
       data-done={done ? '1' : '0'}
     >
+      {step.exercise && <p className="text-xs font-semibold uppercase tracking-wide text-primary">{tr('track.exercise.kicker')}</p>}
       <h3 className="flex items-baseline gap-2 text-lg font-semibold">
         <span className="text-sm tabular-nums text-muted-foreground">{number}</span>
         <InlineText text={step.title} />
@@ -103,6 +122,7 @@ export function TrackStepView({ step, number, done, onToggle }: { step: TrackSte
           </div>
         </div>
       )}
+      {step.exercise && <Exercise exercise={step.exercise} hintLabel={tr('track.exercise.hint')} solutionLabel={tr('track.exercise.solution')} />}
       {step.guide && <OfficialGuide guide={step.guide} afterPicture={false} />}
       {step.expect && (
         <div className="mt-3 rounded-md border border-green-500/30 bg-green-500/5 p-3 text-sm" data-testid="track-expect">
@@ -117,7 +137,7 @@ export function TrackStepView({ step, number, done, onToggle }: { step: TrackSte
       )}
       <Fixes step={step} label={tr('track.fixes')} />
       <div className="mt-3 flex items-center gap-2">
-        <input id={checkId} type="checkbox" checked={done} onChange={onToggle} className="h-5 w-5 accent-green-600" data-testid="track-step-done" />
+        <input id={checkId} type="checkbox" checked={done} onChange={(e) => onToggle(e.target.checked)} className="h-5 w-5 accent-green-600" data-testid="track-step-done" />
         <label htmlFor={checkId} className="text-sm font-medium">
           {tr('track.done')}
         </label>

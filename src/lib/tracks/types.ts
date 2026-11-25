@@ -48,6 +48,11 @@ export interface TrackStep {
   /** «Deberías ver»: the checkpoint the learner can compare against. */
   expect?: string
   fixes?: readonly TrackFix[]
+  /**
+   * «Hazlo tú»: a transfer task the learner writes themselves. The body states the task; the
+   * solution is hidden behind a disclosure and run by the test like any other Python block.
+   */
+  exercise?: { hint?: string; solution: TrackCode }
   /** The product's own current guide. `label` names the guide, never "aquí" (WCAG 2.4.4). */
   guide?: { label: string; url: string }
 }
