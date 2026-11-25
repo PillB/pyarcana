@@ -452,7 +452,7 @@ jobs:
       # Proposal 12 section tests that run lesson code (NumPy, pandas, openpyxl). The adversarial job skips
       # their content classes, and skip_allowlist.json points here.
       - name: Proposal 12 section tests that run lesson code
-        run: python3 -m unittest -v tests/adversarial/test_proposal12_s14.py tests/adversarial/test_proposal12_s15.py tests/adversarial/test_proposal12_s16.py tests/adversarial/test_proposal12_s17.py tests/adversarial/test_proposal12_s18.py tests/adversarial/test_proposal12_s19.py tests/adversarial/test_proposal12_s20.py tests/adversarial/test_proposal12_s21.py tests/adversarial/test_proposal12_s22.py tests/adversarial/test_proposal12_s23.py
+        run: python3 -m unittest -v tests/adversarial/test_assertion_messages.py tests/adversarial/test_proposal12_s14.py tests/adversarial/test_proposal12_s15.py tests/adversarial/test_proposal12_s16.py tests/adversarial/test_proposal12_s17.py tests/adversarial/test_proposal12_s18.py tests/adversarial/test_proposal12_s19.py tests/adversarial/test_proposal12_s20.py tests/adversarial/test_proposal12_s21.py tests/adversarial/test_proposal12_s22.py tests/adversarial/test_proposal12_s23.py
         env:
           PYARCANA_PINNED_CONTENT_ENV: '1'
 

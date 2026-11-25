@@ -5246,7 +5246,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El mínimo y el máximo, que muestran todo el rango de montos',
       ],
       correctIndex: 1,
-      explanation: 'Con cola larga, el contrato de la sección es n, un centro robusto (mediana con IQR) y al menos un cuantil de cola (p90, p95 o el máximo). Media y std asumen una forma simétrica que estos datos no tienen. La media sola se arrastra con la cola, y mínimo y máximo dependen de dos filas extremas.',
+      explanation: 'Con cola larga, el contrato de la sección es n, un centro robusto (mediana con IQR) y al menos un cuantil de cola (p90, p95 o el máximo). Media y std se pueden calcular con cola larga, pero unos pocos montos extremos las mueven mucho y dejan de describir un ticket típico. La media sola se arrastra con la cola, y mínimo y máximo dependen de dos filas extremas.',
     },
     {
       concept: 'center-spread-quantiles',
@@ -6174,6 +6174,18 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'conditions-tables-safe-format',
+      question: 'round(28.25, 1) en Python da 28.2 y ROUND de Excel da 28.3. Para que el informe coincida con Excel, fmt_pen usa:',
+      options: [
+        'round(x, 2) y después round del resultado a 1 decimal',
+        'Decimal(str(x)) con quantize y ROUND_HALF_UP',
+        'int(x * 10) / 10 para cortar el segundo decimal',
+        'Un f-string con formato .1f sobre el float',
+      ],
+      correctIndex: 1,
+      explanation: 'round() de Python lleva el empate al número par, y ROUND de Excel aleja el empate del cero. Decimal(str(x)).quantize(Decimal(\'0.1\'), rounding=ROUND_HALF_UP) da 28.3, como Excel. El f-string con .1f también da 28.2, int(x * 10) / 10 corta en vez de redondear, y redondear dos veces no cambia el empate.',
+    },
+    {
+      concept: 'styles-sections-docx-pdf',
       question: 'Un DOCX trazable marca sus títulos con:',
       options: [
         'Negrita y tamaño 16 para que se vean como títulos',
@@ -6209,7 +6221,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'PK son las iniciales del formato ZIP, y un DOCX es un ZIP con archivos XML dentro. Por eso comprobar que el archivo empieza por PK confirma que es un paquete válido. No es una firma digital, que necesitaría una clave. Lo produce cualquier programa que escriba DOCX, con tablas o sin ellas.',
     },
     {
-      concept: 'styles-sections-docx-pdf',
+      concept: 'pdf-digital-vs-image-ocr',
       question: 'pypdf devuelve texto vacío de un PDF que se ve bien en pantalla. El contrato del factory es:',
       options: [
         'Escribir a mano lo que se lee en el PNG renderizado',
@@ -6231,18 +6243,6 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation: 'El PNG prueba la legibilidad visual: que la página existe y se puede mirar. Un PDF escaneado también se renderiza bien, así que la capa digital se prueba aparte, con extract_text. La paridad con el Excel la prueba check_parity, y que nadie editó el archivo lo prueba su SHA-256 en el manifiesto.',
-    },
-    {
-      concept: 'pdf-digital-vs-image-ocr',
-      question: 'Al terminar la corrida, el factory deja approval.status en:',
-      options: [
-        'approved, porque los checks automáticos de la corrida pasaron',
-        'pending_review, hasta que una persona revise el paquete',
-        'rejected, hasta que el flujo de aprobación de S22 lo cambie',
-        'draft, porque falta el correo de aprobación',
-      ],
-      correctIndex: 1,
-      explanation: 'El estado honesto al cerrar el contenido es pending_review: el script prepara el paquete y una persona lo revisa en la cola de aprobación de S22. Marcar approved desde el código es autoaprobarse, aunque los checks automáticos pasen. rejected afirma una revisión que no ocurrió, y draft no es un estado del contrato de la sección.',
     },
     {
       concept: 'pdf-digital-vs-image-ocr',
@@ -6330,18 +6330,6 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'copy-a11y-consistency',
-      question: 'round(28.25, 1) en Python da 28.2 y ROUND de Excel da 28.3. Para que el informe coincida con Excel, fmt_pen usa:',
-      options: [
-        'round(x, 2) y después round del resultado a 1 decimal',
-        'Decimal(str(x)) con quantize y ROUND_HALF_UP',
-        'int(x * 10) / 10 para cortar el segundo decimal',
-        'Un f-string con formato .1f sobre el float',
-      ],
-      correctIndex: 1,
-      explanation: 'round() de Python lleva el empate al número par, y ROUND de Excel aleja el empate del cero. Decimal(str(x)).quantize(Decimal(\'0.1\'), rounding=ROUND_HALF_UP) da 28.3, como Excel. El f-string con .1f también da 28.2, int(x * 10) / 10 corta en vez de redondear, y redondear dos veces no cambia el empate.',
-    },
-    {
-      concept: 'copy-a11y-consistency',
       question: 'Un canal imprime 28 y otro 28.0 para la misma mediana. El revisor:',
       options: [
         'No nota nada, porque en Python 28 == 28.0 es True',
@@ -6365,7 +6353,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'El gate del lab lee has_h1 del DOCX reabierto y exige al menos un alt, cada uno con más de 10 caracteres, n= y una unidad como PEN o %. Un alt cualquiera no describe la figura. El tamaño de fuente y la portada son decisiones de diseño, y la checklist no es WCAG completa: es un mínimo que bloquea paquetes ilegibles.',
     },
     {
-      concept: 'visual-render-provenance-approval',
+      concept: 'copy-a11y-consistency',
       question: 'Un gate a11y escrito como all(len(a) > 10 for a in alts) recibe una lista alts vacía. El resultado:',
       options: [
         'Falla, porque la lista no trae alts que revisar',
@@ -6375,6 +6363,18 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation: 'all() de una secuencia vacía es True: no hay ningún elemento que falle. Por eso el gate aprueba un paquete sin alternativas de figura, y hay que añadir len(alts) > 0. all() no lanza errores con listas vacías ni devuelve None: devuelve un booleano. Es el mismo caso que el ejercicio T4-A-E3 pide cubrir.',
+    },
+    {
+      concept: 'visual-render-provenance-approval',
+      question: 'Al terminar la corrida, el factory deja approval.status en:',
+      options: [
+        'approved, porque los checks automáticos de la corrida pasaron',
+        'pending_review, hasta que una persona revise el paquete',
+        'rejected, hasta que el flujo de aprobación de S22 lo cambie',
+        'draft, porque falta el correo de aprobación',
+      ],
+      correctIndex: 1,
+      explanation: 'El estado honesto al cerrar el contenido es pending_review: el script prepara el paquete y una persona lo revisa en la cola de aprobación de S22. Marcar approved desde el código es autoaprobarse, aunque los checks automáticos pasen. rejected afirma una revisión que no ocurrió, y draft no es un estado del contrato de la sección.',
     },
     {
       concept: 'visual-render-provenance-approval',
@@ -6514,18 +6514,6 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'drafts-expiry-adapters',
-      question: 'Antes de la aprobación humana, el artefacto que produce el pipeline de la sección es:',
-      options: [
-        'Un correo enviado a la bandeja de la revisora para que lo lea',
-        'Un borrador de sandbox o un archivo .eml local',
-        'Un mensaje en cola SMTP con envío programado',
-        'Un PDF del cuerpo adjunto a un ticket',
-      ],
-      correctIndex: 1,
-      explanation: 'La sección es draft-only: produce un .eml local o un borrador de sandbox, y una persona decide en la cola de aprobación. Enviar el correo a la revisora ya es un envío real, y una cola SMTP con hora programada envía sin aprobación. Un PDF en un ticket no es el borrador que se revisa.',
-    },
-    {
-      concept: 'drafts-expiry-adapters',
       question: 'El adaptador de la sección expone al workflow los métodos:',
       options: [
         'send y retry, para que el workflow controle el envío',
@@ -6549,7 +6537,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'La expiración fuerza contenido fresco: las cifras del informe de S21 pudieron cambiar, así que el borrador se regenera y pasa otra vez por la cola humana. is_usable devuelve False cuando now >= expires_at. El proveedor no lo borra, el id sigue siendo único y la revisora conserva el acceso.',
     },
     {
-      concept: 'resolve-verify-recipients',
+      concept: 'drafts-expiry-adapters',
       question: 'En el instante exacto de expires_at, el draft:',
       options: [
         'Sigue usable hasta el segundo siguiente, porque el borde es inclusivo',
@@ -6585,7 +6573,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'Un score de similitud solo ordena qué destinatario revisar primero para que el correo llegue a quien debe. No prueba fraude, identidad ni parentesco, y no reemplaza la verificación ni la cola humana. Por eso el print canónico lleva la nota match_no_es_fraude y nunca fraude_probable.',
     },
     {
-      concept: 'lists-cc-bcc-privacy-min',
+      concept: 'resolve-verify-recipients',
       question: 'Un contacto existe en el directorio, pero su email está en un dominio fuera de la allowlist. Resultado:',
       options: [
         'verified, porque el id existe en el directorio',
@@ -6621,7 +6609,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'BCC oculta la dirección a los otros destinatarios, pero el cuerpo y los adjuntos llegan igual a todos. Por eso lo sensible no va en el cuerpo, sino en un portal o un adjunto controlado. BCC no cifra nada, no restringe adjuntos y no cambia lo que registra el audit.',
     },
     {
-      concept: 'approval-queue-state-machine',
+      concept: 'lists-cc-bcc-privacy-min',
       question: 'La lista trae ana@example.pe dos veces. La higiene de la sección:',
       options: [
         'Ordena la lista alfabéticamente y quita los duplicados',
@@ -6657,7 +6645,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: 'request_edit lleva de pending_review a needs_edit; tras el cambio, otro submit vuelve a pending_review y la revisora decide de nuevo. Un cuerpo distinto cambia body_ver, así que es otra key y otro draft. No existe una transición que edite y apruebe a la vez, y submit no devuelve a draft.',
     },
     {
-      concept: 'idempotency-audit-retry',
+      concept: 'approval-queue-state-machine',
       question: 'Alguien llama apply con approve sobre un borrador en draft. Pasa que:',
       options: [
         'Se aprueba, porque la revisora tiene permiso',
@@ -6667,6 +6655,18 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation: 'La tabla no tiene approve desde draft, así que apply lanza ValueError con el texto invalid draft->approve y no escribe en el log: es el fail-closed de la cola. Los permisos de la revisora no cambian la tabla. apply no salta estados ni devuelve el estado anterior en silencio.',
+    },
+    {
+      concept: 'idempotency-audit-retry',
+      question: 'Cambias body_ver de 1 a 2 para el mismo run y el mismo destinatario. La idempotency key:',
+      options: [
+        'Se mantiene, porque el run y el destinatario son los mismos',
+        'Cambia, y el sistema crea un draft nuevo para revisar',
+        'Cambia cuando también cambia el destinatario',
+        'Se mantiene y el draft viejo se sobrescribe',
+      ],
+      correctIndex: 1,
+      explanation: 'La key es el sha256 de run_id|destinatario|body_ver, recortado a 16 hex. Si body_ver cambia, la key cambia y el sistema crea un draft nuevo que vuelve a pending_review: no es un reintento del mismo mensaje. Mantener la key reutilizaría el draft viejo con el cuerpo anterior, y sobrescribirlo borraría lo que la revisora ya revisó. El destinatario es solo una de las tres partes de la key.',
     },
     {
       concept: 'idempotency-audit-retry',
