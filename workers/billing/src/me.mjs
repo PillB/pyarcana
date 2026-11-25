@@ -2,7 +2,7 @@
  * The "me" payload every sign-in, link, trial and GET /v1/me return
  * (DESIGN-v2 §4 + v3), so the client always reads ONE shape:
  *
- *   {ok, account: {id, email, emailVerified, displayName, isAdmin, roles,
+ *   {ok, account: {id, email, emailVerified, displayName, isAdmin, adminReauth, roles,
  *                  trialAvailable, firstSigninAt, signInMethod,
  *                  identities: [{provider, subject (masked), createdAt}]},
  *    access: resolveAccess(...),
@@ -18,7 +18,7 @@
  * the client.
  */
 
-import { activeRoles, isAdminSession } from "./accounts.mjs";
+import { activeRoles, adminDenial } from "./accounts.mjs";
 import { paidThrough } from "./access.mjs";
 import { adsPolicy } from "./ads.mjs";
 import { accessSnapshot, publicGrant } from "./entitlement.mjs";
@@ -49,6 +49,22 @@ async function trialAvailable(ctx, account, rows) {
 }
 
 /**
+ * isAdmin, and adminReauth: true only for a listed, verified admin address whose session fails the
+ * Google part (older than 12 h, or not signed in with that address's own Google). The account
+ * window and /admin then say "sign in with Google again" instead of "this page is not for you".
+ * It tells the holder only what every admin route already answers them (reauth_required); anyone
+ * else gets false, so a learner learns nothing about the admin list.
+ * @param {Object} ctx Context (`env`, `now`).
+ * @param {Object} account Account row.
+ * @param {Object} session Session row.
+ * @returns {{isAdmin: boolean, adminReauth: boolean}} Flags.
+ */
+function adminFlags(ctx, account, session) {
+  const denial = adminDenial(ctx.env, account, session, ctx.now);
+  return { isAdmin: denial === null, adminReauth: denial === "reauth_required" };
+}
+
+/**
  * Client-safe view of the signed-in account.
  * @param {Object} ctx Context (`env`, `now`, `db`, `pepper`).
  * @param {Object} account Account row.
@@ -62,7 +78,7 @@ async function publicAccount(ctx, account, session, rows) {
     email: account.email || null,
     emailVerified: Number(account.email_verified) === 1,
     displayName: account.display_name || null,
-    isAdmin: isAdminSession(ctx.env, account, session, ctx.now),
+    ...adminFlags(ctx, account, session),
     roles: await activeRoles(ctx, account.id),
     trialAvailable: await trialAvailable(ctx, account, rows),
     firstSigninAt: account.first_signin_at === null ? null : Number(account.first_signin_at),
