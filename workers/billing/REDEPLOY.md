@@ -86,6 +86,15 @@ Deploy from the separate deploy folder (`pyarcana-deploy`), not from the folder 
 `redeploy.sh` refuses to run if that folder has edits other than the local D1 id in
 `workers/billing/wrangler.toml`.
 
+On the owner's Mac the deploy folder is `~/Documents/GitHub/pyarcana-deploy`, a git **worktree**
+of the editing folder `~/Documents/GitHub/pyarcana`: both share one repository, and git lets only
+one of them have `main` checked out. `main` lives in `pyarcana-deploy`. So in the editing folder
+`git checkout main` fails with `fatal: 'main' is already used by worktree at '…/pyarcana-deploy'`,
+and every command after it runs on whatever that folder had checked out (on 25 Nov 2026: an old
+local commit without `redeploy.sh`). If you see that message, nothing was deployed: `cd` into
+`pyarcana-deploy` and start this step again. `git worktree list` shows both folders and the
+branch each holds.
+
 ```
 cd ~/path/to/pyarcana-deploy
 git status --short
