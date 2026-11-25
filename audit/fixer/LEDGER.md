@@ -8,7 +8,7 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | `findings` | codex round applied, registry findings closed | 5/52 |
 | `redaction` | grammar and redaction pass applied | 8/52 |
 | `concepts` | load-bearing concepts have their own subtopic (D3) | 0/52 |
-| `figures` | at least two figures carrying real teaching (D4) | 44/52 |
+| `figures` | at least two figures carrying real teaching (D4) | 45/52 |
 | `vocab` | no term used before it is defined | 52/52 |
 | `ids` | no identifier-shaped synthetic value (D2) | 52/52 |
 | `runtime` | every snippet executes under .venv-content | 52/52 |
@@ -18,17 +18,17 @@ Every box is computed from an artifact, never hand-ticked. Regenerate with
 | sec | findings | figs | run-ons | findings | redaction | concepts | figures | vocab | ids | runtime |
 |---|---|---:|---:|---|---|---|---|---|---|---|
 | **S01** setup | 19/21 | 2 | 3 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
-| **S02** basics | 21/21 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S02** basics | 21/21 | 4 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S03** decisions-rules | 12/17 | 3 | 1 | [ ] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S04** iteration-summaries | 18/18 | 2 | 0 | [x] | [x] | [ ] | [x] | [x] | [x] | [x] |
 | **S05** functions-contracts | 22/22 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S06** collections | 20/20 | 3 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S07** text-unicode-regex | 19/19 | 2 | 0 | [x] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S08** files-ingestion | 26/27 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S09** exceptions-logging | 0/22 | 2 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S09** exceptions-logging | 0/22 | 3 | 1 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S10** modules-packaging-cli | 0/22 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
-| **S11** oop-domain | 0/22 | 1 | 6 | [ ] | [ ] | [ ] | [ ] | [x] | [x] | [x] |
-| **S12** apis-sql-geo | 0/23 | 2 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S11** oop-domain | 0/22 | 2 | 6 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
+| **S12** apis-sql-geo | 0/23 | 3 | 2 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S13** evidence-dashboard | 0/27 | 2 | 5 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S14** security | 0/23 | 4 | 0 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |
 | **S15** stdlib-deep | 0/18 | 2 | 3 | [ ] | [ ] | [ ] | [x] | [x] | [x] | [x] |

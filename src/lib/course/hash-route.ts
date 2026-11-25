@@ -5,7 +5,7 @@
  * Keeping the decision pure lets a test walk every route, including the ones a future round will
  * add or rename, without a browser. page.tsx applies the result; it never decides on its own.
  *
- * States: home | section(id, step) | resources | capstones | familiarity | session0 | admin* | pricing*
+ * States: home | section(id, step) | resources | capstones | familiarity | session0 | webtrack | admin* | pricing*
  * (* server edition only). An unknown hash returns null: the caller keeps the current view instead
  * of guessing, and says so in the console.
  *
@@ -16,7 +16,10 @@
 import { SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import { renameSectionId } from '@/lib/section-id-migrations'
 
-export type CourseView = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0'
+/** The hash of the applied web track; `#ruta-web/<module>` opens it too, at that module. */
+export const WEB_TRACK_HASH = 'ruta-web'
+
+export type CourseView = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones' | 'session0' | 'webtrack'
 export type HashRoute = { view: Exclude<CourseView, 'section'> } | { view: 'section'; sectionId: string; step: SubStep }
 
 /** The part of a course section this router needs. */
@@ -49,6 +52,8 @@ const PLAIN_VIEWS: Readonly<Record<string, { view: Exclude<CourseView, 'section'
   resources: { view: 'resources', serverOnly: false },
   familiarity: { view: 'familiarity', serverOnly: false },
   capstones: { view: 'capstones', serverOnly: false },
+  // The applied web track (src/lib/tracks/web). Not a section: no slug may take this name.
+  [WEB_TRACK_HASH]: { view: 'webtrack', serverOnly: false },
   admin: { view: 'admin', serverOnly: true },
   pricing: { view: 'pricing', serverOnly: true },
 }
@@ -62,6 +67,7 @@ export function parseCourseHash(rawHash: string, sections: readonly RoutableSect
   const plain = Object.prototype.hasOwnProperty.call(PLAIN_VIEWS, hash) ? PLAIN_VIEWS[hash] : undefined
   if (plain) return plain.serverOnly && isStaticSite ? null : { view: plain.view }
   const [rawId, rawStep] = hash.split('/')
+  if (rawId === WEB_TRACK_HASH) return { view: 'webtrack' }
   const section = findCourseSection(rawId, sections)
   if (!section) return null
   return { view: 'section', sectionId: section.id, step: isSubStep(rawStep) ? rawStep : 'theory' }

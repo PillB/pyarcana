@@ -106,12 +106,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def bank() -> list[dict]:
@@ -172,7 +181,7 @@ class WarningsRunTheirMistake(unittest.TestCase):
         ("theory", "Ufuncs y reducciones", "len_bug 1.0"),
         ("theory", "Broadcasting y compatibilidad de shapes", "shape_mal (3, 3)"),
         ("theory", "NaN, inf y estabilidad numérica", "igual_nan [False, False, False, False]"),
-        ("theory", "Vectorización frente a loops", "print_infla_el_tiempo True"),
+        ("theory", "Vectorización frente a loops", "prints_dentro_del_tiempo_medido 2000 vs 0"),
         ("demo", "S14-T1-B-DEMO", "and_falla The truth value of an array"),
         ("demo", "S14-T2-A-DEMO", "len_bug 1.0"),
         ("demo", "S14-T2-B-DEMO", "shape_mal (3, 3)"),
@@ -189,6 +198,27 @@ class WarningsRunTheirMistake(unittest.TestCase):
 
 
 class TimingIsHonest(unittest.TestCase):
+    #: A clock that returns random readings: any printed line that compares live times moves with it.
+    SHAKY_CLOCK = "import random, time\n_r = random.Random({seed})\ntime.perf_counter = lambda: _r.random()\n"
+
+    @needs_numpy
+    def test_pinned_output_does_not_depend_on_machine_speed(self) -> None:
+        """CI went red once on a timing comparison: a pinned line must not read the clock."""
+        snippets = [block("Vectorización frente a loops")["code"], demo("S14-T4-A-DEMO")["code"]]
+        for code in snippets:
+            for seed in range(6):
+                with self.subTest(code["code"][:20], seed=seed):
+                    out = stdout_of(self.SHAKY_CLOCK.format(seed=seed) + code["code"])
+                    self.assertEqual(out, code["output"].rstrip("\n"))
+
+    @needs_numpy
+    def test_the_shaky_clock_moves_a_live_comparison(self) -> None:
+        """Negative control: the old line, a comparison of live times, does move under that clock."""
+        live = ("import time\nt0 = time.perf_counter(); t1 = time.perf_counter()\n"
+                "t2 = time.perf_counter(); t3 = time.perf_counter()\nprint(t1 - t0 > t3 - t2)\n")
+        outs = {stdout_of(self.SHAKY_CLOCK.format(seed=seed) + live) for seed in range(6)}
+        self.assertEqual(outs, {"True", "False"})
+
     def test_the_benchmark_takes_medians_not_one_pair(self) -> None:
         b = block("Vectorización frente a loops")
         self.assertIn("statistics.median", b["code"]["code"])
@@ -228,7 +258,9 @@ class ExercisesCheckTheCaseTheyTeach(unittest.TestCase):
             with self.subTest(ex_id):
                 sol = exercise(ex_id)["solutionCode"]
                 self.assertEqual(sol["code"].count(old), 1, old)
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(old, new)))
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(old, new)), "",
+                    "the planted mistake still prints the pinned output, so the exercise does not detect it. "
+                    "Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
     def test_the_success_line_states_the_new_pin(self) -> None:
         for ex_id, _ in self.WRONG:
@@ -283,7 +315,8 @@ class SelfCheckAndBank(unittest.TestCase):
     def test_clip_is_a_distractor_not_part_of_the_key(self) -> None:
         q = next(q for q in bank() if q["question"].startswith("Overflow o divisiones"))
         self.assertNotIn("clip", q["options"][q["correctIndex"]])
-        self.assertTrue(any("np.clip" in o for i, o in enumerate(q["options"]) if i != q["correctIndex"]))
+        self.assertTrue(any("np.clip" in o for i, o in enumerate(q["options"]) if i != q["correctIndex"]),
+            "np.clip must stay a distractor; the key is the explicit rule: checked " + repr(q["options"])[:300])
 
     def test_no_joke_distractor_is_left(self) -> None:
         jokes = ("SUNAT", "Encriptar", "Encripta", "JOIN SQL", "hash git", "Crear venv", "Usar eval",
@@ -294,7 +327,8 @@ class SelfCheckAndBank(unittest.TestCase):
                 self.assertNotIn(joke.lower(), text.lower())
 
     def test_ownership_is_gone_from_the_key(self) -> None:
-        self.assertFalse(any(re.search("ownership", o) for q in bank() for o in q["options"]))
+        self.assertFalse(any(re.search("ownership", o) for q in bank() for o in q["options"]),
+            "the bank must not mention ownership, which the section never teaches: checked " + repr([q["options"] for q in bank()])[:300])
 
 
 if __name__ == "__main__":

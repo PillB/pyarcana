@@ -30,6 +30,9 @@ const ROUTES = [
   ['#resources', 'Recursos'],
   ['#capstones', 'Proyectos'],
   ['#familiarity', 'Familiarity'],
+  // The applied web track (src/lib/tracks/web), and a link to one of its modules.
+  ['#ruta-web', 'Python en la web'],
+  ['#ruta-web/modelo', 'Python en la web'],
   ['#no-such-route', 'Dashboard'],
 ]
 const failures = []

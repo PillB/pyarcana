@@ -980,3 +980,92 @@ back. Read this list before a section round; every item cost at least one failed
   section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
   too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
   Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).
+- **A pinned output read the clock (S14 timing demos, 25 Nov 2026).** The S14 benchmark demo
+  printed `ratio_gt_1 True` and `print_infla_el_tiempo True`, booleans computed from live
+  `perf_counter` readings, and the runtime audit compares stdout exactly. On a loaded CI runner the
+  2,000-iteration print comparison can flip, and CI went red once on it. Root cause: a pin is a
+  promise that the same code prints the same text, and a benchmark result is not reproducible by
+  design (the `timeit` docs make the same point about run-to-run variation,
+  [timeit](https://docs.python.org/3/library/timeit.html)). Fix: the demos still measure the
+  learner's own times, but the fixed output is computed from a recorded reference run (median
+  against mean, with one slow repetition) and from a count of the print calls inside the timed
+  region, which is the lesson's actual point. Guard: `test_proposal12_s14.TimingIsHonest` runs
+  both snippets with `perf_counter` replaced by a random clock and expects the pin unchanged; its
+  negative control shows a live comparison does move under that clock. Not yet done: the same
+  check over every section that reads the clock (S07, S09, S11, S12, S37).
+- **A one-line header edit used a term before anything defined it (proposal 12 S17, 25 Nov 2026).**
+  The review asked that a learning outcome stop calling `concat` a reshape tool. The rewrite named
+  `melt` and `pivot_table`. The outcomes come before the theory, and the section defines
+  `pivot_table` only in its T2-A block, so `test_surprising_uses_ratchet` (held at 0 since
+  2026-10-02) failed: `S17 packaging.outcome[2] pivot-table`. The section's own test and the
+  sentence-length check passed; only the full Python suite saw it. Root cause: a header was
+  treated as a summary, when the detector reads it as the learner's first contact with every term
+  in it. Fix: the outcome says «`melt` y su operación inversa». Guard: a term added to a tagline,
+  job-relevance line or outcome must be one an earlier section taught, or be glossed in place;
+  and the full suites run before every push, as the city-cap entry above already says.
+- **A symmetric fixture let the named mistake pass (proposal 12 S18, 25 Nov 2026).** WEDO-09 asks
+  for the worst coverage bias, `max(|count/n − share|)`, and its limits say «no devuelvas el
+  mínimo». Its fixture had two regions against a 50/50 population: 9 Lima and 1 Madrid. With two
+  regions the two shares sum to 1, so both biases are 0.4 and `min` prints the same answer as
+  `max`. The section test's mutation `max` → `min` reported «the planted mistake prints the pinned
+  answer». The exercise's own check could not fail on the mistake it warns about. Root cause: with
+  two categories every bias has the same absolute value, so no aggregate (max, min or mean) tells
+  them apart. Fix: three regions against 50/30/20, with 8 Lima, 2 Madrid and no Bogota rows. That
+  gives max 0.3, min 0.1 and mean 0.2, and `counts[k]` raises on the missing region. Guard: an
+  exercise whose limits name a wrong answer gets a fixture where that wrong answer prints
+  something else, and the section test plants that mistake and checks the output changes.
+- **A rewritten code comment removed a concept's only worked example (proposal 12 S18, 25 Nov
+  2026).** The Spearman demo's comment «monótona creciente → correlación de rangos = 1.0» was
+  replaced by a note on ties. `concept_map.py` counts a concept as exemplified when its name
+  appears in a theory code block, and that comment was the only place `correlación` did. The
+  concept fell from L2 to L1 and stopped being load-bearing. Three ratchets in
+  `test_concept_depth_ratchets` moved together: the figure target fell from 320 to 316, the
+  unexemplified count rose from 32 to 33, and D3 fell from 30 to 29. The D3 drop looked like a
+  repair, but it was a loss. Root cause: a comment was read as decoration, when the concept map
+  reads it as teaching. Fix: the original comment is back, and the note on ties is a second line.
+  Guard: when two concept ratchets move in opposite directions in one round, diff
+  `build_concepts(fresh_events())` against the base before lowering any constant.
+- **A section already at the city-name cap went over on consistency fixes (proposal 12 S18, 25 Nov
+  2026).** S18 had exactly 55 `Lima` tokens at the cap of 55. Making titles match the code
+  («Proporción de Lima», «Tasa de flags solo en Lima»), and the new three-region fixture, added
+  12. The fix kept every `Lima` that a title, fixture or output needs. It replaced the repeats in
+  prose, hints and starter comments with «la región pedida» or «esa región», which gives 54.
+  Guard: before editing a section, count its city tokens (`test_over_localized_language`). If the
+  count is at the cap, budget every added name against a repeat you remove.
+- **A distractor that states a true fact (Codex on #189, 25 Nov 2026; the same check then found
+  three in S18).** The S17 named-aggregation item asked what `agg(total=..., n=('monto',
+  'count'))` is for. One distractor said it keeps NaN out of `n`, which `count` does anyway. A
+  learner who picked a true statement was marked wrong. The length and odd-feature ratchets cannot
+  see this, because they measure the form of an option and not whether it is true. Rereading the
+  S18 bank with that question found three more:
+  - a trimmed mean «resiste» an outlier;
+  - a median above the mean does signal a dragging tail;
+  - listing the non-significant tests is the practice the lesson teaches.
+
+  Root cause: a distractor was written as «a plausible wrong practice». Several of them were bad
+  practice only because of a detail, not false as an answer to the question asked. Fix: each
+  distractor now makes a claim that the lesson or a run refutes, and the S17 one is checked by
+  running pandas. Guard: before a bank ships, read each distractor alone and ask whether it is a
+  true answer to the question as worded. When the claim is about code behaviour, run it.
+- **A new pandas test passed locally and failed CI as an unlisted skip (#189, 25 Nov 2026).**
+  The Codex fix added `ExamBank.test_the_named_aggregation_nan_distractor_is_false` behind
+  `@needs_pandas`. Here `.venv-content` exists, so the test ran and passed. The adversarial CI job
+  has no pandas, so it skipped, and `run_adversarial_py.py` failed the job because
+  `skip_allowlist.json` did not name that skip. Root cause: the allowlist is checked against the
+  skips that happen, and which skips happen depends on the machine. A missing entry is invisible
+  on every machine where a change is written: a check that reads the run can only see what this
+  run did. Fix: the entry was added. Guard:
+  `tests/adversarial/test_content_skips_are_allowlisted.py` reads the decorators with `ast`
+  instead of the run. Any module-level `unittest.skipUnless/skipIf` whose reason names the pinned
+  content interpreter marks a content skip, and every test it decorates must have an allowlist
+  entry, on any machine. Before the entry it failed on exactly this test; with it, it passes.
+- **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
+  a webhook was not older than the stored row and that `canceled` was terminal, then awaited
+  more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
+  racing left the row past_due with its provider time moved back, and two status events both
+  said `from: active`. Every test sent webhooks one at a time. Root cause: a check-then-act on a
+  row with no compare-and-set at the write. Fix: `subscriptions.version` and a guard that writes
+  NULL into the NOT NULL column when the row moved on, which rolls the D1 batch back, then a
+  re-read. Guard: `workers/billing/tests/ledger-concurrency.test.mjs` races both orders and checks
+  that the status events form one chain. Any new read-decide-write on shared rows gets a
+  `Promise.all` test over the D1 fake, which yields between statements the way D1 does.

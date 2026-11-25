@@ -108,16 +108,23 @@ import exam_bank  # noqa: E402
 #: 2026-11-21: 983 -> 965. Proposal 12 S16: every wxpython-gui (data quality) distractor was rewritten
 #: as a misconception (keep='first' as the default, the cap as exclusive, assert for drift, the
 #: coma always decimal); the bank leaves the perfect-cue set, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 965
+#: 2026-11-25: 965 -> 947. Proposal 12 S17: every packaging (joins, reshape, groupby) distractor was
+#: rewritten as a misconception (pivot_table summing by default, left keeping orphan transactions,
+#: `<` as the as-of filter); the bank leaves the perfect-cue set, and the ranks are 6/6/6/6.
+#: 2026-11-25: 947 -> 931. Proposal 12 S18: every data-engineering (EDA and uncertainty) distractor was
+#: rewritten as a misconception (bias_pp read as 0.25 points, ddof=0 for a sample, the IC as the range
+#: of the data); the key is longest on 6 of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 931
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
 #: 2026-10-14: nine. Plan PR 9 repaired apis-sql-geo and evidence-dashboard.
 #: 2026-11-21: proposal 12 S14 repaired security (NumPy); it leaves the set.
 #: 2026-11-21: proposal 12 S16 repaired wxpython-gui (data quality); it leaves the set.
+#: 2026-11-25: proposal 12 S17 repaired packaging (joins, reshape, groupby); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
-    "packaging", "rag", "rapidfuzz-entity", "rpa-advanced", "security-infra",
+    "rag", "rapidfuzz-entity", "rpa-advanced", "security-infra",
 })
 
 

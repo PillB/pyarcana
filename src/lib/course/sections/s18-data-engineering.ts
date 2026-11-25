@@ -22,12 +22,12 @@ export const section18: CourseSection = {
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Aquí practicas resúmenes robustos, sesgo muestral e intervalos básicos con notas de datos reproducibles. La **correlación** describe cómo dos variables se mueven juntas, sin afirmar causalidad. Es la base para construir un dashboard accesible que no mienta con promedios sobre muestras chicas.",
+ "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión. Cada número lleva n (cuántas filas lo sostienen), cobertura (qué parte de la población representan) e incertidumbre. Aquí practicas resúmenes robustos, sesgo muestral e intervalos básicos con notas de datos reproducibles. La **correlación** describe cómo dos variables se mueven juntas, sin afirmar causalidad. Este EDA es la base del dashboard accesible de S19, que no miente con promedios sobre muestras chicas.",
  learningOutcomes: [
- { text: "Resumir distribuciones con centro, dispersión y cuantiles" },
+ { text: "Resumir distribuciones con centro, dispersión y cuantiles (los cortes p25, p50, p75 y p90 de los datos ordenados)" },
  { text: "Elegir métricas robustas y escalas honestas" },
  { text: "Identificar sesgo de población/muestra" },
- { text: "Reportar intervalos y tamaños de efecto básicos" },
+ { text: "Reportar intervalos y tamaños de efecto básicos (cuánto difieren dos grupos, no solo si difieren)" },
  { text: "Interpretar correlación sin confundir causalidad" },
  { text: "Segmentar y marcar anomalías con límites claros" },
  { text: "Estructurar preguntas, hipótesis y evidencia" },
@@ -37,8 +37,8 @@ export const section18: CourseSection = {
  {
   heading: "Un número sin su incertidumbre es media respuesta",
  paragraphs: [
-   "El dataset ya está limpio y unido. Ahora alguien pregunta cuánto gasta un cliente típico, y la tentación es responder con el promedio y pasar al siguiente punto. Pero un promedio calculado sobre cuarenta tickets y otro calculado sobre cuarenta mil no valen lo mismo, y ninguno de los dos dice cuán dispersos están los datos que resume.",
-   "Empieza por el centro, que ya trae su primera decisión. La **media** reparte el total entre todos y por eso un solo ticket enorme la arrastra; la **mediana** es el valor que parte la muestra en dos mitades y no se inmuta ante ese extremo. Cuando las dos se separan mucho, esa separación es en sí misma un hallazgo: la distribución tiene cola. Reportar solo una de ellas es elegir qué historia contar.",
+   "El dataset ya está limpio y unido. Ahora alguien pregunta cuánto gasta un cliente típico, y la tentación es responder con el promedio y pasar al siguiente punto. Pero un promedio calculado sobre cuarenta tickets y otro calculado sobre cuarenta mil no valen lo mismo. El error de una media se achica con la raíz de n, así que el segundo se mueve mucho menos de una muestra a otra. Y ninguno de los dos dice cuán dispersos están los datos que resume.",
+   "Empieza por el centro, que ya trae su primera decisión. La **media** reparte el total entre todos, y por eso un solo ticket enorme la arrastra. La **mediana** es el valor que parte la muestra en dos mitades y no se inmuta ante ese extremo. Cuando las dos se separan mucho, esa separación es en sí misma un hallazgo: la distribución tiene cola. Reportar solo una de ellas es elegir qué historia contar.",
    "Después viene cuánta confianza cabe en el número. Un **intervalo de confianza** dice, bajo un modelo de muestreo, en qué rango se mueve razonablemente el valor real. No significa que el 95% de los datos caiga ahí, ni que quede probado nada: comunica incertidumbre, no certeza. Y con muestras chicas o montos muy sesgados, la aproximación habitual se vuelve tosca — conviene decirlo en vez de disimularlo.",
    "La parte más delicada llega con las relaciones. Que dos variables suban juntas es una **asociación observada**, y nada más. Un tercer factor puede estar moviendo a las dos a la vez, y el mismo dato admite entonces varias explicaciones. Por eso esta sección impone un contrato de verbos: en un análisis exploratorio se escribe «se asocia con», no «causa». La diferencia no es de estilo — es la diferencia entre un hallazgo y una acusación.",
    "La pregunta que atraviesa la sección es de honestidad: **¿qué respalda este número, y qué no puedo concluir a partir de él?** El hilo es un conjunto sintético de tickets, y las anomalías que aparezcan son candidatas a revisión, nunca prueba de nada sobre una persona.",
@@ -47,7 +47,7 @@ export const section18: CourseSection = {
  type: "info",
  title: "Foco de S18",
  content:
- "Prioriza EDA e incertidumbre con datos sintéticos para el inicio de CP-N2-B. Nunca PII real. No conviertas correlación ni anomalías en culpa ni en decisión automática.",
+ "Prioriza EDA e incertidumbre con datos sintéticos para el inicio de CP-N2-B, el proyecto integrador «Fábrica de Reportes y Tablero Accesible» que cierras en S21. Nunca PII real. No conviertas correlación ni anomalías en culpa ni en decisión automática.",
  },
 },
 {
@@ -63,7 +63,7 @@ export const section18: CourseSection = {
  heading: "Qué hace un análisis exploratorio de datos",
  paragraphs: [
    "Un **análisis exploratorio de datos (EDA)** es una primera lectura ordenada de los datos antes de decidir. Existe para separar lo que los valores muestran, una explicación posible y lo que alguien hará después. Una **hipótesis** es una explicación posible que los datos todavía no confirman.",
-   "Yo hago: en `[10, 11, 12, 80]`, tres valores están juntos y `80` queda lejos. El hallazgo es «hay un valor separado»; la hipótesis es «puede ser una compra grande o un dato incorrecto»; la decisión es «revisar ese registro». Los datos sostienen el hallazgo, pero todavía no permiten elegir entre las dos explicaciones.",
+   "Yo hago: en `[10, 11, 12, 80]`, tres valores están juntos y `80` queda lejos. «Lejos» tiene un criterio: las cercas de Tukey de S16 (más de 1.5 IQR por fuera de Q1 o Q3), que el bloque de segmentación retoma. El hallazgo es «hay un valor separado»; la hipótesis es «puede ser una compra grande o un dato incorrecto»; la decisión es «revisar ese registro». Los datos sostienen el hallazgo, pero todavía no permiten elegir entre las dos explicaciones.",
    "Hacemos juntos: lee `[8, 9, 10, 45]` y escribe una frase para cada capa. Vas bien si el hallazgo nombra el `45`, la hipótesis admite más de una explicación y la decisión pide revisar antes de actuar. Así evitas convertir una diferencia en una acusación.",
    "Ahora tú: cambia `45` por `11` y repite las tres frases. La comprobación correcta es que ya no hay un valor separado, así que tampoco debes conservar el hallazgo anterior. Si tu conclusión no cambia cuando cambian los datos, no nació del EDA.",
  ],
@@ -72,9 +72,9 @@ export const section18: CourseSection = {
  heading: "Centro, dispersión y cuantiles",
  subtopicId: "S18-T1-A",
  paragraphs: [
- "El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof=1`) o **IQR**. Q1 es el percentil 25 y Q3, el percentil 75 —los mismos puntos de corte de la columna ordenada que usaste en S16—; el IQR (Q3−Q1) es el ancho de la mitad central que mediste allí. En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
+ "El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof=1`) o **IQR**. Q1 es el percentil 25 y Q3, el percentil 75: los mismos puntos de corte de la columna ordenada que usaste en S16. El IQR (Q3−Q1) es el ancho de la mitad central que mediste allí. En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
  "Contrato operativo: reporta siempre **n**, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma sin imponer una forma previa a los datos. Calcular media y std no demuestra que los valores se repartan de forma simétrica alrededor del centro.",
- "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier (un valor atípico) de 120”; no “el ticket promedio es 39 y representa al cliente típico”.",
+ "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo del proyecto CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier (un valor atípico) de 120”. No escribes “el ticket promedio es 39 y representa al cliente típico”.",
  ],
  code: {
  language: 'python',
@@ -111,7 +111,7 @@ IQR 17.5`,
  subtopicId: "S18-T1-B",
  paragraphs: [
  "Métricas **robustas** (mediana, IQR, MAD = mediana de |x − mediana|) resisten outliers mejor que media/std. Como comprobaste en S16, el IQR se lee de posiciones en la columna ordenada: agrandar un valor que ya ocupa un extremo no mueve esos cortes ni el IQR. Úsalas cuando la pregunta sea “típico” o cuando un solo valor extremo distorsione el resumen ejecutivo.",
- "Contrato de escala: `log1p` de montos reduce asimetría visual para EDA, pero **no** compares diferencias log como soles PEN sin transformar de vuelta. Si el eje está en log, dilo en el gráfico y en la conclusión; si el KPI es en PEN, reporta en PEN.",
+ "Contrato de escala: `log1p` de montos reduce asimetría visual para EDA. `log1p(x)` es ln(1 + x): suma 1 antes del logaritmo, así que un monto de cero da 0 en lugar de −infinito. **No** compares diferencias log como soles PEN sin transformar de vuelta con `np.expm1`, su inversa: el código muestra que 200 y 10 PEN quedan a 2.905 unidades log, no a 190 soles. Si el eje está en log, dilo en el gráfico y en la conclusión; si el KPI es en PEN, reporta en PEN.",
  "Elige métrica según la pregunta de negocio: “ticket típico web Madrid” → mediana + IQR; “ingreso total esperado del día” → suma o media con cola documentada. Caso sintético: x con un 200 PEN junto a tickets ~12 → media ~43 vs. mediana ~12; el dashboard debe preferir mediana para “típico”. Sin PII real.",
  ],
  code: {
@@ -126,11 +126,19 @@ IQR 17.5`,
     print("median", med, "MAD", mad)
     print("mean_vs_median", round(float(x.mean()), 2), med)
     print("log1p", np.round(np.log1p(x), 3).tolist())
+    with np.errstate(divide="ignore"):
+        print("log_de_0", float(np.log(0.0)), "log1p_de_0", float(np.log1p(0.0)))
+    # mal: leer una diferencia log como soles
+    print("dif_log", round(float(np.log1p(200.0) - np.log1p(10.0)), 3), "dif_PEN", 200.0 - 10.0)
+    print("expm1_vuelve_a_PEN", round(float(np.expm1(np.log1p(200.0))), 2))
 
 s18_th_2()`,
  output: `median 12.25 MAD 1.0
 mean_vs_median 43.08 12.25
-log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
+log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]
+log_de_0 -inf log1p_de_0 0.0
+dif_log 2.905 dif_PEN 190.0
+expm1_vuelve_a_PEN 200.0`,
  },
  callout: {
  type: "warning",
@@ -151,8 +159,8 @@ log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
  subtopicId: "S18-T2-A",
  paragraphs: [
  "La **población** es el universo de interés (p. ej. todos los tickets del canal en el mes); la **muestra** es lo observado. El **sesgo de selección** aparece si el muestreo no es representativo — p. ej. solo Madrid o solo canal web — aunque el `mean` esté bien calculado.",
- "Contrato: compara shares de la muestra vs. un **marco** conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, `monto>0`). Calcula `bias_pp = share_muestra − share_pob` por segmento y reporta el máximo |bias| como riesgo de generalización.",
- "Sin marco poblacional, declara **cobertura limitada** y no generalices a “todos los clientes”. Caso sintético: pob Lima 0.55 / Madrid 0.25 / Bogota 0.20 vs. muestra 80% Lima → bias +0.25; cualquier KPI regional debe llevar esa nota en la nota de datos.",
+ "Contrato: compara shares de la muestra vs. un **marco** conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, `monto>0`). Calcula `bias_pp = share_muestra − share_pob` por segmento y reporta el máximo |bias| como riesgo de generalización. `bias_pp` es una diferencia de proporciones: 0.25 equivale a 25 puntos porcentuales.",
+ "Sin marco poblacional, declara **cobertura limitada** y no generalices a “todos los clientes”. Caso sintético: pob Lima 0.55 / Madrid 0.25 / Bogota 0.20 vs. muestra 0.80 en esa región → bias +0.25; cualquier KPI regional debe llevar esa nota en la nota de datos.",
  ],
  code: {
  language: 'python',
@@ -160,7 +168,7 @@ log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
  code: `def s18_th_3():
     # población sintética de tickets por región
     pob = {"Lima": 0.55, "Madrid": 0.25, "Bogota": 0.20}
-    # muestra sesgada: sobremuestra Lima (lista de str, no ndarray de objetos)
+    # muestra sesgada: sobremuestra la primera región (lista de str, no ndarray de objetos)
     muestra = ["Lima"] * 40 + ["Madrid"] * 8 + ["Bogota"] * 2
     from collections import Counter
     c = Counter(muestra)
@@ -195,9 +203,9 @@ bias_pp {'Lima': 0.25, 'Madrid': -0.09, 'Bogota': -0.16}`,
  subtopicId: "S18-T2-B",
  paragraphs: [
  "Un **intervalo de confianza** aproximado para la media con n grande y colas razonables: media ± z·(s/√n) (z≈1.96 para 95%). El IC habla de un **parámetro** (p. ej. media poblacional) bajo un modelo de muestreo: **no** significa “el 95% de los datos cae en el intervalo” ni “quedó probado al 95% que la media es el punto central”.",
- "Con **n pequeño**, **colas pesadas** o montos lognormales (como tickets de T1), la aproximación z es tosca: no pegues 1.96·s/√n sin advertir el supuesto. El **bootstrap simple** muestra la dispersión de un **estimador** de una muestra a otra, y su asimetría, sin depender de una fórmula. Un estimador es la regla que convierte la muestra en un número que aproxima el parámetro; aquí, la regla es «calcula la media». Remuestrea los datos con reemplazo, calcula la media de cada remuestra y toma los percentiles 2.5 y 97.5 de esas medias.",
+ "Con **n pequeño**, **colas pesadas** o montos lognormales, la aproximación z es tosca. Un monto es lognormal cuando su logaritmo sigue una normal, como los tickets del primer bloque: muchos tickets chicos y pocos muy grandes. Por eso no pegues 1.96·s/√n sin advertir el supuesto. El **bootstrap simple** muestra la dispersión de un **estimador** de una muestra a otra, y su asimetría, sin depender de una fórmula. Un estimador es la regla que convierte la muestra en un número que aproxima el parámetro; aquí, la regla es «calcula la media». Remuestrea los datos con reemplazo, calcula la media de cada remuestra y toma los percentiles 2.5 y 97.5 de esas medias.",
  "El bootstrap tampoco rescata una muestra pequeña ni una cola pesada: imagina repetir el estudio muchas veces, cada vez con cinco tickets nuevos, no con remuestras de los mismos cinco. El rótulo 95% promete que unos 95 de cada 100 intervalos contendrían la media poblacional. En esta simulación reproducible de 400 estudios por tamaño, el código imprime una cobertura de 0.81 (81 de cada 100) con n=5 y 0.94 con n=40, cerca del 0.95 prometido. Ningún intervalo fabrica la información que la muestra no contiene: reporta n y evita lenguaje de certeza.",
- "El **tamaño de efecto** (d de Cohen ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica **magnitud**, no solo “significativo”. Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña. Sin PII real ni afirmaciones de fraude.",
+ "El **tamaño de efecto** (d de Cohen ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica **magnitud**, no solo “significativo”. `s_pooled` es la desviación estándar combinada de los dos grupos; con n iguales, √((s_A² + s_B²)/2). Cohen (1988) propuso 0.2, 0.5 y 0.8 como efecto pequeño, mediano y grande, y advirtió que son referencias, no reglas. Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso sintético: media B ~108 vs. A ~94, d≈1.1 — magnitud + incertidumbre, no veredicto causal de campaña. Sin PII real ni afirmaciones de fraude.",
  ],
  code: {
  language: 'python',
@@ -271,10 +279,10 @@ cobertura_n40 0.94`,
  heading: "De la diferencia observada al experimento aleatorizado",
  subtopicId: "S18-T2-B",
  paragraphs: [
- "Acabas de medir una diferencia entre dos grupos, d≈1.1, y un intervalo alrededor de la media de B. Fíjate en qué cubre ese intervalo: la media de B, no la diferencia entre A y B, y tampoco la propia d. Cada una de esas tres cantidades necesita su propio intervalo, y confundirlas es cómo una diferencia frágil termina reportada como firme. Falta la pregunta que decide si esa diferencia significa algo más que “B y A salieron distintos”: **¿cómo se formaron los grupos?** Si B son los comercios que se inscribieron solos al plan nuevo y A los que no, la diferencia mezcla dos cosas que ninguna aritmética posterior puede separar: lo que el plan hizo, y lo que ya era distinto en quien decidió inscribirse. Un intervalo más estrecho no arregla eso; solo estima con más precisión un número que responde a otra pregunta.",
+ "Acabas de medir una diferencia entre dos grupos, d≈1.1, y un intervalo alrededor de la media de B. Fíjate en qué cubre ese intervalo: la media de B, no la diferencia entre A y B, y tampoco la propia d. Cada una de esas tres cantidades necesita su propio intervalo, y confundirlas es cómo una diferencia frágil termina reportada como firme. Falta la pregunta que decide si esa diferencia significa algo más que “B y A salieron distintos”: **¿cómo se formaron los grupos?** Supón que B son los comercios que se inscribieron solos al plan nuevo y A los que no. Entonces la diferencia mezcla dos cosas que ninguna aritmética posterior puede separar: lo que el plan hizo, y lo que ya era distinto en quien decidió inscribirse. Un intervalo más estrecho no arregla eso; solo estima con más precisión un número que responde a otra pregunta.",
  "La pregunta causal se formula sobre un **contrafactual**: ¿cuánto habría facturado *este mismo* comercio si no hubiera tenido el plan? Ese número no está en tus datos —nadie vive las dos historias— y por eso aquí el diseño pesa más que el cálculo. Para escribirla con precisión, nombra la **unidad** (el comercio), el **tratamiento** (tener el plan), el **control** (no tenerlo) y el **resultado** (ticket promedio del mes). Luego fija el **estimando**, la cantidad exacta que quieres estimar: “diferencia promedio de ticket entre tener y no tener el plan, en comercios como estos, durante un mes”. Si no logras escribir esa cantidad en una frase, todavía no tienes una pregunta, tienes una intuición.",
  "La **asignación aleatoria** es el mecanismo que vuelve comparables a los dos grupos. Lanzas una moneda por comercio: la moneda no sabe cuánto facturaba antes, en qué región opera ni qué variables olvidaste medir. Por eso reparte todas esas características —**incluidas las que nunca observaste**— de forma pareja *en promedio* entre tratamiento y control. Vale la pena detenerse en ese *en promedio*. Aleatorizar no vuelve idénticos a los dos grupos; lo que garantiza es que su diferencia esperada, antes de aplicar el tratamiento, sea cero. Con n chico un sorteo puede salir desbalanceado por azar, y el intervalo que reportas ya carga esa incertidumbre.",
- "En `CASO-LIM-018` el efecto real del plan es 5.00 PEN y el confusor es el volumen previo del comercio. Con **autoselección** —se inscribe quien ya facturaba más de 110— la diferencia observada es **41.35**: ocho veces el efecto verdadero, y el volumen medio de cada grupo delata por qué (124.7 contra 89.0). Con **asignación aleatoria** sobre la misma población y el mismo efecto, la diferencia baja a **5.50** con IC 95% (1.18, 9.82), y los volúmenes medios quedan en 100.3 y 99.1: parecidos, no iguales. El experimento no entregó un número más bonito; entregó un número que responde la pregunta que hiciste.",
+ "En `CASO-LIM-018` el efecto real del plan es 5.00 PEN. El **confusor**, una variable que influye a la vez en quién recibe el plan y en el resultado, es el volumen previo del comercio. Con **autoselección** (se inscribe quien ya facturaba más de 110), la diferencia observada es **41.35**: ocho veces el efecto verdadero. El volumen medio de cada grupo delata por qué: 124.7 contra 89.0. Con **asignación aleatoria** sobre la misma población y el mismo efecto, la diferencia baja a **5.50** con IC 95% (1.18, 9.82). Los volúmenes medios quedan en 100.3 y 99.1: parecidos, no iguales. El experimento no entregó un número más bonito; entregó un número que responde la pregunta que hiciste.",
  ],
  code: {
  language: 'python',
@@ -328,8 +336,8 @@ volumen_medio_aleatorizada (100.3, 99.1)`,
  heading: "Correlación y confusión",
  subtopicId: "S18-T3-A",
  paragraphs: [
- "La **correlación** mide asociación, **no causa**. **Pearson** captura asociación lineal; **Spearman** usa rangos y resume asociación monótona (útil con relaciones no lineales leves o outliers). Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un chequeo de EDA, no un diseño causal completo.",
- "Contrato de verbos: en EDA etiqueta **asociación observada**. Lista causas comunes y diseños que las romperían (experimento, instrumento) antes de cualquier afirmación causal en el informe de CP-N2-B.",
+ "La **correlación** mide asociación, **no causa**. **Pearson** captura asociación lineal; **Spearman** usa rangos y resume asociación monótona (útil con relaciones no lineales leves o outliers). Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un chequeo de EDA, no un diseño causal completo. **r** va de −1 a 1: 0.83 significa que X e Y suben juntas casi en línea recta, y 0 que no hay relación lineal. El **residual** de X es lo que queda de X después de restarle la parte que una recta sobre Z explica; `np.polyfit(z, x, 1)` devuelve primero la pendiente y luego el intercepto.",
+ "Contrato de verbos: en EDA etiqueta **asociación observada**. Antes de cualquier afirmación causal en el informe de CP-N2-B, lista causas comunes y diseños que las romperían. Uno es el experimento; otro, una variable instrumental: algo que cambia el tratamiento sin tocar directamente el resultado.",
  "Pearson es sensible a outliers; Spearman tolera monótonas no lineales leves. Caso sintético: X e Y generados por Z → r_xy alto, r residual bajo; el notebook imprime Pearson, residual y un Spearman monótono de control, más la nota “no causal”. Sin PII real.",
  ],
  code: {
@@ -353,6 +361,7 @@ volumen_medio_aleatorizada (100.3, 99.1)`,
     rx, ry = resid(x, z), resid(y, z)
     print("pearson_residual", round(float(np.corrcoef(rx, ry)[0, 1]), 3))
     # Spearman via rangos: monótona creciente → correlación de rangos = 1.0
+    # (argsort de argsort vale solo sin empates; con empates usa pd.Series(x).rank())
     xs = np.array([1.0, 2.0, 3.0, 10.0])
     ys = np.array([1.0, 4.0, 9.0, 100.0])  # monótona no lineal en escala original
     rank_x = np.argsort(np.argsort(xs)).astype(float)
@@ -377,10 +386,10 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
  heading: "Leer el resultado sin exagerarlo: valor p, guardrails y pruebas repetidas",
  subtopicId: "S18-T3-A",
  paragraphs: [
- "Cuando el experimento termina aparece el **valor p** (*p-value*), y con él dos malentendidos que salen caros en un informe. El valor p es la probabilidad de observar una diferencia al menos tan grande como la tuya **si el tratamiento no tuviera ningún efecto**. Es una afirmación condicional sobre los datos bajo un supuesto, no una afirmación sobre el mundo: no es la probabilidad de que el plan no sirva, y “p = 0.03” no significa “97% de certeza de que funciona”.",
- "El segundo malentendido es el simétrico: un valor p alto **no** prueba que no hay efecto. Significa que estos datos no distinguen el efecto del ruido, y eso ocurre por dos razones distintas que conviene no confundir: puede que el efecto exista y la muestra sea demasiado pequeña para verlo, o puede que el efecto sea nulo o tan pequeño que no cambie ninguna decisión. El valor p por sí solo no separa esos dos casos; el intervalo sí ayuda, porque muestra qué magnitudes siguen siendo compatibles con lo observado. Con los 400 comercios del bloque anterior y un IC de (1.18, 9.82), no puedes descartar ni 1.2 ni 9.8 PEN; llamar a eso “sin efecto” sería inventar precisión. Por eso el intervalo va siempre junto al p, y por eso conviene separar dos preguntas distintas: la **significancia estadística** pregunta si la diferencia se distingue del ruido; la **significancia práctica** pregunta si alcanza para justificar la decisión. Con n muy grande, diferencias de céntimos salen “significativas” y no cambian nada; con n chico, efectos que sí importan pasan desapercibidos.",
- "Antes de mirar los datos, declara la **métrica primaria** —una sola, la que define el éxito— y una o dos **métricas guardrail**: indicadores que no deben empeorar aunque la primaria mejore. Si la primaria es el ticket promedio, un guardrail razonable es la tasa de cancelación, porque subir el ticket empujando a los comercios chicos a irse arregla el indicador y empeora el negocio. Declararlas por adelantado también te protege de ti mismo: después de ver los resultados, cualquier métrica que salió bien parece haber sido la importante desde el principio.",
- "Dos hábitos rompen esa disciplina desde adentro, y ambos se pueden medir. El primero es probar muchas métricas y reportar la que salió bien: en la corrida de abajo, veinte comparaciones **sin ningún efecto real** producen dos “significativas” al 5% —cuando por puro azar esperarías una— y un p mínimo de 0.0283 que en una lámina se vería convincente. El segundo es **mirar temprano y parar cuando el resultado gusta** (*peeking*). Ahí la comparación es directa, porque el código mide las dos tasas de la misma forma sobre los mismos 2000 experimentos sin efecto: revisando una sola vez al final, la tasa de falsos positivos sale **0.045**, cerca del 5% prometido; revisando diez veces y parando en la primera favorable, sube a **0.191**. Cuadruplicaste tu tasa de error sin cambiar los datos, solo el momento de mirar. Fija el plan —métrica, duración, criterio de parada— antes de empezar, y si exploras después, dilo en el informe. Y recuerda el caso habitual: la mayoría de tus análisis **no** vendrá de un experimento, y ahí sigue mandando el contrato de verbos de esta sección — asociación observada, confusores listados, sin verbo causal.",
+ "Cuando el experimento termina aparece el **valor p** (*p-value*), y con él dos malentendidos que salen caros en un informe. El valor p es la probabilidad de observar una diferencia al menos tan grande como la tuya **si el tratamiento no tuviera ningún efecto**. Es una afirmación condicional sobre los datos bajo un supuesto, no una afirmación sobre el mundo. No es la probabilidad de que el plan no sirva, y “p = 0.03” no significa “97% de certeza de que funciona”.",
+ "El segundo malentendido es el simétrico: un valor p alto **no** prueba que no hay efecto. Significa que estos datos no distinguen el efecto del ruido, y eso ocurre por dos razones distintas. Puede que el efecto exista y la muestra sea demasiado pequeña para verlo. O puede que el efecto sea nulo o tan pequeño que no cambie ninguna decisión. El valor p por sí solo no separa esos dos casos; el intervalo sí ayuda, porque muestra qué magnitudes siguen siendo compatibles con lo observado. Con los 400 comercios del bloque anterior y un IC de (1.18, 9.82), no puedes descartar ni 1.2 ni 9.8 PEN; llamar a eso “sin efecto” sería inventar precisión. Por eso el intervalo va siempre junto al p, y conviene separar dos preguntas. La **significancia estadística** pregunta si la diferencia se distingue del ruido; la **significancia práctica** pregunta si alcanza para justificar la decisión. Con n muy grande, diferencias de céntimos salen “significativas” y no cambian nada; con n chico, efectos que sí importan pasan desapercibidos.",
+ "Antes de mirar los datos, declara la **métrica primaria** —una sola, la que define el éxito— y una o dos **métricas guardrail**: indicadores que no deben empeorar aunque la primaria mejore. Si la primaria es el ticket promedio, un guardrail razonable es la tasa de cancelación. Subir el ticket empujando a los comercios chicos a irse arregla el indicador y empeora el negocio. Declararlas por adelantado también te protege de ti mismo: después de ver los resultados, cualquier métrica que salió bien parece haber sido la importante desde el principio.",
+ "Dos hábitos rompen esa disciplina desde adentro, y ambos se pueden medir. El primero es probar muchas métricas y reportar la que salió bien. En la corrida de abajo, veinte comparaciones **sin ningún efecto real** producen dos “significativas” al 5%, cuando por puro azar esperarías una. El p mínimo, 0.0283, se vería convincente en una lámina. El segundo es **mirar temprano y parar cuando el resultado gusta** (*peeking*). El código mide las dos tasas de la misma forma sobre los mismos 2000 experimentos sin efecto. Revisando una sola vez al final, la tasa de falsos positivos sale **0.045**, cerca del 5% prometido. Revisando diez veces y parando en la primera favorable, sube a **0.191**. Cuadruplicaste tu tasa de error sin cambiar los datos, solo el momento de mirar. Fija el plan —métrica, duración, criterio de parada— antes de empezar, y si exploras después, dilo en el informe. Y recuerda el caso habitual: la mayoría de tus análisis **no** vendrá de un experimento. Ahí sigue mandando el contrato de verbos de esta sección: asociación observada, confusores listados, sin verbo causal.",
  ],
  code: {
  language: 'python',
@@ -431,16 +440,16 @@ falso_positivo_diez_miradas 0.191`,
  type: "info",
  title: "Qué escribir en el informe",
  content:
- "Métrica primaria y guardrails declarados antes de mirar; efecto con IC y n; el valor p acompañado, nunca solo; y una frase que diga si los grupos se formaron por sorteo o por autoselección.",
+ "Métrica primaria y guardrails declarados antes de mirar; efecto con IC y n; el valor p acompañado, nunca solo. Y una frase que diga si los grupos se formaron por sorteo o por autoselección.",
  },
  },
  {
  heading: "Segmentación, anomalías y causalidad no demostrada",
  subtopicId: "S18-T3-B",
  paragraphs: [
- "Segmenta por región, canal o cohorte con **reglas explícitas** (no clusters opacos sin contrato). Los valores que las **cercas de Tukey** marcan como anomalías —fuera de [Q1−1.5·IQR, Q3+1.5·IQR]— son **candidatos a revisión**, nunca “fraudes demostrados” ni culpa de persona/región.",
- "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Bogota genera outliers porque…” — eso es afirmación causal no soportada.",
- "Caso sintético: montos con un 80 PEN en Madrid → flag de anomalía en ese id; tasa Madrid 0.2 vs. Berlin 0.0 es hallazgo descriptivo. El portafolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni autofraude.",
+ "Segmenta por región, canal o cohorte con **reglas explícitas** (no agrupamientos automáticos que nadie pueda explicar). Los valores que las **cercas de Tukey** marcan como anomalías —fuera de [Q1−1.5·IQR, Q3+1.5·IQR]— son **candidatos a revisión**, nunca “fraudes demostrados” ni culpa de persona/región.",
+ "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado (mira una sola columna a la vez). Evita “Bogota genera outliers porque…” — eso es afirmación causal no soportada.",
+ "Caso sintético: montos con un 80 PEN en Madrid → flag de anomalía en ese id; tasa Madrid 0.2 vs. Lima 0.0 es hallazgo descriptivo. El portafolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni acusaciones de fraude.",
  ],
  code: {
  language: 'python',
@@ -477,18 +486,25 @@ ids_anom [7]`,
  heading: "Preguntas, hipótesis y evidencia",
  subtopicId: "S18-T4-A",
  paragraphs: [
- "Separa tres capas: **pregunta de negocio**, **hipótesis comprobable**, **evidencia calculada**. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio).",
+ "Separa cuatro capas: **pregunta de negocio**, **hipótesis comprobable**, **evidencia calculada** y **decisión**. La evidencia calculada es el hallazgo del EDA (número + n + límite), y no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio).",
  "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert del script.",
- "Caso sintético: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|region==Lima)=27.5, n=40, IC por bootstrap documentado —para una mediana no sirve el intervalo z, que está pensado para la media—, límite “solo canal web”. Conclusión permitida: hipótesis provisional en ese canal web; no “desplegar campaña nacional”. Sin PII real ni afirmaciones de fraude.",
+ "Caso sintético: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|region==Lima)=28.0, n=40, IC por bootstrap (26.75, 32.9). Para una mediana no sirve el intervalo z, que está pensado para la media. Límite “solo canal web”. Conclusión permitida: hipótesis provisional en ese canal web; no “desplegar campaña nacional”. Sin PII real ni afirmaciones de fraude.",
  ],
  code: {
  language: 'python',
  title: "qhe_template.py",
  code: `def s18_th_7():
-    # plantilla de traza hallazgo → cálculo (sintético)
+    import numpy as np
+
+    # plantilla de traza hallazgo → cálculo: cada número sale del código
+    rng = np.random.default_rng(18)
+    lima = rng.lognormal(3.3, 0.35, 40).round(1)  # 40 tickets web sintéticos
+    boots = [np.median(rng.choice(lima, size=lima.size, replace=True)) for _ in range(1000)]
+    lo, hi = np.quantile(boots, [0.025, 0.975])
     pregunta = "¿El ticket mediano en Lima supera 25 PEN?"
     metrica = "median(monto | region==Lima)"
-    resultado = {"n": 40, "median": 27.5, "ic95_boot": (24.0, 31.0)}
+    resultado = {"n": int(lima.size), "median": float(np.median(lima)),
+                 "ic95_boot": (round(float(lo), 2), round(float(hi), 2))}
     limite = "muestra de canal web, no incluye tienda física"
     print("pregunta:", pregunta)
     print("metrica:", metrica)
@@ -499,7 +515,7 @@ ids_anom [7]`,
 s18_th_7()`,
  output: `pregunta: ¿El ticket mediano en Lima supera 25 PEN?
 metrica: median(monto | region==Lima)
-resultado: {'n': 40, 'median': 27.5, 'ic95_boot': (24.0, 31.0)}
+resultado: {'n': 40, 'median': 28.0, 'ic95_boot': (26.75, 32.9)}
 limite: muestra de canal web, no incluye tienda física
 no_es_decision: no lanzar campaña aún`,
  },
@@ -516,7 +532,7 @@ no_es_decision: no lanzar campaña aún`,
  paragraphs: [
  "Una **nota de datos** (*data note*) documenta origen, fecha de corte, filtros, n pre/post, seed y un hash o conteo de filas. Si otra persona no regenera los mismos n y métricas clave, el notebook **no cumple** el criterio de cierre de esta sección.",
  "Contrato de reproducibilidad: versiones (pandas/numpy), rutas relativas, outputs en `out/`, seed fijo, sin celdas que muten estado global en orden opaco. Checklist mínima: seed, schema, n pre/post filtros, hash de payload, límites de generalización.",
- "Caso sintético: CSV de 3 tickets → `row_sha1_8`, n=3, filtros `monto>0`, seed=42. El portafolio adjunta el JSON de la nota junto al resumen de medianas; es la base de trazabilidad hacia S19–S21. Sin PII real.",
+ "Caso sintético: CSV de 3 tickets → `sha1_8`, n=3, filtros `monto>0`, seed=42. La seed solo importa en pasos que muestrean o remuestrean, como el bootstrap; aquí documenta la del extracto. `lineterminator='\\n'` fija el fin de línea, así el hash es el mismo en Windows y en Linux. El portafolio adjunta el JSON de la nota junto al resumen de medianas; es la base de trazabilidad hacia S19–S21. Sin PII real.",
  ],
  code: {
  language: 'python',
@@ -528,20 +544,21 @@ no_es_decision: no lanzar campaña aún`,
     import pandas as pd
 
     df = pd.DataFrame({"ticket_id": ["T001", "T002", "T003"], "monto": [10.0, 20.0, 15.0]})
-    payload = df.to_csv(index=False).encode()
+    df = df[df["monto"] > 0]  # el filtro que la nota declara
+    payload = df.to_csv(index=False, lineterminator="\\n").encode()
     note = {
      "origen": "sintetico_local",
      "corte": "2024-06-30",
      "n": len(df),
      "filtros": ["monto > 0"],
      "seed": 42,
-     "row_sha1_8": hashlib.sha1(payload).hexdigest()[:8],
+     "sha1_8": hashlib.sha1(payload).hexdigest()[:8],
     }
     print(json.dumps(note, ensure_ascii=False))
     print("mean", float(df["monto"].mean()))
 
 s18_th_8()`,
- output: `{"origen": "sintetico_local", "corte": "2024-06-30", "n": 3, "filtros": ["monto > 0"], "seed": 42, "row_sha1_8": "6b78e80d"}
+ output: `{"origen": "sintetico_local", "corte": "2024-06-30", "n": 3, "filtros": ["monto > 0"], "seed": 42, "sha1_8": "6b78e80d"}
 mean 15.0`,
  },
  callout: {
@@ -553,7 +570,7 @@ mean 15.0`,
  }
  ],
  iDo: {
- intro: "Partimos del dataset limpio y el memo de límites de **S17 (CP-N2-A)**. Te demuestro el inicio del EDA de **CP-N2-B**: resúmenes, sesgo, IC z + bootstrap, correlación sin causalidad, flags Tukey y notas de datos. Uso tickets sintéticos (Madrid, Berlin, Bogota; montos en PEN). En S19 ese paquete alimenta el dashboard accesible.",
+ intro: "Partimos del dataset limpio y el memo de límites de **S17 (CP-N2-A)**. Te demuestro el inicio del EDA de **CP-N2-B**: resúmenes, sesgo, IC z + bootstrap, correlación sin causalidad, flags Tukey y notas de datos. Uso tickets sintéticos con tres regiones (Lima, Madrid, Bogota; montos en PEN). Madrid y Bogota son etiquetas sintéticas para tener tres segmentos distintos, no regiones del Perú: ningún KPI de estas demos habla de “todo el Perú”. En S19 ese paquete alimenta el dashboard accesible.",
  steps: [
  {
  demoId: "S18-T1-A-DEMO",
@@ -596,7 +613,7 @@ print(resumen(montos))`,
  environment: "local-python",
  description: "Comparar media vs. mediana/MAD y escala log1p en montos con outlier",
  preamble:
-  "Cuando un ticket de 200 PEN se cuela entre montos ~15, la media deja de ser “típico”. Esta demo compara mean, median, MAD y el ratio mean/median, y muestra la mediana en escala `log1p`. No escribas: observa cómo el ratio > 2 avisa cola y por qué log1p no borra la necesidad de declarar la escala. Datos sintéticos, sin PII.",
+  "Cuando un ticket de 200 PEN se cuela entre montos ~15, la media deja de ser “típico”. Esta demo compara mean, median, MAD y el ratio mean/median, y muestra la mediana en escala `log1p`. No escribas: observa cómo un ratio por encima de 2 avisa cola (es una regla práctica de este curso, no un estándar). Mira también por qué log1p no borra la necesidad de declarar la escala. Datos sintéticos, sin PII.",
  code: {
  language: 'python',
  title: "demo_robust.py",
@@ -618,7 +635,7 @@ ratio_mean_median 2.43
 log1p_median 2.833`,
  },
  why:
-  "MAD ancla la dispersión en la mediana y resiste el outlier de 200. El ratio mean/median es un semáforo de cola: valores ≫ 1 avisan que “típico” no es la media. La función `log1p` reduce asimetría visual para EDA, pero no se reporta como diferencia en soles PEN sin antitransformar. Elige métrica según la pregunta de negocio, no por costumbre.",
+  "MAD ancla la dispersión en la mediana y resiste el outlier de 200. El ratio mean/median es un semáforo de cola: por encima de 2, la regla práctica de este curso, “típico” ya no es la media. La función `log1p` reduce asimetría visual para EDA, pero no se reporta como diferencia en soles PEN sin antitransformar. Elige métrica según la pregunta de negocio, no por costumbre.",
  retrospective:
   "Si mean ≫ median, prioriza robustez y declara la cola en el memo; no vendas la media como ticket típico. El error clásico es “el cliente promedio gasta ~39 PEN” cuando el mediano está en 16. We Do: ratio, MAD y log1p honestas con ceros.",
  },
@@ -628,7 +645,7 @@ log1p_median 2.833`,
  environment: "local-python",
  description: "Diagnosticar sesgo de muestreo por región frente a cuotas poblacionales",
  preamble:
-  "Un `mean` impecable sobre una muestra sesgada sigue siendo una estimación sesgada de la población. Esta demo compara shares de muestra vs. cuotas sintéticas (Madrid/Berlin/Bogota), calcula el peor |bias_pp| y marca cobertura LIMITADA si supera 0.1. Observa los números: no escribas aún; predice si generalizarías el KPI regional al “todo Perú”.",
+  "Un `mean` impecable sobre una muestra sesgada sigue siendo una estimación sesgada de la población. Esta demo compara shares de muestra vs. cuotas sintéticas de tres regiones, calcula el peor |bias_pp| y marca cobertura LIMITADA si supera 0.1 (10 puntos porcentuales). Observa los números: no escribas aún; predice si generalizarías el KPI regional al “todo Perú”.",
  code: {
  language: 'python',
  title: "demo_bias.py",
@@ -651,7 +668,7 @@ max_abs_bias_pp 0.2
 cobertura LIMITADA`,
  },
  why:
-  "El bias se mide en puntos porcentuales (share_muestra − share_pob), no con “se ve bien”. El umbral 0.1 es contrato de la nota de datos de CP-N2-B: por encima, cobertura LIMITADA. Sin marco poblacional se declara cobertura limitada; no se inventa representatividad para generalizar a todo el Perú.",
+  "El bias es una diferencia de proporciones (share_muestra − share_pob), no un “se ve bien”: el 0.2 impreso son 20 puntos porcentuales. El umbral 0.1 (10 puntos) es contrato de la nota de datos de CP-N2-B: por encima, cobertura LIMITADA. Sin marco poblacional se declara cobertura limitada; no se inventa representatividad para generalizar a todo el Perú.",
  retrospective:
   "Sesgo de selección ≠ error aritmético: un mean impecable sobre muestra sesgada sigue siendo local a la muestra. Si max |bias| > umbral, el KPI no es “todo el Perú”. We Do: share, signo del bias_pp y `max_bias` de portafolio.",
  },
@@ -661,7 +678,7 @@ cobertura LIMITADA`,
  environment: "local-python",
  description: "Reportar IC 95% z, bootstrap de la diferencia y d de Cohen entre dos grupos sintéticos",
  preamble:
-  "Magnitud sin incertidumbre es marketing. Aquí dos grupos sintéticos (ctrl/trat) reportan diferencia de medias, IC 95% z, d de Cohen, bootstrap de la diferencia y n. Observa si el IC cruza 0 y la nota `no_probado`: el EDA dice “compatible con”, no “queda demostrado”. Predice el signo de d y si el bootstrap se parece al IC z.",
+  "Magnitud sin incertidumbre es marketing. Aquí dos grupos sintéticos (ctrl/trat) reportan diferencia de medias, IC 95% z, d de Cohen, bootstrap de la diferencia y n. Para la diferencia, el error estándar combina los dos grupos: raíz de (varianza de A / n_A + varianza de B / n_B). Observa si el IC cruza 0 y la nota `no_probado`: el EDA dice “compatible con”, no “queda demostrado”. Predice el signo de d y si el bootstrap se parece al IC z.",
  code: {
  language: 'python',
  title: "demo_effect.py",
@@ -754,7 +771,7 @@ claim asociacion_observada_no_causal`,
  environment: "local-python",
  description: "Segmentar por región y marcar anomalías Tukey sin afirmación causal",
  preamble:
-  "Marcar montos fuera de cercas Tukey es un hallazgo univariado, no un veredicto de fraude ni culpa de región. Esta demo calcula lo/hi, flags y sum/mean de flags por Madrid/Berlin/Bogota en datos sintéticos. Observa tasas 0.167 en Madrid y Bogota: describe, no acusa. Predice si Lima tiene flags antes de mirar la salida.",
+  "Marcar montos fuera de cercas Tukey es un hallazgo univariado, no un veredicto de fraude ni culpa de región. Esta demo calcula lo/hi, flags (marcas True/False de los montos fuera de las cercas) y sum/mean de flags por región en datos sintéticos. Las cercas se calculan sobre todas las regiones juntas, no por región. Observa tasas 0.167 en Madrid y Bogota: describe, no acusa. Predice si Lima tiene flags antes de mirar la salida.",
  code: {
  language: 'python',
  title: "demo_segments.py",
@@ -771,15 +788,15 @@ claim asociacion_observada_no_causal`,
     df["flag"] = (df["monto"] < lo) | (df["monto"] > hi)
     print("lo_hi", round(float(lo),2), round(float(hi),2))
     print(df.groupby("region")["flag"].agg(["sum","mean"]).round(3).to_dict())
-    print("sin_claim_causal", True)
+    print("n_por_region", df["region"].value_counts().sort_index().to_dict())
 
 s18_ido_6()`,
  output: `lo_hi 13.5 27.5
 {'sum': {'Bogota': 1, 'Lima': 0, 'Madrid': 1}, 'mean': {'Bogota': 0.167, 'Lima': 0.0, 'Madrid': 0.167}}
-sin_claim_causal True`,
+n_por_region {'Bogota': 6, 'Lima': 8, 'Madrid': 6}`,
  },
  why:
-  "1.5·IQR es el contrato clásico de cercas Tukey. Las tasas por segmento son descriptivas: un flag alto en Bogota no implica culpa regional. La decisión de investigar es humana; el booleano `sin_claim_causal` cierra el artefacto ético del EDA.",
+  "1.5·IQR es el contrato clásico de cercas Tukey. Las tasas por segmento son descriptivas: un flag alto en Bogota no implica culpa regional. La decisión de investigar es humana. Con 6 filas por región, un solo flag mueve la tasa de 0 a 0.167: por eso el n de cada segmento se imprime junto a la tasa.",
  retrospective:
   "Anomalía univariada ≠ causa ni fraude automático. Siempre método + n + límites de segmento. El error clásico es “Bogota tiene más flags → culpable”. We Do: cerca 1.5, tasa solo en Madrid, máscara bilateral.",
  },
@@ -794,25 +811,37 @@ sin_claim_causal True`,
  language: 'python',
  title: "demo_qhe.py",
  code: `def s18_ido_7():
+    import numpy as np
+
+    rng = np.random.default_rng(7)
+    madrid = rng.lognormal(3.3, 0.35, 40).round(1)  # tickets web de junio, sintéticos
+    bogota = rng.lognormal(3.1, 0.35, 32).round(1)
+    dif = float(np.median(madrid) - np.median(bogota))
+    boots = [np.median(rng.choice(madrid, madrid.size)) - np.median(rng.choice(bogota, bogota.size))
+             for _ in range(1000)]
+    lo, hi = np.quantile(boots, [0.025, 0.975])
     evidencia = {
      "pregunta": "¿Hay diferencia de ticket mediano Madrid vs. Bogota?",
      "hipotesis": "mediana_Madrid > mediana_Bogota en canal web junio",
-     "calculo": "median por region, n>=30",
-     "resultado": {"Madrid": 28.0, "Bogota": 22.5, "n_Madrid": 40, "n_Bogota": 32},
-     "incertidumbre": "IC por bootstrap de la diferencia de medianas; reportar n por región; muestra web-only",
+     "calculo": "median por region; bootstrap de la diferencia, 1000 remuestras",
+     "resultado": {"Madrid": float(np.median(madrid)), "Bogota": float(np.median(bogota)),
+                   "n_Madrid": int(madrid.size), "n_Bogota": int(bogota.size)},
+     "incertidumbre": {"dif_medianas": round(dif, 2), "ic95_boot": (round(float(lo), 2), round(float(hi), 2))},
      "decision": None,
     }
     print(evidencia["pregunta"])
     print("hallazgo", evidencia["resultado"])
+    print("incertidumbre", evidencia["incertidumbre"])
     print("decision_es_none", evidencia["decision"] is None)
 
 s18_ido_7()`,
  output: `¿Hay diferencia de ticket mediano Madrid vs. Bogota?
-hallazgo {'Madrid': 28.0, 'Bogota': 22.5, 'n_Madrid': 40, 'n_Bogota': 32}
+hallazgo {'Madrid': 23.85, 'Bogota': 22.8, 'n_Madrid': 40, 'n_Bogota': 32}
+incertidumbre {'dif_medianas': 1.05, 'ic95_boot': (-1.55, 5.7)}
 decision_es_none True`,
  },
  why:
-  "La traza pregunta→cálculo→límite es el artefacto de calidad del inicio de CP-N2-B: hace auditable cada hallazgo. Incertidumbre y cobertura viven en el mismo objeto. `decision: None` es una feature, no un bug: el EDA no lanza campañas ni cierra el caso.",
+  "La traza pregunta→cálculo→límite es el artefacto de calidad del inicio de CP-N2-B: hace auditable cada hallazgo. Incertidumbre y cobertura viven en el mismo objeto. Aquí el intervalo de la diferencia incluye 0, así que el hallazgo no sostiene la hipótesis. `decision` vale `None` (el valor vacío de Python) a propósito: el EDA no lanza campañas ni cierra el caso.",
  retrospective:
   "Si puedes defender por qué `decision` es None con un hallazgo numérico claro, ya separas capas de calidad. El error clásico es rellenar decisión con una campaña “porque la mediana es mayor”. We Do: clave pregunta, umbral hallazgo vs. candidato, traza P→M→V→L.",
  },
@@ -837,7 +866,7 @@ decision_es_none True`,
     })
     n0 = len(df)
     df2 = df[df["monto"] > 0].copy()
-    blob = df2.sort_values("ticket_id").to_csv(index=False).encode()
+    blob = df2.sort_values("ticket_id").to_csv(index=False, lineterminator="\\n").encode()
     note = {
      "origen": "sintetico",
      "n_raw": n0,
@@ -854,7 +883,7 @@ s18_ido_8()`,
 median_final 11.5`,
  },
  why:
-  "Ordenar por ticket_id estabiliza el hash: el mismo corte produce la misma huella. Una misma `seed` hace que `rng` produzca la misma secuencia; los filtros listados hacen auditable cada exclusión. Esa nota es la base del dashboard accesible en S19.",
+  "Ordenar por ticket_id estabiliza el hash: el mismo corte produce la misma huella. Esta demo no muestrea, así que `seed` solo documenta la semilla del extracto: importa en cualquier paso que muestree o remuestree, como el bootstrap. `lineterminator='\\n'` fija el fin de línea, y el hash sale igual en Windows y en Linux. Los filtros listados hacen auditable cada exclusión. Esa nota es la base del dashboard accesible en S19.",
  retrospective:
   "Si cambias el filtro y no actualizas n_final ni el hash, la nota miente. We Do: dict mínimo, sha1[:8], nota post-filtro con seed.",
  }
@@ -1017,7 +1046,7 @@ print(resumen([1, 2, 3, 4, 5]))`,
  edgeCases: ["median 0"],
  tests: "salida coincide con solution output",
  feedback:
-  "La razón correcta es mean/median. Si la invertiste, el outlier “achica” el aviso en vez de ampliarlo. Ratio ≫ 1 grita cola pesada en el memo.",
+  "La razón correcta es mean/median. Si la invertiste, el outlier “achica” el aviso en vez de ampliarlo. Un ratio por encima de 2 (la regla práctica de este curso) avisa cola pesada en el memo.",
  retrospective:
   "El semáforo mean/median es un hábito de *lectura* de forma, no un KPI de campaña. Si lo inviertes, el outlier de 100 “tranquiliza” el slide. Pregunta de cierre: con ratio 2.43, ¿reportas mean o median como “típico”? Siguiente: MAD sin anclar en mean.",
  starterCode: {
@@ -1107,7 +1136,7 @@ print("MAD", mad)`,
  edgeCases: ["negativos no válidos en log1p de montos"],
  tests: "salida coincide con solution output",
  feedback:
-  "log(0) es −inf. Para montos ≥0 usa log1p y declara la escala en eje y conclusión; no compares diferencias log como soles PEN.",
+  "log(0) es −inf. Para montos ≥0 usa log1p y declara la escala en eje y conclusión; no compares diferencias log como soles PEN. Para volver a soles usa `np.expm1`, la inversa de `log1p`.",
  retrospective:
   "log1p es seguro con ceros; la honestidad está en declarar la escala en eje y conclusión. Pregunta: si el KPI es en PEN, ¿reportas en log o antitransformas? Puente a T2: incertidumbre sobre el estimador, no solo la escala.",
  starterCode: {
@@ -1133,7 +1162,7 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  id: "S18-T2-A-E1",
  subtopicId: "S18-T2-A",
  kind: "guided",
- title: "Proporción de Madrid en la muestra",
+ title: "Proporción de Lima en la muestra",
  preamble:
   "- **Contexto:** antes de comparar con cuotas poblacionales, necesitas el share observado de cada región.\n- **Meta:** calcular e imprimir `share_Lima` (2 decimales).\n- **Éxito:** `share_Lima 0.75` con la lista del starter.\n- **Límites:** cuenta solo `\"Lima\"`; no inventes otra muestra.",
  instruction:
@@ -1146,14 +1175,14 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  edgeCases: ["muestra vacía"],
  tests: "salida coincide con solution output",
  feedback:
-  "¿Contaste Madrid u otra región? share_Lima = count(\"Lima\") / n. Contar la región equivocada es un bug de negocio silencioso en la nota de cobertura.",
+  "¿Contaste Madrid u otra región? share = conteo de la región pedida / n. Contar la región equivocada es un bug de negocio silencioso en la nota de cobertura.",
  retrospective:
   "Share = conteo/n es el ladrillo de la nota de cobertura. Un share “correcto” de la región equivocada pasa el test de aritmética y falla el de negocio. Pregunta: ¿por qué no basta con `Counter` bonito si la clave está mal? Siguiente: el *signo* del bias_pp.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-018 · sample share
-# Bug a corregir: cuenta Madrid en lugar de Lima
+# Bug a corregir: cuenta la región equivocada
 muestra = ["Lima", "Lima", "Lima", "Madrid"]
 share_lima = muestra.count("Madrid") / len(muestra)
 print("share_Lima", round(share_lima, 2))`,
@@ -1211,7 +1240,7 @@ print("bias_Lima_pp", round(share - pob, 2))`,
  kind: "transfer",
  title: "Peor |bias_pp| de cobertura",
  preamble:
-  "- **Contexto:** la nota de CP-N2-B marca cobertura LIMITADA/OK con el máximo |bias|, no con el promedio ni el mínimo.\n- **Meta:** implementar `max_bias(pob, counts)`.\n- **Éxito:** imprime `0.4` con el fixture (9 Madrid / 1 Berlin vs. 50-50).\n- **Límites:** itera claves de `pob`; usa `counts.get(k, 0)`; no devuelvas el mínimo.",
+  "- **Contexto:** la nota de CP-N2-B marca cobertura LIMITADA/OK con el máximo |bias|, no con el promedio ni el mínimo.\n- **Meta:** implementar `max_bias(pob, counts)`.\n- **Éxito:** imprime `0.3` con el fixture: 8 Lima, 2 Madrid y ninguna fila de Bogota, frente a cuotas 50/30/20. Con este fixture el mínimo da 0.1 y el promedio 0.2, así que solo el máximo pasa.\n- **Límites:** itera claves de `pob`; usa `counts.get(k, 0)`; no devuelvas el mínimo.",
  instruction:
  "1. Completa el cuerpo (hoy `NotImplementedError`).\n2. n = suma de counts.\n3. Por región: |count/n − share_pob|; devuelve el max.\n4. Deja el `print(round(..., 2))` de prueba.",
  hint: "Por cada región en pob: |counts[k]/n − pob[k]|; devuelve el máximo de esos absolutos.",
@@ -1219,12 +1248,12 @@ print("bias_Lima_pp", round(share - pob, 2))`,
  "Por cada región en pob: |counts[k]/n − pob[k]|; devuelve el máximo de esos absolutos.",
  "n = suma de counts; no uses el mínimo (el riesgo es el peor sesgo).",
  ],
- edgeCases: ["keys faltantes"],
+ edgeCases: ["una región de pob sin filas en counts (Bogota): cuenta 0, sesgo 0.2"],
  tests: "salida coincide con solution output",
  feedback:
   "Cobertura LIMITADA se decide con el máximo |bias|, no con el mínimo ni el promedio. El riesgo de generalización es el *peor* sesgo de cuota.",
  retrospective:
-  "El riesgo de generalización es el *peor* sesgo de cuota. Pregunta: con max |bias| = 0.4, ¿afirmas el KPI para “todo el Perú”? Puente a T2-B: incertidumbre del estimador *además* del sesgo de muestra.",
+  "El riesgo de generalización es el *peor* sesgo de cuota. Pregunta: con max |bias| = 0.3, ¿afirmas el KPI para “todo el Perú”? Puente a T2-B: incertidumbre del estimador *además* del sesgo de muestra.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1234,7 +1263,7 @@ def max_bias(pob, counts):
  # Completa: peor |count/n − pob| entre claves de pob
  raise NotImplementedError
 
-print(round(max_bias({"Lima": 0.5, "Madrid": 0.5}, {"Lima": 9, "Madrid": 1}), 2))`,
+print(round(max_bias({"Lima": 0.5, "Madrid": 0.3, "Bogota": 0.2}, {"Lima": 8, "Madrid": 2}), 2))`,
  },
  solutionCode: {
  language: 'python',
@@ -1243,8 +1272,8 @@ print(round(max_bias({"Lima": 0.5, "Madrid": 0.5}, {"Lima": 9, "Madrid": 1}), 2)
  n = sum(counts.values())
  return max(abs(counts.get(k, 0) / n - pob[k]) for k in pob)
 
-print(round(max_bias({"Lima": 0.5, "Madrid": 0.5}, {"Lima": 9, "Madrid": 1}), 2))`,
- output: `0.4`,
+print(round(max_bias({"Lima": 0.5, "Madrid": 0.3, "Bogota": 0.2}, {"Lima": 8, "Madrid": 2}), 2))`,
+ output: `0.3`,
  },
  },
  {
@@ -1253,7 +1282,7 @@ print(round(max_bias({"Lima": 0.5, "Madrid": 0.5}, {"Lima": 9, "Madrid": 1}), 2)
  kind: "guided",
  title: "Margen del IC 95% con √n",
  preamble:
-  "- **Contexto:** el margen del IC z no es 1.96·s; es 1.96·(s/√n).\n- **Meta:** calcular e imprimir `margen` a 3 decimales.\n- **Éxito:** `margen 0.98` con media=10, s=2, n=16.\n- **Límites:** z≈1.96; no inventes t-student aquí; no omitas √n.",
+  "- **Contexto:** el margen del IC z no es 1.96·s; es 1.96·(s/√n).\n- **Meta:** calcular e imprimir `margen` a 3 decimales.\n- **Éxito:** `margen 0.98` con media=10, s=2, n=16.\n- **Límites:** usa z≈1.96 para practicar la fórmula; no omitas √n. Con n=16 un informe usaría el valor t de Student (≈2.13), que da un margen algo mayor, y lo declararía.",
  instruction:
  "1. Starter: `1.96 * s` sin dividir.\n2. Divide por `math.sqrt(n)`.\n3. Imprime `margen` redondeado a 3.\n4. Deja media/s/n fijos.",
  hint: "margen = 1.96 * s / sqrt(n).",
@@ -1437,15 +1466,15 @@ print("r", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
  kind: "independent",
  title: "Spearman como Pearson de rangos",
  preamble:
-  "- **Contexto:** y crece monótono pero no lineal con x; Pearson en escala original no es el contrato “Spearman”.\n- **Meta:** rangos de x e y + Pearson de rangos.\n- **Éxito:** `spearman 1.0`.\n- **Límites:** usa `argsort(argsort(...))`; no reportes Pearson crudo con etiqueta spearman.",
+  "- **Contexto:** y crece monótono pero no lineal con x; Pearson en escala original no es el contrato “Spearman”.\n- **Meta:** rangos de x e y + Pearson de rangos.\n- **Éxito:** `spearman 1.0`.\n- **Límites:** usa `pd.Series(...).rank()`, que da rango promedio a los empates; no reportes Pearson crudo con etiqueta spearman.",
  instruction:
  "1. Starter imprime Pearson de x,y crudos.\n2. Construye rx, ry con rangos.\n3. `corrcoef(rx, ry)[0,1]` redondeado a 3.\n4. Etiqueta exacta `spearman`.",
- hint: "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
+ hint: "Rangos con empates bien tratados: pd.Series(serie).rank(); luego corrcoef de los dos vectores de rangos.",
  hints: [
- "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
+ "Rangos con empates bien tratados: pd.Series(serie).rank(); luego corrcoef de los dos vectores de rangos.",
  "Redondea a 3 decimales; etiqueta exacta spearman.",
  ],
- edgeCases: ["empates en rangos (aquí no hay)"],
+ edgeCases: ["empates: argsort(argsort(...)) da rangos distintos a valores iguales y cambia el resultado; rank() les da el rango promedio"],
  tests: "salida coincide con solution output",
  feedback:
   "Spearman = Pearson sobre rangos. Si usaste corrcoef(x, y) crudo, obtienes Pearson, no Spearman. Confundir etiqueta y método rompe la auditoría del notebook.",
@@ -1465,10 +1494,11 @@ print("spearman", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
  language: 'python',
  title: "exercise.py",
  code: `import numpy as np
+import pandas as pd
 x = np.array([1.0, 2.0, 3.0, 10.0])
 y = np.array([1.0, 4.0, 9.0, 100.0])
-rx = np.argsort(np.argsort(x)).astype(float)
-ry = np.argsort(np.argsort(y)).astype(float)
+rx = pd.Series(x).rank()
+ry = pd.Series(y).rank()
 print("spearman", round(float(np.corrcoef(rx, ry)[0, 1]), 3))`,
  output: `spearman 1.0`,
  },
@@ -1547,7 +1577,7 @@ claim asociacion_observada_no_causal`,
  edgeCases: ["sin outliers"],
  tests: "salida coincide con solution output",
  feedback:
-  "Tukey usa 1.5·IQR, no 0.5. Aquí Q1 = 11.5, Q3 = 18 e IQR = 6.5: con 1.5 la cerca es 27.75 y solo el 50 la supera; con 0.5 baja a 21.25 y el 22 se vuelve un outlier inventado. Los flags son candidatos a revisión humana, no fraude automático.",
+  "Tukey usa 1.5·IQR, no 0.5. Aquí Q1 = 11.5, Q3 = 18 e IQR = 6.5. Con 1.5 la cerca es 27.75 y solo el 50 la supera; con 0.5 baja a 21.25 y el 22 se vuelve un outlier inventado. Los flags son candidatos a revisión humana, no fraude automático.",
  retrospective:
   "El contrato Tukey del runbook es 1.5·IQR; bajar a 0.5 es inventar un método distinto sin documentarlo. Los flags son candidatos a revisión humana. Pregunta: si n_hi se dispara, ¿miras primero el multiplicador o acusas al canal? Siguiente: tasa solo en Madrid.",
  starterCode: {
@@ -1578,27 +1608,27 @@ print("n_hi", int((m > hi).sum()))`,
  id: "S18-T3-B-E2",
  subtopicId: "S18-T3-B",
  kind: "independent",
- title: "Tasa de flags solo en Madrid",
+ title: "Tasa de flags solo en Lima",
  preamble:
-  "- **Contexto:** un slide que mezcla regiones miente sobre “riesgo en Madrid”.\n- **Meta:** media de flags donde region == \"Lima\".\n- **Éxito:** `tasa_Lima 1.0` con el fixture de 3 filas.\n- **Límites:** no uses `flag.mean()` global; no inventes causalidad regional.",
+  "- **Contexto:** un slide que mezcla regiones miente sobre el riesgo de cada una.\n- **Meta:** media de flags donde region == \"Lima\".\n- **Éxito:** `tasa_Lima 1.0` con el fixture de 3 filas.\n- **Límites:** no uses `flag.mean()` global; no inventes causalidad regional.",
  instruction:
  "1. Starter imprime mean global.\n2. Enmascara `flag[region == \"Lima\"]`.\n3. Media float; etiqueta `tasa_Lima`.\n4. No alteres los arrays.",
- hint: "Filtra flags donde region == \"Lima\" y toma la media.",
+ hint: "Filtra los flags con la máscara de la región pedida (`region == ...`) y toma la media.",
  hints: [
- "Filtra flags donde region == \"Lima\" y toma la media.",
+ "Filtra los flags con la máscara de la región pedida (`region == ...`) y toma la media.",
  "No uses flag.mean() global si el contrato pide solo Madrid.",
  ],
  edgeCases: ["segmento vacío"],
  tests: "salida coincide con solution output",
  feedback:
-  "La tasa global mezcla regiones y miente sobre “riesgo en Madrid”. Enmascara con region == \"Lima\" antes del mean; la tasa alta es hallazgo descriptivo, no causa.",
+  "La tasa global mezcla regiones y miente sobre el riesgo de cada una. Enmascara con region == \"Lima\" antes del mean; la tasa alta es hallazgo descriptivo, no causa.",
  retrospective:
   "Segmentar antes de promediar es el hábito del EDA por cohorte. Tasa alta en un segmento es hallazgo descriptivo. Luego: máscara Tukey bilateral completa.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-018 · tasa por región
-# Bug a corregir: tasa global en lugar de solo Lima
+# Bug a corregir: tasa global en lugar de la de una región
 import numpy as np
 region = np.array(["Lima", "Madrid", "Bogota"])
 flag = np.array([True, True, False])
@@ -1623,7 +1653,7 @@ print("tasa_Lima", float(flag[region == "Lima"].mean()))`,
   "- **Contexto:** el portafolio marca outliers altos *y* bajos; solo `m > hi` pierde la cola inferior.\n- **Meta:** booleans fuera de [lo, hi] como lista.\n- **Éxito:** `[True, False, False, False, True]` con un valor muy bajo (−20) y un 100 (unilateral solo marcaría el alto).\n- **Límites:** bilateral; documenta en memo flag ≠ fraude ni culpa de región.",
  instruction:
  "1. lo/hi ya calculados.\n2. `(m < lo) | (m > hi)` — **ambas** cercas.\n3. `.tolist()` e imprime.\n4. No cambies el array ni las cercas.",
- hint: "flag = (m < lo) | (m > hi); luego .tolist().",
+ hint: "flag = (m < lo) | (m > hi); luego .tolist(). `|` combina arrays elemento a elemento; `or` falla con arrays porque pide un solo True o False.",
  hints: [
  "flag = (m < lo) | (m > hi); luego .tolist().",
  "Ambas cercas: no basta con m > hi.",
@@ -1744,7 +1774,7 @@ print("solo_hallazgo" if median < 15 else "candidato_decision")`,
  kind: "transfer",
  title: "Traza P→M→V→L auditable",
  preamble:
-  "- **Contexto:** sin límite de cobertura (L), un hallazgo de mediana en Lima no es auditable.\n- **Meta:** función `traza` con prints `P:`, `M:`, `V:`, `L:`.\n- **Éxito:** cuatro líneas con “ticket mediano Madrid”, median, 27.5, “solo web”.\n- **Límites:** no cambies la llamada de prueba; usa el parámetro `limite`.",
+  "- **Contexto:** sin límite de cobertura (L), un hallazgo de mediana regional no es auditable.\n- **Meta:** función `traza` con prints `P:`, `M:`, `V:`, `L:`.\n- **Éxito:** cuatro líneas con “ticket mediano Lima”, median, 27.5, “solo web”.\n- **Límites:** no cambies la llamada de prueba; usa el parámetro `limite`.",
  instruction:
  "1. Completa el `pass` de la función.\n2. Cuatro prints con prefijos exactos.\n3. Orden P, M, V, L.\n4. Deja `traza(...)` intacta.",
  hint: "Cuatro prints con prefijos P/M/V/L; el cuarto usa el parámetro límite (identificador `limite` en el código).",
@@ -1910,7 +1940,7 @@ print(note)`,
  youDo: {
  title: "EDA honesto para CP-N2-B (inicio)",
  context:
- "Eres analista en un equipo de insights de una fintech peruana (escenario sintético). En **S17** dejaste un dataset limpio y un memo de límites (CP-N2-A). Aquí abres **CP-N2-B**: sobre un extracto sintético de tickets (sin PII real) produces un EDA que distingue hallazgo, hipótesis y decisión, con incertidumbre explícita y notas de datos. El artefacto alimenta el dashboard accesible de S19.",
+ "Eres analista en un equipo de insights de una fintech peruana (escenario sintético). En **S17** dejaste un dataset limpio y un memo de límites (CP-N2-A). Aquí abres **CP-N2-B**: sobre un extracto sintético de tickets (sin PII real) produces un EDA que distingue hallazgo, hipótesis y decisión, con incertidumbre explícita y notas de datos. El artefacto alimenta el dashboard accesible de S19. El starter genera un extracto sintético con seed 18; no carga el dataset de S17.",
  objectives: [
  "Resumir distribuciones con n, centro, dispersión y cuantiles (y métrica robusta si hay cola)",
  "Diagnosticar sesgo muestral vs. cuotas y declarar cobertura LIMITADA/OK",
@@ -1922,12 +1952,13 @@ print(note)`,
  requirements: [
  "Solo datos sintéticos o anonimizados de práctica (sin PII real)",
  "Cada conclusión referencia un cálculo (n, métrica, IC/flag o código) y un límite de cobertura",
- "Nota de datos con origen, filtros, n_raw/n_final, seed y hash corto del CSV ordenado",
+ "Nota de datos con origen, filtros, n_raw/n_final, seed, versiones de pandas y numpy y hash corto (`sha1_8`) del CSV ordenado",
  "Sin secretos ni credenciales",
  "Español profesional (es-PE)",
  "Salida mínima auditable: (1) resumen tabular, (2) bias_pp + cobertura, (3) ic95_z o boot_ic95 o d + n, (4) etiqueta no-causal, (5) nota de datos en JSON",
  "Si usas z sobre montos lognormales, declara los límites de z; si usas bootstrap, imprime `boot_ic95` de la media junto a n y recuerda que remuestrear no compensa la cola pesada",
  "Si comparas dos grupos, una frase debe decir cómo se formaron (sorteo o autoselección) antes de cualquier verbo causal",
+ "Incluye al menos un caso de borde documentado (n pequeño, cola o sesgo) con su resultado impreso",
  ],
  starterCode: `import hashlib
 import json
