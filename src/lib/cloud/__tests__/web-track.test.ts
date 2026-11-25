@@ -771,3 +771,35 @@ test('a tab whose saves failed retries its own intents on the latest record, kee
   assert.equal(a.getSnapshot().saveFailed, false)
   stopA(); stopB()
 })
+
+test('a completion re-read from another tab is not counted as this tab\'s own (no second section_complete, no survey)', async () => {
+  const { followCourseProgressInOtherTabs } = await import('@/lib/progress-cross-tab')
+  const { isApplyingRemote } = await import('@/lib/cloud/progress-adapter')
+  const { useProgressStore } = await import('@/lib/progress-store')
+  const store = new Map<string, string>()
+  ;(globalThis as { window?: unknown }).window ??= {}
+  const w = globalThis.window as unknown as { localStorage?: unknown }
+  const previous = w.localStorage
+  w.localStorage = { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v), removeItem: (k: string) => void store.delete(k) }
+  try {
+    const seen: boolean[] = []
+    const stopSub = useProgressStore.subscribe((next, prev) => {
+      if (next.completedSections !== prev.completedSections) seen.push(isApplyingRemote())
+    })
+    const listeners: ((e: { key: string | null; newValue: string | null }) => void)[] = []
+    const stop = followCourseProgressInOtherTabs({ addEventListener: (_: string, fn: never) => void listeners.push(fn), removeEventListener: () => {} } as never)
+    // Another tab wrote a record with one more completed section.
+    const raw = { state: { ...useProgressStore.getState(), completedSections: ['setup'] }, version: (useProgressStore.persist.getOptions().version ?? 0) }
+    store.set('python-ds-progress', JSON.stringify(raw))
+    listeners.forEach((fn) => fn({ key: 'python-ds-progress', newValue: store.get('python-ds-progress')! }))
+    await new Promise((r) => setTimeout(r, 0))
+    // Defect guarded (Codex, PR #196): the re-read ran outside the guard, so SurveyPrompt counted
+    // the other tab's completion again here, once per open tab.
+    assert.deepEqual(seen, [true], 'the re-read changed completedSections exactly once, under the remote guard')
+    assert.deepEqual(useProgressStore.getState().completedSections, ['setup'])
+    stop(); stopSub()
+  } finally {
+    w.localStorage = previous
+    useProgressStore.setState({ completedSections: [] })
+  }
+})

@@ -9,6 +9,7 @@
  * event in the other tab, so two tabs settle after one exchange (checked in the browser:
  * scripts/web_track_sync_check.cjs). STATE_MACHINES.md, SM3.
  */
+import { applyAsRemote } from '@/lib/cloud/progress-adapter'
 import { PROGRESS_STORAGE_KEY } from '@/lib/progress-sanitize'
 import { useProgressStore } from '@/lib/progress-store'
 
@@ -16,7 +17,10 @@ type Target = Pick<Window, 'addEventListener' | 'removeEventListener'>
 
 export function followCourseProgressInOtherTabs(
   target: Target,
-  rehydrate: () => unknown = () => useProgressStore.persist.rehydrate(),
+  // Under the remote guard: the survey prompt and the section_complete event count only this
+  // tab's own completions (Codex review, PR #196). The store's sync storage makes rehydrate()
+  // set state synchronously, so the guard is still raised when its subscribers run.
+  rehydrate: () => unknown = () => applyAsRemote(() => useProgressStore.persist.rehydrate()),
 ): () => void {
   const onStorage = (event: StorageEvent) => {
     // A removal (newValue null, also what localStorage.clear() sends) is not re-read: re-reading
