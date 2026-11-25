@@ -702,7 +702,7 @@ test("setup.sh: three refused tokens, an expired one, Cloudflare unreachable, or
   const refused = tree();
   const r1 = run(refused, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: REVOKED }, input: `${REVOKED}\n${REVOKED}\n` });
   assert.notEqual(r1.status, 0);
-  assert.match(r1.out, /Nothing was changed\. Make a new token \(Workers Scripts and D1, Edit\)/);
+  assert.match(r1.out, /Nothing was changed\. Make a new token \(Workers Editor and D1 Write\)/);
   assert.deepEqual(r1.state.calls, [], "no wrangler call");
   const expired = tree();
   const r2 = run(expired, "setup.sh", { env: { CLOUDFLARE_API_TOKEN: "expired-token-0123456789abcdef" }, input: "" });
