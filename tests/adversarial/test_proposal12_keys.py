@@ -24,8 +24,10 @@ import exam_bank  # noqa: E402
 
 #: (bank slug, question, the option the explanation states, a word of the explanation it matches)
 KEYS = [
-    ("data-engineering", "Para reproducir un EDA, lo prioritario es:",
-     "Dependencias/seed/filtros versionados y script reejecutable", "seed"),
+    # 2026-11-25, proposal 12 S18: the bank rewrite (length cues, thin rationales) reworded this item.
+    # Same question and same key: the re-runnable script, never the corporate colour.
+    ("data-engineering", "Para que otra persona reproduzca tu EDA, lo prioritario es:",
+     "Un script reejecutable con seed, filtros y versiones declarados", "seed"),
     ("databases-orm", "Un encoding visual honesto implica:",
      "Mapear variables a canal visual sin distorsión injustificada y con leyenda clara", "canal visual"),
     ("async-concurrency", "La idea de mutación conceptual en tests es:",

@@ -91,7 +91,7 @@ const PASSABLE = 0.05
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
-  'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
+  'computer-vision', 'cv-ai-integration', 'data-contracts', 'databases-orm',
   'dbt-bigquery', 'exceptions-logging', 'fastapi',
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
@@ -117,6 +117,8 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 43 -> 42 longest, 13 -> 12 clang.
 // 2026-11-25, proposal 12 S17: packaging (joins, reshape, groupby) leaves "longest"; its key was
 // longest on 24 of 24 and now sits at each length rank on 6 of 24. 42 -> 41.
+// 2026-11-25, proposal 12 S18: data-engineering (EDA and uncertainty) leaves "longest" the same way.
+// 41 -> 40.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'databases-orm', 'dbt-bigquery',
