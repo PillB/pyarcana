@@ -15,7 +15,7 @@ import { Measurement } from '@/lib/cloud/measurement'
 import { canMeasure, readConsent, readPrivacySignals } from '@/lib/cloud/consent'
 import { readQaMode } from '@/lib/cloud/qa-mode'
 import { resolveAccessState } from '@/lib/cloud/access'
-import { useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/session'
+import { refreshMe, useCloudRuntime, useCloudSession, type MePayload } from '@/lib/cloud/session'
 import { signOutAccount, signOutRequest, type ActionResult } from '@/lib/cloud/account-api'
 import { safeStorage } from '@/lib/cloud/storage'
 import type { TrackedEvent } from '@/lib/cloud/experiments'
@@ -66,12 +66,18 @@ export interface AuthMethods {
 }
 
 /** The store; read it through useLoadedAuthMethods, which also fetches it. */
-const authMethodsStore = create<AuthMethods>()(() => ({ state: 'idle', email: false, google: false, microsoft: false, trialDays: null }))
+export const authMethodsStore = create<AuthMethods>()(() => ({ state: 'idle', email: false, google: false, microsoft: false, trialDays: null }))
 
-export async function loadAuthMethods(): Promise<void> {
-  if (authMethodsStore.getState().state !== 'idle') return
+/**
+ * Loads once per page. `failed` is not final: every reader calls this on mount, so reopening the
+ * sign-in dialog after a dropped connection retries, instead of showing "unavailable" until a
+ * reload (state-machine audit, 25 Nov 2026). Only `loading` and `ok` stop a new request.
+ */
+export async function loadAuthMethods(api: ApiClient = cloudApi()): Promise<void> {
+  const state = authMethodsStore.getState().state
+  if (state === 'loading' || state === 'ok') return
   authMethodsStore.setState({ state: 'loading' })
-  const r = await cloudApi().get('/v1/auth/methods')
+  const r = await api.get('/v1/auth/methods')
   if (!r.ok) {
     authMethodsStore.setState({ state: 'failed' })
     return
@@ -147,11 +153,26 @@ export function getProgressSync(): ProgressSync {
     owner: progressOwnerAdapter,
     now: () => Date.now(),
     onSynced: (ms) => useCloudSession.setState({ lastSyncAt: ms }),
+    onUnauthorized: () => recheckSessionAfter401(),
   })
   const s = sync
   // Leaving needs_choice clears "Decidir después", so a later conflict asks again.
   s.onStatus((status) => useSyncUi.setState({ status, lastError: s.lastError, choiceDeferred: status === 'needs_choice' && useSyncUi.getState().choiceDeferred }))
   return s
+}
+
+/**
+ * A 401 from progress sync while /v1/me still says "ok": re-read /v1/me once, so the session state
+ * (panel, access, SyncController) learns the session ended instead of contradicting the sync line.
+ * Skipped while a read is already in flight or the page already knows it is signed out.
+ */
+export function recheckSessionAfter401(deps: { meStatus: () => string; refresh: () => Promise<unknown> } = {
+  meStatus: () => useCloudRuntime.getState().meStatus,
+  refresh: () => refreshMe(),
+}): boolean {
+  if (deps.meStatus() !== 'ok') return false
+  void deps.refresh()
+  return true
 }
 
 let controller: SyncController | null = null
