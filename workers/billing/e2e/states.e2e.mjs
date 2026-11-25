@@ -75,7 +75,8 @@ async function views(page) {
 async function dashboardCount(page) {
   await page.goto(`${BASE}/#home`, { waitUntil: 'networkidle' })
   await page.waitForTimeout(800)
-  const m = /Secciones completadas\s*(\d+)\//.exec(await page.locator('main').innerText())
+  // StatCard renders the value above its label: "1/53" then "Secciones completadas".
+  const m = /(\d+)\/\d+\s*Secciones completadas/.exec(await page.locator('body').innerText())
   return m ? Number(m[1]) : -1
 }
 
@@ -85,6 +86,9 @@ async function takeQuiz(page) {
   await page.getByTestId('sc-submit').click()
   await page.getByTestId('sc-result').waitFor()
 }
+
+/** The header renders the button twice (phone and desktop bars); the visible one is the one a person uses. */
+const accountButton = (page) => page.getByTestId('account-button').filter({ visible: true }).first()
 
 function lastCode(email) {
   const lines = readFileSync(LOG, 'utf8').split('\n').filter((l) => l.includes(`[dev-log] to=${email}`))
@@ -144,7 +148,7 @@ async function answerChoiceIfAsked(page) {
 }
 
 async function signOutHere(page) {
-  await page.getByTestId('account-button').click()
+  await accountButton(page).click()
   const out = page.getByTestId('account-signout').first()
   await out.scrollIntoViewIfNeeded()
   const logout = page.waitForResponse((r) => r.url().includes('/v1/auth/logout'), { timeout: 10000 }).catch(() => null)
@@ -156,7 +160,7 @@ async function signOutHere(page) {
 async function emailSignInHere(page, email) {
   if (!(await page.getByTestId('signin-panel').isVisible().catch(() => false))) {
     await page.keyboard.press('Escape')
-    await page.getByTestId('account-button').click()
+    await accountButton(page).click()
   }
   await page.getByTestId('signin-panel').waitFor({ timeout: 15000 })
   await page.locator('#account-age').click()
@@ -204,12 +208,12 @@ await flow('C4 a session ended elsewhere is noticed', async () => {
   await page.goto(`${BASE}/#setup`, { waitUntil: 'networkidle' })
   await page.waitForTimeout(1500)
   await answerChoiceIfAsked(page)
-  const before = (await page.getByTestId('account-button').getAttribute('aria-label')) ?? ''
+  const before = (await accountButton(page).getAttribute('aria-label')) ?? ''
   await ctx.clearCookies()
   await page.getByTestId('tab-ido').click()
   await page.getByRole('button', { name: LABELS.ido }).click()
   await page.waitForTimeout(7000)
-  const after = (await page.getByTestId('account-button').getAttribute('aria-label')) ?? ''
+  const after = (await accountButton(page).getAttribute('aria-label')) ?? ''
   record('C4 the header follows the refused sync: «Mi cuenta» becomes «Entrar»', before === 'Mi cuenta' && after === 'Entrar', `before=${before} after=${after}`)
   await ctx.close()
 })

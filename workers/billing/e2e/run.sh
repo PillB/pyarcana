@@ -13,6 +13,7 @@
 # Chromium: set CHROMIUM=/path/to/chrome (default /opt/pw-browsers/chromium).
 #   ./run.sh            build, start, seed, run the suites (ads, flows, usage, qa, cuenta, team, progress, states, tour, setup, csp)
 #   ./run.sh --no-build reuse the last build
+#   E2E_ONLY="states progress" ./run.sh   only those suites
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(git -C "$HERE" rev-parse --show-toplevel)"
@@ -57,6 +58,16 @@ start() {
   (cd "$WORK/site/workers/billing" && "$HERE/node_modules/.bin/wrangler" d1 execute pyarcana-accounts --local --file "$HERE/seed.sql" >/dev/null)
 }
 STATUS=0
+# E2E_ONLY="states progress": those suites only, each on a fresh database (suites that need extra
+# environment, usage and csp, are run by the full sequence below).
+if [[ -n "${E2E_ONLY:-}" ]]; then
+  for suite in $E2E_ONLY; do
+    stop
+    start
+    (cd "$HERE" && node "$suite.e2e.mjs") || STATUS=1
+  done
+  exit $STATUS
+fi
 start
 (cd "$HERE" && node ads.e2e.mjs) || STATUS=1
 # The flows suite changes state (trial, gifts, reports), so it gets its own fresh database.
