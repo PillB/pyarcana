@@ -56,7 +56,18 @@ stateDiagram-v2
     familiarity --> home
     state "admin / pricing" as server
     home --> server: server edition only
+    [*] --> session0: path /empezar (also /empezar#part)
+    home --> session0: sidebar "Sesión 0" / dashboard card
+    section --> session0: Section 1 banner / sidebar
+    session0 --> section: "Ir a la Sección 1" / sidebar / /empezar#slug
+    session0 --> home: "Inicio"
 ```
+
+Sesión 0 is the one view with a path instead of a hash: `/empezar` renders the same shell, which
+opens on `session0` when the path says so (`parseCourseLocation`). Leaving it for any other view
+rewrites the path back to the course root (`coursePathFor`), so a reload opens what is on screen.
+A Next.js link to `/empezar` while Next still holds that page only changes the path, so the shell
+also follows `usePathname()`. Record and differences: `audit/session-0/SHELL_PARITY.md`.
 
 | Errant state | Before | Now |
 |---|---|---|
@@ -65,6 +76,8 @@ stateDiagram-v2
 | unknown hash (`#no-such-route`) | silently ignored | still ignored (the current view stays), now with a console warning naming the hash |
 | `#admin`, `#pricing` on the static site | fell into the section lookup and found nothing | refused explicitly (`serverOnly`) |
 | `#__proto__`, `#constructor` | fell through (no own-property check) | null, tested |
+| `/empezar` | the setup guide alone: no menu, no top bars, no footer | the course shell on the `session0` view, tested in hash-route.test.ts and safe_agent_journeys.spec.ts |
+| a section opened from `/empezar` | (not reachable: no menu) | address moves to the root (`/#basics`), never `/empezar#basics` |
 
 Left as is, stated: an unknown hash keeps a URL that does not match the view until the next
 navigation rewrites it. Rewriting it to the current view would lose what the person typed.
