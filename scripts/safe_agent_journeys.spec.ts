@@ -317,6 +317,67 @@ test.describe('Lesson navigation journeys', () => {
     await context.close()
   })
 
+  // 25 Nov 2026 (Pablo): /empezar rendered the setup guide alone, with no header, no menu and no
+  // theme or language switch, so Sesión 0 looked like another site next to Section 1. It now opens
+  // inside the course shell. Each check below fails on the old bare page.
+  test('Sesión 0 opens inside the same shell as Section 1: header, menu and one main', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    const shell = async () => {
+      const aside = page.locator('aside').filter({ has: page.getByTestId('sidebar-sections') }).first()
+      await expect(aside, 'the desktop menu (<aside> with the section list) is missing').toBeVisible({ timeout: 20000 })
+      const header = page.locator('header:visible').first()
+      await expect(header.getByTestId('theme-toggle'), 'the top bar with the theme switch is missing').toBeVisible()
+      await expect(page.locator('main'), 'the page must have exactly one <main>').toHaveCount(1)
+      const a = await aside.boundingBox()
+      const h = await header.boundingBox()
+      return { asideX: a?.x, asideWidth: a?.width, headerHeight: h?.height }
+    }
+
+    await page.goto(`${HOME}#S01`)
+    await expect(page.getByTestId('section-root')).toBeVisible({ timeout: 20000 })
+    const s01 = await shell()
+
+    await page.goto(`${HOME}empezar`)
+    await expect(page.locator('main [data-testid="setup-intro"][data-ready="1"]')).toBeVisible({ timeout: 20000 })
+    const s00 = await shell()
+    expect(s00, 'Sesión 0 and Section 1 must share the same menu and top bar geometry').toEqual(s01)
+    await expect(page.getByTestId('sidebar-session0').first()).toHaveAttribute('aria-current', 'page')
+    await expect(page.locator('header:visible').first()).toContainText('Sesión 0')
+
+    // Leaving Sesión 0 through the menu returns to the course root, so a reload keeps the section.
+    await page.getByTestId('sidebar-section-basics').first().click()
+    await expect(page.getByTestId('section-root')).toBeVisible()
+    await expect(page).toHaveURL(new RegExp(`${HOME.replace(/\//g, '\\/')}#basics$`))
+    await page.reload()
+    await expect(page.getByTestId('section-root')).toBeVisible({ timeout: 20000 })
+    await expect(page.getByTestId('setup-intro')).toHaveCount(0)
+    await context.close()
+  })
+
+  test('Sesión 0 opens Section 1 in place, and a part link stays on Sesión 0', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } })
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(`${HOME}empezar`)
+    await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({ timeout: 20000 })
+    await page.locator('nav a[href="#python"]').first().click()
+    await expect(page).toHaveURL(/\/empezar#python$/)
+    await expect(page.getByTestId('setup-intro')).toBeVisible()
+    await page.getByTestId('setup-to-s01').click()
+    await expect(page.getByTestId('section-root')).toBeVisible({ timeout: 20000 })
+    await expect(page).toHaveURL(new RegExp(`${HOME.replace(/\//g, '\\/')}#setup$`))
+    await expect(page.getByTestId('sidebar-section-setup').first()).toHaveAttribute('aria-current', 'page')
+    // Back to Sesión 0 through Section 1's own banner, a Next.js link, while Next still holds the
+    // /empezar page: the view must follow the path, not stay on Section 1 under /empezar.
+    await page.getByRole('link', { name: /Empezar por la Sesión 0/ }).first().click()
+    await expect(page).toHaveURL(/\/empezar\/?$/)
+    await expect(page.getByTestId('setup-intro')).toBeVisible({ timeout: 20000 })
+    await expect(page.getByTestId('section-root')).toHaveCount(0)
+    await context.close()
+  })
+
   test('on a phone the next step is written in the page, not only on an icon', async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
     const page = await context.newPage()
