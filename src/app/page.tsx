@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard, Boxes, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ import { LanguageToggle } from '@/components/course/LanguageToggle'
 import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
+import { SetupIntro } from '@/components/setup/SetupIntro'
 import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
 import { AccountButton } from '@/components/account/AccountButton'
 import { AccountDialog } from '@/components/account/AccountDialog'
@@ -32,7 +34,20 @@ import { openCloudAccount } from '@/components/account/runtime'
 import { useServerProgressSync, type SubStep } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
-import { findCourseSection, isSubStep, parseCourseHash, resolveCourseSectionId as resolveId, type CourseView } from '@/lib/course/hash-route'
+import {
+  coursePathFor,
+  courseRootPath,
+  findCourseSection,
+  isSessionZeroPath,
+  isSubStep,
+  parseCourseHash,
+  resolveCourseSectionId as resolveId,
+  sessionZeroRoute,
+  type CourseView,
+} from '@/lib/course/hash-route'
+import { SETUP_PARTS } from '@/lib/setup/content'
+
+const SETUP_PART_IDS = SETUP_PARTS.map((p) => p.id)
 import { t, useI18n } from '@/lib/i18n'
 import { riseIn } from '@/lib/entrance'
 
@@ -63,8 +78,15 @@ function resolveCourseSectionId(id: string): string {
   return resolveId(id, COURSE_SECTIONS)
 }
 
+/**
+ * The course shell: sidebar, both top bars, the view, the footer. src/app/empezar/page.tsx renders
+ * this same component, so Sesión 0 opens inside the shell like every section instead of as a bare
+ * page with no header or menu (Pablo, 25 Nov 2026). The path picks the first view, which keeps the
+ * prerendered /empezar HTML on Sesión 0 for readers without JavaScript and for search engines.
+ */
 export default function Home() {
-  const [view, setView] = useState<View>('home')
+  const pathname = usePathname() ?? '/'
+  const [view, setView] = useState<View>(() => (isSessionZeroPath(pathname) ? 'session0' : 'home'))
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
   const [activeSubStep, setActiveSubStep] = useState<SubStep>('theory')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -88,20 +110,14 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
 
-    // Show the first-visit interactive tour for new users.
-    let tourTimer: number | undefined
-    try {
-      if (localStorage.getItem(PYARCANA_TOUR_STORAGE_KEY) !== '1') {
-        // Defer slightly so layout settles and tour targets are present.
-        tourTimer = window.setTimeout(() => setTourOpen(true), 400)
-      }
-    } catch {
-      // localStorage unavailable — skip the tour.
-    }
 
     // Sync with URL hash for shareable links (also on hashchange for SPA navigations)
     const syncFromHash = () => {
-      const route = parseCourseHash(window.location.hash, COURSE_SECTIONS, IS_STATIC_SITE)
+      // On /empezar an empty hash or a part anchor (#python) is Sesión 0 itself; any other hash is
+      // a course route. This is parseCourseLocation (hash-route.ts), where both halves are tested.
+      const route =
+        sessionZeroRoute(window.location.pathname, window.location.hash, SETUP_PART_IDS) ??
+        parseCourseHash(window.location.hash, COURSE_SECTIONS, IS_STATIC_SITE)
       if (!route) {
         // Keep the current view rather than guess; say why, for whoever reads the console.
         console.warn(`[pyarcana] the link ${JSON.stringify(window.location.hash)} names no view or section; staying on the current view`)
@@ -119,10 +135,38 @@ export default function Home() {
     syncFromHash()
     window.addEventListener('hashchange', syncFromHash)
     return () => {
-      if (tourTimer !== undefined) window.clearTimeout(tourTimer)
       window.removeEventListener('hashchange', syncFromHash)
     }
   }, [])
+
+  // Show the first-visit interactive tour for new users, once per page load.
+  // Not over Sesión 0: whoever opens /empezar is installing programs, and the tour walks the
+  // course they cannot use yet. It is offered on the first view that is not Sesión 0, so a learner
+  // who starts at /empezar gets it when «Ir a la Sección 1» or the menu takes them into the course
+  // in place, without a reload (Codex review on PR 190).
+  // The timer outlives view changes (the hash router switches view right after mount); only
+  // unmounting cancels it.
+  const tourOffered = useRef(false)
+  const tourTimer = useRef<number | undefined>(undefined)
+  useEffect(
+    () => () => {
+      window.clearTimeout(tourTimer.current)
+      tourOffered.current = false
+    },
+    [],
+  )
+  useEffect(() => {
+    if (tourOffered.current || view === 'session0') return
+    tourOffered.current = true
+    try {
+      if (localStorage.getItem(PYARCANA_TOUR_STORAGE_KEY) !== '1') {
+        // Defer slightly so layout settles and tour targets are present.
+        tourTimer.current = window.setTimeout(() => setTourOpen(true), 400)
+      }
+    } catch {
+      // localStorage unavailable — skip the tour.
+    }
+  }, [view])
 
   // Armed one commit after the effect above, so the view it restores from the
   // hash (#capstones, #S05) is shown as it loads instead of fading in from 0.
@@ -134,11 +178,28 @@ export default function Home() {
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
     const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : id || ''
-    const newUrl = hash ? `${window.location.pathname}#${hash}` : window.location.pathname
+    // The path follows the view too: /empezar for Sesión 0, the course root for the rest.
+    const path = coursePathFor(newView, window.location.pathname)
+    const newUrl = hash ? `${path}#${hash}` : path
     window.history.replaceState(null, '', newUrl)
   }
 
   // Keep the open tab in the URL (#basics/ido), however it was chosen: tab, sidebar, ← →.
+  // A link to /empezar from inside the shell (the dashboard card, the Section 1 banner) is a Next.js
+  // navigation. When the URL was rewritten from /empezar to the course root by a view change, Next
+  // still holds the /empezar page, so it keeps this component mounted and only the path changes:
+  // without this the click left the old view on screen under the /empezar address.
+  const lastPathname = useRef(pathname)
+  useEffect(() => {
+    if (lastPathname.current === pathname) return
+    lastPathname.current = pathname
+    if (isSessionZeroPath(pathname)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveSectionId(null)
+      setView('session0')
+    }
+  }, [pathname])
+
   useEffect(() => {
     if (view !== 'section' || !activeSectionId || typeof window === 'undefined') return
     // Keep the section as the link spelled it (#S05 stays #S05): only the tab part changes.
@@ -146,8 +207,9 @@ export default function Home() {
     const [written] = window.location.hash.slice(1).split('/')
     const base = written && resolveCourseSectionId(written) === activeSectionId ? written : activeSectionId
     const want = `#${stepHash(base, activeSubStep)}`
-    if (window.location.hash !== want) {
-      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${want}`)
+    // /empezar#basics opens Section 2; the address moves to the course root, where a section lives.
+    if (window.location.hash !== want || isSessionZeroPath(window.location.pathname)) {
+      window.history.replaceState(null, '', `${courseRootPath(window.location.pathname)}${window.location.search}${want}`)
     }
   }, [view, activeSectionId, activeSubStep])
 
@@ -215,6 +277,18 @@ export default function Home() {
     }
   }
 
+  // Sesión 0 opens in place, like a section: the shell stays, only the view and the URL change.
+  const handleOpenSessionZero = () => {
+    if (typeof window !== 'undefined' && activeSectionId) {
+      sessionStorage.setItem(`pyarcana:sectionScroll:${activeSectionId}`, String(window.scrollY || 0))
+    }
+    setView('session0')
+    setActiveSectionId(null)
+    updateUrl(null, 'session0')
+    setSidebarOpen(false)
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const handleOpenAuth = (tab: 'login' | 'register' = 'login') => {
     // Where cloud accounts run (stage not off), "Entrar" opens the account dialog instead.
     if (openCloudAccount()) return
@@ -276,6 +350,7 @@ export default function Home() {
           activeSectionId={activeSectionId}
           onSelectSection={handleSelectSection}
           onHome={handleHome}
+          onOpenSessionZero={handleOpenSessionZero}
           view={view}
         />
       </aside>
@@ -303,6 +378,7 @@ export default function Home() {
                 activeSectionId={activeSectionId}
                 onSelectSection={handleSelectSection}
                 onHome={handleHome}
+                onOpenSessionZero={handleOpenSessionZero}
                 view={view}
               />
             </motion.aside>
@@ -404,6 +480,11 @@ export default function Home() {
                 <span className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-primary" />
                   <span className="text-primary font-medium">{tr('admin.title')}</span>
+                </span>
+              )}
+              {view === 'session0' && (
+                <span>
+                  {tr('sidebar.session0.title')} · <span className="text-foreground">{tr('sidebar.session0.tagline')}</span>
                 </span>
               )}
               {view === 'section' && activeSection && (
@@ -553,6 +634,7 @@ export default function Home() {
               />
             )}
             {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
+            {view === 'session0' && <SetupIntro onContinue={() => handleSelectSection('S01')} />}
             {view === 'familiarity' && <FamiliarityDashboard animateEntrance={animateViewChanges} />}
             {view === 'capstones' && (
               <CapstonesPage animateEntrance={animateViewChanges} onOpenSection={handleSelectSection} />
