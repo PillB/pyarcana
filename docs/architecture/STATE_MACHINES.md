@@ -230,7 +230,7 @@ checkout; the message says a payment may be in progress, which is true until the
 
 **Contradiction found:** A duplicate of B, then B duplicate of A was accepted: both closed as
 copies of each other, no open report left for the bug. **Fix:** the target must not itself be a
-duplicate; that makes every cycle impossible, because the edge that would close one always points
+duplicate (400 `duplicate_of_duplicate`, shown to the admin as the reason code); that makes every cycle impossible, because the edge that would close one always points
 at a duplicate. Chains (A → B, then B → C) are still possible and harmless: follow them. Rows that
 already form a cycle are not rewritten; an admin reopens one. Test: `reports.test.mjs` (accept any
 existing target).

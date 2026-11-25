@@ -209,14 +209,18 @@ function reportRow(db, id) {
 }
 
 /**
- * True when a report exists and is not itself a duplicate (a canonical target).
+ * Whether a report can be a duplicate's target: it exists and is not itself a duplicate. The admin
+ * page shows the reason code, so the second case has its own.
  * @param {Object} db D1.
  * @param {string} id Report id.
- * @returns {Promise<boolean>} Usable as a duplicate target.
+ * @returns {Promise<"ok"|"bad_duplicate_of"|"duplicate_of_duplicate">} Verdict.
  */
 async function canonicalTarget(db, id) {
   const row = await reportRow(db, id);
-  return Boolean(row) && row.status !== "duplicate";
+  if (!row) {
+    return "bad_duplicate_of";
+  }
+  return row.status === "duplicate" ? "duplicate_of_duplicate" : "ok";
 }
 
 /**
@@ -301,8 +305,12 @@ const PATCH_FIELDS = [
 async function resolveDuplicate(ctx, current, change) {
   const target = change.duplicateOf;
   const status = change.status || (target ? "duplicate" : current.status);
-  if (target && (target === current.id || status !== "duplicate" || !(await canonicalTarget(ctx.db, target)))) {
+  if (target && (target === current.id || status !== "duplicate")) {
     return { error: badRequest("bad_duplicate_of") };
+  }
+  const canonical = target ? await canonicalTarget(ctx.db, target) : "ok";
+  if (canonical !== "ok") {
+    return { error: badRequest(canonical) };
   }
   if (status !== "duplicate") {
     return { status, duplicateOf: null };

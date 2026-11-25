@@ -426,7 +426,7 @@ export function SectionView({
  * repeated effect (React StrictMode runs effects twice in development) can never un-complete it.
  */
 function markSectionComplete(sectionId: string) {
-  useProgressStore.setState((s) => (s.completedSections.includes(sectionId) ? {} : { completedSections: [...s.completedSections, sectionId] }))
+  useProgressStore.setState((s) => (s.completedSections.includes(sectionId) ? s : { completedSections: [...s.completedSections, sectionId] }))
 }
 
 function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: () => void; done: boolean }) {

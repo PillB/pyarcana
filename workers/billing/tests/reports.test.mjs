@@ -343,7 +343,7 @@ test("admins see contact and account emails, triage with PATCH, and every admin 
 
 test("state-machine audit: a duplicate must point at a report that is not itself a duplicate (no A<->B cycle)", async () => {
   // Defect guarded: A -> B, then B -> A was accepted, closing both as copies of each other with no open
-  // report left. Mutation that turns this red: accept any existing target (the old reportRow check).
+  // report left. Mutation that turns this red: accept any existing target (return "ok" for a duplicate).
   const { env, admin, learner } = await people();
   const a = await submit(env, report({ title: "Uno" }));
   const b = await submit(env, report({ title: "Dos" }), { cookie: learner.token, now: NOW + 1 });
@@ -352,7 +352,7 @@ test("state-machine audit: a duplicate must point at a report that is not itself
   const ab = await patch(a.body.id, { duplicateOf: b.body.id });
   assert.deepEqual([ab.status, ab.body.report.status], [200, "duplicate"], "precondition: A is a duplicate of B");
   const ba = await patch(b.body.id, { duplicateOf: a.body.id });
-  assert.deepEqual([ba.status, ba.body.reason], [400, "bad_duplicate_of"], "B -> A would close the only open copy: refused");
+  assert.deepEqual([ba.status, ba.body.reason], [400, "duplicate_of_duplicate"], "B -> A would close the only open copy: refused, with its own reason");
   const cb = await patch(c.body.id, { duplicateOf: b.body.id });
   assert.deepEqual([cb.status, cb.body.report.duplicateOf], [200, b.body.id], "pointing at the open original still works");
   const supervisorPath = await api(env, "PATCH", `/v1/qa/reports/${b.body.id}`, { cookie: admin.token, body: { duplicateOf: a.body.id }, now: NOW + 31 });
