@@ -177,10 +177,12 @@ def all_code() -> list[tuple[str, str]]:
 class EveryPinRuns(unittest.TestCase):
     @needs_content_py
     def test_theory_and_demo_code_prints_its_pinned_output(self) -> None:
-        snippets = [(b["subtopicId"], b["code"]) for b in s27()["theory"]
+        # A supplemental block has no subtopicId; name it by heading. The count is a floor, not a
+        # ceiling: it catches a lost example without blocking an added one (AGENTS.md).
+        snippets = [(b.get("subtopicId") or b["heading"], b["code"]) for b in s27()["theory"]
                     if b.get("code") and b["code"]["language"] == "python"]
         snippets += [(d["demoId"], d["code"]) for d in s27()["iDo"]["steps"]]
-        self.assertEqual(len(snippets), 16)
+        self.assertGreaterEqual(len(snippets), 16, f"a theory or demo example was lost: {[n for n, _ in snippets]}")
         for name, code in snippets:
             with self.subTest(name):
                 self.assertEqual(stdout_of(code["code"]), code["output"].rstrip("\n"))
