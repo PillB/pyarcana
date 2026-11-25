@@ -1046,3 +1046,15 @@ back. Read this list before a section round; every item cost at least one failed
   its test, and every new block is checked against it. The same review found three checks that
   could not fail: a parity test that compared a dict with its own copy, and export metadata and
   claim verdicts typed by hand. Their tests now change the input and expect the output to move.
+- **A new pandas test passed locally and failed CI as an unlisted skip (#189, 25 Nov 2026).**
+  The Codex fix added `ExamBank.test_the_named_aggregation_nan_distractor_is_false` behind
+  `@needs_pandas`. Here `.venv-content` exists, so the test ran and passed. The adversarial CI job
+  has no pandas, so it skipped, and `run_adversarial_py.py` failed the job because
+  `skip_allowlist.json` did not name that skip. Root cause: the allowlist is checked against the
+  skips that happen, and which skips happen depends on the machine. A missing entry is invisible
+  on every machine where a change is written: a check that reads the run can only see what this
+  run did. Fix: the entry was added. Guard:
+  `tests/adversarial/test_content_skips_are_allowlisted.py` reads the decorators with `ast`
+  instead of the run. Any module-level `unittest.skipUnless/skipIf` whose reason names the pinned
+  content interpreter marks a content skip, and every test it decorates must have an allowlist
+  entry, on any machine. Before the entry it failed on exactly this test; with it, it passes.
