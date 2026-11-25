@@ -471,6 +471,23 @@ class ExamBank(unittest.TestCase):
             with self.subTest(gone):
                 self.assertNotIn(gone, text)
 
+    @needs_pandas
+    def test_the_named_aggregation_nan_distractor_is_false(self) -> None:
+        """Codex on #189: the distractor said `count` keeps NaN out of `n`, which pandas does anyway,
+        so a learner who chose a true statement was marked wrong. The distractor must claim what
+        pandas refutes: that `count` counts the NaN rows."""
+        q = next(q for q in self.bank() if q["question"].startswith("La named aggregation"))
+        nan_options = [o for i, o in enumerate(q["options"]) if "NaN" in o and i != q["correctIndex"]]
+        self.assertEqual(len(nan_options), 1, q["options"])
+        self.assertIn("Contar también", nan_options[0], "the NaN distractor must claim that count includes NaN")
+        got = stdout_of(
+            "import numpy as np, pandas as pd\n"
+            "df = pd.DataFrame({'g': ['a'] * 3, 'monto': [1.0, np.nan, 2.0]})\n"
+            "r = df.groupby('g').agg(n=('monto', 'count'), filas=('monto', 'size'))\n"
+            "print(int(r['n'].iloc[0]), int(r['filas'].iloc[0]))\n")
+        self.assertEqual(got, "2 3", "count must drop the NaN row and size must keep it, or the distractor is not false")
+        self.assertIn("size", q["explanation"])
+
     def test_the_pivot_table_key_is_the_mean(self) -> None:
         q = next(q for q in self.bank() if q["question"].startswith("`pivot_table` sin `aggfunc`"))
         self.assertIn("7.5", q["options"][q["correctIndex"]])
