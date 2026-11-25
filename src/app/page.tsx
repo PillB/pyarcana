@@ -472,6 +472,7 @@ export default function Home() {
               {view === 'resources' && tr('nav.resources')}
               {/* Every view names itself here; #familiarity used to leave the crumb empty. */}
               {view === 'familiarity' && 'Familiarity'}
+              {view === 'webtrack' && tr('nav.webTrack')}
               {view === 'capstones' && (
                 <span className="flex items-center gap-1">
                   <Boxes className="h-3.5 w-3.5 text-primary" />
