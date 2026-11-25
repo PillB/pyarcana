@@ -462,6 +462,18 @@ const MIGRATION_10 = [
   "CREATE INDEX IF NOT EXISTS idx_report_verifications_account ON report_verifications (account_id)"
 ];
 
+/**
+ * Optimistic lock on a subscription (2026-11-25, state-machine audit): every ledger write
+ * moves `version` from the value it read to the next one in a compare-and-set that writes NULL
+ * when the row moved on, and the NOT NULL constraint aborts the whole D1 batch. Two webhooks
+ * for one subscription can no longer both apply from the same read: without it a cancel and an
+ * older past_due racing left the row past_due (a cancelled subscription brought back) with its
+ * provider time moved backwards (ledger.mjs applyChange, tests/ledger-concurrency.test.mjs).
+ * A constraint, not a trigger: D1 documents that a failing statement rolls back the batch,
+ * and a constraint is the one abort the docs and SQLite both guarantee.
+ */
+const MIGRATION_11 = ["ALTER TABLE subscriptions ADD COLUMN version INTEGER NOT NULL DEFAULT 0"];
+
 /** Every migration, in order. Append only; never edit a shipped one. */
 export const MIGRATIONS = [
   { version: 1, statements: MIGRATION_1 },
@@ -473,7 +485,8 @@ export const MIGRATIONS = [
   { version: 7, statements: MIGRATION_7 },
   { version: 8, statements: MIGRATION_8 },
   { version: 9, statements: MIGRATION_9 },
-  { version: 10, statements: MIGRATION_10 }
+  { version: 10, statements: MIGRATION_10 },
+  { version: 11, statements: MIGRATION_11 }
 ];
 
 /** The version a fully migrated database reports. */

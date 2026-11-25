@@ -5,9 +5,14 @@
 //   tokens in FAKE_CF_EXPIRED             -> 200 with status "expired" (as Cloudflare reports one)
 //   anything else                         -> 401 "Invalid API Token" (a revoked or mistyped token)
 //   /blocked/...                          -> 403 plain text, as a proxy or firewall answers
+//   /live/<encoded tree root>/deployment.json -> the site after a deploy (deploy.sh's live check):
+//                                            <root>/live.json when the test wrote one, else what the
+//                                            build wrote to <root>/out/deployment.json
 // Response shapes follow Cloudflare's API v4 envelope ({success, errors, messages, result}).
 // Prints the port it listens on, then serves until killed.
+import { existsSync, readFileSync } from 'node:fs'
 import { createServer } from 'node:http'
+import { join } from 'node:path'
 
 const list = (name) => (process.env[name] || '').split(',').filter(Boolean)
 const user = list('FAKE_CF_TOKENS')
@@ -20,6 +25,14 @@ const send = (res, code, body) => {
 }
 
 const server = createServer((req, res) => {
+  const live = /^\/live\/([^/]+)\/deployment\.json(?:\?.*)?$/.exec(req.url)
+  if (live) {
+    const root = decodeURIComponent(live[1])
+    const file = [join(root, 'live.json'), join(root, 'out', 'deployment.json')].find((f) => existsSync(f))
+    if (!file) return send(res, 404, { error: 'no deployment.json' })
+    res.writeHead(200, { 'content-type': 'application/json' })
+    return res.end(readFileSync(file, 'utf8'))
+  }
   // Under /blocked: what a proxy or firewall answers instead of Cloudflare (seen in the sandbox:
   // "Host not in allowlist"), plain text, not Cloudflare's JSON.
   if (req.url.startsWith('/blocked/')) {
