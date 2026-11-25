@@ -626,3 +626,64 @@ test('one copy per page: a tick on the track page reaches the menu and the banne
   assert.deepEqual(state.getSnapshot().progress.done, ['html.reparto', 'sitio.servir'])
   stopMenu(); stopBanner()
 })
+
+/** Every passage the learner reads on the track, in reading order, with where it is. */
+function trackProse(): { where: string; text: string }[] {
+  const out: { where: string; text: string }[] = []
+  const add = (where: string, text?: string) => void (text && out.push({ where, text }))
+  add('summary', WEB_TRACK.summary)
+  for (const m of WEB_TRACK.modules) {
+    add(`${m.id}.goal`, m.goal)
+    ;(Array.isArray(m.intro) ? m.intro : [m.intro]).forEach((x, i) => add(`${m.id}.intro${i}`, x as string))
+    for (const st of m.steps) {
+      st.body.forEach((x, i) => add(`${st.id}.body${i}`, x))
+      st.table?.rows.forEach((r, i) => r.forEach((c, j) => add(`${st.id}.table${i}.${j}`, c)))
+      add(`${st.id}.expect`, st.expect)
+      st.fixes?.forEach((f, i) => { add(`${st.id}.fix${i}`, f.symptom); f.steps.forEach((x, j) => add(`${st.id}.fix${i}.${j}`, x)) })
+      add(`${st.id}.hint`, st.exercise?.hint)
+    }
+  }
+  return out
+}
+
+function proseSentences(text: string): string[] {
+  const plain = text.replace(/`[^`]*`/g, 'X').replace(/\*\*/g, '')
+  return plain.split(/(?<=[.?!])\s+(?=[¿¡«A-ZÁÉÍÓÚÑX(])/).map((x) => x.trim()).filter(Boolean)
+}
+
+test('writing rules D1 and D13 hold on every passage of the track: 32 words at most, never two short sentences in a row', () => {
+  // Defect guarded: the review on 25 Nov found 14 sentences over 32 words and a run of three short
+  // ones; scripts/prose_quality_audit.py does not read the track, so nothing stopped them.
+  const problems: string[] = []
+  for (const { where, text } of trackProse()) {
+    const lens = proseSentences(text).map((x) => x.split(/\s+/).length)
+    lens.forEach((n, i) => n > 32 && problems.push(`${where}: sentence ${i + 1} has ${n} words (D1: at most 32)`))
+    if (lens.length > 2) lens.slice(1).forEach((n, i) => n < 15 && lens[i] < 15 && problems.push(`${where}: sentences ${i + 1}-${i + 2} are ${lens[i]} and ${n} words (D13)`))
+  }
+  assert.deepEqual(problems, [], `split or join these passages in src/lib/tracks/web/content.ts (audit/fixer/writing_rules.md)`)
+})
+
+test('a glossary term taught after S12 is explained where the track first names it (concept order)', async () => {
+  const { GLOSSARY_TERMS } = await import('@/lib/glossary/terms')
+  const anchor = WEB_TRACK_PLACEMENT.recommendedAfter.index
+  const indexOf = (id: string) => COURSE_SECTIONS.find((x) => x.id === id)?.index ?? Infinity
+  const prose = trackProse()
+  const problems: string[] = []
+  let checked = 0
+  for (const term of GLOSSARY_TERMS) {
+    if (indexOf(term.firstSectionId) <= anchor) continue
+    const names = [...new Set([term.term, ...term.aliases])].filter((n) => n.length > 2)
+    const rx = new RegExp(`(?<![\\w-])(${names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})(?![\\w-])`, 'i')
+    const first = prose.find((p) => rx.test(p.text.replace(/`[^`]*`/g, ' ')))
+    if (!first) continue
+    checked += 1
+    // Glossed: the name is followed by an apposition («FastAPI, la biblioteca…») or a parenthesis.
+    const name = first.text.replace(/`[^`]*`/g, ' ').match(rx)![1]
+    const glossed = new RegExp(`${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\*\\*)?(,\\s+(la|el|los|las|un|una)\\s|\\s*\\()`, 'i').test(first.text)
+    if (!glossed) problems.push(`${term.id} is taught in ${term.firstSectionId} (S${indexOf(term.firstSectionId)}), but ${first.where} names it without explaining it`)
+  }
+  // Defect guarded: FastAPI (S41) and Jinja were named with no explanation; concept_map.py reads
+  // only the 52 sections, so the track was invisible to it.
+  assert.ok(checked >= 1, 'expected the track to name at least one term taught later (FastAPI); the matcher may be broken')
+  assert.deepEqual(problems, [], 'gloss the term at its first mention, as an apposition or in parentheses')
+})

@@ -36,7 +36,7 @@ export const WEB_TRACK: TrackDefinition = {
       buildsOn: ['files-ingestion', 'apis-sql-geo'],
       intro: [
         'Hasta aquí tus resultados salían por la consola o en un archivo CSV. **HTML** (el lenguaje de etiquetas con el que se escriben las páginas web) es otra salida de texto, solo que la lee un navegador y la dibuja como página: títulos, tablas, enlaces.',
-        'El reparto de trabajo es sencillo. Python calcula, limpia y resume los datos, como en la Sección 8; el navegador presenta el resultado y lo adapta a la pantalla, al tamaño de letra y al lector de pantalla de quien lo abre, sin que escribas código para cada caso.',
+        'El reparto de trabajo es sencillo: Python calcula, limpia y resume los datos, como en la Sección 8. El navegador presenta el resultado y lo adapta a la pantalla, al tamaño de letra y al lector de pantalla de quien lo abre, sin que escribas código para cada caso.',
       ],
       steps: [
         {
@@ -64,7 +64,7 @@ export const WEB_TRACK: TrackDefinition = {
           title: 'Escapa cada dato antes de meterlo en el HTML',
           body: [
             'Una tabla HTML es texto, así que la tentación es armarla con f-strings. El problema aparece cuando un dato contiene `<` o `>`: el navegador los lee como el inicio de una etiqueta. En el ejemplo, la sede «Bodega <Norte>» pierde la palabra «Norte», porque el navegador cree que `<Norte>` es una etiqueta desconocida y la oculta.',
-            '`html.escape` (de la biblioteca estándar) cambia `<` por `&lt;` y `>` por `&gt;`, es decir, por códigos que el navegador muestra como los símbolos en lugar de interpretarlos. Es la misma protección que el autoescape de Jinja que verás en S21, y también evita que alguien meta código en tu página a través de un dato.',
+            '`html.escape` (de la biblioteca estándar) cambia `<` por `&lt;` y `>` por `&gt;`, es decir, por códigos que el navegador muestra como los símbolos en lugar de interpretarlos. Es la misma protección que aplica Jinja, la biblioteca de plantillas HTML que verás en S21, y también evita que alguien meta código en tu página a través de un dato.',
           ],
           code: [
             {
@@ -94,8 +94,8 @@ print(buena)`,
           id: 'html.tabla-semantica',
           title: 'Dale a la tabla un título y encabezados de columna',
           body: [
-            'Una tabla que solo tiene celdas se ve bien, pero un lector de pantalla (el programa que lee la página en voz alta a una persona ciega) no sabe qué columna es cuál. Tres etiquetas lo resuelven: `<caption>` es el título de la tabla, `<thead>` agrupa la fila de encabezados y `<th scope="col">` marca cada encabezado como el nombre de su columna.',
-            'La función recibe el título, las columnas y las filas, y devuelve el HTML completo con cada valor escapado. Cuando uses pandas, la biblioteca de tablas que empieza en S15, `DataFrame.to_html()` hará algo parecido y también escapa por defecto; escribir la función a mano una vez te permite leer lo que pandas genera.',
+            'Una tabla que solo tiene celdas se ve bien. Sin embargo, un lector de pantalla (el programa que lee la página en voz alta a una persona ciega) no sabe qué columna es cuál. Tres etiquetas lo resuelven: `<caption>` es el título de la tabla, `<thead>` agrupa la fila de encabezados y `<th scope="col">` marca cada encabezado como el nombre de su columna.',
+            'La función recibe el título, las columnas y las filas, y devuelve el HTML completo con cada valor escapado. Cuando uses pandas, la biblioteca de tablas que empieza en S15, `DataFrame.to_html()` hará algo parecido y también escapará por defecto. Escribir la función a mano una vez te permite leer lo que pandas genera.',
           ],
           code: [
             {
@@ -176,7 +176,7 @@ print(fila_total(filas))`, output: String.raw`<tr><th scope="row">Total</th><td>
           id: 'http.servidor-cliente',
           title: 'Levanta un servidor y pregúntale desde Python',
           body: [
-            'El servidor de la biblioteca estándar (`http.server`) responde a cada pedido `GET` con un JSON de ventas. Para que el mismo archivo pueda preguntarle, el servidor corre en un **hilo** (`threading`), es decir, una segunda línea de ejecución dentro del mismo programa que escucha mientras la primera hace la pregunta (S38 estudia la concurrencia a fondo). En tu computadora lo harías en dos terminales, una para cada lado.',
+            'El servidor de la biblioteca estándar (`http.server`) responde a cada pedido `GET` con un JSON de ventas. Para que el mismo archivo pueda preguntarle, el servidor corre en un **hilo** (`threading`), es decir, una segunda línea de ejecución dentro del mismo programa. Ese hilo escucha mientras la primera línea hace la pregunta; S38 estudia la concurrencia a fondo. En tu computadora lo harías en dos terminales, una para cada lado.',
             'El cliente usa `urllib.request.urlopen` con un `timeout`, la misma regla de S12: nunca esperes una respuesta sin límite. Del objeto que devuelve lees el status (`200`), el encabezado `Content-Type`, que le dice al cliente qué formato trae el cuerpo, y el cuerpo con `json.load`.',
           ],
           code: [
@@ -221,7 +221,7 @@ servidor.shutdown()`,
           title: 'Pide el mismo JSON desde la consola del navegador',
           body: [
             'En el navegador, el cliente ya no es Python sino JavaScript, el lenguaje que ejecuta la página. La **consola** del navegador (tecla F12, pestaña Consola) ejecuta JavaScript sobre la página abierta, y es el lugar más directo para probar un pedido. `fetch` hace el pedido HTTP y `await` espera la respuesta; la consola acepta un `await` suelto, mientras que dentro de un archivo `.js` tendría que ir en una función `async`.',
-            '`respuesta.ok` vale `true` solo si el status está entre 200 y 299, así que se revisa antes de leer el cuerpo, igual que en S12. Lo pruebas con el sitio del módulo siguiente: Python escribe `data.json` una vez, y después cualquier programa, sea el navegador o un script tuyo, puede pedirlo sin que Python vuelva a calcular nada.',
+            '`respuesta.ok` vale `true` solo si el status está entre 200 y 299, así que se revisa antes de leer el cuerpo, igual que en S12. Lo pruebas con el sitio del módulo siguiente. Allí Python escribe `data.json` una vez, y después cualquier programa, sea el navegador o un script tuyo, puede pedirlo sin que Python vuelva a calcular nada.',
           ],
           code: [
             {
@@ -302,7 +302,7 @@ servidor.shutdown()`, output: String.raw`404 {'error': 'no existe'}` },
           id: 'sitio.construir',
           title: 'Genera index.html y data.json con Python',
           body: [
-            'El script lee las ventas, arma las filas con `escape` y escribe dos archivos en la carpeta de destino. Los escribe en la carpeta `site`, junto al script: `mkdir(exist_ok=True)` la crea la primera vez y no falla si ya existe, así que puedes volver a ejecutarlo cada vez que cambien los datos.',
+            'El script lee las ventas, arma las filas con `escape` y escribe dos archivos en la carpeta de destino. Los escribe en la carpeta `site`, junto al script. `mkdir(exist_ok=True)` la crea la primera vez y no falla si ya existe, así que puedes volver a ejecutar el script cada vez que cambien los datos.',
             'La plantilla declara `charset="utf-8"` para que las tildes se vean bien, `lang="es"` para que el lector de pantalla pronuncie en español y `viewport` para que la tabla se adapte al celular. Los encabezados son botones: así se pueden pulsar con el teclado, no solo con el mouse.',
           ],
           code: [
@@ -372,8 +372,8 @@ nombre escapado: True
           id: 'sitio.ordenar',
           title: 'Ordena la tabla en el navegador con app.js',
           body: [
-            'JavaScript se lee parecido a Python, con otra puntuación: `const` crea un nombre que no se reasigna, `(a, b) => ...` es una función corta como un `lambda`, y las llaves `{ }` marcan el bloque que en Python marca la sangría. El **DOM** es la página tal como la ve JavaScript, un árbol de elementos que puede leer y cambiar; `document.querySelectorAll(\'th button\')` devuelve los botones de los encabezados, como una lista. Dos formas más aparecen abajo: `condición ? a : b` es el `a if condición else b` de Python, y `[...cuerpo.rows]` copia las filas en una lista nueva que se puede ordenar.',
-            'Ordenar lo que ya está en pantalla es trabajo del navegador: no hace falta volver a ejecutar Python ni recargar la página. El script escucha el clic en cada botón de encabezado, ordena las filas por esa columna (como número si ambas celdas son números, como texto si no) y alterna entre ascendente y descendente.',
+            'JavaScript se lee parecido a Python, aunque con otra puntuación. `const` crea un nombre que no se reasigna, `(a, b) => ...` es una función corta como un `lambda`, y las llaves `{ }` marcan el bloque que en Python marca la sangría. El **DOM** es la página tal como la ve JavaScript, un árbol de elementos que puede leer y cambiar; `document.querySelectorAll(\'th button\')` devuelve los botones de los encabezados, como una lista. Dos formas más aparecen abajo: `condición ? a : b` es el `a if condición else b` de Python, y `[...cuerpo.rows]` copia las filas en una lista nueva que se puede ordenar.',
+            'Ordenar lo que ya está en pantalla es trabajo del navegador: no hace falta volver a ejecutar Python ni recargar la página. El script escucha el clic en cada botón de encabezado y ordena las filas por esa columna: como número si ambas celdas son números, y como texto si no. Cada clic alterna entre orden ascendente y descendente.',
             '`aria-sort` es el atributo que le dice al lector de pantalla por qué columna y en qué sentido está ordenada la tabla. Guarda el archivo como `app.js` dentro de `site`, junto a `index.html`.',
           ],
           code: [{ language: 'javascript', title: 'app.js', code: String.raw`// app.js: ordena la tabla cuando pulsas un encabezado, sin volver a ejecutar Python
@@ -399,7 +399,7 @@ document.querySelectorAll('th button').forEach((boton, columna) => {
           id: 'sitio.servir',
           title: 'Sirve la carpeta en tu computadora',
           body: [
-            'Con doble clic en `index.html` ves la tabla, pero la dirección empieza con `file://` y la página no se comporta como en internet: el navegador no la deja pedir otros archivos con `fetch`, y ningún otro programa puede pedirle `data.json`. El servidor de la biblioteca estándar entrega la carpeta por HTTP, como lo hará el sitio publicado.',
+            'Con doble clic en `index.html` ves la tabla, pero la dirección empieza con `file://` y la página no se comporta como en internet. El navegador no la deja pedir otros archivos con `fetch`, y ningún otro programa puede pedirle `data.json`. El servidor de la biblioteca estándar entrega la carpeta por HTTP, como lo hará el sitio publicado.',
             'Ejecuta el comando desde la carpeta de tu proyecto y abre la dirección que muestra. Para detener el servidor, vuelve a la terminal y presiona Ctrl+C.',
           ],
           code: [{ language: 'bash', title: 'servir_sitio.sh', code: 'python -m http.server 8000 --directory site' }],
@@ -460,8 +460,8 @@ print(f"<p>Total de las {len(ventas)} sedes: S/ {total}</p>")`, output: String.r
           id: 'despliegue.elegir',
           title: 'Elige dónde publicar según lo que necesita tu sitio',
           body: [
-            'La pregunta que decide es si tu sitio necesita ejecutar Python cuando alguien lo visita. Si los datos se calculan una vez y se publican, basta un sitio estático; si cada visita debe consultar una base de datos o recibir un formulario, necesitas una función o un servidor.',
-            'Empieza por la primera fila. Las demás se estudian en el nivel avanzado: FastAPI en S41, contenedores en S43 y la nube en S45.',
+            'La pregunta que decide es si tu sitio necesita ejecutar Python cuando alguien lo visita. Si los datos se calculan una vez y se publican, basta un sitio estático. En cambio, si cada visita debe consultar una base de datos o recibir un formulario, necesitas una función o un servidor.',
+            'Empieza por la primera fila. Las demás se estudian en el nivel avanzado: FastAPI, la biblioteca de Python para escribir APIs web, en S41; los contenedores en S43, y la nube en S45.',
           ],
           table: {
             caption: 'Opciones de publicación, de la más simple a la más completa',
@@ -478,7 +478,7 @@ print(f"<p>Total de las {len(ventas)} sedes: S/ {total}</p>")`, output: String.r
           id: 'despliegue.rutas-relativas',
           title: 'Usa rutas relativas para que el sitio funcione en una subcarpeta',
           body: [
-            'GitHub Pages publica un proyecto en `https://tu-usuario.github.io/mi-sitio/`, es decir, dentro de una subcarpeta. Una ruta que empieza con `/`, como `/data.json`, apunta a la raíz del dominio y no encuentra el archivo; la ruta relativa `data.json` se busca junto a la página y sí lo encuentra.',
+            'GitHub Pages publica un proyecto en `https://tu-usuario.github.io/mi-sitio/`, es decir, dentro de una subcarpeta. Una ruta que empieza con `/`, como `/data.json`, apunta a la raíz del dominio y no encuentra el archivo. La ruta relativa `data.json`, en cambio, se busca junto a la página y sí lo encuentra.',
             'El bloque compara las dos con `urljoin`, la función que hace el mismo cálculo que el navegador.',
           ],
           code: [
@@ -530,7 +530,7 @@ gh repo create mi-sitio --public --source . --push`,
             },
             {
               symptom: 'En **Settings → Pages** no aparece la rama `main`, solo `master`.',
-              steps: ['Tu Git creó la rama con el nombre antiguo. Renómbrala y súbela: `git branch -M main` y luego `git push -u origin main`. Para los proyectos siguientes, `git config --global init.defaultBranch main`, como en la Sesión 0.'],
+              steps: ['Tu Git creó la rama con el nombre antiguo, así que renómbrala y súbela: `git branch -M main` y luego `git push -u origin main`. Para que los proyectos siguientes empiecen en `main`, ejecuta `git config --global init.defaultBranch main`, como en la Sesión 0.'],
             },
           ],
           guide: { label: 'GitHub Docs: crear un sitio de GitHub Pages', url: 'https://docs.github.com/es/pages/getting-started-with-github-pages/creating-a-github-pages-site' },
@@ -567,8 +567,8 @@ gh repo create mi-sitio --public --source . --push`,
           id: 'despliegue.python-servidor',
           title: 'Reconoce cuándo el sitio necesita Python en el servidor',
           body: [
-            'Si el sitio debe recibir un formulario o consultar una base de datos en cada visita, ya no basta un archivo: necesitas código que corra en el servidor. Vercel detecta una app FastAPI en un archivo `app.py` con una variable `app`, y Cloudflare ejecuta Python en Workers con la herramienta `pywrangler`; las dos opciones tienen planes gratuitos con límites de uso.',
-            'Ese camino trae decisiones nuevas, como dónde guardar los secretos, cómo validar lo que llega y cómo probar la API, que el curso trata en S41 (FastAPI y contratos HTTP) y S42 (seguridad de servicios). Para este desvío basta con que sepas reconocerlo y elegir el sitio estático mientras tus datos no cambien con cada visita.',
+            'Si el sitio debe recibir un formulario o consultar una base de datos en cada visita, ya no basta un archivo: necesitas código que corra en el servidor. Vercel detecta una app FastAPI en un archivo `app.py` con una variable `app`, y Cloudflare ejecuta Python en Workers con la herramienta `pywrangler`. Las dos opciones tienen planes gratuitos con límites de uso.',
+            'Ese camino trae decisiones nuevas, como dónde guardar los secretos, cómo validar lo que llega y cómo probar la API. El curso las trata en S41 (FastAPI y contratos HTTP) y en S42 (seguridad de servicios). Para este desvío basta con que sepas reconocerlo y elegir el sitio estático mientras tus datos no cambien con cada visita.',
           ],
           expect: 'Puedes explicar por qué tu sitio de ventas no necesita Python en el servidor, y qué cambio en los requisitos lo haría necesario.',
           guide: { label: 'Vercel Docs: el runtime de Python', url: 'https://vercel.com/docs/functions/runtimes/python' },
@@ -602,7 +602,7 @@ print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`
       goal: 'Dibujas entidades, atributos y relaciones, eliges las claves, y conviertes el dibujo en tablas que SQLite hace cumplir.',
       buildsOn: ['oop-domain', 'apis-sql-geo'],
       intro: [
-        'En S12 creaste tablas para guardar evidencia. Antes de escribir `CREATE TABLE` conviene un paso más abstracto: decidir qué **entidades** existen (las cosas de las que guardas datos, como una sede o un producto), qué **atributos** tiene cada una (sus columnas) y cómo se **relacionan**. Ese dibujo se llama modelo entidad-relación, y es el mismo razonamiento que hiciste con las clases del dominio en S11.',
+        'En S12 creaste tablas para guardar evidencia, y antes de escribir `CREATE TABLE` conviene un paso más abstracto. Primero decides qué **entidades** existen (las cosas de las que guardas datos, como una sede o un producto), qué **atributos** tiene cada una (sus columnas) y cómo se **relacionan**. Ese dibujo se llama modelo entidad-relación, y es el mismo razonamiento que hiciste con las clases del dominio en S11.',
         'Cada relación tiene una **cardinalidad**, es decir, cuántos de un lado corresponden a cuántos del otro. Una sede tiene muchas ventas y cada venta pertenece a una sola sede (uno a muchos); una sede vende muchos productos y un producto se vende en muchas sedes (muchos a muchos). El módulo no depende del sitio ni de su publicación, así que puedes hacerlo antes o después de ellos.',
       ],
       steps: [
