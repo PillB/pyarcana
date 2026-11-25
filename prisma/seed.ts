@@ -5246,7 +5246,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El mínimo y el máximo, que muestran todo el rango de montos',
       ],
       correctIndex: 1,
-      explanation: 'Con cola larga, el contrato de la sección es n, un centro robusto (mediana con IQR) y al menos un cuantil de cola (p90, p95 o el máximo). Media y std asumen una forma simétrica que estos datos no tienen. La media sola se arrastra con la cola, y mínimo y máximo dependen de dos filas extremas.',
+      explanation: 'Con cola larga, el contrato de la sección es n, un centro robusto (mediana con IQR) y al menos un cuantil de cola (p90, p95 o el máximo). Media y std se pueden calcular con cola larga, pero unos pocos montos extremos las mueven mucho y dejan de describir un ticket típico. La media sola se arrastra con la cola, y mínimo y máximo dependen de dos filas extremas.',
     },
     {
       concept: 'center-spread-quantiles',
