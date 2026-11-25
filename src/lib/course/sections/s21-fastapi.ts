@@ -680,14 +680,18 @@ a11y_min sin_h1 False`,
     print(list(prov["artifacts"]))
     print("sha256_por_archivo", all(len(a["sha256"]) == 64 for a in prov["artifacts"].values()))
     print("checks", checks)
-    print("ready_for_review", all(checks.values()))
+    archivos_ok = all(checks.values())
+    revisado = all(prov["visual_checklist"].get(k, False) for k in ("dashboard", "xlsx", "doc"))
+    print("archivos_ok", archivos_ok)
+    print("ready_for_review", archivos_ok and revisado)  # False hasta que una persona marque el checklist
     print("approval", prov["approval"]["status"])
 
 s21_ido_8()`,
  output: `['informe.docx', 'informe.pdf', 'informe-p1.png']
 sha256_por_archivo True
 checks {'informe.docx': True, 'informe.pdf': True, 'informe-p1.png': True}
-ready_for_review True
+archivos_ok True
+ready_for_review False
 approval pending_review`,
  },
  why: "Provenance + checklist visual cierran CP-N2-B: el revisor sabe qué corrida, con qué huella y qué miró. El SHA-256 de cada archivo permite comprobar después que nadie lo editó; el recorte de 8 hex es solo el id didáctico de los datos. Los hashes del DOCX y del PDF cambian en cada corrida, porque ambos guardan dentro la fecha y hora en que se generaron. Compara el hash con el del manifiesto de la misma corrida, no con el de ayer. El estado honesto de cierre de contenido es `pending_review`, no `approved` hardcodeado en el script del factory.",
