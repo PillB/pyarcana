@@ -62,6 +62,10 @@ Enforcing it means changing what a credential claims and how sections unlock, wh
 under "Ask first". The cost: a learner can ignore the banner. The next step, if Pablo wants it, is a
 decision on whether the level-3 badge requires the track, made with the badge owner.
 
+**Decided (Pablo, 25 Nov 2026):** keep "required" a visible reminder; no badge reads it. Reason
+given with the choice: ticks live only in this browser, so a badge that depended on them could be
+lost on a new device; syncing ticks to an account would come first.
+
 ## 4. Its own ticks
 
 `pyarcana:track:ruta-web:v1`, separate from `python-ds-progress` and from Sesión 0. A track tick can
