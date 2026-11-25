@@ -9,9 +9,14 @@ are in [`RESEARCH.md`](RESEARCH.md) and [`graph.json`](graph.json).
 
 - the view `#ruta-web` inside the course shell (`src/components/tracks/WebTrackView.tsx`);
 - the logic in `src/lib/tracks/` (placement, progress, preview) and the content in
-  `src/lib/tracks/web/content.ts` (5 modules, 16 steps, 7 Python blocks, `app.js`);
+  `src/lib/tracks/web/content.ts` (5 modules, 21 steps, one «Hazlo tú» practice per module with a
+  hint and a solution that runs, `app.js`);
 - a banner on S12 and S13 (detour) and on S27 (required) via `WebTrackLink` in `SectionView`;
-- the test `src/lib/cloud/__tests__/web-track.test.ts` (client group, floor 21);
+- the test `src/lib/cloud/__tests__/web-track.test.ts` (client group, floor 30; 31 tests);
+- `scripts/web_track_learner_walk.mjs`: every step done as a learner would, in a temp project,
+  checked in Chromium, plus `wrangler deploy --dry-run` with `WALK_WRANGLER=1` (26/26);
+- `scripts/web_track_sync_check.cjs`: two real tabs and every view agree (14/14);
+- the state machines, their defects and the four red-team passes: [`STATE_MACHINES.md`](STATE_MACHINES.md);
 - the research and knowledge map: `RESEARCH.md` and `graph.json` (73 concepts, 92 dependencies).
 
 **Learner-facing prose is a proposal.** AGENTS.md (owner rule, 9 Nov 2026) says Claude-written
@@ -105,6 +110,11 @@ one touches the progress schema (a protected path) and is left for a separate ch
 | (research) Modelling sat between HTTP and the site although nothing later depends on it. | Moved to module 5 and said to be independent; the site-and-publish arc now runs 1→4 without a detour. |
 | A link to another module while the track is open did not scroll (no remount). | The view also listens to `hashchange`; checked in Chromium at 1280 and 375 px. |
 | Python older than 3.12 runs the check. | The test refuses with `REFUSED` and the interpreter found, never skips. |
+| (learner walk) `construir_sitio.py` wrote to a temporary folder, so the learner had no `site/` to serve or publish. | Writes `site/` beside the script; the walk serves and publishes that folder. |
+| (state machines) Two tabs erased each other's ticks; a stale tab's click flipped instead of setting; a tick overwrote a record it could not read. | Set-intent commits on the latest stored record, a `storage` listener, a backup key. STATE_MACHINES.md SM1 and SM2. |
+| (state machines) The track page said "upcoming" or "optional" while S27 said "required"; S12 said "optional" to an advanced learner. | Standing reads every touched section and a furthest-section mark; the S12 title follows the standing. SM3 and SM4. |
+| (state machines) The prose cites 15 sections by number ("FastAPI en S41"). | A test pins each number to its slug and simulates an insertion before S12. |
+| (state machines) A learner without Sesión 0 gets a `master` branch and Pages offers no `main`. | A «Si no funciona» with `git branch -M main`, run against a `master` repository. |
 
 ## 7. Work left undone (named, not absorbed)
 
@@ -116,8 +126,11 @@ one touches the progress schema (a protected path) and is left for a separate ch
   Sesión 0. Auto-graded exercises would need the Pyodide playground, which cannot run a server or
   write files.
 - The English UI strings exist; the content is Spanish only, as Sesión 0's is.
-- `app.js` is verified against a minimal fake DOM, not a real browser; the browser check in this
-  round covered rendering and the preview frame, not clicking the learner's own published site.
+- Publishing is checked up to `wrangler deploy --dry-run` and a local Pages-style server; no real
+  GitHub Pages or Cloudflare deployment was made, because that needs the learner's own accounts.
+- Adding a step later moves learners who finished the track back from "done" (STATE_MACHINES.md SM3).
+- The course's own progress does not sync between tabs (a protected store); the track's standing
+  no longer depends on it, other course views still do.
 
 ## 8. Browser evidence (static export, base path /pyarcana, Chromium)
 

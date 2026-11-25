@@ -59,6 +59,16 @@ export function toggleTrackStep(p: TrackProgress, id: string): TrackProgress {
   return p.done.includes(id) ? { done: p.done.filter((d) => d !== id) } : { done: [...p.done, id] }
 }
 
+/**
+ * Sets one step to the state the learner asked for. An intent ("done" or "not done"), not a flip:
+ * a stale tab whose checkbox shows a step unticked, clicked, means "done" even if another tab
+ * already ticked it.
+ */
+export function setTrackStep(p: TrackProgress, id: string, done: boolean): TrackProgress {
+  if (!isTrackStepId(id) || p.done.includes(id) === done) return p
+  return done ? { done: [...p.done, id] } : { done: p.done.filter((d) => d !== id) }
+}
+
 export function countTrackDone(p: TrackProgress, ids: readonly string[]): number {
   const done = new Set(p.done)
   return ids.reduce((n, id) => n + (done.has(id) ? 1 : 0), 0)
@@ -83,6 +93,78 @@ export function saveTrackProgress(store: KeyValueStore | null | undefined, track
   if (!store) return false
   try {
     store.setItem(trackProgressKey(trackId), serializeTrackProgress(p))
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** True when a stored value is not a v1 record this code wrote: unparseable, another shape, or a newer version. */
+export function isForeignTrackRecord(raw: string | null | undefined): boolean {
+  if (!raw) return false
+  try {
+    const data = JSON.parse(raw) as Record<string, unknown> | null
+    return !data || typeof data !== 'object' || Array.isArray(data) || data.v !== 1 || !Array.isArray(data.done)
+  } catch {
+    return true
+  }
+}
+
+/** Where an unreadable record is copied before the first tick overwrites it. */
+export function trackBackupKey(trackId: string, stamp: number): string {
+  return `${trackProgressKey(trackId)}:unreadable:${stamp}`
+}
+
+/**
+ * Applies one tick to the latest stored record, not to the copy this page loaded, and saves it.
+ * Two open tabs each write their own change on top of the other's, so neither erases the other
+ * (the localStorage analogue of an optimistic merge; STATE_MACHINES.md, SM2). A stored value this
+ * code cannot read (corrupt, or written by a newer version) is copied to a backup key first and
+ * the write is refused if the copy fails, so a tick never destroys what it could not read. When the
+ * browser refuses to save, the change is still returned so the page shows it, with `saved: false`.
+ */
+export function commitTrackStep(
+  store: KeyValueStore | null | undefined,
+  trackId: string,
+  id: string,
+  done: boolean,
+  now: () => number = Date.now,
+): { progress: TrackProgress; saved: boolean } {
+  const progress = setTrackStep(loadTrackProgress(store, trackId), id, done)
+  if (!backUpForeignRecord(store, trackId, now)) return { progress, saved: false }
+  return { progress, saved: saveTrackProgress(store, trackId, progress) }
+}
+
+function backUpForeignRecord(store: KeyValueStore | null | undefined, trackId: string, now: () => number): boolean {
+  if (!store) return false
+  try {
+    const raw = store.getItem(trackProgressKey(trackId))
+    if (isForeignTrackRecord(raw)) store.setItem(trackBackupKey(trackId, now()), raw as string)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** `pyarcana:track:<id>:furthest:v1`: the furthest section opened, a slug (placement.advanceFurthest). */
+export function trackFurthestKey(trackId: string): string {
+  trackProgressKey(trackId) // validates the id, throwing with the reason
+  return `pyarcana:track:${trackId}:furthest:v1`
+}
+
+export function loadTrackFurthest(store: KeyValueStore | null | undefined, trackId: string): string | null {
+  try {
+    const raw = store?.getItem(trackFurthestKey(trackId)) ?? null
+    return isTrackStepId(raw) ? raw : null
+  } catch {
+    return null
+  }
+}
+
+export function saveTrackFurthest(store: KeyValueStore | null | undefined, trackId: string, slug: string): boolean {
+  if (!store || !isTrackStepId(slug)) return false
+  try {
+    store.setItem(trackFurthestKey(trackId), slug)
     return true
   } catch {
     return false

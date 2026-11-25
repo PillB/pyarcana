@@ -25,7 +25,7 @@ const STANDING_TONE = {
 export function WebTrackView() {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
-  const { progress, toggle, done, total, standing, saveFailed } = useWebTrack()
+  const { progress, setStep, done, total, standing, saveFailed } = useWebTrack()
   // Opened from a section banner the page is scrolled down; start at the top, or at the module a
   // shared link names (#ruta-web/modelo).
   // A link to another module while the track is open (#ruta-web/sitio → #ruta-web/modelo) does not
@@ -102,7 +102,7 @@ export function WebTrackView() {
             </div>
             <ol className="mt-4 space-y-4">
               {m.steps.map((step, n) => (
-                <TrackStepView key={step.id} step={step} number={`${i + 1}.${n + 1}`} done={progress.done.includes(step.id)} onToggle={() => toggle(step.id)} />
+                <TrackStepView key={step.id} step={step} number={`${i + 1}.${n + 1}`} done={progress.done.includes(step.id)} onToggle={(checked) => setStep(step.id, checked)} />
               ))}
             </ol>
           </section>

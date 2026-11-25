@@ -70,22 +70,37 @@ export type TrackStanding = 'upcoming' | 'optional' | 'required' | 'done'
 
 export interface LearnerPosition {
   completedSections: readonly string[]
+  /** Parts done per section (`useProgressStore`): a non-empty entry means the learner opened it. */
+  completedSubSteps?: Readonly<Record<string, readonly string[]>>
+  /** The last section the learner opened, wherever they are now. */
+  lastVisited?: string | null
   /** The section open now, if any. */
   currentSectionId?: string | null
+  /** The furthest section this browser has ever shown, kept by the track (`advanceFurthest`). */
+  furthestSeen?: string | null
 }
 
-/** The furthest phase the learner has reached: a completed section or the one open now. */
-function reachedPhase(sections: readonly PlacedSection[], pos: LearnerPosition): number {
+/**
+ * Every section the learner has touched: completed, open now, last opened, or with a part done.
+ * The track page has no open section, so a rule that read only "completed + open" gave it a lower
+ * standing than the section banner showed a moment earlier (STATE_MACHINES.md, SM3).
+ */
+function touchedSections(pos: LearnerPosition): Set<string> {
   const touched = new Set(pos.completedSections)
   if (pos.currentSectionId) touched.add(pos.currentSectionId)
-  return sections.reduce((max, s) => (touched.has(s.id) && (s.phase ?? 0) > max ? s.phase ?? 0 : max), -1)
+  if (pos.lastVisited) touched.add(pos.lastVisited)
+  if (pos.furthestSeen) touched.add(pos.furthestSeen)
+  for (const [id, parts] of Object.entries(pos.completedSubSteps ?? {})) {
+    if (parts.length > 0) touched.add(id)
+  }
+  return touched
 }
 
 /**
  * The track's standing for this learner. `done` wins; then `required` once the learner has
- * reached the phase where it becomes required; then `optional` once the anchor section is
- * complete or a later one has been reached; `upcoming` before that. Never a lock: every standing
- * opens the track.
+ * touched a section of the phase where it becomes required; then `optional` once the anchor
+ * section is complete or a later one has been touched; `upcoming` before that. Never a lock:
+ * every standing opens the track.
  */
 export function trackStanding(
   placement: TrackPlacement,
@@ -94,10 +109,10 @@ export function trackStanding(
   trackComplete: boolean,
 ): TrackStanding {
   if (trackComplete) return 'done'
-  if (reachedPhase(sections, pos) >= placement.requiredFromPhase) return 'required'
-  const completed = new Set(pos.completedSections)
-  const current = sections.find((s) => s.id === pos.currentSectionId)
-  const pastAnchor = completed.has(placement.recommendedAfter.id) || (current?.index ?? 0) > placement.recommendedAfter.index
+  const touched = sections.filter((s) => touchedSections(pos).has(s.id))
+  if (touched.some((s) => (s.phase ?? 0) >= placement.requiredFromPhase)) return 'required'
+  const pastAnchor =
+    pos.completedSections.includes(placement.recommendedAfter.id) || touched.some((s) => s.index > placement.recommendedAfter.index)
   return pastAnchor ? 'optional' : 'upcoming'
 }
 
@@ -112,4 +127,27 @@ export function trackLinkFor(sectionId: string, placement: TrackPlacement, track
   if (sectionId === placement.requiredBefore.id) return trackComplete ? null : 'required'
   if (sectionId === placement.recommendedAfter.id) return 'detour'
   return placement.offeredIn.some((s) => s.id === sectionId) ? 'detour' : null
+}
+
+/**
+ * The banner title for a section's link. A learner already in the advanced level who goes back to
+ * S12 must not read "optional detour" there while the track page tells them it is required
+ * (STATE_MACHINES.md, SM4): on a detour section the title follows the standing.
+ */
+export function trackLinkTitleKey(kind: TrackLinkKind, standing: TrackStanding): string {
+  if (kind === 'detour' && standing === 'required') return 'track.link.detour.titleRequired'
+  return `track.link.${kind}.title`
+}
+
+/**
+ * A high-water mark: the furthest section the learner has opened, by course order. The course
+ * store keeps only the last section opened, so a learner who opened S27 and went back to S12 would
+ * otherwise drop to "optional" (STATE_MACHINES.md, SM3). Kept as a slug, so a renumbering keeps
+ * pointing at the same lesson; a slug that no longer exists is replaced by the next real one.
+ */
+export function advanceFurthest(sections: readonly PlacedSection[], stored: string | null, candidate: string | null | undefined): string | null {
+  const next = sections.find((s) => s.id === candidate)
+  if (!next) return stored
+  const prev = sections.find((s) => s.id === stored)
+  return !prev || next.index > prev.index ? next.id : stored
 }

@@ -2,7 +2,7 @@
 
 import { ArrowRight, Globe } from 'lucide-react'
 import { t, useI18n } from '@/lib/i18n'
-import { trackLinkFor } from '@/lib/tracks/placement'
+import { trackLinkFor, trackLinkTitleKey } from '@/lib/tracks/placement'
 import { WEB_TRACK_PLACEMENT } from '@/lib/tracks/web/placed'
 import { useWebTrack } from './useWebTrack'
 
@@ -14,15 +14,15 @@ import { useWebTrack } from './useWebTrack'
 export function WebTrackLink({ sectionId, className = '' }: { sectionId: string; className?: string }) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
-  const { complete } = useWebTrack(sectionId)
+  const { complete, standing } = useWebTrack(sectionId)
   const kind = trackLinkFor(sectionId, WEB_TRACK_PLACEMENT, complete)
   if (!kind) return null
   const tone = kind === 'required' ? 'border-amber-500/50 bg-amber-500/10' : 'border-primary/30 bg-primary/5'
   return (
-    <aside className={`flex flex-wrap items-center gap-3 rounded-lg border p-3 text-sm ${tone} ${className}`} data-testid="web-track-link" data-kind={kind}>
+    <aside className={`flex flex-wrap items-center gap-3 rounded-lg border p-3 text-sm ${tone} ${className}`} data-testid="web-track-link" data-kind={kind} data-standing={standing}>
       <Globe className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
       <div className="min-w-0 flex-1">
-        <p className="font-semibold">{tr(`track.link.${kind}.title`)}</p>
+        <p className="font-semibold">{tr(trackLinkTitleKey(kind, standing))}</p>
         <p className="text-muted-foreground">{tr(`track.link.${kind}.body`)}</p>
       </div>
       <a

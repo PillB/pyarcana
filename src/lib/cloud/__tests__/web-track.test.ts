@@ -10,11 +10,18 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { COURSE_SECTIONS } from '@/lib/course'
 import { parseCourseHash, WEB_TRACK_HASH } from '@/lib/course/hash-route'
-import { resolveTrackPlacement, trackLinkFor, trackStanding, type PlacedSection } from '@/lib/tracks/placement'
+import { advanceFurthest, resolveTrackPlacement, trackLinkFor, trackLinkTitleKey, trackStanding, type PlacedSection } from '@/lib/tracks/placement'
 import { previewFrameProps } from '@/lib/tracks/preview'
 import {
+  commitTrackStep,
+  trackBackupKey,
+  loadTrackFurthest,
+  saveTrackFurthest,
   countTrackDone,
   loadTrackProgress,
   parseTrackProgress,
@@ -26,9 +33,12 @@ import {
 import { WEB_TRACK, WEB_TRACK_ANCHORS, WEB_TRACK_ID } from '@/lib/tracks/web/content'
 import { WEB_TRACK_PLACEMENT, WEB_TRACK_STEP_IDS, trackModuleFromHash } from '@/lib/tracks/web/placed'
 import { SETUP_PROGRESS_KEY } from '@/lib/setup/progress'
+import { t } from '@/lib/i18n'
 
 const COURSE_PROGRESS_KEY = 'python-ds-progress'
 const ALL_STEPS = WEB_TRACK.modules.flatMap((m) => m.steps.map((s) => ({ module: m.id, step: s })))
+/** Every code block a step shows, the hidden «Hazlo tú» solution included. */
+const blocksOf = (step: (typeof ALL_STEPS)[number]['step']) => [...(step.code ?? []), ...(step.exercise ? [step.exercise.solution] : [])]
 
 // ---------------------------------------------------------------------------------------------
 // Ticks: their own key, fail safe, never the course record
@@ -246,10 +256,13 @@ test('every Python block runs and prints exactly its declared output', () => {
   assert.ok(major === 3 && minor >= 12, `REFUSED: ${py.bin} is Python ${py.version}; the track is written for 3.12 or later.`)
   let ran = 0
   for (const { step } of ALL_STEPS) {
-    for (const c of step.code ?? []) {
+    for (const c of blocksOf(step)) {
       if (c.language !== 'python') continue
       assert.ok(c.output, `${step.id}/${c.title}: a Python block must declare what it prints`)
-      const r = spawnSync(py.bin, ['-I', '-'], { input: c.code, encoding: 'utf8', timeout: 20_000 })
+      // A fresh, empty folder per block, as a learner's project folder: construir_sitio.py writes site/ there.
+      const cwd = mkdtempSync(path.join(tmpdir(), 'ruta-web-'))
+      const r = spawnSync(py.bin.includes('/') ? path.resolve(py.bin) : py.bin, ['-I', '-'], { input: c.code, encoding: 'utf8', timeout: 20_000, cwd })
+      rmSync(cwd, { recursive: true, force: true })
       assert.equal(r.status, 0, `${step.id}/${c.title} exited ${r.status} under ${py.bin} ${py.version}:\n${r.stderr}`)
       assert.equal(
         r.stdout.trimEnd(),
@@ -259,7 +272,7 @@ test('every Python block runs and prints exactly its declared output', () => {
       ran++
     }
   }
-  assert.ok(ran >= 7, `expected at least 7 Python blocks, ran ${ran}`)
+  assert.ok(ran >= 12, `expected at least 12 Python blocks (7 worked examples, 5 solutions), ran ${ran}`)
 })
 
 /** A DOM just big enough for app.js: header buttons, a tbody, aria-sort on the headers. */
@@ -297,7 +310,7 @@ test('app.js sorts numbers as numbers, text as text, toggles direction and marks
 
 test('a JavaScript block with a top-level await is presented as console code, never as a page script', () => {
   for (const { step } of ALL_STEPS) {
-    for (const c of step.code ?? []) {
+    for (const c of blocksOf(step)) {
       if (c.language !== 'javascript') continue
       // Defect guarded (research round, 25 Nov 2026): `await` outside a function is a SyntaxError
       // in a classic <script src>, so a learner who saves the block as a page script gets nothing.
@@ -340,4 +353,177 @@ test('the knowledge map is a sound graph and names only modules the track has', 
   }
   for (const l of [...g.loose, ...(g.resolved ?? [])]) assert.ok(ids.has(l.node), `loose/resolved entry ${l.node} names no node`)
   for (const r of g.resolved ?? []) assert.match(r.action, /^(REMOVE|REPHRASE|GLOSS|TEACH|DEFER)$/, `${r.node}: unknown action ${r.action}`)
+})
+
+test('every module ends with a «Hazlo tú» practice whose solution is hidden, runnable and different from the worked example', () => {
+  for (const m of WEB_TRACK.modules) {
+    const last = m.steps[m.steps.length - 1]
+    // Defect guarded: a module that only shows worked examples, so the learner never writes code.
+    assert.ok(last.exercise, `module ${m.id} must end with a practice step (exercise), found ${last.id}`)
+    assert.equal(last.exercise.solution.language, 'python', `${last.id}: the solution must be a Python block the test can run`)
+    assert.ok(last.expect, `${last.id}: a practice needs a «Deberías ver» the learner can compare with`)
+    const worked = m.steps.flatMap((s) => s.code ?? []).map((c) => c.code)
+    assert.ok(!worked.includes(last.exercise.solution.code), `${last.id}: the solution repeats a worked example instead of transferring it`)
+  }
+})
+
+// ---------------------------------------------------------------------------------------------
+// State machines (audit/tracks/web/STATE_MACHINES.md): two tabs, and one standing across views
+// ---------------------------------------------------------------------------------------------
+
+function mapStore() {
+  const m = new Map<string, string>()
+  return { m, kv: { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => void m.set(k, v) } }
+}
+
+test('two open tabs: a tick in one survives a tick from the other tab, whose copy is stale', () => {
+  const { kv } = mapStore()
+  // Both tabs loaded the empty record. Tab A ticks html.reparto; tab B, still holding the empty
+  // record, ticks http.navegador. Defect guarded: B writes its whole stale copy and A's tick is lost.
+  const a = commitTrackStep(kv, WEB_TRACK_ID, 'html.reparto', true)
+  const b = commitTrackStep(kv, WEB_TRACK_ID, 'http.navegador', true)
+  assert.ok(a.saved && b.saved)
+  assert.deepEqual(loadTrackProgress(kv, WEB_TRACK_ID).done, ['html.reparto', 'http.navegador'])
+  assert.deepEqual(b.progress.done, ['html.reparto', 'http.navegador'], 'the tab that saved last must show both ticks')
+})
+
+test('two open tabs: unticking in one tab does not resurrect or erase what the other changed', () => {
+  const { kv } = mapStore()
+  commitTrackStep(kv, WEB_TRACK_ID, 'html.reparto', true)
+  commitTrackStep(kv, WEB_TRACK_ID, 'sitio.servir', true) // tab A
+  commitTrackStep(kv, WEB_TRACK_ID, 'html.reparto', false) // tab B, which saw html.reparto ticked
+  // The intent is the checkbox's new state, not a flip: a stale tab that shows a step unticked and
+  // is clicked means "done", even if another tab already ticked it.
+  commitTrackStep(kv, WEB_TRACK_ID, 'sitio.servir', true)
+  assert.deepEqual(loadTrackProgress(kv, WEB_TRACK_ID).done, ['sitio.servir'])
+})
+
+test('a commit to a browser that refuses storage reports it and keeps the change in the page', () => {
+  const refusing = { getItem: () => null, setItem: () => { throw new Error('QuotaExceededError') } }
+  const r = commitTrackStep(refusing, WEB_TRACK_ID, 'html.reparto', true)
+  assert.equal(r.saved, false)
+  assert.deepEqual(r.progress.done, ['html.reparto'], 'the learner still sees the tick for this visit')
+})
+
+test('one standing everywhere: a learner who opened S27 sees "required" on the track page too, not only on S27', () => {
+  const secs = liveSections()
+  const s27 = WEB_TRACK_PLACEMENT.requiredBefore.id
+  const opened = { completedSections: [], completedSubSteps: { [s27]: ['theory'] }, lastVisited: s27 }
+  // Defect guarded: the track page has no current section, so a rule that read only completed
+  // sections and the open one said "upcoming" there while S27's banner said "required".
+  assert.equal(trackStanding(WEB_TRACK_PLACEMENT, secs, { ...opened, currentSectionId: null }, false), 'required')
+  assert.equal(trackStanding(WEB_TRACK_PLACEMENT, secs, { completedSections: [], lastVisited: s27 }, false), 'required')
+  assert.equal(trackStanding(WEB_TRACK_PLACEMENT, secs, { completedSections: [], completedSubSteps: { [s27]: [] } }, false), 'upcoming', 'an empty entry is not a visit')
+})
+
+test('the standing is a pure function of its inputs: every combination lands in exactly one state, and done always wins', () => {
+  const secs = liveSections()
+  const slugAt = (i: number) => secs.find((s) => s.index === i)!.id
+  const positions = [[], [slugAt(12)], [slugAt(26)], [slugAt(27)], [slugAt(52)]]
+  const seen = new Set<string>()
+  for (const completed of positions) {
+    for (const current of [null, slugAt(5), slugAt(13), slugAt(30)]) {
+      for (const complete of [false, true]) {
+        const s = trackStanding(WEB_TRACK_PLACEMENT, secs, { completedSections: completed, currentSectionId: current }, complete)
+        seen.add(s)
+        if (complete) assert.equal(s, 'done')
+        // Never "upcoming" once the learner is past S12, never "optional" in phase 2 or later.
+        const touchedIdx = [...completed, current].filter(Boolean).map((id) => secs.find((x) => x.id === id)!.index)
+        const furthest = Math.max(0, ...touchedIdx)
+        if (!complete && furthest >= 27) assert.equal(s, 'required', `furthest S${furthest}`)
+        if (!complete && furthest > 12 && furthest < 27) assert.equal(s, 'optional', `furthest S${furthest}`)
+      }
+    }
+  }
+  assert.deepEqual([...seen].sort(), ['done', 'optional', 'required', 'upcoming'], 'every state is reachable')
+})
+
+test('a tick never destroys a stored record it cannot read: the record is copied to a backup key first', () => {
+  const { kv, m: map } = mapStore()
+  const key = trackProgressKey(WEB_TRACK_ID)
+  // Defect guarded: commit read the corrupt record as empty and wrote over it, so a record written
+  // by a newer version of the page (or damaged) was lost on the first tick.
+  for (const foreign of ['{not json', JSON.stringify({ v: 2, done: { 'html.reparto': '2026-11-25' } })]) {
+    map.clear()
+    map.set(key, foreign)
+    const r = commitTrackStep(kv, WEB_TRACK_ID, 'html.reparto', true, () => 1700)
+    assert.equal(r.saved, true)
+    assert.equal(map.get(trackBackupKey(WEB_TRACK_ID, 1700)), foreign, `the unreadable record ${foreign} must survive under the backup key`)
+    assert.deepEqual(loadTrackProgress(kv, WEB_TRACK_ID).done, ['html.reparto'])
+  }
+  // A record this code wrote is not backed up on every tick.
+  map.clear()
+  commitTrackStep(kv, WEB_TRACK_ID, 'html.reparto', true, () => 1)
+  commitTrackStep(kv, WEB_TRACK_ID, 'sitio.servir', true, () => 2)
+  assert.deepEqual([...map.keys()], [key], 'no backup for a readable v1 record')
+})
+
+test('a banner never contradicts the track page: on S12 a learner already in the advanced level reads "still to do", not "optional"', () => {
+  const kinds = ['detour', 'required'] as const
+  const standings = ['upcoming', 'optional', 'required', 'done'] as const
+  for (const kind of kinds) {
+    for (const standing of standings) {
+      const key = trackLinkTitleKey(kind, standing)
+      const optionalWording = key === 'track.link.detour.title'
+      // Defect guarded: S12 kept saying "Desvío opcional" while the track page said "Requerida".
+      assert.ok(!(standing === 'required' && optionalWording), `${kind}/${standing} shows ${key}`)
+      for (const lang of ['es-PE', 'es-ES', 'en'] as const) {
+        assert.notEqual(t(key, lang), key, `${key} has no ${lang} text`)
+      }
+    }
+  }
+  assert.equal(trackLinkTitleKey('detour', 'optional'), 'track.link.detour.title')
+})
+
+test('every section number written in the track prose still names the section it meant (renumbering drift)', () => {
+  // The prose says "S12", "S41"... for the learner. Placement is by slug, but these words are not:
+  // if sections are renumbered, "FastAPI en S41" would point at another lesson. Each number is
+  // pinned here to the slug it meant on 25 Nov 2026; a new number in the prose must be added here.
+  const meant: Record<number, string> = {
+    1: 'setup', 2: 'basics', 7: 'text-unicode-regex', 8: 'files-ingestion', 11: 'oop-domain',
+    12: 'apis-sql-geo', 13: 'evidence-dashboard', 15: 'stdlib-deep', 21: 'fastapi', 27: 'async-concurrency',
+    38: 'performance-extreme', 41: 'llm-finetuning', 42: 'graph-rag', 43: 'llmops', 45: 'iac',
+  }
+  const prose = [
+    JSON.stringify(WEB_TRACK),
+    ...(['es-PE', 'es-ES', 'en'] as const).flatMap((lang) =>
+      ['track.standing.upcoming', 'track.standing.optional', 'track.standing.required', 'track.link.detour.body', 'track.link.required.body'].map((k) => t(k, lang)),
+    ),
+  ].join('\n')
+  const numbers = new Set([...prose.matchAll(/\b(?:S|Secci[oó]n |Section )(\d{1,2})\b/g)].map((m) => Number(m[1])))
+  assert.ok(numbers.size >= 6, `expected the prose to cite sections, found ${[...numbers]}`)
+  for (const n of numbers) {
+    assert.ok(meant[n], `the track prose cites section ${n}, which this test does not pin. Add ${n}: '<slug it means>' to "meant".`)
+  }
+  const drift = (sections: readonly { id: string; index: number }[]) =>
+    [...numbers].flatMap((n) => {
+      const now = sections.find((s) => s.index === n)
+      return now?.id === meant[n] ? [] : [`section ${n} is now "${now?.id}", but the prose meant "${meant[n]}". Update the number in src/lib/tracks/web/content.ts (or i18n.ts) to the section's new number.`]
+    })
+  assert.deepEqual(drift(COURSE_SECTIONS), [])
+  // Simulated drift: a section inserted before S12 shifts every later number by one.
+  const shifted = COURSE_SECTIONS.map((s) => ({ id: s.id, index: s.index >= 12 ? s.index + 1 : s.index }))
+  assert.ok(drift(shifted).some((m) => m.startsWith('section 12 ')), 'an insertion before S12 must be reported')
+})
+
+test('the standing does not forget S27 when the learner goes back to S12: the furthest section opened is a high-water mark', () => {
+  const secs = liveSections()
+  const slugAt = (i: number) => secs.find((s) => s.index === i)!.id
+  const { kv } = mapStore()
+  let furthest = loadTrackFurthest(kv, WEB_TRACK_ID)
+  // The learner opens S12, then S27, then goes back to S12 and S05; then opens the track page.
+  for (const open of [slugAt(12), slugAt(27), slugAt(12), slugAt(5)]) {
+    const next = advanceFurthest(secs, furthest, open)
+    if (next && next !== furthest) saveTrackFurthest(kv, WEB_TRACK_ID, next)
+    furthest = loadTrackFurthest(kv, WEB_TRACK_ID)
+  }
+  assert.equal(furthest, slugAt(27), 'going back must not lower the mark')
+  // Defect guarded (found in the browser): the course keeps only the last section opened (S05),
+  // so the track page said "upcoming" after the learner had opened S27.
+  const pos = { completedSections: [], lastVisited: slugAt(5), furthestSeen: furthest }
+  assert.equal(trackStanding(WEB_TRACK_PLACEMENT, secs, pos, false), 'required')
+  // A slug that disappeared (renamed section) is replaced by the next real one, never kept as a ghost.
+  assert.equal(advanceFurthest(secs, 'gone-slug', slugAt(3)), slugAt(3))
+  assert.equal(advanceFurthest(secs, slugAt(30), 'gone-slug'), slugAt(30))
+  assert.equal(advanceFurthest(secs, slugAt(30), null), slugAt(30))
 })
