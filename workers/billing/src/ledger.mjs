@@ -7,7 +7,8 @@
  * batch:
  *   - the subscription row (created on first sight from the checkout binding;
  *     a plain INSERT, so two racing first sights cannot both create one: the
- *     loser's whole batch rolls back and the provider retries);
+ *     loser's whole batch rolls back, and applyChange re-reads and applies it
+ *     as an update);
  *   - each charge, upserted on UNIQUE(provider, provider_charge_id), so a
  *     duplicate notification re-applies the same state (a no-op);
  *   - subscription_events (append-only), only for what actually changed;
@@ -31,10 +32,25 @@
  *   - a deleted account is never entitled: its approved charges are flagged
  *     `refund_due` and the caller cancels at the provider.
  *
- * Trade-off (stated): two DIFFERENT charges of one subscription processed
- * concurrently could both chain from the same previous period and overlap,
- * costing the buyer up to one period. Mercado Pago bills a subscription at
- * most once a cycle, so this needs two collections within seconds.
+ * Optimistic lock (2026-11-25): applyChange reads, awaits and then writes, so
+ * two changes for one subscription used to both apply from the same read: a
+ * cancel and an older past_due racing left the row past_due with its provider
+ * time moved backwards. Every batch now opens with a compare-and-set on
+ * subscriptions.version (versionGuard): when the row moved on since the read,
+ * the guard writes NULL into a NOT NULL column and D1 rolls the whole batch
+ * back. applyChange then re-reads and plans again, at most LOCK_ATTEMPTS
+ * times, and throws ledger_conflict after that (the webhook answers 500 and
+ * the provider retries). The same re-read settles two racing first sights:
+ * the loser of the UNIQUE(provider, provider_ref) insert finds the row and
+ * applies as an update. Because the guard covers every change, two charges of
+ * one subscription can no longer chain from the same previous period either.
+ *
+ * Trade-offs (stated): the retry has no backoff, because each attempt already
+ * waits on its own reads. lostLock matches SQLite's constraint text; if D1
+ * ever words it otherwise, a lost lock surfaces as a 500 and the provider's
+ * retry applies it, so the state stays right and only the in-request retry
+ * is lost. During a gradual deploy, writes from the old code do not move the
+ * version, so the guard cannot see them until the rollout ends.
  */
 
 import { auditStatement } from "./audit.mjs";
@@ -43,6 +59,12 @@ import { randomId } from "./crypto.mjs";
 import { addMonths, planMonths } from "./money.mjs";
 
 const RENEWING = new Set(["active", "past_due"]);
+
+/** Reads and plans one change may take before it gives up on a busy subscription. */
+export const LOCK_ATTEMPTS = 4;
+
+/** Errors that mean "the row moved on since the read": re-read and plan again. */
+const LOCK_LOST = [/NOT NULL constraint failed: subscriptions\.version/i, /UNIQUE constraint failed: subscriptions\.provider/i];
 
 /**
  * A subscription by provider reference.
@@ -95,6 +117,32 @@ function eventStatement(ctx, sub, kind, detail) {
 }
 
 /**
+ * The compare-and-set that opens every batch on an existing subscription: it
+ * moves `version` one up when the row is still at the version that was read,
+ * and writes NULL otherwise, which the NOT NULL constraint turns into a failed
+ * statement that rolls the whole batch back (D1: a batch is one transaction).
+ * @param {Object} ctx Context.
+ * @param {Object} row Subscription row as read.
+ * @returns {Object} Statement.
+ */
+export function versionGuard(ctx, row) {
+  const seen = Number(row.version) || 0;
+  return ctx.db
+    .prepare("UPDATE subscriptions SET version = CASE WHEN version = ?2 THEN ?2 + 1 ELSE NULL END WHERE id = ?1")
+    .bind(row.id, seen);
+}
+
+/**
+ * True when an error from a batch means another change won the subscription.
+ * @param {unknown} error Error.
+ * @returns {boolean} Lost the lock.
+ */
+export function lostLock(error) {
+  const text = String((error && error.message) || error);
+  return LOCK_LOST.some((pattern) => pattern.test(text));
+}
+
+/**
  * A new subscription row drafted from a checkout binding.
  * @param {Object} change Change (with `bind`).
  * @param {Object} ctx Context.
@@ -115,6 +163,7 @@ function draftSubscription(change, ctx) {
     provider_updated_at: null,
     checkout_id: bind.checkoutId || null,
     first_active_at: null,
+    version: 0,
     created_at: ctx.now
   };
 }
@@ -172,7 +221,7 @@ function subscriptionStatements(ctx, row, plan, source) {
       eventStatement(ctx, s, "status", { from: null, to: s.status, source })
     ];
   }
-  const out = [];
+  const out = [versionGuard(ctx, row)];
   const statusChanged = row.status !== s.status;
   const cancelChanged = Number(row.cancel_at_period_end) !== s.cancel_at_period_end;
   if (statusChanged || cancelChanged || row.provider_updated_at !== s.provider_updated_at) {
@@ -432,6 +481,31 @@ function auditStatements(ctx, sub, change, flags) {
  * @returns {Promise<{ok: true, subscription: Object, accountDeleted: boolean, reversed: boolean}|{ok: false, reason: string}>} Outcome.
  */
 export async function applyChange(ctx, change) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await applyOnce(ctx, change);
+    } catch (error) {
+      if (!lostLock(error)) {
+        throw error;
+      }
+      if (attempt >= LOCK_ATTEMPTS) {
+        throw new Error(
+          `ledger_conflict: ${change.provider} subscription ${change.providerRef} changed under ${LOCK_ATTEMPTS} reads in a row ` +
+            `(source ${change.source}); nothing was written, the provider's retry will apply it. Last error: ${error.message}`
+        );
+      }
+    }
+  }
+}
+
+/**
+ * One read, plan and batch of applyChange; throws when the version guard or
+ * the first-sight insert loses to a concurrent change.
+ * @param {Object} ctx Context.
+ * @param {Object} change Change (see applyChange).
+ * @returns {Promise<Object>} Outcome (see applyChange).
+ */
+async function applyOnce(ctx, change) {
   const row = await findSubscription(ctx.db, change.provider, change.providerRef);
   const plan = planSubscription(row, change, ctx);
   if (!plan) {
