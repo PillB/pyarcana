@@ -980,3 +980,16 @@ back. Read this list before a section round; every item cost at least one failed
   section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
   too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
   Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).
+- **A pinned output read the clock (S14 timing demos, 25 Nov 2026).** The S14 benchmark demo
+  printed `ratio_gt_1 True` and `print_infla_el_tiempo True`, booleans computed from live
+  `perf_counter` readings, and the runtime audit compares stdout exactly. On a loaded CI runner the
+  2,000-iteration print comparison can flip, and CI went red once on it. Root cause: a pin is a
+  promise that the same code prints the same text, and a benchmark result is not reproducible by
+  design (the `timeit` docs make the same point about run-to-run variation,
+  [timeit](https://docs.python.org/3/library/timeit.html)). Fix: the demos still measure the
+  learner's own times, but the fixed output is computed from a recorded reference run (median
+  against mean, with one slow repetition) and from a count of the print calls inside the timed
+  region, which is the lesson's actual point. Guard: `test_proposal12_s14.TimingIsHonest` runs
+  both snippets with `perf_counter` replaced by a random clock and expects the pin unchanged; its
+  negative control shows a live comparison does move under that clock. Not yet done: the same
+  check over every section that reads the clock (S07, S09, S11, S12, S37).
