@@ -980,6 +980,28 @@ back. Read this list before a section round; every item cost at least one failed
   section's own tests and the meaning ledger had run. Root cause: a follow-up fix was treated as
   too small for the full suite. Guard: every push runs `scripts/run_adversarial_py.py` and the
   Node suite, and new fixture values come from regions outside the cap list (Puno, Ica).
+- **A one-line header edit used a term before anything defined it (proposal 12 S17, 25 Nov 2026).**
+  The review asked that a learning outcome stop calling `concat` a reshape tool. The rewrite named
+  `melt` and `pivot_table`. The outcomes come before the theory, and the section defines
+  `pivot_table` only in its T2-A block, so `test_surprising_uses_ratchet` (held at 0 since
+  2026-10-02) failed: `S17 packaging.outcome[2] pivot-table`. The section's own test and the
+  sentence-length check passed; only the full Python suite saw it. Root cause: a header was
+  treated as a summary, when the detector reads it as the learner's first contact with every term
+  in it. Fix: the outcome says «`melt` y su operación inversa». Guard: a term added to a tagline,
+  job-relevance line or outcome must be one an earlier section taught, or be glossed in place;
+  and the full suites run before every push, as the city-cap entry above already says.
+- **A new pandas test passed locally and failed CI as an unlisted skip (#189, 25 Nov 2026).**
+  The Codex fix added `ExamBank.test_the_named_aggregation_nan_distractor_is_false` behind
+  `@needs_pandas`. Here `.venv-content` exists, so the test ran and passed. The adversarial CI job
+  has no pandas, so it skipped, and `run_adversarial_py.py` failed the job because
+  `skip_allowlist.json` did not name that skip. Root cause: the allowlist is checked against the
+  skips that happen, and which skips happen depends on the machine. A missing entry is invisible
+  on every machine where a change is written: a check that reads the run can only see what this
+  run did. Fix: the entry was added. Guard:
+  `tests/adversarial/test_content_skips_are_allowlisted.py` reads the decorators with `ast`
+  instead of the run. Any module-level `unittest.skipUnless/skipIf` whose reason names the pinned
+  content interpreter marks a content skip, and every test it decorates must have an allowlist
+  entry, on any machine. Before the entry it failed on exactly this test; with it, it passes.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s

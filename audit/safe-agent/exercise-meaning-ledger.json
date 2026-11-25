@@ -2690,6 +2690,76 @@
       "reason": "Proposal 12 S16: fixture key C005 uses Puno and Ica instead of Lima and Cusco, which kept S16 under the city-name cap (62 > 55). Same case: two versions, each repeated, is a conflict.",
       "decided_by": "owner 2026-11-21 (proposal 12, S16 P1/P2/P3 fixes)",
       "date": "2026-11-23"
+    },
+    {
+      "row": 270,
+      "id": "S17-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "c8ae6307ee1b370023ac0b10e8b5e09bb4f4826b817162ff8be7ae88584f71c6",
+      "to_fp": "8f7d63fe5748d67780444a7fe6554219c52bd249200e99fffb360a77eed3002d",
+      "reason": "Proposal 12 S17: tx gains C009, a transaction whose client is not in the master, so how='outer' (3) no longer prints the same as how='left' (2). Same task: a left join keeps the master.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 271,
+      "id": "S17-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "218708e118684b93a50f9f6e147dc860e2ac58d06ff5918c3d67df74527204d2",
+      "to_fp": "f049381862a91970f9a00fa87da5648b36b0ac36ef9f75188638d1bc5b5ab0ae",
+      "reason": "Proposal 12 S17: n_lotes is computed as len(lotes) instead of typed as 2. Same task: stack two batches and report batches and rows.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 272,
+      "id": "S17-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "c0c4522bceaba3e9a3620d94990d8ccfd9f5a7f897881ecb265402dab9ebab8d",
+      "to_fp": "90ee9563bfdbc0889a60b5005ab65a0de034c3eefe5ec9f86f8d743c90996b89",
+      "reason": "Proposal 12 S17: The exercise no longer teaches editing the contract: expected stays {cliente_id, monto_ene, monto_feb} and the learner completes the rename that forgot feb; the print adds the sorted columns so editing expected no longer matches. Same gate: set(columns) == expected.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 273,
+      "id": "S17-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "baf89ec197f66d017eac1d38a8bdeec30d55a719cfd2ee7fa0bf1c6246265872",
+      "to_fp": "327d20dd7e08478a8dbae42136e34cc252b7c5603b8a864957408051e6334058",
+      "reason": "Proposal 12 S17: Fixture values 3, 2, 1 (dates 01-03, 01-01, 01-02) so sort_values (2.5) and no sort (1.5) differ from sort_index (2.0). Same task: sort the date index before rolling.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 274,
+      "id": "S17-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "6f48b1c3a5ab31fc472e42b201eed255e02c12cb28e366becb1fdb2069f2c774",
+      "to_fp": "ad11f84e75bdcfe80537579f63995b5989d9cb42094ed981a4681e4d12879fb2",
+      "reason": "Proposal 12 S17: A sale on the cutoff day (2024-01-31, 4.0) so `<` and `<=` print different lists. Same task: the as-of filter.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 275,
+      "id": "S17-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "99edc77459c58825f1c6be97b2ec62a73af6be2e390b0e52e158e402295152ba",
+      "to_fp": "68957a0a513d61ffb808a7b853f1964d3954845ae61de25568c9a221eb810983",
+      "reason": "Proposal 12 S17: A sale on the cutoff day (2024-01-31, 2.0) so `<` counts it as leakage. Same task: delta = total - pre.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 276,
+      "id": "S17-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "87def0c1f1afa44528592f10497b79bfea36bf41a0bcbbf810cc56151895207c",
+      "to_fp": "966b6b0b788edbfc159aee14a4e793c655c7938cfffbaae2c3063a4d37d225eb",
+      "reason": "Proposal 12 S17: C003 has no transactions and C002's sale falls on the cutoff day, so inner (rows 3) and `<` (total_pre 3.0) no longer pass. Same task: left join + as-of + delta.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
