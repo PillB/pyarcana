@@ -2950,6 +2950,96 @@
       "reason": "Proposal 12 S19 (WEDO-23): the hatch check is a known Matplotlib pattern, so the empty string the edge case names now fails; values are the section's. Same task: alt with n= and a non-colour channel.",
       "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 296,
+      "id": "S20-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "d907d678aa2a33145a835fedb0ef2ab6f72436efd66e2802fd9f36295dc1e28c",
+      "to_fp": "a1d19748fdbd77aae2b3fa2305e8b3c36231ef65e46e0b180ff47e5b85f7a574",
+      "reason": "Proposal 12 S20 (WEDO-01.1): the tests line names the two exact lines to compare instead of 'matches the solution'. Same task and code.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 297,
+      "id": "S20-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "0e36a52c88a0b3e366568a40d0c99173cacfdfa354f2611ef7e99a77d0d9132e",
+      "to_fp": "6a7c113e678705c815dcb48f922d71c62c20a4806e94e5a8b6abf28b32a5ed90",
+      "reason": "Proposal 12 S20 (WEDO-09.1): the exercise prints master_intact from the master's sha256 before and after, so saving over the master now fails; the master is renamed plantilla_vp.xlsx. Same task: copy, load the copy, write A2, save.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 298,
+      "id": "S20-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "78386f53c185afa08dc66523b85677919f4c06b91cbaea61c7a8d60b17b9a7c3",
+      "to_fp": "7c2b2547231957312c1d2fcea727c2a8b34160ef6fa356de80cf1b4e7c71358d",
+      "reason": "Proposal 12 S20 (WEDO-14.1): the data is Madrid/Madrid/Bogota so it matches the stated success line {'Bogota': 7.0, 'Madrid': 15.0}. Same task: sum, not mean.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 299,
+      "id": "S20-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "1147087de1c2e330be4007478de09cd115c5d857b4b175419f224c9b67a735bb",
+      "to_fp": "e76c077c6a1b5469e5eeabe1a64ce281a968928d23766f820fce0627330934c7",
+      "reason": "Proposal 12 S20 (WEDO-17.1): the fixture and allowlist use Madrid so they match '(Madrid está permitida)'. Same task: list the violators.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 300,
+      "id": "S20-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "a1ca0307411178a3d4b338535d5e3cb68d92d81c5ffbbbc992c7dc9b9adbee66",
+      "to_fp": "e8b5246b1bdf85e0f8ee00ce22b6316d7e9764c8b631a5a8aae5c60429ae5a8e",
+      "reason": "Proposal 12 S20 (WEDO-18.1): the call uses the fixture and allowlist the preamble names (Madrid + Ica; Madrid/Bogota/Berlin). Same task: return the violators.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 301,
+      "id": "S20-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "4f3cce11f73ae561d89c5e344574feca7ecc7ce18291080919743d0da8454d8f",
+      "to_fp": "e212288d87aca43f3460b4c1e1d9da267682253b27fd2ee399c08510b10c4407",
+      "reason": "Proposal 12 S20 (WEDO-20.1): a second call on broken.xlsx must print corrupt, so an except Exception catch-all no longer passes. Same task: classify with BadZipFile and PermissionError.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 302,
+      "id": "S20-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "bd5c111f112de0738d9c914886287e4fe12e7afedb97ea42ace817d7df1cb7f2",
+      "to_fp": "8e8ee947f42f4a9cf3621be063e70bcf1b18750ff3ae81a002d4b83fea678323",
+      "reason": "Proposal 12 S20 (WEDO-22.1): the manifest prints with json.dumps(sort_keys=True), so key order no longer fails a correct answer. Same keys and hash.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 303,
+      "id": "S20-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "a1b67394b84495360c0063a39eb66feaca081f253a0dc5e741d0eda21719346f",
+      "to_fp": "3c85a2a98e5b22dee446d85ae9d4d8d50f3b64c5299a82010fa836a21608780a",
+      "reason": "Proposal 12 S20 (WEDO-23.2): a second line compares a list with a repeated row against the original and must print False, so a set() digest fails. Same task: sort rows before hashing.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 304,
+      "id": "S20-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "9b4068cc2a2e64f9fe6cbb5576696ed8254db0f5b655c3de630212bdf7f2cb07",
+      "to_fp": "06cb70ea200ebfa4efc42cf93fc02f0adb7df3345029586ebc7ebd1c79a97fd2",
+      "reason": "Proposal 12 S20 (WEDO-24.1): a second call without Salida must print False, so a check that ignores Salida fails. Same task: need is a subset of sheetnames.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }

@@ -470,6 +470,126 @@
       "reason_contains": "needs the pinned content interpreter",
       "why": "It runs S19 lesson code, which needs Matplotlib or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
       "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s19.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_idempotence_is_two_runs_and_a_run_on_the_old_output_breaks_it",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_master_intact_is_a_hash_and_a_save_over_the_master_flips_it",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_openpyxl_leaves_no_cache_and_the_demo_prints_none",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_the_batch_records_what_nobody_expected",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_the_reconcile_gate_checks_the_count",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_the_structural_check_reads_a_workbook_without_salida",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.ChecksCanFail.test_the_theory_manifest_is_computed_and_reconciles_against_the_vp_total",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.EveryPinRuns.test_every_solution_hits_its_pin_and_no_starter_does",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.EveryPinRuns.test_theory_and_demo_code_prints_its_pinned_output",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.SaidAndShown.test_openpyxl_behaves_as_the_section_says",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.WeDoChecksCanFail.test_every_planted_mistake_changes_the_answer",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.YouDo.test_idempotence_catches_a_run_that_builds_on_the_last_output",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.YouDo.test_the_batch_reports_the_damaged_file",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.YouDo.test_the_filled_project_passes_and_leaves_its_deliverables_on_disk",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s20.YouDo.test_the_gate_compares_with_the_vp_total_and_fails_closed",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S20 lesson code, which needs openpyxl or pandas from the pinned teaching environment (requirements-content.txt); the adversarial job installs only Node dependencies and a bare Python 3.12.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s20.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }
