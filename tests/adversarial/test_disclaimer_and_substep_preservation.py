@@ -73,18 +73,26 @@ class TestDisclaimerRestoration(unittest.TestCase):
 
 
 class TestPageLevelSubstepController(unittest.TestCase):
+    # The hash router moved from page.tsx into src/lib/course/hash-route.ts on 24 Nov 2026
+    # (owner go-ahead in the "Fix stale #setup landing page" thread), where
+    # hash-route.test.ts checks its behaviour on every section and tab. These source checks
+    # follow the code to its new file; each still fails if the guarded line disappears.
     def test_page_accepts_optional_validated_substep(self):
         page = _read("src/app/page.tsx")
-        self.assertIn("function isSubStep", page)
+        router = _read("src/lib/course/hash-route.ts")
+        self.assertIn("export function isSubStep", router)
+        self.assertIn("isSubStep,", page, "page.tsx must validate tabs with the router's isSubStep")
         self.assertIn("function resolveCourseSectionId", page)
         self.assertIn("handleSelectSection = (id: string, subStep?: SubStep)", page)
         self.assertIn("isSubStep(subStep) ? subStep : 'theory'", page)
 
     def test_s_codes_resolve_through_existing_mapper(self):
         page = _read("src/app/page.tsx")
-        self.assertIn("const sMatch = /^S(\\d{2})$/i.exec(id)", page)
+        router = _read("src/lib/course/hash-route.ts")
+        self.assertIn("const sMatch = /^S(\\d{2})$/i.exec(id)", router)
         self.assertIn("handleSelectSection(sectionId, subStep)", page)
-        self.assertIn("resolveCourseSectionId(rawId)", page)
+        self.assertIn("findCourseSection(rawId, sections)", router, "a hash's section id must resolve through the S## and rename mapper")
+        self.assertIn("parseCourseHash(window.location.hash, COURSE_SECTIONS, IS_STATIC_SITE)", page)
         self.assertNotRegex(
             page,
             r"setActiveSectionId\(sectionId\)",

@@ -165,6 +165,12 @@ path a person takes, and quality-of-life. Full text: `docs/agents/lessons.md`.
   test that applies the edits a future round will make (insert, retitle, untag, delete, a new
   id format, a changed constant) and states what must survive. A value kept in two files gets
   a test that reads both.
+- **Simulate the platform, not only the content.** A local stack that behaves differently from
+  production on an undocumented point is not evidence for that point. Name the assumption (rule
+  order, header merging, caching), make the code correct under every plausible behaviour, and
+  test all of them. 24 Nov 2026: `wrangler dev` applied `_headers` rules in file order and
+  pyarcana.dev did not, so "/" got two CSPs and never hydrated while every local check passed
+  (`src/lib/cloud/headers.ts` verifyHeadersFile, `scripts/serve_out_rule_order.mjs`).
 
 ## Fail loudly
 

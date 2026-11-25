@@ -57,7 +57,7 @@ if (!existsSync(join(outDir, 'index.html'))) fail(`${outDir} has no index.html; 
 
 const here = import.meta.url
 const { CLOUD_CONFIG } = await import(new URL('../src/lib/cloud/config.ts', here).href)
-const { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, robotsWithSitemap } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
+const { buildAdsTxt, buildHeadersFile, buildSecurityTxt, buildSitemap, robotsWithSitemap, verifyHeadersFile, RULE_ORDERS } = await import(new URL('../src/lib/cloud/headers.ts', here).href)
 
 /** Every built page under outDir (not the _next assets), as {file, html}. */
 function builtPages(dir) {
@@ -82,6 +82,12 @@ try {
   adsTxt = buildAdsTxt(CLOUD_CONFIG)
   const pages = builtPages(outDir)
   headers = buildHeadersFile(CLOUD_CONFIG, pages)
+  // Refuse a _headers file that would block any page's own inline scripts under ANY rule order:
+  // pyarcana.dev applied "/" before "/*" (24 Nov 2026) and the home page never hydrated.
+  const blocked = verifyHeadersFile(headers, pages)
+  if (blocked.length) {
+    fail(`REFUSED: _headers would block inline scripts (checked ${RULE_ORDERS.join(', ')} rule orders):\n  ${blocked.slice(0, 20).join('\n  ')}${blocked.length > 20 ? `\n  ... and ${blocked.length - 20} more` : ''}\n  Next step: keep the /* Content-Security-Policy free of hashes (headers.ts buildHeadersFile).`)
+  }
   sitemap = buildSitemap(CLOUD_CONFIG, pages)
   robots = existsSync(join(outDir, 'robots.txt')) ? robotsWithSitemap(CLOUD_CONFIG, readFileSync(join(outDir, 'robots.txt'), 'utf8')) : null
   securityTxt = buildSecurityTxt(CLOUD_CONFIG, Date.now())
