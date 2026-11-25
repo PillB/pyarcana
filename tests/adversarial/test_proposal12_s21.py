@@ -134,12 +134,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated_code: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
     if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
     done = run_py(mutated_code)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 def mutated(code: str, old: str, new: str) -> str:
@@ -200,7 +209,9 @@ class GatesCanFail(unittest.TestCase):
     def test_ready_needs_the_three_named_keys(self) -> None:
         """WEDO-24.1 (P1): all(checklist.values()) passed a checklist without doc."""
         sol = exercise("S21-T4-B-E3")["solutionCode"]
-        self.assertTrue(sol["output"].endswith("False\nFalse"))
+        self.assertTrue(sol["output"].endswith("False\nFalse"),
+            "a checklist without the doc key must not be ready: expected the end " + repr("False\nFalse")
+            + ", got " + repr((sol["output"])[-160:]))
         values_only = mutated(sol["code"], 'all(checklist.get(k, False) for k in ("dashboard", "xlsx", "doc"))',
                               "all(checklist.values())")
         self.assertEqual(stdout_of(values_only).splitlines()[2], "True")
@@ -224,11 +235,15 @@ class GatesCanFail(unittest.TestCase):
         """IDO-07.1: has_h1 was a typed True."""
         d = demo("S21-T4-A")["code"]
         self.assertNotIn('"has_h1": True', d["code"])
-        self.assertTrue(d["output"].endswith("a11y_min con_h1 True\na11y_min sin_h1 False"))
+        self.assertTrue(d["output"].endswith("a11y_min con_h1 True\na11y_min sin_h1 False"),
+            "has_h1 must be read from the reopened .docx, True with a heading and False without: expected the end " + repr("a11y_min con_h1 True\na11y_min sin_h1 False")
+            + ", got " + repr((d["output"])[-160:]))
         # Negative control: give the bold-only document a real heading and the gate must flip.
         fixed = mutated(d["code"], 'sin_h1.add_paragraph().add_run("Resumen ejecutivo").bold = True',
                         'sin_h1.add_heading("Resumen ejecutivo", 1)')
-        self.assertTrue(stdout_of(fixed).endswith("a11y_min sin_h1 True"))
+        self.assertTrue(stdout_of(fixed).endswith("a11y_min sin_h1 True"),
+            "adding the heading must flip has_h1 to True; a typed True would not change: expected the end " + repr("a11y_min sin_h1 True")
+            + ", got " + repr((stdout_of(fixed))[-160:]))
 
     @needs_reportlab
     def test_the_manifest_hashes_the_files_the_section_writes(self) -> None:
@@ -244,17 +259,37 @@ class GatesCanFail(unittest.TestCase):
                          "    png.write_bytes(b'\\x89PNG fake')\n")
         out = stdout_of(broken)
         self.assertIn("'informe.pdf': False", out)
-        self.assertIn("ready_for_review False", out)
+        self.assertIn("archivos_ok False", out, "a PDF that is not a PDF must fail the file checks")
+
+    @needs_reportlab
+    def test_ready_needs_the_files_and_the_visual_checklist(self) -> None:
+        """Codex review on #201 (P2): ready_for_review read only the file checks, so it was True
+        before anyone looked at the dashboard, xlsx or doc (T4-B's ready contract needs all three)."""
+        d = demo("S21-T4-B")["code"]
+        self.assertIn("ready_for_review False", d["output"].splitlines(),
+                      "with the visual checklist all False the package must not be ready")
+        looked = mutated(d["code"], '"visual_checklist": {"dashboard": False, "xlsx": False, "doc": False}',
+                         '"visual_checklist": {"dashboard": True, "xlsx": True, "doc": True}')
+        self.assertIn("ready_for_review True", stdout_of(looked).splitlines(),
+                      "once a person marks the three checks, good files must be ready")
+        two = mutated(d["code"], '"visual_checklist": {"dashboard": False, "xlsx": False, "doc": False}',
+                      '"visual_checklist": {"dashboard": True, "xlsx": True}')
+        self.assertIn("ready_for_review False", stdout_of(two).splitlines(),
+                      "a missing doc key must count as not inspected, as in the T4-B ready contract")
 
     @needs_reportlab
     def test_a_hand_edit_after_the_run_is_detected(self) -> None:
         """THEORY-10.1: the theory manifest recomputes the SHA-256 and compares."""
         th = block("S21-T4-B")["code"]
-        self.assertTrue(th["output"].endswith("intacto True\nintacto tras editar a mano False"))
+        self.assertTrue(th["output"].endswith("intacto True\nintacto tras editar a mano False"),
+            "the manifest must recompute the SHA-256 and flag a hand edit: expected the end " + repr("intacto True\nintacto tras editar a mano False")
+            + ", got " + repr((th["output"])[-160:]))
         self.assertIn('"tabla1.csv": "', th["output"])
         no_edit = mutated(th["code"], 'Path("tabla1.csv").write_bytes(b"region,mediana,n\\nLima,30.0,40\\n")',
                           'Path("tabla1.csv").write_bytes(b"region,mediana,n\\nLima,28.0,40\\n")')
-        self.assertTrue(stdout_of(no_edit).endswith("intacto tras editar a mano True"))
+        self.assertTrue(stdout_of(no_edit).endswith("intacto tras editar a mano True"),
+            "without the hand edit the manifest must match; otherwise the check flags everything: expected the end " + repr("intacto tras editar a mano True")
+            + ", got " + repr((stdout_of(no_edit))[-160:]))
 
 
 class ExcelRounding(unittest.TestCase):
@@ -340,8 +375,9 @@ class WeDoChecksCanFail(unittest.TestCase):
         for ex_id, old, new in MUTATIONS:
             sol = exercise(ex_id)["solutionCode"]
             with self.subTest(ex_id, mutation=new[:50]):
-                self.assertTrue(caught(sol["code"], sol["output"], mutated(sol["code"], old, new)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], mutated(sol["code"], old, new)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
 
 
 YOU_DO_FILL = {
@@ -414,9 +450,11 @@ class YouDo(unittest.TestCase):
     def test_a_filled_project_meets_its_criteria(self) -> None:
         pack = json.loads(stdout_of(you_do_solution(self.starter())))
         self.assertEqual(pack["approval"]["status"], "pending_review")
-        self.assertFalse(pack["needs_ocr"])
+        self.assertFalse(pack["needs_ocr"],
+            "a PDF with a text layer must not be sent to OCR")
         self.assertEqual(set(pack["artifacts"]), {"docx", "pdf", "png"})
-        self.assertTrue(all(len(a["sha256"]) == 64 for a in pack["artifacts"].values()))
+        self.assertTrue(all(len(a["sha256"]) == 64 for a in pack["artifacts"].values()),
+            "each artifact must carry a full 64-hex SHA-256: checked " + repr(pack["artifacts"].values())[:300])
 
     @needs_reportlab
     def test_an_image_only_pdf_sets_needs_ocr(self) -> None:
@@ -425,7 +463,8 @@ class YouDo(unittest.TestCase):
             '''    c.drawString(72, 760, f"Ticket mediano {ctx['median_Lima']} PEN (n={ctx['n_Lima']})")\n''',
             "    c.rect(72, 700, 200, 50)\n")
         self.assertIn("c.rect(72", image_only)
-        self.assertTrue(json.loads(stdout_of(image_only))["needs_ocr"])
+        self.assertTrue(json.loads(stdout_of(image_only))["needs_ocr"],
+            "a PDF with no text layer must set needs_ocr")
 
 
 class Writing(unittest.TestCase):
@@ -481,6 +520,37 @@ class ExamBank(unittest.TestCase):
         for q in self.bank():
             with self.subTest(q["question"][:40]):
                 self.assertGreaterEqual(len(q["explanation"]), 200)
+
+
+class ExamItemsSitUnderTheirConcept(unittest.TestCase):
+    """Codex review on #201 (P2): rewritten items kept the concept tag of the item they replaced.
+
+    src/lib/exam-draw.ts draws one variant per concept, so a mislabelled item lets an attempt
+    test one concept twice and skip another. These items moved to the concept they assess."""
+
+    MOVED = {
+        'Un DOCX trazable marca': 'styles-sections-docx-pdf',
+        'pypdf devuelve texto vacío': 'pdf-digital-vs-image-ocr',
+        'Al terminar la corrida, el factory deja approval': 'visual-render-provenance-approval',
+        'round(28.25, 1)': 'conditions-tables-safe-format',
+        'Un gate a11y escrito como': 'copy-a11y-consistency',
+    }
+
+    def test_each_moved_item_is_under_the_concept_it_assesses(self) -> None:
+        bank = exam_bank.bank_for('fastapi')
+        for prefix, concept in self.MOVED.items():
+            with self.subTest(prefix):
+                hits = [q for q in bank if q["question"].startswith(prefix)]
+                self.assertEqual(len(hits), 1, f"expected one item starting {prefix!r}, found {len(hits)}")
+                self.assertEqual(hits[0]["concept"], concept,
+                                 f"{prefix!r} is drawn as {hits[0]['concept']}; it assesses {concept}")
+
+    def test_every_concept_keeps_three_variants_in_one_block(self) -> None:
+        concepts = [q["concept"] for q in exam_bank.bank_for('fastapi')]
+        counts = {c: concepts.count(c) for c in dict.fromkeys(concepts)}
+        self.assertEqual(set(counts.values()), {3}, f"each concept needs three variants to draw from: {counts}")
+        blocks = [c for i, c in enumerate(concepts) if i == 0 or concepts[i - 1] != c]
+        self.assertEqual(len(blocks), len(counts), f"a concept's variants are split across the bank: {blocks}")
 
 
 if __name__ == "__main__":

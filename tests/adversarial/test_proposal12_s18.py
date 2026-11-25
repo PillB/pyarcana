@@ -123,12 +123,21 @@ def stdout_of(source: str) -> str:
     return done.stdout.rstrip("\n")
 
 
-def caught(solution: str, pinned: str, mutated: str) -> bool:
-    """True when the planted mistake shows: the run fails or the output differs from the pin."""
-    if mutated == solution:
+def escaped(solution: str, pinned: str, mutated_code: str) -> str:
+    """Empty when the planted mistake shows (the run fails or the output differs from the pin).
+
+    Otherwise it is what the mutant printed, so a failure says which behaviour survived."""
+    if mutated_code == solution:
         raise AssertionError("the mutation did not change the code")
-    done = run_py(mutated)
-    return done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n")
+    done = run_py(mutated_code)
+    if done.returncode != 0 or done.stdout.rstrip("\n") != pinned.rstrip("\n"):
+        return ""
+    return "exit 0 and the pinned output:\n" + done.stdout[-400:]
+
+
+def caught(solution: str, pinned: str, mutated_code: str) -> bool:
+    """True when the planted mistake shows: the run fails or the output differs from the pin."""
+    return escaped(solution, pinned, mutated_code) == ""
 
 
 
@@ -217,7 +226,8 @@ class EvidenceIsComputed(unittest.TestCase):
         self.assertNotIn('"median": 27.5', b["code"]["code"])
         out = stdout_of(b["code"]["code"])
         m = re.search(r"'median': ([\d.]+), 'ic95_boot': \(([\d.]+), ([\d.]+)\)", out)
-        self.assertIsNotNone(m)
+        self.assertIsNotNone(m,
+            "the template's printed summary no longer has the median and the bootstrap interval the prose quotes: the pattern did not match")
         median, lo, hi = m.groups()
         text = prose("Preguntas, hipótesis y evidencia")
         self.assertIn(f"=({median})".replace("(", "").replace(")", ""), text.replace("(", "").replace(")", ""))
@@ -306,8 +316,9 @@ class WeDoChecksCanFail(unittest.TestCase):
                 continue
             with self.subTest(ex_id, mutation=new[:50]):
                 self.assertIn(old, sol["code"], "mutation anchor not found")
-                self.assertTrue(caught(sol["code"], sol["output"], sol["code"].replace(old, new, 1)),
-                                f"{ex_id}: the planted mistake prints the pinned answer")
+                self.assertEqual(escaped(sol["code"], sol["output"], sol["code"].replace(old, new, 1)), "",
+                    f"{ex_id}: the planted mistake prints the pinned answer"
+                    + ". Next step: make the fixture reach the branch the mistake changes, so the pinned output can only come from the right logic.")
             ran += 1
         return ran
 
@@ -371,6 +382,25 @@ class ExamBank(unittest.TestCase):
         for q in self.bank():
             with self.subTest(q["question"][:40]):
                 self.assertGreaterEqual(len(q["explanation"]), 200)
+
+
+class MeanAndStdNeedNoSymmetry(unittest.TestCase):
+    """Codex review on #198 (P2): an explanation said mean and std assume a symmetric shape.
+
+    Neither statistic requires symmetry; the reason to lead with the median and IQR is
+    robustness, which is what "Centro, dispersión y cuantiles" teaches."""
+
+    CLAIM = re.compile(r"(media|std|desviaci[oó]n)[^.]{0,40}\b(asume|asumen|requiere|requieren)\b[^.]{0,40}sim[eé]tric", re.I)
+
+    def test_no_item_says_mean_or_std_assume_symmetry(self) -> None:
+        hits = [q["question"] for q in exam_bank.bank_for("data-engineering")
+                if self.CLAIM.search(q["explanation"])]
+        self.assertEqual(hits, [], "these explanations teach a prerequisite mean and std do not have")
+
+    def test_the_check_sees_the_old_wording(self) -> None:
+        """Negative control: the sentence the review found is caught."""
+        self.assertIsNotNone(self.CLAIM.search("Media y std asumen una forma simétrica que estos datos no tienen."),
+                             "the regex misses the wording it exists to catch")
 
 
 if __name__ == "__main__":

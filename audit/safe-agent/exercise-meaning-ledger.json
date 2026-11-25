@@ -3153,6 +3153,16 @@
     },
     {
       "row": 316,
+      "id": "S22-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "f8db4ca3ebbc40a3cd3ac61479e4caec6322e9b365eec382415c266dbe5b6176",
+      "to_fp": "e606beab60ba5e087b975267d713bdc83720d9965c831cff7b69c8eaec8c36f2",
+      "reason": "Codex review on #202: a URL with a backslash (evil.test\\a.example.pe) has a urlparse hostname ending in .example.pe, but a browser reads the backslash as / and opens evil.test. The exercise adds that URL and blocks URLs with a backslash or @. Same task: allowlist by real host.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 317,
       "id": "S23-T1-A-E3",
       "kind": "changed",
       "from_fp": "7f8b44d43fbb02d2f3bac3f085e026e356fdf5980b22b7fcff1691ad0b58e458",
@@ -3162,7 +3172,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 317,
+      "row": 318,
       "id": "S23-T1-B-E3",
       "kind": "changed",
       "from_fp": "52c8b4ce6a30652b29ba051ac398c3fa009b60c764de64b699be8d7bf308c777",
@@ -3172,7 +3182,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 318,
+      "row": 319,
       "id": "S23-T2-A-E3",
       "kind": "changed",
       "from_fp": "e6eb81ec6a300e82c72249c5899bc972a7ef145114c20b436b465bc0d7e3a5ac",
@@ -3182,7 +3192,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 319,
+      "row": 320,
       "id": "S23-T2-B-E1",
       "kind": "changed",
       "from_fp": "9f05586d07a80b3eb39f83f90e0644777cf2c8a68915561ef5e7d55a85f4b267",
@@ -3192,7 +3202,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 320,
+      "row": 321,
       "id": "S23-T2-B-E3",
       "kind": "changed",
       "from_fp": "c72d15f05fb1cabfd5b956d7e41794145e24d757036d8382df4a558e0c9ef0bc",
@@ -3202,7 +3212,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 321,
+      "row": 322,
       "id": "S23-T3-B-E1",
       "kind": "changed",
       "from_fp": "964e8f0029c74cf35713b439731921894b212d0bf44ac1b575ed2724918fb57f",
@@ -3212,7 +3222,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 322,
+      "row": 323,
       "id": "S23-T3-B-E2",
       "kind": "changed",
       "from_fp": "5a31e60e097fe85c61ce461240439971dab7adccc3d1f23b38c6eb798692cd66",
@@ -3222,7 +3232,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 323,
+      "row": 324,
       "id": "S23-T4-A-E3",
       "kind": "changed",
       "from_fp": "c65762491537e0055a88554e319f23cb7407d2d02f22bad4bf410e4fb2abc9dc",
@@ -3232,7 +3242,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 324,
+      "row": 325,
       "id": "S23-T3-A-E3",
       "kind": "changed",
       "from_fp": "ce9abeea82f51eb810b5ef1b3ae1f4a6465557248935477c59baea6221f156b4",
@@ -3242,7 +3252,17 @@
       "date": "2026-11-25"
     },
     {
-      "row": 325,
+      "row": 326,
+      "id": "S23-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "6f2216d3ba1a23778ac32d79f26f16a1aaa52ce2df5c0f9f887aa97aa8cc360e",
+      "to_fp": "ee0f96ae377efb91afe43bc072a4d97514685e623328c8e215416c1d0be7897d",
+      "reason": "Codex review on #203: E1 now stores auth as 'authenticated' or 'anonymous', and E2 still guarded with not ctx.get('auth'), which lets the truthy 'anonymous' through. E2 compares with 'authenticated' and runs both states (denied, ok). Same task: catch PermissionError and deny the report without a session.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 327,
       "id": "S24-T1-A-E1",
       "kind": "changed",
       "from_fp": "65a9b57eb0d5afee866a1869022012b6ef3c3377bcf484005316e24c841d14e3",
@@ -3252,7 +3272,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 326,
+      "row": 328,
       "id": "S24-T1-A-E2",
       "kind": "changed",
       "from_fp": "b69a4848fb6e0e9af4fa096f25219baf6e57f9d8306c0feec1cea33d6659f917",
@@ -3262,7 +3282,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 327,
+      "row": 329,
       "id": "S24-T1-A-E3",
       "kind": "changed",
       "from_fp": "1d16df2a1c247bb69e72a4c78894fd423a0383056390fcc9e76db75e5737a267",
@@ -3272,7 +3292,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 328,
+      "row": 330,
       "id": "S24-T1-B-E1",
       "kind": "changed",
       "from_fp": "532e07371ff7ffb5f188656500ab5264930dd950333c29733108bce99442309f",
@@ -3282,7 +3302,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 329,
+      "row": 331,
       "id": "S24-T1-B-E2",
       "kind": "changed",
       "from_fp": "3dd50cf1b361a2995e4840e1700c523f40926b9ab4a4b291737a4fd709963dd1",
@@ -3292,7 +3312,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 330,
+      "row": 332,
       "id": "S24-T1-B-E3",
       "kind": "changed",
       "from_fp": "d43f04931c04d5ef0d1a4e0dea4867daf7a6150903c303c38bccfc2ae3118e14",
@@ -3302,7 +3322,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 331,
+      "row": 333,
       "id": "S24-T2-A-E1",
       "kind": "changed",
       "from_fp": "b4d44bd4eb92a73bab6cf5c4c762e7c0d787b09e0095a791818412eb526e322a",
@@ -3312,7 +3332,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 332,
+      "row": 334,
       "id": "S24-T2-A-E2",
       "kind": "changed",
       "from_fp": "f1d08ee960bb144373357d99bb18e457ca738c43f24ff3989a7af4ad7aa4c2cb",
@@ -3322,7 +3342,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 333,
+      "row": 335,
       "id": "S24-T2-A-E3",
       "kind": "changed",
       "from_fp": "bd969462ffa80d8b84fee71691d649cdf59f215a2e7b00a75609f2bc48598850",
@@ -3332,7 +3352,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 334,
+      "row": 336,
       "id": "S24-T2-B-E1",
       "kind": "changed",
       "from_fp": "d6cdc1d3cb0d9717bcedefbc63e1e05c8c75604790230297fe9ec4ce54cf8761",
@@ -3342,7 +3362,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 335,
+      "row": 337,
       "id": "S24-T2-B-E2",
       "kind": "changed",
       "from_fp": "981614a0b3973dc0192bde39a799522c3c042621b45f1afae0ca22b983b0ddf8",
@@ -3352,7 +3372,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 336,
+      "row": 338,
       "id": "S24-T2-B-E3",
       "kind": "changed",
       "from_fp": "f96a2b28df70ddf5ed7bce052d7a31bfbe93dcb797091267fb0b342132d29f1e",
@@ -3362,7 +3382,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 337,
+      "row": 339,
       "id": "S24-T3-A-E1",
       "kind": "changed",
       "from_fp": "e7ae41b7e9adea3e0729ee671c682f2891fb9cb429350ef13bb50b7c13e2aedf",
@@ -3372,7 +3392,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 338,
+      "row": 340,
       "id": "S24-T3-A-E2",
       "kind": "changed",
       "from_fp": "d627cb01b7dae2ea1cc64bfdde926a79dfd634ca2c97c0c85cb083b113e185f1",
@@ -3382,7 +3402,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 339,
+      "row": 341,
       "id": "S24-T3-A-E3",
       "kind": "changed",
       "from_fp": "46d4a0a6cee4eb436278064265ba510feb7f6a7eb76b7854106522458d0979e0",
@@ -3392,7 +3412,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 340,
+      "row": 342,
       "id": "S24-T3-B-E1",
       "kind": "changed",
       "from_fp": "bc7d3a2f7c783ada5af96812190e62ef90dfe0935541e013b914c697a972982e",
@@ -3402,7 +3422,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 341,
+      "row": 343,
       "id": "S24-T3-B-E2",
       "kind": "changed",
       "from_fp": "b0114140b3b229d7f772f8f536cb712ee219a475daac31f03b44240237f02276",
@@ -3412,7 +3432,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 342,
+      "row": 344,
       "id": "S24-T3-B-E3",
       "kind": "changed",
       "from_fp": "def355a5defcf3176ee546938e8867d859ef35038f2d2ac9924feee70338016f",
@@ -3422,7 +3442,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 343,
+      "row": 345,
       "id": "S24-T4-A-E1",
       "kind": "changed",
       "from_fp": "2279eb58ff2583b8e0d0ff30566988e1b2884c8aa6f012adc0de16f06ef460eb",
@@ -3432,7 +3452,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 344,
+      "row": 346,
       "id": "S24-T4-A-E2",
       "kind": "changed",
       "from_fp": "426e5bf93f8c082a1ca27fcd0254bbf8a696fda86bc83bded71a81682f634b8a",
@@ -3442,7 +3462,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 345,
+      "row": 347,
       "id": "S24-T4-A-E3",
       "kind": "changed",
       "from_fp": "54df8130c82a1521990d601a000c48a4c7eef435cd1adcc748ff94837abf3a2f",
@@ -3452,7 +3472,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 346,
+      "row": 348,
       "id": "S24-T4-B-E1",
       "kind": "changed",
       "from_fp": "59836293a7fabbaac078bb3bc69d7375323cda8140b270cb02d0135f1674079d",
@@ -3462,7 +3482,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 347,
+      "row": 349,
       "id": "S24-T4-B-E2",
       "kind": "changed",
       "from_fp": "6da66a1a4dfdac56da33383f391727a348afdc513a768cc0005ee7764de4a451",
@@ -3472,7 +3492,7 @@
       "date": "2026-11-25"
     },
     {
-      "row": 348,
+      "row": 350,
       "id": "S24-T4-B-E3",
       "kind": "changed",
       "from_fp": "88f3a585b86eaba9701cc6fe7aacda7bb78fd8a23091b54f583656606c488a06",
