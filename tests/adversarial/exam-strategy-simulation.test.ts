@@ -96,7 +96,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
-  'multimodal', 'opensource', 'performance-extreme', 'rag',
+  'multimodal', 'opensource', 'performance-extreme',
   'rapidfuzz-entity', 'rpa-advanced', 'security-infra', 'setup',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
   'text-unicode-regex',
@@ -122,10 +122,12 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 2026-11-25, proposal 12 S19: databases-orm (visualization and accessibility) leaves "longest"
 // and "clang" after all 24 items were rewritten; its keys sit at each length rank on 6 of 24.
 // 40 -> 39 longest, 12 -> 11 clang.
+// 2026-11-25, proposal 12 S20: rag (Excel automation) leaves "longest" and "clang" the same way.
+// 39 -> 38 longest, 11 -> 10 clang.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'dbt-bigquery',
-  'fastapi', 'iteration-summaries', 'rag', 'setup',
+  'fastapi', 'iteration-summaries', 'setup',
   'streamlit-dashboards', 'text-unicode-regex',
 ]
 // Every key in these two banks contains its concept's slug.

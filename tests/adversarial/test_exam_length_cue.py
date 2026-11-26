@@ -117,7 +117,11 @@ import exam_bank  # noqa: E402
 #: 2026-11-25: 931 -> 915. Proposal 12 S19: every databases-orm (visualization and accessibility)
 #: item was rewritten; distractors are misconceptions (an axis from 90 read as harmless, Seaborn as
 #: required, a tooltip without n), the key is longest on 6 of 24, and the ranks are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 915
+#: 2026-11-25: 915 -> 897. Proposal 12 S20: every rag (Excel automation) item was rewritten;
+#: distractors are misconceptions (data_only read as a formula engine, exists() as proof the master is
+#: intact, the reversed-rows digest as an idempotence test), the key is longest on 6 of 24, and the
+#: ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 897
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
@@ -125,9 +129,10 @@ LONGEST_IS_CORRECT_OWED = 915
 #: 2026-11-21: proposal 12 S14 repaired security (NumPy); it leaves the set.
 #: 2026-11-21: proposal 12 S16 repaired wxpython-gui (data quality); it leaves the set.
 #: 2026-11-25: proposal 12 S17 repaired packaging (joins, reshape, groupby); it leaves the set.
+#: 2026-11-25: proposal 12 S20 repaired rag (Excel automation); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
-    "rag", "rapidfuzz-entity", "rpa-advanced", "security-infra",
+    "rapidfuzz-entity", "rpa-advanced", "security-infra",
 })
 
 

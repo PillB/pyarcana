@@ -1071,6 +1071,22 @@ back. Read this list before a section round; every item cost at least one failed
   instead of the run. Any module-level `unittest.skipUnless/skipIf` whose reason names the pinned
   content interpreter marks a content skip, and every test it decorates must have an allowlist
   entry, on any machine. Before the entry it failed on exactly this test; with it, it passes.
+- **Checks that compared a value with itself, in the section that teaches checks (proposal 12 S20,
+  25 Nov 2026).** Three P1s had one shape. `master_intact` came from `master.exists()`, which is True
+  after a save over the master. The You Do reconciled the total it had just written into `Salida`
+  with itself. Its idempotence flag compared a sorted digest of the rows with the digest of the same
+  rows reversed, which is equal for any list. Root cause: each flag was written to print True on the
+  happy path, and nothing ever ran the unhappy one. Fix: every flag now reads a second source (the
+  master's bytes before the run, the total the VP typed in the template, the rows read back after a
+  second run), and `tests/adversarial/test_proposal12_s20.py` plants the failure each flag guards and
+  expects it to flip. Guard: a flag that calls itself evidence ships with a test that breaks the
+  thing and sees False. Two facts found on the way. First, a saved xlsx is not byte-stable:
+  openpyxl writes the save time into `docProps/core.xml`, so two saves of the same workbook a second
+  apart hash differently. Compare a file's bytes within one run (before and after), and pin digests
+  of the cell values, never of the file. Second, openpyxl 3.1.5 behaviours the lesson now states were
+  each run before they were written: a formula it saved reads as None with `data_only=True`; writing
+  to a merged non-anchor cell raises `AttributeError`; `merge_cells` drops the non-anchor values; it
+  writes into a protected sheet; it does not move a defined name when the script inserts rows.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
