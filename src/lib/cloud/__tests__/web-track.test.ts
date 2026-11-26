@@ -258,7 +258,7 @@ test('every Python block runs and prints exactly its declared output', () => {
   let ran = 0
   for (const { step } of ALL_STEPS) {
     for (const c of blocksOf(step)) {
-      if (c.language !== 'python') continue
+      if (c.language !== 'python' || c.runtime === 'cloudflare') continue
       assert.ok(c.output, `${step.id}/${c.title}: a Python block must declare what it prints`)
       // A fresh, empty folder per block, as a learner's project folder: construir_sitio.py writes site/ there.
       const cwd = mkdtempSync(path.join(tmpdir(), 'ruta-web-'))
@@ -273,7 +273,7 @@ test('every Python block runs and prints exactly its declared output', () => {
       ran++
     }
   }
-  assert.ok(ran >= 12, `expected at least 12 Python blocks (7 worked examples, 5 solutions), ran ${ran}`)
+  assert.ok(ran >= 24, `expected at least 24 Python blocks (18 worked examples, 6 solutions), ran ${ran}`)
 })
 
 /** A DOM just big enough for app.js: header buttons, a tbody, aria-sort on the headers. */
@@ -481,7 +481,7 @@ test('every section number written in the track prose still names the section it
   // if sections are renumbered, "FastAPI en S41" would point at another lesson. Each number is
   // pinned here to the slug it meant on 25 Nov 2026; a new number in the prose must be added here.
   const meant: Record<number, string> = {
-    1: 'setup', 2: 'basics', 7: 'text-unicode-regex', 8: 'files-ingestion', 11: 'oop-domain',
+    1: 'setup', 2: 'basics', 7: 'text-unicode-regex', 8: 'files-ingestion', 10: 'modules-packaging-cli', 11: 'oop-domain',
     12: 'apis-sql-geo', 13: 'evidence-dashboard', 15: 'stdlib-deep', 21: 'fastapi', 27: 'async-concurrency',
     38: 'performance-extreme', 41: 'llm-finetuning', 42: 'graph-rag', 43: 'llmops', 45: 'iac',
   }
@@ -634,9 +634,10 @@ function trackProse(): { where: string; text: string }[] {
   add('summary', WEB_TRACK.summary)
   for (const m of WEB_TRACK.modules) {
     add(`${m.id}.goal`, m.goal)
-    ;(Array.isArray(m.intro) ? m.intro : [m.intro]).forEach((x, i) => add(`${m.id}.intro${i}`, x as string))
+    // Paragraphs are read in sequence, so D13 is checked across their boundaries (Codex, PR #208).
+    add(`${m.id}.intro`, (Array.isArray(m.intro) ? m.intro : [m.intro]).join(' '))
     for (const st of m.steps) {
-      st.body.forEach((x, i) => add(`${st.id}.body${i}`, x))
+      add(`${st.id}.body`, st.body.join(' '))
       st.table?.rows.forEach((r, i) => r.forEach((c, j) => add(`${st.id}.table${i}.${j}`, c)))
       add(`${st.id}.expect`, st.expect)
       st.fixes?.forEach((f, i) => { add(`${st.id}.fix${i}`, f.symptom); f.steps.forEach((x, j) => add(`${st.id}.fix${i}.${j}`, x)) })
@@ -658,7 +659,8 @@ test('writing rules D1 and D13 hold on every passage of the track: 32 words at m
   for (const { where, text } of trackProse()) {
     const lens = proseSentences(text).map((x) => x.split(/\s+/).length)
     lens.forEach((n, i) => n > 32 && problems.push(`${where}: sentence ${i + 1} has ${n} words (D1: at most 32)`))
-    if (lens.length > 2) lens.slice(1).forEach((n, i) => n < 15 && lens[i] < 15 && problems.push(`${where}: sentences ${i + 1}-${i + 2} are ${lens[i]} and ${n} words (D13)`))
+    // Codex (PR #208): a two-sentence table cell was skipped; a pair is a run too.
+    if (lens.length > 1) lens.slice(1).forEach((n, i) => n < 15 && lens[i] < 15 && problems.push(`${where}: sentences ${i + 1}-${i + 2} are ${lens[i]} and ${n} words (D13)`))
   }
   assert.deepEqual(problems, [], `split or join these passages in src/lib/tracks/web/content.ts (audit/fixer/writing_rules.md)`)
 })
@@ -802,4 +804,289 @@ test('a completion re-read from another tab is not counted as this tab\'s own (n
     w.localStorage = previous
     useProgressStore.setState({ completedSections: [] })
   }
+})
+
+// ---------------------------------------------------------------------------------------------
+// The prototype module: D1, quotas and the Worker's code, held to what the prose promises
+// ---------------------------------------------------------------------------------------------
+
+const protoStep = (id: string) => {
+  const s = ALL_STEPS.find((x) => x.step.id === id)?.step
+  assert.ok(s, `step ${id} is missing from src/lib/tracks/web/content.ts; the prototype tests read it`)
+  return s
+}
+const protoCode = (id: string, title: string) => {
+  const c = blocksOf(protoStep(id)).find((x) => x.title === title)
+  assert.ok(c, `${id} has no block titled ${title}`)
+  return c
+}
+
+test('a Worker file is compiled, not run, and the run loop skips only those (runtime "cloudflare")', () => {
+  const py = python()
+  const workers = ALL_STEPS.flatMap(({ step }) => blocksOf(step).filter((c) => c.runtime === 'cloudflare').map((c) => ({ step, c })))
+  assert.ok(workers.length >= 1, 'expected the D1 step to show its Worker file (runtime "cloudflare")')
+  for (const { step, c } of workers) {
+    assert.equal(c.language, 'python', `${step.id}/${c.title}: runtime "cloudflare" is for Python Worker files`)
+    // Defect guarded: a Worker file is exempt from the run, so a typo in it would ship unseen.
+    const r = spawnSync(py.bin, ['-I', '-c', 'import ast,sys; ast.parse(sys.stdin.read())'], { input: c.code, encoding: 'utf8' })
+    assert.equal(r.status, 0, `${step.id}/${c.title} does not parse as Python:\n${r.stderr}`)
+    assert.ok(/from workers import/.test(c.code), `${step.id}/${c.title}: runtime "cloudflare" must import workers; otherwise run it like any other block`)
+    assert.equal(c.output, undefined, `${step.id}/${c.title}: a Worker file cannot declare a printed output the unit test never checks`)
+  }
+})
+
+test('the migration, the Worker query and «Deberías ver» agree: the index is used, the rows match, an injected sede returns nothing', () => {
+  const migration = protoCode('prototipo.configurar', 'migrations/0001_inicial.sql').code
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const query = /prepare\(\s*"([^"]+)"\s*\)/.exec(entry)?.[1]
+  assert.ok(query, 'src/entry.py lost its prepare("...") query; this test runs it against the migration')
+  // Defect guarded: SQL built by pasting text (S12's injection) instead of a ? bound with bind().
+  assert.ok(query.includes('?') && /\.bind\(/.test(entry), 'the Worker query must use ? and bind()')
+  assert.ok(!/f"[^"]*(SELECT|INSERT|UPDATE|DELETE)/i.test(entry), 'the Worker builds SQL with an f-string')
+  const script = `
+import json, sqlite3, sys
+con = sqlite3.connect(":memory:")
+con.executescript(sys.argv[1])
+q = sys.argv[2]
+plan = [r[3] for r in con.execute("EXPLAIN QUERY PLAN " + q, ("SED-01",))]
+rows = [{"id": a, "monto": b} for a, b in con.execute(q, ("SED-01",))]
+inj = con.execute(q, ("SED-01' OR 1=1--",)).fetchall()
+print(json.dumps({"plan": plan, "rows": json.dumps(rows), "inj": inj}))
+`
+  const py = python()
+  const r = spawnSync(py.bin, ['-I', '-c', script, migration, query], { encoding: 'utf8' })
+  assert.equal(r.status, 0, `the migration or the query fails in SQLite:\n${r.stderr}`)
+  // rows: printed by Python's json.dumps, the same separators the Worker's Response.json uses
+  const out = JSON.parse(r.stdout) as { plan: string[]; rows: string; inj: unknown[] }
+  // Defect guarded: the migration drops the index, so the API the step deploys scans the table.
+  assert.ok(out.plan.some((p) => /USING (COVERING )?INDEX idx_ventas_sede/.test(p)), `the Worker query does not use idx_ventas_sede: ${out.plan.join(' | ')}`)
+  const expect = protoStep('prototipo.worker-d1').expect ?? ''
+  assert.ok(expect.includes(`"ventas": ${out.rows}`), `«Deberías ver» must show the rows the migration gives for SED-01: ${out.rows}`)
+  assert.deepEqual(out.inj, [], 'an injected sede must return no rows')
+})
+
+test('the quota numbers in the prose, the table and the calculator are the same numbers', () => {
+  const step = protoStep('prototipo.cuotas')
+  const calc = protoCode('prototipo.cuotas', 'cuota_diaria.py').code
+  const limit = Number(/LIMITE_GRATIS = ([\d_]+)/.exec(calc)?.[1].replace(/_/g, ''))
+  const row = step.table?.rows.find((r) => r[0] === 'Filas leídas en D1')
+  assert.ok(row, 'the quota table lost its "Filas leídas en D1" row')
+  // Defect guarded (drift): a round updates Cloudflare's limit in the table and forgets the code, or
+  // the reverse, so the calculator tells the learner the wrong day their prototype stops.
+  const millions = Number(/^(\d+) millones/.exec(row[1])?.[1])
+  assert.equal(limit, millions * 1_000_000, `cuota_diaria.py uses ${limit}, the table says "${row[1]}"`)
+  const rows = Number(/\("sin índice", ([\d_]+)\)/.exec(calc)?.[1].replace(/_/g, ''))
+  const scanned = /filas revisadas (\d+), plan: SCAN/.exec(protoCode('prototipo.indices', 'filas_leidas.py').output ?? '')?.[1]
+  assert.equal(String(rows), scanned, 'the calculator must multiply the rows the index step measured without an index')
+  // Simulated drift: a future limit of 10 million in the table must make the comparison fail.
+  assert.notEqual(limit, 10 * 1_000_000, 'sanity: the simulated drift value must differ from today')
+})
+
+test('every SQLite plan the prose quotes is one the code prints (EXPLAIN QUERY PLAN wording drift)', () => {
+  // Defect guarded: SQLite rewords plans between versions ("SCAN TABLE ventas" before 3.36); a
+  // «Deberías ver» quoting the old wording would send the learner looking for a line that never appears.
+  for (const id of ['prototipo.indices', 'prototipo.practica']) {
+    const s = protoStep(id)
+    const printed = blocksOf(s).map((c) => c.output ?? '').join('\n')
+    const quoted = [...(s.expect ?? '').matchAll(/`((?:SCAN|SEARCH|USE TEMP)[^`]*)`/g)].map((m) => m[1])
+    assert.ok(quoted.length >= 1, `${id}: «Deberías ver» should quote the plan line the learner compares with`)
+    for (const q of quoted) assert.ok(printed.includes(q), `${id}: «Deberías ver» quotes \`${q}\`, which the code does not print`)
+  }
+})
+
+test('the prototype module closes the deploy part: it comes right after despliegue and before modelo', () => {
+  const ids = WEB_TRACK.modules.map((m) => m.id)
+  // Defect guarded: the owner asked for the runbook-based steps "in the last part of the deploy
+  // track"; a module placed after modelo would teach D1 before the learner has published anything.
+  assert.equal(ids.indexOf('prototipo'), ids.indexOf('despliegue') + 1, `module order is ${ids.join(', ')}`)
+  const said = ALL_STEPS.find((x) => x.step.id === 'despliegue.python-servidor')?.step.body.join(' ') ?? ''
+  assert.ok(/módulo siguiente/.test(said), 'despliegue.python-servidor must point to the next module instead of saying the detour stops at static sites')
+})
+
+test('a term the track defines in bold is not used earlier in the same module (A1: explain at first use)', () => {
+  // Defect guarded (Codex, PR #208): the first prototipo table offered «vista previa» and
+  // «producción» as choices four steps before prototipo.entornos defined them.
+  const problems: string[] = []
+  for (const m of WEB_TRACK.modules) {
+    // The goal is the module's promise, shown above the intro, so it may name what the intro defines.
+    const ordered = trackProse().filter((p) => p.where.startsWith(`${m.id}.`) && p.where !== `${m.id}.goal`)
+    ordered.forEach((p, i) => {
+      for (const [, term] of p.text.matchAll(/\*\*([^*]{3,40})\*\*/g)) {
+        if (term.includes('→')) continue // a menu path in bold is a UI label, not a definition
+        const rx = new RegExp(`(?<![\\wáéíóúñ])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\wáéíóúñ])`, 'i')
+        const before = [...ordered.slice(0, i).map((x) => x.text), p.text.slice(0, p.text.indexOf(`**${term}**`))]
+          .map((x) => x.replace(/`[^`]*`/g, ' '))
+        const k = before.findIndex((x) => rx.test(x))
+        if (k >= 0) problems.push(`${m.id}: «${term}» is defined in ${p.where} but already used in ${k < i ? ordered[k].where : p.where}`)
+      }
+    })
+  }
+  assert.deepEqual(problems, [], 'define the term where it first appears, or describe the idea without the label until it is defined')
+})
+
+// ---------------------------------------------------------------------------------------------
+// Explained and exemplified (owner, 25 Nov 2026; docs/agents/lesson-writing.md §1): every config
+// field and every line of the Worker is explained, and every warning has a block that runs.
+// ---------------------------------------------------------------------------------------------
+
+/** wrangler.jsonc as data: JSONC is JSON that allows // comments. */
+function wranglerConfig(): Record<string, unknown> {
+  const text = protoCode('prototipo.configurar', 'wrangler.jsonc').code.replace(/^\s*\/\/.*$/gm, '')
+  return JSON.parse(text) as Record<string, unknown>
+}
+
+/** Every field path in the config, arrays of objects written as `[]`: d1_databases[].binding. */
+function fieldPaths(value: unknown, prefix = ''): string[] {
+  if (Array.isArray(value)) {
+    const objects = value.filter((v) => v && typeof v === 'object')
+    return objects.length ? objects.flatMap((v) => fieldPaths(v, `${prefix}[]`)) : [prefix]
+  }
+  if (value && typeof value === 'object') return Object.entries(value).flatMap(([k, v]) => fieldPaths(v, prefix ? `${prefix}.${k}` : k))
+  return [prefix]
+}
+
+test('every field of wrangler.jsonc is explained in the configurar table (no config line left unexplained)', () => {
+  // Defect guarded (owner, 25 Nov): the first draft explained wrangler.jsonc as "the file that says
+  // which folder to publish" and added main, compatibility_flags, d1_databases, binding and
+  // database_id with no word on any of them.
+  const table = protoStep('prototipo.configurar').table
+  assert.ok(table, 'prototipo.configurar lost its table of wrangler.jsonc fields')
+  const explained = new Set(table.rows.map((r) => r[0].replace(/`/g, '')))
+  const leaves = [...new Set(fieldPaths(wranglerConfig()))]
+  assert.ok(leaves.length >= 9, `expected at least 9 fields in wrangler.jsonc, found ${leaves.join(', ')}`)
+  const missing = leaves.filter((p) => !explained.has(p))
+  assert.deepEqual(missing, [], `explain these fields in the prototipo.configurar table: ${missing.join(', ')}`)
+  // Simulated drift: a field added to the config without a row must be reported.
+  const drifted = fieldPaths({ ...wranglerConfig(), observability: { enabled: true } }).filter((p) => !explained.has(p))
+  assert.ok(drifted.includes('observability.enabled'), 'sanity: an unexplained field added to the config must be caught')
+})
+
+test('every binding the Worker uses is declared in wrangler.jsonc, and every declared binding is used', () => {
+  // Defect guarded (found 25 Nov in pywrangler dev): entry.py called self.env.ASSETS, but the
+  // config declared no assets binding, so any path that was neither the API nor a file crashed
+  // with a 500 (AttributeError: ASSETS) instead of a 404.
+  const cfg = wranglerConfig() as { assets?: { binding?: string }; d1_databases?: { binding: string }[] }
+  const declared = [cfg.assets?.binding, ...(cfg.d1_databases ?? []).map((d) => d.binding)].filter(Boolean).sort()
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const used = [...new Set([...entry.matchAll(/self\.env\.([A-Z_][A-Z0-9_]*)/g)].map((m) => m[1]))].sort()
+  assert.deepEqual(declared, used, `wrangler.jsonc declares [${declared}] and src/entry.py uses self.env.[${used}]; they must match`)
+})
+
+test('every name src/entry.py imports or calls is explained in the worker-d1 line table', () => {
+  // Defect guarded (owner, 25 Nov): class Default(WorkerEntrypoint), self.env.DB and Response.json
+  // are not self-explanatory to someone who knows only S01–S12.
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const table = protoStep('prototipo.worker-d1').table
+  assert.ok(table, 'prototipo.worker-d1 lost its table of entry.py lines')
+  const explained = table.rows.map((r) => r.join(' ')).join(' ')
+  const imported = [...entry.matchAll(/^from \S+ import (.+)$/gm)].flatMap((m) => m[1].split(',').map((x) => x.trim()))
+  // Attributes and calls specific to Workers and D1; dict.get and list indexing are S06.
+  const attrs = [...entry.matchAll(/\.(prepare|bind|all|results|meta|rows_read|fetch|json|env|url|query)\b/g)].map((m) => m[1])
+  const names = [...new Set([...imported, 'Default', ...attrs.filter((a) => a !== 'meta')])]
+  const missing = names.filter((n) => !new RegExp(`\\b${n}\\b`).test(explained))
+  assert.ok(names.length >= 12, `expected to check at least 12 names in entry.py, found ${names.join(', ')}`)
+  assert.deepEqual(missing, [], `the worker-d1 table does not explain: ${missing.join(', ')}`)
+})
+
+test('the request diagram names the same file, bindings, folder and database as the config', () => {
+  // Defect guarded (drift): a round renames the binding or the folder in wrangler.jsonc and the
+  // diagram keeps the old name, so the picture teaches a Worker that does not exist.
+  const cfg = wranglerConfig() as { main: string; assets: { directory: string; binding: string }; d1_databases: { binding: string; database_name: string }[] }
+  const diagram = protoCode('prototipo.configurar', 'flujo_de_una_peticion.txt').code
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const apiPath = /url\.path != "([^"]+)"/.exec(entry)?.[1]
+  assert.ok(apiPath, 'src/entry.py no longer compares url.path with the API route; this test reads it')
+  const names = [cfg.main, cfg.assets.directory, `"binding": "${cfg.assets.binding}"`, ...cfg.d1_databases.flatMap((d) => [`"binding": "${d.binding}"`, d.database_name]), apiPath]
+  const missing = names.filter((n) => !diagram.includes(n))
+  assert.deepEqual(missing, [], `flujo_de_una_peticion.txt does not name: ${missing.join(', ')}`)
+})
+
+test('every warning in the prototype module has a block that runs the mistake and its correction (B8)', () => {
+  // Defect guarded (owner, 25 Nov): «pide en una sola consulta con JOIN» and «crea índices… y no
+  // para todas» were warnings with nothing that showed the cost.
+  const warnings: [string, RegExp, string][] = [
+    ['prototipo.indices', /columna sin índice revisa la tabla entera/, 'filas_leidas.py'],
+    ['prototipo.cuotas', /y no para todas/, 'escrituras.py'],
+    ['prototipo.paginar', /LIMIT 20 OFFSET 5000/, 'paginar.py'],
+    ['prototipo.paginar', /en lugar de una consulta por cada fila/, 'una_consulta.py'],
+    // Content editor review, 25 Nov: the composite index, «solo agrega», the token and the package check.
+    ['prototipo.indices', /USE TEMP B-TREE FOR ORDER BY/, 'indice_compuesto.py'],
+    ['prototipo.lista', /una migración solo agrega/, 'migracion_que_borra.py'],
+    ['prototipo.ia', /permiso mínimo/, 'alcance_minimo.py'],
+    ['prototipo.ia', /inventan nombres de paquetes/, 'nombre_parecido.py'],
+    // Codex, PR #208: the .dev.vars warning had only the correct setup.
+    ['prototipo.entornos', /nunca se sube a Git/, 'dev_vars_en_git.py'],
+  ]
+  for (const [id, said, title] of warnings) {
+    const s = protoStep(id)
+    const body = [...s.body, ...(s.table?.rows.flat() ?? [])].join(' ')
+    assert.match(body, said, `${id}: the warning ${said} is gone; update this list if it moved`)
+    const block = protoCode(id, title)
+    const e = block.code.indexOf('# Error'), c = block.code.indexOf('# Corrección')
+    assert.ok(e >= 0 && c > e, `${id}/${title}: expected a "# Error" block followed by a "# Corrección" block`)
+    assert.ok((block.output ?? '').trim().split('\n').length >= 2, `${id}/${title}: the output must show both the mistake and the correction`)
+  }
+})
+
+test('every number «Deberías ver» quotes in cuotas and paginar matches the output line of the case it names', () => {
+  // Defect guarded (drift): the prose quotes 227 pages while the code prints 228. Codex (PR #208)
+  // showed the first version accepted a number from the other case (three indexes quoted with the
+  // one-index figures), so each quoted claim is tied to the output line of its own case.
+  const norm = (x: string) => x.replace(/[,_]/g, '')
+  const claims: [string, RegExp, string][] = [
+    ['prototipo.cuotas', /Sin índice, la cuota del día se acaba en la visita ([\d,]+)/, 'sin índice:'],
+    ['prototipo.cuotas', /con índice alcanza para ([\d,]+) visitas/, 'con índice:'],
+    ['prototipo.cuotas', /Con tres índices, la carga escribe ([\d,]+) filas y ocupa (\d+) páginas/, 'tres índices:'],
+    ['prototipo.cuotas', /con uno, ([\d,]+) filas y (\d+) páginas/, 'un índice:'],
+    ['prototipo.paginar', /`OFFSET` revisa (\d+) filas/, 'OFFSET:'],
+    ['prototipo.paginar', /paginación por clave revisa (\d+)/, 'después del id'],
+    ['prototipo.paginar', /cuesta (\d+) consultas, una por fila/, 'una consulta por fila:'],
+    ['prototipo.paginar', /y (\d+) con `JOIN`/, 'con JOIN:'],
+  ]
+  const check = (expect: string, lines: string[]) => claims.flatMap(([id, rx, prefix]) => {
+    const m = rx.exec(expect.includes(id) ? expect.split(id)[1] : expect)
+    if (!m) return [`${id}: «Deberías ver» no longer says ${rx}; update this list if it was reworded`]
+    const line = lines.find((l) => l.startsWith(`${id}|${prefix}`))
+    if (!line) return [`${id}: no output line starts with "${prefix}"`]
+    return m.slice(1).filter((n) => !new RegExp(`(?<!\\d)${norm(n)}(?!\\d)`).test(norm(line))).map((n) => `${id}: «Deberías ver» quotes ${n} for "${prefix}", but that line prints: ${line.split('|')[1]}`)
+  })
+  const ids = [...new Set(claims.map((c) => c[0]))]
+  const expect = ids.map((id) => `${id}${protoStep(id).expect ?? ''}`).join('\n')
+  const lines = ids.flatMap((id) => blocksOf(protoStep(id)).flatMap((c) => (c.output ?? '').split('\n').map((l) => `${id}|${l}`)))
+  assert.deepEqual(check(expect, lines), [], 'make «Deberías ver» quote the numbers of the case it names')
+  // Negative control: the three-index claim quoted with the one-index figures must be reported.
+  const swapped = expect.replace('escribe 40,000 filas y ocupa 227 páginas', 'escribe 20,000 filas y ocupa 131 páginas')
+  assert.notEqual(swapped, expect, 'sanity: the negative control no longer finds the sentence it swaps')
+  assert.ok(check(swapped, lines).length >= 2, 'sanity: quoting one case with the other case\'s numbers must be caught')
+})
+
+test('the injection example hides a command that the approval row tells the learner to stop', () => {
+  // Defect guarded: an injection described only in words. The README block must hide the command
+  // inside an HTML comment, and every dangerous part of it must be one the table says to approve.
+  const readme = protoCode('prototipo.ia', 'README.md').code
+  const hidden = /<!--([\s\S]*?)-->/.exec(readme)?.[1] ?? ''
+  assert.match(hidden, /DROP TABLE/, 'the hidden comment in README.md must carry the destructive command')
+  assert.ok(!readme.replace(/<!--[\s\S]*?-->/, '').includes('DROP'), 'the command must be only inside the comment, where a rendered page hides it')
+  const approve = protoStep('prototipo.ia').table?.rows.find((r) => /Aprueba tú/.test(r[0]))?.[0] ?? ''
+  for (const part of ['DROP', '--remote']) assert.ok(approve.includes(part) && hidden.includes(part), `the approval row and the hidden command must both name ${part}`)
+})
+
+test('run in order, the entornos blocks leave the terminal in the Worker folder before pywrangler or .dev.vars', () => {
+  // Defect guarded (Codex, PR #208): vercel_entornos.sh ends inside site/, so secretos.sh created
+  // site/.dev.vars, which pywrangler dev never reads (it must sit beside wrangler.jsonc).
+  const depthAfter = (code: string, start: number) => code.split('\n').reduce((d, line) => {
+    const to = /^\s*cd\s+(\S+)/.exec(line)?.[1]
+    if (!to) return d
+    return to.split('/').filter(Boolean).reduce((x, part) => (part === '..' ? x - 1 : part === '.' ? x : x + 1), d)
+  }, start)
+  let depth = 0
+  const problems: string[] = []
+  for (const c of protoStep('prototipo.entornos').code ?? []) {
+    if (c.language !== 'bash') continue
+    if (/pywrangler|\.dev\.vars/.test(c.code) && depth !== 0) problems.push(`${c.title} starts ${depth} folder(s) below ventas-api`)
+    depth = depthAfter(c.code, depth)
+  }
+  assert.deepEqual(problems, [], 'add a cd back to ventas-api (where wrangler.jsonc is) before these blocks')
+  // Negative control: the same check on the old vercel_entornos.sh, without its last cd .., must fail.
+  assert.equal(depthAfter('cd site\nnpx vercel', 0), 1, 'sanity: a cd into site/ must count as one folder down')
 })

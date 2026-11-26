@@ -44,7 +44,9 @@ distilled, checkable rules citing the full guides they came from:
 - `ReviewerFixer/_GRAMMAR_SUBPLAN.md`
 - `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical; the `.docx` is a generated copy)
 
-Measured by `python3 scripts/prose_quality_audit.py`.
+Measured by `python3 scripts/prose_quality_audit.py`. What earlier rounds learned about
+explaining terms, exemplifying techniques and using the dependency graphs:
+**[`docs/agents/lesson-writing.md`](./docs/agents/lesson-writing.md)**.
 
 ## Verifying content
 
