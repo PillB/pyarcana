@@ -804,7 +804,10 @@ EXPECTED_SKIP_PREFIXES = ("non_python:", "needs_cli_argv")
 #: only safe once their snippets are shown to PASS rather than fail: a snippet that starts an ASGI
 #: server turns a skip into a hang, which is worse than an honest skip. That needs a measured run
 #: in an environment with both installed, and it is its own change.
-MISSING_DEPENDENCY_OWED = 6
+#: 2026-11-25: 6 -> 1, proposal 12 S21. requirements-content.txt now pins reportlab 5.1.0, after
+#: every S21 snippet that imports it was run under .venv-content and matched its pinned output.
+#: The one left is S41's `fastapi` import, for the ASGI-hang reason above.
+MISSING_DEPENDENCY_OWED = 1
 
 
 def skip_verdict(section_reports: list[dict], enforce_lower_bound: bool) -> dict:

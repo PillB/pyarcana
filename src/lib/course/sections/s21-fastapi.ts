@@ -22,16 +22,16 @@ export const section21: CourseSection = {
  icon: "FileStack",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y operaciones en Perú, el comité no acepta un Excel «bonito» si el DOCX dice otro número. Aquí aprendes a construir un factory de reportes que une dashboard, Excel y documentos reales con métricas reconciliadas, provenance (trazabilidad de origen) y aprobación humana. Es lo que separa un informe que pasa auditoría de uno que se desmorona en la primera pregunta.",
+ "En analytics y operaciones en Perú, el comité no acepta un Excel «bonito» si el DOCX dice otro número. Aquí aprendes a construir un factory de reportes: un programa que genera todos los documentos de una corrida. Une dashboard, Excel y documentos reales con métricas reconciliadas, provenance (trazabilidad de origen) y aprobación humana. Es lo que separa un informe que pasa auditoría de uno que se desmorona en la primera pregunta.",
  learningOutcomes: [
- { text: "Separar un context versionado de la presentación Jinja y reutilizar el mismo dict en varios artefactos" },
+ { text: "Separar un context versionado de la presentación en Jinja (librería de plantillas de Python) y reutilizar el mismo dict en varios artefactos" },
  { text: "Renderizar condiciones y tablas con missing como — (nunca 0 inventado) y formato decimal explícito" },
  { text: "Generar DOCX con estilos Heading reales, guardar, reabrir y extraer texto/estilos auditables" },
  { text: "Generar PDF digital, extraer capa de texto, renderizar PNG y marcar needs_ocr sin inventar lectura" },
  { text: "Empaquetar resumen, método y hallazgos H→evidencia (hallazgo ≠ decisión de negocio)" },
  { text: "Alinear captions, fuentes y limitaciones con paridad de métricas entre dashboard, Excel y documento" },
- { text: "Centralizar fmt_pen / precisión decimal y checklist mínima de a11y (H1 + alts útiles)" },
- { text: "Emitir manifiesto de provenance (run_id, huellas, checklist visual) en estado pending_review" }
+ { text: "Centralizar fmt_pen (precisión decimal que coincide con el redondeo de Excel) y checklist mínima de a11y (H1 + alts útiles)" },
+ { text: "Emitir manifiesto de provenance (run_id, SHA-256 de cada archivo, checklist visual) en estado pending_review" }
  ],
  theory: [
  {
@@ -47,7 +47,7 @@ export const section21: CourseSection = {
  type: "info",
  title: "Dependencias del lab",
  content:
- "En tu venv: `pip install jinja2 python-docx reportlab pypdf pymupdf pillow`. No uses PII real. Trabaja en un directorio de lab limpio: los demos crean `informe.docx` / `informe.pdf` / PNG locales. La revisión de cierre exige los archivos, el texto extraído, una vista renderizada y sus hashes; un dict en memoria no sustituye esos artefactos. En canvas ReportLab con Helvetica por defecto, los demos usan ASCII (`sintetico`) a propósito; en DOCX y Markdown del lab escribe **sintético** con tilde.",
+ "En tu venv: `pip install jinja2 python-docx reportlab pypdf pymupdf pillow`. No uses PII real. Trabaja en un directorio de lab limpio: los demos crean `informe.docx` / `informe.pdf` / PNG locales. La revisión de cierre exige los archivos, el texto extraído, una vista renderizada y el SHA-256 de los bytes de cada archivo. Un dict en memoria no sustituye esos artefactos. En canvas ReportLab con Helvetica por defecto, los demos usan ASCII (`sintetico`) a propósito; en DOCX y Markdown del lab escribe **sintético** con tilde.",
  },
 },
 {
@@ -72,7 +72,7 @@ export const section21: CourseSection = {
  paragraphs: [
  "Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). Calcula métricas **antes** del render: la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. Un solo `context` versionado (run_id, métricas, límites) alimenta DOCX, PDF y, más adelante, el correo de aprobación en S22. Si cada canal inventa su propio formato de KPI, la paridad muere en el primer redondeo.",
  "Contrato operativo: `Template(...).render(**ctx)`. Cuidado con un detalle que muerde: `Template(...)` a secas **no** escapa HTML. El autoescape hay que pedirlo, con `Environment(autoescape=select_autoescape(['html']))`, y renderizar desde ese entorno. Sin eso, un nombre que contenga `<script>` entra tal cual en la página. Nunca marques input de usuario como seguro —el filtro `|safe` de Jinja, o envolverlo en `Markup`— sin sanitizarlo antes. En texto plano (Markdown, cuerpo de DOCX vía plantilla) define política de caracteres. En un factory serio, configura `StrictUndefined` para que falte una variable a gritos en lugar de dejar un hueco vacío en el informe. Los KPI llegan ya redondeados (1–2 decimales PEN) desde Python: no “se redondean a ojo” en la plantilla ni en el Word del autor. El revisor debe poder re-renderizar el mismo context y obtener la misma cadena.",
- "Caso CASO-LIM-021: portada `CASO-LIM-021 · {{ region }} (n={{ n }})` → `CASO-LIM-021 · Lima (n=40)`; KPI `{{ m }} PEN (n={{ n }})` → `28 PEN (n=40)`. Una función `render_kpi(ctx)` centraliza el template fijo región/mediana/n y evita que cada autor del informe invente su propio formato. Así el dashboard S19 y el Excel S20 hablan el mismo idioma numérico — y el DOCX de esta sección no se desvía.",
+ "Caso CASO-LIM-021: portada `CASO-LIM-021 · {{ region }} (n={{ n }})` → `CASO-LIM-021 · Lima (n=40)`; KPI `{{ m }} PEN (n={{ n }})` → `28.0 PEN (n=40)`. Una función `render_kpi(ctx)` centraliza el template fijo región/mediana/n y evita que cada autor del informe invente su propio formato. Así el dashboard S19 y el Excel S20 hablan el mismo idioma numérico — y el DOCX de esta sección no se desvía.",
  ],
  code: {
  language: 'python',
@@ -102,7 +102,7 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
  heading: "Condiciones, tablas y formato seguro",
  subtopicId: "S21-T1-B",
  paragraphs: [
- "`{% if %}` y `{% for %}` construyen tablas y bloques condicionales. Formatea números en Python o con filtros Jinja explícitos (`'%.2f'|format(...)`). Cuando un valor falta, la celda muestra **—** y documenta missing: **no inventes ceros** que alteren sumas, promedios o la paridad con el Excel de S20. En un comité peruano de operaciones, un “0.00” en reclamos se lee como “no hubo reclamos”, no como “no medimos reclamos”.",
+ "`{% if %}` y `{% for %}` construyen tablas y bloques condicionales. Formatea números en Python o con filtros Jinja explícitos (`'%.2f'|format(...)`). Cuando un valor falta, la celda muestra **—** y documenta missing: **no inventes ceros** que alteren sumas, promedios o la paridad con el Excel de S20. El filtro `format` no acepta `None`: `'%.2f'|format(None)` lanza `TypeError`. Por eso la rama `is not none` va antes del formato, como en la demo. En un comité peruano de operaciones, un “0.00” en reclamos se lee como “no hubo reclamos”, no como “no medimos reclamos”.",
  "Contrato anti-inyección: no marques strings de usuario como safe en HTML. Listas de filas sintéticas se renderizan a líneas `region:value` o filas Markdown/HTML con escape. El missing explícito es una **decisión de reporting**, no un detalle cosmético: el caption o el data note debe decir por qué la celda está vacía (cobertura, corte, canal).",
  "Caso CASO-LIM-021: `median is None` → `—`; `28.456` → `28.46` a 2 decimales en tablas de detalle; en resúmenes ejecutivos a menudo 1 decimal PEN (coherente con T4). La tabla del informe debe reconciliar región/value con el workbook. Si Lima aparece con 28.0 en Excel y 0.0 en el DOCX “porque no había dato”, el comité toma una decisión falsa — y el factory de reportes es el culpable.",
  ],
@@ -115,15 +115,20 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
     # trim/lstrip evitan que la indentación del fuente se cuele en la tabla
     env = Environment(trim_blocks=True, lstrip_blocks=True)
     tmpl = env.from_string(
-        "{% for r in rows %}- {{ r.region }}: {{ '%.2f'|format(r.median) }} PEN\\n{% endfor %}"
+        "{% for r in rows %}- {{ r.region }}: "
+        "{{ '%.2f PEN'|format(r.median) if r.median is not none else '—' }}\\n{% endfor %}"
     )
-    rows = [{"region": "Lima", "median": 28.0}, {"region": "Madrid", "median": 22.5}]
+    rows = [
+        {"region": "Lima", "median": 28.0},
+        {"region": "Madrid", "median": 22.5},
+        {"region": "Bogota", "median": None},
+    ]
     print(tmpl.render(rows=rows), end="")
 
 s21_th_2()`,
  output: `- Lima: 28.00 PEN
 - Madrid: 22.50 PEN
-`,
+- Bogota: —`,
  },
  callout: {
  type: "warning",
@@ -174,8 +179,8 @@ True True`,
  heading: "PDF digital real: generación, extracción y render",
  subtopicId: "S21-T2-B",
  paragraphs: [
- "Un **PDF digital** tiene texto seleccionable (pypdf extrae); un **PDF escaneado** es imagen y puede requerir **OCR** —*optical character recognition*: leer las letras que hay dibujadas en una imagen— con la tasa de error que eso implica. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. El render a PNG (PyMuPDF) prueba legibilidad visual; la extracción prueba la capa digital. Ninguna sustituye la reconciliación tabular.",
- "Contrato: generar PDF local con `n=40`, extraer texto, firmar PDF (`%PDF`); render primera página a PNG y verificar existencia de ambos artefactos. El hash del PDF entra al provenance del paquete.",
+ "Un **PDF digital** tiene texto seleccionable, que pypdf extrae. Un **PDF escaneado** es una imagen y puede requerir **OCR** —*optical character recognition*: leer las letras que hay dibujadas en una imagen— con la tasa de error que eso implica. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. El render a PNG (PyMuPDF) prueba legibilidad visual; la extracción prueba la capa digital. Ninguna sustituye la reconciliación tabular.",
+ "Contrato: generar PDF local con `n=40`, extraer texto y comprobar que el archivo empieza por los bytes `%PDF`. Después, renderizar la primera página a PNG y verificar que existen ambos artefactos. El SHA-256 del PDF entra al manifiesto del paquete (clave `artifacts`, en el I Do de T4-B). PyMuPDF se importa como `pymupdf`; el nombre antiguo `fitz` todavía funciona, pero imprime un aviso de obsolescencia antes de tu salida.",
  "Caso: PDF imagen-only con texto dibujado en un PNG sintético → pypdf no recupera capa de texto → `needs_ocr`. El paquete documenta el modo (digital vs. OCR pendiente); no finge un PDF nativo. Más adelante (S24) profundizarás OCR; aquí aprendes a **abstenerte con honestidad**.",
  ],
  code: {
@@ -183,7 +188,7 @@ True True`,
  title: "pdf_real.py",
  code: `def s21_th_4():
     from pathlib import Path
-    import fitz
+    import pymupdf
     from pypdf import PdfReader
     from reportlab.pdfgen import canvas
 
@@ -193,12 +198,11 @@ True True`,
     c.save()
     text = "".join(page.extract_text() or "" for page in PdfReader(pdf).pages)
     png = Path("informe-p1.png")
-    # El Document tiene que seguir vivo mientras uses la Page. Con
-    # fitz.open(pdf)[0] nadie guarda el documento, se puede liberar en cuanto
-    # termina la expresion, y la pagina queda huerfana: get_pixmap falla a
-    # veces y funciona otras, que es la peor forma de fallar.
-    with fitz.open(pdf) as doc:
-        doc[0].get_pixmap(matrix=fitz.Matrix(1, 1)).save(png)
+    # El bloque with cierra el PDF al salir, aunque get_pixmap falle. Sin él,
+    # el archivo queda abierto hasta que Python libere el objeto, y en Windows
+    # un PDF abierto no se puede borrar ni sobrescribir.
+    with pymupdf.open(pdf) as doc:
+        doc[0].get_pixmap(matrix=pymupdf.Matrix(1, 1)).save(png)
     print(pdf.read_bytes()[:4] == b"%PDF", "n=40" in text)
     print(png.exists(), png.stat().st_size > 0)
 
@@ -250,21 +254,30 @@ Tabla1`,
  paragraphs: [
  "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con **caption alineado** en fuente, corte y n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia el checksum (suma de verificación) de métricas clave entre artefactos: si el PNG dice mediana 28 y el DOCX dice 30, el control de consistencia falla.",
  "Contrato: caption dict + pie con campo Fuente visible; unidades PEN a 1 decimal en todo el paquete. Tres artefactos (png, xlsx, docx) comparten `run_id` y `n=40`. El memo de limitaciones repite cobertura (p. ej. web-only) donde el lector la vea.",
- "Caso sintético: bundle (paquete) con `metrics`, `limits` y caption `Fig.1 … | Fuente: sintético | n_Lima=40`. Paridad `dash == xlsx == doc` es el corazón del cierre CP-N2-B: un solo número, tres superficies.",
+ "Caso sintético: bundle (paquete) con `metrics`, `limits` y caption `Fig.1 … | Fuente: sintético | n_Lima=40`, que se arma desde las métricas y no se escribe a mano. `check_parity` compara los tres dicts: con el DOCX redondeado a mano a 30.0 devuelve False. Paridad `dash == xlsx == doc` es el corazón del cierre CP-N2-B: un solo número, tres superficies.",
  ],
  code: {
  language: 'python',
  title: "embed_limits.py",
  code: `def s21_th_6():
-    metrics = {"median_Lima": 28.0, "n_Lima": 40}
-    caption = "Fig.1 Ticket mediano | Fuente: sintético | n_Lima=40"
-    assert "40" in caption
-    bundle = {"fig": "fig1.png", "table": "tabla1", "metrics": metrics, "limits": ["solo web"]}
-    print(bundle["metrics"])
+    def check_parity(dash, xlsx, doc):
+        return dash == xlsx == doc
+
+    dash = {"median_Lima": 28.0, "n_Lima": 40}
+    xlsx = {"median_Lima": 28.0, "n_Lima": 40}
+    doc = {"median_Lima": 28.0, "n_Lima": 40}
+    print("paridad", check_parity(dash, xlsx, doc))
+    doc_a_mano = {"median_Lima": 30.0, "n_Lima": 40}
+    print("paridad", check_parity(dash, xlsx, doc_a_mano))
+    caption = f"Fig.1 Ticket mediano | Fuente: sintético | n_Lima={dash['n_Lima']}"
+    bundle = {"fig": "fig1.png", "caption": caption, "metrics": dash, "limits": ["solo web"]}
+    print(bundle["caption"])
     print(bundle["limits"])
 
 s21_th_6()`,
- output: `{'median_Lima': 28.0, 'n_Lima': 40}
+ output: `paridad True
+paridad False
+Fig.1 Ticket mediano | Fuente: sintético | n_Lima=40
 ['solo web']`,
  },
  callout: {
@@ -278,29 +291,36 @@ s21_th_6()`,
  heading: "Redacción, accesibilidad y consistencia",
  subtopicId: "S21-T4-A",
  paragraphs: [
- "Redacción en español profesional (**es-PE**): el cuerpo ejecutivo habla al comité, no a un repositorio de GitHub. Evita anglicismos que el gremio no reconoce (“outperform”, “drive insights”); deja términos técnicos (KPI, SLA, a11y, provenance, factory) donde el oficio los espera, glosándolos la primera vez si el lector no es técnico. Accesibilidad: headings reales, alt de figuras con n y unidad, tablas con encabezados, contraste en HTML cuando el dashboard se empaqueta.",
- "Contrato de consistencia: **un mismo número se ve igual en los tres canales** — dashboard, Excel e informe. Ojo con lo que fija la regla y lo que no: no dice que todo el paquete use la misma cantidad de decimales, porque las tablas de detalle usan 2 y los resúmenes ejecutivos 1. Dice que la cifra de detalle de Lima se imprime con 2 decimales *en los tres sitios*, y la del resumen con 1 *en los tres sitios*. La precisión la fija el contexto; lo que nunca varía es el canal. Si un canal imprime `28.0` y otro `28`, el revisor ve “dos números” aunque sean iguales. Centraliza con `fmt_pen` / `format_metric` para no divergir entre Jinja y Excel. Un glosario breve en anexo basta si introduces siglas nuevas en el paquete.",
- "Caso CASO-LIM-021: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad (`Barras mediana por región, n por barra en tooltip`); headings del DOCX son estilos de Word, no solo tamaño de fuente. Checklist mínima (`has_h1` + al menos un alt con longitud útil > 10; lista vacía no pasa) evita publicar un paquete ilegible para lectores con tecnología asistiva — y es la misma barra que usa el I Do de este subtema.",
+ "Redacción en español profesional (**es-PE**): el cuerpo ejecutivo habla al comité, no a un repositorio de GitHub. Evita anglicismos que el gremio no reconoce (“outperform”, “drive insights”). Deja los términos técnicos (KPI, SLA, a11y, provenance, factory) donde el oficio los espera, y glósalos la primera vez si el lector no es técnico. Accesibilidad: headings reales, alt de figuras con n y unidad, tablas con encabezados, contraste en HTML cuando el dashboard se empaqueta.",
+ "Contrato de consistencia: **un mismo número se ve igual en los tres canales** — dashboard, Excel e informe. Ojo con lo que fija la regla y lo que no. No dice que todo el paquete use la misma cantidad de decimales: las tablas de detalle usan 2 y los resúmenes ejecutivos 1. Dice que la cifra de detalle de Lima se imprime con 2 decimales *en los tres sitios*, y la del resumen con 1 *en los tres sitios*. La precisión la fija el contexto; lo que nunca varía es el canal. Si un canal imprime `28.0` y otro `28`, el revisor ve “dos números” aunque sean iguales. Centraliza con `fmt_pen` para no divergir entre Jinja y Excel. Cuidado con los empates: `round()` de Python lleva el empate al número par, así que `round(28.25, 1)` da 28.2. `ROUND` de Excel (`REDONDEAR` en Excel en español) aleja el empate del cero y da 28.3. Por eso `fmt_pen` usa `Decimal` con `ROUND_HALF_UP`, que coincide con Excel. `Decimal(str(x))` parte del número tal como se escribe, no de su aproximación binaria. Un glosario breve en anexo basta si introduces siglas nuevas en el paquete.",
+ "Caso CASO-LIM-021: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad (`Barras de mediana por región en PEN, n=40 en Lima`); headings del DOCX son estilos de Word, no solo tamaño de fuente. La checklist mínima evita publicar un paquete ilegible para lectores con tecnología asistiva, y es la misma barra que usa el I Do de este subtema. Pide `has_h1` leído del DOCX reabierto y al menos un alt; cada alt lleva más de 10 caracteres, `n=` y unidad, y una lista vacía no pasa.",
  ],
  code: {
  language: 'python',
  title: "consistency.py",
  code: `def s21_th_7():
-    vals = [28.04, 28.0, 28]
-    precision = 1
-    norm = [round(float(v), precision) for v in vals]
-    print(norm)
-    print("consistente", len(set(norm)) == 1)
+    from decimal import Decimal, ROUND_HALF_UP
+
+    def fmt_pen(x):
+        if x is None:
+            return "—"
+        q = Decimal(str(x)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+        return f"{q} PEN"
+
+    print([fmt_pen(v) for v in [28.04, 28.0, 28]])
+    print("round", round(28.25, 1), "| fmt_pen", fmt_pen(28.25))
+    print(fmt_pen(None))
 
 s21_th_7()`,
- output: `[28.0, 28.0, 28.0]
-consistente True`,
+ output: `['28.0 PEN', '28.0 PEN', '28.0 PEN']
+round 28.2 | fmt_pen 28.3 PEN
+—`,
  },
  callout: {
  type: "tip",
- title: "Una función format_metric",
+ title: "Una sola función fmt_pen",
  content:
- "Centraliza redondeo y unidades para no divergir entre Jinja y Excel.",
+ "Centraliza redondeo, unidad y missing (`—`) en `fmt_pen` para no divergir entre Jinja y Excel.",
  },
  },
  {
@@ -308,7 +328,7 @@ consistente True`,
  subtopicId: "S21-T4-B",
  paragraphs: [
  "T4-A dejó el texto y los decimales consistentes; el cierre del factory es **gobernanza**: ¿quién generó qué, con qué datos, y quién miró el paquete? Registra **provenance**: run_id, huella de datos, hashes de artefactos, checklist visual. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completa (dashboard, xlsx, doc), **no hay cierre CP-N2-B**. El paquete en `pending_review` es la entrada limpia al flujo de email/aprobación de S22 — no marques `approved` desde el script del factory.",
- "Contrato: `ready(checklist)` es True solo si dashboard, xlsx y doc están True (`all`, no `any`). En el lab usamos un recorte corto de sha1 (8 hex) como id didáctico; en producción prefiere **SHA-256** del artefacto completo (el recorte de 8 hex es débil ante colisiones). Actor y timestamp van en el log de aprobación (preludio de S22).",
+ "Contrato: `ready(checklist)` es True solo si dashboard, xlsx y doc están presentes y en True (`all`, no `any`); una clave que falta cuenta como no lista. La huella de los datos usa un recorte corto de sha1 (8 hex) como id didáctico. Cada artefacto lleva, en cambio, el **SHA-256** de sus bytes completos, porque un recorte de 8 hex es débil ante colisiones. Ese hash permite comprobar después que nadie editó el archivo a mano: se recalcula y se compara. Actor y timestamp van en el log de aprobación (preludio de S22).",
  "Caso CASO-LIM-021: checklist incompleta → `ready` False; completa → True. El manifiesto JSON fija run_id, huella, lista de artefactos y `approval.status = pending_review` hasta que un humano revise. Un print de “ok” o un dict solo en memoria no sustituye ese manifiesto ni los archivos en disco.",
  ],
  code: {
@@ -316,30 +336,43 @@ consistente True`,
  title: "provenance.py",
  code: `def s21_th_8():
     import hashlib, json
+    from pathlib import Path
 
-    artifacts = {"dashboard": "ok", "xlsx": "ok", "doc": "ok"}
+    def sha256(path):
+        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+    def intacto(prov):
+        return all(sha256(p) == h for p, h in prov["artifacts"].items())
+
+    # write_bytes: en Windows, write_text cambiaría \\n por \\r\\n y con ello el hash
+    Path("tabla1.csv").write_bytes(b"region,mediana,n\\nLima,28.0,40\\n")
     prov = {
      "run_id": "cpn2b-20240630-01",
      "ts": "2024-06-30T12:00:00Z",
      "data_sha1_8": hashlib.sha1(b"synthetic").hexdigest()[:8],
-     "artifacts": artifacts,
+     "artifacts": {"tabla1.csv": sha256("tabla1.csv")},
      "approval": {"status": "pending_review", "reviewer": None},
     }
     print(json.dumps(prov, ensure_ascii=False))
+    print("intacto", intacto(prov))
+    Path("tabla1.csv").write_bytes(b"region,mediana,n\\nLima,30.0,40\\n")
+    print("intacto tras editar a mano", intacto(prov))
 
 s21_th_8()`,
- output: `{"run_id": "cpn2b-20240630-01", "ts": "2024-06-30T12:00:00Z", "data_sha1_8": "385fcd67", "artifacts": {"dashboard": "ok", "xlsx": "ok", "doc": "ok"}, "approval": {"status": "pending_review", "reviewer": null}}`,
+ output: `{"run_id": "cpn2b-20240630-01", "ts": "2024-06-30T12:00:00Z", "data_sha1_8": "385fcd67", "artifacts": {"tabla1.csv": "6d51be1c5dfcf8cbe505607f13ec397ae56b0a729b39e3c6cdbbab64394085dd"}, "approval": {"status": "pending_review", "reviewer": null}}
+intacto True
+intacto tras editar a mano False`,
  },
  callout: {
  type: "success",
  title: "Criterio de cierre del paquete",
  content:
- "Sin provenance y sin revisión visual registrada, el paquete CP-N2-B no se considera cerrado: faltan evidencias auditables del factory. En producción usa SHA-256 del artefacto completo; el recorte sha1[:8] es solo id de lab.",
+ "Sin provenance y sin revisión visual registrada, el paquete CP-N2-B no se considera cerrado: faltan evidencias auditables del factory. Cada artefacto lleva el SHA-256 de sus bytes; el recorte sha1[:8] es solo el id de lab de los datos.",
  },
  }
  ],
  iDo: {
- intro: "I Do — observa el Reporting Factory en ocho demos (una por subtema). El recorrido: Jinja con context único → tablas con missing honesto → DOCX real reabierto → PDF digital + PNG → narrativa H→evidencia → paridad dash/xlsx/doc → fmt_pen y a11y mínima → provenance + checklist visual. No copies a ciegas: nota qué se calcula, qué se persiste a disco y qué se deja en `pending_review`. En We Do practicarás cada pieza; en You Do las unes en una sola corrida CP-N2-B.",
+ intro: "I Do — observa el Reporting Factory en ocho demos (una por subtema). El recorrido empieza con Jinja y un context único, sigue con tablas con missing honesto, un DOCX real reabierto y un PDF digital con su PNG. Después vienen la narrativa H→evidencia, la paridad dash/xlsx/doc, fmt_pen con a11y mínima y, al final, provenance con checklist visual. No copies a ciegas: nota qué se calcula, qué se persiste a disco y qué se deja en `pending_review`. En We Do practicarás cada pieza; en You Do las unes en una sola corrida CP-N2-B.",
  steps: [
  {
  demoId: "S21-T1-A-DEMO",
@@ -411,7 +444,7 @@ Madrid: —
  environment: "local-python",
  description: "Crear, guardar y reabrir un DOCX con estilos reales",
  preamble:
- "T1 te dio un context limpio; T2 lo baja a **disco**. Un DOCX trazable usa estilos Heading reales, se guarda y se **reabre** para extraer texto y estilos. En esta demo creas `reporte.docx`, verificas la firma ZIP (`PK`) y lees el heading “Resumen ejecutivo”. No escribas aún; predice `suffix`, booleano PK y la lista de headings. “Se veía bien en la sesión del autor” no es evidencia ante un revisor sin tu Word abierto.",
+ "T1 te dio un context limpio; T2 lo baja a **disco**. Un DOCX trazable usa estilos Heading reales, se guarda y se **reabre** para extraer texto y estilos. En esta demo creas `informe.docx`, verificas la firma ZIP (`PK`) y lees el heading “Resumen ejecutivo”. No escribas aún; predice `suffix`, booleano PK y la lista de headings. “Se veía bien en la sesión del autor” no es evidencia ante un revisor sin tu Word abierto.",
  code: {
  language: 'python',
  title: "demo_docx_artifact.py",
@@ -419,7 +452,7 @@ Madrid: —
     from pathlib import Path
     from docx import Document
 
-    path = Path("reporte.docx")
+    path = Path("informe.docx")
     doc = Document()
     doc.add_heading("Resumen ejecutivo", 1)
     doc.add_paragraph("Fuente: sintética; n=40")
@@ -443,23 +476,24 @@ s21_ido_3()`,
  environment: "local-python",
  description: "Generar PDF, extraer texto y renderizar una página PNG",
  preamble:
- "Un PDF digital tiene texto seleccionable; un escaneo es imagen. En esta demo generas `reporte.pdf` con ReportLab, extraes con pypdf y renderizas la primera página a PNG con PyMuPDF. Observa tres checks: firma `%PDF`, presencia de “H1” en el texto extraído y tamaño del PNG. No escribas aún; predice los booleanos. Ninguna de las tres pruebas sustituye sola la reconciliación tabular — pero juntas cierran el artefacto.",
+ "Un PDF digital tiene texto seleccionable; un escaneo es imagen. En esta demo generas `informe.pdf` con ReportLab, extraes con pypdf y renderizas la primera página a PNG con PyMuPDF. Observa tres checks: firma `%PDF`, presencia de “H1” en el texto extraído y tamaño del PNG. No escribas aún; predice los booleanos. Ninguna de las tres pruebas sustituye sola la reconciliación tabular — pero juntas cierran el artefacto.",
  code: {
  language: 'python',
  title: "demo_pdf_artifact.py",
  code: `def s21_ido_4():
     from pathlib import Path
-    import fitz
+    import pymupdf
     from pypdf import PdfReader
     from reportlab.pdfgen import canvas
 
-    pdf = Path("reporte.pdf")
+    pdf = Path("informe.pdf")
     c = canvas.Canvas(str(pdf))
     c.drawString(72, 760, "Hallazgo H1; n=40")
     c.save()
     text = PdfReader(pdf).pages[0].extract_text() or ""
-    png = Path("reporte-p1.png")
-    fitz.open(pdf)[0].get_pixmap().save(png)
+    png = Path("informe-p1.png")
+    with pymupdf.open(pdf) as doc:  # cierra el PDF al salir del bloque
+        doc[0].get_pixmap().save(png)
     print("H1" in text, pdf.read_bytes()[:4] == b"%PDF")
     print(png.stat().st_size > 0)
 
@@ -467,7 +501,7 @@ s21_ido_4()`,
  output: `True True
 True`,
  },
- why: "Extracción = capa digital; PNG = legibilidad visual; el hash del PDF entra al provenance (T4-B). Un PNG legible no prueba por sí solo que el PDF sea digital: hace falta `extract_text`. Si la capa queda vacía, el contrato es `needs_ocr`, no inventar texto. En We Do practicarás n=40 en capa, render PNG y caso imagen-only.",
+ why: "Extracción = capa digital; PNG = legibilidad visual; el SHA-256 del PDF entra al manifiesto (clave `artifacts`, I Do de T4-B). Un PNG legible no prueba por sí solo que el PDF sea digital: hace falta `extract_text`. Si la capa queda vacía, el contrato es `needs_ocr`, no inventar texto. En We Do practicarás n=40 en capa, render PNG y caso imagen-only.",
  retrospective:
  "Un PNG legible no prueba por sí solo que el PDF sea digital: hace falta extracción. Si la capa queda vacía, el contrato es `needs_ocr`, no inventar texto. Pregunta: ¿qué evidencia llevarías al manifiesto si solo tienes un PNG bonito? We Do: n=40 en capa, render PNG y caso imagen-only.",
  },
@@ -513,21 +547,35 @@ decision_none True`,
  environment: "local-python",
  description: "Embeber métricas con fuentes/límites y check de paridad",
  preamble:
- "El corazón de CP-N2-B es **paridad**: dashboard, Excel y documento con la misma mediana Lima 28.0. Esta demo compara tres dicts, adjunta límites (cobertura web, n Madrid bajo) y empaqueta `parity` + `fuente`. Observa que `parity` es un booleano de igualdad de estructuras de métricas, no un “se ve similar”. No escribas aún; predice el bundle. Si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño.",
+ "El corazón de CP-N2-B es **paridad**: dashboard, Excel y documento con la misma mediana Lima 28.0. Esta demo compara tres dicts, adjunta límites (cobertura web, n Madrid bajo) y empaqueta `parity` + `fuente`. Observa que `parity` es un booleano de igualdad de estructuras de métricas, no un “se ve similar”. La segunda corrida usa un DOCX redondeado a mano a 30.0, y `primera_diferencia` nombra la métrica que no cuadra. No escribas aún; predice el bundle y las dos líneas siguientes. Si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño.",
  code: {
  language: 'python',
  title: "demo_parity.py",
  code: `def s21_ido_6():
-    dash = {"median_Lima": 28.0}
-    xlsx = {"median_Lima": 28.0}
-    doc = {"median_Lima": 28.0}
+    def check_parity(dash, xlsx, doc):
+        return dash == xlsx == doc
+
+    def primera_diferencia(dash, xlsx, doc):
+        for clave in dash:
+            valores = {"dash": dash.get(clave), "xlsx": xlsx.get(clave), "doc": doc.get(clave)}
+            if len(set(valores.values())) > 1:
+                return clave, valores
+        return None
+
+    dash = {"median_Lima": 28.0, "n_Lima": 40}
+    xlsx = {"median_Lima": 28.0, "n_Lima": 40}
+    doc = {"median_Lima": 28.0, "n_Lima": 40}
     limits = ["cobertura web", "n Madrid bajo"]
-    parity = dash == xlsx == doc
-    bundle = {"parity": parity, "limits": limits, "fuente": "sintético"}
+    bundle = {"parity": check_parity(dash, xlsx, doc), "limits": limits, "fuente": "sintético"}
     print(bundle)
+    doc_a_mano = {"median_Lima": 30.0, "n_Lima": 40}
+    print("parity", check_parity(dash, xlsx, doc_a_mano))
+    print("difiere", primera_diferencia(dash, xlsx, doc_a_mano))
 
 s21_ido_6()`,
- output: `{'parity': True, 'limits': ['cobertura web', 'n Madrid bajo'], 'fuente': 'sintético'}`,
+ output: `{'parity': True, 'limits': ['cobertura web', 'n Madrid bajo'], 'fuente': 'sintético'}
+parity False
+difiere ('median_Lima', {'dash': 28.0, 'xlsx': 28.0, 'doc': 30.0})`,
  },
  why: "Paridad es el gate de cierre del factory: un solo número, tres superficies. Los límites de cobertura deben ser visibles al lector, no solo en un anexo escondido. Sin `fuente` y sin `limits`, el revisor no puede interpretar el n ni la muestra web-only del CASO-LIM-021.",
  retrospective:
@@ -539,31 +587,50 @@ s21_ido_6()`,
  environment: "local-python",
  description: "Normalizar decimales y validar presencia de headings/alt",
  preamble:
- "Antes de mandar a revisión, el factory unifica **cómo se escribe** el número y si el paquete es mínimamente accesible. Esta demo formatea 28.04 y 28.0 a `28.0 PEN`, verifica un solo string decimal y un alt de figura con longitud útil. Observa que `a11y_min` exige H1 **y** alts no vacíos con más de 10 caracteres. No escribas aún; predice las tres líneas. Si un canal imprime `28` y otro `28.0`, el revisor ve dos métricas aunque sean iguales.",
+ "Antes de mandar a revisión, el factory unifica **cómo se escribe** el número y si el paquete es mínimamente accesible. Esta demo formatea 28.04 y 28.0 a `28.0 PEN`, verifica un solo string decimal y un alt de figura útil. Observa que `a11y_min` exige H1 **y** alts no vacíos, cada uno con más de 10 caracteres, `n=` y unidad. `has_h1` no se escribe a mano: sale del DOCX reabierto, y un título en negrita no cuenta. No escribas aún; predice las cuatro líneas. Si un canal imprime `28` y otro `28.0`, el revisor ve dos métricas aunque sean iguales.",
  code: {
  language: 'python',
  title: "demo_a11y_copy.py",
  code: `def s21_ido_7():
-    def fmt_pen(x):
-        return f"{round(float(x), 1)} PEN"
+    from decimal import Decimal, ROUND_HALF_UP
+    from docx import Document
 
-    checks = {
-        "decimals": [fmt_pen(28.04), fmt_pen(28.0)],
-        "has_h1": True,
-        "alts": ["Barras mediana por región, n por barra en tooltip"],
-    }
-    alts = checks["alts"]
-    a11y_ok = checks["has_h1"] and len(alts) > 0 and all(len(a) > 10 for a in alts)
-    print(checks["decimals"])
-    print("decimal_ok", len(set(checks["decimals"])) == 1)
-    print("a11y_min", a11y_ok)
+    def fmt_pen(x):
+        if x is None:
+            return "—"
+        q = Decimal(str(x)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+        return f"{q} PEN"
+
+    def has_h1(path):
+        return any(p.style.name == "Heading 1" for p in Document(path).paragraphs)
+
+    def alt_util(a):
+        return len(a) > 10 and "n=" in a and ("PEN" in a or "%" in a)
+
+    def a11y_min(path, alts):
+        return has_h1(path) and len(alts) > 0 and all(alt_util(a) for a in alts)
+
+    con_h1 = Document()
+    con_h1.add_heading("Resumen ejecutivo", 1)
+    con_h1.save("con_h1.docx")
+    sin_h1 = Document()
+    sin_h1.add_paragraph().add_run("Resumen ejecutivo").bold = True  # parece título, no lo es
+    sin_h1.save("sin_h1.docx")
+
+    decimals = [fmt_pen(28.04), fmt_pen(28.0)]
+    alts = ["Barras de mediana por región en PEN, n=40 en Lima"]
+    print(decimals)
+    print("decimal_ok", len(set(decimals)) == 1)
+    print("a11y_min con_h1", a11y_min("con_h1.docx", alts))
+    print("a11y_min sin_h1", a11y_min("sin_h1.docx", alts))
 
 s21_ido_7()`,
  output: `['28.0 PEN', '28.0 PEN']
 decimal_ok True
-a11y_min True`,
+a11y_min con_h1 True
+a11y_min sin_h1 False`,
  },
- why: "Centralizar `fmt_pen` evita divergencia tipográfica entre Jinja, Excel y documento. La checklist a11y mínima (H1 + alts útiles) no es WCAG completa, pero bloquea paquetes ilegibles o sin alternativa de figura. `has_h1` solo no basta: `all([])` es True en Python y haría pasar una lista vacía de alts.",
+ why: "Centralizar `fmt_pen` evita divergencia tipográfica entre Jinja, Excel y documento. La checklist a11y mínima (H1 + alts útiles) no es WCAG completa, pero bloquea paquetes ilegibles o sin alternativa de figura. `has_h1` se lee del archivo: el documento con el título en negrita da False aunque en pantalla se vea igual. `has_h1` solo no basta: `all([])` es True en Python y haría pasar una lista vacía de alts.",
  retrospective:
  "Una función de formato + gate a11y = consistencia tipográfica y mínima inclusión. `has_h1` solo no basta: una lista vacía de alts aprueba por el truco de `all([])`. Pregunta: ¿por qué `28` y `28.0` se leen como dos métricas? We Do: round a 1 decimal, `fmt_pen` con unidad y `a11y_min` robusto.",
  },
@@ -573,28 +640,61 @@ a11y_min True`,
  environment: "local-python",
  description: "Registrar provenance y estado de cola de aprobación",
  preamble:
- "El cierre del factory es **gobernanza**: quién generó qué, con qué datos, y quién miró el paquete. Esta demo emite un manifiesto con run_id, recorte sha1 de lab, lista de artefactos, checklist visual completa y `approval.status = pending_review`. Observa también `ready_for_review` con `all(...)` sobre la checklist. No escribas aún; predice el JSON y el booleano. Un print de “ok” o un dict solo en memoria no sustituye el manifiesto ni los archivos en disco — y **nunca** marques `approved` desde el factory (eso es S22 humano).",
+ "El cierre del factory es **gobernanza**: quién generó qué, con qué datos, y quién miró el paquete. Esta demo crea `informe.docx`, `informe.pdf` y `informe-p1.png`, y emite un manifiesto con run_id, recorte sha1 de los datos y el SHA-256 de cada archivo. Los `checks` salen de los archivos (existe, tamaño > 0 y bytes iniciales correctos); nada se escribe a mano como True. La `visual_checklist` empieza en False: la marca una persona después de mirar el paquete, y su decisión se registra en el log de aprobación de S22. No escribas aún; predice las cinco líneas. Un print de “ok” o un dict solo en memoria no sustituye el manifiesto ni los archivos en disco — y **nunca** marques `approved` desde el factory (eso es S22 humano).",
  code: {
  language: 'python',
  title: "demo_prov.py",
  code: `def s21_ido_8():
     import hashlib, json
+    from pathlib import Path
+    import pymupdf
+    from docx import Document
+    from reportlab.pdfgen import canvas
 
+    def sha256(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    docx, pdf, png = Path("informe.docx"), Path("informe.pdf"), Path("informe-p1.png")
+    d = Document()
+    d.add_heading("Resumen ejecutivo", 1)
+    d.add_paragraph("Ticket mediano 28.0 PEN (n=40)")
+    d.save(docx)
+    c = canvas.Canvas(str(pdf))
+    c.drawString(72, 760, "Ticket mediano 28.0 PEN (n=40)")
+    c.save()
+    with pymupdf.open(pdf) as doc:
+        doc[0].get_pixmap().save(png)
+
+    inicio = {docx: b"PK", pdf: b"%PDF", png: b"\\x89PNG"}
+    checks = {p.name: p.exists() and p.stat().st_size > 0 and p.read_bytes().startswith(b)
+              for p, b in inicio.items()}
     prov = {
      "run_id": "cpn2b-close-01",
      "data_sha1_8": hashlib.sha1(b"rows-synthetic").hexdigest()[:8],
-     "artifacts": ["dashboard.html", "results.xlsx", "informe.md"],
-     "visual_checklist": {"dashboard": True, "xlsx": True, "doc": True},
+     "artifacts": {p.name: {"sha256": sha256(p)} for p in inicio},
+     "checks": checks,
+     "visual_checklist": {"dashboard": False, "xlsx": False, "doc": False},
      "approval": {"status": "pending_review"},
     }
-    print(json.dumps(prov, ensure_ascii=False))
-    print("ready_for_review", all(prov["visual_checklist"].values()))
+    Path("manifest.json").write_text(json.dumps(prov, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(list(prov["artifacts"]))
+    print("sha256_por_archivo", all(len(a["sha256"]) == 64 for a in prov["artifacts"].values()))
+    print("checks", checks)
+    archivos_ok = all(checks.values())
+    revisado = all(prov["visual_checklist"].get(k, False) for k in ("dashboard", "xlsx", "doc"))
+    print("archivos_ok", archivos_ok)
+    print("ready_for_review", archivos_ok and revisado)  # False hasta que una persona marque el checklist
+    print("approval", prov["approval"]["status"])
 
 s21_ido_8()`,
- output: `{"run_id": "cpn2b-close-01", "data_sha1_8": "f2b0d009", "artifacts": ["dashboard.html", "results.xlsx", "informe.md"], "visual_checklist": {"dashboard": true, "xlsx": true, "doc": true}, "approval": {"status": "pending_review"}}
-ready_for_review True`,
+ output: `['informe.docx', 'informe.pdf', 'informe-p1.png']
+sha256_por_archivo True
+checks {'informe.docx': True, 'informe.pdf': True, 'informe-p1.png': True}
+archivos_ok True
+ready_for_review False
+approval pending_review`,
  },
- why: "Provenance + checklist visual cierran CP-N2-B: el revisor sabe qué corrida, con qué huella y qué miró. En producción preferir SHA-256 del artefacto completo; el recorte de 8 hex es id didáctico del lab. El estado honesto de cierre de contenido es `pending_review`, no `approved` hardcodeado en el script del factory.",
+ why: "Provenance + checklist visual cierran CP-N2-B: el revisor sabe qué corrida, con qué huella y qué miró. El SHA-256 de cada archivo permite comprobar después que nadie lo editó; el recorte de 8 hex es solo el id didáctico de los datos. Los hashes del DOCX y del PDF cambian en cada corrida, porque ambos guardan dentro la fecha y hora en que se generaron. Compara el hash con el del manifiesto de la misma corrida, no con el de ayer. El estado honesto de cierre de contenido es `pending_review`, no `approved` hardcodeado en el script del factory.",
  retrospective:
  "`pending_review` es el estado honesto de cierre de contenido: el script no se autoaprueba. Un print “ok” no sustituye manifiesto ni archivos en disco. Pregunta: ¿quién pone `approved` y en qué sección del currículum? We Do: completar manifiesto, huella corta y `ready` con `all()` no `any()`.",
  },
@@ -645,34 +745,34 @@ print(Template("CASO-LIM-021 · {{ region }} (n={{ n }})").render(region="Lima",
  kind: "independent",
  title: "KPI Jinja con mediana y n",
  preamble:
- "- **Contexto:** el comité compara el KPI del DOCX con el ticket mediano del workbook; sin n no hay reconciliación.\n- **Meta:** renderizar `{{ m }} PEN (n={{ n }})` con m=28 y n=40.\n- **Éxito:** imprime exactamente `28 PEN (n=40)`.\n- **Límites:** no omitas la unidad PEN ni el prefijo `n=`; no inventes otro formato de KPI.",
+ "- **Contexto:** el comité compara el KPI del DOCX con el ticket mediano del workbook; sin n no hay reconciliación.\n- **Meta:** renderizar `{{ m }} PEN (n={{ n }})` con m=28.0 y n=40 (la mediana del paquete va con 1 decimal).\n- **Éxito:** imprime exactamente `28.0 PEN (n=40)`.\n- **Límites:** no omitas la unidad PEN ni el prefijo `n=`; no inventes otro formato de KPI.",
  instruction:
- "1. Abre el starter: el Template solo tiene `{{ m }} PEN`.\n2. Extiende la plantilla para incluir `(n={{ n }})`.\n3. Pasa `m=28` y `n=40` en `.render(...)`.\n4. Imprime solo la cadena resultante.",
+ "1. Abre el starter: el Template solo tiene `{{ m }} PEN`.\n2. Extiende la plantilla para incluir `(n={{ n }})`.\n3. Pasa `m=28.0` y `n=40` en `.render(...)`.\n4. Imprime solo la cadena resultante.",
  hint: "Dos variables en el mismo Template.",
  hints: [
  "Dos variables en el mismo Template.",
  "Incluye la unidad PEN y el prefijo n=.",
  ],
- edgeCases: ["tipos str vs. int"],
- tests: "el print es 28 PEN (n=40)",
+ edgeCases: ["m=28 (int) imprime `28 PEN`: el paquete usa 28.0 con 1 decimal, así que pasa el float"],
+ tests: "el print es 28.0 PEN (n=40)",
  feedback:
  "Si falta «(n=40)», la plantilla no declara `{{ n }}` o no lo pasas en render. Sin n el comité no reconcilia el KPI del DOCX con el Excel de S20.",
  retrospective:
- "Dos variables en un template es el mínimo de un KPI auditable (valor + tamaño). Pregunta de cierre: ¿qué falla si el DOCX dice 28 PEN y el Excel n=32? Luego (E3) encapsularás el formato en `render_kpi`.",
+ "Dos variables en un template es el mínimo de un KPI auditable (valor + tamaño). Pregunta de cierre: ¿qué falla si el DOCX dice 28.0 PEN y el Excel n=32? Luego (E3) encapsularás el formato en `render_kpi`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — KPI multi-var
 # TODO: incluye n={{ n }} en la plantilla
 from jinja2 import Template
-print(Template("{{ m }} PEN").render(m=28, n=40))`,
+print(Template("{{ m }} PEN").render(m=28.0, n=40))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `from jinja2 import Template
-print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
- output: `28 PEN (n=40)`,
+print(Template("{{ m }} PEN (n={{ n }})").render(m=28.0, n=40))`,
+ output: `28.0 PEN (n=40)`,
  },
  },
  {
@@ -689,7 +789,7 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  "Template dentro de la función o reutilizado; pasa el dict completo al render.",
  "Incluye n en la plantilla: sin n el KPI no es auditable.",
  ],
- edgeCases: ["key error"],
+ edgeCases: ["n falta en el dict → Jinja imprime (n=) sin error; con StrictUndefined falla con UndefinedError"],
  tests: "el print es Madrid: 22.5 PEN (n=18)",
  feedback:
  "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. El n=18 es otra muestra (Madrid), no un desfase del paquete Lima n=40.",
@@ -731,7 +831,7 @@ print(render_kpi({"region": "Madrid", "median": 22.5, "n": 18}))`,
  "Usa un condicional: si median is None → '—'.",
  "Imprime solo el resultado de la celda.",
  ],
- edgeCases: ["NaN float"],
+ edgeCases: ["NaN de pandas: `median is None` es False y la celda imprime nan; usa `pd.isna(median)` para cubrir None y NaN"],
  tests: "el print es exactamente el em dash —",
  feedback:
  "Si imprimes 0 o None, el comité creerá que la mediana es cero. Missing se declara, no se inventa: protege totales y la paridad con el Excel.",
@@ -834,7 +934,7 @@ Madrid:2`,
  kind: "guided",
  title: "DOCX con Resumen y n=40 reabierto",
  preamble:
- "- **Contexto:** el paquete CP-N2-B exige un DOCX en disco con sección Resumen y el n de la muestra.\n- **Meta:** crear, guardar y reabrir un Document con headings reales y párrafo `n=40`.\n- **Éxito:** dos líneas `True True` (existe+PK; contiene Resumen y n=40).\n- **Límites:** no dejes el texto solo en un dict; no uses solo `add_paragraph` para fingir el heading Resumen.",
+ "- **Contexto:** el paquete CP-N2-B exige un DOCX en disco con sección Resumen y el n de la muestra.\n- **Meta:** crear, guardar y reabrir un Document con headings reales y párrafo `n=40`.\n- **Éxito:** dos líneas `True True` (existe+PK; Resumen es un heading real y el texto contiene n=40).\n- **Límites:** no dejes el texto solo en un dict; no uses solo `add_paragraph` para fingir el heading Resumen.",
  instruction:
  "1. Revisa el starter: solo un párrafo genérico, sin “Resumen” ni n=40.\n2. Agrega heading de título y heading “Resumen” (nivel 1).\n3. Agrega un párrafo que incluya `n=40`; guarda y reabre.\n4. Imprime los dos pares de booleanos del scaffold (no inventes otro formato de salida).",
  hint: "Usa Document(), add_heading(), add_paragraph(), save() y vuelve a abrir la ruta.",
@@ -843,11 +943,11 @@ Madrid:2`,
  "Extrae p.text de los párrafos no vacíos del documento reabierto.",
  ],
  edgeCases: ["ruta no escribible", "documento sin párrafos"],
- tests: "dos líneas True True: archivo+PK, luego Resumen y n=40 en texto reabierto",
+ tests: "dos líneas True True: archivo+PK, luego Resumen con estilo Heading y n=40 en el texto reabierto",
  feedback:
- "Si el segundo True falla, el heading Resumen o el párrafo n=40 no están en el archivo guardado (no en un dict en memoria). El revisor del comité solo ve el disco.",
+ "Si el primer valor de la segunda línea es False, Resumen no tiene estilo Heading (quizá usaste `add_paragraph`). Si el segundo es False, el párrafo n=40 no está en el archivo guardado. El revisor del comité solo ve el disco.",
  retrospective:
- "El segundo `True True` solo es posible si el archivo guardado trae “Resumen” y `n=40`. Outline primero, prosa después; un dict en memoria no cierra CP-N2-B. Pregunta: ¿por qué basta `add_paragraph(\"Resumen\")` para engañarte en pantalla pero no al revisor? Siguiente (E2): contar estilos Heading al reabrir.",
+ "El segundo `True True` solo es posible si el archivo guardado trae “Resumen” como heading real y `n=40`. Outline primero, prosa después; un dict en memoria no cierra CP-N2-B. Pregunta: ¿por qué `add_paragraph(\"Resumen\")` engaña en pantalla pero no a la lista de headings? Siguiente (E2): contar estilos Heading al reabrir.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -862,8 +962,9 @@ doc.add_paragraph("Informe sintético")
 doc.save(path)
 opened = Document(path)
 text = " | ".join(p.text for p in opened.paragraphs if p.text)
+headings = [p.text for p in opened.paragraphs if p.style.name.startswith("Heading")]
 print(path.exists(), path.read_bytes()[:2] == b"PK")
-print("Resumen" in text, "n=40" in text)`,
+print("Resumen" in headings, "n=40" in text)`,
  },
  solutionCode: {
  language: 'python',
@@ -879,8 +980,9 @@ doc.add_paragraph("Muestra reconciliada: n=40")
 doc.save(path)
 opened = Document(path)
 text = " | ".join(p.text for p in opened.paragraphs if p.text)
+headings = [p.text for p in opened.paragraphs if p.style.name.startswith("Heading")]
 print(path.exists(), path.read_bytes()[:2] == b"PK")
-print("Resumen" in text, "n=40" in text)`,
+print("Resumen" in headings, "n=40" in text)`,
  output: `True True
 True True`,
  },
@@ -1066,12 +1168,12 @@ True`,
  kind: "independent",
  title: "Render de página PDF a PNG",
  preamble:
- "- **Contexto:** la checklist visual del cierre CP-N2-B exige ver el informe, no solo confiar en el path.\n- **Meta:** generar PDF, renderizar página 0 a PNG con fitz y verificar tamaños.\n- **Éxito:** `True True` (PDF y PNG con `st_size > 0`).\n- **Límites:** no imprimas True si el PNG no existe; no verifiques solo el nombre del archivo.",
+ "- **Contexto:** la checklist visual del cierre CP-N2-B exige ver el informe, no solo confiar en el path.\n- **Meta:** generar PDF, renderizar página 0 a PNG con PyMuPDF (`import pymupdf`) y verificar tamaños.\n- **Éxito:** `True True` (PDF y PNG con `st_size > 0`).\n- **Límites:** no imprimas True si el PNG no existe; no verifiques solo el nombre del archivo.",
  instruction:
- "1. Tras `save()` del PDF, abre con `fitz.open(pdf)`.\n2. En la página 0, `get_pixmap().save(png)`.\n3. Compara tamaños positivos de ambos paths.\n4. Imprime los dos booleanos en una línea.",
- hint: "Abre con fitz.open(path), usa get_pixmap() y save().",
+ "1. Tras `save()` del PDF, abre con `with pymupdf.open(pdf) as doc:`.\n2. En la página 0, `get_pixmap().save(png)`.\n3. Compara tamaños positivos de ambos paths.\n4. Imprime los dos booleanos en una línea.",
+ hint: "Abre con pymupdf.open(path) en un bloque with, usa get_pixmap() y save().",
  hints: [
- "Cierra o conserva el documento mientras accedes a la página.",
+ "El bloque with cierra el PDF al terminar, aunque algo falle dentro.",
  "Verifica tamaño positivo, no solo el nombre del archivo.",
  ],
  edgeCases: ["PDF sin páginas", "ruta PNG no escribible"],
@@ -1084,7 +1186,7 @@ True`,
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — PDF a PNG
-# TODO: renderiza la página 0 a png con fitz
+# TODO: renderiza la página 0 a png con pymupdf
 from pathlib import Path
 from reportlab.pdfgen import canvas
 
@@ -1098,15 +1200,15 @@ print(pdf.stat().st_size > 0, png.exists())`,
  language: 'python',
  title: "exercise.py",
  code: `from pathlib import Path
-import fitz
+import pymupdf
 from reportlab.pdfgen import canvas
 
 pdf, png = Path("render.pdf"), Path("render-p1.png")
 c = canvas.Canvas(str(pdf))
 c.drawString(72, 760, "Hallazgo H1")
 c.save()
-document = fitz.open(pdf)
-document[0].get_pixmap().save(png)
+with pymupdf.open(pdf) as document:
+    document[0].get_pixmap().save(png)
 print(pdf.stat().st_size > 0, png.stat().st_size > 0)`,
  output: `True True`,
  },
@@ -1125,7 +1227,7 @@ print(pdf.stat().st_size > 0, png.stat().st_size > 0)`,
  "No agregues texto con drawString al PDF: eso crearía capa digital.",
  "Normaliza extract_text() or '' antes de strip().",
  ],
- edgeCases: ["OCR no instalado", "extracción devuelve None"],
+ edgeCases: ["no necesitas un motor OCR: aquí solo se detecta la falta de capa de texto y se marca needs_ocr (el OCR llega en S24)", "extracción devuelve None → normaliza con or \"\""],
  tests: "True True y dict needs_ocr=True con n_chars=0",
  feedback:
  "Si `needs_ocr` queda False, o inventaste texto o agregaste `drawString`. Un PNG con “n=17” dibujado no es capa digital: abstente; no finjas PDF nativo ante el comité.",
@@ -1306,7 +1408,7 @@ print(sorted(pack_report(["a"], {}, []).keys()))`,
  "Ambos dicts deben llevar median_Lima=28.0.",
  "La lista limits debe incluir el string exacto \"solo web\".",
  ],
- edgeCases: ["float vs. int", "limits vacía"],
+ edgeCases: ["28 == 28.0 es True en Python: la paridad numérica pasa, pero el DOCX imprimiría 28; por eso el texto se formatea con fmt_pen (T4-A)", "limits vacía"],
  tests: "print True True (paridad y limitación presentes)",
  feedback:
  "Si el primer booleano es False, `doc[\"median_Lima\"]` sigue en 27.0 (redondeo a mano). Si el segundo falla, `limits` no incluye el string exacto `\"solo web\"`: el lector no ve la cobertura.",
@@ -1342,16 +1444,16 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  kind: "independent",
  title: "Caption con campo Fuente visible",
  preamble:
- "- **Contexto:** un pie de figura sin Fuente impide reconciliar el PNG del dashboard con el dataset del factory.\n- **Meta:** construir un caption CASO-LIM-021 que declare Fuente y n de Lima.\n- **Éxito:** imprime `True` cuando `\"Fuente\" in cap`.\n- **Límites:** no uses solo `n=40` sin nombrar Fuente; no inventes otro n de muestra.",
+ "- **Contexto:** un pie de figura sin Fuente impide reconciliar el PNG del dashboard con el dataset del factory.\n- **Meta:** construir un caption CASO-LIM-021 que declare Fuente y n de Lima.\n- **Éxito:** imprime `True True` (el caption nombra Fuente y conserva `n=40`).\n- **Límites:** no uses solo `n=40` sin nombrar Fuente; no inventes otro n de muestra.",
  instruction:
- "1. El starter tiene `Fig1 | n=40` sin Fuente.\n2. Amplía el string con un segmento `| Fuente: sintético |` (o equivalente legible).\n3. Conserva n=40 de la muestra Lima.\n4. Imprime el booleano de presencia de `\"Fuente\"`.",
+ "1. El starter tiene `Fig1 | n=40` sin Fuente.\n2. Amplía el string con un segmento `| Fuente: sintético |` (o equivalente legible).\n3. Conserva n=40 de la muestra Lima.\n4. Imprime los dos booleanos: presencia de `\"Fuente\"` y de `\"n=40\"`.",
  hint: "Incluye un segmento | Fuente: … y el n de la muestra Lima.",
  hints: [
  "El pie debe nombrar la Fuente de forma legible (no solo n).",
  "Verifica con el operador in sobre la palabra Fuente.",
  ],
  edgeCases: ["fuente minúscula"],
- tests: "print True cuando el caption declara Fuente",
+ tests: "print True True: el caption declara Fuente y n=40",
  feedback:
  "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (muestra Lima del lab), no un n inventado.",
  retrospective:
@@ -1362,14 +1464,14 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  code: `# Lab CASO-LIM-021 — caption con Fuente
 # TODO: el caption debe declarar Fuente de forma visible (y n=40)
 cap = "Fig1 | n=40"
-print("Fuente" in cap)`,
+print("Fuente" in cap, "n=40" in cap)`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `cap = "Fig1 | Fuente: sintético | n=40"
-print("Fuente" in cap)`,
- output: `True`,
+print("Fuente" in cap, "n=40" in cap)`,
+ output: `True True`,
  },
  },
  {
@@ -1378,16 +1480,16 @@ print("Fuente" in cap)`,
  kind: "transfer",
  title: "check_parity en tres artefactos",
  preamble:
- "- **Contexto:** comparar solo dashboard y Excel deja pasar un DOCX divergente; el cierre exige tres vías.\n- **Meta:** implementar `check_parity(a, b, c)` como `a == b == c`.\n- **Éxito:** dos líneas — `True` luego `False`.\n- **Límites:** no uses solo `a == b`; no ignores el tercer argumento.",
+ "- **Contexto:** comparar solo dashboard y Excel deja pasar un DOCX divergente; el cierre exige tres vías.\n- **Meta:** implementar `check_parity(a, b, c)` como `a == b == c`.\n- **Éxito:** tres líneas — `True`, `False`, `False`.\n- **Límites:** no uses solo `a == b`; no ignores el tercer argumento.",
  instruction:
- "1. El starter hace `return a == b` (bug).\n2. Cambia a igualdad encadenada de a, b y c.\n3. Conserva los dos prints de prueba (alineado y divergente).\n4. No mutes los dicts de entrada.",
+ "1. El starter hace `return a == b` (bug).\n2. Cambia a igualdad encadenada de a, b y c.\n3. Conserva los tres prints de prueba: alineado, c divergente y a divergente.\n4. No mutes los dicts de entrada.",
  hint: "La igualdad debe involucrar los tres argumentos, no solo los dos primeros.",
  hints: [
  "La igualdad debe involucrar los **tres** argumentos, no solo los dos primeros.",
- "Conserva los dos prints de prueba (caso alineado y caso divergente).",
+ "Conserva los tres prints: el tercero cambia a, para que comparar solo b y c no pase.",
  ],
  edgeCases: ["keys extra"],
- tests: "dos líneas: True luego False",
+ tests: "tres líneas: True, False, False",
  feedback:
  "Si el segundo print sale True con doc divergente, tu función sigue en `a == b`. El cierre CP-N2-B exige tres vías (dash, xlsx, doc).",
  retrospective:
@@ -1400,7 +1502,8 @@ print("Fuente" in cap)`,
 def check_parity(a, b, c):
  return a == b
 print(check_parity({"x": 1}, {"x": 1}, {"x": 1}))
-print(check_parity({"x": 1}, {"x": 1}, {"x": 2}))`,
+print(check_parity({"x": 1}, {"x": 1}, {"x": 2}))
+print(check_parity({"x": 2}, {"x": 1}, {"x": 1}))`,
  },
  solutionCode: {
  language: 'python',
@@ -1408,8 +1511,10 @@ print(check_parity({"x": 1}, {"x": 1}, {"x": 2}))`,
  code: `def check_parity(a, b, c):
  return a == b == c
 print(check_parity({"x": 1}, {"x": 1}, {"x": 1}))
-print(check_parity({"x": 1}, {"x": 1}, {"x": 2}))`,
+print(check_parity({"x": 1}, {"x": 1}, {"x": 2}))
+print(check_parity({"x": 2}, {"x": 1}, {"x": 1}))`,
  output: `True
+False
 False`,
  },
  },
@@ -1427,7 +1532,7 @@ False`,
  "list comprehension con round(v, 1).",
  "No uses round a 0 decimales.",
  ],
- edgeCases: ["banker's rounding"],
+ edgeCases: ["empate: round(28.25, 1) da 28.2 (empate al par) y ROUND de Excel da 28.3; fmt_pen (E2) usa Decimal con ROUND_HALF_UP para coincidir con Excel"],
  tests: "print [28.0, 28.5]",
  feedback:
  "Con `round(v, 0)` el 28.46 se vuelve 28.0 y el informe pierde casi medio sol; el contrato del lab es **1** decimal, no 0. Cambia el segundo argumento de `round`.",
@@ -1455,36 +1560,52 @@ print([round(v, 1) for v in vals])`,
  kind: "independent",
  title: "fmt_pen con unidad PEN",
  preamble:
- "- **Contexto:** si Jinja y Excel inventan el sufijo por separado, un canal escribe “PEN” y otro “soles” o nada.\n- **Meta:** implementar `fmt_pen(x)` a 1 decimal con sufijo ` PEN`.\n- **Éxito:** imprime `28.0 PEN` para 28.04.\n- **Límites:** no omitas la unidad; no redondees a 0 decimales.",
+ "- **Contexto:** si Jinja y Excel inventan el sufijo por separado, un canal escribe “PEN” y otro “soles” o nada.\n- **Meta:** completar `fmt_pen(x)`: 1 decimal con `Decimal` y `ROUND_HALF_UP`, sufijo ` PEN`, y `—` si falta el dato.\n- **Éxito:** tres líneas — `28.0 PEN`, `28.3 PEN` (el empate 28.25 sube, como en Excel) y `—`.\n- **Límites:** no omitas la unidad; no redondees a 0 decimales.",
  instruction:
- "1. El return del starter solo formatea el número.\n2. Agrega el literal ` PEN` al f-string.\n3. Conserva `round(float(x), 1)`.\n4. Imprime `fmt_pen(28.04)`.",
- hint: "f-string con round(float(x), 1) y sufijo PEN.",
+ "1. El return del starter solo formatea el número.\n2. Agrega el literal ` PEN` al f-string.\n3. Conserva el `quantize` con `ROUND_HALF_UP` y la rama de `None`.\n4. Ejecuta los tres prints.",
+ hint: "f-string con el Decimal ya redondeado y sufijo PEN.",
  hints: [
- "f-string con round(float(x), 1) y sufijo PEN.",
- "La unidad evita divergencias entre plantillas.",
+ "f-string con el Decimal ya redondeado y sufijo PEN.",
+ "La unidad evita divergencias entre plantillas; el None se resuelve antes de tocar Decimal.",
  ],
- edgeCases: ["None"],
- tests: "print 28.0 PEN",
+ edgeCases: ["None → — (sin la rama, Decimal(str(None)) lanza InvalidOperation)", "empate 28.25 → 28.3, igual que ROUND de Excel"],
+ tests: "tres líneas: 28.0 PEN, 28.3 PEN y —",
  feedback:
  "Si ves solo `28.0` sin unidad, el f-string no concatena ` PEN`. Sin formatter central, Jinja y Excel inventan “soles”, “PEN” o nada y el comité ve tres idiomas.",
  retrospective:
- "Formatter central = paridad tipográfica entre canales. El error clásico es formatear el número en un sitio y la unidad en otro. Pregunta: ¿qué imprime `fmt_pen(28.04)` si redondeas a 0 decimales y omites la unidad? Luego (E3): gate a11y que no se engañe con `all([])`.",
+ "Formatter central = paridad tipográfica entre canales. El error clásico es formatear el número en un sitio y la unidad en otro. Pregunta: ¿qué imprimiría `fmt_pen(28.25)` con `round(x, 1)` en vez de `Decimal`? Luego (E3): gate a11y que no se engañe con `all([])`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — fmt_pen centralizado
 # TODO: incluye la unidad PEN en el string
+from decimal import Decimal, ROUND_HALF_UP
+
 def fmt_pen(x):
- return f"{round(float(x), 1)}"
-print(fmt_pen(28.04))`,
+ if x is None:
+  return "—"
+ q = Decimal(str(x)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+ return f"{q}"
+print(fmt_pen(28.04))
+print(fmt_pen(28.25))
+print(fmt_pen(None))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `def fmt_pen(x):
- return f"{round(float(x), 1)} PEN"
-print(fmt_pen(28.04))`,
- output: `28.0 PEN`,
+ code: `from decimal import Decimal, ROUND_HALF_UP
+
+def fmt_pen(x):
+ if x is None:
+  return "—"
+ q = Decimal(str(x)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+ return f"{q} PEN"
+print(fmt_pen(28.04))
+print(fmt_pen(28.25))
+print(fmt_pen(None))`,
+ output: `28.0 PEN
+28.3 PEN
+—`,
  },
  },
  {
@@ -1493,40 +1614,49 @@ print(fmt_pen(28.04))`,
  kind: "transfer",
  title: "a11y_min con H1 y alts útiles",
  preamble:
- "- **Contexto:** publicar un paquete sin alternativas de figura falla a lectores con tecnología asistiva — y al checklist del lab.\n- **Meta:** `a11y_min(has_h1, alts)` exige H1, lista no vacía y todos los alt con más de 10 caracteres.\n- **Éxito:** tres líneas — `True`, `False`, `False`.\n- **Límites:** no devuelvas solo `has_h1`; recuerda que `all([])` es True en Python.",
+ "- **Contexto:** publicar un paquete sin alternativas de figura falla a lectores con tecnología asistiva — y al checklist del lab.\n- **Meta:** `a11y_min(has_h1, alts)` exige H1, lista no vacía y que cada alt tenga más de 10 caracteres, `n=` y una unidad (`PEN` o `%`).\n- **Éxito:** cuatro líneas — `True`, `False`, `False`, `False`.\n- **Límites:** no devuelvas solo `has_h1`; recuerda que `all([])` es True en Python.",
  instruction:
- "1. El starter retorna solo `has_h1`.\n2. Combina `bool(has_h1)`, `len(alts) > 0` y `all(len(a) > 10 for a in alts)`.\n3. Conserva los tres prints de prueba (válido, corto, vacío).\n4. No borres el caso de lista vacía: es el truco del edge case.",
+ "1. El starter retorna solo `has_h1`.\n2. Escribe `alt_util(a)`: más de 10 caracteres, contiene `n=` y contiene `PEN` o `%`.\n3. Combina `bool(has_h1)`, `len(alts) > 0` y `all(alt_util(a) for a in alts)`; conserva los cuatro prints (válido, corto, vacío, largo sin n).\n4. No borres el caso de lista vacía: es el truco del edge case.",
  hint: "Combina tres condiciones: H1, lista no vacía, y longitud útil en cada alt.",
  hints: [
- "Combina tres condiciones: H1, lista no vacía, y longitud útil en **cada** alt.",
+ "Combina tres condiciones: H1, lista no vacía, y un alt útil (longitud, n= y unidad) en **cada** posición.",
  "El caso de lista vacía debe fallar: no confíes solo en `all(...)` sobre una lista sin elementos.",
  ],
  edgeCases: ["alts vacía debe ser False: all([]) es True y no basta"],
- tests: "tres líneas: True, False, False",
+ tests: "cuatro líneas: True, False, False, False",
  feedback:
- "has_h1 solo no basta. Un alt de 5 caracteres no describe n ni unidad; una lista vacía tampoco (all([]) es True y haría pasar el gate por error).",
+ "has_h1 solo no basta. Un alt de 5 caracteres no describe la figura, y uno largo sin `n=` ni unidad tampoco; una lista vacía tampoco (all([]) es True y haría pasar el gate por error).",
  retrospective:
  "`all([])` aprueba por vacío; por eso exiges `len(alts) > 0` además de la longitud de cada alt. `has_h1` solo no es a11y. Pregunta: ¿qué imprime el tercer print si olvidas el check de lista vacía? Puente a T4-B: provenance, huella y `ready` con `all()` sobre la checklist visual.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# Lab CASO-LIM-021 — a11y_min H1 + alts no vacíos
-# TODO: exige al menos un alt y longitud útil en cada uno; no solo has_h1
+ code: `# Lab CASO-LIM-021 — a11y_min H1 + alts útiles
+# TODO: exige al menos un alt y que cada uno sea útil (longitud, n= y unidad); no solo has_h1
+def alt_util(a):
+ return True
+
 def a11y_min(has_h1, alts):
  return has_h1
-print(a11y_min(True, ["descripción larga de figura"]))
+print(a11y_min(True, ["Barras de mediana en PEN, n=40 en Lima"]))
 print(a11y_min(True, ["corto"]))
-print(a11y_min(True, []))`,
+print(a11y_min(True, []))
+print(a11y_min(True, ["Figura de barras sin datos de muestra"]))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `def a11y_min(has_h1, alts):
- return bool(has_h1) and len(alts) > 0 and all(len(a) > 10 for a in alts)
-print(a11y_min(True, ["descripción larga de figura"]))
+ code: `def alt_util(a):
+ return len(a) > 10 and "n=" in a and ("PEN" in a or "%" in a)
+
+def a11y_min(has_h1, alts):
+ return bool(has_h1) and len(alts) > 0 and all(alt_util(a) for a in alts)
+print(a11y_min(True, ["Barras de mediana en PEN, n=40 en Lima"]))
 print(a11y_min(True, ["corto"]))
-print(a11y_min(True, []))`,
+print(a11y_min(True, []))
+print(a11y_min(True, ["Figura de barras sin datos de muestra"]))`,
  output: `True
+False
 False
 False`,
  },
@@ -1594,7 +1724,7 @@ print(prov["run_id"], prov["approval"]["status"])`,
  feedback:
  "Si imprimes 40 caracteres hex, falta el slice `[:8]`. Conserva el payload `b\"synthetic\"`: otro input produce otra huella y no cuadrará con el manifiesto del lab (`385fcd67`).",
  retrospective:
- "Recorte de 8 hex = id didáctico (débil ante colisiones). En producción firmas el artefacto completo con SHA-256, no un string de juguete. Pregunta: ¿por qué el manifiesto necesita huella además de `run_id`? Luego (E3): `ready` exige **todos** los artefactos, no “alguno”.",
+ "Recorte de 8 hex = id didáctico (débil ante colisiones). Para los archivos se calcula el SHA-256 de sus bytes completos, no de un string de juguete. Un hash no es una firma: firmar exige una clave, y eso queda fuera de esta sección. Pregunta: ¿por qué el manifiesto necesita huella además de `run_id`? Luego (E3): `ready` exige **todos** los artefactos, no “alguno”.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1617,38 +1747,41 @@ print(hashlib.sha1(b"synthetic").hexdigest()[:8])`,
  kind: "transfer",
  title: "ready con all sobre la checklist",
  preamble:
- "- **Contexto:** un solo artefacto “ok” no cierra CP-N2-B; faltan dashboard, xlsx y doc.\n- **Meta:** implementar `ready(checklist)` como `all(checklist.values())`.\n- **Éxito:** dos líneas — `True` luego `False`.\n- **Límites:** no uses `any()`; un artefacto fallido bloquea el cierre.",
+ "- **Contexto:** un solo artefacto “ok” no cierra CP-N2-B; faltan dashboard, xlsx y doc.\n- **Meta:** implementar `ready(checklist)` que exija las tres claves: dashboard, xlsx y doc, todas en True.\n- **Éxito:** tres líneas — `True`, `False`, `False` (la tercera checklist no trae `doc`).\n- **Límites:** no uses `any()`; un artefacto fallido bloquea el cierre.",
  instruction:
- "1. El starter retorna `any(...)` (bug).\n2. Cámbialo a `all(checklist.values())`.\n3. Conserva los dos prints (checklist completa e incompleta).\n4. No rellenes a mano los booleanos de salida.",
+ "1. El starter retorna `any(...)` (bug).\n2. Cámbialo a `all(checklist.get(k, False) for k in (\"dashboard\", \"xlsx\", \"doc\"))`.\n3. Conserva los tres prints (completa, con un False y sin la clave doc).\n4. No rellenes a mano los booleanos de salida.",
  hint: "Un solo artefacto en verde no debe bastar para cerrar el paquete.",
  hints: [
  "Un solo artefacto en verde no debe bastar para cerrar el paquete.",
- "Piensa en el opuesto de “¿hay alguno listo?”: “¿están listos todos?”.",
+ "Piensa en el opuesto de “¿hay alguno listo?”: “¿están listos todos?”. Y `all(checklist.values())` no ve una clave que falta.",
  ],
- edgeCases: ["keys faltantes"],
- tests: "dos líneas: True luego False",
+ edgeCases: ["clave faltante cuenta como no lista: `all(checklist.values())` daría True sin doc, y `.get(k, False)` da False", "checklist vacía → False"],
+ tests: "tres líneas: True, False, False",
  feedback:
- "any() aprueba con un solo artefacto listo; el factory exige all() (dashboard + xlsx + doc) antes de mandar a S22.",
+ "any() aprueba con un solo artefacto listo; el factory exige las tres claves en True (dashboard + xlsx + doc) antes de mandar a S22. Si la tercera línea sale True, tu función solo mira las claves presentes.",
  retrospective:
  "`any()` aprueba con un solo verde; el factory exige el paquete completo. Pregunta de cierre: ¿qué checklist dejarías en False a propósito para detener un envío a S22? El You Do une DOCX, PDF, PNG y manifiesto en una corrida.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — ready checklist
-# TODO: exige all(), no any()
+# TODO: exige las tres claves en True, no any()
 def ready(checklist):
  return any(checklist.values())
 print(ready({"dashboard": True, "xlsx": True, "doc": True}))
-print(ready({"dashboard": True, "xlsx": False, "doc": True}))`,
+print(ready({"dashboard": True, "xlsx": False, "doc": True}))
+print(ready({"dashboard": True, "xlsx": True}))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `def ready(checklist):
- return all(checklist.values())
+ return all(checklist.get(k, False) for k in ("dashboard", "xlsx", "doc"))
 print(ready({"dashboard": True, "xlsx": True, "doc": True}))
-print(ready({"dashboard": True, "xlsx": False, "doc": True}))`,
+print(ready({"dashboard": True, "xlsx": False, "doc": True}))
+print(ready({"dashboard": True, "xlsx": True}))`,
  output: `True
+False
 False`,
  },
  }
@@ -1657,7 +1790,7 @@ False`,
  youDo: {
  title: "Reporting Factory — cierre CP-N2-B",
  context:
- "En un comité de analytics en Lima te piden el **paquete único** de CASO-LIM-021: no tres exportaciones sueltas, sino una corrida que una EDA (S18), dashboard (S19) y Excel (S20) en un **factory de reportes trazables**. El entregable cierra **CP-N2-B**: DOCX y PDF con los mismos números (mediana Lima 28.0 PEN, n=40, cobertura solo web), captions con Fuente, missing como `—`, provenance y cola `pending_review`. Datos sintéticos únicamente; sin PII. El siguiente paso del currículum (S22) envía y aprueba; aquí dejas el paquete listo para revisión humana.",
+ "En un comité de analytics en Lima te piden el **paquete único** de CASO-LIM-021, no tres exportaciones sueltas. Es una corrida que une EDA (S18), dashboard (S19) y Excel (S20) en un **factory de reportes trazables**. El entregable cierra **CP-N2-B**: DOCX y PDF con los mismos números (mediana Lima 28.0 PEN, n=40, cobertura solo web), captions con Fuente, missing como `—`, provenance y cola `pending_review`. Datos sintéticos únicamente; sin PII. El siguiente paso del currículum (S22) envía y aprueba; aquí dejas el paquete listo para revisión humana.",
  objectives: [
  "Un solo context Jinja (run_id, métricas, limits) reutilizado en todos los artefactos",
  "DOCX con Heading reales + PDF digital; reabrir, extraer y renderizar PNG",
@@ -1671,7 +1804,9 @@ False`,
  "Missing ≠ 0 (usa — en tablas si un KPI no aplica)",
  "Paridad documentada: mismos n y mediana en DOCX, PDF y context; PNG con tamaño > 0",
  "Narrativa ejecutiva en español profesional (es-PE)",
- "Manifiesto con run_id, data_sha1_8 (lab), lista/hashes de artefactos y approval.status",
+ "Manifiesto con run_id, data_sha1_8 (lab), el SHA-256 de cada archivo (DOCX, PDF y PNG) y approval.status",
+ "needs_ocr: si pypdf no extrae texto del PDF, el manifiesto lleva needs_ocr=True y el paquete no pasa a revisión",
+ "La visual_checklist (dashboard, xlsx, doc) la rellenas tú tras mirar el PNG de S19, el results.xlsx de S20 y el informe; el script no la marca sola",
  "No marques approved: el estado de cierre de contenido es pending_review",
  ],
  starterCode: `from pathlib import Path
@@ -1679,7 +1814,7 @@ from jinja2 import Template
 from docx import Document
 from pypdf import PdfReader
 from reportlab.pdfgen import canvas
-import fitz, hashlib, json
+import pymupdf, hashlib, json
 
 context = {
     "run_id": "cpn2b-01",
@@ -1695,13 +1830,15 @@ context = {
 # Criterios de aceptación (el revisor los ejecutará mentalmente o con scripts):
 # 1) build_docx(ctx) → Path: estilos Heading (Resumen), incluye median_Lima y n_Lima;
 #    al reabrir, el texto extraído contiene esos valores (no solo el Document en memoria).
-# 2) build_pdf(ctx) → Path digital: pypdf extrae n=40 (o n_Lima) de la capa de texto.
+# 2) build_pdf(ctx) → Path digital: pypdf extrae n=40 y la mediana 28.0 de la capa
+#    de texto (ambos del context).
 # 3) extract_and_render(pdf) → (texto, Path png) con png.stat().st_size > 0.
-# 4) manifest(artifacts) → dict JSON-serializable con run_id, data_sha1_8,
-#    artefacts (rutas o hashes), visual_checklist {dashboard,xlsx,doc} y
+# 4) manifest(artifacts, checklist) → dict JSON-serializable con run_id, data_sha1_8,
+#    el SHA-256 de cada archivo, needs_ocr, visual_checklist (la que recibes) y
 #    approval.status == "pending_review" (nunca "approved" hardcodeado).
 # 5) Paridad: median_Lima y n_Lima del DOCX/PDF coinciden con context.
-# 6) Opcional pero recomendado: un Template Jinja para la línea de KPI a partir del context.
+# 6) needs_ocr: True si el texto extraído del PDF está vacío; en ese caso no hay revisión.
+# 7) Opcional pero recomendado: un Template Jinja para la línea de KPI a partir del context.
 # S22 no aprueba sin checklist visual True en dashboard/xlsx/doc.
 
 def build_docx(ctx: dict) -> Path:
@@ -1711,31 +1848,33 @@ def build_docx(ctx: dict) -> Path:
 
 def build_pdf(ctx: dict) -> Path:
     """Crea informe.pdf digital (texto seleccionable) con n y mediana."""
-    # COMPLETAR: canvas.drawString con n_Lima; firma %PDF
-    raise NotImplementedError("build_pdf: ReportLab + capa de texto con n")
+    # COMPLETAR: canvas.drawString con median_Lima y n_Lima; bytes iniciales %PDF
+    raise NotImplementedError("build_pdf: ReportLab + capa de texto con n y mediana")
 
 def extract_and_render(pdf: Path):
     """Devuelve (texto_extraido, png_path) con PNG de tamaño > 0."""
-    # COMPLETAR: PdfReader extract + fitz pixmap → PNG
+    # COMPLETAR: PdfReader extract + with pymupdf.open(pdf) → pixmap → PNG
     raise NotImplementedError("extract_and_render: texto + PNG")
 
-def manifest(artifacts: dict) -> dict:
+def manifest(artifacts: dict, checklist: dict) -> dict:
     """Manifiesto de provenance listo para cola pending_review."""
-    # COMPLETAR: run_id, data_sha1_8, checklist, approval
+    # COMPLETAR: run_id, data_sha1_8, sha256 por archivo, needs_ocr, checklist, approval
     raise NotImplementedError("manifest: provenance + pending_review")
 
 # Orquestación de una corrida (descomenta cuando las funciones pasen):
 # docx_path = build_docx(context)
 # pdf_path = build_pdf(context)
 # text, png_path = extract_and_render(pdf_path)
-# pack = manifest({"docx": str(docx_path), "pdf": str(pdf_path), "png": str(png_path)})
+# Marca cada valor tras mirar el PNG de S19, el results.xlsx de S20 y el informe:
+# checklist = {"dashboard": False, "xlsx": False, "doc": False}
+# pack = manifest({"docx": docx_path, "pdf": pdf_path, "png": png_path}, checklist)
 # assert pack["approval"]["status"] == "pending_review"
 # print(json.dumps(pack, indent=2, ensure_ascii=False))
 `,
  portfolioNote:
  "Paquete final CP-N2-B: dashboard + xlsx + informe (DOCX/PDF/PNG) con provenance y checklist visual; listo para revisión humana antes del flujo de email/aprobación en S22. No marques el paquete como aprobado desde el código del factory. Antes de marcar listo, responde las tres preguntas de la retrospective.",
  retrospective:
- "Antes de marcar listo: (1) ¿qué invariante de paridad demuestras con un print o assert (median_Lima y n_Lima iguales en context, DOCX reabierto y PDF extraído)? (2) ¿por qué el manifiesto deja `pending_review` y no `approved`, y qué revisaría un humano en la checklist visual? (3) Escribe en el README una frase de impacto medible (antes: tres exportaciones divergentes / después: un run_id y un número) que puedas defender en 30 segundos ante un comité de operaciones en Lima. Datos solo sintéticos; sin PII.",
+ "Antes de marcar listo: (1) ¿qué invariante de paridad demuestras con un print o assert (median_Lima y n_Lima iguales en context, DOCX reabierto y PDF extraído)? (2) ¿por qué el manifiesto deja `pending_review` y no `approved`, y qué revisaría un humano en la checklist visual? (3) Escribe en el README una frase de impacto medible: antes, tres exportaciones divergentes; después, un run_id y un número. Tienes que poder defenderla en 30 segundos ante un comité de operaciones en Lima. Datos solo sintéticos; sin PII.",
  rubric: [
  { criterion: "Artefactos DOCX/PDF reales, reabiertos, con paridad de métricas y provenance", weight: "25%" },
  { criterion: "Correctitud técnica en entorno declarado (venv + deps del lab)", weight: "20%" },

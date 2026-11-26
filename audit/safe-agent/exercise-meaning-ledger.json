@@ -3040,6 +3040,86 @@
       "reason": "Proposal 12 S20 (WEDO-24.1): a second call without Salida must print False, so a check that ignores Salida fails. Same task: need is a subset of sheetnames.",
       "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 305,
+      "id": "S21-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "3e246afc465efadb111260ace24eeee8d1f60a9d6e3615a27c1cb2ed9ee7b931",
+      "to_fp": "994cb60418b8b425b7969485626bdcec80a112df85088c1e6a643ea09623ff2a",
+      "reason": "Proposal 12 S21 (WEDO-02.1): m=28.0 so the Lima median prints 28.0 PEN like the rest of the package. Same task: add n to the KPI template.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 306,
+      "id": "S21-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "0b65b4da40a6cac8773d599702b096d3931751a90c21f7c2366f4986a03f1207",
+      "to_fp": "bc3510d1d68950a5da7749eb9f94e7bab01b771ff34500559ed3f33071ce8941",
+      "reason": "Proposal 12 S21 (WEDO-07.1): Resumen is checked among Heading-styled paragraphs of the reopened file, so add_paragraph no longer passes. Same task: real heading plus n=40.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 307,
+      "id": "S21-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "4f95a399bb3458b64818a42603fac523650500e6944c0d7f546c9fbaaf210d50",
+      "to_fp": "0a038033f2f568fd767fbb367d598aab56423dc8c9046c6c2daf3555a36ed15f",
+      "reason": "Proposal 12 S21 (WEDO-11.1): import pymupdf instead of fitz (fitz prints a deprecation line) and open the PDF in a with block. Same task: render page 0 to PNG.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 308,
+      "id": "S21-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "dcf8ddd05af61cc8cb8bc7a99d468b86573dede3d0d3baa1597b7b04d76b9b67",
+      "to_fp": "328e822d09e32e6aa58c138ce63558aa81ecd6b4d7dd88696ae36f13bb8dfc57",
+      "reason": "Proposal 12 S21 (WEDO-17.1): the caption check also prints whether n=40 is present. Same task: a caption that names Fuente and keeps n=40.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 309,
+      "id": "S21-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "c967ac2cb7ed82f0b0af99285707bb746830883f0db98f8edfe312bac22d1665",
+      "to_fp": "ffc0ebd3f06d83009248f5d26d9c0fb2f60800bad21bcf576ee7d88eb3be02eb",
+      "reason": "Proposal 12 S21 (WEDO-18.1): a third call varies the first argument, so comparing only b and c fails. Same task: three-way check_parity.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 310,
+      "id": "S21-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "6e615b1d747cb89ab2b0f9a806ab20d3a2fe6ee4f51f5e7ddf8c04ab0e699d78",
+      "to_fp": "257a4e9be0b603813dcb0dcdbbe0a37b8d2f4d99db6d79021209f94980efcc1f",
+      "reason": "Proposal 12 S21 (WEDO-20.1, THEORY-09.1): fmt_pen uses Decimal ROUND_HALF_UP to match Excel ROUND on ties and maps None to a dash. Same task: add the PEN unit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 311,
+      "id": "S21-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "8e87fa5d912979d1bc21673c8760b9b0d70b784b91ad5f87e7b5a6d440dd1e1c",
+      "to_fp": "933553330542b97f4413ae62da060a8ecd2464ccdf6a0b1a377a947335d21065",
+      "reason": "Proposal 12 S21 (WEDO-21.1): a useful alt also needs n= and a unit, with a fourth call for a long alt without them. Same task: a11y_min with H1 and non-empty alts.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 312,
+      "id": "S21-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "be9183b4a88250f2036c851d88ab4dc7c78a2c3e7d321fb48a39e4c353cc2bec",
+      "to_fp": "c752e376b24062decbee854f5d3c6adfdc2e8dd21c5b1d2f151943b7c28cd1b7",
+      "reason": "Proposal 12 S21 (WEDO-24.1, P1): ready requires the three named keys; a third call without doc prints False. Same task: all, not any.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
