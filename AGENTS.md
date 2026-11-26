@@ -3,7 +3,9 @@
 Binds automated agents and humans working with them. **Preservation comes first.**
 Rules are constraints; the reasons and incidents behind them are in
 [`docs/agents/lessons.md`](docs/agents/lessons.md). Content rules for lesson files:
-[`src/lib/course/sections/AGENTS.md`](src/lib/course/sections/AGENTS.md).
+[`src/lib/course/sections/AGENTS.md`](src/lib/course/sections/AGENTS.md). Lesson writing, the
+explain-and-exemplify standard and how to use the dependency graphs (concept map, glossary, track
+graphs): [`docs/agents/lesson-writing.md`](docs/agents/lesson-writing.md).
 
 **When instructions conflict:** 1 safety and authorization · 2 explicit human requirements
 in the current task · 3 preservation invariants here · 4 approved specs · 5 existing behaviour.
@@ -51,6 +53,9 @@ Order, never skipped silently — anything unfinished goes to `audit/fixer/OPEN_
   proposed change first: the passage, its replacement and the reasoning (owner, 2026-11-09).
   Tooling applies and verifies. Prose follows `audit/fixer/writing_rules.md`, including
   §I (machine-prose tropes, read against Zinsser's *On Writing Well*).
+- Every concept, idea and technique not taught before is explained where it first appears; a
+  technique is also exemplified by a runnable example, an exercise or walked script, or a figure
+  (owner, 2026-11-25). Standard, failure modes and graph workflow: `docs/agents/lesson-writing.md`.
 - Codex critiques each passage before returning it; unresolved concerns return twice, then
   go to a human.
 - Research what the registry does not settle from several expert perspectives (STORM),

@@ -119,7 +119,7 @@ const WORKER_SUITES = [
   // How a tester gets in while sign-up is closed (red-team round on PR #168, 2026-11-20).
   ["tester-onboarding", 4],
   // REDEPLOY.md, the owner's click-by-click runbook, against the scripts it quotes (2026-11-23).
-  ["redeploy-runbook", 7]
+  ["redeploy-runbook", 8]
 ].map(([name, floor]) => ({ group: "worker", file: `${WORKER_TESTS}/${name}.test.mjs`, floor }));
 
 /**
@@ -186,7 +186,7 @@ const CLIENT_SUITES = [
   ["theory-parts-sync", 15],
   ["ui-state", 12],
   // The applied web track (#ruta-web): placement by slug and phase, own ticks, every snippet run (2026-11-25).
-  ["web-track", 41]
+  ["web-track", 55]
 ].map(([name, floor]) => ({ group: "client", file: `${CLIENT_TESTS}/${name}.test.ts`, floor, execArgv: TSX }));
 
 /** Every suite: group, file (repo-relative), floor and, for TypeScript, execArgv. */

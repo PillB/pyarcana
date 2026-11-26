@@ -83,6 +83,20 @@ test('the complexity gate refuses one branch over its ceiling and accepts the ce
   assert.match(over[0], new RegExp(`complexity of ${ceiling + 1}`))
 })
 
+test('local lint skips the folders only a local checkout has, and still lints the source', async () => {
+  // 25 Nov 2026: `bun run lint` on the owner's computer reported 88 errors from .claude/worktrees
+  // (agent copies of the repository) and .ci-static (a build), which CI never has, and hid any real one.
+  const eslint = new ESLint({ cwd: ROOT, overrideConfigFile: join(ROOT, 'eslint.config.mjs') })
+  const localOnly = ['.claude/worktrees/x/src/app/page.tsx', '.ci-static/pyarcana/_next/static/chunks/a.js', 'workers/billing/e2e/node_modules/playwright/index.js']
+  for (const path of localOnly) {
+    assert.equal(await eslint.isPathIgnored(join(ROOT, path)), true, `eslint.config.mjs lints ${path}, a local-only folder CI never has: add it to ignores`)
+  }
+  // The other half: the ignore must not swallow the code CI lints.
+  for (const path of ['src/app/page.tsx', 'src/lib/cloud/headers.ts', 'workers/billing/src/index.mjs']) {
+    assert.equal(await eslint.isPathIgnored(join(ROOT, path)), false, `eslint.config.mjs ignores ${path}, which CI must lint: an ignore pattern is too broad`)
+  }
+})
+
 test('the static-journeys command AGENTS.md names exists and refuses instead of guessing', () => {
   const pkg = JSON.parse(read('package.json'))
   assert.equal(pkg.scripts['test:static-journeys'], 'bash scripts/run_static_journeys.sh', 'package.json: test:static-journeys is gone or points elsewhere')
