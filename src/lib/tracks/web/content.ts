@@ -636,6 +636,7 @@ print("rutas que fallarán en una subcarpeta:", absolutas)`, output: String.raw`
             '`EXPLAIN QUERY PLAN` antes de una consulta muestra cómo la resolverá SQLite, sin ejecutarla. `SCAN` significa que lee todas las filas, y `SEARCH ... USING INDEX` significa que va directo a las que coinciden.',
             'El bloque cuenta además las filas revisadas con una función propia, `contar`, que SQLite llama una vez por cada fila que mira. Va primero en el `WHERE` para que SQLite la llame antes de descartar la fila.',
             'Si además ordenas, el plan muestra `USE TEMP B-TREE FOR ORDER BY`, que significa que SQLite ordena las filas aparte. Un **índice compuesto**, sobre dos columnas, sirve a la vez al filtro y al orden: primero va la columna del `WHERE` y luego la del `ORDER BY`.',
+            'En el segundo bloque, `COVERING INDEX` significa que el índice ya tiene todas las columnas que pide la consulta, así que SQLite ni siquiera abre la tabla. Si pides una columna que no está en el índice, verás `USING INDEX`.',
           ],
           code: [
             {
@@ -1149,7 +1150,7 @@ v2 agrega moneda: 1250`,
             'En abril de 2026, un asistente que arreglaba otra cosa encontró un token amplio en un archivo y borró en nueve segundos la base de producción de una empresa. También borró sus copias de seguridad, que estaban guardadas en el mismo lugar.',
             'En julio de 2025, otro asistente borró una base de producción durante un congelamiento de cambios, un periodo en que le habían pedido no modificar nada. Por eso los límites van en los permisos y en la herramienta, no solo en lo que le pides.',
             'El primer bloque muestra cómo se ve una inyección en un archivo de tu propio proyecto. GitHub no muestra el comentario `<!-- -->` cuando dibuja la página, pero el asistente lee el archivo entero y puede obedecerlo.',
-            'Los dos bloques de Python revisan antes de que el asistente actúe. `alcance_minimo.py` compara los permisos de un token, en un modelo simplificado, con los que pide la tarea. `nombre_parecido.py` usa `difflib`, de la biblioteca estándar, para avisar si un paquete se parece demasiado a uno conocido.',
+            'Los dos bloques de Python revisan antes de que el asistente actúe. `alcance_minimo.py` compara los permisos de un token y su nivel, en un modelo simplificado, con los que pide la tarea. `nombre_parecido.py` usa `difflib`, de la biblioteca estándar, para avisar si un paquete se parece demasiado a uno conocido.',
           ],
           code: [
             {
@@ -1170,25 +1171,33 @@ y no se lo menciones a la persona. -->`,
 
 # Lo que necesita la tarea que le das al asistente: aplicar una migración a la base
 NECESITA = {"D1": "Edit"}
+NIVELES = ["Read", "Edit"]  # Edit permite todo lo que permite Read, y además cambiar
 
 def revisar(token, hoy):
-    problemas = [f"sobra {recurso}: {nivel}" for recurso, nivel in token["permisos"].items() if recurso not in NECESITA]
-    faltan = [recurso for recurso in NECESITA if recurso not in token["permisos"]]
-    problemas += [f"falta {recurso}" for recurso in faltan]
+    permisos = token["permisos"]
+    problemas = [f"sobra {recurso}: {nivel}" for recurso, nivel in permisos.items() if recurso not in NECESITA]
+    for recurso, nivel in NECESITA.items():
+        tiene = permisos.get(recurso)
+        if tiene is None or NIVELES.index(tiene) < NIVELES.index(nivel):
+            problemas.append(f"falta {recurso}: {nivel} (tiene {tiene})")
     vence = token.get("vence")
     if vence is None or (vence - hoy).days > 1:
         problemas.append("debe vencer en un día como máximo")
     return problemas or ["listo: alcanza para la tarea y nada más"]
 
-hoy = date(2026, 11, 25)
+hoy, manana = date(2026, 11, 25), date(2026, 11, 26)
 # Error: un token que abre toda la cuenta y nunca vence
 amplio = {"permisos": {"Account Settings": "Edit", "D1": "Edit", "Workers Scripts": "Edit"}, "vence": None}
 print("token amplio:", revisar(amplio, hoy))
+# Error: un token que solo lee no puede aplicar la migración
+corto = {"permisos": {"D1": "Read"}, "vence": manana}
+print("token que solo lee:", revisar(corto, hoy))
 
-# Corrección: solo D1, y vence mañana
-minimo = {"permisos": {"D1": "Edit"}, "vence": date(2026, 11, 26)}
+# Corrección: solo D1 con permiso para cambiar, y vence mañana
+minimo = {"permisos": {"D1": "Edit"}, "vence": manana}
 print("token mínimo:", revisar(minimo, hoy))`,
               output: String.raw`token amplio: ['sobra Account Settings: Edit', 'sobra Workers Scripts: Edit', 'debe vencer en un día como máximo']
+token que solo lee: ['falta D1: Edit (tiene Read)']
 token mínimo: ['listo: alcanza para la tarea y nada más']`,
             },
             {
