@@ -644,6 +644,100 @@
    "status": "track",
    "where": "modulo:prototipo",
    "module": "prototipo"
+  },
+  {
+   "id": "pyproject-proyecto",
+   "label": "pyproject.toml",
+   "definition": "El archivo que describe un proyecto de Python y sus dependencias.",
+   "status": "course",
+   "where": "S10"
+  },
+  {
+   "id": "subprocess-comandos",
+   "label": "subprocess",
+   "definition": "Ejecutar un programa externo, como git, desde Python y leer lo que imprime.",
+   "status": "course",
+   "where": "S10"
+  },
+  {
+   "id": "wrangler-binding",
+   "label": "Campos de wrangler.jsonc y bindings",
+   "definition": "Cada campo de la configuración del Worker, y el nombre (binding) con que el código llega a D1 y a los archivos.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "consultas-por-fila",
+   "label": "Una consulta por fila contra un JOIN",
+   "definition": "Pedir un dato aparte por cada fila mostrada multiplica los viajes a la base; un JOIN trae todo en uno.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "costo-escritura-indices",
+   "label": "Costo de escritura de los índices",
+   "definition": "Cada índice sobre una columna que cambia suma una fila escrita en D1 y ocupa más páginas.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "revision-antes-de-publicar",
+   "label": "Revisión antes de publicar",
+   "definition": "Comprobar con git que la copia está limpia y al día con main antes de publicar.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "inyeccion-instrucciones",
+   "label": "Inyección de instrucciones",
+   "definition": "Texto escondido en un archivo o página que un asistente de IA lee y puede obedecer.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "copia-d1-export",
+   "label": "Copia de la base con d1 export",
+   "definition": "Guardar la base de internet en un archivo SQL fuera del alcance del token del asistente.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "secretos-worker",
+   "label": "Secretos de un Worker",
+   "definition": "pywrangler secret put para internet y .dev.vars para la copia local, fuera de Git.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "migracion-solo-agrega",
+   "label": "Una migración solo agrega",
+   "definition": "La versión nueva agrega tablas o columnas y no borra lo que la anterior usa, porque volver atrás no revierte la base.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "token-alcance-minimo",
+   "label": "Token de alcance mínimo",
+   "definition": "Comparar los permisos de un token con los que pide la tarea, y darle un vencimiento cercano.",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
+  },
+  {
+   "id": "nombre-paquete-parecido",
+   "label": "Nombres de paquetes parecidos",
+   "definition": "Avisar cuando un paquete sugerido se parece demasiado a uno conocido (difflib).",
+   "status": "track",
+   "where": "modulo:prototipo",
+   "module": "prototipo"
   }
  ],
  "edges": [
@@ -1176,6 +1270,96 @@
    "from": "lista-despliegue",
    "to": "agente-ia-limites",
    "reason": "Los límites se ponen sobre los pasos de la lista."
+  },
+  {
+   "from": "pyproject-proyecto",
+   "to": "wrangler-binding",
+   "reason": "workers-py entra como dependencia de desarrollo en el pyproject de S10."
+  },
+  {
+   "from": "wrangler-binding",
+   "to": "d1-worker-python",
+   "reason": "El código usa self.env.DB y self.env.ASSETS, los nombres que declara la configuración."
+  },
+  {
+   "from": "migracion-sql",
+   "to": "wrangler-binding",
+   "reason": "La migración vive junto a la configuración que nombra la base."
+  },
+  {
+   "from": "sql-crud-join",
+   "to": "consultas-por-fila",
+   "reason": "El JOIN de S12 reemplaza las consultas por fila."
+  },
+  {
+   "from": "paginacion-clave",
+   "to": "consultas-por-fila",
+   "reason": "La misma página que se pagina por clave trae el nombre de cada sede."
+  },
+  {
+   "from": "filas-leidas-escritas",
+   "to": "costo-escritura-indices",
+   "reason": "Las filas escritas son la mitad de lo que D1 cuenta."
+  },
+  {
+   "from": "subprocess-comandos",
+   "to": "revision-antes-de-publicar",
+   "reason": "El script llama a git con subprocess."
+  },
+  {
+   "from": "git-commit-push",
+   "to": "revision-antes-de-publicar",
+   "reason": "Copia limpia y al día: sin cambios sin commit y en el mismo commit que main."
+  },
+  {
+   "from": "revision-antes-de-publicar",
+   "to": "lista-despliegue",
+   "reason": "El script cubre el primer paso de la lista."
+  },
+  {
+   "from": "inyeccion-instrucciones",
+   "to": "agente-ia-limites",
+   "reason": "Los límites existen porque el asistente obedece texto que no escribiste tú."
+  },
+  {
+   "from": "copia-d1-export",
+   "to": "agente-ia-limites",
+   "reason": "Una copia que el token del asistente no puede borrar."
+  },
+  {
+   "from": "secretos-entorno",
+   "to": "secretos-worker",
+   "reason": "El .env de S01 y S10 es el .dev.vars de un Worker."
+  },
+  {
+   "from": "secretos-worker",
+   "to": "entornos-preview-produccion",
+   "reason": "Cada entorno tiene sus propios secretos."
+  },
+  {
+   "from": "migracion-sql",
+   "to": "migracion-solo-agrega",
+   "reason": "Solo una migración puede borrar o agregar columnas."
+  },
+  {
+   "from": "migracion-solo-agrega",
+   "to": "lista-despliegue",
+   "reason": "La fila «Si falla» de la lista depende de esa regla."
+  },
+  {
+   "from": "token-alcance-minimo",
+   "to": "agente-ia-limites",
+   "reason": "El asistente recibe un token propio y mínimo."
+  },
+  {
+   "from": "nombre-paquete-parecido",
+   "to": "agente-ia-limites",
+   "reason": "Los asistentes a veces inventan nombres de paquetes."
+  },
+  {
+   "from": "explain-query-plan",
+   "to": "indice-compuesto",
+   "reason": "USE TEMP B-TREE FOR ORDER BY aparece en el plan y desaparece con el índice compuesto."
   }
  ],
  "loose": [
@@ -1232,6 +1416,12 @@
    "was": "src/entry.py usa async def y await, que el curso enseña en S27, después del desvío.",
    "action": "GLOSS",
    "how": "prototipo.worker-d1 explica en una frase qué hacen async def y await y remite a S27."
+  },
+  {
+   "node": "d1-worker-python",
+   "was": "src/entry.py usa urlparse y parse_qs, que el curso enseña en S22, después del desvío.",
+   "action": "GLOSS",
+   "how": "La tabla de prototipo.worker-d1 explica qué separa cada una y por qué se toma [0]."
   }
  ],
  "revised": "2026-11-25: loose dependencies resolved in the same round are listed under \"resolved\" with the action taken (REMOVE, REPHRASE, GLOSS, TEACH, DEFER)."

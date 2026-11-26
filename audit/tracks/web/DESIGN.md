@@ -217,3 +217,68 @@ comes from self-reported posts.
 
 **Not done.** AGENTS.md gets no new text from this round: it is a protected file. The proposed
 "agents that deploy" rule is in `/mnt/project-files/web-track/PROTOTYPE_PROPOSAL.md` for Pablo.
+
+### 10.1 Explain and exemplify (owner, 25 Nov 2026)
+
+Pablo asked whether `wrangler.jsonc` was ever explained. It was not, and neither were its fields or
+the Worker's lines. The standard is in `docs/agents/lesson-writing.md` §1. What changed:
+
+- **A new step, `prototipo.configurar`** (a new id, so no stored tick is renamed). It moves
+  `pyproject.toml`, `wrangler.jsonc` and the migration out of `worker-d1`. It adds a table row for
+  each config field, a gloss for JSONC and for **binding**, and a text diagram of three requests:
+  the API, a file, and a missing page.
+- **`worker-d1`** gets a table explaining each line of `entry.py`, and a comment on every command
+  of `probar_en_local.sh`.
+- **A Worker bug found while explaining it.** `self.env.ASSETS` had no `"binding": "ASSETS"`, so a
+  missing page answered 500. The earlier walk requested only `/`, which Cloudflare serves before
+  the Worker runs.
+- **Runnable examples** for warnings that had none:
+  - `escrituras.py`: the write cost of three indexes against one, as D1's rule plus SQLite's
+    measured page count;
+  - `una_consulta.py`: 21 queries against 1 with `JOIN`, counted with `set_trace_callback`;
+  - `antes_de_publicar.py`: the release preflight on a throwaway repository, in three cases;
+  - a `README.md` carrying a hidden injection, `copia_de_seguridad.sh` with `d1 export`, and
+    `secretos.sh`.
+- **Glosses:** `wrangler`, Hobby, credenciales vivas, `PRAGMA optimize`, Production, Preview and
+  Development, `git rev-parse --short HEAD`, Instant Rollback, «una migración solo agrega»,
+  congelamiento de cambios, and My Profile → API Tokens.
+
+**Routes compared.** For the preflight, a bash script against Python with `subprocess`.
+`subprocess` is taught in S10, and bash `if` and `$( )` are not, so Python won. It can also build
+its own throwaway repository, so its output is pinned like every other block. For the write cost,
+measuring `rows_written` under `wrangler dev` against SQLite's page count. The local number is not
+the production number (§2 of the lessons doc), so the block applies D1's published rule and says
+so. Only the page count is measured.
+
+**Tests.** There are 7 new tests, and each was mutation-checked; all 7 mutations were caught:
+
+- every config field has a row;
+- the bindings declared equal the `self.env.X` used;
+- every imported or called name in `entry.py` has a row;
+- the diagram names match the config;
+- each warning names its `# Error` and `# Corrección` block (B8);
+- every number in «Deberías ver» is printed or set by the code;
+- the injected command is hidden only in the comment and named by the approval row.
+
+The walk has 38 checks, adding three: 404 on `/no-existe`, `.dev.vars` being read, and
+`d1 export --local`. With the old config, the walk fails on the 404 check.
+
+**Content editor review (same day).** It found 9 findings, all fixed:
+- Cloudflare Pages dropped;
+- prerequisites moved to the top of `configurar`;
+- `%27` and `%20` explained;
+- Spend Management, UTC, processor time and pages glossed;
+- `os.environ` recalled;
+- the composite index gets its own Error and Corrección block (`indice_compuesto.py`), so the
+  practice applies the technique instead of discovering it;
+- «solo agrega» gets `migracion_que_borra.py`;
+- the token and package checks get offline scripts (`alcance_minimo.py`, `nombre_parecido.py`).
+
+All four new blocks are in the B8 registry test, and each was mutation-checked.
+
+**Trade-offs.**
+- `alcance_minimo.py` models permissions as a simplified dict, not Cloudflare's real permission
+  groups. The dashboard steps stay as text, because creating a token needs an account.
+- `nombre_parecido.py` catches typos but cannot prove a package exists, so the URL step stays.
+- The S27 pointer for `async` and the S22 one for `urlparse` stay as glosses (DEFER would leave
+  the line unexplained).

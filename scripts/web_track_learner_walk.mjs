@@ -16,7 +16,7 @@
  * it needs is missing, because a walk that could not run did not pass.
  */
 import { spawn, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -92,9 +92,10 @@ async function devRun(dir, port, paths) {
 
 async function walkPrototype(project) {
   const id = 'prototipo.worker-d1'
-  const body = steps.get(id).body.join(' ')
+  // The prerequisites (Node.js, uv and its minimum version) open prototipo.configurar.
+  const body = steps.get('prototipo.configurar').body.join(' ')
   const min = /pide la (\d+\.\d+\.\d+)/.exec(body)?.[1]
-  if (!min) refuse(`${id} no longer names the minimum uv version ("pide la X.Y.Z"); the walk checks it.`)
+  if (!min) refuse(`prototipo.configurar no longer names the minimum uv version ("pide la X.Y.Z"); the walk checks it.`)
   const uv = uvAtLeast(min)
   if (!uv) return console.log(`note  ${id}  uv is not installed here; the local Worker run was not done (not a pass)`)
   if (!uv.ok) return console.log(`note  ${id}  uv ${uv.version} is older than ${min}, which pywrangler needs (see the step's fix); not run, not a pass`)
@@ -102,7 +103,11 @@ async function walkPrototype(project) {
   mkdirSync(path.join(dir, 'src'), { recursive: true })
   mkdirSync(path.join(dir, 'migrations'), { recursive: true })
   cpSync(path.join(project, 'site'), path.join(dir, 'site'), { recursive: true })
-  for (const title of ['pyproject.toml', 'wrangler.jsonc', 'migrations/0001_inicial.sql', 'src/entry.py']) writeFileSync(path.join(dir, title), code(id, title))
+  for (const title of ['pyproject.toml', 'wrangler.jsonc', 'migrations/0001_inicial.sql']) writeFileSync(path.join(dir, title), code('prototipo.configurar', title))
+  writeFileSync(path.join(dir, 'src/entry.py'), code(id, 'src/entry.py'))
+  // prototipo.entornos: the test value of a secret goes in .dev.vars, which pywrangler dev reads.
+  const secrets = code('prototipo.entornos', 'secretos.sh').split('\n').filter((l) => l.startsWith('echo'))
+  for (const line of secrets) spawnSync('sh', ['-c', line], { cwd: dir, encoding: 'utf8' })
   const script = code(id, 'probar_en_local.sh').split('\n')
   const sync = spawnSync('sh', ['-c', script[0]], { cwd: dir, encoding: 'utf8', timeout: 300_000 })
   check(id, `\`${script[0]}\` installs workers-py`, sync.status === 0, 'exit 0', sync.stderr)
@@ -120,11 +125,22 @@ async function walkPrototype(project) {
   const promised = /`(\{"sede": "SED-01", [^`]+\})`/.exec(expect)?.[1]
   const injected = /\?sede=([^`]+)`/.exec(expect.split('y con')[1] ?? '')?.[1]
   if (!promised || !injected) refuse(`${id}: «Deberías ver» no longer quotes the JSON and the injected address; the walk compares both.`)
-  const run = await devRun(dir, await freePort(), ['/api/ventas?sede=SED-01', `/api/ventas?sede=${injected}`, '/'])
-  const [api, inj, home] = run
+  const run = await devRun(dir, await freePort(), ['/api/ventas?sede=SED-01', `/api/ventas?sede=${injected}`, '/', '/no-existe'])
+  const [api, inj, home, missing] = run
   check(id, 'the local API answers exactly what «Deberías ver» quotes (rows and filas_leidas)', api.text === promised, promised, `${api.text} | log: ${(run.log ?? '').slice(-300)}`)
   check(id, 'the injected sede returns an empty list', /"ventas": \[\]/.test(inj.text), '"ventas": []', inj.text)
   check(id, 'other addresses still serve the site folder', home.status === 200 && /<table/.test(home.text), '200 with the table page', `${home.status} ${home.text.slice(0, 120)}`)
+  // Defect guarded (25 Nov): with no "binding": "ASSETS" in wrangler.jsonc, self.env.ASSETS raised
+  // AttributeError and a missing page answered 500 instead of the site's 404.
+  check(id, 'a path that is neither the API nor a file answers 404 through self.env.ASSETS, not 500', missing.status === 404, '404', `${missing.status} ${(run.log ?? '').match(/AttributeError[^\n]*/)?.[0] ?? ''}`)
+  check('prototipo.entornos', 'pywrangler dev reads the test secret from .dev.vars, as the step says', /\.dev\.vars/.test(run.log ?? '') && /CLAVE_API/.test(run.log ?? ''), '.dev.vars and CLAVE_API in the dev log', (run.log ?? '').slice(0, 400))
+
+  // prototipo.ia: the backup command, run against the local copy instead of --remote.
+  const backup = code('prototipo.ia', 'copia_de_seguridad.sh').split('\n').find((l) => l.includes('d1 export'))
+  if (!backup?.includes('--remote')) refuse('prototipo.ia: copia_de_seguridad.sh no longer exports with --remote; the walk swaps it for --local.')
+  const exported = spawnSync('sh', ['-c', backup.replace('--remote', '--local')], { cwd: dir, encoding: 'utf8', timeout: 240_000 })
+  const dump = existsSync(path.join(dir, 'copia.sql')) ? readFileSync(path.join(dir, 'copia.sql'), 'utf8') : ''
+  check('prototipo.ia', '`d1 export` writes copia.sql with the table and its rows', exported.status === 0 && /CREATE TABLE ventas/.test(dump) && /'SED-01',1250/.test(dump), 'CREATE TABLE ventas and the SED-01 row', (exported.stderr || exported.stdout).slice(-300))
 
   // prototipo.ia promises how a dropped local table is repaired. Codex (PR #208) found the first
   // wording wrong: re-applying alone does nothing, because d1_migrations still lists 0001.

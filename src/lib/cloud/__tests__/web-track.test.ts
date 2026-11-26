@@ -273,7 +273,7 @@ test('every Python block runs and prints exactly its declared output', () => {
       ran++
     }
   }
-  assert.ok(ran >= 16, `expected at least 16 Python blocks (10 worked examples, 6 solutions), ran ${ran}`)
+  assert.ok(ran >= 23, `expected at least 23 Python blocks (17 worked examples, 6 solutions), ran ${ran}`)
 })
 
 /** A DOM just big enough for app.js: header buttons, a tbody, aria-sort on the headers. */
@@ -481,7 +481,7 @@ test('every section number written in the track prose still names the section it
   // if sections are renumbered, "FastAPI en S41" would point at another lesson. Each number is
   // pinned here to the slug it meant on 25 Nov 2026; a new number in the prose must be added here.
   const meant: Record<number, string> = {
-    1: 'setup', 2: 'basics', 7: 'text-unicode-regex', 8: 'files-ingestion', 11: 'oop-domain',
+    1: 'setup', 2: 'basics', 7: 'text-unicode-regex', 8: 'files-ingestion', 10: 'modules-packaging-cli', 11: 'oop-domain',
     12: 'apis-sql-geo', 13: 'evidence-dashboard', 15: 'stdlib-deep', 21: 'fastapi', 27: 'async-concurrency',
     38: 'performance-extreme', 41: 'llm-finetuning', 42: 'graph-rag', 43: 'llmops', 45: 'iac',
   }
@@ -835,7 +835,7 @@ test('a Worker file is compiled, not run, and the run loop skips only those (run
 })
 
 test('the migration, the Worker query and «Deberías ver» agree: the index is used, the rows match, an injected sede returns nothing', () => {
-  const migration = protoCode('prototipo.worker-d1', 'migrations/0001_inicial.sql').code
+  const migration = protoCode('prototipo.configurar', 'migrations/0001_inicial.sql').code
   const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
   const query = /prepare\(\s*"([^"]+)"\s*\)/.exec(entry)?.[1]
   assert.ok(query, 'src/entry.py lost its prepare("...") query; this test runs it against the migration')
@@ -887,7 +887,7 @@ test('every SQLite plan the prose quotes is one the code prints (EXPLAIN QUERY P
   for (const id of ['prototipo.indices', 'prototipo.practica']) {
     const s = protoStep(id)
     const printed = blocksOf(s).map((c) => c.output ?? '').join('\n')
-    const quoted = [...(s.expect ?? '').matchAll(/`((?:SCAN|SEARCH)[^`]*)`/g)].map((m) => m[1])
+    const quoted = [...(s.expect ?? '').matchAll(/`((?:SCAN|SEARCH|USE TEMP)[^`]*)`/g)].map((m) => m[1])
     assert.ok(quoted.length >= 1, `${id}: «Deberías ver» should quote the plan line the learner compares with`)
     for (const q of quoted) assert.ok(printed.includes(q), `${id}: «Deberías ver» quotes \`${q}\`, which the code does not print`)
   }
@@ -921,4 +921,129 @@ test('a term the track defines in bold is not used earlier in the same module (A
     })
   }
   assert.deepEqual(problems, [], 'define the term where it first appears, or describe the idea without the label until it is defined')
+})
+
+// ---------------------------------------------------------------------------------------------
+// Explained and exemplified (owner, 25 Nov 2026; docs/agents/lesson-writing.md §1): every config
+// field and every line of the Worker is explained, and every warning has a block that runs.
+// ---------------------------------------------------------------------------------------------
+
+/** wrangler.jsonc as data: JSONC is JSON that allows // comments. */
+function wranglerConfig(): Record<string, unknown> {
+  const text = protoCode('prototipo.configurar', 'wrangler.jsonc').code.replace(/^\s*\/\/.*$/gm, '')
+  return JSON.parse(text) as Record<string, unknown>
+}
+
+/** Every field path in the config, arrays of objects written as `[]`: d1_databases[].binding. */
+function fieldPaths(value: unknown, prefix = ''): string[] {
+  if (Array.isArray(value)) {
+    const objects = value.filter((v) => v && typeof v === 'object')
+    return objects.length ? objects.flatMap((v) => fieldPaths(v, `${prefix}[]`)) : [prefix]
+  }
+  if (value && typeof value === 'object') return Object.entries(value).flatMap(([k, v]) => fieldPaths(v, prefix ? `${prefix}.${k}` : k))
+  return [prefix]
+}
+
+test('every field of wrangler.jsonc is explained in the configurar table (no config line left unexplained)', () => {
+  // Defect guarded (owner, 25 Nov): the first draft explained wrangler.jsonc as "the file that says
+  // which folder to publish" and added main, compatibility_flags, d1_databases, binding and
+  // database_id with no word on any of them.
+  const table = protoStep('prototipo.configurar').table
+  assert.ok(table, 'prototipo.configurar lost its table of wrangler.jsonc fields')
+  const explained = new Set(table.rows.map((r) => r[0].replace(/`/g, '')))
+  const leaves = [...new Set(fieldPaths(wranglerConfig()))]
+  assert.ok(leaves.length >= 9, `expected at least 9 fields in wrangler.jsonc, found ${leaves.join(', ')}`)
+  const missing = leaves.filter((p) => !explained.has(p))
+  assert.deepEqual(missing, [], `explain these fields in the prototipo.configurar table: ${missing.join(', ')}`)
+  // Simulated drift: a field added to the config without a row must be reported.
+  const drifted = fieldPaths({ ...wranglerConfig(), observability: { enabled: true } }).filter((p) => !explained.has(p))
+  assert.ok(drifted.includes('observability.enabled'), 'sanity: an unexplained field added to the config must be caught')
+})
+
+test('every binding the Worker uses is declared in wrangler.jsonc, and every declared binding is used', () => {
+  // Defect guarded (found 25 Nov in pywrangler dev): entry.py called self.env.ASSETS, but the
+  // config declared no assets binding, so any path that was neither the API nor a file crashed
+  // with a 500 (AttributeError: ASSETS) instead of a 404.
+  const cfg = wranglerConfig() as { assets?: { binding?: string }; d1_databases?: { binding: string }[] }
+  const declared = [cfg.assets?.binding, ...(cfg.d1_databases ?? []).map((d) => d.binding)].filter(Boolean).sort()
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const used = [...new Set([...entry.matchAll(/self\.env\.([A-Z_][A-Z0-9_]*)/g)].map((m) => m[1]))].sort()
+  assert.deepEqual(declared, used, `wrangler.jsonc declares [${declared}] and src/entry.py uses self.env.[${used}]; they must match`)
+})
+
+test('every name src/entry.py imports or calls is explained in the worker-d1 line table', () => {
+  // Defect guarded (owner, 25 Nov): class Default(WorkerEntrypoint), self.env.DB and Response.json
+  // are not self-explanatory to someone who knows only S01–S12.
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const table = protoStep('prototipo.worker-d1').table
+  assert.ok(table, 'prototipo.worker-d1 lost its table of entry.py lines')
+  const explained = table.rows.map((r) => r.join(' ')).join(' ')
+  const imported = [...entry.matchAll(/^from \S+ import (.+)$/gm)].flatMap((m) => m[1].split(',').map((x) => x.trim()))
+  // Attributes and calls specific to Workers and D1; dict.get and list indexing are S06.
+  const attrs = [...entry.matchAll(/\.(prepare|bind|all|results|meta|rows_read|fetch|json|env|url|query)\b/g)].map((m) => m[1])
+  const names = [...new Set([...imported, 'Default', ...attrs.filter((a) => a !== 'meta')])]
+  const missing = names.filter((n) => !new RegExp(`\\b${n}\\b`).test(explained))
+  assert.ok(names.length >= 12, `expected to check at least 12 names in entry.py, found ${names.join(', ')}`)
+  assert.deepEqual(missing, [], `the worker-d1 table does not explain: ${missing.join(', ')}`)
+})
+
+test('the request diagram names the same file, bindings, folder and database as the config', () => {
+  // Defect guarded (drift): a round renames the binding or the folder in wrangler.jsonc and the
+  // diagram keeps the old name, so the picture teaches a Worker that does not exist.
+  const cfg = wranglerConfig() as { main: string; assets: { directory: string; binding: string }; d1_databases: { binding: string; database_name: string }[] }
+  const diagram = protoCode('prototipo.configurar', 'flujo_de_una_peticion.txt').code
+  const entry = protoCode('prototipo.worker-d1', 'src/entry.py').code
+  const apiPath = /url\.path != "([^"]+)"/.exec(entry)?.[1]
+  assert.ok(apiPath, 'src/entry.py no longer compares url.path with the API route; this test reads it')
+  const names = [cfg.main, cfg.assets.directory, `"binding": "${cfg.assets.binding}"`, ...cfg.d1_databases.flatMap((d) => [`"binding": "${d.binding}"`, d.database_name]), apiPath]
+  const missing = names.filter((n) => !diagram.includes(n))
+  assert.deepEqual(missing, [], `flujo_de_una_peticion.txt does not name: ${missing.join(', ')}`)
+})
+
+test('every warning in the prototype module has a block that runs the mistake and its correction (B8)', () => {
+  // Defect guarded (owner, 25 Nov): «pide en una sola consulta con JOIN» and «crea índices… y no
+  // para todas» were warnings with nothing that showed the cost.
+  const warnings: [string, RegExp, string][] = [
+    ['prototipo.indices', /columna sin índice revisa la tabla entera/, 'filas_leidas.py'],
+    ['prototipo.cuotas', /y no para todas/, 'escrituras.py'],
+    ['prototipo.paginar', /LIMIT 20 OFFSET 5000/, 'paginar.py'],
+    ['prototipo.paginar', /en lugar de una consulta por cada fila/, 'una_consulta.py'],
+    // Content editor review, 25 Nov: the composite index, «solo agrega», the token and the package check.
+    ['prototipo.indices', /USE TEMP B-TREE FOR ORDER BY/, 'indice_compuesto.py'],
+    ['prototipo.lista', /una migración solo agrega/, 'migracion_que_borra.py'],
+    ['prototipo.ia', /permiso mínimo/, 'alcance_minimo.py'],
+    ['prototipo.ia', /inventan nombres de paquetes/, 'nombre_parecido.py'],
+  ]
+  for (const [id, said, title] of warnings) {
+    const s = protoStep(id)
+    const body = [...s.body, ...(s.table?.rows.flat() ?? [])].join(' ')
+    assert.match(body, said, `${id}: the warning ${said} is gone; update this list if it moved`)
+    const block = protoCode(id, title)
+    const e = block.code.indexOf('# Error'), c = block.code.indexOf('# Corrección')
+    assert.ok(e >= 0 && c > e, `${id}/${title}: expected a "# Error" block followed by a "# Corrección" block`)
+    assert.ok((block.output ?? '').trim().split('\n').length >= 2, `${id}/${title}: the output must show both the mistake and the correction`)
+  }
+})
+
+test('every number «Deberías ver» quotes in cuotas and paginar is one the code prints or sets', () => {
+  // Defect guarded (drift): the prose quotes 227 pages while the code, after a change, prints 228.
+  const norm = (x: string) => x.replace(/[,_]/g, '')
+  for (const id of ['prototipo.cuotas', 'prototipo.paginar']) {
+    const s = protoStep(id)
+    const source = norm(blocksOf(s).map((c) => `${c.code}\n${c.output ?? ''}`).join('\n'))
+    const quoted = [...(s.expect ?? '').matchAll(/\b\d[\d,]*\b/g)].map((m) => norm(m[0]))
+    assert.ok(quoted.length >= 4, `${id}: expected «Deberías ver» to quote numbers, found ${quoted}`)
+    for (const n of quoted) assert.ok(new RegExp(`(?<!\\d)${n}(?!\\d)`).test(source), `${id}: «Deberías ver» quotes ${n}, which no block prints or sets`)
+  }
+})
+
+test('the injection example hides a command that the approval row tells the learner to stop', () => {
+  // Defect guarded: an injection described only in words. The README block must hide the command
+  // inside an HTML comment, and every dangerous part of it must be one the table says to approve.
+  const readme = protoCode('prototipo.ia', 'README.md').code
+  const hidden = /<!--([\s\S]*?)-->/.exec(readme)?.[1] ?? ''
+  assert.match(hidden, /DROP TABLE/, 'the hidden comment in README.md must carry the destructive command')
+  assert.ok(!readme.replace(/<!--[\s\S]*?-->/, '').includes('DROP'), 'the command must be only inside the comment, where a rendered page hides it')
+  const approve = protoStep('prototipo.ia').table?.rows.find((r) => /Aprueba tú/.test(r[0]))?.[0] ?? ''
+  for (const part of ['DROP', '--remote']) assert.ok(approve.includes(part) && hidden.includes(part), `the approval row and the hidden command must both name ${part}`)
 })

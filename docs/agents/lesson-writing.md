@@ -71,6 +71,9 @@ word the learner has not met. Three cases were missed in the web track:
 | Section numbers in prose going stale after renumbering | Prose cites "S41", the course is ordered by slug | A test pins each cited number to the slug it meant and simulates an insertion |
 | A counter that under-reported a full scan | `contar()` placed last in the `WHERE`; SQLite evaluated the cheap term first | Probed both orders before choosing; the output is pinned, so a reordering fails loudly |
 | Local behaviour taken as production behaviour | `rows_read` counted locally by `wrangler dev` | Say which environment a quoted value comes from; never claim the remote number |
+| Config fields and Worker lines with no word of explanation (`main`, `binding`, `self.env.DB`, `Response.json`) | Code copied from the product's docs; the prose explained the file, not its parts | `web-track.test.ts`: every `wrangler.jsonc` field has a row in the `prototipo.configurar` table, and every name `entry.py` imports or calls has a row in the `worker-d1` table |
+| `self.env.ASSETS` used but never declared: a missing page answered 500 (`AttributeError: ASSETS`) | The walk requested `/`, which Cloudflare serves before the Worker runs, so the Worker's fallback line never ran | Test: declared bindings equal `self.env.X` used; the walk requests `/no-existe` and expects 404. Found while writing the explanation of that line, which is itself an argument for explaining every line |
+| Warnings with nothing that showed the cost («usa JOIN», «no indexes todas las columnas») | B8 applied to the first warning, not to every one | B8 registry test: each warning names the block with `# Error` then `# Corrección`, two output lines |
 
 ## 3. Dependency graphs: where they are and how to use them
 
@@ -100,9 +103,61 @@ How to use them when you add content:
 - **Proposal, then approval.** Claude-written learner words are applied only after the owner
   approves each passage, its replacement and the reasoning (AGENTS.md, 2026-11-09). A proposal
   file lists them, with the reason and source for each.
-- **Codex review** of the prose against `writing_rules.md` (on GitHub, `@codex review` with the
-  scope stated). The Codex CLI was not available in the cloud container; say so instead of
-  implying it ran.
+- **Codex review.** Policy asks for content Claude writes to be sent to Codex to improve the
+  writing. How it is done today, confirmed with the content editor and verifier thread on 25 Nov
+  2026: neither thread has run the Codex CLI. The cloud container has no `codex` binary and no
+  OpenAI key, so a CLI run can only happen on the owner's machine. Both threads use the GitHub
+  Codex bot instead. Post `@codex review` on the PR with the scope stated: the files,
+  `audit/fixer/writing_rules.md` as the standard, and what to look for (rules A1–A5, B1–B9, D1,
+  D13, facts against the cited pages). Treat P1 (orange) findings as must-fix. For P2 (yellow),
+  verify, reply once and carry the fix in the next push. Every fix gets a test that fails on the
+  old text. There is no prompt template beyond that comment; say so instead of implying a CLI
+  ran.
+- **The editor thread's per-item checks** (`/mnt/project-files/review-full/METHOD.md` §3), which a
+  track round repeats:
+  - every item follows `writing_rules.md`, nothing is used before it is taught, there are no
+    real-looking IDs (D2), and it passes the student-question test;
+  - theory claims are true on Python 3.12 with pinned packages, and every warning has a running
+    counterexample;
+  - each worked example prints its pinned output and does what its preamble says;
+  - an exercise can be solved with what was taught, its starter does not already pass, and its
+    test tells a right answer from a plausible wrong one;
+  - each hint is true and more specific than the last.
+
+  Its own extra check is a long-sentence count by script, because one sentence hidden behind
+  `?**` slipped past the audit; the track's D1 test strips `**` before splitting for that reason.
+- **What the editor thread does beyond that** (its reply of 25 Nov 2026, in
+  `/mnt/project-files/web-track/EXPLAIN_ROUND_review.md`):
+  - It verifies every Codex finding before acting on it. Codex gets no prompt or checklist of its
+    own.
+  - Each test file has an `escaped(solution, pinned, mutated_code)` helper. It runs a mutated
+    solution and returns `""` when the test catches the mutation, so a failure prints what got
+    through.
+  - `tests/adversarial/test_assertion_messages.py` rejects weak assertions that have no message.
+    It has its own negative control.
+  - After changing an exercise, it runs
+    `node --import tsx scripts/exercise_fingerprints.mts --write`, adds a `changed` row to the
+    exercise-meaning ledger, and verifies with
+    `node scripts/exercise_meaning.mjs --ledger-base origin/<base>`. Plain `--check` misses
+    row-order collisions.
+  - A rewritten exam item is retagged to the concept it now tests, with three variants per
+    concept, because `exam-draw.ts` draws one variant per concept.
+- **Send new content to the editor thread with a term table.** Give each term or technique, where
+  the learner first meets it, and how it is explained or exemplified. Ask for PASS or FINDING per
+  row and for terms missing from the table. On the prototype module, it found 9 that the author
+  missed:
+  - a product named and never used (Cloudflare Pages);
+  - a tool used one step before its gloss (`pywrangler`);
+  - the injection probe's `%27` and `%20`;
+  - a UI path with no purpose given;
+  - UTC, CPU and «páginas de 4 KB» not expanded;
+  - a technique the practice asked for but only the hint taught (the composite index);
+  - a warning with no counterexample («una migración solo agrega»).
+- **Offline examples for account-only techniques.** When the real step needs an account or a
+  browser, exemplify the decision instead. For a token, compare a permission dict against the
+  task (`alcance_minimo.py`). For package names, match them against known ones with `difflib`
+  (`nombre_parecido.py`). Name what the script cannot prove, such as that a package exists, and
+  keep the manual step for it.
 - **The content editor and verifier thread** checks the term list of new content against the
   standard in §1.
 - **Every code block runs** under `python3 -I` and its output is pinned. Files that only run on a
