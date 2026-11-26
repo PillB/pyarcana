@@ -407,11 +407,11 @@ document.querySelectorAll('th button').forEach((boton, columna) => {
           fixes: [
             {
               symptom: 'La barra de direcciones empieza con `file://`.',
-              steps: ['Abriste el archivo con doble clic. Deja el servidor corriendo y abre http://localhost:8000.'],
+              steps: ['Abriste el archivo con doble clic, y así el navegador no pasa por el servidor: déjalo corriendo y abre http://localhost:8000.'],
             },
             {
               symptom: 'La terminal muestra `Address already in use` (en Windows, `WinError 10048`), o la página que abres no es la tuya.',
-              steps: ['Otro programa usa el puerto 8000. Cambia el número: `python -m http.server 8001 --directory site`, y abre http://localhost:8001.'],
+              steps: ['Otro programa usa el puerto 8000, así que cambia el número: `python -m http.server 8001 --directory site`, y abre http://localhost:8001.'],
             },
             {
               symptom: 'En macOS o Linux, la terminal dice `command not found: python`.',
@@ -467,7 +467,7 @@ print(f"<p>Total de las {len(ventas)} sedes: S/ {total}</p>")`, output: String.r
             caption: 'Opciones de publicación, de la más simple a la más completa',
             columns: ['Necesitas', 'Opción', 'Qué publicas', 'Cuidado'],
             rows: [
-              ['Mostrar datos ya calculados', 'GitHub Pages, Cloudflare o Vercel (sitio estático)', 'La carpeta `site`', 'Todo queda público. GitHub Pages no admite tiendas ni servicios comerciales.'],
+              ['Mostrar datos ya calculados', 'GitHub Pages, Cloudflare o Vercel (sitio estático)', 'La carpeta `site`', 'Todo queda público, y GitHub Pages no admite tiendas ni servicios comerciales.'],
               ['Responder con Python en cada visita, sin administrar un servidor', 'Una función: Cloudflare Python Workers o Vercel Functions', 'Un archivo con la función o una app FastAPI', 'Cada visita ejecuta código: límites de tiempo y de uso del plan gratuito.'],
               ['Un servicio completo con base de datos y procesos largos', 'Un servidor o contenedor (por ejemplo, en AWS)', 'La aplicación y su configuración', 'Tú administras las actualizaciones, la seguridad y el costo.'],
             ],
@@ -924,7 +924,7 @@ navegador ── GET /no-existe ──> Worker ── self.env.ASSETS ("binding"
               ['`name`', 'El nombre del Worker en tu cuenta; también forma parte de su dirección en `workers.dev`.'],
               ['`main`', 'El archivo de Python que Cloudflare ejecuta con cada petición que no es un archivo de `site/`.'],
               ['`compatibility_date`', 'La fecha cuyo comportamiento de Cloudflare espera tu código, para que una actualización posterior no lo cambie.'],
-              ['`compatibility_flags`', 'Funciones que activas aparte. `python_workers` activa Python, porque un Worker ejecuta JavaScript si no lo pides.'],
+              ['`compatibility_flags`', 'Funciones que activas aparte: `python_workers` hace que Cloudflare ejecute con Python el archivo de `main`, porque un Worker ejecuta JavaScript si no lo pides.'],
               ['`assets.directory`', 'La carpeta de archivos estáticos que Cloudflare publica tal cual.'],
               ['`assets.binding`', 'El nombre con que el código pide esos archivos: `self.env.ASSETS`.'],
               ['`d1_databases[].binding`', 'El nombre con que el código llega a la base: `self.env.DB`.'],
@@ -982,7 +982,7 @@ uv run pywrangler dev  # corre el Worker en http://localhost:8787 hasta que puls
               ['`from workers import Response, WorkerEntrypoint`', 'Importa dos piezas que solo existen dentro de un Worker, y por eso el archivo no corre con `python` en tu computadora.'],
               ['`class Default(WorkerEntrypoint)`', 'Cloudflare busca una clase llamada `Default`. Hereda de `WorkerEntrypoint`, como las clases de S11, y así recibe `self.env` con los bindings.'],
               ['`async def fetch(self, request)`', 'Cloudflare la llama con cada petición, y `request.url` es la dirección completa que pidió el navegador.'],
-              ['`urlparse(request.url)` y `parse_qs(url.query)`', 'Separan la dirección en la ruta, como `/api/ventas`, y sus parámetros. `parse_qs` da una lista por parámetro, por eso se toma `[0]`.'],
+              ['`urlparse(request.url)` y `parse_qs(url.query)`', 'Separan la dirección en la ruta, como `/api/ventas`, y sus parámetros, y `parse_qs` da una lista por parámetro porque uno puede repetirse, así que se toma el primer valor con `[0]`.'],
               ['`self.env.ASSETS.fetch(request)`', 'Si la ruta no es la de la API, entrega la petición a los archivos de `site/`, que responden 404 si no existe.'],
               ['`self.env.DB.prepare(sql).bind(sede).all()`', '`prepare` guarda la consulta con su `?`, como el marcador de S12, `bind` le da el valor aparte y `all` la ejecuta y trae todas las filas.'],
               ['`resultado.results` y `resultado.meta.rows_read`', 'Las filas, cada una con un atributo por columna, y las filas que D1 revisó, que son las que cuenta para la cuota.'],
@@ -993,7 +993,7 @@ uv run pywrangler dev  # corre el Worker en http://localhost:8787 hasta que puls
           fixes: [
             {
               symptom: '`d1 create` pide iniciar sesión o no reconoce tu cuenta.',
-              steps: ['Ejecuta `npx wrangler login`, como en el módulo anterior, y repite el comando. Copia en `wrangler.jsonc` el `database_id` que imprime, en lugar del texto de ejemplo.'],
+              steps: ['Ejecuta `npx wrangler login`, como en el módulo anterior, y repite el comando; después copia en `wrangler.jsonc` el `database_id` que imprime, en lugar del texto de ejemplo.'],
             },
             {
               symptom: 'La API responde con un error que dice `no such table: ventas`.',
@@ -1013,7 +1013,8 @@ uv run pywrangler dev  # corre el Worker en http://localhost:8787 hasta que puls
             '**Producción** es la versión que usan las personas, y una **vista previa** es una copia en otra dirección para probar un cambio antes. Vercel las separa con dos comandos, y Cloudflare con `--local` para tu copia y `--remote` para la de internet.',
             'La primera vez que publicas un proyecto en Vercel, la publicación va a producción aunque no uses `--prod`. Por eso, la primera vez publica una versión sin datos ni **secretos**, porque cualquiera con el enlace podrá abrirla. Un secreto es una contraseña o un token que el código usa y nadie más debe ver.',
             'Cada entorno necesita su propia base de datos y sus propios secretos. En Vercel, cada variable de entorno, como las que lees con `os.environ` desde S10, se guarda para Production (producción), Preview (vista previa) o Development (tu computadora).',
-            'En Cloudflare, `pywrangler secret put` guarda un secreto en el Worker de internet sin que aparezca en el código, y el código lo lee como `self.env.CLAVE_API`. En tu computadora, `pywrangler dev` lo lee del archivo `.dev.vars`, que nunca subes a Git.',
+            'En Cloudflare, `pywrangler secret put` guarda un secreto en el Worker de internet sin que aparezca en el código, y el código lo lee como `self.env.CLAVE_API`. Ese comando también publica al instante una versión nueva del Worker, así que apruébalo como un `deploy`.',
+            'En tu computadora, `pywrangler dev` lee los secretos del archivo `.dev.vars`, en la misma carpeta que `wrangler.jsonc`, y ese archivo nunca se sube a Git. El último bloque muestra qué archivos subiría Git antes y después de nombrarlo en `.gitignore`.',
           ],
           code: [
             {
@@ -1021,14 +1022,41 @@ uv run pywrangler dev  # corre el Worker en http://localhost:8787 hasta que puls
               title: 'vercel_entornos.sh',
               code: String.raw`cd site
 npx vercel          # vista previa: una dirección nueva para probar el cambio
-npx vercel --prod   # producción: la dirección que compartes`,
+npx vercel --prod   # producción: la dirección que compartes
+cd ..               # vuelve a ventas-api, donde está wrangler.jsonc`,
             },
             {
               language: 'bash',
               title: 'secretos.sh',
-              code: String.raw`uv run pywrangler secret put CLAVE_API         # pide el valor sin mostrarlo y lo guarda en el Worker de internet
+              code: String.raw`uv run pywrangler secret put CLAVE_API         # pide el valor sin mostrarlo, lo guarda y publica el Worker
 echo "CLAVE_API=valor-de-prueba" > .dev.vars   # el valor de prueba para pywrangler dev
 echo ".dev.vars" >> .gitignore                 # Git no lo sube, como el .env de S10`,
+            },
+            {
+              language: 'python',
+              title: 'dev_vars_en_git.py',
+              code: String.raw`import subprocess
+import tempfile
+from pathlib import Path
+
+def para_subir(carpeta):
+    # Los archivos que git add . agregaría al próximo commit
+    hecho = subprocess.run(["git", "-C", str(carpeta), "status", "--porcelain", "--untracked-files=all"], capture_output=True, text=True, check=True)
+    return sorted(linea[3:] for linea in hecho.stdout.splitlines())
+
+with tempfile.TemporaryDirectory() as tmp:
+    subprocess.run(["git", "init", "--quiet", tmp], check=True)
+    Path(tmp, "wrangler.jsonc").write_text("{}\n")
+    Path(tmp, ".dev.vars").write_text("CLAVE_API=valor-de-prueba\n")
+
+    # Error: sin .gitignore, el secreto de prueba entraría en el próximo commit
+    print("sin .gitignore:", para_subir(tmp))
+
+    # Corrección: .gitignore nombra .dev.vars, y Git deja de ofrecerlo
+    Path(tmp, ".gitignore").write_text(".dev.vars\n")
+    print("con .gitignore:", para_subir(tmp))`,
+              output: String.raw`sin .gitignore: ['.dev.vars', 'wrangler.jsonc']
+con .gitignore: ['.gitignore', 'wrangler.jsonc']`,
             },
           ],
           expect: 'Tienes dos direcciones: la de la vista previa, que cambia con cada `npx vercel`, y la de producción, que solo cambia con `--prod`.',

@@ -273,7 +273,7 @@ test('every Python block runs and prints exactly its declared output', () => {
       ran++
     }
   }
-  assert.ok(ran >= 23, `expected at least 23 Python blocks (17 worked examples, 6 solutions), ran ${ran}`)
+  assert.ok(ran >= 24, `expected at least 24 Python blocks (18 worked examples, 6 solutions), ran ${ran}`)
 })
 
 /** A DOM just big enough for app.js: header buttons, a tbody, aria-sort on the headers. */
@@ -659,7 +659,8 @@ test('writing rules D1 and D13 hold on every passage of the track: 32 words at m
   for (const { where, text } of trackProse()) {
     const lens = proseSentences(text).map((x) => x.split(/\s+/).length)
     lens.forEach((n, i) => n > 32 && problems.push(`${where}: sentence ${i + 1} has ${n} words (D1: at most 32)`))
-    if (lens.length > 2) lens.slice(1).forEach((n, i) => n < 15 && lens[i] < 15 && problems.push(`${where}: sentences ${i + 1}-${i + 2} are ${lens[i]} and ${n} words (D13)`))
+    // Codex (PR #208): a two-sentence table cell was skipped; a pair is a run too.
+    if (lens.length > 1) lens.slice(1).forEach((n, i) => n < 15 && lens[i] < 15 && problems.push(`${where}: sentences ${i + 1}-${i + 2} are ${lens[i]} and ${n} words (D13)`))
   }
   assert.deepEqual(problems, [], `split or join these passages in src/lib/tracks/web/content.ts (audit/fixer/writing_rules.md)`)
 })
@@ -1013,6 +1014,8 @@ test('every warning in the prototype module has a block that runs the mistake an
     ['prototipo.lista', /una migración solo agrega/, 'migracion_que_borra.py'],
     ['prototipo.ia', /permiso mínimo/, 'alcance_minimo.py'],
     ['prototipo.ia', /inventan nombres de paquetes/, 'nombre_parecido.py'],
+    // Codex, PR #208: the .dev.vars warning had only the correct setup.
+    ['prototipo.entornos', /nunca se sube a Git/, 'dev_vars_en_git.py'],
   ]
   for (const [id, said, title] of warnings) {
     const s = protoStep(id)
@@ -1025,16 +1028,36 @@ test('every warning in the prototype module has a block that runs the mistake an
   }
 })
 
-test('every number «Deberías ver» quotes in cuotas and paginar is one the code prints or sets', () => {
-  // Defect guarded (drift): the prose quotes 227 pages while the code, after a change, prints 228.
+test('every number «Deberías ver» quotes in cuotas and paginar matches the output line of the case it names', () => {
+  // Defect guarded (drift): the prose quotes 227 pages while the code prints 228. Codex (PR #208)
+  // showed the first version accepted a number from the other case (three indexes quoted with the
+  // one-index figures), so each quoted claim is tied to the output line of its own case.
   const norm = (x: string) => x.replace(/[,_]/g, '')
-  for (const id of ['prototipo.cuotas', 'prototipo.paginar']) {
-    const s = protoStep(id)
-    const source = norm(blocksOf(s).map((c) => `${c.code}\n${c.output ?? ''}`).join('\n'))
-    const quoted = [...(s.expect ?? '').matchAll(/\b\d[\d,]*\b/g)].map((m) => norm(m[0]))
-    assert.ok(quoted.length >= 4, `${id}: expected «Deberías ver» to quote numbers, found ${quoted}`)
-    for (const n of quoted) assert.ok(new RegExp(`(?<!\\d)${n}(?!\\d)`).test(source), `${id}: «Deberías ver» quotes ${n}, which no block prints or sets`)
-  }
+  const claims: [string, RegExp, string][] = [
+    ['prototipo.cuotas', /Sin índice, la cuota del día se acaba en la visita ([\d,]+)/, 'sin índice:'],
+    ['prototipo.cuotas', /con índice alcanza para ([\d,]+) visitas/, 'con índice:'],
+    ['prototipo.cuotas', /Con tres índices, la carga escribe ([\d,]+) filas y ocupa (\d+) páginas/, 'tres índices:'],
+    ['prototipo.cuotas', /con uno, ([\d,]+) filas y (\d+) páginas/, 'un índice:'],
+    ['prototipo.paginar', /`OFFSET` revisa (\d+) filas/, 'OFFSET:'],
+    ['prototipo.paginar', /paginación por clave revisa (\d+)/, 'después del id'],
+    ['prototipo.paginar', /cuesta (\d+) consultas, una por fila/, 'una consulta por fila:'],
+    ['prototipo.paginar', /y (\d+) con `JOIN`/, 'con JOIN:'],
+  ]
+  const check = (expect: string, lines: string[]) => claims.flatMap(([id, rx, prefix]) => {
+    const m = rx.exec(expect.includes(id) ? expect.split(id)[1] : expect)
+    if (!m) return [`${id}: «Deberías ver» no longer says ${rx}; update this list if it was reworded`]
+    const line = lines.find((l) => l.startsWith(`${id}|${prefix}`))
+    if (!line) return [`${id}: no output line starts with "${prefix}"`]
+    return m.slice(1).filter((n) => !new RegExp(`(?<!\\d)${norm(n)}(?!\\d)`).test(norm(line))).map((n) => `${id}: «Deberías ver» quotes ${n} for "${prefix}", but that line prints: ${line.split('|')[1]}`)
+  })
+  const ids = [...new Set(claims.map((c) => c[0]))]
+  const expect = ids.map((id) => `${id}${protoStep(id).expect ?? ''}`).join('\n')
+  const lines = ids.flatMap((id) => blocksOf(protoStep(id)).flatMap((c) => (c.output ?? '').split('\n').map((l) => `${id}|${l}`)))
+  assert.deepEqual(check(expect, lines), [], 'make «Deberías ver» quote the numbers of the case it names')
+  // Negative control: the three-index claim quoted with the one-index figures must be reported.
+  const swapped = expect.replace('escribe 40,000 filas y ocupa 227 páginas', 'escribe 20,000 filas y ocupa 131 páginas')
+  assert.notEqual(swapped, expect, 'sanity: the negative control no longer finds the sentence it swaps')
+  assert.ok(check(swapped, lines).length >= 2, 'sanity: quoting one case with the other case\'s numbers must be caught')
 })
 
 test('the injection example hides a command that the approval row tells the learner to stop', () => {
@@ -1046,4 +1069,24 @@ test('the injection example hides a command that the approval row tells the lear
   assert.ok(!readme.replace(/<!--[\s\S]*?-->/, '').includes('DROP'), 'the command must be only inside the comment, where a rendered page hides it')
   const approve = protoStep('prototipo.ia').table?.rows.find((r) => /Aprueba tú/.test(r[0]))?.[0] ?? ''
   for (const part of ['DROP', '--remote']) assert.ok(approve.includes(part) && hidden.includes(part), `the approval row and the hidden command must both name ${part}`)
+})
+
+test('run in order, the entornos blocks leave the terminal in the Worker folder before pywrangler or .dev.vars', () => {
+  // Defect guarded (Codex, PR #208): vercel_entornos.sh ends inside site/, so secretos.sh created
+  // site/.dev.vars, which pywrangler dev never reads (it must sit beside wrangler.jsonc).
+  const depthAfter = (code: string, start: number) => code.split('\n').reduce((d, line) => {
+    const to = /^\s*cd\s+(\S+)/.exec(line)?.[1]
+    if (!to) return d
+    return to.split('/').filter(Boolean).reduce((x, part) => (part === '..' ? x - 1 : part === '.' ? x : x + 1), d)
+  }, start)
+  let depth = 0
+  const problems: string[] = []
+  for (const c of protoStep('prototipo.entornos').code ?? []) {
+    if (c.language !== 'bash') continue
+    if (/pywrangler|\.dev\.vars/.test(c.code) && depth !== 0) problems.push(`${c.title} starts ${depth} folder(s) below ventas-api`)
+    depth = depthAfter(c.code, depth)
+  }
+  assert.deepEqual(problems, [], 'add a cd back to ventas-api (where wrangler.jsonc is) before these blocks')
+  // Negative control: the same check on the old vercel_entornos.sh, without its last cd .., must fail.
+  assert.equal(depthAfter('cd site\nnpx vercel', 0), 1, 'sanity: a cd into site/ must count as one folder down')
 })
