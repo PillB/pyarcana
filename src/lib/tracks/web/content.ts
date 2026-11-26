@@ -1209,7 +1209,9 @@ def revisar(token, hoy):
         if tiene is None or NIVELES.index(tiene) < NIVELES.index(nivel):
             problemas.append(f"falta {recurso}: {nivel} (tiene {tiene})")
     vence = token.get("vence")
-    if vence is None or (vence - hoy).days > 1:
+    if vence is not None and vence < hoy:
+        problemas.append(f"ya venció el {vence}")
+    elif vence is None or (vence - hoy).days > 1:
         problemas.append("debe vencer en un día como máximo")
     return problemas or ["listo: alcanza para la tarea y nada más"]
 
@@ -1220,12 +1222,16 @@ print("token amplio:", revisar(amplio, hoy))
 # Error: un token que solo lee no puede aplicar la migración
 corto = {"permisos": {"D1": "Read"}, "vence": manana}
 print("token que solo lee:", revisar(corto, hoy))
+# Error: los permisos son los justos, pero el token venció ayer
+vencido = {"permisos": {"D1": "Edit"}, "vence": date(2026, 11, 24)}
+print("token vencido:", revisar(vencido, hoy))
 
 # Corrección: solo D1 con permiso para cambiar, y vence mañana
 minimo = {"permisos": {"D1": "Edit"}, "vence": manana}
 print("token mínimo:", revisar(minimo, hoy))`,
               output: String.raw`token amplio: ['sobra Account Settings: Edit', 'sobra Workers Scripts: Edit', 'debe vencer en un día como máximo']
 token que solo lee: ['falta D1: Edit (tiene Read)']
+token vencido: ['ya venció el 2026-11-24']
 token mínimo: ['listo: alcanza para la tarea y nada más']`,
             },
             {
