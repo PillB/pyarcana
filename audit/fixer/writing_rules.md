@@ -62,6 +62,13 @@ skimmed; a numbered rule you can hold a sentence against does not.
   against a `|`-separated catalogue removed the old example and left "the student with the
   confusion of what your warning is supposed to prevent")*
 
+- **B9 — A technique is explained and exemplified.** A term is glossed (A1); a technique, something
+  the learner does, also gets a worked example that runs, an exercise with a planted mistake the test
+  catches (or a script the learner walk runs), and a recall of what it rests on. Config files: every
+  field the learner types is explained. Code the learner copies: every kind of line is explained.
+  *(owner, 2026-11-25, PR #208: `wrangler.jsonc` fields and the Worker's code were shown unexplained;
+  details in `docs/agents/lesson-writing.md`)*
+
 ## C. Repair
 
 - **C1 — Repair the defect, not the paragraph.** Do not rewrite more than the finding

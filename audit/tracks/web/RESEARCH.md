@@ -275,3 +275,33 @@ The current order (html → http → modelo → sitio → despliegue) is sound, 
 60. Cloudflare blog, Python Workers GA — https://blog.cloudflare.com/python-workers-ga/
 61. Cloudflare, Python Workers docs — https://developers.cloudflare.com/workers/languages/python/
 62. Python `http.server` — https://docs.python.org/3/library/http.server.html
+
+## E. Prototype module sources (read 25 Nov 2026)
+
+- Cloudflare D1 pricing (free 5 M rows read and 100 k rows written per day, reset 00:00 UTC; paid
+  25 B / 50 M per month included; "Indexes will add an additional written row"):
+  https://developers.cloudflare.com/d1/platform/pricing/
+- D1 free-tier enforcement from 1 Sep 2026 (queries fail, data kept):
+  https://developers.cloudflare.com/changelog/post/2026-09-01-d1-free-tier-limit-enforcement/
+- D1 indexes, `EXPLAIN QUERY PLAN`, `PRAGMA optimize`: https://developers.cloudflare.com/d1/best-practices/use-indexes/
+- Workers pricing (100 k requests per day free; static assets free and unlimited) and limits
+  (error 1027): https://developers.cloudflare.com/workers/about/pricing ·
+  https://developers.cloudflare.com/workers/platform/limits/
+- D1 prepared statements and `batch()`: https://developers.cloudflare.com/d1/worker-api/prepared-statements/ ·
+  https://developers.cloudflare.com/d1/worker-api/d1-database/
+- Python Workers GA and D1 from Python: https://blog.cloudflare.com/python-workers-ga/ ·
+  https://developers.cloudflare.com/d1/examples/query-d1-from-python-workers/ ·
+  https://developers.cloudflare.com/workers/languages/python/
+- Pages and Workers: https://developers.cloudflare.com/workers/static-assets/migrate-from-pages/
+- Vercel Hobby limits (pause up to 30 days) and environments (first deploy is production):
+  https://vercel.com/docs/plans/hobby · https://vercel.com/docs/deployments/environments
+- Bills: a $134 D1 invoice from tables with no index beyond the primary key
+  (https://fullstacksveltekit.com/blog/cloudflare-d1-bill); a $564 overage from a hot-path full scan
+  (https://community.cloudflare.com/t/d1-one-time-overage-564-fixed-requesting-credit-before-invoice/933395);
+  eight 2026 cases, most full scans (https://dev.to/howardzlh/why-cloudflare-bills-spike-8-d1-and-durable-objects-cases-from-2026-288a);
+  Netlify's $104 k bandwidth bill and the spend-cap advice (https://hamy.xyz/blog/2024-03_avoid-side-project-financial-ruin);
+  Cara's Vercel functions bill (https://www.infoq.com/news/2024/06/vercel-serverless-scale-expenses).
+  X posts were searched; the search tool returns write-ups of the threads, not the posts, so the
+  threads are cited through those write-ups.
+- AI agents and production: PocketOS, April 2026 (https://mondoo.com/blog/5-lessons-from-9-seconds-ai-agent-deleted-production-database);
+  Replit, July 2025 (https://thenewstack.io/ai-agents-no-laws/, https://www.ory.com/blog/AI-agent-lessons).
