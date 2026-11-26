@@ -1152,6 +1152,46 @@ back. Read this list before a section round; every item cost at least one failed
   and the distractors were lengthened without reusing its words. Fix: one stem word moved into a
   distractor on each of those items. Guard: `exam-strategy-simulation.test.ts` holds the owed list;
   run it on a rewritten bank before calling the bank done, not only the length ratchets.
+- **A rule fixed in one section survived in another (proposal 12 S24, 25 Nov 2026).** S16 had
+  already been corrected to the es-PE money rule above, and S24 still taught the inverted one
+  ("coma decimal": `1,150.00` → 1.15 with no error, `S/ 1,150.50` → a crash on the symbol). Root
+  cause: the S16 fix searched S16, not the course; the two sections each carried their own parser.
+  Fix: S24 uses the S16 rule verbatim (the last separator is the decimal; a lone separator before
+  exactly three digits raises and the document goes to review as `total_unparsed`), and strips
+  `S/` and `PEN`. Guard: `test_proposal12_s24.PeruvianAmounts` parses the string Node prints for
+  `Intl.NumberFormat('es-PE', {style: 'currency', currency: 'PEN'})` and runs the old rule as a
+  negative control. When a fact about a locale, an API default or a unit is corrected, grep every
+  section for the old statement and the old code before closing the finding.
+- **A quality gate that can be met by editing the number teaches the opposite of the gate (S24,
+  25 Nov 2026).** The S24 prose said an upscale from 96 to 200 DPI recovers nothing, and the code
+  then did `dpi = max(dpi, 200)`, so the "dpi >= 200" check passed on every capture. Root cause:
+  the gate read a field the pipeline itself wrote. Fix: the gate reads the captured value and sets
+  `rescan_needed`; the value is never raised. The metadata key stays `dpi` because Pillow stores a
+  file's resolution as `img.info["dpi"]` even though, for a captured image, it measures pixels per
+  inch ([Pillow, image file formats](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html)).
+  Guard: no lesson code in S24 may match `max(...dpi`, and the theory test plants the upscale and
+  sees the gate pass.
+- **A contract written in prose drifted from the code that enforces it (proposal 12 S25, 25 Nov
+  2026).** S25's contract block named five narrative keys (hallazgo, n, mediana, evidence_ids,
+  model). The prompt, the demo gate and three exercises checked four, with `limite` in place of
+  evidence_ids and model, so the gate a learner copies accepted a draft with no evidence. Root
+  cause: each snippet typed its own `REQUIRED` literal; nothing tied them to the prose. Fix: one
+  set, written the same way in every snippet and the You Do (`SCHEMA_KEYS`). Guard:
+  `test_proposal12_s25.OneNarrativeContract` reads every `REQUIRED`/`SCHEMA_KEYS` literal that holds
+  hallazgo or mediana and compares it with the contract, and runs the old four-key set as a
+  negative control (it accepts the draft without evidence). When a section states a schema, find
+  every literal that restates it before closing the finding.
+- **A sentence boundary hidden by Markdown is not a boundary for the prose audit (S25, 25 Nov
+  2026).** `prose_quality_audit.sentences` splits after `.`, `!` or `?` followed by whitespace, so
+  `**¿...no?** La respuesta...` is one sentence: the `?` is followed by `**`. A 35-word "sentence"
+  was two short ones on screen. Fix: end the question outside the bold run or start the next
+  sentence after a full stop. Writing `?**.` to force a split leaves a stray full stop the learner
+  sees; reword instead.
+- **A word search is not a key search (S25, 25 Nov 2026).** The test for one metadata key first
+  searched `\bauto_fraud\b` and failed on the starter's `'policy': 'auto_fraud'`, a value the
+  exercise asks the learner to fix, not a second key. Root cause: the anchor matched the word, not
+  the syntax that makes it a key. Fix: match `'auto_fraud':` or `auto_fraud =` only. Anchor a
+  check on the structure it is about.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
