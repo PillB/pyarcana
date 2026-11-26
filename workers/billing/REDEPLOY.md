@@ -298,9 +298,12 @@ It runs four numbered stages. What you should see, and what to answer:
      `SERVER_PEPPER: already set, keeping it`. Both are expected on a redeploy.
    - `PUBLIC licence key (safe to commit)` → a JWK. On a normal redeploy it equals what is already in
      `src/lib/cloud/config.ts`; nothing to do.
-   - Then `deploy.sh`: `Sign-up: OPEN` or `Sign-up: CLOSED` (must match B8), the static build (a few
-     minutes), `Security headers and ads.txt`, `Deploying the Worker (static assets + API)`, and
-     finally `Deployed`.
+   - Then `deploy.sh`. It first checks the commit: `Deploying <commit> <title> (<date>), the current origin/main`
+     (the same commit as stage 2). Then `Sign-up: OPEN` or `Sign-up: CLOSED` (must match B8), the
+     static build (a few minutes), `Security headers and ads.txt`,
+     `Deploying the Worker (static assets + API)`, `Deployed`, and finally
+     `Checking that the site serves this commit`, which waits until pyarcana.dev answers with the
+     commit just built.
 
 If anything ends with `STOP`, `REFUSED` or "Nothing was deployed", the live site is unchanged.
 A `REFUSED` from `cloud-headers` means the security headers would block a page's own scripts in
@@ -308,6 +311,23 @@ the order Cloudflare applies them; to look at it in a browser before deploying, 
 `node --import tsx scripts/serve_out_rule_order.mjs --order sorted` (it serves `out/` on
 <http://localhost:8788> with production's rule order; `wrangler dev` does not reproduce it). Read the
 message, fix that one thing, run `redeploy.sh` again. It is safe to repeat.
+
+`deploy.sh` refuses (`STOP`, "Nothing was deployed") when the checkout is not exactly
+`origin/main` as GitHub has it: an older or newer local commit, local edits other than
+`workers/billing/wrangler.toml`, or untracked files under `src/`, `public/` or `scripts/` that the
+build would copy in. `redeploy.sh` avoids all three. If it stops after `Deployed` with "the site
+does not yet serve the commit just built", the Worker is live but the check timed out: run the D2
+`curl` a minute later before doing anything else.
+
+Two overrides exist for when you mean it. Put them in front of the command, for that one run only:
+
+| Variable | What it does | When |
+|---|---|---|
+| `PYARCANA_DEPLOY_ANY_COMMIT=1` | Skips the commit check and deploys whatever is checked out. It prints `Commit check SKIPPED` with the commit it deploys. | Only for a rollback by rebuild (R3). |
+| `PYARCANA_SKIP_LIVE_CHECK=1` | Skips the final check that pyarcana.dev serves the new commit. It prints `Live check SKIPPED`. | Only when the site is unreachable from your network; then do D2 by hand from somewhere that reaches it. |
+
+Do not export either one in your shell profile: a forgotten `PYARCANA_DEPLOY_ANY_COMMIT=1` brings
+back the 25 Nov 2026 stale deploy that the check exists to stop.
 
 ### D2. Check the live site
 
@@ -381,6 +401,25 @@ refuses a rollback across a deleted or modified binding.
 
 Docs: [`wrangler rollback`](https://developers.cloudflare.com/workers/wrangler/commands/workers/#rollback) ·
 [Rollbacks](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/)
+
+### R3. Rebuild an older commit (only if R1 and R2 cannot reach it)
+
+R1 and R2 go back to a version Cloudflare still keeps. To put live a commit it no longer keeps,
+check that commit out in the deploy checkout and deploy it on purpose, with a token from B5.
+`setup.sh` asks for the account ID and token as in D1 and passes the variable on to `deploy.sh`:
+
+```
+git checkout -- workers/billing/wrangler.toml
+git checkout <commit>
+PYARCANA_DEPLOY_ANY_COMMIT=1 workers/billing/scripts/setup.sh
+git checkout -- workers/billing/wrangler.toml
+git checkout main
+```
+
+You should see `Commit check SKIPPED (PYARCANA_DEPLOY_ANY_COMMIT=1): deploying <commit> as it is.`
+(A commit older than 25 Nov 2026 predates the check and prints no such line.) Then do D2: its
+`git_sha` is now that older commit, as intended. Then D3. The next normal `redeploy.sh` puts
+`main` back.
 
 ---
 
