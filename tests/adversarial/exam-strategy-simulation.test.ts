@@ -91,19 +91,19 @@ const PASSABLE = 0.05
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
-  'computer-vision', 'cv-ai-integration', 'data-contracts', 'data-engineering', 'databases-orm',
-  'dbt-bigquery', 'exceptions-logging', 'fastapi',
+  'computer-vision', 'cv-ai-integration', 'data-contracts',
+  'dbt-bigquery', 'exceptions-logging',
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
-  'multimodal', 'opensource', 'performance-extreme', 'rag',
-  'rapidfuzz-entity', 'rpa-advanced', 'security-infra', 'setup',
+  'multimodal', 'opensource', 'performance-extreme',
+  'rpa-advanced', 'security-infra', 'setup',
   'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
   'text-unicode-regex',
 ]
 // Five of these sat within about two standard errors (0.7 points each at 1000 learners) of the 5%
 // line: advanced-models, architecture-ddd-decisions, dbt-bigquery, fastapi and wxpython-gui, at
-// 5.8-6.5%; wxpython-gui has since left (proposal 12 S16). A change to how the draw consumes randomness can move one across it; that is a
+// 5.8-6.5%; wxpython-gui and fastapi have since left (proposal 12 S16, S21). A change to how the draw consumes randomness can move one across it; that is a
 // re-measurement, not a regression, and the commit that updates the list should say so. The test
 // prints the banks near the line on every run.
 // 2026-11-18, proposal 10 S11: oop-domain leaves (4.1%, near the line) after its distractors were
@@ -117,10 +117,22 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 43 -> 42 longest, 13 -> 12 clang.
 // 2026-11-25, proposal 12 S17: packaging (joins, reshape, groupby) leaves "longest"; its key was
 // longest on 24 of 24 and now sits at each length rank on 6 of 24. 42 -> 41.
+// 2026-11-25, proposal 12 S18: data-engineering (EDA and uncertainty) leaves "longest" the same way.
+// 41 -> 40.
+// 2026-11-25, proposal 12 S19: databases-orm (visualization and accessibility) leaves "longest"
+// and "clang" after all 24 items were rewritten; its keys sit at each length rank on 6 of 24.
+// 40 -> 39 longest, 12 -> 11 clang.
+// 2026-11-25, proposal 12 S20: rag (Excel automation) leaves "longest" and "clang" the same way.
+// 39 -> 38 longest, 11 -> 10 clang.
+// 2026-11-25, proposal 12 S21: fastapi (documents and traceable reports) leaves "longest" and
+// "clang" after all 24 items were rewritten; its keys sit at each length rank on 6 of 24.
+// 38 -> 37 longest, 10 -> 9 clang.
+// 2026-11-25, proposal 12 S22: rapidfuzz-entity (email and human approval) leaves "longest" the same
+// way. 37 -> 36.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
-  'collections', 'databases-orm', 'dbt-bigquery',
-  'fastapi', 'iteration-summaries', 'rag', 'setup',
+  'collections', 'dbt-bigquery',
+  'iteration-summaries', 'setup',
   'streamlit-dashboards', 'text-unicode-regex',
 ]
 // Every key in these two banks contains its concept's slug.

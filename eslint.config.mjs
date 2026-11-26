@@ -44,7 +44,12 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "no-useless-escape": "off",
   },
 }, {
-  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills", "scripts/**", "docs/**"]
+  // Local-only folders that a checkout on the owner's computer holds and CI never has: agent
+  // worktrees (.claude/worktrees, each a full copy of the repository), the static-journeys build
+  // (.ci-static) and the live checks' Playwright install (workers/billing/e2e/node_modules). Linting
+  // them made a local `bun run lint` report 88 errors that CI never sees (25 Nov 2026).
+  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills", "scripts/**", "docs/**",
+    ".claude/**", ".ci-static/**", "workers/billing/e2e/node_modules/**"]
 }];
 
 export default eslintConfig;

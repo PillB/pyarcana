@@ -39,6 +39,8 @@ scipy==1.13.1
 #   Pillow       S21  (image handling in the same reporting chain)
 #   pymupdf      S21
 #   pypdf        S21
+#   reportlab    S21  (added 2026-11-25, proposal 12 S21-THEORY-02.1: the PDF demos
+#                     import it and the audit could not run them)
 #   python-docx  S21
 #   playwright   S23  Browser RPA con Playwright
 #
@@ -56,3 +58,8 @@ pymupdf==1.28.2
 pypdf==6.16.2
 python-docx==1.2.0
 playwright==1.62.0
+
+# reportlab is pinned at 5.1.0, not the newer 5.1.1: 5.1.1 requires pillow>=13,
+# which would move the Pillow pin above and every S21 image output with it.
+# 5.1.0 needs pillow>=9 and runs against Pillow 12.3.0 as pinned.
+reportlab==5.1.0

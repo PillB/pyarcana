@@ -22,7 +22,7 @@ export const section20: CourseSection = {
   icon: "FileSpreadsheet",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En finanzas, operaciones y reporting en Perú, Excel sigue siendo el contrato de entrega: el VP (vicepresidencia o área de negocio) abre un .xlsx, no un notebook. Un analista o data engineer que automatiza plantillas con openpyxl — sin dañar el master, con totales que cuadran y un manifest (JSON de auditoría de la corrida) — es quien cierra el mes a tiempo en bancos, cajas y retailers. Aquí aprendes a leer plantillas, escribir el workbook de resultados, conciliar y dejar rastro auditable, sin PII real.",
+    "En finanzas, operaciones y reporting en Perú, Excel sigue siendo el contrato de entrega: el VP (vicepresidencia o área de negocio) abre un .xlsx, no un notebook. Un analista o data engineer que automatiza plantillas con openpyxl cierra el mes a tiempo en bancos, cajas y retailers. Lo logra sin dañar el master, con totales que cuadran y con un manifest (JSON de auditoría de la corrida). Aquí aprendes a leer plantillas, escribir el workbook de resultados, conciliar y dejar rastro auditable, sin PII real.",
   learningOutcomes: [
     { text: "Manipular sheets, celdas y encabezados estables con openpyxl" },
     { text: "Distinguir fórmulas de valores cacheados y materializar KPIs en Python" },
@@ -37,7 +37,7 @@ export const section20: CourseSection = {
     {
             heading: "La hoja de cálculo que alguien va a abrir y editar a mano",
       paragraphs: [
-        "Un reporte que termina en Excel tiene un destino distinto al de un CSV: alguien lo abre, filtra, escribe una nota al margen y lo reenvía. Eso impone condiciones que no aparecen cuando el destino es otro programa — la plantilla no se puede sobrescribir, el archivo tiene que poder regenerarse igual, y lo que se ve tiene que coincidir con lo que se calculó.",
+        "Un reporte que termina en Excel tiene un destino distinto al de un CSV: alguien lo abre, filtra, escribe una nota al margen y lo reenvía. Eso impone condiciones que no aparecen cuando el destino es otro programa. La plantilla no se puede sobrescribir, el archivo tiene que poder regenerarse igual, y lo que se ve tiene que coincidir con lo que se calculó.",
         "La primera distinción es entre lo que Excel muestra y lo que guarda. Una celda con una fórmula guarda la fórmula; el número que ves lo calculó Excel al abrir el archivo. Si tu programa lee esa celda sin que Excel haya pasado por ahí, puede encontrarse con la fórmula en vez del resultado. Por eso este flujo **materializa** los valores: calcula en Python y escribe números, dejando las fórmulas donde son la intención explícita.",
         "La segunda es que la plantilla es sagrada. El patrón es copiar la plantilla maestra a un archivo nuevo, escribir sobre la copia y guardar; nunca abrir la maestra y salvar encima. Suena obvio hasta que un proceso automático corre dos veces y la plantilla queda con los datos del primer cliente incrustados.",
         "La tercera es la repetición. Un reporte que se genera cada semana se va a regenerar, y volver a correrlo sobre el mismo insumo debe producir el mismo resultado sin duplicar filas ni acumular estilos. Eso es ser **idempotente**, y aquí se comprueba corriendo el proceso dos veces y comparando.",
@@ -47,7 +47,7 @@ export const section20: CourseSection = {
         type: "tip",
         title: "Contrato de la sección",
         content:
-          "Salida esperada: workbook de resultados + manifest (estados, conciliación, backup). La plantilla master no se sobrescribe. Datos solo sintéticos. Hojas canónicas: Entrada, Datos, Salida.",
+          "Salida esperada: workbook de resultados + manifest (estados, conciliación, backup). La plantilla master no se sobrescribe. Datos solo sintéticos. Hojas obligatorias: Entrada y Salida; Datos es opcional, para pasos intermedios.",
       },
      },
      {
@@ -56,7 +56,7 @@ export const section20: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas y salida esperada.",
         "**Orden de los subtemas.** T1 fija el modelo del libro: hojas, celdas, encabezados y la diferencia entre fórmula y valor materializado. T2 pasa a la presentación: estilos, el patrón copiar-y-guardar, fechas en formato ISO y celdas combinadas. T3 cubre la calidad: conciliación y validación estructural. T4 cierra con el procesamiento por lotes y la idempotencia.",
-        "**Salida esperada.** El libro de resultados más un manifest con estados, conciliación y respaldo. Las hojas canónicas son Entrada, Datos y Salida. La plantilla maestra no se sobrescribe y los datos son solo sintéticos.",
+        "**Salida esperada.** El libro de resultados más un manifest con estados, conciliación y respaldo. Las hojas obligatorias son Entrada y Salida; Datos es opcional, para pasos intermedios. La plantilla maestra no se sobrescribe y los datos son solo sintéticos.",
       ],
      },
      {
@@ -70,45 +70,57 @@ export const section20: CourseSection = {
       },
       subtopicId: "S20-T1-A",
       paragraphs: [
-        "Un libro de Excel es un grafo de **hojas + celdas + encabezados**. Nombra hojas de forma estable (`Entrada`, `Datos`, `Salida`); evita “Hoja1” en el entregable. Los encabezados de la fila 1 anclan lecturas programáticas (`iter_rows`) y la conciliación posterior. Si el negocio habla de “tablas” o “named ranges”, en este tramo usamos el equivalente práctico: headers fijos + sheetnames contractuales — el mismo contrato que un schema de API, solo que el “endpoint” es un archivo que el VP abre en Excel.",
-        "Contrato operativo: crear workbook, set `title`, escribir encabezados, `append` filas, listar `sheetnames`. El control de calidad del factory verifica presencia de hojas requeridas y el encabezado `region` antes de cualquier KPI. Si falta una hoja, abortas con mensaje claro al manifest — no improvisas un sheet vacío en silencio. Esa disciplina es lo que separa un script de laboratorio de un factory que sobrevive al cierre de mes.",
-        "Caso sintético Madrid: `ws.title='Entrada'`, A1=`region`, B1=`monto`; segunda hoja `Salida`. Los conteos de filas de datos (sin header) alimentan la conciliación con el dashboard de S19 (mismos n). En un banco o equipo de operaciones peruano, el primer bug típico es renombrar “Entrada” a “Input_v2” y romper tres scripts ajenos. Cuando la pestaña *Hago yo* te muestre `sheetnames`, fíjate que el orden y los nombres son parte del contrato, no decoración.",
+        "Un libro de Excel es un contenedor de **hojas**; cada hoja es una cuadrícula de **celdas**, y la fila 1 lleva los **encabezados**. Nombra hojas de forma estable (`Entrada`, `Datos`, `Salida`); evita “Hoja1” en el entregable. Los encabezados de la fila 1 anclan lecturas programáticas (`iter_rows`) y la conciliación posterior. Un **nombre definido** (*named range*) es una etiqueta que apunta a una celda o a un rango, por ejemplo `total_portada` → `Salida!$B$1`. Si alguien inserta filas en Excel, Excel mueve el nombre con la celda, así que tu script lee el nombre y no la coordenada. openpyxl no lo mueve: si es tu script el que inserta filas, el nombre sigue apuntando a la coordenada vieja.",
+        "Contrato operativo: crear workbook, set `title`, escribir encabezados, `append` filas, listar `sheetnames`. Para leer, `iter_rows(min_row=2, max_col=2, values_only=True)` empieza en la fila 2 (salta el header), llega hasta la columna B y entrega valores en vez de objetos celda. `ws.cell(1, 2)` es la celda de la fila 1, columna 2, es decir B1. El control de calidad del factory verifica presencia de hojas requeridas y el encabezado `region` antes de cualquier KPI. Si falta una hoja, abortas con mensaje claro al manifest — no improvisas un sheet vacío en silencio. Esa disciplina es lo que separa un script de laboratorio de un factory que sobrevive al cierre de mes.",
+        "Caso sintético: `ws.title='Entrada'`, fila 1 con `region` y `monto`, dos filas de datos; segunda hoja `Salida`, con el total de portada en B1 bajo el nombre `total_portada`. Los conteos de filas de datos (sin header) alimentan la conciliación con el dashboard de S19 (mismos n). En un banco o equipo de operaciones peruano, el primer bug típico es renombrar “Entrada” a “Input_v2” y romper tres scripts ajenos. Cuando la pestaña *Hago yo* te muestre `sheetnames`, fíjate que el orden y los nombres son parte del contrato, no decoración.",
       ],
       code: {
         language: 'python',
         title: "sheets_cells.py",
         code: `def s20_th_1():
     from openpyxl import Workbook
+    from openpyxl.workbook.defined_name import DefinedName
 
     wb = Workbook()
     ws = wb.active
     ws.title = "Entrada"
-    ws["A1"] = "region"
-    ws["B1"] = "monto"
-    ws["A2"] = "Lima"
-    ws["B2"] = 28.0
-    wb.create_sheet("Salida")
+    ws.append(["region", "monto"])
+    ws.append(["Lima", 28.0])
+    ws.append(["Bogota", 22.5])
+    sal = wb.create_sheet("Salida")
+    sal["A1"] = "total_portada"
+    sal["B1"] = 50.5
     print(wb.sheetnames)
-    print(ws["A2"].value, ws["B2"].value)
+    # min_row=2 salta el header; max_col=2 lee A y B; values_only da valores, no celdas
+    for region, monto in ws.iter_rows(min_row=2, max_col=2, values_only=True):
+        print(region, monto)
+    print("cell(1, 2)", ws.cell(1, 2).value)
+    # Un nombre definido apunta a una celda: el script lee el nombre, no "B1"
+    wb.defined_names["total_portada"] = DefinedName("total_portada", attr_text="Salida!$B$1")
+    hoja, celda = next(wb.defined_names["total_portada"].destinations)
+    print("total_portada", hoja, celda, wb[hoja][celda].value)
 
 s20_th_1()`,
         output: `['Entrada', 'Salida']
-Lima 28.0`,
+Lima 28.0
+Bogota 22.5
+cell(1, 2) monto
+total_portada Salida $B$1 50.5`,
       },
       callout: {
         type: "tip",
         title: "Nombres estables",
         content:
-          "Prefiere títulos de hoja y headers explícitos a “la segunda columna del primer sheet”. Canon mínimo de la sección: Entrada + Salida (Datos opcional como staging).",
+          "Prefiere títulos de hoja y headers explícitos a “la segunda columna del primer sheet”. Canon mínimo de la sección: Entrada y Salida son obligatorias; Datos es opcional, para pasos intermedios.",
       },
     },
     {
       heading: "Fórmulas vs. valores materializados",
       subtopicId: "S20-T1-B",
       paragraphs: [
-        "Las **fórmulas** viven en la celda como texto (`=SUM(B2:B10)`); los **valores cacheados** son lo que Excel dejó calculado la última vez que abrió el archivo. openpyxl no incluye un motor de Excel: no “resuelve” una fórmula recién escrita solo porque la leas con `data_only=True` en el mismo proceso. Esa bandera lee el cache guardado, no ejecuta el motor. En CI (integración continua) Linux no hay Excel: si tu assert depende de un cache ajeno, el pipeline se vuelve no determinista y el “pasa en mi laptop” regresa.",
-        "Contrato didáctico: separa “escribir fórmula para el humano en Excel” de “assert de valor de negocio en el factory”. Para asserts de KPI en el curso y en producción headless, escribe **valores materializados** (calculados en pandas/Python) o documenta la dependencia del motor. Nunca digas “el número está bien porque la fórmula se ve bien”: el auditor del factory mira el número materializado, no la estética de la fórmula.",
-        "Caso: celda `=SUM(B2:B10)` vs. valor 120 precalculado en Python. El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número a la hoja `Salida` — así S21 recibe un artefacto que no necesita reabrirse en Excel para auditar. Si el VP insiste en ver la fórmula en una celda de presentación, puedes dejarla; pero el gate de calidad del curso y del CI se apoya en el valor Python.",
+        "Las **fórmulas** viven en la celda como texto (`=SUM(B2:B10)`); los **valores cacheados** son lo que Excel dejó calculado la última vez que abrió el archivo. openpyxl no incluye un motor de Excel: no “resuelve” una fórmula recién escrita solo porque la leas con `data_only=True` en el mismo proceso. Esa bandera lee el cache guardado, no ejecuta el motor. Un archivo que escribió openpyxl no tiene cache: con `data_only=True`, la fórmula devuelve `None`. En CI (integración continua) Linux no hay Excel: si tu assert depende de un cache ajeno, el pipeline se vuelve no determinista y el “pasa en mi laptop” regresa.",
+        "Contrato didáctico: separa “escribir fórmula para el humano en Excel” de “assert de valor de negocio en el factory”. Para asserts de KPI en el curso y en producción *headless* (sin pantalla ni Excel, como un servidor), escribe **valores materializados** (calculados en pandas/Python) o documenta la dependencia del motor. Nunca digas “el número está bien porque la fórmula se ve bien”: el auditor del factory mira el número materializado, no la estética de la fórmula.",
+        "Caso: celda `=SUM(B2:B10)` vs. valor 120 precalculado en Python. El adaptador de Excel de esta sección prefiere materializar métricas ya validadas en pandas y copiar el número a la hoja `Salida`. Así S21 recibe un artefacto que no necesita reabrirse en Excel para auditar. Si el VP insiste en ver la fórmula en una celda de presentación, puedes dejarla; pero el gate de calidad del curso y del CI se apoya en el valor Python.",
       ],
       code: {
         language: 'python',
@@ -140,8 +152,8 @@ python_sum 15`,
       heading: "Estilos, plantillas y copy→save",
       subtopicId: "S20-T2-A",
       paragraphs: [
-        "Estilos (fuentes, fills, borders) y plantillas reutilizables dan pinta ejecutiva — pero el **contrato de datos** manda sobre el formato. No rompas encabezados al embellecer. Los charts embebidos de Excel son opcionales si el PNG de S19 ya cubre el insight; en este tramo priorizamos estilos + **plantilla intocable** (el master es el contrato visual del VP, no un borrador).",
-        "Contrato de plantilla: **copia** el master a un path de salida (`shutil.copy`), abre con `load_workbook`, escribe solo rangos de datos, y `wb.save(out)`. Nunca escribas sobre el master sin backup. Estilos solo en rangos de presentación; datos crudos en `Entrada` sin merges que impidan `iter_rows`. Si guardas in-place sobre el master, la siguiente corrida arranca con datos de ayer mezclados con los de hoy.",
+        "Estilos (fuentes, fills, borders) y plantillas reutilizables dan pinta ejecutiva — pero el **contrato de datos** manda sobre el formato. No rompas encabezados al embellecer. Los charts embebidos de Excel son opcionales si el PNG de S19 ya cubre el insight. En este tramo priorizamos estilos + **plantilla intocable**: el master es el contrato visual del VP, no un borrador.",
+        "Contrato de plantilla: **copia** el master a un path de salida (`shutil.copy`), abre con `load_workbook`, escribe solo rangos de datos, y `wb.save(out)`. Nunca escribas sobre el master; escribe siempre en una copia. Estilos solo en rangos de presentación; datos crudos en `Entrada` sin merges que impidan `iter_rows`. Si guardas in-place sobre el master, la siguiente corrida arranca con datos de ayer mezclados con los de hoy.",
         "Caso sintético: plantilla con fila 1 de encabezados fijos y color corporativo `1F4E79`; el script rellena filas de detalle y deja el master intacto. El diff estructural del xlsx de salida debe ser predecible entre corridas. En la pestaña *Hago yo* verás el patrón completo copy→load→write→save; en *Hacemos juntos* T2-A-E3 lo repites tú.",
       ],
       code: {
@@ -156,7 +168,7 @@ python_sum 15`,
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmp:
-        master = Path(tmp) / "templates" / "cpn2b_factory.xlsx"
+        master = Path(tmp) / "templates" / "plantilla_vp.xlsx"
         master.parent.mkdir(parents=True)
         wb0 = Workbook()
         ws0 = wb0.active
@@ -192,15 +204,15 @@ header_bold True`,
         type: "tip",
         title: "Plantilla intocable",
         content:
-          "Copia la plantilla a un output path; nunca escribas sobre el master sin backup. El master es el contrato visual del VP.",
+          "Copia la plantilla a un output path. Nunca escribas sobre el master; escribe siempre en una copia. El master es el contrato visual del VP.",
       },
     },
     {
       heading: "Fechas ISO, celdas combinadas y lectura segura",
       subtopicId: "S20-T2-B",
       paragraphs: [
-        "Fechas y locales: serializa fechas **ISO** (`YYYY-MM-DD`) o `datetime` documentado; no dependas del locale del SO del alumno para parsear “03/04/24” (¿marzo o abril?). Las celdas combinadas (**merges**) son trampas de lectura automatizada: el valor vive en la **celda ancla** (top-left del rango); las demás del merge leen `None`. Si el script necesita escribir y la hoja está bloqueada por el SO o por otro usuario, falla con mensaje claro al manifest — no silencies el error.",
-        "Contrato: evita merges en rangos de datos; si la plantilla legacy los trae, lee el valor de la celda ancla y documenta. En este tramo practicamos fechas ISO + merges; la política de “fallar claro” se reutiliza en T4 con locks y corruptos. Un merge de presentación en la portada está bien; un merge sobre filas de detalle rompe el factory.",
+        "Fechas y locales: escribe la fecha como objeto `date` o `datetime`, no como texto. openpyxl la guarda como fecha con formato, y al reabrir el archivo la lees como `datetime`. El texto `'2024-06-30'` queda como cadena: Excel no lo filtra ni lo ordena como fecha. Para mostrarla, conviértela a ISO (`YYYY-MM-DD`) con `isoformat()`, y no dependas del locale del SO para parsear “03/04/24” (¿marzo o abril?). Las celdas combinadas (**merges**) son trampas de lectura automatizada: el valor vive en la **celda ancla** (top-left del rango); las demás del merge leen `None`. Escribir en una celda que no es la ancla lanza `AttributeError` (`MergedCell`), y `merge_cells` borra los valores que ya tenían esas celdas. Si el script necesita escribir y la hoja está bloqueada por el SO o por otro usuario, falla con mensaje claro al manifest — no silencies el error.",
+        "Contrato: evita merges en rangos de datos; si la plantilla legacy los trae, lee el valor de la celda ancla y documenta. En este tramo practicamos fechas ISO + merges; la política de “fallar claro” se reutiliza en T4 con locks y corruptos. Un merge de presentación en la portada está bien; un merge sobre filas de detalle rompe el factory. La protección de hoja es un control de la interfaz de Excel: openpyxl no la aplica y escribe igual. No la quites en el script; respeta el acuerdo con el VP sobre qué rangos se escriben.",
         "Caso: corte `2024-06-30` en celda de metadata; región en columna A sin merge. El data note del factory repite el corte — alineado a S18. Si alguien mergea A2:A100 “para que se vea lindo”, `iter_rows` y la conciliación se vuelven frágiles y el VP no entiende por qué “desaparecieron” montos en la columna C.",
       ],
       code: {
@@ -218,11 +230,16 @@ header_bold True`,
     print(ws["A1"].value.isoformat())
     print("merge", ws.merged_cells.ranges)
     print("C1_is_none", ws["C1"].value)
+    try:
+        ws["C1"] = "x"
+    except AttributeError as exc:
+        print("C1_write", type(exc).__name__)
 
 s20_th_4()`,
         output: `2024-06-30
 merge {<MergedCellRange B1:C1>}
-C1_is_none None`,
+C1_is_none None
+C1_write AttributeError`,
       },
       callout: {
         type: "warning",
@@ -236,8 +253,8 @@ C1_is_none None`,
       subtopicId: "S20-T3-A",
       paragraphs: [
         "**Conciliación**: los totales del Excel de salida deben cuadrar con los del DataFrame fuente (suma de montos, n de filas). Es el control de calidad que protege la credibilidad del reporting: sin él, un total de portada “optimista” puede viajar a gerencia. Los pivots en Excel son para el usuario final; el script puede **materializar el pivot** ya calculado en pandas (`groupby`) y pegarlo en `Salida`. Así el VP ve la tabla y el factory tiene un número auditable.",
-        "Contrato: `assert abs(sum_xlsx - sum_df) < tol` y `n_xlsx == n_df`. Si no cuadra, **fail-closed** (no emitas el paquete a S21). Documenta tolerancia de redondeo (típico: 0.01 para 2 decimales PEN). Un total “casi igual” sin tolerancia documentada es una discusión de fin de mes, no un gate de calidad. El resultado de la conciliación vive en el manifest (`reconcile_ok`), no solo en un print de consola.",
-        "Caso: df montos 10+5+7 vs. portada 22.0; pivot región→suma (`Lima` 15, `Bogota` 7). El gate imprime `reconcile True` solo si ambos lados coinciden. En operaciones peruanas, este control evita enviar a gerencia un Excel con portada inflada y detalle incompleto — el error típico de “sumé a mano en la portada y olvidé una región”.",
+        "Contrato: `assert abs(sum_xlsx - sum_df) < tol` y `n_xlsx == n_df`. Si no cuadra, **fail-closed** (no emitas el paquete a S21). Documenta tolerancia de redondeo (típico: 0.01 para 2 decimales PEN). La tolerancia existe porque los floats guardan los decimales en binario: en Python, `0.1 + 0.2 == 0.3` da `False`, así que dos sumas correctas pueden diferir en la última cifra. Un total “casi igual” sin tolerancia documentada es una discusión de fin de mes, no un gate de calidad. El resultado de la conciliación vive en el manifest (`reconcile_ok`), no solo en un print de consola.",
+        "Caso: df montos 10+5+7 vs. portada 22.0 con n=3; pivot región→suma (`Lima` 15, `Bogota` 7). El gate imprime `reconcile True` solo si coinciden el total y el n. En operaciones peruanas, este control evita enviar a gerencia un Excel con portada inflada y detalle incompleto — el error típico de “sumé a mano en la portada y olvidé una región”.",
       ],
       code: {
         language: 'python',
@@ -246,15 +263,17 @@ C1_is_none None`,
     import pandas as pd
 
     det = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
-    tot_portada = 22.0
+    tot_portada, n_portada = 22.0, 3
     tot_det = float(det["monto"].sum())
     pivot = det.groupby("region", as_index=False)["monto"].sum()
     print(pivot.to_dict(orient="list"))
-    print("ok", abs(tot_det - tot_portada) < 0.01)
+    print("reconcile", abs(tot_det - tot_portada) < 0.01 and len(det) == n_portada)
+    print("0.1 + 0.2 == 0.3", 0.1 + 0.2 == 0.3)
 
 s20_th_5()`,
         output: `{'region': ['Bogota', 'Lima'], 'monto': [7.0, 15.0]}
-ok True`,
+reconcile True
+0.1 + 0.2 == 0.3 False`,
       },
       callout: {
         type: "success",
@@ -275,16 +294,30 @@ ok True`,
         language: 'python',
         title: "structure.py",
         code: `def s20_th_6():
+    from openpyxl import Workbook
+
+    def libro(hojas):
+        wb = Workbook()
+        wb.active.title = hojas[0]
+        for nombre in hojas[1:]:
+            wb.create_sheet(nombre)
+        wb[hojas[0]].append(["region", "monto", "n"])
+        return wb
+
+    need = {"Entrada", "Salida"}
     expected = ["region", "monto", "n"]
-    headers = ["region", "monto", "n"]
-    print("structure_ok", headers == expected)
+    for hojas in (["Entrada", "Salida"], ["Entrada", "Log"]):
+        wb = libro(hojas)
+        headers = [c.value for c in wb["Entrada"][1]]
+        print(wb.sheetnames, "structural_ok", need <= set(wb.sheetnames) and headers == expected)
     # validación de dominio (allowlist)
     regiones = {"Lima", "Madrid", "Bogota"}
     row = {"region": "Barcelona", "monto": 10.0}
     print("domain_ok", row["region"] in regiones)
 
 s20_th_6()`,
-        output: `structure_ok True
+        output: `['Entrada', 'Salida'] structural_ok True
+['Entrada', 'Log'] structural_ok False
 domain_ok False`,
       },
       callout: {
@@ -298,9 +331,9 @@ domain_ok False`,
       heading: "Batch, archivos corruptos y locks",
       subtopicId: "S20-T4-A",
       paragraphs: [
-        "Batch de muchos xlsx: itera paths, captura corruptos (`BadZipFile` — un xlsx es un zip; si el contenedor está roto, openpyxl no puede abrirlo), respeta locks de archivo ajenos (no crashear el pipeline entero). Un archivo malo se aísla; el resto continúa con resumen de errores.",
+        "Batch de muchos xlsx: itera paths y captura corruptos con `BadZipFile`, porque un xlsx es un zip y si el contenedor está roto openpyxl no puede abrirlo. Respeta los locks de archivo ajenos sin tumbar el pipeline entero. Un archivo malo se aísla; el resto continúa con resumen de errores. Ojo: que un archivo abierto en Excel dé `PermissionError` depende del sistema. En Windows, Excel lo bloquea y escribir encima falla; en macOS y Linux no suele fallar, y la señal es el archivo `~$nombre.xlsx` que Excel deja al lado.",
         "Contrato operativo: contadores `ok` / `skip_corrupt` / `skip_locked`; log de paths sintéticos. Timeout y tamaño máximo por archivo evitan un DoS accidental (denegación de servicio por carpeta enorme o archivo de 2 GB). El summary JSON alimenta el audit del factory.",
-        "Caso didáctico: tres paths → `ok=1`, `corrupt=1`, `locked=1`. En una carpeta compartida de finanzas, el archivo “abierto por el contador” (lock) no debe tumbar el lote de la noche: se marca `locked`, se registra el path sintético y el resto del batch sigue. El corrupt se mueve a cuarentena con su nombre en el log; el auditor mira primero el `ok_count` del summary.",
+        "Caso didáctico: tres paths → `ok=1`, `corrupt=1`, `locked=1`. En una carpeta compartida de finanzas, el archivo “abierto por el contador” (lock) no debe tumbar el lote de la noche. Se marca `locked`, se registra el path sintético y el resto del batch sigue. El corrupt se mueve a cuarentena con su nombre en el log; el auditor mira primero el `ok_count` del summary.",
       ],
       code: {
         language: 'python',
@@ -346,7 +379,7 @@ ok_count 1`,
       paragraphs: [
         "**Backups e idempotencia**: antes de sobrescribir, copia a `backup/` o escribe a path versionado. Misma entrada + misma versión de script → mismos hashes de hojas de datos (orden canónico de filas). Si re-ejecutar duplica filas, el factory no es de confianza.",
         "Contrato: digest de filas ordenadas; `structural_ok(sheetnames, need)`; re-ejecutar dos veces no duplica filas. Prueba estructural en CI del curso sin abrir Excel GUI. El **manifest** cierra el ciclo: sheets, `reconcile_ok`, backup, `input_sha1_8`, flag de idempotencia.",
-        "Caso: `dig(rows)` ordena filas antes de hashear; la segunda corrida con la misma entrada y la misma versión de script no agrega filas fantasma ni cambia `input_sha1_8`. Si re-ejecutar duplica el detalle, el factory no es de confianza para cierre de mes. Cierra el tramo Excel hacia documentos y empaquetado de S21 con un manifest que el revisor de CP-N2-B pueda abrir en 30 segundos.",
+        "Caso: `dig(rows)` ordena filas antes de hashear; la segunda corrida con la misma entrada y la misma versión de script no agrega filas fantasma ni cambia `input_sha1_8`. Si re-ejecutar duplica el detalle, el factory no es de confianza para cierre de mes. Cierra el tramo Excel hacia documentos y empaquetado de S21 con un manifest que un revisor pueda abrir en 30 segundos. `input_sha1_8` es el hash de los datos de entrada, no del archivo de salida. El snippet calcula cada valor del manifest; `backup` e `idempotent` salen de correr el proceso dos veces, como en la demo T4-B.",
       ],
       code: {
         language: 'python',
@@ -354,25 +387,35 @@ ok_count 1`,
         code: `def s20_th_8():
     import json
     import hashlib
+    from openpyxl import Workbook
 
-    payload = b"region,monto\\nLima,10\\n"
+    entrada = [("Lima", 10.0), ("Bogota", 5.0)]
+    payload = "region,monto\\n" + "".join(f"{r},{m}\\n" for r, m in entrada)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Entrada"
+    ws.append(["region", "monto"])
+    for fila in entrada:
+        ws.append(fila)
+    sal = wb.create_sheet("Salida")
+    sal["A1"], sal["B1"] = "total_portada", 15.0  # lo tecleó el VP
+    leidas = list(ws.iter_rows(min_row=2, values_only=True))
+    total = sum(m for _, m in leidas)
     manifest = {
-        "input_sha1_8": hashlib.sha1(payload).hexdigest()[:8],
-        "sheets": ["Entrada", "Salida"],
-        "reconcile_ok": True,
-        "backup": "out/prev_results.xlsx.bak",
-        "idempotent": True,
+        "input_sha1_8": hashlib.sha1(payload.encode()).hexdigest()[:8],
+        "sheets": wb.sheetnames,
+        "reconcile_ok": abs(total - sal["B1"].value) < 0.01 and len(leidas) == len(entrada),
     }
     print(json.dumps(manifest, ensure_ascii=False))
 
 s20_th_8()`,
-        output: `{"input_sha1_8": "651f3b6b", "sheets": ["Entrada", "Salida"], "reconcile_ok": true, "backup": "out/prev_results.xlsx.bak", "idempotent": true}`,
+        output: `{"input_sha1_8": "2f4d3c90", "sheets": ["Entrada", "Salida"], "reconcile_ok": true}`,
       },
       callout: {
         type: "success",
         title: "Manifest obligatorio",
         content:
-          "Sin manifest, el incremento excel factory de CP-N2-B no cierra. El JSON es la evidencia de la corrida.",
+          "Sin manifest, el excel factory no cierra. El JSON es la evidencia de la corrida porque cada valor sale de la corrida, no se teclea.",
       },
     }
   ],
@@ -385,7 +428,7 @@ s20_th_8()`,
         environment: "local-python",
         description: "Crear sheets canónicos Entrada/Salida y escribir celdas con openpyxl",
         preamble:
-          "El excel factory del VP exige nombres de hoja estables: `Entrada` para el detalle y `Salida` para los KPIs. En esta demo creas ambos, escribes filas sintéticas Madrid/Bogota y materializas `n_filas` en `Salida`. No escribas aún; predice `sheetnames`, el entero `n` y el valor de A2 antes de mirar la salida. Si dejas la hoja como `Sheet`, tres scripts ajenos rompen en el cierre de mes.",
+          "El excel factory del VP exige nombres de hoja estables: `Entrada` para el detalle y `Salida` para los KPIs. En esta demo creas ambos, escribes filas sintéticas Lima/Bogota y materializas `n_filas` en `Salida`. No escribas aún; predice `sheetnames`, el entero `n` y el valor de A2 antes de mirar la salida. Si dejas la hoja como `Sheet`, tres scripts ajenos rompen en el cierre de mes.",
         code: {
           language: 'python',
           title: "demo_sheets.py",
@@ -421,12 +464,14 @@ A2 Lima`,
         environment: "local-python",
         description: "Distinguir fórmula almacenada vs. suma calculada en Python",
         preamble:
-          "En CI Linux no hay motor Excel: openpyxl no “resuelve” `=B1+B2` solo porque lo leas. En esta demo ves la fórmula como texto, el valor materializado en Python (25) y la desigualdad deliberada entre ambos. No escribas aún; predice las tres líneas de salida. El auditor del factory mira el número materializado, no la estética de la fórmula.",
+          "En CI Linux no hay motor Excel: openpyxl no “resuelve” `=B1+B2` solo porque lo leas. En esta demo ves la fórmula como texto, el valor materializado en Python (25) y lo que devuelve `data_only=True` al reabrir el archivo guardado. No escribas aún; predice las tres líneas de salida. El auditor del factory mira el número materializado, no la estética de la fórmula.",
         code: {
           language: 'python',
           title: "demo_formula.py",
           code: `def s20_ido_2():
-    from openpyxl import Workbook
+    from openpyxl import Workbook, load_workbook
+    from pathlib import Path
+    import tempfile
 
     wb = Workbook()
     ws = wb.active
@@ -437,17 +482,21 @@ A2 Lima`,
     py_val = ws["B1"].value + ws["B2"].value
     print("es_formula", isinstance(formula, str) and formula.startswith("="))
     print("python_value", py_val)
-    print("no_evaluado_por_openpyxl", formula != py_val)
+    with tempfile.TemporaryDirectory() as tmp:
+        ruta = Path(tmp) / "formula.xlsx"
+        wb.save(ruta)
+        # openpyxl guarda la fórmula pero no la calcula: no hay cache que leer
+        print("cache_sin_motor", load_workbook(ruta, data_only=True).active["B3"].value)
 
 s20_ido_2()`,
           output: `es_formula True
 python_value 25
-no_evaluado_por_openpyxl True`,
+cache_sin_motor None`,
         },
         why:
           "`data_only=True` lee cache guardado, no ejecuta el motor. Para asserts de KPI en el curso y en producción headless, escribe valores Python en `Salida`. Puedes dejar la fórmula en celdas de presentación para el VP, pero el gate no depende de ella. El factory prefiere valores Python auditables: la fórmula es para el humano en Excel; el assert de CI mira el número materializado.",
         retrospective:
-          "Fórmula = contrato visual para el humano en Excel; valor Python = contrato auditable del factory. El error clásico es “la fórmula se ve bien, el número está bien” en CI sin motor. Pregunta: ¿qué imprimiría `data_only` sobre una fórmula recién escrita sin cache? *Hacemos juntos*: escribir el string `=…`, materializar sumas y detectar celdas con prefijo `=`.",
+          "Fórmula = contrato visual para el humano en Excel; valor Python = contrato auditable del factory. El error clásico es “la fórmula se ve bien, el número está bien” en CI sin motor. Pregunta: ¿quién tendría que abrir y guardar el archivo para que `data_only` devuelva 25 en vez de `None`? *Hacemos juntos*: escribir el string `=…`, materializar sumas y detectar celdas con prefijo `=`.",
       },
       {
         demoId: "S20-T2-A-DEMO",
@@ -455,7 +504,7 @@ no_evaluado_por_openpyxl True`,
         environment: "local-python",
         description: "Copiar plantilla master, load_workbook, estilizar y guardar en path de salida",
         preamble:
-          "El master `cpn2b_factory.xlsx` es el contrato visual del VP: no se sobrescribe. En esta demo se copia a `out/results.xlsx`, se estiliza el header corporativo y se escribe Madrid 28.0 solo en la copia. Observa las dos líneas de salida: nombre de archivo, master intacto y bold del header. Predice qué pasaría si `save` apuntara al master: la siguiente corrida arrancaría con datos de ayer.",
+          "El master `plantilla_vp.xlsx` es el contrato visual del VP: no se sobrescribe. En esta demo se copia a `out/results.xlsx`, se estiliza el header corporativo y se escribe Lima 28.0 solo en la copia. Observa las tres líneas de salida: nombre de archivo, master intacto según su hash, y bold del header con el monto. Predice qué pasaría si `save` apuntara al master: la siguiente corrida arrancaría con datos de ayer.",
         code: {
           language: 'python',
           title: "demo_template_io.py",
@@ -463,17 +512,19 @@ no_evaluado_por_openpyxl True`,
     from openpyxl import Workbook, load_workbook
     from openpyxl.styles import Font, PatternFill, Alignment
     from pathlib import Path
+    import hashlib
     import shutil
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmp:
-        master = Path(tmp) / "templates" / "cpn2b_factory.xlsx"
+        master = Path(tmp) / "templates" / "plantilla_vp.xlsx"
         master.parent.mkdir(parents=True)
         seed = Workbook()
         seed.active.title = "Entrada"
         seed.active["A1"] = "Region"
         seed.active["B1"] = "Monto PEN"
         seed.save(master)
+        antes = hashlib.sha256(master.read_bytes()).hexdigest()
 
         out = Path(tmp) / "out" / "results.xlsx"
         out.parent.mkdir(parents=True)
@@ -488,15 +539,18 @@ no_evaluado_por_openpyxl True`,
         ws["A2"] = "Lima"
         ws["B2"] = 28.0
         wb.save(out)
-        print("saved", out.name, "master_intact", master.exists())
+        print("saved", out.name)
+        # exists() sería True aunque el script hubiera guardado encima; el hash no
+        print("master_intact", antes == hashlib.sha256(master.read_bytes()).hexdigest())
         print(ws["A1"].font.bold, ws["B2"].value)
 
 s20_ido_3()`,
-          output: `saved results.xlsx master_intact True
+          output: `saved results.xlsx
+master_intact True
 True 28.0`,
         },
         why:
-          "El flujo es `shutil.copy` → `load_workbook(out)` → escribir rangos de datos → `wb.save(out)`. Estilos solo en presentación; datos crudos sin merges que impidan `iter_rows`. El bool `master.exists()` es evidencia mínima de plantilla intocable para el manifest. Copy → load → write → save deja el master intacto y materializa el estilo en la salida.",
+          "El flujo es `shutil.copy` → `load_workbook(out)` → escribir rangos de datos → `wb.save(out)`. Estilos solo en presentación; datos crudos sin merges que impidan `iter_rows`. La evidencia de plantilla intocable es el hash del master antes y después: `master.exists()` sería True aunque el script hubiera guardado encima. Copy → load → write → save deja el master intacto y materializa el estilo en la salida.",
         retrospective:
           "Copy → load → write → save es el esqueleto del excel factory: el master del VP no es borrador de trabajo. El error clásico es `save` in-place y mezclar datos de ayer con los de hoy. Pregunta: ¿qué evidencia mínima prueba plantilla intocable? *Hacemos juntos*: bold, fill corporativo `1F4E79` y el flujo completo en directorio temporal.",
       },
@@ -531,7 +585,7 @@ non_anchor_D1 None`,
         why:
           "Serializa ISO o `datetime` documentado; merges solo en presentación; lee y escribe siempre en la celda ancla (top-left). Fechas ISO y merges con lectura en ancla: así no rompes el layout del VP ni lees `None` donde creías ver un valor. No silencies errores de archivo bloqueado (se reutiliza en T4).",
         retrospective:
-          "ISO evita “¿marzo o abril?” entre laptops; ancla = top-left del merge. El error clásico es leer C1/D1 y creer que el valor “desapareció”. Pregunta: ¿dónde escribes si el merge es B1:D1? *Hacemos juntos*: fecha en metadata, valor de no-ancla y conteo de rangos merged.",
+          "ISO evita “¿marzo o abril?” entre laptops; ancla = top-left del merge. El error clásico es leer C1/D1 y creer que el valor “desapareció”. El otro es llenar un bloque y mergear después: `merge_cells` borra los valores de las celdas que no son ancla. Escribe el texto en B1 y mergea al final. Pregunta: ¿dónde escribes si el merge es B1:D1? *Hacemos juntos*: fecha en metadata, valor de no-ancla y conteo de rangos merged.",
       },
       {
         demoId: "S20-T3-A-DEMO",
@@ -539,7 +593,7 @@ non_anchor_D1 None`,
         environment: "local-python",
         description: "Conciliar total de portada con detalle y pivot por región",
         preamble:
-          "Un total de portada que no cuadra con el detalle es el error típico de cierre de mes. Aquí el detalle Lima/Lima/Madrid/Bogota suma 35.5 y el pivot materializa sumas por región. Observa el dict del pivot y el booleano `reconcile True`. Sin este control, el paquete viaja a S21 con números “optimistas”.",
+          "Un total de portada que no cuadra con el detalle es el error típico de cierre de mes. Aquí el detalle Lima/Lima/Madrid/Bogota suma 35.5 en 4 filas, y el pivot materializa sumas por región. Observa el dict del pivot y el booleano `reconcile True`, que exige el total y el n. Sin este control, el paquete viaja a S21 con números “optimistas”.",
         code: {
           language: 'python',
           title: "demo_reconcile.py",
@@ -550,14 +604,18 @@ non_anchor_D1 None`,
         "region": ["Lima", "Lima", "Madrid", "Bogota"],
         "monto": [10.0, 12.0, 8.0, 5.5],
     })
-    portada = 35.5
+    portada, n_portada = 35.5, 4
     pivot = det.groupby("region")["monto"].sum().to_dict()
     print(pivot)
-    print("reconcile", abs(det["monto"].sum() - portada) < 0.01)
+    print("reconcile", abs(det["monto"].sum() - portada) < 0.01 and len(det) == n_portada)
+    # Una fila extra de 0.0 no cambia el total, pero sí el n: el gate la detecta
+    extra = pd.concat([det, pd.DataFrame({"region": ["Madrid"], "monto": [0.0]})])
+    print("reconcile_con_fila_extra", abs(extra["monto"].sum() - portada) < 0.01 and len(extra) == n_portada)
 
 s20_ido_5()`,
           output: `{'Bogota': 5.5, 'Lima': 22.0, 'Madrid': 8.0}
-reconcile True`,
+reconcile True
+reconcile_con_fila_extra False`,
         },
         why:
           "`abs(sum_det - portada) < tol` con tol típica 0.01 PEN es el assert de credibilidad. El pivot en Excel es para el humano; el factory pega el groupby ya calculado. Conciliación es el control de calidad del workbook: totales y n deben cuadrar antes de emitir el paquete. El resultado vive también en el manifest (`reconcile_ok`).",
@@ -570,7 +628,7 @@ reconcile True`,
         environment: "local-python",
         description: "Validar headers y dominio de región antes de escribir salida",
         preamble:
-          "Headers exactos y dominios de región son el schema del workbook del VP. En esta demo los headers coinciden, pero Barcelona e Ica no están en la allowlist Madrid/Bogota/Berlin: se listan violators y se aborta. Observa las tres líneas. Un `structural_ok False` debe ir al manifest, no solo a un print fugaz.",
+          "Headers exactos y dominios de región son el schema del workbook del VP. En esta demo los headers coinciden, pero Barcelona e Ica no están en la allowlist Lima/Bogota/Madrid: se listan violators y se aborta. Observa las tres líneas. Un `structural_ok False` debe ir al manifest, no solo a un print fugaz.",
         code: {
           language: 'python',
           title: "demo_validate.py",
@@ -603,43 +661,52 @@ abort True`,
         environment: "local-python",
         description: "Batch con try/except: BadZipFile (corrupt) y PermissionError (lock)",
         preamble:
-          "En una carpeta compartida de finanzas, un xlsx corrupto o bloqueado no debe tumbar el batch nocturno. Esta demo clasifica ok/corrupt/locked y resume conteos: 2 ok, 1 corrupt, 1 locked. Observa el dict por path y el summary. El auditor mira primero `ok_count`; el corrupt va a cuarentena con su nombre en el log.",
+          "En una carpeta compartida de finanzas, un xlsx corrupto o bloqueado no debe tumbar el batch nocturno. Esta demo crea cinco archivos reales y los abre con `load_workbook`: dos sanos, un zip roto, un zip que no es un libro de Excel y uno bloqueado. El bloqueo se simula, porque en Linux no ocurre. Observa el dict por path y el summary. El auditor mira primero `ok_count`; el corrupt va a cuarentena con su nombre en el log.",
         code: {
           language: 'python',
           title: "demo_batch.py",
           code: `def s20_ido_7():
-    from zipfile import BadZipFile
+    from openpyxl import Workbook, load_workbook
+    from pathlib import Path
+    from zipfile import BadZipFile, ZipFile
+    import tempfile
 
-    def classify(name, opener):
+    def abrir(path):
+        if path.name == "lock.xlsx":  # simula el archivo que el contador tiene abierto en Windows
+            raise PermissionError("in use")
+        return load_workbook(path)
+
+    def classify(path):
         try:
-            opener(name)
+            abrir(path)
             return "ok"
         except BadZipFile:
             return "corrupt"
         except PermissionError:
             return "locked"
+        except Exception as exc:  # lo inesperado queda con su tipo; no se disfraza de corrupt
+            return f"error: {type(exc).__name__}"
 
-    def fake_open(name):
-        if name == "bad.xlsx":
-            raise BadZipFile("broken container")
-        if name == "lock.xlsx":
-            raise PermissionError("in use")
-        return True
-
-    batch = ["ok1.xlsx", "bad.xlsx", "lock.xlsx", "ok2.xlsx"]
-    manifest = {name: classify(name, fake_open) for name in batch}
-    counts = {k: sum(1 for v in manifest.values() if v == k) for k in ("ok", "corrupt", "locked")}
-    print(manifest)
-    print(counts)
+    with tempfile.TemporaryDirectory() as tmp:
+        carpeta = Path(tmp)
+        for nombre in ("ok1.xlsx", "ok2.xlsx", "lock.xlsx"):
+            Workbook().save(carpeta / nombre)
+        (carpeta / "bad.xlsx").write_bytes(b"no es un zip")
+        with ZipFile(carpeta / "otro.xlsx", "w") as z:
+            z.writestr("nota.txt", "un zip que no es un libro de Excel")
+        estados = {p.name: classify(p) for p in sorted(carpeta.glob("*.xlsx"))}
+    print(estados)
+    tipos = [v.split(":")[0] for v in estados.values()]
+    print({k: tipos.count(k) for k in ("ok", "corrupt", "locked", "error")})
 
 s20_ido_7()`,
-          output: `{'ok1.xlsx': 'ok', 'bad.xlsx': 'corrupt', 'lock.xlsx': 'locked', 'ok2.xlsx': 'ok'}
-{'ok': 2, 'corrupt': 1, 'locked': 1}`,
+          output: `{'bad.xlsx': 'corrupt', 'lock.xlsx': 'locked', 'ok1.xlsx': 'ok', 'ok2.xlsx': 'ok', 'otro.xlsx': 'error: KeyError'}
+{'ok': 2, 'corrupt': 1, 'locked': 1, 'error': 1}`,
         },
         why:
-          "`BadZipFile` aparece porque xlsx es un zip; `PermissionError` señala lock. El lote continúa: un corrupto o un archivo en uso no tumba el batch. Contadores alimentan el summary JSON del factory; corruptos y locks quedan nombrados en el log de cuarentena.",
+          "`BadZipFile` aparece porque xlsx es un zip; `PermissionError` señala lock en Windows. Un zip sano que no es un libro de Excel da `KeyError`, un fallo que nadie previó: el tercer `except` lo registra como `error` con su tipo, sin llamarlo corrupt. El lote continúa: un corrupto o un archivo en uso no tumba el batch. Contadores alimentan el summary JSON del factory; corruptos y locks quedan nombrados en el log de cuarentena.",
         retrospective:
-          "Aislar fallos, no abortar todo el lote: un corrupt o lock no tumba la noche del cierre. El error clásico es dejar que una excepción sin capturar mate el proceso. Pregunta: ¿qué mira primero el auditor en el summary? *Hacemos juntos*: `ok_count`, `classify` con try/except y Counter del summary.",
+          "Aislar fallos, no abortar todo el lote: un corrupt o lock no tumba la noche del cierre. El error clásico es dejar que una excepción sin capturar mate el proceso. Pregunta: ¿qué mira primero el auditor en el summary, y qué hace con un `error` que no es corrupt ni locked? *Hacemos juntos*: `ok_count`, `classify` con try/except y Counter del summary.",
       },
       {
         demoId: "S20-T4-B-DEMO",
@@ -647,34 +714,71 @@ s20_ido_7()`,
         environment: "local-python",
         description: "Escritura idempotente con backup lógico y tests estructurales",
         preamble:
-          "El manifest es la evidencia de la corrida: hash de entrada, sheets, flag de idempotencia, backup y tests estructurales. Aquí dos corridas lógicas con filas en distinto orden producen el mismo payload canónico (`idempotent: true`). Observa el JSON. Sin este artefacto, el revisor de CP-N2-B no cierra el excel factory hacia S21.",
+          "El manifest es la evidencia de la corrida: hash de entrada, sheets, flag de idempotencia, backup y tests estructurales. Aquí el proceso corre dos veces sobre la misma salida: cada corrida copia el master, escribe las filas y guarda, y la segunda deja un backup del resultado anterior. Observa el JSON y la última línea, que repite la segunda corrida sobre la salida en vez del master. Sin este artefacto, el revisor no cierra el excel factory hacia S21.",
         code: {
           language: 'python',
           title: "demo_idempotent.py",
-          code: `import hashlib
-import json
+          code: `def s20_ido_8():
+    from openpyxl import Workbook, load_workbook
+    from pathlib import Path
+    import hashlib
+    import json
+    import shutil
+    import tempfile
 
-def build_output(rows):
-    # determinista: orden canónico
-    lines = ["region,monto"] + [f"{r},{m}" for r, m in sorted(rows)]
-    return "\\n".join(lines) + "\\n"
+    def sha8(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
 
-rows = [("Lima", 10), ("Bogota", 5)]
-o1 = build_output(rows)
-o2 = build_output(list(reversed(rows)))
-manifest = {
-    "sha1_8": hashlib.sha1(o1.encode()).hexdigest()[:8],
-    "idempotent": o1 == o2,
-    "backup": "results.prev.xlsx",
-    "tests": {"has_header": o1.startswith("region,monto"), "n_data": 2},
-}
-print(json.dumps(manifest, ensure_ascii=False))`,
-          output: `{"sha1_8": "1dc6ebd4", "idempotent": true, "backup": "results.prev.xlsx", "tests": {"has_header": true, "n_data": 2}}`,
+    def dig(rows):
+        texto = "\\n".join(f"{r},{m}" for r, m in sorted(rows))
+        return hashlib.sha1(texto.encode()).hexdigest()[:8]
+
+    def leer(out):
+        return list(load_workbook(out)["Entrada"].iter_rows(min_row=2, values_only=True))
+
+    def correr(origen, out, filas):
+        if out.exists():
+            shutil.copy(out, out.with_suffix(".prev.xlsx"))  # backup del resultado anterior
+        wb = load_workbook(origen)
+        for fila in filas:
+            wb["Entrada"].append(fila)
+        wb.save(out)
+        return leer(out)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        master = Path(tmp) / "plantilla_vp.xlsx"
+        seed = Workbook()
+        seed.active.title = "Entrada"
+        seed.active.append(["region", "monto"])
+        seed.save(master)
+        master_antes = sha8(master)
+        out = Path(tmp) / "results.xlsx"
+        filas = [("Lima", 10.0), ("Bogota", 5.0)]
+        payload = "region,monto\\n" + "".join(f"{r},{m}\\n" for r, m in filas)
+
+        r1 = correr(master, out, filas)  # siempre desde el master
+        r2 = correr(master, out, filas)
+        backup = out.with_suffix(".prev.xlsx")
+        manifest = {
+            "input_sha1_8": hashlib.sha1(payload.encode()).hexdigest()[:8],
+            "idempotent": dig(r1) == dig(r2),
+            "n_data": len(r2),
+            "backup": backup.name if backup.exists() else None,
+            "master_unchanged": master_antes == sha8(master),
+        }
+        print(json.dumps(manifest, ensure_ascii=False))
+        # Contraejemplo: correr sobre la salida anterior en vez del master acumula filas
+        r3 = correr(out, out, filas)
+        print("rerun_sobre_salida", dig(r3) == dig(r2), len(r3))
+
+s20_ido_8()`,
+          output: `{"input_sha1_8": "2f4d3c90", "idempotent": true, "n_data": 2, "backup": "results.prev.xlsx", "master_unchanged": true}
+rerun_sobre_salida False 4`,
         },
         why:
-          "Orden canónico de filas antes de hashear; backup path versionado; tests `has_header` / `n_data` sin abrir Excel GUI. Idempotencia + backup + tests estructurales + manifest cierran el excel factory listo para CP-N2-B. El JSON es obligatorio en el checklist de entrega.",
+          "Cada corrida parte del master, así que repetirla deja las mismas filas: el digest de lo leído en la salida lo prueba. El backup es una copia real del resultado anterior, `n_data` se cuenta y `master_unchanged` compara hashes. Idempotencia + backup + tests estructurales + manifest cierran el excel factory. El JSON es obligatorio en el checklist de entrega.",
         retrospective:
-          "Idempotencia + backup + tests + manifest cierran el factory hacia S21. El error clásico es hashear filas sin orden canónico y creer que “cambió el negocio” en un re-run. Pregunta: ¿qué flag del JSON defiende que el master no se tocó? *Hacemos juntos*: armar el dict mínimo, dig orden-invariante y `structural_ok` como superset.",
+          "Idempotencia + backup + tests + manifest cierran el factory hacia S21. El error clásico es hashear filas sin orden canónico y creer que “cambió el negocio” en un re-run. Pregunta: ¿qué flag del JSON defiende que el master no se tocó, y por qué la última línea da False? *Hacemos juntos*: armar el dict mínimo, dig orden-invariante y `structural_ok` como superset.",
       }
     ],
   },
@@ -696,7 +800,7 @@ print(json.dumps(manifest, ensure_ascii=False))`,
           "from openpyxl import Workbook; imprime sheetnames y A1.",
         ],
         edgeCases: ["nombre con espacios"],
-        tests: "salida coincide con solution output",
+        tests: "Dos líneas exactas, en este orden: `['Entrada']` y `region`.",
         feedback:
           "Si ves `['Sheet']` (o similar), te faltó renombrar a `Entrada`. Si A1 es `None`, falta el header `region`: sin él el factory no ancla lecturas ni conciliación.",
         retrospective:
@@ -743,7 +847,7 @@ region`,
         edgeCases: ["filas vacías"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si max_row es 1, solo existe la hoja con un append (o ninguna fila útil). Necesitas header + 1 fila de datos → max_row 2. Ese n alimenta la conciliación del factory.",
+          "Si max_row es 1, falta al menos un append: openpyxl reporta `max_row` 1 incluso en una hoja vacía, porque la fila 1 existe aunque no tenga datos. Necesitas header + 1 fila de datos → max_row 2. Ese n alimenta la conciliación del factory.",
         retrospective:
           "`max_row` incluye la fila de encabezado: datos de negocio = `max_row - 1`. Ese `n` reaparece en `Salida` y en el manifest. El error clásico es imprimir 1 y creer que “no hay filas” cuando solo falta el append de datos. Pregunta: con header + 3 regiones, ¿qué imprime `max_row`? Luego (E3) fijarás el par canónico `Entrada`/`Salida`.",
         starterCode: {
@@ -911,7 +1015,7 @@ print(ws["A1"].value + ws["A2"].value)`,
         feedback:
           "Si ambos son True, tu predicado no distingue tipos: un número nunca es fórmula. Si el segundo es True, te falta `isinstance(v, str)`. Sin este check el factory confunde presentación con KPI.",
         retrospective:
-          "Un número nunca es fórmula. Pregunta de cierre: ¿qué harías con `\" =A1\"` (espacio antes)? Puente a T2-A: estilos y plantilla intocable, donde el valor de negocio sigue siendo el número materializado.",
+          "Un número nunca es fórmula. Pregunta de cierre: ¿qué harías con `\" =A1\"` (espacio antes)? openpyxl lo guarda como texto, no como fórmula, y Excel tampoco lo calcula: tu predicado acierta al devolver False. Puente a T2-A: estilos y plantilla intocable, donde el valor de negocio sigue siendo el número materializado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1029,9 +1133,9 @@ print(rgb is not None and str(rgb).endswith("1F4E79"))`,
         kind: "transfer",
         title: "Plantilla intocable: copy, load, save",
         preamble:
-          "- **Contexto:** el master del factory no se toca; todo el trabajo va a `out/results.xlsx`.\n- **Meta:** copiar master, abrir la **copia**, escribir A2=`Lima`, guardar y probar que el master sigue existiendo.\n- **Éxito:** dos líneas: `results.xlsx` y `True`.\n- **Límites:** nunca `save` sobre el master; no omitas `shutil.copy`; no inventes otro path de salida.",
+          "- **Contexto:** el master del factory no se toca; todo el trabajo va a `out/results.xlsx`.\n- **Meta:** copiar master, abrir la **copia**, escribir A2=`Lima`, guardar y probar con su hash que el master no cambió.\n- **Éxito:** tres líneas: `results.xlsx`, `True` y `master_intact True`.\n- **Límites:** nunca `save` sobre el master; no omitas `shutil.copy`; no inventes otro path de salida.",
         instruction:
-          "1. El starter intenta `load_workbook(out)` sin copiar → `no_output` / False.\n2. Tras crear `out`, haz `shutil.copy(master, out)`.\n3. `load_workbook(out)`, escribe A2=`\"Lima\"`, `wb.save(out)`.\n4. Imprime `out.name` y `master.exists() and A2 == \"Lima\"`.",
+          "1. El starter intenta `load_workbook(out)` sin copiar → `no_output` / False.\n2. Tras crear `out`, haz `shutil.copy(master, out)`.\n3. `load_workbook(out)`, escribe A2=`\"Lima\"`, `wb.save(out)`.\n4. Imprime `out.name`, si A2 de la copia es `\"Lima\"` y `master_intact`, que compara el hash del master antes y después.",
         hint: "Copia el master, abre la copia, escribe y guarda solo en out.",
         hints: [
           "Copia master → out antes de load_workbook.",
@@ -1040,26 +1144,28 @@ print(rgb is not None and str(rgb).endswith("1F4E79"))`,
         edgeCases: ["guardar sobre el master", "out sin mkdir", "copiar sin escribir A2"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si la segunda línea es False, no copiaste, no escribiste A2=`Lima`, o dañaste el master. Si ves `no_output`, load falló porque out no existe. El master es el contrato del VP, no un borrador.",
+          "Si la segunda línea es False, no copiaste o no escribiste A2=`Lima`. Si `master_intact` es False, guardaste sobre el master. Si ves `no_output`, load falló porque out no existe. El master es el contrato del VP, no un borrador.",
         retrospective:
           "Copy → load → write → save deja el master intacto y materializa solo en `out/`. Este es el esqueleto del *Tú haces*: sin `shutil.copy`, el contrato visual del VP se corrompe en la primera corrida. Pregunta: ¿qué imprime el starter si out no existe? Puente a T2-B: fechas ISO y merges sin romper el layout de la plantilla.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# Ejercicio S20-T2-A-E3 · template copy→load→save
-# Pista: copia el master a out, abre la COPIA, escribe A2=\"Lima\", save(out)
+# Pista: copia el master a out, abre la COPIA, escribe A2="Lima", save(out)
 from openpyxl import Workbook, load_workbook
 from pathlib import Path
+import hashlib
 import shutil
 import tempfile
 
 with tempfile.TemporaryDirectory() as tmp:
-    master = Path(tmp) / "templates" / "cpn2b_factory.xlsx"
+    master = Path(tmp) / "templates" / "plantilla_vp.xlsx"
     master.parent.mkdir(parents=True)
     seed = Workbook()
     seed.active.title = "Entrada"
     seed.active["A1"] = "region"
     seed.save(master)
+    antes = hashlib.sha256(master.read_bytes()).hexdigest()
 
     out = Path(tmp) / "out" / "results.xlsx"
     out.parent.mkdir(parents=True)
@@ -1067,26 +1173,29 @@ with tempfile.TemporaryDirectory() as tmp:
     try:
         wb = load_workbook(out)
         print(out.name)
-        print(master.exists() and wb["Entrada"]["A2"].value == "Lima")
+        print(load_workbook(out)["Entrada"]["A2"].value == "Lima")
     except Exception:
         print("no_output")
-        print(False)`,
+        print(False)
+    print("master_intact", antes == hashlib.sha256(master.read_bytes()).hexdigest())`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `from openpyxl import Workbook, load_workbook
 from pathlib import Path
+import hashlib
 import shutil
 import tempfile
 
 with tempfile.TemporaryDirectory() as tmp:
-    master = Path(tmp) / "templates" / "cpn2b_factory.xlsx"
+    master = Path(tmp) / "templates" / "plantilla_vp.xlsx"
     master.parent.mkdir(parents=True)
     seed = Workbook()
     seed.active.title = "Entrada"
     seed.active["A1"] = "region"
     seed.save(master)
+    antes = hashlib.sha256(master.read_bytes()).hexdigest()
 
     out = Path(tmp) / "out" / "results.xlsx"
     out.parent.mkdir(parents=True)
@@ -1095,9 +1204,11 @@ with tempfile.TemporaryDirectory() as tmp:
     wb["Entrada"]["A2"] = "Lima"
     wb.save(out)
     print(out.name)
-    print(master.exists() and wb["Entrada"]["A2"].value == "Lima")`,
+    print(load_workbook(out)["Entrada"]["A2"].value == "Lima")
+    print("master_intact", antes == hashlib.sha256(master.read_bytes()).hexdigest())`,
           output: `results.xlsx
-True`,
+True
+master_intact True`,
         },
       },
       {
@@ -1166,7 +1277,7 @@ print(ws["A1"].value.isoformat())`,
         feedback:
           "C1 (no ancla) debe ser None aunque B1 tenga valor: el valor del merge vive solo en la esquina top-left. Si lees no-ancla, el pipeline “pierde” montos.",
         retrospective:
-          "Ancla = esquina superior izquierda del merge. Si lees no-ancla, el pipeline “pierde” montos aunque el VP “vea” un valor en pantalla. El error clásico es automatizar C1/D1 sin mapear B1. Pregunta: ¿escribir en C1 actualiza el merge visible? Luego (E3) contar cuántos bloques merged hay activos.",
+          "Ancla = esquina superior izquierda del merge. Si lees no-ancla, el pipeline “pierde” montos aunque el VP “vea” un valor en pantalla. El error clásico es automatizar C1/D1 sin mapear B1. Pregunta: ¿escribir en C1 actualiza el merge visible? No: lanza `AttributeError`, porque C1 es una `MergedCell` de solo lectura. Luego (E3) contar cuántos bloques merged hay activos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1312,16 +1423,16 @@ print(abs(det - portada) < 0.01)`,
           code: `# Ejercicio S20-T3-A-E2 · groupby sum
 # Pista: el starter usa mean; cambia a sum para el pivot lógico
 import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
+df = pd.DataFrame({"region": ["Madrid", "Madrid", "Bogota"], "monto": [10.0, 5.0, 7.0]})
 print(df.groupby("region")["monto"].mean().to_dict())`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
+df = pd.DataFrame({"region": ["Madrid", "Madrid", "Bogota"], "monto": [10.0, 5.0, 7.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
-          output: `{'Bogota': 7.0, 'Lima': 15.0}`,
+          output: `{'Bogota': 7.0, 'Madrid': 15.0}`,
         },
       },
       {
@@ -1429,7 +1540,7 @@ print(expected == got)`,
         edgeCases: ["case sensitivity", "celda vacía"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si imprimiste `['Lima', 'Barcelona']`, no filtraste. Si imprimiste `['Lima']`, invertiste el predicado (allowed vs. violators). El factory aborta con la lista de violators, no con un bool silencioso: el auditor necesita nombres.",
+          "Si imprimiste `['Madrid', 'Barcelona']`, no filtraste. Si imprimiste `['Madrid']`, invertiste el predicado (allowed vs. violators). El factory aborta con la lista de violators, no con un bool silencioso: el auditor necesita nombres.",
         retrospective:
           "Violators nombrados = evidencia auditable; un bool silencioso no le sirve al auditor. El error clásico es imprimir todas las regiones o invertir el predicado hacia las válidas. Pregunta: ¿debe salir Madrid en la lista? Luego (E3) la misma regla en función reutilizable sobre filas dict.",
         starterCode: {
@@ -1440,9 +1551,9 @@ print(expected == got)`,
 from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
-ws["A2"] = "Lima"
+ws["A2"] = "Madrid"
 ws["A3"] = "Barcelona"
-allowed = {"Lima", "Bogota"}
+allowed = {"Madrid", "Bogota"}
 regs = [ws["A2"].value, ws["A3"].value]
 print(regs)`,
         },
@@ -1452,9 +1563,9 @@ print(regs)`,
           code: `from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
-ws["A2"] = "Lima"
+ws["A2"] = "Madrid"
 ws["A3"] = "Barcelona"
-allowed = {"Lima", "Bogota"}
+allowed = {"Madrid", "Bogota"}
 regs = [ws["A2"].value, ws["A3"].value]
 print([r for r in regs if r not in allowed])`,
           output: `['Barcelona']`,
@@ -1477,7 +1588,7 @@ print([r for r in regs if r not in allowed])`,
         edgeCases: ["rows vacías"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si devuelves `['Lima']`, invertiste el predicado: quieres violators (`not in allowed`), no las regiones válidas. Ica debe salir; Lima no. Si la lista no está vacía, el manifest debe registrar abort.",
+          "Si devuelves `['Madrid']`, invertiste el predicado: quieres violators (`not in allowed`), no las regiones válidas. Ica debe salir; Madrid no. Si la lista no está vacía, el manifest debe registrar abort.",
         retrospective:
           "`in` vs. `not in` es el typo que manda Ica a gerencia. Pregunta: ¿qué va al manifest si la lista no está vacía? Puente a T4-A: batch con corruptos y locks.",
         starterCode: {
@@ -1487,14 +1598,14 @@ print([r for r in regs if r not in allowed])`,
 # Pista: devuelve violators (fuera de allowed), no las válidas
 def validate_rows(rows, allowed):
     return [r["region"] for r in rows if r["region"] in allowed]
-print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Bogota", "Madrid"}))`,
+print(validate_rows([{"region": "Madrid"}, {"region": "Ica"}], {"Madrid", "Bogota", "Berlin"}))`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `def validate_rows(rows, allowed):
     return [r["region"] for r in rows if r["region"] not in allowed]
-print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Bogota", "Madrid"}))`,
+print(validate_rows([{"region": "Madrid"}, {"region": "Ica"}], {"Madrid", "Bogota", "Berlin"}))`,
           output: `['Ica']`,
         },
       },
@@ -1575,9 +1686,9 @@ print(sum(v == "ok" for v in status.values()))`,
         kind: "independent",
         title: "classify: ok, corrupt o locked",
         preamble:
-          "- **Contexto:** cada path del batch se clasifica sin tumbar el proceso: éxito, zip roto o archivo en uso.\n- **Meta:** capturar `BadZipFile` → corrupt y `PermissionError` → locked.\n- **Éxito:** una línea `locked` para `in_use.xlsx`.\n- **Límites:** no devuelvas siempre `ok`; no tragues `Exception` genérica silenciando bugs ajenos.",
+          "- **Contexto:** cada path del batch se clasifica sin tumbar el proceso: éxito, zip roto o archivo en uso.\n- **Meta:** capturar `BadZipFile` → corrupt y `PermissionError` → locked.\n- **Éxito:** dos líneas: `locked` para `in_use.xlsx` y `corrupt` para `broken.xlsx`.\n- **Límites:** no devuelvas siempre `ok`; no tragues `Exception` genérica silenciando bugs ajenos.",
         instruction:
-          "1. El starter llama `opener` sin try y siempre retorna ok (o crashea).\n2. Envuelve en try/except BadZipFile y PermissionError.\n3. Imprime `classify(\"in_use.xlsx\", fake_open)`.\n4. Success path retorna `\"ok\"`.",
+          "1. El starter llama `opener` sin try y siempre retorna ok (o crashea).\n2. Envuelve en try/except BadZipFile y PermissionError.\n3. Imprime `classify(\"in_use.xlsx\", fake_open)` y luego `classify(\"broken.xlsx\", fake_open)`.\n4. Success path retorna `\"ok\"`.",
         hint: "try/except BadZipFile → corrupt; PermissionError → locked; success → ok.",
         hints: [
           "from zipfile import BadZipFile.",
@@ -1586,7 +1697,7 @@ print(sum(v == "ok" for v in status.values()))`,
         edgeCases: ["excepciones no contempladas"],
         tests: "salida coincide con solution output",
         feedback:
-          "`in_use.xlsx` dispara `PermissionError` → debe ser `locked`, no `ok`. Un archivo abierto por el contador no tumba el lote: se aísla y se reintenta con otra política que un corrupt.",
+          "`in_use.xlsx` dispara `PermissionError` → debe ser `locked`, no `ok`. Si `broken.xlsx` sale `locked`, tu `except Exception` se tragó el `BadZipFile`. Un archivo abierto por el contador no tumba el lote: se aísla y se reintenta con otra política que un corrupt.",
         retrospective:
           "Lock ≠ corrupt: políticas de reintento distintas (esperar al contador vs. cuarentena del archivo). El error clásico es devolver siempre `ok` o tragar `Exception` genérica y silenciar el lote. Pregunta: ¿qué devolverías con `BadZipFile`? Luego (E3) agregar conteos con Counter para el manifest.",
         starterCode: {
@@ -1607,7 +1718,8 @@ def fake_open(name):
         raise PermissionError("locked by user")
     return True
 
-print(classify("in_use.xlsx", fake_open))`,
+print(classify("in_use.xlsx", fake_open))
+print(classify("broken.xlsx", fake_open))`,
         },
         solutionCode: {
           language: 'python',
@@ -1630,8 +1742,10 @@ def fake_open(name):
         raise PermissionError("locked by user")
     return True
 
-print(classify("in_use.xlsx", fake_open))`,
-          output: `locked`,
+print(classify("in_use.xlsx", fake_open))
+print(classify("broken.xlsx", fake_open))`,
+          output: `locked
+corrupt`,
         },
       },
       {
@@ -1651,9 +1765,9 @@ print(classify("in_use.xlsx", fake_open))`,
         edgeCases: ["estado desconocido", "mapa vacío"],
         tests: "salida coincide con solution output",
         feedback:
-          "Debes ver conteos por estado (ok/corrupt/locked), no la lista cruda. Si falta locked o ok=1, el Counter no recibió el mapa completo. Ese summary es lo que el revisor de CP-N2-B abre en 30 segundos.",
+          "Debes ver conteos por estado (ok/corrupt/locked), no la lista cruda. Si falta locked o ok=1, el Counter no recibió el mapa completo. Ese summary es lo que el revisor abre en 30 segundos.",
         retrospective:
-          "Counter del summary es lo que el revisor de CP-N2-B abre en 30 segundos: conteos por categoría, no la lista cruda de paths. Pregunta: si omites locked, ¿qué historia falsa cuentas del lote? Puente a T4-B: backup, idempotencia y manifest con hash.",
+          "Counter del summary es lo que el revisor abre en 30 segundos: conteos por categoría, no la lista cruda de paths. Pregunta: si omites locked, ¿qué historia falsa cuentas del lote? Puente a T4-B: backup, idempotencia y manifest con hash.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1678,9 +1792,9 @@ print(dict(Counter(files.values())))`,
         kind: "guided",
         title: "Manifest mínimo con input_sha1_8",
         preamble:
-          "- **Contexto:** sin `sheets`, `reconcile_ok`, `input_sha1_8` e `idempotent=True`, el auditor no cierra el incremento.\n- **Meta:** completar el dict de manifest con hash real del payload sintético.\n- **Éxito:** el dict canónico con `input_sha1_8` = `651f3b6b`.\n- **Límites:** no hardcodees el hash si no lo calculas; no dejes `idempotent=False`; no metas paths con secretos.",
+          "- **Contexto:** sin `sheets`, `reconcile_ok`, `input_sha1_8` e `idempotent=True`, el auditor no cierra el incremento.\n- **Meta:** completar el dict de manifest con hash real del payload sintético.\n- **Éxito:** el manifest impreso con `json.dumps(manifest, sort_keys=True)`, así el orden en que escribas las claves no importa; `input_sha1_8` son los 8 primeros hex que calcula `hashlib`.\n- **Límites:** no hardcodees el hash si no lo calculas; no dejes `idempotent=False`; no metas paths con secretos.",
         instruction:
-          "1. El starter tiene hash falso e idempotent False.\n2. Añade sheets Entrada/Salida y reconcile_ok True.\n3. Calcula `hashlib.sha1(payload).hexdigest()[:8]`.\n4. Pon `idempotent=True` e imprime el dict.",
+          "1. El starter tiene hash falso e idempotent False.\n2. Añade sheets Entrada/Salida y reconcile_ok True.\n3. Calcula `hashlib.sha1(payload).hexdigest()[:8]`.\n4. Pon `idempotent=True` e imprime con `json.dumps(manifest, sort_keys=True)`.",
         hint: "hashlib.sha1(payload).hexdigest()[:8]; no hardcodees el hash si no lo calculas.",
         hints: [
           "Calcula input_sha1_8 con hashlib sobre el payload.",
@@ -1689,7 +1803,7 @@ print(dict(Counter(files.values())))`,
         edgeCases: ["path absoluto con secretos", "hash de payload distinto", "idempotent False"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si falta `input_sha1_8` o `idempotent` es False, el auditor no cierra el incremento. Si el hash no es `651f3b6b`, hasheaste otro payload o truncaste mal. El manifest es la evidencia de la corrida hacia S21.",
+          "Si falta `input_sha1_8` o `idempotent` es False, el auditor no cierra el incremento. Si tu hash no coincide con el de la salida esperada, hasheaste otro payload o truncaste mal. El manifest es la evidencia de la corrida hacia S21.",
         retrospective:
           "Hash truncado a 8 hex identifica la entrada sin volcar datos. El error clásico es dejar `idempotent=False` o `00000000` “para que compile”. Pregunta: ¿por qué el manifest exige `sheets` y `reconcile_ok` además del hash? Siguiente (E2): dig de filas orden-invariante para re-runs.",
         starterCode: {
@@ -1698,18 +1812,20 @@ print(dict(Counter(files.values())))`,
           code: `# manifest mínimo con hash
 # Pista: calcula input_sha1_8; sheets canónicos; idempotent True
 import hashlib
+import json
 payload = b"region,monto\\nLima,10\\n"
 manifest = {
     "backup": "out/prev.bak",
     "idempotent": False,
     "input_sha1_8": "00000000",
 }
-print(manifest)`,
+print(json.dumps(manifest, sort_keys=True))`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import hashlib
+import json
 payload = b"region,monto\\nLima,10\\n"
 manifest = {
     "sheets": ["Entrada", "Salida"],
@@ -1718,8 +1834,8 @@ manifest = {
     "idempotent": True,
     "input_sha1_8": hashlib.sha1(payload).hexdigest()[:8],
 }
-print(manifest)`,
-          output: `{'sheets': ['Entrada', 'Salida'], 'reconcile_ok': True, 'backup': 'out/prev.bak', 'idempotent': True, 'input_sha1_8': '651f3b6b'}`,
+print(json.dumps(manifest, sort_keys=True))`,
+          output: `{"backup": "out/prev.bak", "idempotent": true, "input_sha1_8": "651f3b6b", "reconcile_ok": true, "sheets": ["Entrada", "Salida"]}`,
         },
       },
       {
@@ -1728,9 +1844,9 @@ print(manifest)`,
         kind: "independent",
         title: "Digest orden-invariante de filas",
         preamble:
-          "- **Contexto:** si el orden de filas en el sheet cambia, el hash no debe cambiar: es el mismo multiconjunto de negocio.\n- **Meta:** ordenar filas antes de hashear en `dig(rows)`.\n- **Éxito:** un booleano `True` comparando lista original vs. invertida.\n- **Límites:** no uses el orden de entrada tal cual; no mutes la lista del caller de forma frágil (sorted en el join basta).",
+          "- **Contexto:** si el orden de filas en el sheet cambia, el hash no debe cambiar: es el mismo multiconjunto de negocio.\n- **Meta:** ordenar filas antes de hashear en `dig(rows)`.\n- **Éxito:** dos líneas: `True` (lista original vs. invertida) y `False` (una fila repetida es otro multiconjunto).\n- **Límites:** ordena las filas (las tuplas) antes de unirlas, no el texto ya unido; no uses `set`, que borra filas repetidas; no mutes la lista del caller.",
         instruction:
-          "1. El starter hashea sin `sorted` → comparación False.\n2. Cambia a `for a, b in sorted(rows)`.\n3. Imprime la igualdad de dig de ambas listas.\n4. No hardcodees True.",
+          "1. El starter hashea sin `sorted` → comparación False.\n2. Cambia a `for a, b in sorted(rows)`.\n3. Imprime la igualdad de dig de ambas listas, y luego la de una lista con `(\"Lima\", 1)` repetida contra la original.\n4. No hardcodees True.",
         hint: "sorted(rows) antes de join; hashlib.sha1.",
         hints: [
           "Ordena las filas antes de unir y hashear.",
@@ -1739,7 +1855,7 @@ print(manifest)`,
         edgeCases: ["floats formatting"],
         tests: "salida coincide con solution output",
         feedback:
-          "Sin `sorted(rows)`, el orden de entrada cambia el hash y la re-ejecución deja de ser idempotente. Ordena antes de hashear. Las dos listas deben ser el mismo multiconjunto de filas (solo cambia el orden): si no, el factory “cambia” el artefacto sin cambiar el negocio.",
+          "Sin `sorted(rows)`, el orden de entrada cambia el hash y la re-ejecución deja de ser idempotente. Ordena antes de hashear. Si la segunda línea es True, usaste `set` y una fila repetida desapareció del digest. Las dos listas deben ser el mismo multiconjunto de filas (solo cambia el orden): si no, el factory “cambia” el artefacto sin cambiar el negocio.",
         retrospective:
           "Orden canónico = idempotencia lógica. Sin él, re-ejecutar “cambia” el artefacto y el factory pierde confianza en el cierre de mes. El error clásico es hashear el orden de lectura del sheet. Pregunta: ¿Madrid/Bogota vs. Bogota/Madrid debe cambiar el dig? Luego (E3) `structural_ok` con superset de sheets.",
         starterCode: {
@@ -1752,7 +1868,8 @@ import hashlib
 def dig(rows):
     s = "\\n".join(f"{a},{b}" for a, b in rows)
     return hashlib.sha1(s.encode()).hexdigest()
-print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
+print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))
+print(dig([("Lima", 1), ("Lima", 1), ("Bogota", 2)]) == dig([("Lima", 1), ("Bogota", 2)]))`,
         },
         solutionCode: {
           language: 'python',
@@ -1762,8 +1879,10 @@ print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
 def dig(rows):
     s = "\\n".join(f"{a},{b}" for a, b in sorted(rows))
     return hashlib.sha1(s.encode()).hexdigest()
-print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
-          output: `True`,
+print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))
+print(dig([("Lima", 1), ("Lima", 1), ("Bogota", 2)]) == dig([("Lima", 1), ("Bogota", 2)]))`,
+          output: `True
+False`,
         },
       },
       {
@@ -1772,9 +1891,9 @@ print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
         kind: "transfer",
         title: "structural_ok: need es subconjunto",
         preamble:
-          "- **Contexto:** una hoja extra `Log` o `Catálogo` no invalida el contrato mínimo Entrada/Salida.\n- **Meta:** devolver True si `sheetnames` es superset de `need`.\n- **Éxito:** un booleano `True` con need Entrada/Salida y sheets que incluyen Log.\n- **Límites:** no exijas igualdad exacta de conjuntos; no ignores mayúsculas en este ejercicio.",
+          "- **Contexto:** una hoja extra `Log` o `Catálogo` no invalida el contrato mínimo Entrada/Salida.\n- **Meta:** devolver True si `sheetnames` es superset de `need`.\n- **Éxito:** dos líneas: `True` con need Entrada/Salida y sheets que incluyen Log, y `False` cuando falta `Salida`.\n- **Límites:** no exijas igualdad exacta de conjuntos; no ignores mayúsculas en este ejercicio.",
         instruction:
-          "1. El starter usa `==` y falla con Log extra.\n2. Cambia a `set(sheetnames) >= set(need)`.\n3. Imprime el resultado de la llamada dada.\n4. No borres Log del fixture.",
+          "1. El starter usa `==` y falla con Log extra.\n2. Cambia a `set(sheetnames) >= set(need)`.\n3. Imprime el resultado de las dos llamadas dadas.\n4. No borres Log del fixture.",
         hint: "Superset (>=), no igualdad exacta de conjuntos.",
         hints: [
           "need debe ser subconjunto de sheetnames.",
@@ -1793,50 +1912,63 @@ print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
 # Pista: need debe ser subconjunto; no exijas igualdad exacta
 def structural_ok(sheetnames, need):
     return set(sheetnames) == set(need)
-print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))`,
+print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))
+print(structural_ok(["Entrada", "Log"], ["Entrada", "Salida"]))`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `def structural_ok(sheetnames, need):
     return set(sheetnames) >= set(need)
-print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))`,
-          output: `True`,
+print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))
+print(structural_ok(["Entrada", "Log"], ["Entrada", "Salida"]))`,
+          output: `True
+False`,
         },
       }
     ],
   },
   youDo: {
-    title: "Excel factory CP-N2-B",
+    title: "Excel factory del VP",
     context:
-      "El VP de operaciones en Madrid entrega plantillas sintéticas y espera un workbook de resultados auditable. Tu adaptador (excel factory de CP-N2-B) debe copiar la plantilla master sin dañarla, materializar KPIs en `Salida`, conciliar totales con tolerancia documentada (0.01 PEN) y dejar un **manifest** JSON de la corrida. Si la conciliación falla, **fail-closed**: no emitas el paquete hacia S21. Este *Tú haces* ensambla lo que practicaste en pedazos en *Hacemos juntos*.",
+      "El VP de operaciones en Madrid entrega plantillas sintéticas y espera un workbook de resultados auditable. Tu adaptador (el excel factory de esta sección) debe copiar la plantilla master sin dañarla y materializar KPIs en `Salida`. Concilia el detalle con la portada que tecleó el VP, con tolerancia documentada (0.01 PEN), y deja un **manifest** JSON de la corrida. Los entregables quedan en una carpeta que no se borra al terminar; el script imprime su ruta. Si la conciliación falla, **fail-closed**: no emitas el paquete hacia S21. Este *Tú haces* ensambla lo que practicaste en pedazos en *Hacemos juntos*.",
     objectives: [
       "Copiar plantilla master → path de salida (load_workbook / save)",
       "Leer/escribir sheets canónicos Entrada/Salida con openpyxl",
       "Calcular en Python valores de salida (materializados, no fórmulas de CI)",
       "Conciliar totales y n con tolerancia documentada",
-      "Batch con manejo de corrupt/lock (BadZipFile / PermissionError o cuarentena)",
+      "Batch: clasificar cada xlsx de entrada como ok, corrupt, locked o error (BadZipFile / PermissionError)",
       "Backup + idempotencia + tests estructurales + manifest.json",
     ],
     requirements: [
       "No modificar plantilla master in-place (solo la copia en out/)",
-      "Manifest JSON con sheets, reconcile_ok, backup, input_sha1_8, master_intact",
+      "Manifest JSON con sheets, reconcile_ok, backup, input_sha1_8, idempotent, master_intact y batch",
+      "Conciliar contra la portada del VP (Salida B1 y B2), leída antes de escribir: nunca contra un total que escribió el propio script",
+      "Idempotencia probada corriendo el proceso dos veces sobre la misma salida y comparando el digest de las filas leídas",
+      "Batch: clasificar cada xlsx de la carpeta de entrada y reportar los conteos en el manifest (clave batch)",
       "Solo datos sintéticos — sin PII real en celdas ni paths",
       "Headers validados antes de materializar Salida",
       "Etiquetas de hojas de presentación en español profesional (es-PE)",
-      "Checklist de entrega: results.xlsx + manifest.json + master intacto + reconcile_ok True",
+      "Checklist de entrega: results.xlsx + manifest.json + master intacto + reconcile_ok True + README con la frase de impacto",
     ],
     starterCode: `from openpyxl import Workbook, load_workbook
 from pathlib import Path
+from zipfile import BadZipFile
+import hashlib
 import json
 import shutil
-import hashlib
 import tempfile
 
-# Portfolio excel factory CP-N2-B (Madrid sintético).
-# El esqueleto ya crea el master, lo copia a out/ y valida headers.
-# Completa los tres huecos: materialize_salida, reconcile y escritura del manifest.
-# Meta de corrida exitosa: master intacto (hash), reconcile_ok True, manifest.json en disco.
+# Excel factory del VP (datos sintéticos).
+# El esqueleto crea el master con la portada que tecleó el VP, corre el factory dos veces y clasifica el lote.
+# Completa los tres huecos: materialize_salida, reconcile y la escritura del manifest.
+# Corrida exitosa: master_intact True, reconcile_ok True, idempotent True, manifest_written True.
+
+# Los entregables van a una carpeta que NO se borra al terminar (mkdtemp); el script imprime su ruta.
+CARPETA = Path(tempfile.mkdtemp(prefix="s20_entrega_"))
+
+def sha8(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
 
 def headers_ok(ws, expected):
     got = [ws.cell(1, c).value for c in range(1, len(expected) + 1)]
@@ -1847,96 +1979,107 @@ def dig_rows(rows):
     s = "\\n".join(f"{a},{b}" for a, b in sorted(rows))
     return hashlib.sha1(s.encode()).hexdigest()[:8]
 
-def materialize_salida(wb, det_sum, n_rows):
-    """Escribe totales materializados en hoja Salida (números Python, no fórmulas)."""
-    if "Salida" not in wb.sheetnames:
-        wb.create_sheet("Salida")
+def leer_portada(wb):
+    """Total y n que tecleó el VP en la portada. Se leen ANTES de escribir nada."""
     sal = wb["Salida"]
-    sal["A1"] = "total_monto"
-    sal["B1"] = None  # COMPLETAR: escribe det_sum (float)
-    sal["A2"] = "n_filas"
-    sal["B2"] = None  # COMPLETAR: escribe n_rows (int)
-    return sal
+    return float(sal["B1"].value), int(sal["B2"].value)
 
-def reconcile(det_sum, portada, n_det, n_xlsx, tol=0.01):
+def materialize_salida(wb, det_sum, n_rows):
+    """Escribe en Salida los totales calculados en Python, al lado de la portada del VP."""
+    sal = wb["Salida"]
+    sal["C1"] = "total_calculado"
+    sal["D1"] = None  # COMPLETAR: escribe det_sum (float)
+    sal["C2"] = "n_calculado"
+    sal["D2"] = None  # COMPLETAR: escribe n_rows (int)
+
+def reconcile(det_sum, portada, n_det, n_portada, tol=0.01):
     """Fail-closed: True solo si montos (con tol) y n cuadran."""
-    # COMPLETAR: return abs(det_sum - portada) < tol and n_det == n_xlsx
+    # COMPLETAR: return abs(det_sum - portada) < tol and n_det == n_portada
     return False
 
-with tempfile.TemporaryDirectory() as tmp:
-    master = Path(tmp) / "templates" / "cpn2b_factory.xlsx"
-    master.parent.mkdir(parents=True)
-    seed = Workbook()
-    ws = seed.active
-    ws.title = "Entrada"
-    ws.append(["region", "monto"])
-    ws.append(["Lima", 10.0])
-    ws.append(["Bogota", 5.0])
-    seed.save(master)
-    master_sha_before = hashlib.sha1(master.read_bytes()).hexdigest()[:8]
+def salida_ok(sal, det_sum, n_rows, tol=0.01):
+    """Lo entregado: D1 y D2 leídos del archivo guardado, no las variables en memoria."""
+    total, n = sal["D1"].value, sal["D2"].value
+    return isinstance(total, (int, float)) and abs(total - det_sum) < tol and n == n_rows
 
-    out = Path(tmp) / "out" / "results.xlsx"
-    out.parent.mkdir(parents=True)
-    bak = Path(tmp) / "out" / "results.prev.xlsx.bak"
-
-    # 1) Copia master → out (nunca escribas el master in-place)
-    shutil.copy(master, out)
-    if not bak.exists():
-        shutil.copy(out, bak)
-
+def correr(master, out, bak):
+    """Una corrida: respalda la salida previa, copia el master, valida, materializa y guarda."""
+    if out.exists():
+        shutil.copy(out, bak)  # backup del resultado anterior antes de sobrescribirlo
+    shutil.copy(master, out)  # siempre desde el master, nunca desde la salida anterior
     wb = load_workbook(out)
-    entrada = wb["Entrada"]
-    expected = ["region", "monto"]
-    if not headers_ok(entrada, expected):
+    if not headers_ok(wb["Entrada"], ["region", "monto"]):
         raise ValueError("headers invalidos: aborta al manifest")
-
-    rows = []
-    for region, monto in entrada.iter_rows(min_row=2, max_col=2, values_only=True):
-        if region is None:
-            break
-        rows.append((region, float(monto)))
-
-    det_sum = sum(m for _, m in rows)  # 15.0
-    n_rows = len(rows)  # 2
-
-    # 2) Materializar Salida
-    sal = materialize_salida(wb, det_sum, n_rows)
+    portada, n_portada = leer_portada(wb)
+    rows = [(r, float(m)) for r, m in wb["Entrada"].iter_rows(min_row=2, max_col=2, values_only=True) if r is not None]
+    det_sum = sum(m for _, m in rows)
+    materialize_salida(wb, det_sum, len(rows))
     wb.save(out)
+    releido = load_workbook(out)
+    leidas = list(releido["Entrada"].iter_rows(min_row=2, max_col=2, values_only=True))
+    ok = reconcile(det_sum, portada, len(rows), n_portada) and salida_ok(releido["Salida"], det_sum, len(rows))
+    return ok, rows, dig_rows(leidas)
 
-    # 3) Conciliación fail-closed
-    portada = sal["B1"].value if sal["B1"].value is not None else -1.0
-    n_xlsx = sal["B2"].value if sal["B2"].value is not None else -1
-    ok = reconcile(det_sum, float(portada), n_rows, int(n_xlsx))
+def classify(path):
+    try:
+        load_workbook(path)
+        return "ok"
+    except BadZipFile:
+        return "corrupt"
+    except PermissionError:
+        return "locked"
+    except Exception as exc:  # lo inesperado queda con su tipo, sin disfrazarlo de corrupt
+        return f"error: {type(exc).__name__}"
 
-    # 4) Evidencia de master intacto + digest de filas (idempotencia lógica)
-    master_sha_after = hashlib.sha1(master.read_bytes()).hexdigest()[:8]
-    master_intact = master_sha_before == master_sha_after
-    dig_a = dig_rows(rows)
-    dig_b = dig_rows(list(reversed(rows)))  # mismo multiconjunto, otro orden
+entrada = CARPETA / "entrada"
+out_dir = CARPETA / "out"
+entrada.mkdir(parents=True, exist_ok=True)
+out_dir.mkdir(exist_ok=True)
 
-    # 5) Manifest de auditoría (persístelo en disco)
-    payload = ("region,monto\\n" + "\\n".join(f"{a},{b}" for a, b in rows)).encode()
-    manifest = {
-        "sheets": list(wb.sheetnames),
-        "reconcile_ok": ok,
-        "backup": bak.name,
-        "input_sha1_8": hashlib.sha1(payload).hexdigest()[:8],
-        "idempotent": dig_a == dig_b,
-        "master_intact": master_intact,
-        "master_sha1_8": master_sha_after,
-    }
-    man_path = Path(tmp) / "out" / "manifest.json"
-    # COMPLETAR: escribe el JSON
-    # man_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+# El master: detalle en Entrada y la portada que tecleó el VP en Salida.
+master = entrada / "plantilla_vp.xlsx"
+seed = Workbook()
+ws = seed.active
+ws.title = "Entrada"
+ws.append(["region", "monto"])
+ws.append(["Lima", 10.0])
+ws.append(["Bogota", 5.0])
+portada_vp = seed.create_sheet("Salida")
+portada_vp["A1"], portada_vp["B1"] = "total_portada", 15.0
+portada_vp["A2"], portada_vp["B2"] = "n_portada", 2
+seed.save(master)
+(entrada / "roto.xlsx").write_bytes(b"no es un zip")  # un archivo dañado del lote
+master_antes = sha8(master)
 
-    print("out", out.name)
-    print("master_intact", master_intact)
-    print("reconcile_ok", ok)
-    print("manifest_keys", sorted(manifest.keys()))
-    print("manifest_written", man_path.exists())
+out = out_dir / "results.xlsx"
+bak = out_dir / "results.prev.xlsx"
+ok_1, rows, dig_1 = correr(master, out, bak)
+ok_2, _, dig_2 = correr(master, out, bak)  # re-run: respalda la primera salida y la rehace
+
+payload = ("region,monto\\n" + "".join(f"{a},{b}\\n" for a, b in rows)).encode()
+manifest = {
+    "sheets": load_workbook(out).sheetnames,
+    "reconcile_ok": ok_1 and ok_2,
+    "backup": bak.name if bak.exists() else None,
+    "input_sha1_8": hashlib.sha1(payload).hexdigest()[:8],
+    "idempotent": dig_1 == dig_2,
+    "master_intact": master_antes == sha8(master),
+    "batch": {p.name: classify(p) for p in sorted(entrada.glob("*.xlsx"))},
+}
+man_path = out_dir / "manifest.json"
+# COMPLETAR (fail-closed): escribe el JSON solo si reconcile_ok es True
+# man_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+
+print("carpeta", CARPETA)
+print("master_intact", manifest["master_intact"])
+print("reconcile_ok", manifest["reconcile_ok"])
+print("idempotent", manifest["idempotent"])
+print("backup", manifest["backup"])
+print("batch", manifest["batch"])
+print("manifest_written", man_path.exists())
 `,
     portfolioNote:
-      "Checklist de entrega: (1) results.xlsx con Entrada + Salida materializada, (2) manifest.json con reconcile_ok y input_sha1_8, (3) master de plantilla intacto, (4) nota de re-run idempotente. Salida de consola esperada en corrida exitosa: `master_intact True`, `reconcile_ok True`, `manifest_written True`. Enlaza al dashboard de S19 y al paquete de reportes de S21.",
+      "Checklist de entrega: (1) results.xlsx con Entrada + Salida materializada; (2) manifest.json con reconcile_ok, input_sha1_8, idempotent y batch; (3) master de plantilla intacto. Además, (4) una nota de re-run idempotente y (5) un README con la frase de impacto. Salida de consola esperada en corrida exitosa: `master_intact True`, `reconcile_ok True`, `idempotent True`, `manifest_written True`. Prueba el fail-closed: cambia la portada del VP a 16.0 y comprueba que `reconcile_ok` sale False y que no se escribe el manifest. Enlaza al dashboard de S19 y al paquete de reportes de S21.",
     rubric: [
       { criterion: "Plantilla intacta + workbook de salida + manifest completo", weight: "25%" },
       { criterion: "Correctitud técnica (openpyxl + conciliación + batch)", weight: "20%" },
@@ -1946,7 +2089,7 @@ with tempfile.TemporaryDirectory() as tmp:
       { criterion: "Documentación en español profesional", weight: "10%" }
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿puedes demostrar con el manifest que el master no cambió de hash y que `reconcile_ok` es True? (2) ¿qué harías distinto con un xlsx real bloqueado por el contador o corrupto en la carpeta compartida? (3) Escribe en el README una frase de impacto medible (antes: plantilla editada a mano / después: results.xlsx + manifest re-ejecutable) que puedas defender en 30 segundos ante el revisor de CP-N2-B y el puente a S21.",
+      "Antes de marcar listo: (1) ¿puedes demostrar con el manifest que el master no cambió de hash y que `reconcile_ok` es True? (2) ¿qué harías distinto con un xlsx real bloqueado por el contador o corrupto en la carpeta compartida? (3) Escribe en el README una frase de impacto medible: antes, plantilla editada a mano; después, results.xlsx + manifest re-ejecutable. Tienes que poder defenderla en 30 segundos ante el revisor y en el puente a S21.",
   },
   selfCheck: {
     questions: [
@@ -1962,7 +2105,7 @@ with tempfile.TemporaryDirectory() as tmp:
         options: ["Escribir en cualquier celda del merge", "Escribir en la celda ancla (top-left)", "Desmerge siempre", "Usar solo CSV"],
         correctIndex: 1,
         explanation:
-          "El valor vive en la celda ancla (esquina superior izquierda). Las demás celdas del merge leen `None` y escribir ahí no actualiza el valor visible del rango.",
+          "El valor vive en la celda ancla (esquina superior izquierda). Escribir en una celda que no es la ancla lanza `AttributeError` (`MergedCell`): el valor vive en la ancla y las demás celdas leen `None`.",
       },
       {
         question: "Un manifest del excel factory debe permitir auditar:",

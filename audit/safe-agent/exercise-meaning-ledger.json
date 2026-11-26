@@ -2760,6 +2760,406 @@
       "reason": "Proposal 12 S17: C003 has no transactions and C002's sale falls on the cutoff day, so inner (rows 3) and `<` (total_pre 3.0) no longer pass. Same task: left join + as-of + delta.",
       "decided_by": "owner 2026-11-21 (proposal 12, S17 P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 277,
+      "id": "S18-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "376a6b7241f2b9459d1189315efaefc50bcf4ea63d0e93fea952b21e27e9f38f",
+      "to_fp": "91b8b507d05cb966701cbecb0206f2714416f240cd8608cfc762c084ceddf48d",
+      "reason": "Proposal 12 S18: title now names Lima, the region the code counts (it said Madrid while the code counted Lima). Same task: share of one region. The starter comment and feedback now say «la región equivocada» / «la región pedida» instead of repeating Lima (S18 sat at the city-name cap).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 278,
+      "id": "S18-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "a778aa29e319a1b3665c2bfac493099f6843fed6b8473f5a821c65d0b5f88287",
+      "to_fp": "42a15a1acabe1664767eeef50adbb1bc562951d08981a0478c81191a951beede",
+      "reason": "Proposal 12 S18: the 50/50 two-region fixture gave 0.4 for max and min alike, so returning the minimum passed. Now 8 Lima, 2 Madrid, no Bogota rows vs 50/30/20: max 0.3, min 0.1, mean 0.2, and counts[k] raises. Same task: worst |bias|.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 279,
+      "id": "S18-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "e9757f614b28f6358c6bcb9b0538d66412f18a0a79227e18fc7f775faee62f10",
+      "to_fp": "cc8eb0ead8456da67f474c9f3207881e6a54e9891ba6cd8dba2c32fb543eb677",
+      "reason": "Proposal 12 S18: ranks come from pd.Series(x).rank() instead of argsort(argsort(x)), which gives tied values different ranks and is not Spearman. Same task: Spearman as Pearson on ranks.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 280,
+      "id": "S18-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "72a07eca6d30d09ceac474c7b9cdd530cb02e2e24c5736b4d3cde1ca7adf7597",
+      "to_fp": "98f010171df128e6d1eafe0245322843aebad2f261c982fc0e7d9a674e1c0757",
+      "reason": "Proposal 12 S18: title now names Lima, the region the code filters (it said Madrid while the code filtered Lima). Same task: outlier share in one region. Context, hints and starter comment say «la región pedida» instead of repeating Lima (city-name cap).",
+      "decided_by": "owner 2026-11-21 (proposal 12, S18 P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 281,
+      "id": "S19-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "92e5d890e69845198a586d353d73b9add16c3693efb65b4ddba750163901759d",
+      "to_fp": "f9ede44bcc8570cb74775237e903fc1750f22d30ac73b11a9db02604dfcf0e57",
+      "reason": "Proposal 12 S19 (WEDO-03): a third call, «TENDENCIA semanal», so a solution without .lower() fails. Same task: elige_chart by keyword.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 282,
+      "id": "S19-T1-B-E2",
+      "kind": "changed",
+      "from_fp": "559985320bd80b43117548292ab1858b99f6ccbde6e034a21d3aada70a5aaffd",
+      "to_fp": "afa2257c6c1a2acd3f86f8e1652b39426f6b44c2452368ffe3a86e508870c6ac",
+      "reason": "Proposal 12 S19 (WEDO-05): two more calls, (0, bar_absolute) and (40, line_index), so a solution that ignores the bottom or the encoding fails. Same task: gate_baseline.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 283,
+      "id": "S19-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "848a4d5f8bc7db426d21025db333af45994b3ab5bd0aa2d39cb04d85c8a9491c",
+      "to_fp": "e3adeacbcd522caf4b990a69e6335b62ce4b5d8e04c9005c366258b91fda7b63",
+      "reason": "Proposal 12 S19 (WEDO-06): a second encoding, bar_absolute, must print ok, so a constant riesgo_alto fails. Same task: flag dual-axis.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 284,
+      "id": "S19-T2-A-E2",
+      "kind": "changed",
+      "from_fp": "5f079ef13fe3632a9c1becf0d29bdbe426ebbb88b835af0f06d86c0f31da1e0c",
+      "to_fp": "8c82c56ca57a87a0b4dd2c6ba45c2eb33b83c92009b7061e4e8c8b506c7a9844",
+      "reason": "Proposal 12 S19 (WEDO-08): the step said the default ylim was a bug while the starter already printed 0.0; the top of the axis (35.0) is now printed too. Same task: ylabel with PEN and ylim from 0.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 285,
+      "id": "S19-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "7003386c5989e0d7f6e54c40d30fa62cb97b5434e227cd59cc8b8c79b2b2e61e",
+      "to_fp": "0eb799a14e85cef066ddb41f31c263a9c9c04f376fa3441c84440d2bb23b7693",
+      "reason": "Proposal 12 S19 (WEDO-09): ylim1 (33.6) is printed so the max*1.2 rule is tested, and empty values get a 0..1 axis instead of a ValueError. Same task: meta_bar.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 286,
+      "id": "S19-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "363e04b7b1e8d69361637136c3ff40d47ddb765a30199bf12ee2cc8025c77cf0",
+      "to_fp": "f558273f71fa92119240993a2c24cc4653547b8e08c9d9bd3bf6fc9ebcaf7dba",
+      "reason": "Proposal 12 S19 (WEDO-11): versions 3 and 4, so a typed literal fails. Same task: versioned PNG name.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 287,
+      "id": "S19-T3-A-E1",
+      "kind": "changed",
+      "from_fp": "9faededf73b76eed20952223b139a6b3961b1ad816bbd7376876e6cf06715261",
+      "to_fp": "bc656a45d762b3167a9417d1040015eded01d468f76cedc83518cd2dadda2218",
+      "reason": "Proposal 12 S19 (WEDO-13, P1): title and step 2 said Lima while the rows had no Lima (StopIteration). Rows now hold the section's dataset and every reference says Madrid; the answer is 24.0. Same task: filtered lookup.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 288,
+      "id": "S19-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "8a42495a41d3c8bd26a9f6a241c1d74d88abb2bc814f3c7ae1e0e441e69ae225",
+      "to_fp": "8f9601c00d3825e9e7282138356e6d941d1fb446a3ec06dafc84db33a1fc1f1c",
+      "reason": "Proposal 12 S19: the Madrid tooltip uses the section's one dataset, 24.0 PEN with n=28 (it said 28 and n=40, Lima's values). Same task: tooltip with unit and n.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 289,
+      "id": "S19-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "b43d5cdbc002558fe1a8c4bf015a1366c9bc3fd7c063d5c280076f9cc328d8db",
+      "to_fp": "1a41307a1b917951d3382b6dac8e671bcf1059335c1799167ca7838a5e4796a6",
+      "reason": "Proposal 12 S19 (WEDO-15): a second row, Madrid 24.0 n=28, so a hardcoded Bogota string fails. Same task: reusable tooltip template.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 290,
+      "id": "S19-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "b25a8e57c448fd95920dc51f7c0b8b3b478f27e2f58bf86e6af9e93ab5a17046",
+      "to_fp": "7bbf2cc632648772d00a453d98439c20ec27119e5ea6f55ec7862bdf4cef867d",
+      "reason": "Proposal 12 S19 (WEDO-16): the goal said Madrid while the code aligned Lima; two rows, each printing chart value, table value and the comparison, so a printed True fails. Same task: chart-table parity.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 291,
+      "id": "S19-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "74c3ad1ace042bfca1c87c4ba5ea2a16d2808efe0d5aae7525806e792a5b2991",
+      "to_fp": "f5765193a9cdc307c46084138ec42783729cf8961ba4185f00310694f8415df3",
+      "reason": "Proposal 12 S19 (WEDO-17): the goal said Madrid while the code filtered Lima; the filter is Bogotá, with an accent, so ensure_ascii changes the output. Same task: serialize state with sample and universe.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 292,
+      "id": "S19-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "a4cf7b02532b42cb6092f99e9cb41e079d0741ec50e337dcd7faf850509ef9f0",
+      "to_fp": "4645b54e71d5f51d8b4c9d5b8cc1ce90ca9356d1183d5a1cae62bf3c7d53743c",
+      "reason": "Proposal 12 S19 (WEDO-18): the unit comes from a named variable and the values are the section's (Madrid 24.0, Bogota 22.5). Same task: alt text with unit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 293,
+      "id": "S19-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "ffac23b82f9bb6cba39b6fe1c3c1b0a387cc0e3995960233dbd313cb869687ab",
+      "to_fp": "87777c7d585cccd670486bc92a8412738b2adf4d4f08048944f4e445d3bf9885",
+      "reason": "Proposal 12 S19 (WEDO-20): a second check that no caption value is empty, so an empty limitacion fails. Same task: caption keys.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 294,
+      "id": "S19-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "6d2dd4e4bb43687d5704e3be2da98baf92665c2207409a8a6638105065e22466",
+      "to_fp": "32deb9eb645b69909a6b21886c81bfcbff07be096c7884d5823a03dfdd81428c",
+      "reason": "Proposal 12 S19 (WEDO-22): the rule's scope is stated (claims that name the country) and two claims are classified, so a printed RECHAZADO fails. Same task: reject a national overclaim.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 295,
+      "id": "S19-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "b8a5761dbf954c61e2b14f4129c6ebf37dafb4aff18531b1ffdaa0b9e6f885b8",
+      "to_fp": "fe419bc3b68c86b4ec0c835fea2ebc2397f4db99518ab3a5ac13b2723f920007",
+      "reason": "Proposal 12 S19 (WEDO-23): the hatch check is a known Matplotlib pattern, so the empty string the edge case names now fails; values are the section's. Same task: alt with n= and a non-colour channel.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S19 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 296,
+      "id": "S20-T1-A-E1",
+      "kind": "changed",
+      "from_fp": "d907d678aa2a33145a835fedb0ef2ab6f72436efd66e2802fd9f36295dc1e28c",
+      "to_fp": "a1d19748fdbd77aae2b3fa2305e8b3c36231ef65e46e0b180ff47e5b85f7a574",
+      "reason": "Proposal 12 S20 (WEDO-01.1): the tests line names the two exact lines to compare instead of 'matches the solution'. Same task and code.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 297,
+      "id": "S20-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "0e36a52c88a0b3e366568a40d0c99173cacfdfa354f2611ef7e99a77d0d9132e",
+      "to_fp": "6a7c113e678705c815dcb48f922d71c62c20a4806e94e5a8b6abf28b32a5ed90",
+      "reason": "Proposal 12 S20 (WEDO-09.1): the exercise prints master_intact from the master's sha256 before and after, so saving over the master now fails; the master is renamed plantilla_vp.xlsx. Same task: copy, load the copy, write A2, save.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 298,
+      "id": "S20-T3-A-E2",
+      "kind": "changed",
+      "from_fp": "78386f53c185afa08dc66523b85677919f4c06b91cbaea61c7a8d60b17b9a7c3",
+      "to_fp": "7c2b2547231957312c1d2fcea727c2a8b34160ef6fa356de80cf1b4e7c71358d",
+      "reason": "Proposal 12 S20 (WEDO-14.1): the data is Madrid/Madrid/Bogota so it matches the stated success line {'Bogota': 7.0, 'Madrid': 15.0}. Same task: sum, not mean.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 299,
+      "id": "S20-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "1147087de1c2e330be4007478de09cd115c5d857b4b175419f224c9b67a735bb",
+      "to_fp": "e76c077c6a1b5469e5eeabe1a64ce281a968928d23766f820fce0627330934c7",
+      "reason": "Proposal 12 S20 (WEDO-17.1): the fixture and allowlist use Madrid so they match '(Madrid está permitida)'. Same task: list the violators.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 300,
+      "id": "S20-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "a1ca0307411178a3d4b338535d5e3cb68d92d81c5ffbbbc992c7dc9b9adbee66",
+      "to_fp": "e8b5246b1bdf85e0f8ee00ce22b6316d7e9764c8b631a5a8aae5c60429ae5a8e",
+      "reason": "Proposal 12 S20 (WEDO-18.1): the call uses the fixture and allowlist the preamble names (Madrid + Ica; Madrid/Bogota/Berlin). Same task: return the violators.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 301,
+      "id": "S20-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "4f3cce11f73ae561d89c5e344574feca7ecc7ce18291080919743d0da8454d8f",
+      "to_fp": "e212288d87aca43f3460b4c1e1d9da267682253b27fd2ee399c08510b10c4407",
+      "reason": "Proposal 12 S20 (WEDO-20.1): a second call on broken.xlsx must print corrupt, so an except Exception catch-all no longer passes. Same task: classify with BadZipFile and PermissionError.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 302,
+      "id": "S20-T4-B-E1",
+      "kind": "changed",
+      "from_fp": "bd5c111f112de0738d9c914886287e4fe12e7afedb97ea42ace817d7df1cb7f2",
+      "to_fp": "8e8ee947f42f4a9cf3621be063e70bcf1b18750ff3ae81a002d4b83fea678323",
+      "reason": "Proposal 12 S20 (WEDO-22.1): the manifest prints with json.dumps(sort_keys=True), so key order no longer fails a correct answer. Same keys and hash.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 303,
+      "id": "S20-T4-B-E2",
+      "kind": "changed",
+      "from_fp": "a1b67394b84495360c0063a39eb66feaca081f253a0dc5e741d0eda21719346f",
+      "to_fp": "3c85a2a98e5b22dee446d85ae9d4d8d50f3b64c5299a82010fa836a21608780a",
+      "reason": "Proposal 12 S20 (WEDO-23.2): a second line compares a list with a repeated row against the original and must print False, so a set() digest fails. Same task: sort rows before hashing.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 304,
+      "id": "S20-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "9b4068cc2a2e64f9fe6cbb5576696ed8254db0f5b655c3de630212bdf7f2cb07",
+      "to_fp": "06cb70ea200ebfa4efc42cf93fc02f0adb7df3345029586ebc7ebd1c79a97fd2",
+      "reason": "Proposal 12 S20 (WEDO-24.1): a second call without Salida must print False, so a check that ignores Salida fails. Same task: need is a subset of sheetnames.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S20 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 305,
+      "id": "S21-T1-A-E2",
+      "kind": "changed",
+      "from_fp": "3e246afc465efadb111260ace24eeee8d1f60a9d6e3615a27c1cb2ed9ee7b931",
+      "to_fp": "994cb60418b8b425b7969485626bdcec80a112df85088c1e6a643ea09623ff2a",
+      "reason": "Proposal 12 S21 (WEDO-02.1): m=28.0 so the Lima median prints 28.0 PEN like the rest of the package. Same task: add n to the KPI template.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 306,
+      "id": "S21-T2-A-E1",
+      "kind": "changed",
+      "from_fp": "0b65b4da40a6cac8773d599702b096d3931751a90c21f7c2366f4986a03f1207",
+      "to_fp": "bc3510d1d68950a5da7749eb9f94e7bab01b771ff34500559ed3f33071ce8941",
+      "reason": "Proposal 12 S21 (WEDO-07.1): Resumen is checked among Heading-styled paragraphs of the reopened file, so add_paragraph no longer passes. Same task: real heading plus n=40.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 307,
+      "id": "S21-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "4f95a399bb3458b64818a42603fac523650500e6944c0d7f546c9fbaaf210d50",
+      "to_fp": "0a038033f2f568fd767fbb367d598aab56423dc8c9046c6c2daf3555a36ed15f",
+      "reason": "Proposal 12 S21 (WEDO-11.1): import pymupdf instead of fitz (fitz prints a deprecation line) and open the PDF in a with block. Same task: render page 0 to PNG.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 308,
+      "id": "S21-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "dcf8ddd05af61cc8cb8bc7a99d468b86573dede3d0d3baa1597b7b04d76b9b67",
+      "to_fp": "328e822d09e32e6aa58c138ce63558aa81ecd6b4d7dd88696ae36f13bb8dfc57",
+      "reason": "Proposal 12 S21 (WEDO-17.1): the caption check also prints whether n=40 is present. Same task: a caption that names Fuente and keeps n=40.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 309,
+      "id": "S21-T3-B-E3",
+      "kind": "changed",
+      "from_fp": "c967ac2cb7ed82f0b0af99285707bb746830883f0db98f8edfe312bac22d1665",
+      "to_fp": "ffc0ebd3f06d83009248f5d26d9c0fb2f60800bad21bcf576ee7d88eb3be02eb",
+      "reason": "Proposal 12 S21 (WEDO-18.1): a third call varies the first argument, so comparing only b and c fails. Same task: three-way check_parity.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 310,
+      "id": "S21-T4-A-E2",
+      "kind": "changed",
+      "from_fp": "6e615b1d747cb89ab2b0f9a806ab20d3a2fe6ee4f51f5e7ddf8c04ab0e699d78",
+      "to_fp": "257a4e9be0b603813dcb0dcdbbe0a37b8d2f4d99db6d79021209f94980efcc1f",
+      "reason": "Proposal 12 S21 (WEDO-20.1, THEORY-09.1): fmt_pen uses Decimal ROUND_HALF_UP to match Excel ROUND on ties and maps None to a dash. Same task: add the PEN unit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 311,
+      "id": "S21-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "8e87fa5d912979d1bc21673c8760b9b0d70b784b91ad5f87e7b5a6d440dd1e1c",
+      "to_fp": "933553330542b97f4413ae62da060a8ecd2464ccdf6a0b1a377a947335d21065",
+      "reason": "Proposal 12 S21 (WEDO-21.1): a useful alt also needs n= and a unit, with a fourth call for a long alt without them. Same task: a11y_min with H1 and non-empty alts.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 312,
+      "id": "S21-T4-B-E3",
+      "kind": "changed",
+      "from_fp": "be9183b4a88250f2036c851d88ab4dc7c78a2c3e7d321fb48a39e4c353cc2bec",
+      "to_fp": "c752e376b24062decbee854f5d3c6adfdc2e8dd21c5b1d2f151943b7c28cd1b7",
+      "reason": "Proposal 12 S21 (WEDO-24.1, P1): ready requires the three named keys; a third call without doc prints False. Same task: all, not any.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S21 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 313,
+      "id": "S22-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "f53674b4fb2d6aa29a80c923c5658f7a1af497ff9f4ac907f84d571a9f6ee7b2",
+      "to_fp": "f8db4ca3ebbc40a3cd3ac61479e4caec6322e9b365eec382415c266dbe5b6176",
+      "reason": "Proposal 12 S22 (WEDO-06.1): own subdomains are accepted, as the theory says, with fixtures for portal.example.pe and the example.pe.evil.test bypass. Same task: classify URLs by their parsed host.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 314,
+      "id": "S22-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "98925d22789bbb050b7115caa021383cea17d2fdb8faa70fb5310c5d12b9ceda",
+      "to_fp": "1abe1a94ce8ba9ec20caa822a540d7c9f2180a2bcd2494e7008088bbc1d88fc1",
+      "reason": "Proposal 12 S22 (WEDO-12.1): a third draft created already expired must print usable_caducado False, so a hardcoded True fails. Same task: sequential ids and is_usable.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 315,
+      "id": "S22-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "609fa55c1e5d1b2b53974013024f4d39f732ea8aa3af0b7fd612dd70461bf057",
+      "to_fp": "dccc917b699279733e7f3db8e2b77ee986593faf1d6100a3aefccc482e01c6de",
+      "reason": "Proposal 12 S22 (WEDO-21.2): the solution also shows that approve from draft raises ValueError, which the edge case promised. Same task: apply with actor in the audit.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 316,
+      "id": "S22-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "f8db4ca3ebbc40a3cd3ac61479e4caec6322e9b365eec382415c266dbe5b6176",
+      "to_fp": "e606beab60ba5e087b975267d713bdc83720d9965c831cff7b69c8eaec8c36f2",
+      "reason": "Codex review on #202: a URL with a backslash (evil.test\\a.example.pe) has a urlparse hostname ending in .example.pe, but a browser reads the backslash as / and opens evil.test. The exercise adds that URL and blocks URLs with a backslash or @. Same task: allowlist by real host.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }
