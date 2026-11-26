@@ -39,7 +39,7 @@ FEATURES = {"code": CODE, "an absolute": ABSOLUTE}
 #: questions are repaired; delete the entry at zero.
 KEY_ODD_FEATURE_OWED = {
     "advanced-models": 1, "ai-apis-advanced": 1, "async-concurrency": 2, "collections": 1,
-    "databases-orm": 1, "exceptions-logging": 2,
+    "exceptions-logging": 2,
     "fastapi": 2, "files-ingestion": 3, "functions-contracts": 2, "gpu-computing": 1,
     "integrator-phase1": 1, "integrator-phase2": 1, "iteration-summaries": 4, "llmops": 2,
     "microservices": 1, "modules-packaging-cli": 3, "performance-extreme": 1,
