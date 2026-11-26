@@ -3160,6 +3160,106 @@
       "reason": "Codex review on #202: a URL with a backslash (evil.test\\a.example.pe) has a urlparse hostname ending in .example.pe, but a browser reads the backslash as / and opens evil.test. The exercise adds that URL and blocks URLs with a backslash or @. Same task: allowlist by real host.",
       "decided_by": "owner 2026-11-21 (proposal 12, S22 P1/P2/P3 fixes)",
       "date": "2026-11-25"
+    },
+    {
+      "row": 317,
+      "id": "S23-T1-A-E3",
+      "kind": "changed",
+      "from_fp": "7f8b44d43fbb02d2f3bac3f085e026e356fdf5980b22b7fcff1691ad0b58e458",
+      "to_fp": "d04d29bf2856ade5c61277bb02590406460bbcea0497b20c0a9e8d77f44f3dec",
+      "reason": "Proposal 12 S23 (WEDO-03.1): a second page that has a button, so the button branch is tested and print('need_testid') no longer passes. Same task: fail closed without a usable control.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 318,
+      "id": "S23-T1-B-E3",
+      "kind": "changed",
+      "from_fp": "52c8b4ce6a30652b29ba051ac398c3fa009b60c764de64b699be8d7bf308c777",
+      "to_fp": "2808ac8c2b34c8f7f66fe7faf862dc7f9fc9967a223ef48c7c5541b63c1484d7",
+      "reason": "Proposal 12 S23 (WEDO-06.1): a third page with the wrong title and buttons must fail, so a check on buttons alone no longer passes. Same task: assert title and a usable control.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 319,
+      "id": "S23-T2-A-E3",
+      "kind": "changed",
+      "from_fp": "e6eb81ec6a300e82c72249c5899bc972a7ef145114c20b436b465bc0d7e3a5ac",
+      "to_fp": "34063ca975077d0ef86d5a3eb9ba0e5059c56ad8f74ca699d1423a11c7148ddc",
+      "reason": "Proposal 12 S23 (WEDO-09.1): an empty token must give login, so 'token' in state no longer passes. Same task: reuse or login from the stored state.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 320,
+      "id": "S23-T2-B-E1",
+      "kind": "changed",
+      "from_fp": "9f05586d07a80b3eb39f83f90e0644777cf2c8a68915561ef5e7d55a85f4b267",
+      "to_fp": "c37c53cc89bf69c6b6cfb73431601941a0128c9e8337e236c298144802d22252",
+      "reason": "Proposal 12 S23 (WEDO-10.1, THEORY-06.1): the theory's signature, LoginPage(ctx).submit(user, password), and its string state 'authenticated'. Same task: the Page Object sets auth in the context.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 321,
+      "id": "S23-T2-B-E3",
+      "kind": "changed",
+      "from_fp": "c72d15f05fb1cabfd5b956d7e41794145e24d757036d8382df4a558e0c9ef0bc",
+      "to_fp": "fbf1961a2872fda0ffbc241f3212868f19c7dde761e5f23ead50a62a30cae42b",
+      "reason": "Proposal 12 S23 (WEDO-12.1): a failed login from authenticated keeps its state, so returning anonymous on any failure no longer passes. Same task: the anonymous to authenticated transition.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 322,
+      "id": "S23-T3-B-E1",
+      "kind": "changed",
+      "from_fp": "964e8f0029c74cf35713b439731921894b212d0bf44ac1b575ed2724918fb57f",
+      "to_fp": "0c80e4aa06b6e96b074cc721b2658e80757fa4355c818fcf1bac19a995e79723",
+      "reason": "Proposal 12 S23 (WEDO-16.1): 403 and tos are printed and must be False, so a blocklist that removes only captcha no longer passes. Same task: retry only transient errors.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 323,
+      "id": "S23-T3-B-E2",
+      "kind": "changed",
+      "from_fp": "5a31e60e097fe85c61ce461240439971dab7adccc3d1f23b38c6eb798692cd66",
+      "to_fp": "537e395d06d3b6c2a0b9c805519687f67644b139b385a2ad2ca884298a3e5a1b",
+      "reason": "Proposal 12 S23 (WEDO-17.1): the default branch sends unknown errors, captcha included, to a person, and recover('captcha') is printed. Same task: stale renavigates, timeout retries.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 324,
+      "id": "S23-T4-A-E3",
+      "kind": "changed",
+      "from_fp": "c65762491537e0055a88554e319f23cb7407d2d02f22bad4bf410e4fb2abc9dc",
+      "to_fp": "0e257db0b06e987ecbe5cf5c75cf9e774d73e455ef25a92a1992b5ab0f3f2682",
+      "reason": "Proposal 12 S23 (WEDO-21.1, WEDO-20.1): the api branch is printed, and the flag is named rpa as in the theory. Same task: decide the channel with method and reason.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 325,
+      "id": "S23-T3-A-E3",
+      "kind": "changed",
+      "from_fp": "ce9abeea82f51eb810b5ef1b3ae1f4a6465557248935477c59baea6221f156b4",
+      "to_fp": "6bc03a9b0915a46c96a998a02a15964cdddfa76b261a1bb92b62762471ba6462",
+      "reason": "Proposal 12 S23 (WEDO-15.2): a second run that succeeds must print no trace, so an unconditional trace no longer passes. Same task: attach the trace path only on failure.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
+    },
+    {
+      "row": 326,
+      "id": "S23-T2-B-E2",
+      "kind": "changed",
+      "from_fp": "6f2216d3ba1a23778ac32d79f26f16a1aaa52ce2df5c0f9f887aa97aa8cc360e",
+      "to_fp": "ee0f96ae377efb91afe43bc072a4d97514685e623328c8e215416c1d0be7897d",
+      "reason": "Codex review on #203: E1 now stores auth as 'authenticated' or 'anonymous', and E2 still guarded with not ctx.get('auth'), which lets the truthy 'anonymous' through. E2 compares with 'authenticated' and runs both states (denied, ok). Same task: catch PermissionError and deny the report without a session.",
+      "decided_by": "owner 2026-11-21 (proposal 12, S23 P1/P2/P3 fixes)",
+      "date": "2026-11-25"
     }
   ]
 }

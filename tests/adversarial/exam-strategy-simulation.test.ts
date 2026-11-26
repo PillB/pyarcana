@@ -91,7 +91,7 @@ const PASSABLE = 0.05
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
   'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
-  'computer-vision', 'cv-ai-integration', 'data-contracts',
+  'cv-ai-integration', 'data-contracts',
   'dbt-bigquery', 'exceptions-logging',
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
   'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
@@ -129,6 +129,9 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 38 -> 37 longest, 10 -> 9 clang.
 // 2026-11-25, proposal 12 S22: rapidfuzz-entity (email and human approval) leaves "longest" the same
 // way. 37 -> 36.
+// 2026-11-25, proposal 12 S23: computer-vision (browser RPA with Playwright) leaves "longest" the
+// same way; a first draft of its bank joined "clang" (8.0%) until four distractors took the stem
+// word the key shared. 36 -> 35.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'dbt-bigquery',

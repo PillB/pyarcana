@@ -1132,6 +1132,26 @@ back. Read this list before a section round; every item cost at least one failed
   four files, not the repository. Fix: copy `src/`, `scripts/exam_bank.py`, `package.json` and
   `tsconfig.json`, take the section and `prisma/seed.ts` from `git show HEAD:`, and symlink
   `node_modules` and `.venv-content`. Check `df` before any extract.
+- **A lab model that is stricter than the real API teaches the wrong habit (proposal 12 S23, 25 Nov
+  2026).** The S23 lab compared a locator's `name` with `==`. Playwright's `get_by_role` matches
+  `name` as a case-insensitive substring unless `exact=True` is passed, so `name="Enviar"` also
+  finds «Enviar y guardar», and because locators are strict the click then fails
+  ([Playwright, get_by_role](https://playwright.dev/python/docs/api/class-page#page-get-by-role)).
+  Root cause: the dict model was written from the intent of the API, not its documented default.
+  Fix: the theory demo models both behaviours and prints both counts; the sketch passes
+  `exact=True`. A second API fact found on the way: a download's temporary file is deleted when the
+  browser context that produced it closes, so the sketch calls `download.save_as()` before
+  `browser.close()` instead of returning `download.path()`, which is a `Path` and not a `str`
+  ([Playwright, Download](https://playwright.dev/python/docs/api/class-download)). Guard:
+  `tests/adversarial/test_proposal12_s23.py`. Check a modelled API against its reference page,
+  default arguments first, before writing the model.
+- **Removing the length cue can create a word-overlap cue (S23, 25 Nov 2026).** After the S23 bank
+  reached key-length ranks 6/6/6/6, the "clang" strategy (pick the option sharing the most content
+  words with the stem) passed it for 8.0% of simulated learners, because on four items the key was
+  the only option that repeated a stem word. Root cause: the keys were reworded to answer the stem,
+  and the distractors were lengthened without reusing its words. Fix: one stem word moved into a
+  distractor on each of those items. Guard: `exam-strategy-simulation.test.ts` holds the owed list;
+  run it on a rewritten bank before calling the bank done, not only the length ratchets.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s

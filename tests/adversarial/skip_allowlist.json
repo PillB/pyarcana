@@ -894,6 +894,142 @@
       "reason_contains": "needs the pinned content interpreter",
       "why": "It runs S22 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
       "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s22.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_the_locator_demo_runs_the_redesign_and_the_named_error",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_the_page_object_owns_its_selector",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_the_retry_demo_calls_the_step_again",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_the_wait_demo_counts_from_one_and_times_out",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_the_wrong_channel_order_is_run",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.DemosShowBothSides.test_tos_aborts_in_the_demo",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.EveryPinRuns.test_every_solution_hits_its_pin_and_no_starter_does",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.EveryPinRuns.test_theory_and_demo_code_prints_its_pinned_output",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.PlaywrightMatchesByDefaultOnASubstring.test_the_demo_prints_both_counts",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.TheoryRunsTheErrorItNames.test_a_checksum_mismatch_fails_the_step",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.TheoryRunsTheErrorItNames.test_a_fixed_sleep_misses_a_slow_page",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.TheoryRunsTheErrorItNames.test_the_evidence_package_is_sorted_filtered_and_typed",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.TheoryRunsTheErrorItNames.test_tos_wins_and_the_handoff_carries_its_payload",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.WeDoChecksCanFail.test_every_planted_mistake_changes_the_answer",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.YouDo.test_a_filled_project_meets_its_acceptance",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.YouDo.test_the_old_signal_name_lets_a_tos_run_through",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
+    },
+    {
+      "suite": "tests/adversarial",
+      "kind": "skip",
+      "test": "test_proposal12_s23.YouDo.test_the_starter_runs_and_is_not_yet_done",
+      "reason_contains": "needs the pinned content interpreter",
+      "why": "It runs S23 lesson code. The code uses only the standard library, but its pins are the Python 3.12 output the runtime audit checks, so it runs only under the pinned teaching interpreter; the adversarial job does not set PYARCANA_PINNED_CONTENT_ENV.",
+      "covered_by": "the content-gates job step 'Proposal 12 section tests that run lesson code' runs tests/adversarial/test_proposal12_s23.py with PYARCANA_PINNED_CONTENT_ENV=1 after installing requirements-content.txt"
     }
   ]
 }
