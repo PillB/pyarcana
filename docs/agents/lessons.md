@@ -1003,6 +1003,62 @@ back. Read this list before a section round; every item cost at least one failed
   in it. Fix: the outcome says «`melt` y su operación inversa». Guard: a term added to a tagline,
   job-relevance line or outcome must be one an earlier section taught, or be glossed in place;
   and the full suites run before every push, as the city-cap entry above already says.
+- **A symmetric fixture let the named mistake pass (proposal 12 S18, 25 Nov 2026).** WEDO-09 asks
+  for the worst coverage bias, `max(|count/n − share|)`, and its limits say «no devuelvas el
+  mínimo». Its fixture had two regions against a 50/50 population: 9 Lima and 1 Madrid. With two
+  regions the two shares sum to 1, so both biases are 0.4 and `min` prints the same answer as
+  `max`. The section test's mutation `max` → `min` reported «the planted mistake prints the pinned
+  answer». The exercise's own check could not fail on the mistake it warns about. Root cause: with
+  two categories every bias has the same absolute value, so no aggregate (max, min or mean) tells
+  them apart. Fix: three regions against 50/30/20, with 8 Lima, 2 Madrid and no Bogota rows. That
+  gives max 0.3, min 0.1 and mean 0.2, and `counts[k]` raises on the missing region. Guard: an
+  exercise whose limits name a wrong answer gets a fixture where that wrong answer prints
+  something else, and the section test plants that mistake and checks the output changes.
+- **A rewritten code comment removed a concept's only worked example (proposal 12 S18, 25 Nov
+  2026).** The Spearman demo's comment «monótona creciente → correlación de rangos = 1.0» was
+  replaced by a note on ties. `concept_map.py` counts a concept as exemplified when its name
+  appears in a theory code block, and that comment was the only place `correlación` did. The
+  concept fell from L2 to L1 and stopped being load-bearing. Three ratchets in
+  `test_concept_depth_ratchets` moved together: the figure target fell from 320 to 316, the
+  unexemplified count rose from 32 to 33, and D3 fell from 30 to 29. The D3 drop looked like a
+  repair, but it was a loss. Root cause: a comment was read as decoration, when the concept map
+  reads it as teaching. Fix: the original comment is back, and the note on ties is a second line.
+  Guard: when two concept ratchets move in opposite directions in one round, diff
+  `build_concepts(fresh_events())` against the base before lowering any constant.
+- **A section already at the city-name cap went over on consistency fixes (proposal 12 S18, 25 Nov
+  2026).** S18 had exactly 55 `Lima` tokens at the cap of 55. Making titles match the code
+  («Proporción de Lima», «Tasa de flags solo en Lima»), and the new three-region fixture, added
+  12. The fix kept every `Lima` that a title, fixture or output needs. It replaced the repeats in
+  prose, hints and starter comments with «la región pedida» or «esa región», which gives 54.
+  Guard: before editing a section, count its city tokens (`test_over_localized_language`). If the
+  count is at the cap, budget every added name against a repeat you remove.
+- **A distractor that states a true fact (Codex on #189, 25 Nov 2026; the same check then found
+  three in S18).** The S17 named-aggregation item asked what `agg(total=..., n=('monto',
+  'count'))` is for. One distractor said it keeps NaN out of `n`, which `count` does anyway. A
+  learner who picked a true statement was marked wrong. The length and odd-feature ratchets cannot
+  see this, because they measure the form of an option and not whether it is true. Rereading the
+  S18 bank with that question found three more:
+  - a trimmed mean «resiste» an outlier;
+  - a median above the mean does signal a dragging tail;
+  - listing the non-significant tests is the practice the lesson teaches.
+
+  Root cause: a distractor was written as «a plausible wrong practice». Several of them were bad
+  practice only because of a detail, not false as an answer to the question asked. Fix: each
+  distractor now makes a claim that the lesson or a run refutes, and the S17 one is checked by
+  running pandas. Guard: before a bank ships, read each distractor alone and ask whether it is a
+  true answer to the question as worded. When the claim is about code behaviour, run it.
+- **One chart, two sets of numbers (proposal 12 S19, 25 Nov 2026).** S19 draws the same synthetic
+  chart in eight places. Lima was 28.0 with n=40 in the bar demo and 24.0 with n=28 in the tooltip
+  demo, and Madrid had the reverse. Two P1s came from it. The lookup exercise told the learner to
+  filter Lima in rows that had no Lima, which raises StopIteration. The You Do example alt said
+  Madrid leads with 28 PEN and n=40, which the starter's data contradicts. Each block was right
+  alone. Root cause: every demo typed its own literals, and nothing compared them. Fix: the
+  section has one dataset, Lima 28.0 (n=40), Madrid 24.0 (n=28) and Bogota 22.5 (n=32). The
+  section test reads every region and value pair in code, pins and prose, and fails on any value
+  that differs. Guard: a section that repeats a chart across blocks declares its dataset once in
+  its test, and every new block is checked against it. The same review found three checks that
+  could not fail: a parity test that compared a dict with its own copy, and export metadata and
+  claim verdicts typed by hand. Their tests now change the input and expect the output to move.
 - **A new pandas test passed locally and failed CI as an unlisted skip (#189, 25 Nov 2026).**
   The Codex fix added `ExamBank.test_the_named_aggregation_nan_distractor_is_false` behind
   `@needs_pandas`. Here `.venv-content` exists, so the test ran and passed. The adversarial CI job

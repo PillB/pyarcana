@@ -91,8 +91,12 @@ const STOP_WORDS = new Set(`
  * 2026-11-25: 477 - proposal 12 S17 rewrote all 24 packaging (joins, reshape, groupby) explanations
  * to say why each distractor is wrong; its 16 thin ones are gone, and it is no longer a mostly-thin
  * bank (21 -> 20).
+ * 2026-11-25: 475 - proposal 12 S18 rewrote all 24 data-engineering (EDA and uncertainty) explanations;
+ * its 2 thin ones are gone.
+ * 2026-11-25: 473 - proposal 12 S19 rewrote all 24 databases-orm (visualization and accessibility)
+ * explanations to say why each distractor is wrong; its 2 thin ones are gone.
  */
-const THIN_RATIONALES_OWED = 477
+const THIN_RATIONALES_OWED = 473
 /** Banks where at least half the explanations (12 of 24) are thin. */
 const THIN_BANKS_OWED = 20
 /**
@@ -104,7 +108,7 @@ const THIN_BY_BANK_OWED: Record<string, number> = {
   setup: 0, basics: 0, 'decisions-rules': 0, 'iteration-summaries': 0, 'functions-contracts': 0,
   collections: 0, 'files-ingestion': 0, 'exceptions-logging': 0, 'modules-packaging-cli': 1,
   'oop-domain': 0, 'text-unicode-regex': 1, 'apis-sql-geo': 0, 'evidence-dashboard': 0, security: 0, 'stdlib-deep': 0, 'wxpython-gui': 0, packaging: 0,
-  'data-engineering': 2, 'databases-orm': 2, rag: 1, fastapi: 4, 'rapidfuzz-entity': 1,
+  'data-engineering': 0, 'databases-orm': 0, rag: 1, fastapi: 4, 'rapidfuzz-entity': 1,
   'computer-vision': 6, 'rpa-advanced': 11, 'streamlit-dashboards': 12, 'integrator-phase1': 15,
   'async-concurrency': 4, 'llm-agents': 5, mlops: 13, 'security-infra': 4, 'streaming-data': 7,
   microservices: 18, 'advanced-models': 20, 'cv-ai-integration': 11, 'system-design': 3,
