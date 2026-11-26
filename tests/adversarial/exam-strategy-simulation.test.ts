@@ -98,7 +98,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'opensource', 'performance-extreme',
   'security-infra', 'setup',
-  'streaming-data', 'streamlit-dashboards', 'system-design', 'tech-leadership',
+  'streaming-data', 'system-design', 'tech-leadership',
   'text-unicode-regex',
 ]
 // Five of these sat within about two standard errors (0.7 points each at 1000 learners) of the 5%
@@ -134,11 +134,14 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // word the key shared. 36 -> 35.
 // 2026-11-25, proposal 12 S24: rpa-advanced (OCR and Document AI) leaves "longest" the same
 // way, with no clang cue after one distractor took the stem word the key shared. 35 -> 34.
+// 2026-11-25, proposal 12 S25: streamlit-dashboards (AI assistant) leaves "longest" and "clang"
+// after all 24 items were rewritten; its keys sit at each length rank on 6 of 24, and three draft
+// keys that shared the most stem words were reworded. 34 -> 33 longest, 9 -> 8 clang.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'dbt-bigquery',
   'iteration-summaries', 'setup',
-  'streamlit-dashboards', 'text-unicode-regex',
+  'text-unicode-regex',
 ]
 // Every key in these two banks contains its concept's slug.
 const BANKS_PASSABLE_BY_SLUG_OWED: string[] = []
