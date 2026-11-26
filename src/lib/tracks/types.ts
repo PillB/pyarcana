@@ -6,11 +6,17 @@
 
 /** A code block. `output` is what the code prints, run, never typed by hand (the test runs it). */
 export interface TrackCode {
-  language: 'python' | 'bash' | 'html' | 'javascript' | 'json' | 'text'
+  language: 'python' | 'bash' | 'html' | 'javascript' | 'json' | 'sql' | 'toml' | 'text'
   title: string
   code: string
   /** Required for `python`: the test runs the block under python3 -I and compares every line. */
   output?: string
+  /**
+   * `cloudflare`: a Python file that runs inside a Cloudflare Worker (it imports `workers`), so the
+   * unit test only compiles it; scripts/web_track_learner_walk.mjs runs it under `pywrangler dev`
+   * with WALK_WRANGLER=1 and checks the response the step promises. It declares no `output`.
+   */
+  runtime?: 'cloudflare'
 }
 
 /** A small table of facts or choices. Rendered with a caption and column headers. */
