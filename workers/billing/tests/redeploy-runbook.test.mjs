@@ -16,7 +16,9 @@
  *   6. README.md points to it;
  *   7. no step recommends the legacy Workers Scripts permission without saying it is legacy
  *      (Cloudflare replaced it with the Workers Editor role; the first version of this runbook
- *      recommended it and called Workers Editor excessive, 24 Nov 2026).
+ *      recommended it and called Workers Editor excessive, 24 Nov 2026);
+ *   8. every on-purpose override deploy.sh honours (`PYARCANA_X:-}" = 1`) is named in the runbook,
+ *      so the owner learns that a refusal can be bypassed, and how, from the page they follow.
  */
 
 import assert from "node:assert/strict";
@@ -130,6 +132,14 @@ export function legacyPermissionAdvice(doc) {
     .map((chunk) => chunk.trim().split("\n")[0]);
 }
 
+/**
+ * Check 8. @returns {string[]} override variables a script honours that the runbook never names
+ */
+export function unnamedOverrides(doc, script) {
+  const names = new Set([...script.matchAll(/\$\{(PYARCANA_[A-Z_]+):-\}"? = "?1/g)].map((m) => m[1]));
+  return [...names].filter((name) => !doc.includes(`${name}=1`));
+}
+
 const SCRIPTS = renderScripts(SCRIPT_FILES.map(read), TOML);
 const COMMON = read("scripts/common.sh");
 
@@ -189,4 +199,17 @@ test("no step recommends the legacy Workers Scripts permission as if it were cur
   assert.deepEqual(legacyPermissionAdvice(old), ["3. Permissions: exactly **Workers Scripts Write** and **D1 Write**, on the entire account."]);
   // The script's own refusal message must name the current role, not the legacy permission.
   assert.match(setupSh, /Make a new token \(Workers Editor and D1 Write\)/, "setup.sh's refusal message should name Workers Editor and D1 Write");
+});
+
+test("every override deploy.sh honours is named in the runbook", () => {
+  const deploySh = read("scripts/deploy.sh");
+  const honoured = [...deploySh.matchAll(/\$\{(PYARCANA_[A-Z_]+):-\}"? = "?1/g)].map((m) => m[1]);
+  assert.ok(honoured.length >= 2, `the override pattern matched ${honoured.length} variables in deploy.sh (expected PYARCANA_DEPLOY_ANY_COMMIT and PYARCANA_SKIP_LIVE_CHECK); update the pattern`);
+  assert.deepEqual(unnamedOverrides(RUNBOOK, deploySh), [], "deploy.sh honours overrides REDEPLOY.md never names: add them to D1's overrides table");
+  // Drift: a future round adds a third override to deploy.sh. The runbook must be flagged.
+  const added = `${deploySh}\nif [ "\${PYARCANA_SKIP_HEADERS:-}" = 1 ]; then :; fi\n`;
+  assert.deepEqual(unnamedOverrides(RUNBOOK, added), ["PYARCANA_SKIP_HEADERS"]);
+  // Drift: the table row is deleted.
+  const dropped = RUNBOOK.replaceAll("PYARCANA_SKIP_LIVE_CHECK=1", "");
+  assert.deepEqual(unnamedOverrides(dropped, deploySh), ["PYARCANA_SKIP_LIVE_CHECK"]);
 });
