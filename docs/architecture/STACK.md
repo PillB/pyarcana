@@ -1,6 +1,7 @@
 # Where PyArcana lives
 
-Written 24 Nov 2026 from the repository (commit c33c9503) and the live headers of pyarcana.dev.
+Written 24 Nov 2026 from the repository (commit c33c9503) and the live headers of pyarcana.dev;
+rows added 25 Nov 2026 (commit 0b129af0) during the app-wide state-machine audit.
 Each row names the file that proves it; if a row and its file disagree, the file wins and this
 page is stale.
 
@@ -22,7 +23,11 @@ page is stale.
 | Payments | Mercado Pago (Peru) and Creem (international), reconciled hourly and daily | `workers/billing/src/mercadopago.mjs`, `creem.mjs`, `reconcile.mjs` |
 | Which edition a page load runs | `effectiveStage`: accounts only on the static build, at the canonical origin, with an API base | `src/lib/cloud/config.ts` |
 | Dynamic LMS (server edition, Prisma) | Optional Node host; not what pyarcana.dev runs | `DEPLOY.md` "Dynamic LMS", `prisma/` |
-| Documentation | `docs/` (architecture, policies, handovers), `DEPLOY.md`, `workers/billing/README.md` | those paths |
+| Documentation | `docs/` (architecture, policies, handovers), `DEPLOY.md`, `workers/billing/README.md`, `workers/billing/REDEPLOY.md` (click-by-click redeploy) | those paths |
+| State machines | `docs/architecture/STATE_MACHINES.md` (app), `audit/tracks/web/STATE_MACHINES.md` (web track, PR 196) | those files |
+| Browser checks on the real stack | `workers/billing/e2e/run.sh`: a worktree of HEAD at stage beta, `wrangler dev --local` (workerd + local D1), seeded people, Chromium suites (ads, flows, usage, qa, cuenta, team, progress, states, tour, setup, csp) | that script |
+| Binding design for the worker | `DESIGN-v2.md`, `DESIGN-v3-delta.md`, `DESIGN-v3.md`, kept outside the repository by the orchestrating session | `workers/billing/README.md` |
+| Audit working files | the Claude project's shared folder (ledgers, proposals, screenshots); not deployed, not in the repository | project files |
 
 ## Patterns already in place (checked 24 Nov 2026)
 

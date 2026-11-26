@@ -209,6 +209,21 @@ function reportRow(db, id) {
 }
 
 /**
+ * Whether a report can be a duplicate's target: it exists and is not itself a duplicate. The admin
+ * page shows the reason code, so the second case has its own.
+ * @param {Object} db D1.
+ * @param {string} id Report id.
+ * @returns {Promise<"ok"|"bad_duplicate_of"|"duplicate_of_duplicate">} Verdict.
+ */
+async function canonicalTarget(db, id) {
+  const row = await reportRow(db, id);
+  if (!row) {
+    return "bad_duplicate_of";
+  }
+  return row.status === "duplicate" ? "duplicate_of_duplicate" : "ok";
+}
+
+/**
  * GET /v1/qa/reports/:id.
  * @param {Object} ctx Tester or admin context.
  * @returns {Promise<Object>} Result.
@@ -277,7 +292,11 @@ const PATCH_FIELDS = [
 
 /**
  * Apply the duplicate rule: duplicateOf implies status "duplicate", status
- * "duplicate" needs a target, and any other status clears the target.
+ * "duplicate" needs a target, and any other status clears the target. The
+ * target must not itself be a duplicate (state-machine audit, 25 Nov 2026):
+ * A -> B then B -> A closed both as copies of each other, so the bug had no
+ * open report left. Refusing a duplicate target makes every cycle impossible,
+ * because the edge that would close one always points at a duplicate.
  * @param {Object} ctx Context.
  * @param {Object} current Current report row.
  * @param {Object} change Parsed changes (undefined = not sent).
@@ -286,8 +305,12 @@ const PATCH_FIELDS = [
 async function resolveDuplicate(ctx, current, change) {
   const target = change.duplicateOf;
   const status = change.status || (target ? "duplicate" : current.status);
-  if (target && (target === current.id || status !== "duplicate" || !(await reportRow(ctx.db, target)))) {
+  if (target && (target === current.id || status !== "duplicate")) {
     return { error: badRequest("bad_duplicate_of") };
+  }
+  const canonical = target ? await canonicalTarget(ctx.db, target) : "ok";
+  if (canonical !== "ok") {
+    return { error: badRequest(canonical) };
   }
   if (status !== "duplicate") {
     return { status, duplicateOf: null };

@@ -89,6 +89,12 @@ export interface SyncDeps {
   onSynced?: (ms: number) => void
   /** [0, 1) for retry jitter; Math.random by default. */
   random?: () => number
+  /**
+   * The server answered 401 while this sync still had an account: the session ended elsewhere
+   * (expired, "sign out everywhere", deleted). The page's session state must learn it, or the
+   * account panel keeps saying "signed in" while every change is refused (runtime.ts re-reads /v1/me).
+   */
+  onUnauthorized?: () => void
 }
 
 /** A failure worth retrying by itself: offline, timeout, 5xx, or the server asking to wait. */
@@ -261,6 +267,8 @@ export class ProgressSync {
   lastError: string | null = null
   private readonly deps: SyncDeps & { scheduler: Scheduler }
   private accountId: string | null = null
+  /** The account the server state below (rev, ack, hints) was learnt from; survives sign-out. */
+  private lastAccountId: string | null = null
   private baseRev = 0
   private changes: ChangeLog
   private applying = false
@@ -308,7 +316,15 @@ export class ProgressSync {
 
   start(accountId: string): Promise<SyncStatus> {
     this.attach()
+    // Straight from account A to B (no sign-out between, e.g. a session replaced in the panel):
+    // A's revision, ack and pending choice must not follow B.
+    if (this.lastAccountId !== null && this.lastAccountId !== accountId) {
+      this.cancelTimer()
+      this.pending = null
+      this.forgetAccount()
+    }
     this.accountId = accountId
+    this.lastAccountId = accountId
     return this.enqueue(() => this.pullNow())
   }
 
@@ -397,9 +413,27 @@ export class ProgressSync {
     this.cancelTimer()
     await this.enqueue(() => this.push(false))
     this.accountId = null
-    this.baseRev = 0
     this.pending = null
+    this.forgetAccount()
     this.setStatus('signed_out')
+  }
+
+  /**
+   * One instance serves the whole page, so the next sign-in may be another account. Everything
+   * learnt from this account's server goes: its revision, the document it acknowledged (else
+   * "Combinar" into an empty account B matched A's ack and reported synced with nothing uploaded),
+   * and its back-off and budget hints. The change log and the local progress stay.
+   */
+  private forgetAccount(): void {
+    this.baseRev = 0
+    this.ackedJson = null
+    this.lastSyncMs = 0
+    this.retries = 0
+    this.notBefore = 0
+    this.budgetCheckAt = 0
+    this.minIntervalMs = 0
+    this.lastError = null
+    this.force = INITIAL_FORCE_STATE
   }
 
   /** Merge an archived copy back in (additive), record it, and queue an upload. */
@@ -512,7 +546,9 @@ export class ProgressSync {
     if (retryable(result)) this.scheduleRetry(result)
     if (!result.ok && result.reason === 'budget_saver') return this.setStatus('deferred')
     if (isUnavailable(result)) return this.setStatus('offline')
-    return this.setStatus(result.status === 401 ? 'signed_out' : 'error')
+    if (result.status !== 401) return this.setStatus('error')
+    if (this.accountId !== null) this.deps.onUnauthorized?.()
+    return this.setStatus('signed_out')
   }
 
   private async pullNow(): Promise<SyncStatus> {
