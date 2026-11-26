@@ -19421,15 +19421,23 @@
     },
     "S22-T1-B-E3": {
       "section": "S22",
-      "sha256": "f53674b4fb2d6aa29a80c923c5658f7a1af497ff9f4ac907f84d571a9f6ee7b2",
+      "sha256": "e606beab60ba5e087b975267d713bdc83720d9965c831cff7b69c8eaec8c36f2",
       "tokens": [
         "a",
         "allowlist",
+        "ambiguo",
+        "and",
         "blocked",
         "coincide",
+        "como",
         "con",
+        "confies",
         "de",
+        "el",
         "else",
+        "en",
+        "endswith",
+        "ese",
         "evil",
         "example",
         "for",
@@ -19440,12 +19448,18 @@
         "if",
         "import",
         "in",
+        "lee",
+        "navegador",
+        "no",
+        "not",
         "ok",
         "or",
         "output",
         "parse",
         "pe",
+        "portal",
         "print",
+        "r",
         "real",
         "salida",
         "solution",
@@ -19453,7 +19467,8 @@
         "u",
         "urllib",
         "urlparse",
-        "urls"
+        "urls",
+        "x"
       ]
     },
     "S22-T2-A-E1": {
@@ -19598,7 +19613,7 @@
     },
     "S22-T2-B-E3": {
       "section": "S22",
-      "sha256": "98925d22789bbb050b7115caa021383cea17d2fdb8faa70fb5310c5d12b9ceda",
+      "sha256": "1abe1a94ce8ba9ec20caa822a540d7c9f2180a2bcd2494e7008088bbc1d88fc1",
       "tokens": [
         "03",
         "1",
@@ -19606,6 +19621,7 @@
         "adaptador",
         "and",
         "b",
+        "c",
         "coincide",
         "con",
         "create_draft",
@@ -19617,6 +19633,7 @@
         "draft",
         "expires_at",
         "f",
+        "false",
         "from",
         "hours",
         "i",
@@ -19628,13 +19645,16 @@
         "print",
         "return",
         "salida",
+        "seconds",
         "solution",
         "status",
         "store",
         "timedelta",
         "timezone",
         "true",
+        "ttl",
         "usable",
+        "usable_caducado",
         "utc",
         "y"
       ]
@@ -19886,7 +19906,7 @@
     },
     "S22-T4-A-E3": {
       "section": "S22",
-      "sha256": "609fa55c1e5d1b2b53974013024f4d39f732ea8aa3af0b7fd612dd70461bf057",
+      "sha256": "dccc917b699279733e7f3db8e2b77ee986593faf1d6100a3aefccc482e01c6de",
       "tokens": [
         "action",
         "actor",
@@ -19895,6 +19915,7 @@
         "apply",
         "approve",
         "approved",
+        "as",
         "audit",
         "coincide",
         "con",
@@ -19902,6 +19923,7 @@
         "draft",
         "e",
         "en",
+        "except",
         "f",
         "for",
         "from",
@@ -19929,6 +19951,7 @@
         "submit",
         "to",
         "transitions",
+        "try",
         "valueerror",
         "y"
       ]

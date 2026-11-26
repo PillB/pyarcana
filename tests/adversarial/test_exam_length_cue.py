@@ -125,7 +125,11 @@ import exam_bank  # noqa: E402
 #: rewritten; distractors are misconceptions (Template escaping by default, None formatted as 0.00,
 #: all() of an empty list read as failing, a missing checklist key read as ready), the key is longest
 #: on 6 of 24, and the ranks are 6/6/6/6. One old item was keyed to a wrong option.
-LONGEST_IS_CORRECT_OWED = 881
+#: 2026-11-25: 881 -> 863. Proposal 12 S22: every rapidfuzz-entity (email and human approval) item was
+#: rewritten; distractors are misconceptions (BCC read as encryption, an expired draft still usable at
+#: expires_at, approve from draft accepted, a similarity score read as fraud), the key is longest on 6
+#: of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 863
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.
@@ -134,9 +138,10 @@ LONGEST_IS_CORRECT_OWED = 881
 #: 2026-11-21: proposal 12 S16 repaired wxpython-gui (data quality); it leaves the set.
 #: 2026-11-25: proposal 12 S17 repaired packaging (joins, reshape, groupby); it leaves the set.
 #: 2026-11-25: proposal 12 S20 repaired rag (Excel automation); it leaves the set.
+#: 2026-11-25: proposal 12 S22 repaired rapidfuzz-entity (email and approval); it leaves the set.
 PERFECT_CUE_BANKS_OWED = frozenset({
     "architecture-ddd-decisions", "career-strategy",
-    "rapidfuzz-entity", "rpa-advanced", "security-infra",
+    "rpa-advanced", "security-infra",
 })
 
 

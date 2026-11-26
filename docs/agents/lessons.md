@@ -1112,6 +1112,26 @@ back. Read this list before a section round; every item cost at least one failed
   scripted edit with `git checkout -- file` also discarded the earlier scripted edits on that file;
   they were replayed because each edit was a script. Keep section edits as replayable scripts and
   check what a restore will discard before running it.
+- **A demo that shows only the passing case cannot teach its check (proposal 12 S22, 25 Nov
+  2026).** The least-privilege demo filtered through a policy that was already strict, so
+  `least_ok` could only print True. The expiry demo never created an expired draft, and the state
+  machine exercise said `approve` from `draft` was invalid without running it. Root cause: the
+  demos were written to show the happy path, and a check with one input is a constant. Fix: each
+  demo now runs the case that breaks it (a lax policy, a draft created already expired, the invalid
+  transition inside `try`). Guard: `tests/adversarial/test_proposal12_s22.py` plants the learner's
+  mistake and expects the output to move. Related trap: `exp < now` and `exp <= now` print the same
+  pins on inputs a minute away from the boundary, so a mutation test cannot see the difference. The
+  boundary is tested as its own case (`exp == now` must print `refresh`), matching JWT's rule that
+  a token is valid only while the current time is before `exp`
+  ([RFC 7519, 4.1.4](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4)). Python fact checked
+  before it was written: `MIMEText(text, 'plain')` without a charset picks us-ascii for ASCII text
+  and utf-8 otherwise ([email.mime docs](https://docs.python.org/3/library/email.mime.html)).
+- **A negative-control copy of the whole tree filled the disk (S22, 25 Nov 2026).** To run a section
+  test against the base files, `git archive HEAD | tar -x` extracted the full repository, including
+  `course-state/`, into the scratchpad, and the volume ran out of space. Root cause: the test needs
+  four files, not the repository. Fix: copy `src/`, `scripts/exam_bank.py`, `package.json` and
+  `tsconfig.json`, take the section and `prisma/seed.ts` from `git show HEAD:`, and symlink
+  `node_modules` and `.venv-content`. Check `df` before any extract.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
