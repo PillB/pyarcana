@@ -142,7 +142,11 @@ import exam_bank  # noqa: E402
 #: misconceptions (499 read as 500, TLS read as keeping PII local, a stale cached answer read as a
 #: fallback, a regex read as the injection control), the key is longest on 6 of 24, and the ranks
 #: are 6/6/6/6.
-LONGEST_IS_CORRECT_OWED = 811
+#: 2026-11-25: 811 -> 794. Proposal 12 S26: every integrator-phase1 (orchestration and the VP
+#: project) item was rewritten; distractors are misconceptions (a cycle read as a shorter order, a
+#: downstream task left pending after a failure, 60 read as over a strict 60 limit, a report replaced
+#: by a status dict in a rollback), the key is longest on 6 of 24, and the ranks are 6/6/6/6.
+LONGEST_IS_CORRECT_OWED = 794
 #: Banks at 100%, where a learner needs no knowledge at all. Eleven, not the eight a first look
 #: reported: that number came from printing the top rows of a sorted list and counting the print.
 #: Named, and held exactly: a bank that drops out of this set has been repaired and must leave it.

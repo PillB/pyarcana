@@ -94,7 +94,7 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'cv-ai-integration', 'data-contracts',
   'dbt-bigquery', 'exceptions-logging',
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
-  'integrator-final', 'integrator-phase1', 'integrator-phase2', 'iteration-summaries',
+  'integrator-final', 'integrator-phase2', 'iteration-summaries',
   'llm-agents', 'llm-finetuning', 'llmops', 'microservices', 'mlops',
   'multimodal', 'opensource', 'performance-extreme',
   'security-infra', 'setup',
@@ -137,6 +137,8 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // 2026-11-25, proposal 12 S25: streamlit-dashboards (AI assistant) leaves "longest" and "clang"
 // after all 24 items were rewritten; its keys sit at each length rank on 6 of 24, and three draft
 // keys that shared the most stem words were reworded. 34 -> 33 longest, 9 -> 8 clang.
+// 2026-11-25, proposal 12 S26: integrator-phase1 (orchestration and the VP) leaves "longest" the
+// same way, after one distractor took the stem word the key shared. 33 -> 32.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
   'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
   'collections', 'dbt-bigquery',

@@ -15,7 +15,7 @@ export const section26: CourseSection = {
   index: 26,
   title: "Orquestación y VP RPA + AI Analyst",
   shortTitle: "VP RPA + AI Analyst",
-  tagline: "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas.",
+  tagline: "VP es el nombre del proyecto: el flujo que prepara el informe para el VP, el vicepresidente del desk de S19 a S25. VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas.",
   estimatedHours: 9,
   level: "Práctica independiente",
   phase: 1,
@@ -31,23 +31,23 @@ export const section26: CourseSection = {
     { text: "Diseñar revisión humana de análisis/reporte/destinatario" },
     { text: "Operar aprobación, rechazo, edición y auditoría" },
     { text: "Definir SLO, alerts y runbook" },
-    { text: "Validar E2E, seguridad, costo y métricas de valor" },
+    { text: "Validar E2E (de extremo a extremo), seguridad, costo y métricas de valor" },
   ],
   theory: [
     {
-            heading: "Cinco piezas que funcionan por separado todavía no son un sistema",
+            heading: "Seis piezas que funcionan por separado todavía no son un sistema",
       paragraphs: [
-        "Tienes ingesta, calidad, análisis, reporte, correo y asistencia de IA. Cada una anda. Conectarlas revela lo que ninguna mostraba sola: qué pasa cuando la tercera falla y la cuarta ya empezó, quién decide reintentar, y cómo se retoma el trabajo a mitad de camino sin repetir lo que ya salió.",
-        "El primer instrumento es hacer explícito el orden. Un grafo de dependencias dice qué necesita qué, y su única regla dura es que no puede tener ciclos. Con esa forma dibujada aparecen las preguntas que importan: qué pasos pueden correr a la vez, cuáles bloquean a los demás, y dónde conviene guardar un punto de control para no rehacer todo tras una caída.",
+        "Tienes ingesta, calidad, análisis, reporte, correo y asistencia de IA. Cada una anda. Conectarlas revela lo que ninguna mostraba sola. ¿Qué pasa cuando la tercera falla y la cuarta ya empezó? ¿Quién decide reintentar? ¿Cómo se retoma el trabajo a mitad de camino sin repetir lo que ya salió?",
+        "El primer instrumento es hacer explícito el orden. Un grafo de dependencias dice qué necesita qué, y su única regla dura es que no puede tener ciclos. Con esa forma dibujada aparecen las preguntas que importan. ¿Qué pasos pueden correr a la vez y cuáles bloquean a los demás? ¿Dónde conviene guardar un punto de control para no rehacer todo tras una caída?",
         "Después viene la resiliencia, que es sobre todo saber distinguir fallos. Un tiempo de espera agotado suele curarse solo y merece un reintento; un dato mal formado no se cura reintentando y solo desperdicia tiempo. Lo que agota sus reintentos va a una cola aparte para que alguien lo mire, en vez de bloquear la fila. Y como todo esto implica repetir pasos, cada uno tiene que poder ejecutarse dos veces sin duplicar su efecto.",
-        "Luego está la parte que hace responsable al conjunto. La IA propone y una persona cierra: la cola de revisión con aprobar, rechazar o editar no es una etapa opcional al final, es lo que convierte una cadena de automatismos en un proceso del que alguien responde. Cada decisión queda con su autor y su momento.",
-        "La pregunta que cierra el nivel es operativa: **si esto se cae a mitad de camino, ¿qué se repite, qué se pierde y quién se entera?** El nivel se promociona con evidencia reproducible sobre datos sintéticos, no con una demostración que salió bien una vez.",
+        "Luego está la parte que hace responsable al conjunto. La IA propone y una persona cierra. La cola de revisión con aprobar, rechazar o editar no es una etapa opcional al final: es lo que convierte una cadena de automatismos en un proceso del que alguien responde. Cada decisión queda con su autor y su momento.",
+        "La pregunta que cierra el nivel es operativa: si esto se cae a mitad de camino, **¿qué se repite, qué se pierde y quién se entera?** Responderla es la tarea. El nivel se promociona con evidencia reproducible sobre datos sintéticos, no con una demostración que salió bien una vez.",
       ],
       callout: {
         type: "info",
         title: "Criterio de promoción N2",
         content:
-          "La promoción exige CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados con evidencia reproducible.",
+          "La promoción exige CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados con evidencia reproducible. CF-2 es el control de cierre del Nivel 2, como CF-1 lo fue del Nivel 1 en S13. Comprueba tres interfaces entre Familiarity, el reporting y la automatización; Familiarity es el proyecto que reúne lo que hiciste de S01 a S25. Son `familiarity_to_reporting(metrics) -> report_body`, `reporting_to_automation(run_id) -> draft_ref` y `automation_to_audit(event) -> audit_record`; cada una se prueba con un fixture sintético.",
       },
      },
      {
@@ -56,8 +56,8 @@ export const section26: CourseSection = {
       paragraphs: [
         "Bloque de referencia. Orden de los subtemas y condiciones de promoción.",
         "**Orden de los subtemas.** T1 arma la orquestación: grafo, estados y límites. T2 pasa a la resiliencia: puntos de control, reintentos, cola de descarte, idempotencia y reversión. T3 cubre la revisión humana: colas y decisiones de aprobar, rechazar o editar. T4 cierra con la operación y la prueba de extremo a extremo.",
-        "**Contexto.** S26 cierra CP-N2-C orquestando el pipeline sintético completo: hoja de cálculo y sistema, validación, análisis, reporte y notificación.",
-        "**Promoción de nivel.** Exige CP-N2-A, B y C, la regresión de S14 a S26 y CF-2, todos aprobados con evidencia reproducible. La regresión pide contratos estables entre análisis, reporte y automatización: mismos fixtures, mismos predicados de éxito y ninguna etiqueta automática de fraude.",
+        "**Contexto.** S26 orquesta el VP sintético completo: hoja de cálculo y sistema, validación, análisis, reporte y notificación. El capstone CP-N2-C se entrega aparte con su propio contrato (`rpa.run(job) -> RpaAudit`); el VP de esta sección construye las piezas que ese contrato reutiliza.",
+        "**Promoción de nivel.** Exige CP-N2-A, B y C, la regresión de S14 a S26 y CF-2 (las tres interfaces del callout inicial), todos aprobados con evidencia reproducible. La regresión pide contratos estables entre análisis, reporte y automatización: mismos fixtures, mismos predicados de éxito y ninguna etiqueta automática de fraude.",
       ],
      },
      {
@@ -71,9 +71,9 @@ export const section26: CourseSection = {
       },
       subtopicId: "S26-T1-A",
       paragraphs: [
-        "Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. Path canónico del VP (7 steps): **ingest → validate → analyze → ai_assist → report → approve → draft_email**. Ese orden es el contrato del cierre CP-N2-C; las vistas parciales de ejercicios lo declaran cuando omiten AI o email a propósito.",
-        "Cada **task** expone estados observables: `pending`, `running`, `success`, `failed`, `skipped`. El **flow** agrega un estado global (p. ej. `failed` si un nodo crítico falló). El dashboard del analista muestra **timestamp + run_id** por nodo para reanudar sin adivinar.",
-        "Implementación didáctica con dicts de nodos + edges y **orden topológico** (sin Prefect/Airflow instalado): si hay ciclo, el pipeline **no arranca**. Contrato: `edges list[(str,str)]` → `order list[str]`; `approve` **antes** de `draft_email` es dependencia de negocio, no de «preferencia».",
+        "Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. Path canónico del VP (7 steps): **ingest → validate → analyze → ai_assist → report → approve → draft_email**. Ese orden es el contrato del VP. Algunos ejercicios usan un tramo parcial y lo dicen en su enunciado.",
+        "Cada **task** expone estados observables: `pending`, `running`, `success`, `failed`, `skipped` y `blocked`. Si A falla, B no se ejecuta y queda `skipped`. Una task queda `blocked` cuando un gate humano sigue abierto (por ejemplo, `draft_email` sin approve). El **flow** agrega un estado global (p. ej. `failed` si un nodo crítico falló). El dashboard del analista muestra **timestamp + run_id** por nodo para reanudar sin adivinar.",
+        "Implementación didáctica con dicts de nodos + edges y **orden topológico** (un orden en que cada nodo va después de todos los que necesita), sin Prefect/Airflow instalado. Si hay ciclo, ese orden no existe: `topo` lanza `ValueError` y el pipeline **no arranca**. Contrato: `edges list[(str,str)]` → `order list[str]`; `approve` **antes** de `draft_email` es dependencia de negocio, no de «preferencia».",
       ],
       code: {
         language: 'python',
@@ -105,10 +105,17 @@ def topo(edges):
             indeg[v] -= 1
             if indeg[v] == 0:
                 q.append(v)
+    if len(order) != len(nodes):
+        raise ValueError(f"ciclo en {sorted(nodes - set(order))}")
     return order
 
-print(topo(edges))`,
-        output: `['ingest', 'validate', 'analyze', 'ai_assist', 'report', 'approve', 'draft_email']`,
+print(topo(edges))
+try:
+    topo([("report", "approve"), ("approve", "report")])
+except ValueError as e:
+    print("no arranca:", e)`,
+        output: `['ingest', 'validate', 'analyze', 'ai_assist', 'report', 'approve', 'draft_email']
+no arranca: ciclo en ['approve', 'report']`,
       },
       callout: {
         type: "tip",
@@ -121,8 +128,8 @@ print(topo(edges))`,
       heading: "Límites, metadata y schedules del run",
       subtopicId: "S26-T1-B",
       paragraphs: [
-        "Acabas de fijar el DAG; ahora, sin **límites**, un schedule tumba el export. **Rate limits** (`api_rpm`, `max_parallel_tasks`) protegen las API y las colas compartidas: un *burst* (ráfaga) nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: `run_id`, `trigger` (manual|schedule), `git_sha` sintético, `data_cutoff`. Si cambias la foto de datos, versiona un nuevo `run_id`.",
-        "**Schedules** tipo cron (`0 6 * * 1-5` America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. En deploy: **`disable_schedule` → drain** (vaciar workers) antes de cambiar schema de informe — no mezclar versiones a mitad del batch.",
+        "Acabas de fijar el DAG; ahora, sin **límites**, un schedule tumba el export. **Rate limits** (`api_rpm`, `max_parallel_tasks`) protegen las API y las colas compartidas: un *burst* (ráfaga) nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: `run_id`, `trigger` (manual|schedule), `git_sha` sintético, `data_cutoff`. El `run_id` es la clave con la que encuentras los logs de un run en cada sistema que tocó. Si cambias la foto de datos, versiona un nuevo `run_id`.",
+        "**Schedules** tipo cron (`0 6 * * 1-5` America/Lima) cubren días hábiles 06:00; Lima no tiene horario de verano (UTC-5 todo el año), así que la hora no se corre. On-demand cubre cierre de mes o reprocesos. Documenta también la **ventana de solape**: el tiempo en que un run anterior todavía puede seguir corriendo cuando empieza el siguiente. En deploy: **`disable_schedule` → drain** (vaciar workers) antes de cambiar schema de informe — no mezclar versiones a mitad del batch.",
         "Caso PE: San Isidro fija `max_parallel_tasks=2` y `api_rpm=30`; si `api_rpm>60` el preflight imprime `too_high` y **bloquea** el schedule hasta revisión humana del límite.",
       ],
       code: {
@@ -132,16 +139,22 @@ print(topo(edges))`,
     return {
         "run_id": run_id,
         "trigger": "manual",
+        "git_sha": "a1b2c3d",  # sintético
         "schedule": None,
         "limits": {"max_parallel_tasks": 2, "api_rpm": api_rpm},
         "data_cutoff": "2026-01-15",
     }
 
+def preflight(meta):
+    return "too_high" if meta["limits"]["api_rpm"] > 60 else "ok"
+
 run_meta = build_run_meta("cpn2c-close-01")
-print(run_meta["run_id"], run_meta["limits"]["api_rpm"])
+print(run_meta["run_id"], run_meta["git_sha"], run_meta["limits"]["api_rpm"], preflight(run_meta))
+print("preflight rpm=90", preflight(build_run_meta("cpn2c-close-02", api_rpm=90)))
 cron = "0 6 * * 1-5"  # 06:00 L-V America/Lima conceptual
 print("cron", cron, "tz", "America/Lima")`,
-        output: `cpn2c-close-01 30
+        output: `cpn2c-close-01 a1b2c3d 30 ok
+preflight rpm=90 too_high
 cron 0 6 * * 1-5 tz America/Lima`,
       },
       callout: {
@@ -162,9 +175,9 @@ cron 0 6 * * 1-5 tz America/Lima`,
       },
       subtopicId: "S26-T2-A",
       paragraphs: [
-        "Con el path estable, un crash a mitad de `analyze` exige **checkpoint**: dejar por escrito qué ids ya se procesaron, para reanudar sin rehacer un ingest costoso. Tras el fallo, solo quedan pendientes los no marcados. El contrato es una línea — **skip si id ∈ ckpt** — y es lo que practicas aquí con un `set` en memoria. Sé claro sobre lo que ese `set` demuestra y lo que no: te deja ejercitar el contrato dentro de un proceso vivo, pero muere con el proceso, así que no sobreviviría al crash del que estamos hablando. Reanudar de verdad exige que la marca viva fuera del proceso; en el capstone eso es un JSON en disco, y en producción una tabla o un almacén de estado.",
+        "Con el path estable, un crash a mitad de `analyze` exige **checkpoint**: dejar por escrito qué ids ya se procesaron, para reanudar sin rehacer un ingest costoso. Tras el fallo, solo quedan pendientes los no marcados. El contrato es una línea — **skip si id ∈ ckpt** — y es lo que practicas aquí con un `set` en memoria. Sé claro sobre lo que ese `set` demuestra y lo que no. Te deja ejercitar el contrato dentro de un proceso vivo, pero muere con el proceso, así que no sobreviviría al crash del que estamos hablando. Reanudar de verdad exige que la marca viva fuera del proceso; en el capstone eso es un JSON en disco, y en producción una tabla o un almacén de estado.",
         "Glosa: **checkpoint** = marca de progreso persistida; **backoff** = espera creciente entre reintentos (`base * 2**(attempt-1)`, con cap); **DLQ (dead-letter queue)** = cola de ítems que agotaron reintentos y requieren dueño humano. **Retry con backoff** absorbe 429/timeout. **No** reintentes schema inválido de negocio: eso va a DLQ con owner y SLA — DLQ no es basurero silencioso.",
-        "Caso PE: item flaky de export reintenta hasta `max_attempts`; si sigue fallando → DLQ con `reason=timeout_exhausted`, owner=`ops_rpa`. Contrato lab: `process_with_dlq` → `(ok, dlq, ckpt)` **sin duplicar** ok tras reanudación; flaky no cae a DLQ en el primer intento.",
+        "Caso PE: item flaky de export reintenta hasta `max_attempts`; si sigue fallando → DLQ con `reason=timeout_exhausted`, owner=`ops_rpa`. Contrato lab: `process_with_dlq(items, flaky_ids, ckpt)` → `(ok, dlq, ckpt)`. Si le pasas el ckpt de una corrida anterior, no repite lo ya hecho; flaky no cae a DLQ en el primer intento. Cada reintento registra la espera de backoff que tocaría (`waits_ms`); el lab no duerme de verdad para correr rápido.",
       ],
       code: {
         language: 'python',
@@ -172,33 +185,32 @@ cron 0 6 * * 1-5 tz America/Lima`,
         code: `def backoff_sleep_ms(attempt, base=100, cap=2000):
     return min(cap, base * (2 ** (attempt - 1)))
 
-def process_with_dlq(items, flaky_ids, max_attempts=3):
-    ok, dlq, ckpt = [], [], set()
+def process_with_dlq(items, flaky_ids, ckpt=None, max_attempts=3):
+    ok, dlq = [], []
+    ckpt = set() if ckpt is None else set(ckpt)
     for it in items:
         if it in ckpt:
             continue
-        attempts = 0
-        while attempts < max_attempts:
-            attempts += 1
-            # flaky siempre falla el intento; tras agotar → DLQ con owner
-            if it in flaky_ids:
-                if attempts >= max_attempts:
-                    dlq.append({
-                        "id": it,
-                        "reason": "timeout_exhausted",
-                        "owner": "ops_rpa",
-                    })
-                    break
-                continue
-            ok.append(it)
-            ckpt.add(it)
-            break
+        waits = []
+        for attempt in range(1, max_attempts + 1):
+            if it not in flaky_ids:
+                ok.append(it)
+                ckpt.add(it)
+                break
+            if attempt == max_attempts:
+                dlq.append({"id": it, "reason": "timeout_exhausted",
+                            "owner": "ops_rpa", "waits_ms": waits})
+            else:
+                waits.append(backoff_sleep_ms(attempt))  # en prod: time.sleep
     return ok, dlq, sorted(ckpt)
 
 print([backoff_sleep_ms(i) for i in range(1, 5)])
-print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))`,
+print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))
+# Reanudación: ckpt de la corrida anterior; "a" no se repite
+print(process_with_dlq(["a", "b", "c"], flaky_ids=set(), ckpt={"a"}))`,
         output: `[100, 200, 400, 800]
-(['a', 'c'], [{'id': 'b', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa'}], ['a', 'c'])`,
+(['a', 'c'], [{'id': 'b', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'waits_ms': [100, 200]}], ['a', 'c'])
+(['b', 'c'], [], ['a', 'b', 'c'])`,
       },
       callout: {
         type: "warning",
@@ -211,7 +223,7 @@ print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))`,
       heading: "Idempotencia, concurrencia y rollback",
       subtopicId: "S26-T2-B",
       paragraphs: [
-        "Tras checkpoint y DLQ, el siguiente riesgo es el **reintento exitoso dos veces**: los pasos **idempotentes** usan claves de negocio (`run_id`, `entity_id`) para que la segunda escritura no pise un valor ya materializado (create-once). Un retry **no** duplica borradores por reentrega del mensaje.",
+        "Tras checkpoint y DLQ, el siguiente riesgo es el **reintento exitoso dos veces**. Los pasos **idempotentes** usan claves de negocio (`run_id`, `entity_id`) para que la segunda escritura no pise un valor ya materializado (create-once). Un retry **no** duplica borradores por reentrega del mensaje.",
         "**Concurrencia**: locks/flags `locked` por entidad evitan dos workers en el mismo informe. Si `locked=True` → busy y reencola (**fail-closed**: ante duda, no entras). Lab: flag; prod: lease con TTL.",
         "**Rollback/compensación** no siempre es ACID: si falla `draft_email` tras `write_report`, borra el draft y marca el report como `superseded` (no lo eliminas del historial de defensa). Documenta el grafo de compensación en el runbook del VP.",
       ],
@@ -231,13 +243,13 @@ def write_draft(run_id, body):
 def rollback(run_id):
     store["drafts"].pop(run_id, None)
     if run_id in store["reports"]:
-        store["reports"][run_id] = {"status": "superseded"}
+        store["reports"][run_id]["status"] = "superseded"  # el body se queda
 
 write_report("r1", "informe")
 write_draft("r1", "draft")
 rollback("r1")
 print("reports", store["reports"], "drafts", store["drafts"])`,
-        output: `reports {'r1': {'status': 'superseded'}} drafts {}`,
+        output: `reports {'r1': {'body': 'informe', 'status': 'superseded'}} drafts {}`,
       },
       callout: {
         type: "tip",
@@ -260,7 +272,7 @@ print("reports", store["reports"], "drafts", store["drafts"])`,
         code: `queues = {
     "analysis": [{"id": "a1", "status": "pending"}],
     "report": [{"id": "r1", "status": "pending"}],
-    "recipient": [{"id": "c1", "status": "pending"}],
+    "recipient": [{"id": "c1", "status": "done"}],
 }
 
 def pending_counts(q):
@@ -268,7 +280,7 @@ def pending_counts(q):
 
 print(pending_counts(queues))
 print("all_clear", all(c == 0 for c in pending_counts(queues).values()))`,
-        output: `{'analysis': 1, 'report': 1, 'recipient': 1}
+        output: `{'analysis': 1, 'report': 1, 'recipient': 0}
 all_clear False`,
       },
       callout: {
@@ -282,7 +294,7 @@ all_clear False`,
       heading: "Aprobación, rechazo, edición y auditoría",
       subtopicId: "S26-T3-B",
       paragraphs: [
-        "Las colas HITL se vacían con decisiones humanas; cada una deja **audit** `{action, actor, ts, reason?}`. `approve` avanza; `reject` exige reason no vacío; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.",
+        "Las colas HITL se vacían con decisiones humanas; cada una deja **audit** `{action, actor, ts, reason?}`; un `edit` añade `from` y `to`, las versiones antes y después. `approve` avanza; `reject` exige reason no vacío y deja el borrador en estado `rejected`, sin envío, hasta que la cola se reabre; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.",
         "Actor = id sintético (`r1`, `r2`), no correo personal real. El sistema **no envía**: solo materializa `draft_email` tras approve. Rechazos reabren cola según reason code del runbook.",
         "Política PE: `quality_narrative` → reencola report; `wrong_recipient` → reencola recipient. Audit **append-only** — nunca reescritura de entradas previas.",
       ],
@@ -291,15 +303,15 @@ all_clear False`,
         title: "audit_hitl.py",
         code: `audit = []
 
-def act(artifact_id, action, actor, reason=None):
-    rec = {"id": artifact_id, "action": action, "actor": actor, "reason": reason}
+def act(artifact_id, action, actor, ts, reason=None, **extra):
+    rec = {"id": artifact_id, "action": action, "actor": actor, "ts": ts, "reason": reason, **extra}
     audit.append(rec)
     return rec
 
-act("report-1", "edit", "ana", reason="clarificar n")
-act("report-1", "approve", "luis")
-print(len(audit), audit[-1]["action"], audit[0]["reason"])`,
-        output: `2 approve clarificar n`,
+act("report-1", "edit", "r1", "2026-01-15T09:00", reason="clarificar n", **{"from": 1, "to": 2})
+act("report-1", "approve", "r2", "2026-01-15T09:30")
+print(len(audit), audit[-1]["action"], audit[-1]["actor"], audit[0]["reason"], audit[0]["from"], audit[0]["to"])`,
+        output: `2 approve r2 clarificar n 1 2`,
       },
       callout: {
         type: "warning",
@@ -312,7 +324,7 @@ print(len(audit), audit[-1]["action"], audit[0]["reason"])`,
       heading: "SLO, alertas y runbook operativo",
       subtopicId: "S26-T4-A",
       paragraphs: [
-        "Con el gate HITL y el audit en verde, falta **operar** el VP en producción. **SLO** sintético: `success_rate ≥ 0.95` diario; si rate=0.90 → alerta `alert_success_rate` (mismo nombre en prosa, lab y runbook). P0: `sends_without_approve > 0` — violación de control, no warning suave.",
+        "Con el gate HITL y el audit en verde, falta **operar** el VP en producción. **SLO** sintético: `success_rate ≥ 0.95` en una ventana de 7 días (`success_rate_7d`); si rate=0.90 → alerta `alert_success_rate` (mismo nombre en prosa, lab y runbook). P0: `sends_without_approve > 0` — violación de control, no warning suave.",
         "Runbook de incidente: **`disable_schedule → drain → page`**. Primero detienes el cron America/Lima, drenas workers (vacías la cola en vuelo), luego *pages on-call* (avisas al turno de guardia) con severidad explícita.",
         "Métricas del metadata de run: throughput, fallas, HITL latency, costo de tokens. **No** inventes `fraud_rate` en el dashboard — matching/score ≠ culpabilidad.",
       ],
@@ -354,38 +366,41 @@ runbook_step disable_schedule → drain queue → page oncall`,
       paragraphs: [
         "SLO y runbook protegen el día a día; el **cierre de nivel** exige evidencia E2E del path canónico **ingest → validate → analyze → ai_assist → report → approve → draft_email** en success con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos, **`fraud_labels=0`** (el VP no autoetiqueta fraude).",
         "Costo: tokens de IA + minutos de RPA acotados. Valor: minutos ahorrados estimados (p. ej. 45) frente al proceso manual — estimación de producto, no promesa financiera.",
-        "Regresión N2: re-ejecutar tests críticos de CP-N2-A/B/C, E2E del tramo S14–S26 y controles de privacidad/seguridad, más CF-2. Paquete de defensa: e2e, cost, value, `fraud_labels=0`, `n2_regression=pass` con evidencia real (no «planned»).",
+        "Regresión N2: re-ejecutar tests críticos de CP-N2-A/B/C, E2E del tramo S14–S26 y controles de privacidad/seguridad, más CF-2. Paquete de defensa: e2e, cost, value, `fraud_labels=0` y `n2_regression`. Ese valor sale de un `regression_log` con los comandos que corriste y su código de salida. Es `pass` solo si hay comandos y todos salieron con 0; sin log es `not_run`, nunca «planned».",
         "Caso PE: `cpn2c-close-e2e` con `data_cutoff` fijo; si un step failed → E2E False y **no** se firma promoción. Matching/OCR/RPA solo encolan evidencia — nunca claim de colusión/fraude en el informe final.",
       ],
       code: {
         language: 'python',
         title: "e2e_value.py",
-        code: `def e2e_vp():
-    steps = [
-        "ingest", "validate", "analyze", "ai_assist",
-        "report", "approve", "draft_email",
-    ]
-    evidence = {s: "success" for s in steps}
-    evidence["audit_events"] = 3
-    evidence["cost_tokens"] = 1200
-    evidence["value_minutes_saved_est"] = 45
-    evidence["fraud_labels"] = 0  # debe ser 0: no autofraude
-    evidence["n2_regression"] = "pass"  # re-run real, no "planned"
-    return evidence
+        code: `STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
 
-ev = e2e_vp()
-print("draft_email", ev["draft_email"], "audit", ev["audit_events"])
-print("cost_tokens", ev["cost_tokens"], "fraud_labels", ev["fraud_labels"])
-print("n2_regression", ev["n2_regression"], "value_min", ev["value_minutes_saved_est"])`,
-        output: `draft_email success audit 3
-cost_tokens 1200 fraud_labels 0
-n2_regression pass value_min 45`,
+def regression_status(log):
+    if not log:
+        return "not_run"
+    return "pass" if all(rc == 0 for _, rc in log) else "fail"
+
+def e2e_vp(run_state, audit, regression_log):
+    e2e = all(run_state.get(s) == "success" for s in STEPS) and any(a["action"] == "approve" for a in audit)
+    return {
+        "e2e": e2e,
+        "audit_events": len(audit),
+        "fraud_labels": 0,  # política: el VP no autoetiqueta fraude
+        "n2_regression": regression_status(regression_log),
+    }
+
+ok_run = {s: "success" for s in STEPS}
+audit = [{"action": "approve", "actor": "r2"}]
+log = [("python -m unittest tests.test_vp", 0), ("python -m unittest tests.test_cf2", 0)]
+print(e2e_vp(ok_run, audit, log))
+print(e2e_vp({**ok_run, "analyze": "failed"}, audit, []))`,
+        output: `{'e2e': True, 'audit_events': 1, 'fraud_labels': 0, 'n2_regression': 'pass'}
+{'e2e': False, 'audit_events': 1, 'fraud_labels': 0, 'n2_regression': 'not_run'}`,
       },
       callout: {
         type: "info",
         title: "CF-2 y regresión",
         content:
-          "CF-2 fija interfaces entre Familiarity, reporting y automatización. La regresión N2 no se «compensa» entre capstones.",
+          "CF-2 fija las tres interfaces entre Familiarity (tu proyecto de S01 a S25), reporting y automatización. La regresión N2 no se «compensa» entre capstones.",
       },
     },
   ],
@@ -398,7 +413,7 @@ n2_regression pass value_min 45`,
         environment: "local/cloud controlado",
         description: "Derivo el path canónico de 7 steps desde edges (ai_assist + draft_email). Pensando en voz alta: el orden sale de las dependencias de negocio, no de una lista inventada.",
         preamble:
-          "El cierre CP-N2-C no «elige un orden a gusto»: el path del VP sale de dependencias de negocio. En esta demo recorres aristas `a→b` desde `ingest` hasta `draft_email`, con `ai_assist` (traspaso de S25) y `approve` **antes** del borrador. No escribas aún: predice la lista de 7 nodos y por qué omitir `validate` o poner `draft_email` antes de `approve` rompería el contrato. Observa `n_steps` y el `ok` final.",
+          "El cierre CP-N2-C no «elige un orden a gusto»: el path del VP sale de dependencias de negocio. En esta demo recorres aristas `a→b` desde `ingest` hasta `draft_email`, con `ai_assist` (traspaso de S25) y `approve` **antes** del borrador. No escribas aún: predice la lista de 7 nodos y por qué omitir `validate` o poner `draft_email` antes de `approve` rompería el contrato. Observa `n_steps` y el chequeo final: el último nodo es `draft_email` y aparece una vez.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -424,11 +439,11 @@ def order_from_edges(edges):
 order = order_from_edges(edges)
 print(order)
 print("n_steps", len(order))
-print("ok", True)
+print("approve_antes_de_draft", order.index("approve") < order.index("draft_email"))
 `,
           output: `['ingest', 'validate', 'analyze', 'ai_assist', 'report', 'approve', 'draft_email']
 n_steps 7
-ok True`,
+approve_antes_de_draft True`,
         },
         why:
           "El orden se deriva de edges, no de una lista hardcodeada. `ai_assist` es el handoff de la IA que solo propone; el gate HITL (`approve` antes de `draft_email`) es dependencia de negocio, no preferencia de UX. Un ciclo o un salto (omitir `validate`) impide arrancar el flow con evidencia auditable. En We Do derivarás un tramo parcial, armarás aristas con `zip` y agregarás el estado global del flow.",
@@ -441,7 +456,7 @@ ok True`,
         environment: "local/cloud controlado",
         description: "Metadata de run con límites y zona America/Lima (pensando en voz alta). Versión didáctica: en producción añade trigger, git_sha y data_cutoff.",
         preamble:
-          "Antes de habilitar un schedule en un escritorio de ops (p. ej. San Isidro), el run necesita metadata mínima: `run_id`, límite de `api_rpm` y zona `America/Lima`. En esta demo construyes esa foto y un preflight didáctico que marca `too_high` si el rpm supera 60. No escribas: predice el dict impreso y por qué un burst sin límite tumbaría el export sintético.",
+          "Antes de habilitar un schedule en un escritorio de ops (p. ej. San Isidro), el run necesita metadata mínima: `run_id`, límite de `api_rpm` y zona `America/Lima`. En esta demo construyes esa foto y un preflight didáctico que marca `too_high` si el rpm supera 60. No escribas: predice el dict impreso, los dos preflights y por qué un burst sin límite tumbaría el export sintético.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -450,15 +465,18 @@ def run_meta(run_id, api_rpm=30, tz="America/Lima"):
     # Metadata inmutable al start: no reescribir tras el primer tick
     return {"run_id": run_id, "api_rpm": api_rpm, "tz": tz}
 
+def preflight(meta):
+    # Preflight didáctico San Isidro: >60 bloquea el enable del schedule
+    return "too_high" if meta["api_rpm"] > 60 else "ok"
+
 meta = run_meta("r1")
 print(meta)
-# Preflight didáctico San Isidro: >60 bloquearía enable del schedule
-print("preflight", "too_high" if meta["api_rpm"] > 60 else "ok")
-print("ok", True)
+print("preflight", preflight(meta))
+print("preflight rpm=90", preflight(run_meta("r2", api_rpm=90)))
 `,
           output: `{'run_id': 'r1', 'api_rpm': 30, 'tz': 'America/Lima'}
 preflight ok
-ok True`,
+preflight rpm=90 too_high`,
         },
         why:
           "El `run_id` une logs, HITL y artefactos; la metadata es inmutable al start (no reescribir a mitad del batch). El preflight protege el endpoint compartido del export. En prod se suman `trigger`, `git_sha` y `data_cutoff`. Sin metadata no hay auditoría ni schedule defendible. En We Do: snapshot de dos claves, umbral 60 y cron con tz Lima.",
@@ -471,13 +489,14 @@ ok True`,
         environment: "local/cloud controlado",
         description: "Checkpoint de reanudación + reintentos hasta max_attempts y DLQ con owner.",
         preamble:
-          "Un crash a mitad de `analyze` no debe rehacer el ingest: el checkpoint marca lo ya OK y solo reanuda pendientes. En esta demo `a` ya está en ckpt, `b` es flaky y agota 3 intentos hacia DLQ con `owner=ops_rpa`, y `c` se completa. No escribas: predice `resume_from` y el contenido de `dlq` (razón + attempts). Observa que flaky **no** cae a DLQ en el primer intento.",
+          "Un crash a mitad de `analyze` no debe rehacer el ingest: el checkpoint marca lo ya OK y solo reanuda pendientes. En esta demo `a` ya está en ckpt, `b` es flaky y agota 3 intentos hacia DLQ con `owner=ops_rpa`, y `c` se completa. No escribas: predice `resume_from` (lo que falta hacer), el checkpoint final y el contenido de `dlq` (razón + attempts). Observa que flaky **no** cae a DLQ en el primer intento.",
         code: {
           language: 'python',
           title: "demo.py",
           code: `def resume_and_dlq(ckpt, flaky_id, max_attempts=3):
     # ckpt = ya OK; flaky falla cada intento; al agotar → DLQ con razón y owner
     pending = [x for x in ["a", "b", "c"] if x not in ckpt]
+    resume_from = list(pending)
     dlq = []
     for it in pending:
         if it == flaky_id:
@@ -491,14 +510,14 @@ ok True`,
                     })
             continue
         ckpt.add(it)
-    return sorted(ckpt), dlq
+    return resume_from, sorted(ckpt), dlq
 
-rf, d = resume_and_dlq({"a"}, "b")
-print("resume_from", rf, "dlq", d)
-print("ok", True)
+rf, ck, d = resume_and_dlq({"a"}, "b")
+print("resume_from", rf)
+print("ckpt", ck, "dlq", d)
 `,
-          output: `resume_from ['a', 'c'] dlq [{'id': 'b', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]
-ok True`,
+          output: `resume_from ['b', 'c']
+ckpt ['a', 'c'] dlq [{'id': 'b', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`,
         },
         why:
           "Skip si id ∈ ckpt; retry hasta `max_attempts`; solo entonces DLQ con reason y owner (no basurero silencioso). Schema inválido de negocio no se reintenta como timeout. Reanudar sin duplicar y escalar a humano con owner es el núcleo de resiliencia del VP. En We Do: fórmula de backoff, append a DLQ y filtro de pendientes.",
@@ -511,7 +530,7 @@ ok True`,
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: create-once no pisa; si falla el draft, pop draft y report → superseded.",
         preamble:
-          "Un reintento exitoso dos veces no debe pisar un informe ya materializado, y un fallo de `draft_email` no borra la evidencia del report. En esta demo `put_once` deja `v1` aunque llegue `v2`, y la compensación quita el draft y marca report `superseded`. No escribas: predice ambas salidas y por qué no haces `del` del report.",
+          "Un reintento exitoso dos veces no debe pisar un informe ya materializado, y un fallo de `draft_email` no borra la evidencia del report. En esta demo `put_once` deja `v1` aunque llegue `v2`, y la compensación quita el draft y marca `report_status` como `superseded` sin tocar el texto del report. No escribas: predice ambas salidas y por qué no haces `del` del report.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -528,22 +547,20 @@ put_once("report", "v2")  # no pisa
 print("idempotent", store["report"])
 
 def compensate_failed_draft(state):
-    # Si falla draft_email tras report: pop draft, report → superseded
+    # Si falla draft_email tras report: pop draft; el report se queda, marcado superseded
     s = dict(state)
     s.pop("draft", None)
     if "report" in s:
-        s["report"] = "superseded"
+        s["report_status"] = "superseded"
     return s
 
 print(compensate_failed_draft({"report": "ok", "draft": "ok"}))
-print("ok", True)
 `,
           output: `idempotent v1
-{'report': 'superseded'}
-ok True`,
+{'report': 'ok', 'report_status': 'superseded'}`,
         },
         why:
-          "Create-once evita drafts duplicados bajo reentrega del mensaje; la compensación no es ACID mágica sino un grafo explícito (draft fuera, report `superseded` para defensa del historial). Idempotencia y compensación parcial protegen el rastro del VP cuando falla un step tardío. En We Do: `put` condicional, pop+superseded y lock fail-closed entre workers.",
+          "Create-once evita reescribir un informe (o un draft) ya materializado cuando el mensaje se reentrega; la demo lo muestra con el report. La compensación no es ACID mágica sino un grafo explícito (draft fuera, report intacto con `report_status` `superseded` para defensa del historial). Idempotencia y compensación parcial protegen el rastro del VP cuando falla un step tardío. En We Do: `put` condicional, pop+superseded y lock fail-closed entre workers.",
         retrospective:
           "Idempotencia y compensación parcial protegen el historial del VP sin «wipe» del informe. El error clásico es sobrescribir en cada put o borrar el report como si fuera rollback de base de datos. Pregunta: ¿qué evidencia perderías en el capstone si hicieras `del` del report? We Do: create-once, rollback parcial y busy cuando locked.",
       },
@@ -553,7 +570,7 @@ ok True`,
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: cuento pending en analysis/report/recipient y demuestro que un solo pending bloquea draft_email.",
         preamble:
-          "El VP no materializa correo con colas humanas abiertas. En esta demo hay tres contadores (`analysis`, `report`, `recipient`): con analysis=1 y report=1, `blocked` es True; con las tres en 0, `all_clear` es True. No escribas: predice ambas líneas y por qué un solo pending basta. Recuerda: la IA solo propone; no cierra el caso.",
+          "El VP no materializa correo con colas humanas abiertas. En esta demo hay tres contadores (`analysis`, `report`, `recipient`): con analysis=1 y report=1, `blocked` es True. Con un solo pending (recipient=1), también. Con las tres en 0, `all_clear` es True. No escribas: predice las tres líneas y por qué un solo pending basta. Recuerda: la IA solo propone; no cierra el caso.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -563,14 +580,14 @@ def queue_blocked(q):
 
 q = {"analysis": 1, "report": 1, "recipient": 0}
 print(q, "blocked", queue_blocked(q))
-# Si vaciamos analysis y report, recipient=0 → all_clear
+q_one = {"analysis": 0, "report": 0, "recipient": 1}
+print(q_one, "blocked", queue_blocked(q_one))
 q_clear = {"analysis": 0, "report": 0, "recipient": 0}
 print("all_clear", not queue_blocked(q_clear))
-print("ok", True)
 `,
           output: `{'analysis': 1, 'report': 1, 'recipient': 0} blocked True
-all_clear True
-ok True`,
+{'analysis': 0, 'report': 0, 'recipient': 1} blocked True
+all_clear True`,
         },
         why:
           "`any(v>0)` es el gate, no `all`: basta un pending para bloquear. Scores de matching alimentan analysis como evidencia, nunca como fraude. Sin triple verde no hay `draft_email`. Triple revisión antes del correo es el control anti «correo con narrativa alucinada». En We Do: contar pending, any blocked y checklist de claves.",
@@ -598,11 +615,9 @@ print(decide("reject", "r1", reason=None))  # fail-closed
 rec = decide("approve", "r1")
 log.append(rec)
 print(log[-1]["action"], "events", len(log))
-print("ok", True)
 `,
           output: `{'status': 'invalid'}
-approve events 1
-ok True`,
+approve events 1`,
         },
         why:
           "Reject exige reason no vacío; audit es append-only; actor sintético (`r1`), no correo personal. Reject con reason code reabre cola según runbook. Decisiones humanas dejan rastro append-only o no existen para defensa. En We Do: tupla de approve, invalid sin reason y edit versionado.",
@@ -615,7 +630,7 @@ ok True`,
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: evalúo success_rate y sends_without_approve; nombro alertas como en el runbook.",
         preamble:
-          "En operación del VP, el nombre de la alerta **es** el contrato del runbook: si el dashboard dice otra cosa, la página on-call se confunde. En esta demo evalúas `success_rate` bajo 0.95 y un envío sin approve. No escribas: predice las dos listas de alertas. Observa que unapproved send es P0 aunque el rate esté bien.",
+          "En operación del VP, el nombre de la alerta **es** el contrato del runbook: si el dashboard dice otra cosa, la página on-call se confunde. En esta demo evalúas `success_rate` bajo 0.95 y un envío sin approve. No escribas: predice las tres listas de alertas. Observa que unapproved send es P0 aunque el rate esté bien.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -630,14 +645,14 @@ def slo_alerts(rate, sends_without_approve, thr=0.95):
 
 print(slo_alerts(0.91, 0))
 print(slo_alerts(0.99, 1))
-print("ok", True)
+print(slo_alerts(0.99, 0))
 `,
           output: `['alert_success_rate']
 ['P0_unapproved_send']
-ok True`,
+['ok']`,
         },
         why:
-          "Umbral 0.95 diario/7d didáctico; `P0_unapproved_send` es violación de control, no warning suave. No inventes `fraud_rate` en el dashboard. `alert_success_rate` y `P0_unapproved_send` son contratos de runbook; un alias informal rompe la página on-call. En We Do: string de alerta, P0 de envíos y secuencia disable→drain→page.",
+          "Umbral 0.95 en ventana de 7 días, didáctico; `P0_unapproved_send` es violación de control, no warning suave. No inventes `fraud_rate` en el dashboard. `alert_success_rate` y `P0_unapproved_send` son contratos de runbook; un alias informal rompe la página on-call. En We Do: string de alerta, P0 de envíos y secuencia disable→drain→page.",
         retrospective:
           "Nombres de alerta estables unen lab, prosa y runbook: si el dashboard inventa un alias, la página on-call se confunde. El error clásico es «alert genérico» o tratar unapproved send como ok en sandbox. Pregunta: ¿por qué un rate sano no cancela un P0 de envío sin approve? We Do: umbral, P0 y secuencia de contención.",
       },
@@ -645,9 +660,9 @@ ok True`,
         demoId: "S26-T4-B-DEMO",
         subtopicId: "S26-T4-B",
         environment: "local/cloud controlado",
-        description: "Mini-runner E2E: estados nodo a nodo, fallo en analyze, gate approve→draft, regresión pass. Pensando en voz alta: un solo lifecycle une path, crash y gate HITL.",
+        description: "Mini-runner E2E: estados nodo a nodo, fallo en analyze, gate approve→draft, regresión not_run sin log. Pensando en voz alta: un solo lifecycle une path, crash y gate HITL.",
         preamble:
-          "El cierre de nivel exige un solo lifecycle: path de 7, gate HITL, evidencia de regresión y cero fraude automático. En esta demo el camino feliz marca 7 `success` y un approve en audit; el camino con `fail_at=analyze` deja analyze `failed` y report `pending`. No escribas: predice ambas salidas y por qué `n2_regression` es `pass` (re-run real) y no `planned`. Observa `fraud_labels 0`.",
+          "El cierre de nivel exige un solo lifecycle: path de 7, gate HITL, evidencia de regresión y cero fraude automático. En esta demo el camino feliz marca 7 `success` y un approve en audit; el camino con `fail_at=analyze` deja analyze `failed` y los pasos siguientes `skipped`; sin approve, `draft_email` queda `blocked`. `n2_regression` sale de un `regression_log`: sin comandos corridos es `not_run`. No escribas: predice las salidas y por qué la demo no puede imprimir `pass` por su cuenta. Observa `fraud_labels 0`.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -656,38 +671,47 @@ ok True`,
     "report", "approve", "draft_email",
 ]
 
-def run_vp(fail_at=None):
+def run_vp(fail_at=None, approver=None):
     # Pensando en voz alta: un solo lifecycle une path, fallo, gate HITL y draft.
     state = {s: "pending" for s in STEPS}
     audit = []
-    for s in STEPS:
+    for i, s in enumerate(STEPS):
         if fail_at == s:
             state[s] = "failed"
+            for later in STEPS[i + 1:]:
+                state[later] = "skipped"
             break
+        if s == "approve":
+            if approver is None:
+                state[s] = "pending"  # nadie aprobó: la cola sigue abierta
+                continue
+            audit.append({"action": "approve", "actor": approver})
         if s == "draft_email" and not any(a["action"] == "approve" for a in audit):
             state[s] = "blocked"
             break
         state[s] = "success"
-        if s == "approve":
-            audit.append({"action": "approve", "actor": "r1"})
     return state, audit
 
-# Camino feliz: 7 success + approve en audit
-st, au = run_vp()
+def regression_status(log):
+    if not log:
+        return "not_run"
+    return "pass" if all(rc == 0 for _, rc in log) else "fail"
+
+st, au = run_vp(approver="r1")
 print([st[s] for s in STEPS])
-print("audit", len(au), "fraud_labels", 0, "n2_regression", "pass")
-# Camino con crash: analyze falla; report sigue pending (no se avanza)
-st_fail, _ = run_vp(fail_at="analyze")
+print("audit", len(au), "fraud_labels", 0, "n2_regression", regression_status([]))
+st_no, _ = run_vp()
+print("sin approve", st_no["approve"], st_no["draft_email"])
+st_fail, _ = run_vp(fail_at="analyze", approver="r1")
 print("fail_at_analyze", st_fail["analyze"], "report", st_fail["report"])
-print("ok", True)
 `,
           output: `['success', 'success', 'success', 'success', 'success', 'success', 'success']
-audit 1 fraud_labels 0 n2_regression pass
-fail_at_analyze failed report pending
-ok True`,
+audit 1 fraud_labels 0 n2_regression not_run
+sin approve pending blocked
+fail_at_analyze failed report skipped`,
         },
         why:
-          "Un runner une path, crash observable y gate approve→draft; `fraud_labels=0` es política de producto. La regresión N2 revalida CP-N2-A/B/C + E2E + privacy + CF-2 con evidencia, no con promesa (`planned`). Un solo lifecycle defendible muestra success, blocked y failed con la misma máquina de estados. En We Do: all+approve, fraud_labels+approved y paquete de cierre.",
+          "Un runner une path, crash observable y gate approve→draft; `fraud_labels=0` es política de producto. La regresión N2 revalida CP-N2-A/B/C + E2E + privacy + CF-2 con evidencia: `pass` solo cuando el `regression_log` tiene comandos y todos salieron con 0. Esta demo no corre la regresión, por eso imprime `not_run`. Un solo lifecycle defendible muestra success, blocked y failed con la misma máquina de estados. En We Do: all+approve, fraud_labels+approved y paquete de cierre.",
         retrospective:
           "Un lifecycle defendible muestra success, blocked y failed con la misma máquina de estados. El error clásico es «todo success hardcodeado» o regresión «planned». We Do: all+approve, fraud_labels+approved y paquete de cierre.",
       },
@@ -702,9 +726,9 @@ ok True`,
         kind: "guided",
         title: "Derivar path parcial desde edges",
         preamble:
-          "- **Contexto:** en el lab del VP a veces trabajas un tramo base (sin AI ni email) para validar dependencias antes del path completo.\n- **Meta:** derivar el orden lineal de `partial_edges` empezando en `ingest`, sin inventar nodos.\n- **Éxito:** `['ingest', 'validate', 'analyze', 'report']`.\n- **Límites:** no hardcodees la lista; no omitas `validate`; no inserts aún `ai_assist` ni `draft_email` (vista parcial declarada).",
+          "- **Contexto:** en el lab del VP a veces trabajas un tramo base (sin AI ni email) para validar dependencias antes del path completo.\n- **Meta:** derivar el orden lineal de `partial_edges` empezando en `ingest`, sin inventar nodos.\n- **Éxito:** `['ingest', 'validate', 'analyze', 'report']` para el tramo base y `['ingest', 'validate', 'report']` para un tramo más corto.\n- **Límites:** no hardcodees la lista; no omitas `validate`; no inserts aún `ai_assist` ni `draft_email` (vista parcial declarada).",
         instruction:
-          "1. Abre el starter: imprime una lista que salta `validate` (DEFECT).\n2. Inicializa `order` con el primer nodo de la primera arista.\n3. Recorre cada `(a, b)` y, si `a` es el último de `order`, haz `append(b)`.\n4. Imprime solo `order`.",
+          "1. Abre el starter: imprime una lista que salta `validate` (DEFECT).\n2. Inicializa `order` con el primer nodo de la primera arista.\n3. Recorre cada `(a, b)` y, si `a` es el último de `order`, haz `append(b)`.\n4. Imprime `order` de cada tramo.",
         hint: "parte de first=edges[0][0] y append b si a==último",
         hints: [
           "order = [partial_edges[0][0]]; luego for a,b in partial_edges: si a==order[-1], append b.",
@@ -720,29 +744,30 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `partial_edges = [
-    ("ingest", "validate"),
-    ("validate", "analyze"),
-    ("analyze", "report"),
+          code: `tramos = [
+    [("ingest", "validate"), ("validate", "analyze"), ("analyze", "report")],
+    [("ingest", "validate"), ("validate", "report")],
 ]
-# DEFECT: salta validate y hardcodea sin recorrer edges
-print(["ingest", "analyze", "report"])
+for partial_edges in tramos:
+    # DEFECT: salta validate y hardcodea sin recorrer edges
+    print(["ingest", "analyze", "report"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `partial_edges = [
-    ("ingest", "validate"),
-    ("validate", "analyze"),
-    ("analyze", "report"),
+          code: `tramos = [
+    [("ingest", "validate"), ("validate", "analyze"), ("analyze", "report")],
+    [("ingest", "validate"), ("validate", "report")],
 ]
-order = [partial_edges[0][0]]
-for a, b in partial_edges:
-    if a == order[-1]:
-        order.append(b)
-print(order)`,
-          output: `['ingest', 'validate', 'analyze', 'report']`,
+for partial_edges in tramos:
+    order = [partial_edges[0][0]]
+    for a, b in partial_edges:
+        if a == order[-1]:
+            order.append(b)
+    print(order)`,
+          output: `['ingest', 'validate', 'analyze', 'report']
+['ingest', 'validate', 'report']`,
         },
       },
       {
@@ -751,9 +776,9 @@ print(order)`,
         kind: "independent",
         title: "Aristas lineales con zip de nodos",
         preamble:
-          "- **Contexto:** un path lineal del flow sintético necesita aristas consecutivas para el grafo, no solo una lista de nombres.\n- **Meta:** con `nodes=['a','b','c']`, construir edges con `zip` y reportar cuántas hay y cuáles son.\n- **Éxito:** `2 [('a', 'b'), ('b', 'c')]`.\n- **Límites:** solo path lineal (sin ciclos); no imprimas solo el `len`.",
+          "- **Contexto:** un path lineal del flow sintético necesita aristas consecutivas para el grafo, no solo una lista de nombres.\n- **Meta:** con `nodes=['a','b','c']`, construir edges con `zip` y reportar cuántas hay y cuáles son.\n- **Éxito:** `2 [('a', 'b'), ('b', 'c')]` y `1 [('x', 'y')]`.\n- **Límites:** solo path lineal (sin ciclos); no imprimas solo el `len`.",
         instruction:
-          "1. Revisa el starter: calcula `edges` bien pero imprime solo `len` (DEFECT).\n2. Deja `list(zip(nodes, nodes[1:]))`.\n3. Imprime `len(edges)` y `edges` en la misma línea.\n4. No inventes aristas hacia atrás ni ciclos.",
+          "1. Revisa el starter: calcula `edges` bien pero imprime solo `len` (DEFECT).\n2. Deja `list(zip(nodes, nodes[1:]))`.\n3. Para cada lista de nodos, imprime `len(edges)` y `edges` en la misma línea.\n4. No inventes aristas hacia atrás ni ciclos.",
         hint: "zip(nodes, nodes[1:])",
         hints: [
           "edges = list(zip(nodes, nodes[1:])) produce pares consecutivos.",
@@ -769,19 +794,19 @@ print(order)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: imprime solo len
-nodes=['a','b','c']
-edges=list(zip(nodes, nodes[1:]))
-print(len(edges))
+          code: `for nodes in (['a', 'b', 'c'], ['x', 'y']):
+    edges = list(zip(nodes, nodes[1:]))
+    print(len(edges))  # DEFECT: imprime solo len
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes=['a','b','c']
-edges=list(zip(nodes, nodes[1:]))
-print(len(edges), edges)`,
-          output: `2 [('a', 'b'), ('b', 'c')]`,
+          code: `for nodes in (['a', 'b', 'c'], ['x', 'y']):
+    edges = list(zip(nodes, nodes[1:]))
+    print(len(edges), edges)`,
+          output: `2 [('a', 'b'), ('b', 'c')]
+1 [('x', 'y')]`,
         },
       },
       {
@@ -790,9 +815,9 @@ print(len(edges), edges)`,
         kind: "transfer",
         title: "Estado global del flow si hay failed",
         preamble:
-          "- **Contexto:** el dashboard del VP no muestra solo nodos sueltos: necesita un estado agregado del flow.\n- **Meta:** con `tasks={'a':'success','b':'failed'}`, decidir `failed` o `success` con `any`.\n- **Éxito:** la cadena exacta `failed`.\n- **Límites:** `skipped` no cuenta como failed en este lab; no hardcodees `success`.",
+          "- **Contexto:** el dashboard del VP no muestra solo nodos sueltos: necesita un estado agregado del flow.\n- **Meta:** con dos corridas, decidir `failed` o `success` con `any`.\n- **Éxito:** `failed` para {'a': 'success', 'b': 'failed'} y `success` para {'a': 'success', 'b': 'skipped'}.\n- **Límites:** `skipped` no cuenta como failed en este lab; no hardcodees `success`.",
         instruction:
-          "1. Lee el DEFECT: siempre imprime `success`.\n2. Evalúa si algún valor es `'failed'`.\n3. Imprime `'failed'` o `'success'` según el resultado.\n4. No mutes el dict de tasks.",
+          "1. Lee el DEFECT: siempre imprime `success`.\n2. Evalúa si algún valor es `'failed'`.\n3. Imprime `'failed'` o `'success'` para cada corrida.\n4. No mutes el dict de tasks.",
         hint: "any(...) sobre values",
         hints: [
           "Usa any(v == 'failed' for v in tasks.values()).",
@@ -808,17 +833,19 @@ print(len(edges), edges)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: siempre success
-tasks={'a': 'success', 'b': 'failed'}
-print('success')
+          code: `runs = [{'a': 'success', 'b': 'failed'}, {'a': 'success', 'b': 'skipped'}]
+for tasks in runs:
+    print('success')  # DEFECT: siempre success
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tasks={'a': 'success', 'b': 'failed'}
-print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
-          output: `failed`,
+          code: `runs = [{'a': 'success', 'b': 'failed'}, {'a': 'success', 'b': 'skipped'}]
+for tasks in runs:
+    print('failed' if any(v == 'failed' for v in tasks.values()) else 'success')`,
+          output: `failed
+success`,
         },
       },
       {
@@ -827,9 +854,9 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         kind: "guided",
         title: "Snapshot inmutable run_id y api_rpm",
         preamble:
-          "- **Contexto:** ops necesita una foto legible del start del run para unir logs y límites, no el dict completo con ruido.\n- **Meta:** armar un snapshot de solo lectura con `run_id` y `api_rpm` e imprimir tupla con el tamaño.\n- **Éxito:** `('cpn2c-1', 30, 2)`.\n- **Límites:** no mutes `m`; no reescribas claves tras el start; no imprimas el dict entero.",
+          "- **Contexto:** ops necesita una foto legible del start del run para unir logs y límites, no el dict completo con ruido.\n- **Meta:** armar un snapshot de solo lectura con `run_id` y `api_rpm` e imprimir tupla con el tamaño.\n- **Éxito:** `('cpn2c-1', 30, 2)` y `('cpn2c-2', 45, 2)`.\n- **Límites:** no mutes `m`; no reescribas claves tras el start; no imprimas el dict entero.",
         instruction:
-          "1. Abre el starter: imprime `m` completo (DEFECT).\n2. Crea `snap` solo con `run_id` y `api_rpm`.\n3. Imprime `(snap['run_id'], snap['api_rpm'], len(snap))`.\n4. Deja `tz` fuera del snapshot de este ejercicio.",
+          "1. Abre el starter: imprime `m` completo (DEFECT).\n2. Crea `snap` solo con `run_id` y `api_rpm`.\n3. Para cada metadata, imprime `(snap['run_id'], snap['api_rpm'], len(snap))`.\n4. Deja `tz` fuera del snapshot de este ejercicio.",
         hint: "snapshot con dos claves + len",
         hints: [
           "snap = {'run_id': m['run_id'], 'api_rpm': m['api_rpm']}.",
@@ -845,18 +872,26 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: imprime dict entero sin snapshot
-m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}
-print(m)
+          code: `metas = [
+    {'run_id': 'cpn2c-1', 'api_rpm': 30, 'tz': 'America/Lima'},
+    {'run_id': 'cpn2c-2', 'api_rpm': 45, 'tz': 'America/Lima'},
+]
+for m in metas:
+    print(m)  # DEFECT: imprime dict entero sin snapshot
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}
-snap={'run_id': m['run_id'], 'api_rpm': m['api_rpm']}
-print((snap['run_id'], snap['api_rpm'], len(snap)))`,
-          output: `('cpn2c-1', 30, 2)`,
+          code: `metas = [
+    {'run_id': 'cpn2c-1', 'api_rpm': 30, 'tz': 'America/Lima'},
+    {'run_id': 'cpn2c-2', 'api_rpm': 45, 'tz': 'America/Lima'},
+]
+for m in metas:
+    snap = {'run_id': m['run_id'], 'api_rpm': m['api_rpm']}
+    print((snap['run_id'], snap['api_rpm'], len(snap)))`,
+          output: `('cpn2c-1', 30, 2)
+('cpn2c-2', 45, 2)`,
         },
       },
       {
@@ -865,9 +900,9 @@ print((snap['run_id'], snap['api_rpm'], len(snap)))`,
         kind: "independent",
         title: "Preflight api_rpm sobre umbral 60",
         preamble:
-          "- **Contexto:** en el adapter sintético de Lima, un `api_rpm` demasiado alto tumba el export compartido.\n- **Meta:** clasificar `api_rpm=90` como `too_high` o `ok` con umbral 60.\n- **Éxito:** la etiqueta exacta `too_high`.\n- **Límites:** umbral didáctico 60 (no 100); este gate bloquearía `enable` del schedule.",
+          "- **Contexto:** en el adapter sintético de Lima, un `api_rpm` demasiado alto tumba el export compartido.\n- **Meta:** clasificar `api_rpm` 90, 60 y 61 como `too_high` o `ok` con umbral 60 (estricto: 60 pasa).\n- **Éxito:** `too_high`, `ok` y `too_high`, una por línea.\n- **Límites:** umbral didáctico 60 (no 100); este gate bloquearía `enable` del schedule.",
         instruction:
-          "1. Revisa el starter: compara contra 100 (DEFECT).\n2. Cambia a `api_rpm > 60`.\n3. Imprime `'too_high'` o `'ok'`.\n4. No alteres el valor 90 del fixture.",
+          "1. Revisa el starter: compara contra 100 (DEFECT).\n2. Cambia a `api_rpm > 60`.\n3. Imprime `'too_high'` o `'ok'`.\n4. No alteres los valores del fixture: 60 y 61 fijan el borde.",
         hint: "umbral 60",
         hints: [
           "Compara api_rpm > 60, no > 100.",
@@ -883,18 +918,18 @@ print((snap['run_id'], snap['api_rpm'], len(snap)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: umbral 100
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-api_rpm=90
-print('too_high' if api_rpm>100 else 'ok')
+          code: `for api_rpm in (90, 60, 61):
+    print('too_high' if api_rpm > 100 else 'ok')  # DEFECT: umbral 100
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `api_rpm=90
-print('too_high' if api_rpm>60 else 'ok')`,
-          output: `too_high`,
+          code: `for api_rpm in (90, 60, 61):
+    print('too_high' if api_rpm > 60 else 'ok')`,
+          output: `too_high
+ok
+too_high`,
         },
       },
       {
@@ -903,16 +938,16 @@ print('too_high' if api_rpm>60 else 'ok')`,
         kind: "transfer",
         title: "Schedule 06:00 America/Lima listo",
         preamble:
-          "- **Contexto:** el batch del escritorio PE corre a las 06:00 en días hábiles en zona Lima, no en UTC «por defecto de servidor».\n- **Meta:** fijar cron + tz correctos y un preflight `ready`/`blocked`.\n- **Éxito:** dos líneas — `ready` y `0 6 * * 1-5 America/Lima`.\n- **Límites:** no uses UTC; el cron debe empezar por `0 6`; enable solo si ready.",
+          "- **Contexto:** el batch del escritorio PE corre a las 06:00 en días hábiles en zona Lima, no en UTC «por defecto de servidor».\n- **Meta:** fijar cron + tz correctos y un preflight `ready`/`blocked`.\n- **Éxito:** `ready` y `0 6 * * 1-5 America/Lima` para el schedule corregido; `blocked` para el schedule de control en UTC.\n- **Límites:** no uses UTC; el cron debe empezar por `0 6`; enable solo si ready.",
         instruction:
-          "1. Corrige el DEFECT: `tz` está en UTC.\n2. Deja `America/Lima` y el cron `0 6 * * 1-5`.\n3. Calcula `ready` con tz correcta y prefijo del cron.\n4. Imprime la etiqueta y luego `cron` y `tz`.",
+          "1. Corrige el DEFECT: `tz` está en UTC.\n2. Deja `America/Lima` y el cron `0 6 * * 1-5`.\n3. Calcula `ready` con tz correcta y prefijo del cron.\n4. Imprime la etiqueta y luego `cron` y `tz`; al final, la etiqueta del schedule de control.",
         hint: "preflight tz + prefijo de cron; luego print cron tz",
         hints: [
           "Condición ready: schedule['tz']=='America/Lima' y schedule['cron'].startswith('0 6').",
           "El DEFECT pone tz='UTC' → debe quedar America/Lima.",
           "Segunda línea: print(schedule['cron'], schedule['tz']).",
         ],
-        edgeCases: ["DST", "enable schedule solo si ready"],
+        edgeCases: ["Lima no tiene horario de verano: UTC-5 todo el año", "enable schedule solo si ready"],
         tests: "línea ready y línea 0 6 * * 1-5 America/Lima",
         feedback:
           "UTC o un cron sin 06:00 local desplaza el batch fuera del horario operativo de Lima. El «servidor ya está en UTC» no es argumento de negocio.",
@@ -922,21 +957,31 @@ print('too_high' if api_rpm>60 else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `schedule = {"cron": "0 6 * * 1-5", "tz": "UTC"}  # DEFECT: tz UTC
-# schedule["tz"] = "America/Lima"
-ready = schedule["tz"] == "America/Lima" and schedule["cron"].startswith("0 6")
-print("ready" if ready else "blocked")
+
+def ready_for(s):
+    return s["tz"] == "America/Lima" and s["cron"].startswith("0 6")
+
+print("ready" if ready_for(schedule) else "blocked")
 print(schedule["cron"], schedule["tz"])
+control = {"cron": "0 6 * * 1-5", "tz": "UTC"}  # 06:00 UTC son las 01:00 en Lima
+print("ready" if ready_for(control) else "blocked")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `schedule = {"cron": "0 6 * * 1-5", "tz": "America/Lima"}
-ready = schedule["tz"] == "America/Lima" and schedule["cron"].startswith("0 6")
-print("ready" if ready else "blocked")
-print(schedule["cron"], schedule["tz"])`,
+
+def ready_for(s):
+    return s["tz"] == "America/Lima" and s["cron"].startswith("0 6")
+
+print("ready" if ready_for(schedule) else "blocked")
+print(schedule["cron"], schedule["tz"])
+control = {"cron": "0 6 * * 1-5", "tz": "UTC"}  # 06:00 UTC son las 01:00 en Lima
+print("ready" if ready_for(control) else "blocked")`,
           output: `ready
-0 6 * * 1-5 America/Lima`,
+0 6 * * 1-5 America/Lima
+blocked`,
         },
       },
       {
@@ -945,9 +990,9 @@ print(schedule["cron"], schedule["tz"])`,
         kind: "guided",
         title: "Backoff exponencial attempt 3 base 100",
         preamble:
-          "- **Contexto:** un 429 o timeout de export no se resuelve reintentando a ritmo fijo; el lab usa espera creciente.\n- **Meta:** calcular `base * 2**(attempt-1)` con attempt=3 y base=100.\n- **Éxito:** el entero `400`.\n- **Límites:** no uses `base*attempt` (lineal); este ejercicio no aplica cap ni jitter.",
+          "- **Contexto:** un 429 o timeout de export no se resuelve reintentando a ritmo fijo; el lab usa espera creciente.\n- **Meta:** calcular `base * 2**(attempt-1)` con base=100 para attempt 1, 3 y 4.\n- **Éxito:** `100`, `400` y `800`, uno por línea.\n- **Límites:** no uses `base*attempt` (lineal); este ejercicio no aplica cap ni jitter.",
         instruction:
-          "1. Abre el starter: `base * attempt` (DEFECT lineal).\n2. Cambia a `base * (2 ** (attempt - 1))`.\n3. Imprime solo el entero de milisegundos.\n4. No inventes un sleep real en el lab.",
+          "1. Abre el starter: `base * attempt` (DEFECT lineal).\n2. Cambia a `base * (2 ** (attempt - 1))`.\n3. Imprime el entero de milisegundos de cada intento.\n4. No inventes un sleep real en el lab.",
         hint: "base * 2**(attempt-1)",
         hints: [
           "attempt=3 → 2**(3-1) = 4; 100*4 = 400.",
@@ -963,18 +1008,20 @@ print(schedule["cron"], schedule["tz"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: lineal base*attempt
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-attempt, base = 3, 100
-print(base * attempt)
+          code: `base = 100
+for attempt in (1, 3, 4):
+    print(base * attempt)  # DEFECT: lineal base*attempt
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `attempt, base = 3, 100
-print(base * (2 ** (attempt - 1)))`,
-          output: `400`,
+          code: `base = 100
+for attempt in (1, 3, 4):
+    print(base * (2 ** (attempt - 1)))`,
+          output: `100
+400
+800`,
         },
       },
       {
@@ -983,9 +1030,9 @@ print(base * (2 ** (attempt - 1)))`,
         kind: "independent",
         title: "DLQ con owner tras agotar intentos",
         preamble:
-          "- **Contexto:** cuando un ítem agota reintentos de timeout, no se borra: va a DLQ con dueño y razón.\n- **Meta:** si `attempts >= max_attempts`, append el dict de evidencia e imprimir la lista.\n- **Éxito:** `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`.\n- **Límites:** no envíes a DLQ en el primer fallo si aún hay cupo; incluye `attempts` en el dict.",
+          "- **Contexto:** cuando un ítem agota reintentos de timeout, no se borra: va a DLQ con dueño y razón.\n- **Meta:** si `attempts >= max_attempts`, append el dict de evidencia e imprimir la lista.\n- **Éxito:** `[]` para el ítem con attempts=1 de 3, y `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]` para el ítem que agotó sus 3.\n- **Límites:** no envíes a DLQ en el primer fallo si aún hay cupo; incluye `attempts` en el dict.",
         instruction:
-          "1. Revisa el starter: imprime `dlq` vacía aunque attempts=3 (DEFECT).\n2. Compara `attempts` con `max_attempts`.\n3. Append id, reason, owner y attempts.\n4. Imprime la lista `dlq`.",
+          "1. Revisa el starter: imprime `dlq` vacía aunque attempts=3 (DEFECT).\n2. Compara `attempts` con `max_attempts`.\n3. Append id, reason, owner y attempts.\n4. Imprime la lista `dlq` de cada caso.",
         hint: "append solo si attempts >= max_attempts",
         hints: [
           "Compara attempts con max_attempts antes de append.",
@@ -1001,26 +1048,29 @@ print(base * (2 ** (attempt - 1)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: DLQ vacía aunque attempts agotados
-dlq=[]
-attempts, max_attempts = 3, 3
-print(dlq)
+          code: `max_attempts = 3
+for attempts in (1, 3):
+    dlq = []
+    # DEFECT: DLQ vacía aunque attempts agotados
+    print(dlq)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `dlq=[]
-attempts, max_attempts = 3, 3
-if attempts >= max_attempts:
-    dlq.append({
-        'id': 'x',
-        'reason': 'timeout_exhausted',
-        'owner': 'ops_rpa',
-        'attempts': attempts,
-    })
-print(dlq)`,
-          output: `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`,
+          code: `max_attempts = 3
+for attempts in (1, 3):
+    dlq = []
+    if attempts >= max_attempts:
+        dlq.append({
+            'id': 'x',
+            'reason': 'timeout_exhausted',
+            'owner': 'ops_rpa',
+            'attempts': attempts,
+        })
+    print(dlq)`,
+          output: `[]
+[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`,
         },
       },
       {
@@ -1029,7 +1079,7 @@ print(dlq)`,
         kind: "transfer",
         title: "Pendientes del checkpoint tras crash",
         preamble:
-          "- **Contexto:** tras un crash, solo quieres reprocesar lo que no está en el checkpoint.\n- **Meta:** con `ckpt={'a'}` e `items=['a','b']`, imprimir solo pendientes.\n- **Éxito:** `['b']`.\n- **Límites:** no reimprimas `items` completo; no mutes `ckpt` en este lab.",
+          "- **Contexto:** tras un crash, solo quieres reprocesar lo que no está en el checkpoint.\n- **Meta:** imprimir solo los pendientes de dos corridas: ckpt={'a'} con items ['a','b'], y ckpt={'a','b'} con items ['a','b','c'].\n- **Éxito:** `['b']` y `['c']`.\n- **Límites:** no reimprimas `items` completo; no mutes `ckpt` en este lab.",
         instruction:
           "1. Lee el DEFECT: imprime todos los items.\n2. Filtra con `i not in ckpt`.\n3. Imprime la lista de pendientes.\n4. No hardcodees `['b']` sin mirar ckpt.",
         hint: "i not in ckpt",
@@ -1047,18 +1097,19 @@ print(dlq)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: reprocess all
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-ckpt={'a'}; items=['a','b']
-print(items)
+          code: `runs = [({'a'}, ['a', 'b']), ({'a', 'b'}, ['a', 'b', 'c'])]
+for ckpt, items in runs:
+    print(items)  # DEFECT: reprocess all
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ckpt={'a'}; items=['a','b']
-print([i for i in items if i not in ckpt])`,
-          output: `['b']`,
+          code: `runs = [({'a'}, ['a', 'b']), ({'a', 'b'}, ['a', 'b', 'c'])]
+for ckpt, items in runs:
+    print([i for i in items if i not in ckpt])`,
+          output: `['b']
+['c']`,
         },
       },
       {
@@ -1114,13 +1165,13 @@ print(store['r'])`,
         kind: "independent",
         title: "Compensar draft y report superseded",
         preamble:
-          "- **Contexto:** falló `draft_email` después de materializar el informe; hay que revertir el side-effect del draft sin borrar evidencia.\n- **Meta:** `pop` del draft y marcar `report='superseded'`.\n- **Éxito:** `{'report': 'superseded'}`.\n- **Límites:** no borres el report; no dejes el draft huérfano.",
+          "- **Contexto:** falló `draft_email` después de materializar el informe; hay que revertir el side-effect del draft sin borrar evidencia.\n- **Meta:** `pop` del draft y marcar el status del report como `superseded`, con la misma forma que la teoría: el report es un dict con `body` y `status`.\n- **Éxito:** `{'report': {'body': 'informe', 'status': 'superseded'}}` en las dos corridas: con draft y sin draft (la compensación no falla si el draft nunca se escribió).\n- **Límites:** no borres el report; no dejes el draft huérfano.",
         instruction:
-          "1. Revisa el starter: imprime el state intacto (DEFECT).\n2. Quita del state la clave del borrador, sin fallar si no estuviera.\n3. Marca el reporte como `superseded`.\n4. Imprime `state`.",
+          "1. Revisa el starter: imprime el state intacto (DEFECT).\n2. Quita del state la clave del borrador, sin fallar si no estuviera.\n3. Cambia solo `status` del reporte a `superseded`; el `body` se queda.\n4. Imprime `state` de cada corrida.",
         hint: "pop draft + superseded",
         hints: [
           "state.pop('draft', None) quita el borrador.",
-          "Asigna state['report'] = 'superseded' (no pop del report).",
+          "Asigna state['report']['status'] = 'superseded' (no pop del report, no reemplaces el dict).",
           "El grafo de compensación del VP no borra evidencia del informe.",
         ],
         edgeCases: ["compensar side effects"],
@@ -1132,19 +1183,28 @@ print(store['r'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: no pop ni superseded
-state={'report': 'ok', 'draft': 'ok'}
-print(state)
+          code: `states = [
+    {'report': {'body': 'informe', 'status': 'active'}, 'draft': 'd1'},
+    {'report': {'body': 'informe', 'status': 'active'}},
+]
+for state in states:
+    # DEFECT: no pop ni superseded
+    print(state)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `state={'report': 'ok', 'draft': 'ok'}
-state.pop('draft', None)
-state['report'] = 'superseded'
-print(state)`,
-          output: `{'report': 'superseded'}`,
+          code: `states = [
+    {'report': {'body': 'informe', 'status': 'active'}, 'draft': 'd1'},
+    {'report': {'body': 'informe', 'status': 'active'}},
+]
+for state in states:
+    state.pop('draft', None)
+    state['report']['status'] = 'superseded'
+    print(state)`,
+          output: `{'report': {'body': 'informe', 'status': 'superseded'}}
+{'report': {'body': 'informe', 'status': 'superseded'}}`,
         },
       },
       {
@@ -1153,9 +1213,9 @@ print(state)`,
         kind: "transfer",
         title: "Lock fail-closed: busy si locked",
         preamble:
-          "- **Contexto:** dos workers no deben editar el mismo informe; si `locked=True`, reencolas.\n- **Meta:** imprimir `('busy', id)` o `('enter', id)` según el flag.\n- **Éxito:** `('busy', 'report-1')`.\n- **Límites:** fail-closed (ante duda, no entras); sin busy-loop en el lab.",
+          "- **Contexto:** dos workers no deben editar el mismo informe; si `locked=True`, reencolas.\n- **Meta:** imprimir `('busy', id)` o `('enter', id)` según el flag.\n- **Éxito:** `('busy', 'report-1')` y `('enter', 'report-2')`.\n- **Límites:** fail-closed (ante duda, no entras); sin busy-loop en el lab.",
         instruction:
-          "1. Lee el DEFECT: la condición está invertida (enter cuando locked).\n2. Si locked → `busy` + id; si no → `enter` + id.\n3. Imprime la tupla.\n4. No ignores el `id` en la salida.",
+          "1. Lee el DEFECT: la condición está invertida (enter cuando locked).\n2. Si locked → `busy` + id; si no → `enter` + id.\n3. Imprime la tupla de cada entidad.\n4. No ignores el `id` en la salida.",
         hint: "busy + id si locked; enter + id si libre",
         hints: [
           "Lee entity['locked'] y entity['id'].",
@@ -1171,17 +1231,20 @@ print(state)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `entity = {"id": "report-1", "locked": True}
-# DEFECT: enter aunque locked
-print(("enter", entity["id"]) if entity["locked"] else ("busy", entity["id"]))
+          code: `entities = [{"id": "report-1", "locked": True}, {"id": "report-2", "locked": False}]
+for entity in entities:
+    # DEFECT: enter aunque locked
+    print(("enter", entity["id"]) if entity["locked"] else ("busy", entity["id"]))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `entity = {"id": "report-1", "locked": True}
-print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
-          output: `('busy', 'report-1')`,
+          code: `entities = [{"id": "report-1", "locked": True}, {"id": "report-2", "locked": False}]
+for entity in entities:
+    print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
+          output: `('busy', 'report-1')
+('enter', 'report-2')`,
         },
       },
       {
@@ -1227,9 +1290,9 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         kind: "independent",
         title: "Gate blocked si alguna cola > 0",
         preamble:
-          "- **Contexto:** el borrador del VP se bloquea si **cualquier** cola HITL tiene trabajo pendiente.\n- **Meta:** con `analysis=1` y las otras en 0, decidir blocked con `any`.\n- **Éxito:** `True`.\n- **Límites:** no uses `all` (exigiría las tres llenas); no inventes un cuarto gate.",
+          "- **Contexto:** el borrador del VP se bloquea si **cualquier** cola HITL tiene trabajo pendiente.\n- **Meta:** decidir blocked con `any` para tres estados de colas.\n- **Éxito:** `True` (analysis=1), `True` (report=2) y `False` (las tres en 0).\n- **Límites:** no uses `all` (exigiría las tres llenas); no inventes un cuarto gate.",
         instruction:
-          "1. Revisa el starter: usa `all(v>0)` (DEFECT).\n2. Cambia a `any(v>0 ...)`.\n3. Imprime el booleano.\n4. No hardcodees `True` sin mirar `q`.",
+          "1. Revisa el starter: usa `all(v>0)` (DEFECT).\n2. Cambia a `any(v>0 ...)`.\n3. Imprime el booleano de cada estado.\n4. No hardcodees `True` sin mirar `q`.",
         hint: "any(v > 0 ...)",
         hints: [
           "blocked = any(v > 0 for v in q.values()).",
@@ -1245,17 +1308,28 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: all >0
-q={'analysis':1,'report':0,'recipient':0}
-print(all(v>0 for v in q.values()))
+          code: `estados = [
+    {'analysis': 1, 'report': 0, 'recipient': 0},
+    {'analysis': 0, 'report': 2, 'recipient': 0},
+    {'analysis': 0, 'report': 0, 'recipient': 0},
+]
+for q in estados:
+    print(all(v > 0 for v in q.values()))  # DEFECT: all >0
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `q={'analysis':1,'report':0,'recipient':0}
-print(any(v>0 for v in q.values()))`,
-          output: `True`,
+          code: `estados = [
+    {'analysis': 1, 'report': 0, 'recipient': 0},
+    {'analysis': 0, 'report': 2, 'recipient': 0},
+    {'analysis': 0, 'report': 0, 'recipient': 0},
+]
+for q in estados:
+    print(any(v > 0 for v in q.values()))`,
+          output: `True
+True
+False`,
         },
       },
       {
@@ -1264,9 +1338,9 @@ print(any(v>0 for v in q.values()))`,
         kind: "transfer",
         title: "Checklist de colas aún pending",
         preamble:
-          "- **Contexto:** el revisor del VP necesita saber **qué** colas siguen pending, no un checklist genérico de nombres de negocio.\n- **Meta:** derivar las claves con status `pending` en orden analysis → report → recipient.\n- **Éxito:** `['analysis', 'recipient']`.\n- **Límites:** no hardcodees metrics/narrative; no incluyas `report` si está done.",
+          "- **Contexto:** el revisor del VP necesita saber **qué** colas siguen pending, no un checklist genérico de nombres de negocio.\n- **Meta:** derivar las claves con status `pending` en orden analysis → report → recipient.\n- **Éxito:** `['analysis', 'recipient']` y luego `['report']`.\n- **Límites:** no hardcodees metrics/narrative; no incluyas `report` si está done.",
         instruction:
-          "1. Lee el DEFECT: imprime una lista fija de labels.\n2. Define el orden canónico de las tres colas.\n3. Incluye solo claves cuyo value sea `'pending'`.\n4. Imprime esa lista.",
+          "1. Lee el DEFECT: imprime una lista fija de labels.\n2. Define el orden canónico de las tres colas.\n3. Incluye solo claves cuyo value sea `'pending'`.\n4. Imprime esa lista para cada estado.",
         hint: "filtra keys con status pending",
         hints: [
           "Recorre el orden canónico analysis → report → recipient.",
@@ -1282,18 +1356,27 @@ print(any(v>0 for v in q.values()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: imprime checklist fijo sin mirar status
-queues={'analysis':'pending','report':'done','recipient':'pending'}
-print(['metrics','narrative','recipient'])
+          code: `estados = [
+    {'analysis': 'pending', 'report': 'done', 'recipient': 'pending'},
+    {'analysis': 'done', 'report': 'pending', 'recipient': 'done'},
+]
+for queues in estados:
+    # DEFECT: imprime checklist fijo sin mirar status
+    print(['metrics', 'narrative', 'recipient'])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `queues={'analysis':'pending','report':'done','recipient':'pending'}
-order=['analysis','report','recipient']
-print([k for k in order if queues[k]=='pending'])`,
-          output: `['analysis', 'recipient']`,
+          code: `estados = [
+    {'analysis': 'pending', 'report': 'done', 'recipient': 'pending'},
+    {'analysis': 'done', 'report': 'pending', 'recipient': 'done'},
+]
+order = ['analysis', 'report', 'recipient']
+for queues in estados:
+    print([k for k in order if queues[k] == 'pending'])`,
+          output: `['analysis', 'recipient']
+['report']`,
         },
       },
       {
@@ -1302,9 +1385,9 @@ print([k for k in order if queues[k]=='pending'])`,
         kind: "guided",
         title: "Audit append-only de un approve",
         preamble:
-          "- **Contexto:** cada approve del VP debe dejar decisión y prueba de que el log creció sin reescritura.\n- **Meta:** append `action=approve` / `actor=rev` e imprimir `(action, len(audit))`.\n- **Éxito:** `('approve', 1)`.\n- **Límites:** no reasignes `audit` a otra lista; no imprimas solo el actor.",
+          "- **Contexto:** cada approve del VP debe dejar decisión y prueba de que el log creció sin reescritura.\n- **Meta:** append dos approve (actores sintéticos `r1` y `r2`) e imprimir `(action, len(audit))` tras cada uno.\n- **Éxito:** `('approve', 1)` y luego `('approve', 2)`.\n- **Límites:** no reasignes `audit` a otra lista; no imprimas solo el actor.",
         instruction:
-          "1. Abre el starter: imprime solo `actor` (DEFECT).\n2. Tras el append, lee `action` y `len(audit)`.\n3. Imprime la tupla.\n4. No mutes el dict del evento ya appendeado.",
+          "1. Abre el starter: imprime solo `actor` (DEFECT).\n2. Tras el append, lee `action` y `len(audit)`.\n3. Imprime la tupla tras cada append.\n4. No mutes el dict del evento ya appendeado.",
         hint: "print (action, len)",
         hints: [
           "Tras append, lee audit[0]['action'] y len(audit).",
@@ -1320,19 +1403,21 @@ print([k for k in order if queues[k]=='pending'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: imprime solo actor
-audit=[]
-audit.append({'action':'approve','actor':'rev'})
-print(audit[0]['actor'])
+          code: `audit = []
+for actor in ('r1', 'r2'):
+    audit.append({'action': 'approve', 'actor': actor})
+    print(audit[-1]['actor'])  # DEFECT: imprime solo actor
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `audit=[]
-audit.append({'action':'approve','actor':'rev'})
-print((audit[0]['action'], len(audit)))`,
-          output: `('approve', 1)`,
+          code: `audit = []
+for actor in ('r1', 'r2'):
+    audit.append({'action': 'approve', 'actor': actor})
+    print((audit[-1]['action'], len(audit)))`,
+          output: `('approve', 1)
+('approve', 2)`,
         },
       },
       {
@@ -1341,7 +1426,7 @@ print((audit[0]['action'], len(audit)))`,
         kind: "independent",
         title: "Reject sin reason es invalid",
         preamble:
-          "- **Contexto:** un rechazo humano sin justificación no es defendible ni operable (¿qué cola reabrir?).\n- **Meta:** con `action='reject'` y `reason=None`, imprimir `invalid` o `ok`.\n- **Éxito:** `invalid`.\n- **Límites:** reason vacío o None son inválidos; no imprimas `ok` a ciegas.",
+          "- **Contexto:** un rechazo humano sin justificación no es defendible ni operable (¿qué cola reabrir?).\n- **Meta:** con `action='reject'` y tres reasons (None, '' y 'quality_narrative'), imprimir `invalid` o `ok`.\n- **Éxito:** `invalid`, `invalid` y `ok`.\n- **Límites:** reason vacío o None son inválidos; no imprimas `ok` a ciegas.",
         instruction:
           "1. Revisa el starter: imprime `ok` siempre (DEFECT).\n2. Si reject y no hay reason → `invalid`.\n3. En cualquier otro caso → `ok`.\n4. No inventes un reason en este ejercicio.",
         hint: "reject and not reason",
@@ -1359,18 +1444,20 @@ print((audit[0]['action'], len(audit)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: ok sin reason
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-action, reason = 'reject', None
-print('ok')
+          code: `action = 'reject'
+for reason in (None, '', 'quality_narrative'):
+    print('ok')  # DEFECT: ok sin reason
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `action, reason = 'reject', None
-print('invalid' if action=='reject' and not reason else 'ok')`,
-          output: `invalid`,
+          code: `action = 'reject'
+for reason in (None, '', 'quality_narrative'):
+    print('invalid' if action == 'reject' and not reason else 'ok')`,
+          output: `invalid
+invalid
+ok`,
         },
       },
       {
@@ -1379,9 +1466,9 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
         kind: "transfer",
         title: "Edit versionado con evento de audit",
         preamble:
-          "- **Contexto:** una edición de narrativa del informe no borra historia: sube versión y deja evento.\n- **Meta:** de `ver=1` pasar a 2 y append `{action, actor, from, to}`.\n- **Éxito:** `(2, 1, 'edit')`.\n- **Límites:** no borres eventos previos; un solo append en este lab.",
+          "- **Contexto:** una edición de narrativa del informe no borra historia: sube versión y deja evento.\n- **Meta:** de `ver=1` pasar a 2 y append `{action, actor, from, to}`, la forma que la teoría da a un `edit`.\n- **Éxito:** `(2, 1, 'edit', 1, 2)`.\n- **Límites:** no borres eventos previos; un solo append en este lab.",
         instruction:
-          "1. Lee el DEFECT: imprime ver=1 y sin acción.\n2. Guarda `from`, incrementa `ver`, append el dict de edit.\n3. Imprime `(ver, len(audit), audit[-1]['action'])`.\n4. Usa actor sintético `ana`.",
+          "1. Lee el DEFECT: imprime ver=1 y sin acción.\n2. Guarda `from`, incrementa `ver`, append el dict de edit.\n3. Imprime `(ver, len(audit), audit[-1]['action'], audit[-1]['from'], audit[-1]['to'])`.\n4. Usa el actor sintético `r1`.",
         hint: "ver += 1 luego audit.append",
         hints: [
           "Primero ver += 1; luego audit.append(...).",
@@ -1398,22 +1485,21 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: no incrementa ni audita
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-ver=1
-audit=[]
-print((ver, len(audit), None))
+ver = 1
+audit = []
+print((ver, len(audit), None, None, None))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ver=1
-audit=[]
+          code: `ver = 1
+audit = []
 from_v = ver
 ver += 1
-audit.append({'action':'edit','actor':'ana','from':from_v,'to':ver})
-print((ver, len(audit), audit[-1]['action']))`,
-          output: `(2, 1, 'edit')`,
+audit.append({'action': 'edit', 'actor': 'r1', 'from': from_v, 'to': ver})
+print((ver, len(audit), audit[-1]['action'], audit[-1]['from'], audit[-1]['to']))`,
+          output: `(2, 1, 'edit', 1, 2)`,
         },
       },
       {
@@ -1422,9 +1508,9 @@ print((ver, len(audit), audit[-1]['action']))`,
         kind: "guided",
         title: "Alerta alert_success_rate bajo 0.95",
         preamble:
-          "- **Contexto:** el SLO del VP exige `success_rate ≥ 0.95`; por debajo se dispara la alerta del runbook.\n- **Meta:** con `rate=0.9`, emitir el nombre canónico de alerta o `ok`.\n- **Éxito:** `alert_success_rate`.\n- **Límites:** compara `rate < 0.95` (no `>`); no uses un alias genérico `alert`.",
+          "- **Contexto:** el SLO del VP exige `success_rate ≥ 0.95`; por debajo se dispara la alerta del runbook.\n- **Meta:** con rate 0.9, 0.97 y 0.95, emitir el nombre canónico de alerta o `ok`.\n- **Éxito:** `alert_success_rate`, `ok` y `ok` (0.95 cumple el SLO).\n- **Límites:** compara `rate < 0.95` (no `>`); no uses un alias genérico `alert`.",
         instruction:
-          "1. Abre el starter: condición invertida y string `alert` (DEFECT).\n2. Corrige a `rate < 0.95`.\n3. Imprime `'alert_success_rate'` o `'ok'`.\n4. No cambies el fixture 0.9.",
+          "1. Abre el starter: condición invertida y string `alert` (DEFECT).\n2. Corrige a `rate < 0.95`.\n3. Imprime `'alert_success_rate'` o `'ok'`.\n4. No cambies los valores del fixture.",
         hint: "rate < 0.95 → alert_success_rate",
         hints: [
           "Compara rate < 0.95 (no >).",
@@ -1440,17 +1526,18 @@ print((ver, len(audit), audit[-1]['action']))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: alert si rate > 0.95 y nombre genérico
-rate=0.9
-print('alert' if rate > 0.95 else 'ok')
+          code: `for rate in (0.9, 0.97, 0.95):
+    print('alert' if rate > 0.95 else 'ok')  # DEFECT: alert si rate > 0.95 y nombre genérico
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rate=0.9
-print('alert_success_rate' if rate < 0.95 else 'ok')`,
-          output: `alert_success_rate`,
+          code: `for rate in (0.9, 0.97, 0.95):
+    print('alert_success_rate' if rate < 0.95 else 'ok')`,
+          output: `alert_success_rate
+ok
+ok`,
         },
       },
       {
@@ -1459,7 +1546,7 @@ print('alert_success_rate' if rate < 0.95 else 'ok')`,
         kind: "independent",
         title: "P0 si hay envío sin approve",
         preamble:
-          "- **Contexto:** cero envíos sin approve humano es control de cumplimiento del VP (incluso en sandbox mal configurado).\n- **Meta:** con `n=1`, emitir `P0_unapproved_send` o `ok`.\n- **Éxito:** `P0_unapproved_send`.\n- **Límites:** un solo envío ya es P0; no inviertas la lógica «ok si n>0».",
+          "- **Contexto:** cero envíos sin approve humano es control de cumplimiento del VP (incluso en sandbox mal configurado).\n- **Meta:** con `n=1` y `n=0`, emitir `P0_unapproved_send` o `ok`.\n- **Éxito:** `P0_unapproved_send` y luego `ok`.\n- **Límites:** un solo envío ya es P0; no inviertas la lógica «ok si n>0».",
         instruction:
           "1. Revisa el starter: imprime `ok` cuando `n>0` (DEFECT).\n2. Si `n>0` → `P0_unapproved_send`.\n3. Si no → `ok`.\n4. No trates sandbox como excepción en este lab.",
         hint: "n > 0 es P0",
@@ -1477,18 +1564,17 @@ print('alert_success_rate' if rate < 0.95 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: ok aunque n>0
-# Este codigo tiene un defecto intencional que el learner debe corregir.
-n=1
-print('ok' if n>0 else 'P0_unapproved_send')
+          code: `for n in (1, 0):
+    print('ok' if n > 0 else 'P0_unapproved_send')  # DEFECT: ok aunque n>0
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=1
-print('P0_unapproved_send' if n>0 else 'ok')`,
-          output: `P0_unapproved_send`,
+          code: `for n in (1, 0):
+    print('P0_unapproved_send' if n > 0 else 'ok')`,
+          output: `P0_unapproved_send
+ok`,
         },
       },
       {
@@ -1587,7 +1673,7 @@ False`,
         kind: "independent",
         title: "Gate fraud_labels 0 y approved",
         preamble:
-          "- **Contexto:** matching/OCR/RPA no generan etiquetas de fraude; el draft no se defiende sin approve.\n- **Meta:** con `fraud_labels=0` y `approved=True`, emitir `ok` o `fail`.\n- **Éxito:** `ok`.\n- **Límites:** ambas condiciones con `and`; no inviertas «fail si labels==0».",
+          "- **Contexto:** matching/OCR/RPA no generan etiquetas de fraude; el draft no se defiende sin approve.\n- **Meta:** con tres paquetes, emitir `ok` o `fail`.\n- **Éxito:** `ok` (0 labels y aprobado), `fail` (sin aprobar) y `fail` (1 label).\n- **Límites:** ambas condiciones con `and`; no inviertas «fail si labels==0».",
         instruction:
           "1. Revisa el starter: invierte e ignora `approved` (DEFECT).\n2. Exige `fraud_labels==0` **y** `approved`.\n3. Imprime `'ok'` o `'fail'`.\n4. No eleves labels por score de matching.",
         hint: "ambas condiciones del gate",
@@ -1605,17 +1691,29 @@ False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# DEFECT: solo mira fraud_labels e invierte
-pkg={'fraud_labels':0,'approved':True}
-print('fail' if pkg['fraud_labels']==0 else 'ok')
+          code: `pkgs = [
+    {'fraud_labels': 0, 'approved': True},
+    {'fraud_labels': 0, 'approved': False},
+    {'fraud_labels': 1, 'approved': True},
+]
+for pkg in pkgs:
+    # DEFECT: solo mira fraud_labels e invierte
+    print('fail' if pkg['fraud_labels'] == 0 else 'ok')
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `pkg={'fraud_labels':0,'approved':True}
-print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
-          output: `ok`,
+          code: `pkgs = [
+    {'fraud_labels': 0, 'approved': True},
+    {'fraud_labels': 0, 'approved': False},
+    {'fraud_labels': 1, 'approved': True},
+]
+for pkg in pkgs:
+    print('ok' if pkg['fraud_labels'] == 0 and pkg['approved'] else 'fail')`,
+          output: `ok
+fail
+fail`,
         },
       },
       {
@@ -1624,16 +1722,16 @@ print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
         kind: "transfer",
         title: "Paquete de defensa N2 value y CF-2",
         preamble:
-          "- **Contexto:** el paquete de cierre del VP une regresión N2, estimación de valor y nota CF-2; sin value no hay métrica de impacto.\n- **Meta:** implementar `defense_package(...)` con las tres claves y llamar con los fixtures del lab.\n- **Éxito:** el dict con `n2_regression`, `value_minutes_saved_est=45` y `cf2` de interfaces.\n- **Límites:** no omitas value; no dejes `cf2` vacío; evidencia real ≠ string `planned`.",
+          "- **Contexto:** el paquete de cierre del VP une regresión N2, estimación de valor y nota CF-2; sin value no hay métrica de impacto.\n- **Meta:** implementar `defense_package(...)` con las tres claves y llamar con los fixtures del lab.\n- **Éxito:** dos dicts con `n2_regression`, `value_minutes_saved_est=45` y `cf2`. `n2_regression` sale de `regression_status(log)`: `pass` con el log de comandos que salieron con 0, `not_run` con el log vacío. `cf2` nombra las tres interfaces de CF-2 (ver el callout inicial).\n- **Límites:** no omitas value; no dejes `cf2` vacío; evidencia real ≠ string `planned`.",
         instruction:
-          "1. Lee el DEFECT: el return omite `value_minutes_saved_est`.\n2. Incluye las tres claves mapeando los argumentos.\n3. Llama con los tres argumentos del fixture.\n4. Imprime el dict completo.",
+          "1. Lee el DEFECT: el return omite `value_minutes_saved_est`.\n2. Incluye las tres claves mapeando los argumentos.\n3. Llama con cada log del fixture.\n4. Imprime el dict completo de cada llamada.",
         hint: "def que arma las tres claves; no omitas value_min",
         hints: [
           "return {'n2_regression': n2_status, 'value_minutes_saved_est': value_min, 'cf2': cf2_note}.",
           "El DEFECT omite value_minutes_saved_est: restáuralo.",
-          "cf2 documenta interfaces Familiarity-reporting-automation (no un string vacío).",
+          "cf2 nombra las tres interfaces de CF-2: familiarity_to_reporting, reporting_to_automation y automation_to_audit.",
         ],
-        edgeCases: ["gate ≥80% no crítica; 0 fallas críticas", "evidencia real ≠ 'planned'"],
+        edgeCases: ["un comando con código de salida distinto de 0 da fail", "evidencia real ≠ 'planned'"],
         tests: "dict completo vía función (n2_regression + value + CF-2)",
         feedback:
           "Sin value estimate o CF-2 el paquete de cierre no es defendible; hardcodear solo dos claves es una demo incompleta, no evidencia de regresión.",
@@ -1642,49 +1740,60 @@ print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def defense_package(n2_status, value_min, cf2_note):
+          code: `CF2 = "familiarity_to_reporting, reporting_to_automation, automation_to_audit"
+
+def regression_status(log):
+    if not log:
+        return "not_run"
+    return "pass" if all(rc == 0 for _, rc in log) else "fail"
+
+def defense_package(n2_status, value_min, cf2_note):
     # DEFECT: omite value_minutes_saved_est
     return {
         "n2_regression": n2_status,
         "cf2": cf2_note,
     }
 
-print(defense_package(
-    "CP-N2-A/B/C critical+privacy",
-    45,
-    "interfaces Familiarity-reporting-automation",
-))
+logs = [[("python -m unittest tests.test_vp", 0)], []]
+for log in logs:
+    print(defense_package(regression_status(log), 45, CF2))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def defense_package(n2_status, value_min, cf2_note):
+          code: `CF2 = "familiarity_to_reporting, reporting_to_automation, automation_to_audit"
+
+def regression_status(log):
+    if not log:
+        return "not_run"
+    return "pass" if all(rc == 0 for _, rc in log) else "fail"
+
+def defense_package(n2_status, value_min, cf2_note):
     return {
         "n2_regression": n2_status,
         "value_minutes_saved_est": value_min,
         "cf2": cf2_note,
     }
 
-print(defense_package(
-    "CP-N2-A/B/C critical+privacy",
-    45,
-    "interfaces Familiarity-reporting-automation",
-))`,
-          output: `{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'}`,
+logs = [[("python -m unittest tests.test_vp", 0)], []]
+for log in logs:
+    print(defense_package(regression_status(log), 45, CF2))`,
+          output: `{'n2_regression': 'pass', 'value_minutes_saved_est': 45, 'cf2': 'familiarity_to_reporting, reporting_to_automation, automation_to_audit'}
+{'n2_regression': 'not_run', 'value_minutes_saved_est': 45, 'cf2': 'familiarity_to_reporting, reporting_to_automation, automation_to_audit'}`,
         },
       },
     ],
   },
   youDo: {
-    title: "VP RPA + AI Analyst — cierre CP-N2-C + notas regresión N2",
+    title: "VP RPA + AI Analyst — práctica integradora + notas de regresión N2",
     context:
-      "Orquesta el VP sintético de punta a punta: ingest→validate→analyze→ai_assist→report→approve→draft_email. Incluye checkpoint/DLQ, triple cola HITL, audit, SLO y un checklist de **regresión N2** (tests críticos CP-N2-A/B/C, E2E S14–S26, privacidad/seguridad, CF-2 interfaces). No envíes correo real; fraud_labels=0; matching no implica fraude.",
+      "Orquesta el VP sintético de punta a punta: ingest→validate→analyze→ai_assist→report→approve→draft_email. Incluye checkpoint/DLQ, triple cola HITL, audit, SLO y un checklist de **regresión N2** (tests críticos CP-N2-A/B/C, E2E S14–S26, privacidad/seguridad y CF-2). Este proyecto no es el capstone CP-N2-C, que tiene su propio contrato (`rpa.run(job) -> RpaAudit`) y su rúbrica. El capstone reutiliza lo que construyes aquí: idempotencia, rollback, aprobación con actor y logs sin PII. **CF-2** son tres interfaces; cada una se prueba con un fixture sintético. Son `familiarity_to_reporting(metrics: dict) -> str` (cuerpo del informe), `reporting_to_automation(run_id: str) -> str` (referencia del draft) y `automation_to_audit(event: dict) -> dict` (registro de audit con action, actor y ts). No envíes correo real; fraud_labels=0; matching no implica fraude.",
     objectives: [
       "DAG ejecutable con estados y metadata de run",
       "Resiliencia: checkpoint, retry/backoff, DLQ, rollback",
       "HITL: revisión análisis/reporte/destinatario + audit approve/reject/edit",
-      "Operación: SLO/alerts/runbook + E2E con costo/valor",
+      "Operación: SLO con alerta alert_success_rate, runbook disable_schedule → drain → page y E2E con costo/valor",
       "Documentar notas de regresión N2 y CF-2 en el portafolio",
     ],
     requirements: [
@@ -1692,83 +1801,142 @@ print(defense_package(
       "Cero envíos sin approve (y de hecho cero envíos reales)",
       "fraud_labels automáticos = 0 (matching ≠ fraude)",
       "Evidencia por estado del pipeline (manifest de steps)",
-      "Notas de regresión N2 y CF-2 en You Do / README del proyecto",
+      "Regresión N2 con `regression_log`: cada comando re-ejecutado y su código de salida; `n2_regression` es `pass` solo si hay comandos y todos salieron con 0",
+      "Las tres interfaces CF-2 del contexto, cada una con un test sobre un fixture sintético",
+      "El checkpoint se escribe en un archivo JSON y una segunda corrida (otro proceso) reanuda desde ese archivo",
+      "approve es una función aparte: solo escribe en el audit si las tres colas HITL están en 0 y la llama un actor humano con nombre (id sintético)",
+      "Un archivo test_vp.py que pase con los invariantes de check_invariants() del starter",
       "Español profesional (es-PE) en runbook y mensajes de UI",
     ],
-    starterCode: `# VP RPA + AI Analyst — esqueleto de cierre CP-N2-C
+    starterCode: `# VP RPA + AI Analyst — esqueleto de la práctica integradora (no es el capstone CP-N2-C)
 # Path canónico (no renombres): ingest→validate→analyze→ai_assist→report→approve→draft_email
+import json
+import sys
+from pathlib import Path
+
 STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
 state = {s: "pending" for s in STEPS}
 audit = []
 hitl = {"analysis": 0, "report": 0, "recipient": 0}  # pending counts (0 = clear)
-ckpt, dlq = set(), []
+dlq = []
 fraud_labels = 0  # debe permanecer 0: matching ≠ fraude
 run_meta = {"run_id": "cpn2c-close-01", "api_rpm": 30, "tz": "America/Lima"}
+CKPT_PATH = Path("ckpt_cpn2c-close-01.json")  # el checkpoint vive fuera del proceso
+AUDIT_PATH = Path("audit_cpn2c-close-01.jsonl")  # append-only: una decisión por línea
+regression_log = []  # (comando, código de salida) de cada test re-ejecutado
 
-def advance(step, ok=True):
-    """Marca un step success|failed; si es approve exitoso, append al audit."""
-    state[step] = "success" if ok else "failed"
-    if ok and step == "approve":
-        audit.append({"action": "approve", "actor": "r1"})
-    if ok:
-        ckpt.add(step)
+def load_ckpt():
+    """Pasos terminados y, con ellos, las decisiones humanas ya tomadas (el audit)."""
+    if AUDIT_PATH.exists():
+        audit[:] = [json.loads(line) for line in AUDIT_PATH.read_text().splitlines()]
+    return set(json.loads(CKPT_PATH.read_text())) if CKPT_PATH.exists() else set()
+
+def save_ckpt(ckpt):
+    CKPT_PATH.write_text(json.dumps(sorted(ckpt)))
+
+def reset():
+    """Corrida nueva: borra checkpoint y audit. Nunca la llames al reanudar."""
+    CKPT_PATH.unlink(missing_ok=True)
+    AUDIT_PATH.unlink(missing_ok=True)
+
+def clear():
+    return all(v == 0 for v in hitl.values())
+
+def approve(actor):
+    """Decisión humana: solo con las tres colas en 0 y un actor con nombre."""
+    if not actor or not clear():
+        return False
+    entry = {"action": "approve", "actor": actor}
+    audit.append(entry)
+    with AUDIT_PATH.open("a") as f:  # la decisión sobrevive al proceso
+        f.write(json.dumps(entry) + "\\n")
+    return True
 
 def can_draft():
     """draft_email solo si hay approve en audit y triple cola HITL en 0."""
-    approved = any(a.get("action") == "approve" for a in audit)
-    clear = all(v == 0 for v in hitl.values())
-    return approved and clear
+    return clear() and any(a.get("action") == "approve" for a in audit)
 
 def run_all(fail_at=None):
-    """Recorre STEPS; respeta can_draft; opcional fail_at para simular crash."""
-    for s in STEPS:
+    """Recorre STEPS; approve espera la decisión humana; fail_at simula un crash."""
+    ckpt = load_ckpt()
+    for i, s in enumerate(STEPS):
+        if s in ckpt and (s != "approve" or any(a.get("action") == "approve" for a in audit)):
+            state[s] = "success"  # sin la decisión en el audit, approve vuelve a quedar pending
+            continue
         if fail_at == s:
-            advance(s, ok=False)
+            state[s] = "failed"
+            for later in STEPS[i + 1:]:
+                state[later] = "skipped"
             break
+        if s == "approve":
+            if not any(a.get("action") == "approve" for a in audit):
+                continue  # queda pending hasta que una persona llame approve()
         if s == "draft_email" and not can_draft():
             state[s] = "blocked"
             break
-        advance(s, ok=True)
+        state[s] = "success"
+        ckpt.add(s)
+        save_ckpt(ckpt)
     return state, audit
 
+def regression_status(log):
+    if not log:
+        return "not_run"
+    return "pass" if all(rc == 0 for _, rc in log) else "fail"
+
 def package_e2e():
-    """Paquete de defensa del cierre (amplíalo en el portafolio)."""
+    """Paquete de defensa (amplíalo en el portafolio)."""
     return {
         "path": STEPS,
         "states": dict(state),
         "audit_events": len(audit),
         "fraud_labels": fraud_labels,
-        "cost_tokens": 1200,
-        "value_minutes_saved_est": 45,
-        "n2_regression": "pass",  # re-run real: CP-N2-A/B/C + privacy + CF-2
+        "n2_regression": regression_status(regression_log),
         "run_id": run_meta["run_id"],
     }
 
+def check_invariants():
+    """Copia estos asserts a test_vp.py y hazlos pasar con tu implementación."""
+    hitl["report"] = 1
+    assert approve("r1") is False, "approve entró al audit con la cola de reporte abierta"
+    hitl["report"] = 0
+    assert approve("") is False, "approve aceptó una decisión sin actor con nombre"
+    assert fraud_labels == 0, f"fraud_labels es {fraud_labels}: el matching no etiqueta fraude"
+    pkg = package_e2e()
+    assert pkg["n2_regression"] != "pass" or regression_log, "n2_regression dice pass sin comandos en regression_log"
+    # Completa: reject sin reason es invalid; resume desde CKPT_PATH no repite steps;
+    # un flaky que agota intentos va a dlq con owner; ninguna función envía correo.
+
 # Completa en el portafolio (sobre este esqueleto ejecutable):
-# 1) Simula fail_at='analyze', resume desde ckpt y un item flaky → DLQ con owner.
-# 2) HITL: sube pending, decide reject con reason / edit versionado / approve; audit append-only.
-# 3) Empaqueta e2e + nota de privacidad (solo datos sintéticos).
-# 4) Notas de regresión N2: lista de tests re-ejecutados + resultado; interfaces CF-2.
+# 1) Corre run_all(fail_at='analyze') y luego, en otro proceso, python vp.py --resume:
+#    reanuda desde CKPT_PATH y recupera las decisiones de AUDIT_PATH.
+# 2) HITL: sube pending, decide reject con reason / edit versionado / approve(actor); audit append-only.
+# 3) Implementa las tres interfaces CF-2 del contexto, cada una con su test.
+# 4) Corre la regresión N2 y anota cada comando con su código de salida en regression_log.
 # No envíes correo real.
 
+if "--resume" not in sys.argv:
+    reset()  # esta demo empieza de cero; con --resume continúa la corrida anterior
 st, au = run_all()
 print("states", [st[s] for s in STEPS])
-print("can_draft_after", can_draft(), "fraud_labels", fraud_labels)
-print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_saved_est"])
+print("approve", approve("r1"), "can_draft", can_draft(), "fraud_labels", fraud_labels)
+st, au = run_all()
+print("draft_email", st["draft_email"], "package", package_e2e()["n2_regression"])
 `,
     portfolioNote:
-      "Paquete de cierre CP-N2-C para portafolio. Incluye pipeline con evidencia por estado, HITL triple, draft en sandbox y una sección explícita de **regresión N2** (S14–S26) más los contratos **CF-2** (Familiarity ↔ reporting ↔ automatización). Documenta los límites: datos sintéticos, `fraud_labels=0` y cero envíos reales. Artefactos mínimos sugeridos: manifest de estados por step, muestra de audit append-only, línea de costo (tokens/minutos) y nota de privacidad.",
+      "Práctica integradora del VP para portafolio (el capstone CP-N2-C se entrega aparte). Incluye pipeline con evidencia por estado, HITL triple, draft en sandbox y una sección explícita de **regresión N2** (S14–S26) más las tres interfaces **CF-2** (Familiarity, el proyecto que reúne S01 a S25 ↔ reporting ↔ automatización). Documenta los límites: datos sintéticos, `fraud_labels=0` y cero envíos reales. Artefactos mínimos sugeridos: manifest de estados por step, muestra de audit append-only, línea de costo (tokens/minutos) y nota de privacidad.",
     rubric: [
-      { criterion: "Cobertura del pipeline VP y de los criterios de cierre CP-N2-C (7 steps canónicos + HITL)", weight: "25%" },
-      { criterion: "Correctitud técnica: estados, checkpoint/DLQ, rollback superseded y gate approve→draft_email", weight: "20%" },
+      { criterion: "Cobertura del pipeline VP (7 steps canónicos + HITL) y test_vp.py en verde", weight: "20%" },
+      { criterion: "Correctitud técnica: estados (skipped tras un fallo, blocked sin approve), checkpoint persistido en JSON, DLQ, rollback superseded y gate approve→draft_email", weight: "20%" },
       { criterion: "Privacidad: sin PII real, sin secretos, fraud_labels=0 y matching ≠ fraude", weight: "20%" },
-      { criterion: "Casos de borde documentados: fallos, resume, reject con reason, blocked sin approve", weight: "15%" },
-      { criterion: "Código legible: run_id, metadata inmutable y límites (api_rpm) explícitos", weight: "10%" },
-      { criterion: "Documentación en español profesional (es-PE): runbook y mensajes de UI", weight: "10%" },
-      { criterion: "Notas de regresión N2 y CF-2 con: lista de tests re-ejecutados, resultado, e interfaces CF-2 verificadas", weight: "bonus checklist" },
+      { criterion: "Casos de borde documentados: fallos, resume desde archivo, reject con reason, blocked sin approve", weight: "15%" },
+      { criterion: "SLO y alerta con nombre estable (alert_success_rate) y runbook disable_schedule → drain → page", weight: "10%" },
+      { criterion: "Regresión N2 y CF-2: regression_log con comandos y códigos de salida, y las tres interfaces CF-2 probadas", weight: "5%" },
+      { criterion: "Código legible: run_id, metadata inmutable y límites (api_rpm) explícitos", weight: "5%" },
+      { criterion: "Documentación en español profesional (es-PE): runbook y mensajes de UI", weight: "5%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante del gate demuestras con print o test (approve en audit, triple cola en 0, o blocked sin approve)? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, secretos, cero envíos reales)? (3) En el README, una frase de impacto medible (p. ej. minutos estimados o regresión N2 pass) que puedas defender en 30 segundos sin abrir el código. Si no puedes explicar por qué `fraud_labels` debe quedar en 0, el cierre CP-N2-C aún no está listo.",
+      "Antes de marcar listo: (1) ¿qué invariante del gate demuestras con print o test (approve en audit, triple cola en 0, o blocked sin approve)? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, secretos, cero envíos reales)? (3) En el README, una frase de impacto medible (p. ej. minutos estimados) que puedas defender en 30 segundos sin abrir el código, y la lista de comandos de la regresión N2 con su resultado. Escribe `pass` solo si los corriste y todos salieron con 0. Si no puedes explicar por qué `fraud_labels` debe quedar en 0, la práctica aún no está lista.",
   },
   selfCheck: {
     questions: [
@@ -1808,11 +1976,11 @@ print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_sa
           "DLQ no es basurero: conserva el item con owner/SLA; no se convierte en fraude ni se pierde sin rastro.",
       },
       {
-        question: "El path canónico del VP RPA + AI Analyst en el cierre CP-N2-C es:",
-        options: ["ingest → analyze → approve → draft_email (sin validate ni report)", "validate → draft_email → approve → report", "ai_assist → ingest → approve en paralelo con draft_email", "ingest → validate → analyze → ai_assist → report → approve → draft_email"],
+        question: "El path canónico del VP RPA + AI Analyst es:",
+        options: ["ingest → validate → ai_assist → analyze → report → approve → draft_email", "ingest → validate → analyze → ai_assist → report → draft_email → approve", "ingest → analyze → validate → ai_assist → report → approve → draft_email", "ingest → validate → analyze → ai_assist → report → approve → draft_email"],
         correctIndex: 3,
         explanation:
-          "El contrato de 7 steps incluye ai_assist (traspaso de S25) y exige approve antes de draft_email; las vistas parciales de lab lo declaran cuando omiten AI o email.",
+          "Los cuatro órdenes tienen los 7 steps; solo uno respeta las dependencias: validate antes de analyze, analyze antes de ai_assist (la IA trabaja sobre el análisis, traspaso de S25) y approve antes de draft_email.",
       },
       {
         question: "Si cambias la foto de datos a mitad de un run, la política de metadata del VP es:",
