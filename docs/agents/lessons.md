@@ -1210,6 +1210,30 @@ back. Read this list before a section round; every item cost at least one failed
   [Kahn 1962](https://doi.org/10.1145/368996.369025); Python's `graphlib.TopologicalSorter` raises
   `CycleError` the same way, [docs](https://docs.python.org/3/library/graphlib.html)). Guard: the
   test removes the check and sees the cycle return `[]` without an error.
+- **`str.isdigit()` and `\d` are not "the digits 0 to 9" (proposal 12 S27, 25 Nov 2026).** The S27
+  RUC validator checked `s.isdigit() and len(s) == 11` for an "11 digits" contract, and accepted
+  `2012345678²`. Root cause: `isdigit()` is true for every character with a Unicode digit value,
+  "such as the compatibility superscript digits"
+  ([str.isdigit](https://docs.python.org/3/library/stdtypes.html#str.isdigit)); `isdecimal()`
+  rejects `²` but accepts Arabic-Indic digits, and so does `re` `\d` unless `re.ASCII` is set
+  ([re syntax](https://docs.python.org/3/library/re.html#regular-expression-syntax)). Checked under 3.12:
+  `'٢٠١٢٣٤٥٦٧٨٩'` passes `isdigit()`, `isdecimal()` and `\d{11}`. Fix: `re.fullmatch(r"[0-9]{11}", s)`,
+  with the superscript case in the negative table. When a format means ASCII digits, write the class.
+- **A mutation that breaks two tests cannot show which one guards the code (S27, 25 Nov 2026).**
+  The S27 test broke `normalize_name` and expected the demo to stop, to prove the email test now
+  calls it. The base demo stopped too, on the other test, so the check passed on the code it was
+  meant to reject. Root cause: the mutation was observed at the level of the whole script. Fix:
+  find the email test by name, check its body calls `normalize_name(`, and run that test alone with
+  the broken function. The negative control (the test run on the base files) is what showed it: a
+  check that passes on the old code is not testing the fix.
+- **A tool's name in a code comment is a worked example to the concept map (S27, 25 Nov 2026).**
+  The S27 band counter carried the comment "esto no es cobertura de código (eso lo mide
+  coverage.py)". `scripts/concept_map.py` matches glossary aliases in code, so the comment counted
+  as a worked example of `coverage`: the concept went from L1 to L2, became load-bearing (3
+  sections) and raised the figure and D3 ratchets, while the code still exemplifies nothing about
+  coverage. Root cause: the warning that a block is *not* X used X's alias. Fix: the comment says
+  the count does not measure the real code, and coverage.py is named only in the prose. A ratchet
+  that rises after an edit is a measurement to read, not a constant to raise.
 - **A guard that read before it awaited (billing ledger, 25 Nov 2026).** `applyChange` checked that
   a webhook was not older than the stored row and that `canceled` was terminal, then awaited
   more reads and wrote without checking again. A cancel at +300 s and an older past_due at +200 s
@@ -1220,3 +1244,31 @@ back. Read this list before a section round; every item cost at least one failed
   re-read. Guard: `workers/billing/tests/ledger-concurrency.test.mjs` races both orders and checks
   that the status events form one chain. Any new read-decide-write on shared rows gets a
   `Promise.all` test over the D1 fake, which yields between statements the way D1 does.
+- **A rewritten exam item keeps the concept tag of the item it replaced (S21, S22, S25; 25 Nov 2026).**
+  Bank rewrites replaced question, options and explanation in place, so a new item about DOCX
+  headings stayed under `conditions-tables-safe-format`, and S22 lost its only idempotency items.
+  Root cause: `concept` is the first field of each item and nobody reads it while rewriting, yet
+  `src/lib/exam-draw.ts` draws exactly one variant per concept, so a mislabelled item lets an
+  attempt test one concept twice and skip another. Every per-bank test (counts, ranks, cues)
+  passed. Fix: after a rewrite, list `[concept] question || key` and read each row against its
+  concept; move items (stable regroup) and pin the moves in a test that fails on the base.
+- **`assertTrue(caught(...))` fails as "False is not true" (S24, 25 Nov 2026).** The proposal 12
+  mutation tests threw away what a surviving mutant printed. Root cause: a bool helper inside a
+  bare assertTrue. Fix: `escaped()` returns "" when the mistake shows, otherwise the mutant's
+  output, and the call is `assertEqual(escaped(...), "", msg)`; `test_assertion_messages.py`
+  rejects assertTrue/assertFalse/assertIsNone/assertIsNotNone/assert without a message.
+- **Python's `urlsplit` and a browser disagree on `\` (S22, 25 Nov 2026).** For
+  `https://evil.test\a.example.pe/x`, `urlsplit(...).hostname` is `evil.test\a.example.pe`, which
+  ends in `.example.pe`, but the WHATWG URL parser treats `\` as `/` in http(s) URLs and opens
+  `evil.test` ([WHATWG URL](https://url.spec.whatwg.org), [bpo-40338](https://bugs.python.org/issue40338),
+  [URL interop](https://daniel.haxx.se/docs/URL-interop.html)). Fix: an allowlist that feeds a link
+  rejects `\` and `@` before parsing the host, with that URL in the negative table.
+- **`"\n"` in Python inside a TS template literal is a real newline (S26, 25 Nov 2026).** A starter
+  edit wrote `f.write(json.dumps(entry) + "\n")` into the `.ts` file; the template literal turned it
+  into a line break and the starter failed with "unterminated string literal". Root cause: two
+  escaping layers. Fix: write `\\n` in the `.ts` source, and run the extracted code (the section
+  test does) after every starter edit.
+- **Stacked branches each append to the exercise-meaning ledger (S22 to S27, 25 Nov 2026).** Rows
+  must number 1..n, so a row added to S22 collides with S23's first row on the next merge. Fix:
+  resolve with the base branch's rows in full, then ours-only rows renumbered after them (matched
+  by id, from_fp, to_fp), and check `exercise_meaning.mjs --ledger-base origin/<base>`.

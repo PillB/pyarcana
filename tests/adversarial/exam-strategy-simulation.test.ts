@@ -90,7 +90,7 @@ const PASSABLE = 0.05
 // and 7 of 24, longest to shortest), and oop-domain leaves the "longest" list. 46 -> 45.
 const BANKS_PASSABLE_BY_LONGEST_OWED = [
   'advanced-models', 'ai-apis-advanced', 'ai-governance',
-  'architecture-ddd-decisions', 'async-concurrency', 'career-strategy', 'collections',
+  'architecture-ddd-decisions', 'career-strategy', 'collections',
   'cv-ai-integration', 'data-contracts',
   'dbt-bigquery', 'exceptions-logging',
   'files-ingestion', 'gpu-computing', 'graph-rag', 'iac',
@@ -139,8 +139,11 @@ const BANKS_PASSABLE_BY_LONGEST_OWED = [
 // keys that shared the most stem words were reworded. 34 -> 33 longest, 9 -> 8 clang.
 // 2026-11-25, proposal 12 S26: integrator-phase1 (orchestration and the VP) leaves "longest" the
 // same way, after one distractor took the stem word the key shared. 33 -> 32.
+// 2026-11-25, proposal 12 S27: async-concurrency (pytest strategy) leaves "longest" and "clang"
+// after all 24 items were rewritten; its keys sit at each length rank on 6 of 24, and two draft
+// keys that shared a stem word were reworded. 32 -> 31 longest, 8 -> 7 clang.
 const BANKS_PASSABLE_BY_CLANG_OWED = [
-  'advanced-models', 'architecture-ddd-decisions', 'async-concurrency',
+  'advanced-models', 'architecture-ddd-decisions',
   'collections', 'dbt-bigquery',
   'iteration-summaries', 'setup',
   'text-unicode-regex',
