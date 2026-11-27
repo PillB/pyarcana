@@ -604,3 +604,21 @@ test('all thirteen live groups have distinct authored phases and independent sem
     assert.ok(SETUP_CHECKS[part.id]?.practice?.evidence,part.id+': no independent acceptance criteria')
   }
 })
+
+/** A cue audit, not a validated psychometric estimate. Catch systematic length artifacts in authored guided choices. */
+test('guided answer length and position do not supply a majority shortcut',()=>{
+  const cases=Object.values(LEARNING_PHASES).map(p=>p.guided)
+  const counts={longest:0,shortest:0,positions:[0,0,0]}
+  for(const q of cases){
+    const lengths=q.options.map(o=>o.length)
+    const n=lengths[q.correct]
+    if(lengths.filter(x=>x===n).length===1){
+      if(n===Math.max(...lengths)) counts.longest++
+      if(n===Math.min(...lengths)) counts.shortest++
+    }
+    counts.positions[q.correct]++
+  }
+  const limit=Math.floor(cases.length/2)
+  assert.ok(counts.longest<=limit && counts.shortest<=limit && Math.max(...counts.positions)<=limit,
+    'systematic guided answer cue; review plausible distractors, not just length: '+JSON.stringify(counts))
+})

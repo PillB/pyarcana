@@ -87,9 +87,9 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "La lista muestra un correo de autor distinto al que querías. ¿Qué revisas?",
       "options": [
-        "El correo con el que iniciaste sesión en GitHub.",
+        "El correo de la cuenta de GitHub.",
         "La configuración de autor de Git.",
-        "La dirección del repositorio remoto en GitHub."
+        "La URL del repositorio remoto."
       ],
       "correct": 1,
       "feedback": [
@@ -110,9 +110,9 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "Un compañero solicita un código de recuperación para ayudarte. ¿Qué haces?",
       "options": [
-        "Lo guardas temporalmente en un repositorio privado.",
+        "Lo guardas en un repositorio privado.",
         "No lo compartes; revisas la ayuda oficial.",
-        "Se lo envías por mensaje privado y luego lo eliminas."
+        "Se lo envías por un chat privado."
       ],
       "correct": 1,
       "feedback": [
@@ -134,8 +134,8 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
       "question": "Modificaste el README tras el commit. `git status` muestra el cambio sin seleccionar. ¿Qué falta antes del siguiente commit?",
       "options": [
         "Seleccionar el README con `git add`.",
-        "Ejecutar `git commit` sin preparar el cambio nuevo.",
-        "Consultar `git status` otra vez sin preparar el archivo."
+        "Ejecutar `git commit` directamente.",
+        "Volver a consultar `git status`."
       ],
       "correct": 0,
       "feedback": [
@@ -156,8 +156,8 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "Python y `gh` responden; `code --version` no se reconoce. ¿Qué investigas primero?",
       "options": [
-        "La versión de Python usada por el proyecto abierto.",
-        "La conexión con el repositorio remoto de GitHub.",
+        "La versión de Python del proyecto.",
+        "La conexión con el remoto de GitHub.",
         "La disponibilidad de `code` en esa terminal."
       ],
       "correct": 2,
