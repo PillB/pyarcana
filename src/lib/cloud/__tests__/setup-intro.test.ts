@@ -564,3 +564,43 @@ test('lesson-parity mutation probes kill deliberate regressions in disposable co
   console.log(report)
   assert.equal(run.status,0,'mutation runner refused or a mutant survived:\n'+report+'\n'+String(run.error ?? ''))
 })
+
+import { LEARNING_PHASES, phaseFor } from '@/lib/learning-phases'
+
+test('all thirteen live groups have distinct authored phases and independent semantic guided-answer keys', () => {
+  const expected:Record<string,string>={
+    terminal:'La carpeta de trabajo de esa terminal.',
+    python:'La serie 3.12 coincide; el parche es distinto.',
+    vscode:'La carpeta abierta y la ruta de la terminal.',
+    git:'La configuración de autor de Git.',
+    github:'No lo compartes; revisas la ayuda oficial.',
+    conectar:'Seleccionar el README con `git add`.',
+    final:'La disponibilidad de `code` en esa terminal.',
+    html:'Sur & Este como texto visible.',
+    http:'Leer el cuerpo como texto.',
+    sitio:'1430.25.',
+    despliegue:'./app.js',
+    prototipo:'Un índice sobre `(cliente_id, creado)`.',
+    modelo:'En cada fila de ventas.',
+  }
+  const actual=[...SETUP_PARTS.map(p=>p.id),...WEB_TRACK.modules.map(m=>m.id)]
+  assert.deepEqual([...actual].sort(),Object.keys(expected).sort(),'source group drift: author new phases and oracle')
+  assert.deepEqual(Object.keys(LEARNING_PHASES).sort(),Object.keys(expected).sort(),'orphan or missing phase')
+  for(const id of actual){
+    const p=phaseFor(id)
+    const check=p.guided
+    const index=check.options.indexOf(expected[id])
+    assert.ok(index>=0,id+': expected semantic answer missing')
+    assert.equal(checkAnswer(check,index),'correct',id+': wrong guided answer key')
+    assert.notEqual(check.question,({...SETUP_CHECKS,...WEB_CHECKS})[id].question,id+': guided and self-check duplicate')
+    for(let i=0;i<check.options.length;i++)if(i!==index) {
+      assert.equal(checkAnswer(check,i),'incorrect',id+': distractor accepted')
+      assert.ok(answerFeedback(check,i).trim(),id+': missing corrective feedback')
+    }
+    assert.ok(p.example.trim()&&p.reason.trim()&&p.result.trim()&&p.hint.trim(),id+': incomplete scaffold')
+  }
+  for(const part of SETUP_PARTS)for(const os of ['windows','macos','linux'] as const){
+    assert.ok(stepsFor(part,os).length,part.id+'/'+os+': no guided steps')
+    assert.ok(SETUP_CHECKS[part.id]?.practice?.evidence,part.id+': no independent acceptance criteria')
+  }
+})

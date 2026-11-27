@@ -46,7 +46,7 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
 }, {
   // chore(lint): strict per-function ceiling for newly introduced learning-parity code.
   // Unlike the legacy aggregate ratchet, debt reduction elsewhere cannot hide a violation here.
-  files: ["src/lib/setup/shared-state.ts", "src/lib/learning-checks.ts", "src/components/course/LearningCheckCard.tsx", "src/lib/tracks/storage-admission.ts", "src/lib/tracks/shared-state.ts", "src/lib/learning-resume.ts", "src/components/course/LearningResumeLink.tsx"],
+  files: ["src/lib/setup/shared-state.ts", "src/lib/learning-checks.ts", "src/components/course/LearningCheckCard.tsx", "src/lib/tracks/storage-admission.ts", "src/lib/tracks/shared-state.ts", "src/lib/learning-resume.ts", "src/components/course/LearningResumeLink.tsx", "src/lib/learning-phases.ts", "src/components/course/LearningPhase.tsx"],
   rules: { complexity: ["error", 15] }
 }, {
   // Local-only folders that a checkout on the owner's computer holds and CI never has: agent

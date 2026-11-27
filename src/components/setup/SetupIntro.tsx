@@ -14,6 +14,8 @@ import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/co
 import { SETUP_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
 import { LearningResumeLink } from '@/components/course/LearningResumeLink'
+import { LearningPhase, WorkedExample, GuidedPrediction } from '@/components/course/LearningPhase'
+import { phaseFor } from '@/lib/learning-phases'
 import { InlineText } from '@/components/course/RichText'
 import { OsSwitch } from './OsSwitch'
 import { SetupStepView } from './SetupStepView'
@@ -151,6 +153,8 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
       {SETUP_PARTS.map((part, i) => {
         const steps = stepsFor(part, os)
         const ids = steps.map((s) => s.id)
+        const phase = phaseFor(part.id)
+        const check = SETUP_CHECKS[part.id]
         return (
           <section key={part.id} id={part.id} aria-labelledby={`${part.id}-h`} className="mt-10 scroll-mt-20" data-testid="setup-part">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -171,7 +175,9 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
               ))}
             </div>
             {part.figure && <SetupFigure id={part.figure} />}
-            <ol className="mt-4 space-y-4">
+            <LearningPhase id={'setup-'+part.id} kind="demo"><WorkedExample phase={phase}/></LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="guided">
+            <ol className="space-y-4">
               {steps.map((step, n) => (
                 <SetupStepView
                   key={step.id}
@@ -182,7 +188,12 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
                 />
               ))}
             </ol>
-            {SETUP_CHECKS[part.id] && <LearningCheckCard check={SETUP_CHECKS[part.id]} checkId={part.id} />}
+            <GuidedPrediction key={part.id+'-'+os} phase={phase} id={part.id}/>
+            </LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="independent">
+              {check.practice && <div data-testid="learning-practice" className="space-y-2"><p>{check.practice.task}</p><p className="text-sm"><strong>{tr('learningCheck.evidence')}</strong> {check.practice.evidence}</p></div>}
+            </LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="check"><LearningCheckCard check={check} checkId={part.id} showPractice={false} embedded/></LearningPhase>
           </section>
         )
       })}

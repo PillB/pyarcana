@@ -30,6 +30,7 @@ import {
   toggleTrackStep,
   isTrackComplete,
   trackProgressKey,
+  trackFurthestKey,
 } from '@/lib/tracks/progress'
 import { WEB_TRACK, WEB_TRACK_ANCHORS, WEB_TRACK_ID } from '@/lib/tracks/web/content'
 import { WEB_TRACK_PLACEMENT, WEB_TRACK_STEP_IDS, trackModuleFromHash } from '@/lib/tracks/web/placed'
@@ -1201,4 +1202,22 @@ test('track cap overflow does not silently drop a newly acknowledged tick', () =
   state.setStep('step.0',false,[])
   assert.ok(loadTrackProgress(kv,WEB_TRACK_ID).done.includes('new.step'),'pending tick not saved after space recovered')
   assert.equal(state.getSnapshot().pendingCount,0)
+})
+
+import { phaseFor, splitLearningSteps } from '@/lib/learning-phases'
+
+test('web phases partition actual source steps in order, independent exercise at end, no lost IDs', () => {
+  for (const m of WEB_TRACK.modules) {
+    const p=phaseFor(m.id)
+    const split=splitLearningSteps(m.steps)
+    assert.ok(p.example && p.reason && p.result && p.hint,m.id+': incomplete worked/guided example')
+    assert.deepEqual([...split.guided,...split.independent].map(s=>s.id),m.steps.map(s=>s.id),m.id+': reordered or lost steps')
+    assert.ok(split.guided.every(s=>!s.exercise),m.id+': solution exposed in guided phase')
+    assert.ok(split.independent.every(s=>s.exercise),m.id+': independent challenge missing')
+  }
+  const a={id:'a'}, b={id:'b',exercise:{}}
+  assert.throws(()=>splitLearningSteps([a,b,{id:'future'}]),/future/,'new trailing step must be reviewed')
+  assert.throws(()=>splitLearningSteps([a]),/expected guided steps/,'missing exercise silently accepted')
+  assert.throws(()=>phaseFor('future-module'),/future-module/,'new module silently lacks pedagogy')
+  assert.deepEqual(splitLearningSteps([a,{id:'insert'},b]).guided.map(s=>s.id),['a','insert'])
 })

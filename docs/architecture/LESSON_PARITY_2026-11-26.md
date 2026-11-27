@@ -146,3 +146,20 @@ commands capable of modifying files. Additional guards test a failed navigation 
 by backward movement, malformed position, explicit retry, and cap overflow. The mutation runner
 now exercises five new sibling/resume mutants in addition to the existing seven. Actual results
 must be taken from the run, not the existence of these tests.
+
+## Fifth round — explicit instructional parity
+Previous head 9a020767 had typecheck TS2304 (missing trackFurthestKey import) and one adversarial
+failure in the Web Track suite; import corrected here. Do not inherit a green verdict.
+For seven setup parts and six web modules, authored worked example, explanation and result,
+guided prediction with a hidden hint and corrective feedback, independent task and separate
+Autocheck. Existing procedural steps, diagrams, code, exercise solutions and ticks remain.
+Web exercises split by structural exercise marker; drift with a later unclassified step or no
+exercise fails loudly. Setup practice uses manual criteria, not automatic verification.
+Rejected cosmetic phase labels and duplicating canonical tabs. Sequential headings preserve
+read order, deep links and existing checklist IDs; no new completion or credential state.
+Research: Sentance et al. (2019) https://eric.ed.gov/?id=EJ1217966 ; Renkl & Atkinson (2004)
+https://doi.org/10.1023/B:TRUC.0000021815.74806.f6 ; Atkinson et al. (2003)
+https://eric.ed.gov/?id=EJ678596 ; WCAG https://www.w3.org/TR/WCAG22/ .
+PRIMM classroom evidence is not adult self-paced outcome evidence. Explicit prediction is
+formative, and the independent Web Path solution remains runnable locally; no external action
+or credential required by the new guided checkpoints. Physical device and novice study pending.

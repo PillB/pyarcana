@@ -74,9 +74,9 @@ function Exercise({ exercise, hintLabel, solutionLabel }: { exercise: NonNullabl
   return (
     <div className="mt-3" data-testid="track-exercise">
       {exercise.hint && (
-        <p className="text-sm text-muted-foreground">
-          <span className="font-semibold text-foreground">{hintLabel}:</span> <InlineText text={exercise.hint} />
-        </p>
+        <details className="rounded-md border border-border p-3 text-sm" data-testid="independent-hint">
+          <summary className="cursor-pointer font-semibold">{hintLabel}</summary><p className="mt-2"><InlineText text={exercise.hint}/></p>
+        </details>
       )}
       <details className="mt-2 rounded-md border border-border p-3 text-sm">
         <summary className="cursor-pointer font-semibold">{solutionLabel}</summary>
@@ -99,10 +99,10 @@ export function TrackStepView({ step, number, done, onToggle }: { step: TrackSte
       data-done={done ? '1' : '0'}
     >
       {step.exercise && <p className="text-xs font-semibold uppercase tracking-wide text-primary">{tr('track.exercise.kicker')}</p>}
-      <h3 className="flex items-baseline gap-2 text-lg font-semibold">
+      <h4 className="flex items-baseline gap-2 text-lg font-semibold">
         <span className="text-sm tabular-nums text-muted-foreground">{number}</span>
         <InlineText text={step.title} />
-      </h3>
+      </h4>
       <div className="mt-2 space-y-2 text-[15px] leading-relaxed text-foreground/90">
         {step.body.map((p) => (
           <p key={p}>

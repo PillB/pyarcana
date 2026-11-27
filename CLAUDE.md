@@ -71,3 +71,5 @@ The test oracle must be independent, and the actual failing mutation and repaire
 be recorded; do not equate a written test or aggregate complexity count with verified quality.
 
 For sibling-surface changes, apply **Cross-surface defect-class closure** in [./AGENTS.md](./AGENTS.md); a fix in one renderer or store does not protect another.
+
+For changes to learning content or renderers, follow **Instructional parity acceptance contract** in [./AGENTS.md](./AGENTS.md), including independent transfer and source-drift tests.

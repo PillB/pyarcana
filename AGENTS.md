@@ -282,3 +282,15 @@ Learner prose follows `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical
   historical awards. Simulate insertion, reorder, OS switch, historical completion and reload.
 - Test the unavailable-platform fallback and disclose weaker guarantees. Run sibling-surface
   mutations per shared defect class. Record exact SHA, red/green diagnostics and residual gates.
+
+### Instructional parity acceptance contract
+- For every auxiliary lesson require an authored worked case with reasoning and observable result,
+  guided learner action/prediction with optional scaffold and specific feedback, distinct independent
+  transfer with acceptance criteria, and a separate retrieval check. Preserve all stable step IDs.
+- Do not equate headings, copying, checkbox completion or a second multiple-choice question with
+  independent competence. Hide optional hints/solutions until requested; never demand private
+  credentials or imply a web activity verifies a local installation. Ground prerequisites in earlier
+  material; test changed cases and simulate a new/reordered/deleted group or misplaced exercise.
+- Use PRIMM and worked-example fading as evidence-based design principles, not claims of proven
+  learning outcomes for this adult self-study audience. Test keyboard/mobile and reading sequence;
+  obtain novice evidence before claiming pedagogical efficacy.

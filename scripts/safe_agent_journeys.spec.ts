@@ -558,3 +558,39 @@ test('web track tabs converge after simultaneous checks and explicit untick', as
     await expect(tick(a,1)).toBeChecked()
   } finally {await context.close()}
 })
+
+test('all auxiliary groups show four instructional phases in order, with guided hints closed and independent work distinct', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try{
+    const page=await context.newPage()
+    await dismissTour(page)
+    for(const [url,groupSelector,count] of [['empezar','setup-part',7],['#ruta-web','track-module',6]] as const){
+      await page.goto(HOME+url)
+      const groups=page.getByTestId(groupSelector)
+      await expect(groups).toHaveCount(count)
+      for(const group of await groups.all()){
+        const phases=group.getByTestId('learning-phase')
+        expect(await phases.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-phase')))).toEqual(['demo','guided','independent','check'])
+        await expect(phases.nth(0).getByTestId('phase-worked-example')).toHaveCount(1)
+        const guided=phases.nth(1).getByTestId('guided-check')
+        await expect(guided.getByTestId('guided-hint')).not.toHaveAttribute('open','')
+        await expect(phases.nth(2).getByTestId(url==='empezar'?'learning-practice':'track-exercise')).toHaveCount(1)
+        await expect(phases.nth(3).getByTestId('learning-check')).toHaveCount(1)
+      }
+    }
+    await page.goto(HOME+'empezar')
+    const group=page.getByTestId('setup-part').first()
+    const guided=group.getByTestId('guided-check')
+    const hint=guided.getByTestId('guided-hint')
+    await hint.locator('summary').click()
+    await expect(hint).toHaveAttribute('open','')
+    await guided.getByRole('radio',{name:'La versión del sistema operativo.',exact:true}).check()
+    await guided.getByRole('button',{name:'Comprobar respuesta'}).click()
+    await expect(guided.getByTestId('learning-check-feedback')).toContainText('no identifica')
+    await guided.getByRole('radio',{name:'La carpeta de trabajo de esa terminal.',exact:true}).check()
+    await guided.getByRole('button',{name:'Comprobar respuesta'}).click()
+    await expect(guided.getByTestId('learning-check-feedback')).toContainText('Correcto')
+    await expect(group.getByTestId('setup-step-done').first(),'guided answer awarded a tick').not.toBeChecked()
+    await expect(group.getByTestId('learning-check').getByRole('button',{name:'Comprobar respuesta'})).toBeDisabled()
+  }finally{await context.close()}
+})

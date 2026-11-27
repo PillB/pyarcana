@@ -4,7 +4,7 @@ import { useI18n, t } from '@/lib/i18n'
 import { answerFeedback, checkAnswer, shuffledOptions, type LearningCheck } from '@/lib/learning-checks'
 
 /** Formative practice only; no completion or credential writes. */
-export function LearningCheckCard({ check, checkId }: { check: LearningCheck; checkId: string }) {
+export function LearningCheckCard({ check, checkId, guidedHint, showPractice = true, embedded = false }: { check: LearningCheck; checkId: string; guidedHint?: string; showPractice?: boolean; embedded?: boolean }) {
   const lang = useI18n(s => s.lang)
   const tr = (key: string) => t(key, lang)
   const group = useId()
@@ -26,14 +26,15 @@ export function LearningCheckCard({ check, checkId }: { check: LearningCheck; ch
   }, [order])
   const result = submitted ? checkAnswer(check, selected) : 'unanswered'
   return (
-    <section className="mt-5 rounded-lg border border-primary/30 bg-card p-4" data-testid="learning-check" data-check-id={checkId}>
-      {check.practice && <div className="mb-5 border-b pb-4" data-testid="learning-practice">
+    <section className="mt-5 rounded-lg border border-primary/30 bg-card p-4" data-testid={guidedHint ? 'guided-check' : 'learning-check'} data-check-id={checkId}>
+      {showPractice && check.practice && <div className="mb-5 border-b pb-4" data-testid="learning-practice">
         <h3 className="text-lg font-semibold">{tr('learningCheck.practice')}</h3>
         <p className="mt-2">{check.practice.task}</p>
         <p className="mt-2 text-sm"><strong>{tr('learningCheck.evidence')}</strong> {check.practice.evidence}</p>
       </div>}
-      <h3 className="text-lg font-semibold">{tr('learningCheck.title')}</h3>
-      <p className="mt-1 text-sm text-muted-foreground">{tr('learningCheck.note')}</p>
+      {!embedded && <h4 className="text-lg font-semibold">{tr(guidedHint ? 'learningPhase.predict' : 'learningCheck.title')}</h4>}
+      <p className="mt-1 text-sm text-muted-foreground">{tr(guidedHint ? 'learningPhase.guided.note' : 'learningCheck.note')}</p>
+      {guidedHint && <details className="mt-3 rounded-md border p-3" data-testid="guided-hint"><summary className="cursor-pointer font-medium">{tr('learningPhase.hint')}</summary><p className="mt-2 text-sm">{guidedHint}</p></details>
       <fieldset ref={choices} className="mt-3 space-y-2">
         <legend className="mb-2 font-medium">{check.question}</legend>
         {order.map(index => (
