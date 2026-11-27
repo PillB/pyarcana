@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Laptop, Smartphone } from 'lucide-react'
 import { useI18n, t } from '@/lib/i18n'
@@ -8,9 +8,8 @@ import { browserOsSignals, detectOs, FALLBACK_OS, type OsGuess, type SetupOs } f
 import {
   countDone,
   SETUP_PROGRESS_KEY,
-  type SetupProgress,
 } from '@/lib/setup/progress'
-import { createSetupState, type SetupIntent } from '@/lib/setup/shared-state'
+import { createSetupState, EMPTY_SETUP_SNAPSHOT, flushSetup, type SetupIntent } from '@/lib/setup/shared-state'
 import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/content'
 import { SETUP_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
@@ -25,6 +24,13 @@ function storage(): Storage | null {
   } catch {
     return null
   }
+}
+
+const setupState = createSetupState(storage)
+
+function flushPendingSetup() {
+  const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
+  return flushSetup(setupState, locks ? work => locks.request(SETUP_PROGRESS_KEY, work) : undefined)
 }
 
 /**
@@ -42,35 +48,27 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
   const [guess, setGuess] = useState<OsGuess>({ os: FALLBACK_OS, detected: false, mobile: false })
-  const [progress, setProgress] = useState<SetupProgress>({ os: null, done: [] })
   const [mounted, setMounted] = useState(false)
-  const [saveFailed, setSaveFailed] = useState(false)
-  const [state] = useState(() => createSetupState(storage))
+  const { progress, issue, pendingCount } = useSyncExternalStore(setupState.subscribe, setupState.getSnapshot, () => EMPTY_SETUP_SNAPSHOT)
 
   useEffect(() => {
     // Reading the browser has to wait for mount: the prerendered HTML has no navigator.
     /* eslint-disable react-hooks/set-state-in-effect */
     setGuess(detectOs(browserOsSignals()))
-    const refresh = () => {
-      const next = state.snapshot()
-      setProgress(next.progress)
-      setSaveFailed(next.saveFailed)
-    }
-    refresh()
+    setupState.snapshot()
     setMounted(true)
     /* eslint-enable react-hooks/set-state-in-effect */
     const onStorage = (event: StorageEvent) => {
-      if (event.key === SETUP_PROGRESS_KEY || event.key === null) refresh()
+      if (event.key === SETUP_PROGRESS_KEY || event.key === null) setupState.snapshot()
     }
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
-  }, [state])
+  }, [])
 
   const os: SetupOs = progress.os ?? guess.os
   const update = (intent: SetupIntent) => {
-    const next = state.apply(intent)
-    setProgress(next.progress)
-    setSaveFailed(next.saveFailed)
+    setupState.stage(intent)
+    void flushPendingSetup()
   }
 
   const allIds = useMemo(() => setupStepIds(os), [os])
@@ -115,10 +113,12 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
       <p className="mt-3 text-sm text-muted-foreground" role="status" data-testid="setup-progress">
         {tr('setup.progress').replace('{done}', String(doneAll)).replace('{total}', String(allIds.length))}
       </p>
-      {saveFailed && (
-        <p className="mt-2 text-sm text-amber-700 dark:text-amber-300" data-testid="setup-save-failed">
-          {tr('setup.saveFailed')}
-        </p>
+      <div role="status" className="mt-2 text-sm" data-testid="setup-storage-status">
+        {issue && <p className="text-amber-700 dark:text-amber-300" data-testid="setup-save-failed">{tr('setup.issue.' + issue)}</p>}
+        {!issue && pendingCount > 0 && <p>{tr('setup.saving')}</p>}
+      </div>
+      {issue && pendingCount > 0 && (
+        <button type="button" onClick={() => void flushPendingSetup()} className="mt-2 min-h-11 rounded-md border px-3 text-sm" data-testid="setup-retry-save">{tr('setup.retrySave')}</button>
       )}
 
       <SetupFigure id="setup-map" />

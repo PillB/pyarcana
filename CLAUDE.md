@@ -64,3 +64,8 @@ node scripts/complexity_gate.mjs
 
 For cross-surface learning changes follow the Cross-surface instructional parity section in
 [`AGENTS.md`](./AGENTS.md), using the repository-relative path in any worktree.
+
+The root policy is [`./AGENTS.md`](./AGENTS.md), including the **Evidence-based engineering
+loop (every task and every round)**. Read it before planning, editing, testing or deploying.
+The test oracle must be independent, and the actual failing mutation and repaired result must
+be recorded; do not equate a written test or aggregate complexity count with verified quality.

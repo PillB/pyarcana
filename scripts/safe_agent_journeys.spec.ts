@@ -416,20 +416,25 @@ test('setup and web retrieval checks reject a wrong answer, allow retry and leav
     const page = await context.newPage()
     await dismissTour(page)
     for (const [url, id, wrong, correct, tick] of [
-      ['empezar', 'terminal', 0, 1, 'setup-step-done'],
-      ['#ruta-web', 'html', 0, 2, 'track-step-done'],
+      ['empezar', 'terminal', 'Consultas la versión del intérprete.', 'Consultas la ruta de la carpeta actual.', 'setup-step-done'],
+      ['#ruta-web', 'html', 'Añades comillas alrededor del dato sin escapar.', 'Escapas los caracteres al incorporar el dato.', 'track-step-done'],
     ] as const) {
       await page.goto(HOME + url)
       const card = page.locator('[data-testid="learning-check"][data-check-id="' + id + '"]')
-      const submit = card.getByRole('button')
+      const submit = card.getByRole('button', {name:'Comprobar respuesta'})
       const feedback = card.getByTestId('learning-check-feedback')
       await expect(submit, id + ': blank answer accepted').toBeDisabled()
-      await card.getByRole('radio').nth(wrong).check()
+      await card.getByRole('radio', {name:wrong, exact:true}).check()
       await submit.click()
       await expect(feedback, id + ': wrong answer accepted').toContainText('Todavía no')
-      await card.getByRole('radio').nth(correct).check()
+      await card.getByRole('radio', {name:correct, exact:true}).check()
       await submit.click()
       await expect(feedback, id + ': correct answer rejected').toContainText('Correcto')
+      await card.getByRole('button', {name:'Intentar de nuevo'}).click()
+      await expect(submit, id + ': retry retained selection').toBeDisabled()
+      await card.getByRole('radio', {name:correct, exact:true}).check()
+      await submit.click()
+      await expect(feedback, id + ': shuffled answer identity changed').toContainText('Correcto')
       await expect(page.getByTestId(tick).first(), id + ': assessment changed checklist').not.toBeChecked()
     }
   } finally { await context.close() }
@@ -449,4 +454,44 @@ test('web module links retain back and forward history', async ({ browser }) => 
     await page.goForward()
     await expect(page).toHaveURL(/#ruta-web\/http$/)
   } finally { await context.close() }
+})
+
+test('setup changes converge across two real browser tabs and survive course navigation', async ({ browser }) => {
+  const context = await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const a = await context.newPage(), b = await context.newPage()
+    await dismissTour(a)
+    await dismissTour(b)
+    await Promise.all([a.goto(HOME+'empezar'),b.goto(HOME+'empezar')])
+    for (const page of [a,b]) await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({timeout:20000})
+    const tick = (page:Page,i:number) => page.getByTestId('setup-step-done').nth(i)
+    await tick(a,0).check()
+    await expect(tick(b,0),'remote tick not reflected').toBeChecked()
+    await tick(b,1).check()
+    await expect(tick(a,1),'other tab lost second tick').toBeChecked()
+    await a.getByTestId('sidebar-section-basics').first().click()
+    await a.getByTestId('sidebar-session0').first().click()
+    await expect(tick(a,0)).toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+    await tick(b,0).uncheck()
+    await expect(tick(a,0),'explicit untick not reflected').not.toBeChecked()
+    await expect(tick(a,1),'unrelated tick erased').toBeChecked()
+  } finally { await context.close() }
+})
+
+test('setup refuses a future stored record and preserves it across retry', async ({browser}) => {
+  const context = await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    const raw = JSON.stringify({v:2,os:'windows',done:['future.step'],extra:{keep:true}})
+    await page.addInitScript(value=>localStorage.setItem('pyarcana:sesion0:v1',value),raw)
+    await page.goto(HOME+'empezar')
+    await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({timeout:20000})
+    await page.getByTestId('setup-step-done').first().check()
+    await expect(page.getByTestId('setup-save-failed')).toContainText('No lo sobrescribiremos')
+    await page.getByTestId('setup-retry-save').click()
+    await expect(page.getByTestId('setup-save-failed')).toBeVisible()
+    expect(await page.evaluate(()=>localStorage.getItem('pyarcana:sesion0:v1')),'older client downgraded future data').toBe(raw)
+  } finally {await context.close()}
 })

@@ -392,8 +392,8 @@ test('every step that shows a picture links the product\'s own current guide, na
   }
 })
 
-import { createSetupState } from '@/lib/setup/shared-state'
-import { checkAnswer, SETUP_CHECKS, WEB_CHECKS } from '@/lib/learning-checks'
+import { createSetupState, flushSetup } from '@/lib/setup/shared-state'
+import { answerFeedback, checkAnswer, shuffledOptions, SETUP_CHECKS, WEB_CHECKS } from '@/lib/learning-checks'
 import { WEB_TRACK } from '@/lib/tracks/web/content'
 
 test('two setup views preserve sequential changes, future IDs and explicit unticks', () => {
@@ -431,5 +431,106 @@ test('each real part and module has a retrieval check and rejects distractors', 
     assert.equal(checkAnswer(check, -1), 'unanswered', id + ': invalid answer passed')
     assert.equal(checkAnswer(check, check.correct), 'correct', id + ': correct answer rejected')
     check.options.forEach((_, i) => { if (i !== check.correct) assert.equal(checkAnswer(check,i), 'incorrect', id + ': distractor accepted') })
+  }
+})
+
+test('read refusal cannot overwrite an existing valid record even if writes succeed', () => {
+  const store = memoryStore('{"v":1,"os":"windows","done":["old.saved"]}')
+  let readable = true
+  let writes = 0
+  const state = createSetupState(() => ({
+    getItem: k => { if (!readable) throw new Error('read denied'); return store.getItem(k) },
+    setItem: (k,v) => { writes++; store.setItem(k,v) },
+  }))
+  state.snapshot()
+  readable = false
+  const refused = state.apply({ type: 'step', id: 'new.step', done: true })
+  assert.equal(refused.issue, 'read', 'read error misclassified as empty')
+  assert.deepEqual(refused.progress.done, ['old.saved','new.step'], 'last known progress or intent lost')
+  assert.equal(writes, 0, 'read refusal must prohibit writes')
+  readable = true
+  assert.deepEqual(state.retry().progress.done, ['old.saved','new.step'], 'retry failed to rebase')
+  assert.equal(writes, 1)
+})
+
+test('future version, unfamiliar fields, malformed records and overflow cannot be downgraded', () => {
+  const future = [
+    '{"v":2,"os":"windows","done":["a"],"extra":{"keep":true}}',
+    '{"v":1,"os":null,"done":["a"],"extra":42}',
+    '{"v":1,"os":null,"done":["valid","invalid id"]}',
+    '{"v":1,"os":"future-os","done":["a"]}',
+    '{"v":1,"os":null,"done":',
+    JSON.stringify({v:1,os:null,done:Array.from({length:501},(_,i)=>'step.'+i)}),
+  ]
+  for (const raw of future) {
+    const store = memoryStore(raw)
+    const state = createSetupState(() => store)
+    const next = state.apply({type:'step',id:'new.step',done:true})
+    assert.equal(next.issue,'format','unsafe record accepted: '+raw.slice(0,90))
+    assert.equal(store.getItem(SETUP_PROGRESS_KEY),raw,'record destroyed: '+raw.slice(0,90))
+    assert.equal(next.pendingCount,1,'refused write discarded intent')
+  }
+})
+
+test('cap overflow retains unsaved intention instead of acknowledging a dropped tick', () => {
+  const raw = JSON.stringify({v:1,os:null,done:Array.from({length:500},(_,i)=>'step.'+i)})
+  const store = memoryStore(raw)
+  const state = createSetupState(() => store)
+  assert.equal(state.apply({type:'step',id:'new.step',done:true}).issue,'format')
+  assert.equal(store.getItem(SETUP_PROGRESS_KEY),raw,'overflow overwrote persisted progress')
+  const recovered = state.apply({type:'step',id:'step.0',done:false})
+  assert.equal(recovered.pendingCount,0)
+  assert.ok(loadSetupProgress(store).done.includes('new.step'),'pending tick did not recover when room was available')
+})
+
+test('cooperating tabs flush under the lock; a rejected lock is not bypassed', async () => {
+  const store = memoryStore()
+  const a = createSetupState(() => store), b = createSetupState(() => store)
+  a.stage({type:'step',id:'a',done:true})
+  b.stage({type:'step',id:'b',done:true})
+  await flushSetup(a, async () => { throw new Error('lock unavailable') })
+  assert.deepEqual(loadSetupProgress(store).done, [], 'refused lock was bypassed')
+  assert.equal(a.getSnapshot().issue,'lock')
+  let tail = Promise.resolve()
+  const lock = (work:()=>void) => { tail = tail.then(work); return tail }
+  await Promise.all([flushSetup(a,lock),flushSetup(b,lock)])
+  assert.deepEqual(loadSetupProgress(store).done,['a','b'],'serialized flush erased a cooperating writer')
+  assert.equal(a.getSnapshot().pendingCount,0)
+})
+
+test('fixed independent semantic answer oracle, distractor-specific feedback and option permutation', () => {
+  const expected: Record<string,string> = {
+    terminal:'Consultas la ruta de la carpeta actual.',
+    python:'La orden está invocando Python 3.11.',
+    vscode:'Abres la carpeta del nuevo proyecto.',
+    git:'Git tiene datos para atribuir tus commits.',
+    github:'Conservas los códigos de recuperación en privado.',
+    conectar:'El commit visible en el repositorio remoto.',
+    final:'Identificas la herramienta que falló y verificas su salida.',
+    html:'Escapas los caracteres al incorporar el dato.',
+    http:'El servidor no encontró el recurso solicitado o no revela su existencia.',
+    sitio:'Los datos cargados y la lógica de ordenamiento.',
+    despliegue:'./data.json',
+    prototipo:'El plan de consulta y los índices del filtro.',
+    modelo:'Con una fila que referencia al alumno y al curso.',
+  }
+  const checks = {...SETUP_CHECKS,...WEB_CHECKS}
+  assert.deepEqual(Object.keys(checks).sort(),Object.keys(expected).sort(),'semantic oracle drift; review added/removed question')
+  for (const [id,check] of Object.entries(checks)) {
+    const correct = check.options.indexOf(expected[id])
+    assert.ok(correct>=0,id+': independent answer removed')
+    assert.equal(checkAnswer(check,correct),'correct',id+': semantic key changed')
+    assert.equal(check.feedback.length,check.options.length,id+': feedback drift')
+    const wrong = check.options.map((_,i)=>i).filter(i=>i!==correct)
+    assert.equal(new Set(wrong.map(i=>answerFeedback(check,i))).size,wrong.length,id+': generic distractor feedback')
+    for (const i of wrong) assert.ok(answerFeedback(check,i).trim().length>0,id+': missing misconception explanation')
+    assert.equal(answerFeedback(check,null),'',id+': answer leaked before selection')
+    assert.equal(answerFeedback(check,correct),check.explanation,id+': no correct-answer explanation')
+  }
+  const perm = shuffledOptions(3,()=>0)
+  assert.deepEqual(perm,[1,2,0],'Fisher-Yates fixture did not move identity')
+  assert.deepEqual([...perm].sort(),[0,1,2],'shuffle duplicated or lost an option')
+  for (const [id,check] of Object.entries(SETUP_CHECKS)) {
+    assert.ok(check.practice?.task && check.practice.evidence,id+': missing independent task or manual verification')
   }
 })

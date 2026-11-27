@@ -247,3 +247,29 @@ Learner prose follows `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical
   not screenshot findings. No claim of production readiness without live evidence.
 - For every decision record the expert benchmark, rejected alternatives, evidence, trade-offs and
   limitations. Never substitute a tautological assertion for a wrong-answer or failure fixture.
+
+### Evidence-based engineering loop (every task and every round)
+- Start with the last tested SHA, unresolved gates, relevant prior decisions and an explicit
+  defect model. Before editing, write the independent behavioral oracle and name the mutation
+  that must fail. Run the old implementation or injected defect and capture the actual failure;
+  then run the repair and capture the pass. If either cannot run, label REFUSED with the cause.
+  A test whose expected value is read from the implementation under test is not an independent oracle.
+- Research each material feature/decision using primary documentation, standards or peer-reviewed
+  evidence, name the reviewer and the evidence-based benchmark, and explain which feasible
+  alternative the expert would reject and why. Probe at least two routes; do not optimize for the
+  cheapest way to satisfy the literal request. Record trade-offs, unknowns, and user impact.
+- Every code round runs `npm run lint:complexity` (ceiling 15) and normal lint/typecheck;
+  no aggregate offset may be presented as proof of per-function compliance. Until the stricter
+  ratchet lands, inspect changed functions individually and report legacy debt. No baseline edits
+  to excuse a regression. The Python and TypeScript per-function migration is tracked in PR #104.
+- Four explicit adversarial passes: instructional validity (including longest-answer and position
+  cues, plausible distractors, targeted feedback and independent transfer), human interaction
+  (keyboard, touch, status announcements, navigation and recovery), state/data integrity
+  (read denial distinct from absence, future-version drift, interleaving, idempotency, failed writes),
+  and release integrity (exact SHA, dependency drift, gates and actual deployed browser behavior).
+  Include a test for each task and each round; record the real red/green result, not just test count.
+- Preserve incompatible persisted records byte-for-byte. A failed read is never a blank record;
+  do not bypass a refused lock. State the supported concurrency model and legacy-client limits.
+  Prefer native platform primitives to homegrown distributed locking; test the fallback separately.
+- Separate confirmed source behavior, measured local/browser behavior, and measured production
+  behavior. Never use one to certify another; name blocked and unexecuted work in the final report.
