@@ -41,8 +41,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       "Las aplicaciones instaladas no identifican la ubicación de trabajo."
     ],
     "practice": {
-      "task": "Abre una segunda terminal y predice en qué carpeta estás. Comprueba tu predicción con la orden que aprendiste, sin copiarla.",
-      "evidence": "La respuesta muestra la ruta actual; identifica en ella el nombre de tu carpeta personal."
+      "task": "Abre otra terminal, predice si parte de la misma carpeta que la anterior y compruébalo sin copiar la orden. Explica por qué dos terminales pueden mostrar rutas distintas.",
+      "evidence": "La respuesta muestra la carpeta actual de cada terminal. No tiene que ser la carpeta personal: depende de cómo abriste cada ventana."
     }
   },
   "python": {
@@ -60,8 +60,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       "Puede haber otra versión instalada que esta orden no encuentra."
     ],
     "practice": {
-      "task": "Abre una terminal nueva y comprueba qué versión de Python responde, sin copiar la orden del ejemplo.",
-      "evidence": "Debe responder Python 3.12.x para el intérprete que vas a usar en el curso."
+      "task": "Sin copiar el ejemplo, abre una terminal nueva, averigua la serie de Python que responde y entra en su modo interactivo. Calcula 3 + 4 y sal usando la orden aprendida.",
+      "evidence": "La versión corresponde a Python 3.12.x, el intérprete muestra 7 y puedes volver al indicador de la terminal. Si falla la serie, no des por resuelto ese paso."
     }
   },
   "vscode": {
@@ -79,8 +79,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       ""
     ],
     "practice": {
-      "task": "Abre una carpeta distinta a la del ejemplo y crea un archivo de texto de prueba en ella.",
-      "evidence": "El explorador de VS Code muestra el archivo dentro de la nueva carpeta."
+      "task": "Abre una carpeta distinta a la del ejemplo y crea un archivo de texto de prueba en ella. Comprueba desde el explorador y la terminal integrada dónde quedó.",
+      "evidence": "El explorador muestra el archivo en la nueva carpeta y la terminal indica esa ubicación, no la del ejemplo."
     }
   },
   "git": {
@@ -98,8 +98,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       "La configuración del remoto es independiente del autor."
     ],
     "practice": {
-      "task": "En la terminal, consulta la versión de Git y confirma localmente los datos de autor que configuraste.",
-      "evidence": "Git responde y los datos coinciden con tu configuración. No los pegues aquí."
+      "task": "Imagina que mañana usarás una computadora prestada con otra identidad de autor. Sin copiar el ejemplo, comprueba la versión de Git y localiza los datos de autor de tu propio equipo. Explica qué tendrías que corregir antes de hacer un commit si los valores fueran incorrectos.",
+      "evidence": "Distingues la versión, nombre y correo de autor de la sesión de GitHub. No cambies valores correctos ni compartas datos personales."
     }
   },
   "github": {
@@ -117,8 +117,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       ""
     ],
     "practice": {
-      "task": "En GitHub, comprueba que la autenticación en dos pasos está activada y que tienes un método de recuperación privado.",
-      "evidence": "La configuración de seguridad confirma el estado. Nunca compartas códigos ni contraseñas."
+      "task": "Imagina que perdiste el celular, pero sigues teniendo acceso a tu cuenta. Describe qué método de recuperación usarías y cómo comprobarías que lo tienes disponible. Revisa el estado de seguridad de tu cuenta sin desactivar el segundo factor ni mostrar secretos.",
+      "evidence": "Puedes explicar un camino de recuperación seguro y localizar el método privado. No necesitas simular una pérdida real ni probar un código."
     }
   },
   "conectar": {
@@ -136,8 +136,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       ""
     ],
     "practice": {
-      "task": "En el repositorio de práctica, añade una línea al README sin datos personales, guarda un commit y publícalo.",
-      "evidence": "El cambio aparece en el README remoto y su commit coincide con el local."
+      "task": "En tu repositorio de práctica, añade una nueva línea sin datos personales al README, revisa el cambio, prepara el archivo, guarda un commit y publícalo. Comprueba qué quedó en el historial y qué llegó a GitHub.",
+      "evidence": "El README remoto contiene la nueva línea y el commit coincide con el local. No publiques credenciales ni archivos ajenos a la práctica."
     }
   },
   "final": {
@@ -155,8 +155,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       "Cambiar versiones sin diagnóstico puede introducir incompatibilidades."
     ],
     "practice": {
-      "task": "Cierra y vuelve a abrir la terminal integrada; verifica Python y Git, y abre tu carpeta de práctica.",
-      "evidence": "Ambas herramientas responden y los archivos de práctica siguen presentes."
+      "task": "Cierra y vuelve a abrir la terminal integrada. Sin copiar la lista anterior, verifica Python, Git, GitHub CLI y VS Code. Si aparece un error, identifica la herramienta y vuelve a comprobar solo esa. Abre tu carpeta de práctica.",
+      "evidence": "Puedes distinguir las cuatro comprobaciones: versión de Python 3.12.x, Git disponible, sesión de GitHub CLI válida y comando de VS Code disponible. Los archivos de práctica siguen presentes. Si algo falla, no marques esa comprobación como resuelta."
     }
   }
 }

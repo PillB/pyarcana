@@ -597,3 +597,23 @@ test('all auxiliary groups show four instructional phases in order, with guided 
     await expect(group.getByTestId('learning-check').getByRole('button',{name:'Comprobar respuesta'})).toBeDisabled()
   }finally{await context.close()}
 })
+
+test('phase jump moves keyboard focus to actual heading without changing route or ticks',async ({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try{
+    const page=await context.newPage()
+    await dismissTour(page)
+    for(const [route,groupId,stepId] of [['empezar','setup-part','setup-step-done'],['#ruta-web','track-module','track-step-done']] as const){
+      await page.goto(HOME+route)
+      const group=page.getByTestId(groupId).first()
+      const before=page.url()
+      const nav=group.getByTestId('phase-navigation')
+      const button=nav.getByRole('button',{name:'Tú haces',exact:true})
+      await button.focus()
+      await page.keyboard.press('Enter')
+      await expect(group.locator('[data-phase="independent"] h3').first()).toBeFocused()
+      expect(page.url(),'phase jump rewrote course hash').toBe(before)
+      await expect(group.getByTestId(stepId).first(),'phase jump changed progress').not.toBeChecked()
+    }
+  }finally{await context.close()}
+})

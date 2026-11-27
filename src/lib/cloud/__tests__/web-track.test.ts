@@ -10,7 +10,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { COURSE_SECTIONS } from '@/lib/course'
@@ -1292,4 +1292,17 @@ test('guided sorting variation checks numeric ordering after a changed amount',(
   assert.deepEqual(table.column(1),['980.50','1430.25','1500.00'])
   table.clicks[1]()
   assert.deepEqual(table.column(1),['1500.00','1430.25','980.50'])
+})
+
+test('guided site generation changes actual HTML and JSON before sorting',()=>{
+  const py=python()
+  const cwd=mkdtempSync(path.join(tmpdir(),'guided-site-'))
+  try{
+    const r=spawnSync(py.bin.includes('/')?path.resolve(py.bin):py.bin,['-I','-'],{input:guidedSource('construir_sitio.py',[['Sede A,1250.00','Sede A,1500.00']]),encoding:'utf8',timeout:20000,cwd})
+    assert.equal(r.status,0,'guided site generation failed: '+r.stderr)
+    const rows=JSON.parse(readFileSync(path.join(cwd,'site/data.json'),'utf8'))
+    assert.equal(rows.length,3,'guided change lost a data row')
+    assert.equal(rows[0].ventas,'1500.00','JSON did not reflect changed amount')
+    assert.match(readFileSync(path.join(cwd,'site/index.html'),'utf8'),/<td>1500\.00<\/td>/,'HTML did not reflect changed amount')
+  }finally{rmSync(cwd,{recursive:true,force:true})}
 })

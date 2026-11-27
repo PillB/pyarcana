@@ -14,7 +14,7 @@ import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/co
 import { SETUP_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
 import { LearningResumeLink } from '@/components/course/LearningResumeLink'
-import { LearningPhase, WorkedExample, GuidedPrediction } from '@/components/course/LearningPhase'
+import { LearningPhase, WorkedExample, GuidedPrediction, PhaseNavigation } from '@/components/course/LearningPhase'
 import { phaseFor } from '@/lib/learning-phases'
 import { InlineText } from '@/components/course/RichText'
 import { OsSwitch } from './OsSwitch'
@@ -175,6 +175,7 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
               ))}
             </div>
             {part.figure && <SetupFigure id={part.figure} />}
+            <PhaseNavigation id={'setup-'+part.id}/>
             <LearningPhase id={'setup-'+part.id} kind="demo"><WorkedExample phase={phase}/></LearningPhase>
             <LearningPhase id={'setup-'+part.id} kind="guided">
             <ol className="space-y-4">

@@ -18,13 +18,13 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "En una segunda terminal, `pwd` muestra una ruta diferente. ¿Qué ha cambiado?",
       "options": [
-        "El contenido de todos los archivos.",
+        "La ubicación donde está instalado el intérprete de Python.",
         "La versión del sistema operativo.",
         "La carpeta de trabajo de esa terminal."
       ],
       "correct": 2,
       "feedback": [
-        "Consultar una ruta no modifica archivos.",
+        "La carpeta de trabajo y la instalación del intérprete son ubicaciones distintas.",
         "La ruta no identifica una versión del sistema.",
         ""
       ],
@@ -42,13 +42,13 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
       "question": "En otra terminal aparece `Python 3.12.3`. ¿Qué decides antes de seguir?",
       "options": [
         "La serie 3.12 coincide; el parche es distinto.",
-        "Hay que borrar Python inmediatamente.",
+        "Hay que reinstalar Python porque el número de parche no coincide.",
         "La salida demuestra que Git está listo."
       ],
       "correct": 0,
       "feedback": [
         "",
-        "Una diferencia de parche no exige borrar el intérprete.",
+        "Una diferencia de parche no exige reinstalar si se cumplen los requisitos del curso.",
         "La orden solo consulta Python."
       ],
       "explanation": "3.12.3 y 3.12.10 pertenecen a la misma serie; las dependencias pueden tener requisitos propios."
@@ -64,14 +64,14 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "La terminal integrada muestra la carpeta personal, no `pyarcana`. ¿Qué verificas primero?",
       "options": [
-        "El tema de colores de VS Code.",
-        "La versión de GitHub.",
+        "La configuración del intérprete de Python dentro del editor.",
+        "La ubicación de descargas configurada en el navegador.",
         "La carpeta abierta y la ruta de la terminal."
       ],
       "correct": 2,
       "feedback": [
-        "El tema no cambia la carpeta.",
-        "GitHub no determina la ubicación de la terminal.",
+        "La selección del intérprete no cambia por sí misma la carpeta de la terminal.",
+        "Las descargas del navegador no determinan la carpeta de la terminal integrada.",
         ""
       ],
       "explanation": "Comprobar ambas ubicaciones evita guardar archivos en un lugar inesperado."
@@ -87,15 +87,15 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "La lista muestra un correo de autor distinto al que querías. ¿Qué revisas?",
       "options": [
-        "Los códigos de recuperación de GitHub.",
+        "El correo con el que iniciaste sesión en GitHub.",
         "La configuración de autor de Git.",
-        "El color de la terminal."
+        "La dirección del repositorio remoto en GitHub."
       ],
       "correct": 1,
       "feedback": [
-        "Los códigos sirven para recuperar acceso, no para atribuir commits.",
+        "La sesión remota y los datos de autor local son independientes.",
         "",
-        "El color no modifica la identidad."
+        "La dirección remota no determina el correo de autor de un commit."
       ],
       "explanation": "La identidad se configura en Git; consulta y corrige el valor local sin publicar datos personales."
     },
@@ -110,15 +110,15 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "Un compañero solicita un código de recuperación para ayudarte. ¿Qué haces?",
       "options": [
-        "Lo subes al repositorio privado.",
+        "Lo guardas temporalmente en un repositorio privado.",
         "No lo compartes; revisas la ayuda oficial.",
-        "Lo pegas en el chat de práctica."
+        "Se lo envías por mensaje privado y luego lo eliminas."
       ],
       "correct": 1,
       "feedback": [
-        "Un repositorio no es un almacén adecuado para esas credenciales.",
+        "Un repositorio no es un almacén adecuado para códigos de recuperación.",
         "",
-        "El chat tampoco necesita tu código."
+        "Compartirlo por mensaje también expone una credencial."
       ],
       "explanation": "Los códigos son secretos; la ayuda no requiere que los reveles."
     },
@@ -134,14 +134,14 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
       "question": "Modificaste el README tras el commit. `git status` muestra el cambio sin seleccionar. ¿Qué falta antes del siguiente commit?",
       "options": [
         "Seleccionar el README con `git add`.",
-        "Crear otra cuenta de GitHub.",
-        "Volver a instalar Git."
+        "Ejecutar `git commit` sin preparar el cambio nuevo.",
+        "Consultar `git status` otra vez sin preparar el archivo."
       ],
       "correct": 0,
       "feedback": [
         "",
-        "La cuenta no selecciona archivos locales.",
-        "Git ya está funcionando."
+        "Un commit normal guarda los cambios preparados, no necesariamente el cambio nuevo.",
+        "Consultar el estado no modifica el área de preparación."
       ],
       "explanation": "El área de preparación permite decidir qué cambios entran en el próximo commit."
     },
@@ -156,14 +156,14 @@ export const LEARNING_PHASES: Readonly<Record<string, LearningPhases>> = {
     "guided": {
       "question": "Python y `gh` responden; `code --version` no se reconoce. ¿Qué investigas primero?",
       "options": [
-        "La instalación de Python desde cero.",
-        "La contraseña de GitHub.",
+        "La versión de Python usada por el proyecto abierto.",
+        "La conexión con el repositorio remoto de GitHub.",
         "La disponibilidad de `code` en esa terminal."
       ],
       "correct": 2,
       "feedback": [
-        "Python ya respondió.",
-        "La contraseña no configura el comando del editor.",
+        "Python ya respondió; comprueba primero el comando que falló.",
+        "La conexión remota no determina si existe el comando del editor.",
         ""
       ],
       "explanation": "Revisa la instalación o PATH del comando del editor y vuelve a comprobarlo."

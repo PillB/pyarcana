@@ -10,7 +10,7 @@ import { sectionLabel } from '@/lib/tracks/web/placed'
 import { WEB_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
 import { LearningResumeLink } from '@/components/course/LearningResumeLink'
-import { LearningPhase, WorkedExample, GuidedPrediction } from '@/components/course/LearningPhase'
+import { LearningPhase, WorkedExample, GuidedPrediction, PhaseNavigation } from '@/components/course/LearningPhase'
 import { phaseFor, splitLearningSteps } from '@/lib/learning-phases'
 import { InlineText } from '@/components/course/RichText'
 import { TrackStepView } from './TrackStepView'
@@ -109,6 +109,7 @@ export function WebTrackView() {
                 </p>
               ))}
             </div>
+            <PhaseNavigation id={'web-'+m.id}/>
             <LearningPhase id={'web-'+m.id} kind="demo">
               <WorkedExample phase={phase}/>
               <ol className="mt-4 space-y-4">

@@ -9,10 +9,26 @@ export function LearningPhase({ id, kind, children }: { id:string; kind:'demo'|'
   const lang=useI18n(s=>s.lang)
   const heading=id+'-phase-'+kind
   return <section aria-labelledby={heading} data-testid="learning-phase" data-phase={kind} className="mt-6 rounded-lg border border-border p-4">
-    <h3 id={heading} className="text-xl font-semibold">{t('learningPhase.'+kind,lang)}</h3>
+    <h3 id={heading} tabIndex={-1} className="scroll-mt-24 rounded-sm text-xl font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{t('learningPhase.'+kind,lang)}</h3>
     <p className="mt-1 text-sm text-muted-foreground">{t('learningPhase.'+kind+'.description',lang)}</p>
     <div className="mt-3">{children}</div>
   </section>
+}
+
+const PHASE_KINDS = ['demo','guided','independent','check'] as const
+/** Local phase jumps intentionally do not mutate course hashes or completion. */
+export function PhaseNavigation({ id }: {id:string}) {
+  const lang=useI18n(s=>s.lang)
+  const go=(kind:string)=>{
+    const target=document.getElementById(id+'-phase-'+kind)
+    target?.focus({preventScroll:true})
+    target?.scrollIntoView({block:'start'})
+  }
+  return <nav aria-label={t('learningPhase.navigation',lang)} className="mt-4" data-testid="phase-navigation">
+    <ul className="flex flex-wrap gap-2">
+      {PHASE_KINDS.map(kind=><li key={kind}><button type="button" onClick={()=>go(kind)} className="min-h-11 rounded-md border border-border px-3 py-2 text-sm font-medium hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring">{t('learningPhase.short.'+kind,lang)}</button></li>)}
+    </ul>
+  </nav>
 }
 
 export function WorkedExample({ phase }: {phase:LearningPhases}) {
