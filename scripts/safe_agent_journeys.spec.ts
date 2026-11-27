@@ -431,6 +431,7 @@ test('setup and web retrieval checks reject a wrong answer, allow retry and leav
       await submit.click()
       await expect(feedback, id + ': correct answer rejected').toContainText('Correcto')
       await card.getByRole('button', {name:'Intentar de nuevo'}).click()
+      await expect(card.getByRole('radio').first(), id + ': keyboard focus lost on retry').toBeFocused()
       await expect(submit, id + ': retry retained selection').toBeDisabled()
       await card.getByRole('radio', {name:correct, exact:true}).check()
       await submit.click()

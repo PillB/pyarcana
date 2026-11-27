@@ -76,7 +76,7 @@ export function createSetupState(storage: () => KeyValueStore | null) {
     const result = readRecord(store)
     if (result.ok) {
       lastGood = result.progress
-      if (issue === 'read' || issue === 'format') issue = null
+      if (!pending.length && (issue === 'read' || issue === 'format')) issue = null
     } else issue = result.issue
     return result.ok
   }
@@ -102,7 +102,7 @@ export function createSetupState(storage: () => KeyValueStore | null) {
     issue = null
     return publish()
   }
-  const refuseLock = () => { issue = 'lock'; return publish() }
+  const refuseLock = () => { if (pending.length) issue = 'lock'; return publish() }
   return {
     snapshot, stage, retry, refuseLock,
     getSnapshot: () => view,

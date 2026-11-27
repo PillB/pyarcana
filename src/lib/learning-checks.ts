@@ -41,8 +41,8 @@ export const SETUP_CHECKS: Readonly<Record<string, LearningCheck>> = {
       "Las aplicaciones instaladas no identifican la ubicación de trabajo."
     ],
     "practice": {
-      "task": "Abre otra terminal, entra en una carpeta que ya exista y consulta la ubicación.",
-      "evidence": "La ruta que muestra la terminal debe terminar en esa carpeta."
+      "task": "Abre una segunda terminal y predice en qué carpeta estás. Comprueba tu predicción con la orden que aprendiste, sin copiarla.",
+      "evidence": "La respuesta muestra la ruta actual; identifica en ella el nombre de tu carpeta personal."
     }
   },
   "python": {

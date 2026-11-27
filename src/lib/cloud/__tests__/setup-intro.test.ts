@@ -534,3 +534,33 @@ test('fixed independent semantic answer oracle, distractor-specific feedback and
     assert.ok(check.practice?.task && check.practice.evidence,id+': missing independent task or manual verification')
   }
 })
+
+test('read refresh cannot falsely announce that an unsaved intent has recovered', () => {
+  const store = memoryStore('{"v":2,"os":null,"done":["old"]}')
+  const state = createSetupState(() => store)
+  assert.equal(state.apply({type:'step',id:'new.step',done:true}).issue,'format')
+  store.setItem(SETUP_PROGRESS_KEY,'{"v":1,"os":null,"done":["old"]}')
+  const refreshed = state.snapshot()
+  assert.equal(refreshed.issue,'format','read alone falsely cleared pending failure')
+  assert.equal(refreshed.pendingCount,1)
+  assert.equal(state.retry().issue,null,'explicit successful retry did not clear failure')
+})
+
+test('a rejected redundant lock after successful flush does not display a false error', async () => {
+  const store = memoryStore()
+  const state = createSetupState(() => store)
+  state.stage({type:'step',id:'new.step',done:true})
+  await flushSetup(state)
+  await flushSetup(state, async () => { throw new Error('late lock denial') })
+  assert.equal(state.getSnapshot().issue,null,'late denial invented an unsaved failure')
+  assert.deepEqual(loadSetupProgress(store).done,['new.step'])
+})
+
+import { spawnSync } from 'node:child_process'
+
+test('lesson-parity mutation probes kill deliberate regressions in disposable copies of real source', () => {
+  const run = spawnSync(process.execPath,['scripts/lesson_parity_mutations.mjs'],{encoding:'utf8',timeout:60000})
+  const report = (run.stdout ?? '') + (run.stderr ?? '')
+  console.log(report)
+  assert.equal(run.status,0,'mutation runner refused or a mutant survived:\n'+report+'\n'+String(run.error ?? ''))
+})

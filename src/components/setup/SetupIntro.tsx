@@ -28,9 +28,11 @@ function storage(): Storage | null {
 
 const setupState = createSetupState(storage)
 
-function flushPendingSetup() {
-  const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
-  return flushSetup(setupState, locks ? work => locks.request(SETUP_PROGRESS_KEY, work) : undefined)
+async function flushPendingSetup() {
+  try {
+    const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
+    await flushSetup(setupState, locks ? work => locks.request(SETUP_PROGRESS_KEY, work) : undefined)
+  } catch { setupState.refuseLock() }
 }
 
 /**

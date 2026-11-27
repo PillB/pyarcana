@@ -96,3 +96,24 @@ stateDiagram-v2
   Protected --> Queued: retry
   Ready --> Read: other tab event or remount
 ```
+
+## Third round — verification and QOL
+
+- The first revision completed 10/10 jobs including static journeys, lesson E2E and axe.
+  Evidence is historical and not transferable to the new SHA.
+- Third-round source review caught one untaught prerequisite (directory changes before the
+  first lesson teaches them), focus loss after retry, stale pending-failure clearing and a late
+  redundant-lock denial. The changes add targeted tests; focus is restored to the first radio,
+  status messages are exposed without moving focus, and an actual successful retry is required
+  to clear a pending failure.
+- New code has a strict per-function ESLint ceiling of 15, in addition to the existing aggregate
+  gate. No legacy baseline is loosened. Source: https://eslint.org/docs/latest/rules/complexity .
+- The seven mutation probes in scripts/lesson_parity_mutations.mjs compile disposable copies of
+  the actual TypeScript sources, verify each unmodified implementation against an independent
+  behavior oracle, then require a deliberate mutant to fail with the expected assertion code.
+  Compilation errors, missing mutation sites, unexpected failures and surviving mutants refuse
+  the verdict. They are invoked by the existing adversarial setup test; actual output is CI evidence,
+  not inferred from the presence of the script. No tracked file or real storage is mutated.
+- HTTP 404 wording checked against RFC 9110 §15.5.5:
+  https://www.rfc-editor.org/info/rfc9110/ . Browser focus/status benchmark:
+  https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html .

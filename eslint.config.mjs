@@ -44,6 +44,11 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "no-useless-escape": "off",
   },
 }, {
+  // chore(lint): strict per-function ceiling for newly introduced learning-parity code.
+  // Unlike the legacy aggregate ratchet, debt reduction elsewhere cannot hide a violation here.
+  files: ["src/lib/setup/shared-state.ts", "src/lib/learning-checks.ts", "src/components/course/LearningCheckCard.tsx"],
+  rules: { complexity: ["error", 15] }
+}, {
   // Local-only folders that a checkout on the owner's computer holds and CI never has: agent
   // worktrees (.claude/worktrees, each a full copy of the repository), the static-journeys build
   // (.ci-static) and the live checks' Playwright install (workers/billing/e2e/node_modules). Linting
