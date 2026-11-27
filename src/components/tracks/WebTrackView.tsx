@@ -9,6 +9,7 @@ import { trackModuleFromHash } from '@/lib/tracks/web/placed'
 import { sectionLabel } from '@/lib/tracks/web/placed'
 import { WEB_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
+import { LearningResumeLink } from '@/components/course/LearningResumeLink'
 import { InlineText } from '@/components/course/RichText'
 import { TrackStepView } from './TrackStepView'
 import { useWebTrack } from './useWebTrack'
@@ -27,7 +28,7 @@ const STANDING_TONE = {
 export function WebTrackView() {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
-  const { progress, setStep, done, total, standing, saveFailed } = useWebTrack()
+  const { progress, setStep, done, total, standing, issue, pendingCount, retrySave } = useWebTrack()
   // Opened from a section banner the page is scrolled down; start at the top, or at the module a
   // shared link names (#ruta-web/modelo).
   // A link to another module while the track is open (#ruta-web/sitio → #ruta-web/modelo) does not
@@ -59,11 +60,13 @@ export function WebTrackView() {
       <p className="mt-3 text-sm text-muted-foreground" role="status" data-testid="track-progress">
         {tr('track.progress').replace('{done}', String(done)).replace('{total}', String(total))}
       </p>
-      {saveFailed && (
-        <p className="mt-2 text-sm text-amber-700 dark:text-amber-300" data-testid="track-save-failed">
-          {tr('track.saveFailed')}
-        </p>
-      )}
+      <div role="status" className="mt-2 text-sm">
+        {issue && <p className="text-amber-700 dark:text-amber-300" data-testid="track-save-failed">{tr('setup.issue.' + issue)}</p>}
+        {!issue && pendingCount > 0 && <p>{tr('setup.saving')}</p>}
+      </div>
+      {issue && <button type="button" onClick={() => void retrySave()} className="mt-2 min-h-11 rounded-md border px-3 text-sm" data-testid="track-retry-save">{tr('setup.retrySave')}</button>}
+      {standing === 'done' && done < total && <p className="mt-2 text-sm text-muted-foreground" data-testid="track-new-content">{tr('learningResume.newContent')}</p>}
+      <LearningResumeLink groups={WEB_TRACK.modules.map(m => ({id:m.id,title:m.title,stepIds:m.steps.map(s => s.id)}))} done={progress.done} prefix="#ruta-web/" />
       <nav aria-label={tr('track.toc')} className="mt-6">
         <ol className="grid gap-1 text-sm sm:grid-cols-2">
           {WEB_TRACK.modules.map((m, i) => {

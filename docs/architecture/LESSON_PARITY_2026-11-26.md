@@ -117,3 +117,22 @@ stateDiagram-v2
 - HTTP 404 wording checked against RFC 9110 §15.5.5:
   https://www.rfc-editor.org/info/rfc9110/ . Browser focus/status benchmark:
   https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html .
+
+## Fourth round — sibling-surface closure and resume
+
+Baseline 5cb5df4c: all ten jobs passed (run 45919910020). The live Web Path store still
+backed up and replaced foreign records. Normal clicks now refuse unreadable, newer,
+unknown-field, invalid and over-cap records, retain last-known data and pending intents, and
+expose retry. The legacy explicit recovery helper remains for compatibility; the normal UI
+does not call it. Both tick and high-water writes use the same named Web Lock; failed
+high-water writes retain a pending candidate. Unsupported and legacy browsers remain
+best effort. A well-formed retired position slug may be replaced under the existing
+course-rename contract; malformed position records are protected.
+Resume follows current visible unfinished group IDs; historical completion is unchanged.
+New modules, OS changes and reorder need no persisted cursor migration. This is not mastery.
+Rejected custom mutex/new DB (migration risk) and stored scroll/index cursor (content drift).
+Evidence: MDN Web Locks https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API ;
+storage events https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event ;
+WCAG 2.2 https://www.w3.org/TR/WCAG22/ ; PRIMM https://primmportal.com/ .
+New unit and browser gates cover read refusal, active record drift, coordinated high-water,
+cross-tab convergence and resume after insertion/reorder/reload. Exact-head CI pending.

@@ -69,3 +69,5 @@ The root policy is [`./AGENTS.md`](./AGENTS.md), including the **Evidence-based 
 loop (every task and every round)**. Read it before planning, editing, testing or deploying.
 The test oracle must be independent, and the actual failing mutation and repaired result must
 be recorded; do not equate a written test or aggregate complexity count with verified quality.
+
+For sibling-surface changes, apply **Cross-surface defect-class closure** in [./AGENTS.md](./AGENTS.md); a fix in one renderer or store does not protect another.

@@ -496,3 +496,65 @@ test('setup refuses a future stored record and preserves it across retry', async
     expect(await page.evaluate(()=>localStorage.getItem('pyarcana:sesion0:v1')),'older client downgraded future data').toBe(raw)
   } finally {await context.close()}
 })
+
+test('web path refuses a future active record without rewriting it or creating a migration backup', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const page=await context.newPage()
+    await dismissTour(page)
+    const key='pyarcana:track:ruta-web:v1'
+    const raw=JSON.stringify({v:2,done:['html.reparto'],metadata:{keep:true}})
+    await page.addInitScript(({key,raw})=>localStorage.setItem(key,raw),{key,raw})
+    await page.goto(HOME+'#ruta-web')
+    await expect(page.getByTestId('track-save-failed')).toContainText('No lo sobrescribiremos')
+    await page.getByTestId('track-step-done').nth(1).check()
+    await page.getByTestId('track-retry-save').click()
+    await expect(page.getByTestId('track-save-failed')).toBeVisible()
+    expect(await page.evaluate(key=>localStorage.getItem(key),key),'future primary record replaced').toBe(raw)
+    expect(await page.evaluate(key=>Object.keys(localStorage).filter(k=>k.startsWith(key+':unreadable:')),key),'normal UI attempted migration').toEqual([])
+  } finally {await context.close()}
+})
+
+test('resume links advance from completed visible groups and preserve routes across reload', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try {
+    const page=await context.newPage()
+    await dismissTour(page)
+    await page.goto(HOME+'#ruta-web')
+    const resume=page.getByTestId('learning-resume')
+    await expect(resume).toHaveAttribute('href','#ruta-web/html')
+    const first=page.locator('[data-testid="track-module"][id="track-html"]')
+    for(const tick of await first.getByTestId('track-step-done').all()) await tick.check()
+    await expect(resume,'resume did not advance').toHaveAttribute('href','#ruta-web/http')
+    await resume.click()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+    await expect(page.locator('[data-testid="track-module"][id="track-http"]').getByTestId('track-step-done').first()).not.toBeChecked()
+    await page.reload()
+    await expect(resume).toHaveAttribute('href','#ruta-web/http')
+    await page.goto(HOME+'empezar')
+    await expect(resume).toHaveAttribute('href','#terminal')
+    await resume.click()
+    await expect(page).toHaveURL(/\/empezar#terminal$/)
+  } finally {await context.close()}
+})
+
+test('web track tabs converge after simultaneous checks and explicit untick', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const a=await context.newPage(), b=await context.newPage()
+    await dismissTour(a); await dismissTour(b)
+    await Promise.all([a.goto(HOME+'#ruta-web'),b.goto(HOME+'#ruta-web')])
+    const tick=(page:Page,i:number)=>page.getByTestId('track-step-done').nth(i)
+    await Promise.all([tick(a,0).check(),tick(b,1).check()])
+    for (const page of [a,b]) {
+      await expect(tick(page,0),'first concurrent tick lost').toBeChecked()
+      await expect(tick(page,1),'second concurrent tick lost').toBeChecked()
+    }
+    await tick(b,0).uncheck()
+    await expect(tick(a,0)).not.toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+    await a.reload()
+    await expect(tick(a,0)).not.toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+  } finally {await context.close()}
+})

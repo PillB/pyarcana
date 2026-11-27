@@ -273,3 +273,12 @@ Learner prose follows `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical
   Prefer native platform primitives to homegrown distributed locking; test the fallback separately.
 - Separate confirmed source behavior, measured local/browser behavior, and measured production
   behavior. Never use one to certify another; name blocked and unexecuted work in the final report.
+
+### Cross-surface defect-class closure
+- After a repair, inventory sibling persistence, navigation, assessment or validation surfaces.
+  Distinguish normal writes from migration/recovery; a backup is not permission to downgrade
+  active data. Apply equivalent read-admission and concurrency contracts or explain differences.
+- Derive resume from visible stable IDs and actual progress, never stale scroll coordinates or
+  historical awards. Simulate insertion, reorder, OS switch, historical completion and reload.
+- Test the unavailable-platform fallback and disclose weaker guarantees. Run sibling-surface
+  mutations per shared defect class. Record exact SHA, red/green diagnostics and residual gates.

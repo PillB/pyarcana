@@ -1090,3 +1090,78 @@ test('run in order, the entornos blocks leave the terminal in the Worker folder 
   // Negative control: the same check on the old vercel_entornos.sh, without its last cd .., must fail.
   assert.equal(depthAfter('cd site\nnpx vercel', 0), 1, 'sanity: a cd into site/ must count as one folder down')
 })
+
+import { createTrackState as createGuardedTrackState, flushTrack } from '@/lib/tracks/shared-state'
+import { nextLearningGroup } from '@/lib/learning-resume'
+
+test('live track refuses future, malformed and unknown-field records even when backups could succeed', () => {
+  const key = trackProgressKey(WEB_TRACK_ID)
+  for (const raw of [
+    '{"v":2,"done":["html.reparto"],"finished":true}',
+    '{"v":1,"done":["html.reparto"],"metadata":{"keep":1}}',
+    '{"v":1,"done":["bad id"]}',
+    '{"v":1,"done":[],"finished":"yes"}',
+    '{',
+    JSON.stringify({v:1,done:Array.from({length:501},(_,i)=>'step.'+i)}),
+  ]) {
+    const {kv,map}=mapStore()
+    map.set(key,raw)
+    const state=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+    state.setStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+    assert.equal(map.get(key),raw,'active record downgraded: '+raw.slice(0,80))
+    assert.equal(map.size,1,'normal UI attempted backup migration')
+    assert.equal(state.getSnapshot().issue,'format')
+    assert.equal(state.getSnapshot().pendingCount,1)
+  }
+})
+
+test('denied track read keeps last known ticks and blocks writes, then explicit retry rebases', () => {
+  const {kv,map}=mapStore()
+  const key=trackProgressKey(WEB_TRACK_ID)
+  map.set(key,'{"v":1,"done":["html.reparto"]}')
+  let readable=true
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>({
+    getItem:k=>{if (!readable && k===key) throw Error('denied');return kv.getItem(k)},
+    setItem:kv.setItem,
+  }))
+  state.refresh()
+  readable=false
+  state.setStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+  assert.deepEqual(state.getSnapshot().progress.done,['html.reparto','http.navegador'],'read error erased known state')
+  assert.equal(state.getSnapshot().issue,'read')
+  assert.equal(map.get(key),'{"v":1,"done":["html.reparto"]}','read refusal overwrote active record')
+  readable=true
+  map.set(key,'{"v":1,"done":["html.reparto","sitio.servir"]}')
+  assert.equal(state.retry(),true)
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,['html.reparto','sitio.servir','http.navegador'])
+})
+
+test('cooperating track tabs lock ticks and high-water updates; rejected lock does not write', async () => {
+  const {kv}=mapStore()
+  const a=createGuardedTrackState(WEB_TRACK_ID,()=>kv), b=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+  const sections=[{id:'early',index:1},{id:'late',index:30}]
+  a.stageStep('html.reparto',true,WEB_TRACK_STEP_IDS)
+  b.stageStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+  a.stageVisit(sections,'late')
+  b.stageVisit(sections,'early')
+  await flushTrack(a,async()=>{throw Error('denied')})
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,[],'denied lock bypassed')
+  assert.equal(loadTrackFurthest(kv,WEB_TRACK_ID),null)
+  let tail=Promise.resolve()
+  const lock=(work:()=>void)=>{tail=tail.then(work);return tail}
+  await Promise.all([flushTrack(a,lock),flushTrack(b,lock)])
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,['html.reparto','http.navegador'])
+  assert.equal(loadTrackFurthest(kv,WEB_TRACK_ID),'late','older tab lowered high-water')
+  assert.equal(a.getSnapshot().pendingCount,0)
+  assert.equal(b.getSnapshot().pendingCount,0)
+})
+
+test('resume follows visible unfinished groups after insertion, reorder, OS switch and historical completion', () => {
+  const groups=[{id:'a',title:'A',stepIds:['a.1']},{id:'b',title:'B',stepIds:['b.1']}]
+  assert.equal(nextLearningGroup(groups,['a.1'])?.id,'b')
+  assert.equal(nextLearningGroup(groups,['a.1','b.1']),null)
+  assert.equal(nextLearningGroup([{id:'insert',title:'New',stepIds:['new.1']},...groups],['a.1','b.1'])?.id,'insert')
+  assert.equal(nextLearningGroup([...groups].reverse(),[])?.id,'b')
+  assert.equal(nextLearningGroup([{id:'a',title:'A',stepIds:['a.mac']}],['a.win'])?.id,'a')
+  assert.equal(nextLearningGroup([{id:'empty',title:'Empty',stepIds:[]},...groups],[])?.id,'a')
+})

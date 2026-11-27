@@ -13,6 +13,7 @@ import { createSetupState, EMPTY_SETUP_SNAPSHOT, flushSetup, type SetupIntent } 
 import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/content'
 import { SETUP_CHECKS } from '@/lib/learning-checks'
 import { LearningCheckCard } from '@/components/course/LearningCheckCard'
+import { LearningResumeLink } from '@/components/course/LearningResumeLink'
 import { InlineText } from '@/components/course/RichText'
 import { OsSwitch } from './OsSwitch'
 import { SetupStepView } from './SetupStepView'
@@ -123,6 +124,7 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
         <button type="button" onClick={() => void flushPendingSetup()} className="mt-2 min-h-11 rounded-md border px-3 text-sm" data-testid="setup-retry-save">{tr('setup.retrySave')}</button>
       )}
 
+      <LearningResumeLink groups={SETUP_PARTS.map(p => ({id:p.id,title:p.title,stepIds:stepsFor(p, os).map(s => s.id)}))} done={progress.done} prefix="#" />
       <SetupFigure id="setup-map" />
 
       <nav aria-label={tr('setup.toc')} className="mt-6">
