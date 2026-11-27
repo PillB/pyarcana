@@ -1104,7 +1104,7 @@ test('live track refuses future, malformed and unknown-field records even when b
     '{',
     JSON.stringify({v:1,done:Array.from({length:501},(_,i)=>'step.'+i)}),
   ]) {
-    const {kv,map}=mapStore()
+    const {kv,m:map}=mapStore()
     map.set(key,raw)
     const state=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
     state.setStep('http.navegador',true,WEB_TRACK_STEP_IDS)
@@ -1116,7 +1116,7 @@ test('live track refuses future, malformed and unknown-field records even when b
 })
 
 test('denied track read keeps last known ticks and blocks writes, then explicit retry rebases', () => {
-  const {kv,map}=mapStore()
+  const {kv,m:map}=mapStore()
   const key=trackProgressKey(WEB_TRACK_ID)
   map.set(key,'{"v":1,"done":["html.reparto"]}')
   let readable=true
@@ -1164,4 +1164,41 @@ test('resume follows visible unfinished groups after insertion, reorder, OS swit
   assert.equal(nextLearningGroup([...groups].reverse(),[])?.id,'b')
   assert.equal(nextLearningGroup([{id:'a',title:'A',stepIds:['a.mac']}],['a.win'])?.id,'a')
   assert.equal(nextLearningGroup([{id:'empty',title:'Empty',stepIds:[]},...groups],[])?.id,'a')
+})
+
+test('failed high-water save retains latest visit and refuses malformed position bytes', () => {
+  const {kv,m}=mapStore()
+  const key=trackFurthestKey(WEB_TRACK_ID)
+  let blocked=true
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>({
+    getItem:kv.getItem,
+    setItem:(k,v)=>{if(k===key&&blocked)throw Error('denied');kv.setItem(k,v)},
+  }))
+  const sections=[{id:'early',index:1},{id:'late',index:30}]
+  state.visit(sections,'late')
+  state.visit(sections,'early')
+  assert.equal(state.getSnapshot().furthestSeen,'late','failed newer visit lost on backward navigation')
+  assert.equal(state.getSnapshot().issue,'write')
+  blocked=false
+  m.set(key,'{"v":2,"position":"future"}')
+  state.retry()
+  assert.equal(m.get(key),'{"v":2,"position":"future"}','future position overwritten')
+  m.delete(key)
+  assert.equal(state.retry(),true)
+  assert.equal(m.get(key),'late','retry lost newest pending visit')
+})
+
+test('track cap overflow does not silently drop a newly acknowledged tick', () => {
+  const {kv,m}=mapStore()
+  const key=trackProgressKey(WEB_TRACK_ID)
+  const raw=JSON.stringify({v:1,done:Array.from({length:500},(_,i)=>'step.'+i)})
+  m.set(key,raw)
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+  state.setStep('new.step',true,[])
+  assert.equal(m.get(key),raw,'cap silently truncated active record')
+  assert.equal(state.getSnapshot().issue,'format')
+  assert.ok(state.getSnapshot().progress.done.includes('new.step'),'unsaved intent lost')
+  state.setStep('step.0',false,[])
+  assert.ok(loadTrackProgress(kv,WEB_TRACK_ID).done.includes('new.step'),'pending tick not saved after space recovered')
+  assert.equal(state.getSnapshot().pendingCount,0)
 })

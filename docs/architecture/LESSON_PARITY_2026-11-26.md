@@ -136,3 +136,13 @@ storage events https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_e
 WCAG 2.2 https://www.w3.org/TR/WCAG22/ ; PRIMM https://primmportal.com/ .
 New unit and browser gates cover read refusal, active record drift, coordinated high-water,
 cross-tab convergence and resume after insertion/reorder/reload. Exact-head CI pending.
+
+### Fourth-round follow-up
+
+The initial patch had a fixture naming mismatch (mapStore returns m, not map); caught during
+post-commit inspection and corrected. The previous terminal introduction also falsely assured
+beginners that a wrong command cannot cause damage; it now distinguishes read-only checks from
+commands capable of modifying files. Additional guards test a failed navigation write followed
+by backward movement, malformed position, explicit retry, and cap overflow. The mutation runner
+now exercises five new sibling/resume mutants in addition to the existing seven. Actual results
+must be taken from the run, not the existence of these tests.
