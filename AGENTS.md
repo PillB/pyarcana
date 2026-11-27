@@ -234,3 +234,63 @@ test localises better, or a unit test as proof of a user journey.
 
 Learner prose follows `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical; the
 `.docx` is a generated copy), distilled in `audit/fixer/writing_rules.md`.
+
+## Cross-surface instructional parity
+- Audit Sesión 0, applied tracks and canonical sections together: objective, demonstration, guided
+  practice, independent transfer, feedback, navigation, accessibility, persistence and recovery.
+  Manual setup verification is not an automated assessment; formative answers never change credentials.
+- Every round records the independent oracle, observed red mutation, repaired result, complexity lint
+  (ceiling 15; no relaxation) and unresolved gates. Four red-team passes for material changes:
+  pedagogy, interaction/accessibility, state/drift and CI/deployment. Unexecuted passes are REFUSED.
+- Capture identical browser, viewport, theme, locale, route, scroll and state on the exact deployed
+  SHA. Record screenshot paths, traces, geometry and observations. Source-derived findings are
+  not screenshot findings. No claim of production readiness without live evidence.
+- For every decision record the expert benchmark, rejected alternatives, evidence, trade-offs and
+  limitations. Never substitute a tautological assertion for a wrong-answer or failure fixture.
+
+### Evidence-based engineering loop (every task and every round)
+- Start with the last tested SHA, unresolved gates, relevant prior decisions and an explicit
+  defect model. Before editing, write the independent behavioral oracle and name the mutation
+  that must fail. Run the old implementation or injected defect and capture the actual failure;
+  then run the repair and capture the pass. If either cannot run, label REFUSED with the cause.
+  A test whose expected value is read from the implementation under test is not an independent oracle.
+- Research each material feature/decision using primary documentation, standards or peer-reviewed
+  evidence, name the reviewer and the evidence-based benchmark, and explain which feasible
+  alternative the expert would reject and why. Probe at least two routes; do not optimize for the
+  cheapest way to satisfy the literal request. Record trade-offs, unknowns, and user impact.
+- Every code round runs `npm run lint:complexity` (ceiling 15) and normal lint/typecheck;
+  no aggregate offset may be presented as proof of per-function compliance. Until the stricter
+  ratchet lands, inspect changed functions individually and report legacy debt. No baseline edits
+  to excuse a regression. The Python and TypeScript per-function migration is tracked in PR #104.
+- Four explicit adversarial passes: instructional validity (including longest-answer and position
+  cues, plausible distractors, targeted feedback and independent transfer), human interaction
+  (keyboard, touch, status announcements, navigation and recovery), state/data integrity
+  (read denial distinct from absence, future-version drift, interleaving, idempotency, failed writes),
+  and release integrity (exact SHA, dependency drift, gates and actual deployed browser behavior).
+  Include a test for each task and each round; record the real red/green result, not just test count.
+- Preserve incompatible persisted records byte-for-byte. A failed read is never a blank record;
+  do not bypass a refused lock. State the supported concurrency model and legacy-client limits.
+  Prefer native platform primitives to homegrown distributed locking; test the fallback separately.
+- Separate confirmed source behavior, measured local/browser behavior, and measured production
+  behavior. Never use one to certify another; name blocked and unexecuted work in the final report.
+
+### Cross-surface defect-class closure
+- After a repair, inventory sibling persistence, navigation, assessment or validation surfaces.
+  Distinguish normal writes from migration/recovery; a backup is not permission to downgrade
+  active data. Apply equivalent read-admission and concurrency contracts or explain differences.
+- Derive resume from visible stable IDs and actual progress, never stale scroll coordinates or
+  historical awards. Simulate insertion, reorder, OS switch, historical completion and reload.
+- Test the unavailable-platform fallback and disclose weaker guarantees. Run sibling-surface
+  mutations per shared defect class. Record exact SHA, red/green diagnostics and residual gates.
+
+### Instructional parity acceptance contract
+- For every auxiliary lesson require an authored worked case with reasoning and observable result,
+  guided learner action/prediction with optional scaffold and specific feedback, distinct independent
+  transfer with acceptance criteria, and a separate retrieval check. Preserve all stable step IDs.
+- Do not equate headings, copying, checkbox completion or a second multiple-choice question with
+  independent competence. Hide optional hints/solutions until requested; never demand private
+  credentials or imply a web activity verifies a local installation. Ground prerequisites in earlier
+  material; test changed cases and simulate a new/reordered/deleted group or misplaced exercise.
+- Use PRIMM and worked-example fading as evidence-based design principles, not claims of proven
+  learning outcomes for this adult self-study audience. Test keyboard/mobile and reading sequence;
+  obtain novice evidence before claiming pedagogical efficacy.

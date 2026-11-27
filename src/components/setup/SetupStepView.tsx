@@ -27,7 +27,7 @@ export function SetupStepView({
   step: SetupStep
   number: string
   done: boolean
-  onToggle: () => void
+  onToggle: (checked: boolean) => void
 }) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
@@ -40,10 +40,10 @@ export function SetupStepView({
       data-step-id={step.id}
       data-done={done ? '1' : '0'}
     >
-      <h3 className="flex items-baseline gap-2 text-lg font-semibold">
+      <h4 className="flex items-baseline gap-2 text-lg font-semibold">
         <span className="text-sm tabular-nums text-muted-foreground">{number}</span>
         <InlineText text={step.title} />
-      </h3>
+      </h4>
       <div className="mt-2 space-y-2 text-[15px] leading-relaxed text-foreground/90">
         {step.body.map((p) => (
           <p key={p}>
@@ -100,7 +100,7 @@ export function SetupStepView({
           id={checkId}
           type="checkbox"
           checked={done}
-          onChange={onToggle}
+          onChange={(event) => onToggle(event.target.checked)}
           className="h-5 w-5 accent-green-600"
           data-testid="setup-step-done"
         />

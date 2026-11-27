@@ -409,3 +409,211 @@ test.describe('Lesson navigation journeys', () => {
     await context.close()
   })
 })
+
+test('setup and web retrieval checks reject a wrong answer, allow retry and leave ticks alone', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    for (const [url, id, wrong, correct, tick] of [
+      ['empezar', 'terminal', 'Consultas la versión del intérprete.', 'Consultas la ruta de la carpeta actual.', 'setup-step-done'],
+      ['#ruta-web', 'html', 'Añades comillas alrededor del dato sin escapar.', 'Escapas los caracteres al incorporar el dato.', 'track-step-done'],
+    ] as const) {
+      await page.goto(HOME + url)
+      const card = page.locator('[data-testid="learning-check"][data-check-id="' + id + '"]')
+      const submit = card.getByRole('button', {name:'Comprobar respuesta'})
+      const feedback = card.getByTestId('learning-check-feedback')
+      await expect(submit, id + ': blank answer accepted').toBeDisabled()
+      await card.getByRole('radio', {name:wrong, exact:true}).check()
+      await submit.click()
+      await expect(feedback, id + ': wrong answer accepted').toContainText('Todavía no')
+      await card.getByRole('radio', {name:correct, exact:true}).check()
+      await submit.click()
+      await expect(feedback, id + ': correct answer rejected').toContainText('Correcto')
+      await card.getByRole('button', {name:'Intentar de nuevo'}).click()
+      await expect(card.getByRole('radio').first(), id + ': keyboard focus lost on retry').toBeFocused()
+      await expect(submit, id + ': retry retained selection').toBeDisabled()
+      await card.getByRole('radio', {name:correct, exact:true}).check()
+      await submit.click()
+      await expect(feedback, id + ': shuffled answer identity changed').toContainText('Correcto')
+      await expect(page.getByTestId(tick).first(), id + ': assessment changed checklist').not.toBeChecked()
+    }
+  } finally { await context.close() }
+})
+
+test('web module links retain back and forward history', async ({ browser }) => {
+  const context = await browser.newContext()
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(HOME + '#ruta-web')
+    await page.locator('nav a[href="#ruta-web/html"]').click()
+    await page.locator('nav a[href="#ruta-web/http"]').click()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+    await page.goBack()
+    await expect(page, 'module link replaced history').toHaveURL(/#ruta-web\/html$/)
+    await page.goForward()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+  } finally { await context.close() }
+})
+
+test('setup changes converge across two real browser tabs and survive course navigation', async ({ browser }) => {
+  const context = await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const a = await context.newPage(), b = await context.newPage()
+    await dismissTour(a)
+    await dismissTour(b)
+    await Promise.all([a.goto(HOME+'empezar'),b.goto(HOME+'empezar')])
+    for (const page of [a,b]) await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({timeout:20000})
+    const tick = (page:Page,i:number) => page.getByTestId('setup-step-done').nth(i)
+    await tick(a,0).check()
+    await expect(tick(b,0),'remote tick not reflected').toBeChecked()
+    await tick(b,1).check()
+    await expect(tick(a,1),'other tab lost second tick').toBeChecked()
+    await a.getByTestId('sidebar-section-basics').first().click()
+    await a.getByTestId('sidebar-session0').first().click()
+    await expect(tick(a,0)).toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+    await tick(b,0).uncheck()
+    await expect(tick(a,0),'explicit untick not reflected').not.toBeChecked()
+    await expect(tick(a,1),'unrelated tick erased').toBeChecked()
+  } finally { await context.close() }
+})
+
+test('setup refuses a future stored record and preserves it across retry', async ({browser}) => {
+  const context = await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    const raw = JSON.stringify({v:2,os:'windows',done:['future.step'],extra:{keep:true}})
+    await page.addInitScript(value=>localStorage.setItem('pyarcana:sesion0:v1',value),raw)
+    await page.goto(HOME+'empezar')
+    await expect(page.locator('[data-testid="setup-intro"][data-ready="1"]')).toBeVisible({timeout:20000})
+    await page.getByTestId('setup-step-done').first().check()
+    await expect(page.getByTestId('setup-save-failed')).toContainText('No lo sobrescribiremos')
+    await page.getByTestId('setup-retry-save').click()
+    await expect(page.getByTestId('setup-save-failed')).toBeVisible()
+    expect(await page.evaluate(()=>localStorage.getItem('pyarcana:sesion0:v1')),'older client downgraded future data').toBe(raw)
+  } finally {await context.close()}
+})
+
+test('web path refuses a future active record without rewriting it or creating a migration backup', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const page=await context.newPage()
+    await dismissTour(page)
+    const key='pyarcana:track:ruta-web:v1'
+    const raw=JSON.stringify({v:2,done:['html.reparto'],metadata:{keep:true}})
+    await page.addInitScript(({key,raw})=>localStorage.setItem(key,raw),{key,raw})
+    await page.goto(HOME+'#ruta-web')
+    await expect(page.getByTestId('track-save-failed')).toContainText('No lo sobrescribiremos')
+    await page.getByTestId('track-step-done').nth(1).check()
+    await page.getByTestId('track-retry-save').click()
+    await expect(page.getByTestId('track-save-failed')).toBeVisible()
+    expect(await page.evaluate(key=>localStorage.getItem(key),key),'future primary record replaced').toBe(raw)
+    expect(await page.evaluate(key=>Object.keys(localStorage).filter(k=>k.startsWith(key+':unreadable:')),key),'normal UI attempted migration').toEqual([])
+  } finally {await context.close()}
+})
+
+test('resume links advance from completed visible groups and preserve routes across reload', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try {
+    const page=await context.newPage()
+    await dismissTour(page)
+    await page.goto(HOME+'#ruta-web')
+    const resume=page.getByTestId('learning-resume')
+    await expect(resume).toHaveAttribute('href','#ruta-web/html')
+    const first=page.locator('[data-testid="track-module"][id="track-html"]')
+    for(const tick of await first.getByTestId('track-step-done').all()) await tick.check()
+    await expect(resume,'resume did not advance').toHaveAttribute('href','#ruta-web/http')
+    await resume.click()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+    await expect(page.locator('[data-testid="track-module"][id="track-http"]').getByTestId('track-step-done').first()).not.toBeChecked()
+    await page.reload()
+    await expect(resume).toHaveAttribute('href','#ruta-web/http')
+    await page.goto(HOME+'empezar')
+    await expect(resume).toHaveAttribute('href','#terminal')
+    await resume.click()
+    await expect(page).toHaveURL(/\/empezar#terminal$/)
+  } finally {await context.close()}
+})
+
+test('web track tabs converge after simultaneous checks and explicit untick', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:1280,height:800}})
+  try {
+    const a=await context.newPage(), b=await context.newPage()
+    await dismissTour(a); await dismissTour(b)
+    await Promise.all([a.goto(HOME+'#ruta-web'),b.goto(HOME+'#ruta-web')])
+    const tick=(page:Page,i:number)=>page.getByTestId('track-step-done').nth(i)
+    await Promise.all([tick(a,0).check(),tick(b,1).check()])
+    for (const page of [a,b]) {
+      await expect(tick(page,0),'first concurrent tick lost').toBeChecked()
+      await expect(tick(page,1),'second concurrent tick lost').toBeChecked()
+    }
+    await tick(b,0).uncheck()
+    await expect(tick(a,0)).not.toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+    await a.reload()
+    await expect(tick(a,0)).not.toBeChecked()
+    await expect(tick(a,1)).toBeChecked()
+  } finally {await context.close()}
+})
+
+test('all auxiliary groups show four instructional phases in order, with guided hints closed and independent work distinct', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try{
+    const page=await context.newPage()
+    await dismissTour(page)
+    for(const [url,groupSelector,count] of [['empezar','setup-part',7],['#ruta-web','track-module',6]] as const){
+      await page.goto(HOME+url)
+      const groups=page.getByTestId(groupSelector)
+      await expect(groups).toHaveCount(count)
+      for(const group of await groups.all()){
+        const phases=group.getByTestId('learning-phase')
+        expect(await phases.evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-phase')))).toEqual(['demo','guided','independent','check'])
+        await expect(phases.nth(0).getByTestId('phase-worked-example')).toHaveCount(1)
+        if(url==='#ruta-web') await expect(phases.nth(0).getByTestId('track-step').first()).toBeVisible()
+        await expect(phases.nth(1).getByTestId('guided-action')).toHaveCount(1)
+        await expect(phases.nth(1).getByTestId('guided-evidence')).not.toHaveAttribute('open','')
+        const guided=phases.nth(1).getByTestId('guided-check')
+        await expect(guided.getByTestId('guided-hint')).not.toHaveAttribute('open','')
+        await expect(phases.nth(2).getByTestId(url==='empezar'?'learning-practice':'track-exercise')).toHaveCount(1)
+        await expect(phases.nth(3).getByTestId('learning-check')).toHaveCount(1)
+      }
+    }
+    await page.goto(HOME+'empezar')
+    const group=page.getByTestId('setup-part').first()
+    const guided=group.getByTestId('guided-check')
+    const hint=guided.getByTestId('guided-hint')
+    await hint.locator('summary').click()
+    await expect(hint).toHaveAttribute('open','')
+    await guided.getByRole('radio',{name:'La versión del sistema operativo.',exact:true}).check()
+    await guided.getByRole('button',{name:'Comprobar respuesta'}).click()
+    await expect(guided.getByTestId('learning-check-feedback')).toContainText('no identifica')
+    await guided.getByRole('radio',{name:'La carpeta de trabajo de esa terminal.',exact:true}).check()
+    await guided.getByRole('button',{name:'Comprobar respuesta'}).click()
+    await expect(guided.getByTestId('learning-check-feedback')).toContainText('Correcto')
+    await expect(group.getByTestId('setup-step-done').first(),'guided answer awarded a tick').not.toBeChecked()
+    await expect(group.getByTestId('learning-check').getByRole('button',{name:'Comprobar respuesta'})).toBeDisabled()
+  }finally{await context.close()}
+})
+
+test('phase jump moves keyboard focus to actual heading without changing route or ticks',async ({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844}})
+  try{
+    const page=await context.newPage()
+    await dismissTour(page)
+    for(const [route,groupId,stepId] of [['empezar','setup-part','setup-step-done'],['#ruta-web','track-module','track-step-done']] as const){
+      await page.goto(HOME+route)
+      const group=page.getByTestId(groupId).first()
+      const before=page.url()
+      const nav=group.getByTestId('phase-navigation')
+      const button=nav.getByRole('button',{name:'Tú haces',exact:true})
+      await button.focus()
+      await page.keyboard.press('Enter')
+      await expect(group.locator('[data-phase="independent"] h3').first()).toBeFocused()
+      expect(page.url(),'phase jump rewrote course hash').toBe(before)
+      await expect(group.getByTestId(stepId).first(),'phase jump changed progress').not.toBeChecked()
+    }
+  }finally{await context.close()}
+})

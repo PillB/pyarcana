@@ -1,19 +1,21 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Laptop, Smartphone } from 'lucide-react'
 import { useI18n, t } from '@/lib/i18n'
 import { browserOsSignals, detectOs, FALLBACK_OS, type OsGuess, type SetupOs } from '@/lib/setup/os'
 import {
-  chooseOs,
   countDone,
-  loadSetupProgress,
-  saveSetupProgress,
-  toggleStep,
-  type SetupProgress,
+  SETUP_PROGRESS_KEY,
 } from '@/lib/setup/progress'
+import { createSetupState, EMPTY_SETUP_SNAPSHOT, flushSetup, type SetupIntent } from '@/lib/setup/shared-state'
 import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/content'
+import { SETUP_CHECKS } from '@/lib/learning-checks'
+import { LearningCheckCard } from '@/components/course/LearningCheckCard'
+import { LearningResumeLink } from '@/components/course/LearningResumeLink'
+import { LearningPhase, WorkedExample, GuidedPrediction, PhaseNavigation } from '@/components/course/LearningPhase'
+import { phaseFor } from '@/lib/learning-phases'
 import { InlineText } from '@/components/course/RichText'
 import { OsSwitch } from './OsSwitch'
 import { SetupStepView } from './SetupStepView'
@@ -25,6 +27,15 @@ function storage(): Storage | null {
   } catch {
     return null
   }
+}
+
+const setupState = createSetupState(storage)
+
+async function flushPendingSetup() {
+  try {
+    const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
+    await flushSetup(setupState, locks ? work => locks.request(SETUP_PROGRESS_KEY, work) : undefined)
+  } catch { setupState.refuseLock() }
 }
 
 /**
@@ -42,23 +53,27 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
   const [guess, setGuess] = useState<OsGuess>({ os: FALLBACK_OS, detected: false, mobile: false })
-  const [progress, setProgress] = useState<SetupProgress>({ os: null, done: [] })
   const [mounted, setMounted] = useState(false)
-  const [saveFailed, setSaveFailed] = useState(false)
+  const { progress, issue, pendingCount } = useSyncExternalStore(setupState.subscribe, setupState.getSnapshot, () => EMPTY_SETUP_SNAPSHOT)
 
   useEffect(() => {
     // Reading the browser has to wait for mount: the prerendered HTML has no navigator.
     /* eslint-disable react-hooks/set-state-in-effect */
     setGuess(detectOs(browserOsSignals()))
-    setProgress(loadSetupProgress(storage()))
+    setupState.snapshot()
     setMounted(true)
     /* eslint-enable react-hooks/set-state-in-effect */
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === SETUP_PROGRESS_KEY || event.key === null) setupState.snapshot()
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
   }, [])
 
   const os: SetupOs = progress.os ?? guess.os
-  const update = (next: SetupProgress) => {
-    setProgress(next)
-    setSaveFailed(!saveSetupProgress(storage(), next))
+  const update = (intent: SetupIntent) => {
+    setupState.stage(intent)
+    void flushPendingSetup()
   }
 
   const allIds = useMemo(() => setupStepIds(os), [os])
@@ -98,17 +113,20 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
         </ul>
       </section>
 
-      <OsSwitch value={os} origin={origin} onChange={(next) => update(chooseOs(progress, next))} />
+      <OsSwitch value={os} origin={origin} onChange={(next) => update({ type: 'os', os: next })} />
 
       <p className="mt-3 text-sm text-muted-foreground" role="status" data-testid="setup-progress">
         {tr('setup.progress').replace('{done}', String(doneAll)).replace('{total}', String(allIds.length))}
       </p>
-      {saveFailed && (
-        <p className="mt-2 text-sm text-amber-700 dark:text-amber-300" data-testid="setup-save-failed">
-          {tr('setup.saveFailed')}
-        </p>
+      <div role="status" className="mt-2 text-sm" data-testid="setup-storage-status">
+        {issue && <p className="text-amber-700 dark:text-amber-300" data-testid="setup-save-failed">{tr('setup.issue.' + issue)}</p>}
+        {!issue && pendingCount > 0 && <p>{tr('setup.saving')}</p>}
+      </div>
+      {issue && pendingCount > 0 && (
+        <button type="button" onClick={() => void flushPendingSetup()} className="mt-2 min-h-11 rounded-md border px-3 text-sm" data-testid="setup-retry-save">{tr('setup.retrySave')}</button>
       )}
 
+      <LearningResumeLink groups={SETUP_PARTS.map(p => ({id:p.id,title:p.title,stepIds:stepsFor(p, os).map(s => s.id)}))} done={progress.done} prefix="#" />
       <SetupFigure id="setup-map" />
 
       <nav aria-label={tr('setup.toc')} className="mt-6">
@@ -135,6 +153,8 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
       {SETUP_PARTS.map((part, i) => {
         const steps = stepsFor(part, os)
         const ids = steps.map((s) => s.id)
+        const phase = phaseFor(part.id)
+        const check = SETUP_CHECKS[part.id]
         return (
           <section key={part.id} id={part.id} aria-labelledby={`${part.id}-h`} className="mt-10 scroll-mt-20" data-testid="setup-part">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -155,17 +175,26 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
               ))}
             </div>
             {part.figure && <SetupFigure id={part.figure} />}
-            <ol className="mt-4 space-y-4">
+            <PhaseNavigation id={'setup-'+part.id}/>
+            <LearningPhase id={'setup-'+part.id} kind="demo"><WorkedExample phase={phase}/></LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="guided">
+            <ol className="space-y-4">
               {steps.map((step, n) => (
                 <SetupStepView
                   key={step.id}
                   step={step}
                   number={`${i + 1}.${n + 1}`}
                   done={progress.done.includes(step.id)}
-                  onToggle={() => update(toggleStep(progress, step.id))}
+                  onToggle={(checked) => update({ type: 'step', id: step.id, done: checked })}
                 />
               ))}
             </ol>
+            <GuidedPrediction key={part.id+'-'+os} phase={phase} id={part.id}/>
+            </LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="independent">
+              {check.practice && <div data-testid="learning-practice" className="space-y-2"><p>{check.practice.task}</p><p className="text-sm"><strong>{tr('learningCheck.evidence')}</strong> {check.practice.evidence}</p></div>}
+            </LearningPhase>
+            <LearningPhase id={'setup-'+part.id} kind="check"><LearningCheckCard check={check} checkId={part.id} showPractice={false} embedded/></LearningPhase>
           </section>
         )
       })}

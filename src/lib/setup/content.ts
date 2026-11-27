@@ -52,7 +52,7 @@ const terminal: SetupPart = {
   goal: 'Al terminar esta parte sabrás abrir la terminal y darle tu primera orden.',
   intro: [
     'La **terminal** es una ventana donde le das órdenes a la computadora escribiendo, en vez de hacer clic. Cada orden es una línea de texto. Pulsas Enter y la respuesta aparece debajo, también como texto.',
-    'Programar en Python exige usarla: con ella instalas, ejecutas y compruebas cada pieza. No vas a romper nada por escribir una orden equivocada. En el peor caso, la terminal responde con un mensaje de error.',
+    'Programar en Python exige usarla: con ella instalas, ejecutas y compruebas cada pieza. Las órdenes de comprobación de esta parte solo muestran información. Otras órdenes pueden modificar o borrar archivos: antes de ejecutar una que no conoces, revisa qué hace.',
     'Cada orden de esta guía tiene un botón para copiarla. Para pegarla en la terminal usa Ctrl y V en Windows, Command y V en Mac, o Ctrl, Shift y V en Linux.',
   ],
   figure: 'setup-terminal',

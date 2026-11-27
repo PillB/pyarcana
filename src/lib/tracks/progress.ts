@@ -135,7 +135,8 @@ export function trackBackupKey(trackId: string, stamp: number): string {
 }
 
 /**
- * Applies one tick to the latest stored record, not to the copy this page loaded, and saves it.
+ * Legacy recovery helper, not called by the live shared state. Applies one tick to the latest
+ * stored record, not to the copy this page loaded, and saves it.
  * Two open tabs each write their own change on top of the other's, so neither erases the other
  * (the localStorage analogue of an optimistic merge; STATE_MACHINES.md, SM2). A stored value this
  * code cannot read (corrupt, or written by a newer version) is copied to a backup key first and

@@ -7,6 +7,11 @@ import { countTrackDone } from '@/lib/tracks/progress'
 import { WEB_TRACK } from '@/lib/tracks/web/content'
 import { trackModuleFromHash } from '@/lib/tracks/web/placed'
 import { sectionLabel } from '@/lib/tracks/web/placed'
+import { WEB_CHECKS } from '@/lib/learning-checks'
+import { LearningCheckCard } from '@/components/course/LearningCheckCard'
+import { LearningResumeLink } from '@/components/course/LearningResumeLink'
+import { LearningPhase, WorkedExample, GuidedPrediction, PhaseNavigation } from '@/components/course/LearningPhase'
+import { phaseFor, splitLearningSteps } from '@/lib/learning-phases'
 import { InlineText } from '@/components/course/RichText'
 import { TrackStepView } from './TrackStepView'
 import { useWebTrack } from './useWebTrack'
@@ -25,7 +30,7 @@ const STANDING_TONE = {
 export function WebTrackView() {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
-  const { progress, setStep, done, total, standing, saveFailed } = useWebTrack()
+  const { progress, setStep, done, total, standing, issue, pendingCount, retrySave } = useWebTrack()
   // Opened from a section banner the page is scrolled down; start at the top, or at the module a
   // shared link names (#ruta-web/modelo).
   // A link to another module while the track is open (#ruta-web/sitio → #ruta-web/modelo) does not
@@ -57,11 +62,13 @@ export function WebTrackView() {
       <p className="mt-3 text-sm text-muted-foreground" role="status" data-testid="track-progress">
         {tr('track.progress').replace('{done}', String(done)).replace('{total}', String(total))}
       </p>
-      {saveFailed && (
-        <p className="mt-2 text-sm text-amber-700 dark:text-amber-300" data-testid="track-save-failed">
-          {tr('track.saveFailed')}
-        </p>
-      )}
+      <div role="status" className="mt-2 text-sm">
+        {issue && <p className="text-amber-700 dark:text-amber-300" data-testid="track-save-failed">{tr('setup.issue.' + issue)}</p>}
+        {!issue && pendingCount > 0 && <p>{tr('setup.saving')}</p>}
+      </div>
+      {issue && <button type="button" onClick={() => void retrySave()} className="mt-2 min-h-11 rounded-md border px-3 text-sm" data-testid="track-retry-save">{tr('setup.retrySave')}</button>}
+      {standing === 'done' && done < total && <p className="mt-2 text-sm text-muted-foreground" data-testid="track-new-content">{tr('learningResume.newContent')}</p>}
+      <LearningResumeLink groups={WEB_TRACK.modules.map(m => ({id:m.id,title:m.title,stepIds:m.steps.map(s => s.id)}))} done={progress.done} prefix="#ruta-web/" />
       <nav aria-label={tr('track.toc')} className="mt-6">
         <ol className="grid gap-1 text-sm sm:grid-cols-2">
           {WEB_TRACK.modules.map((m, i) => {
@@ -69,7 +76,7 @@ export function WebTrackView() {
             const complete = countTrackDone(progress, ids) === ids.length
             return (
               <li key={m.id}>
-                <a href={`#ruta-web/${m.id}`} onClick={(e) => { e.preventDefault(); window.history.replaceState(null, '', `#ruta-web/${m.id}`); document.getElementById(`track-${m.id}`)?.scrollIntoView() }} className="flex items-center gap-2 rounded px-2 py-1 hover:bg-accent">
+                <a href={`#ruta-web/${m.id}`} className="flex items-center gap-2 rounded px-2 py-1 hover:bg-accent">
                   {complete ? <CheckCircle2 className="h-4 w-4 text-green-600" aria-label={tr('track.done')} /> : <span className="w-4 text-center text-muted-foreground">{i + 1}</span>}
                   <span>{m.title}</span>
                 </a>
@@ -80,6 +87,8 @@ export function WebTrackView() {
       </nav>
       {WEB_TRACK.modules.map((m, i) => {
         const ids = m.steps.map((s) => s.id)
+        const phase = phaseFor(m.id)
+        const {demo, guided, independent} = splitLearningSteps(m.steps, phase.demoThrough)
         return (
           <section key={m.id} id={`track-${m.id}`} aria-labelledby={`track-${m.id}-h`} className="mt-10 scroll-mt-20" data-testid="track-module">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -100,11 +109,25 @@ export function WebTrackView() {
                 </p>
               ))}
             </div>
-            <ol className="mt-4 space-y-4">
-              {m.steps.map((step, n) => (
-                <TrackStepView key={step.id} step={step} number={`${i + 1}.${n + 1}`} done={progress.done.includes(step.id)} onToggle={(checked) => setStep(step.id, checked)} />
-              ))}
-            </ol>
+            <PhaseNavigation id={'web-'+m.id}/>
+            <LearningPhase id={'web-'+m.id} kind="demo">
+              <WorkedExample phase={phase}/>
+              <ol className="mt-4 space-y-4">
+                {demo.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              </ol>
+            </LearningPhase>
+            <LearningPhase id={'web-'+m.id} kind="guided">
+              <ol className="space-y-4" start={demo.length+1}>
+                {guided.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${demo.length+n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              </ol>
+              <GuidedPrediction phase={phase} id={m.id}/>
+            </LearningPhase>
+            <LearningPhase id={'web-'+m.id} kind="independent">
+              <ol className="space-y-4" start={demo.length+guided.length+1}>
+                {independent.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${demo.length+guided.length+n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              </ol>
+            </LearningPhase>
+            <LearningPhase id={'web-'+m.id} kind="check"><LearningCheckCard check={WEB_CHECKS[m.id]} checkId={m.id} embedded/></LearningPhase>
           </section>
         )
       })}

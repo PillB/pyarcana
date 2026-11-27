@@ -391,3 +391,234 @@ test('every step that shows a picture links the product\'s own current guide, na
     assert.ok(!/\b(aqu[ií]|clic|click)\b/i.test(s.guide.label) && s.guide.label.length > 15, `${s.id}: "${s.guide.label}"`)
   }
 })
+
+import { createSetupState, flushSetup } from '@/lib/setup/shared-state'
+import { answerFeedback, checkAnswer, shuffledOptions, SETUP_CHECKS, WEB_CHECKS } from '@/lib/learning-checks'
+import { WEB_TRACK } from '@/lib/tracks/web/content'
+
+test('two setup views preserve sequential changes, future IDs and explicit unticks', () => {
+  const store = memoryStore('{"v":1,"os":"windows","done":["future.new"]}')
+  const first = createSetupState(() => store)
+  const second = createSetupState(() => store)
+  first.snapshot()
+  second.snapshot()
+  first.apply({ type: 'step', id: 'a', done: true })
+  second.apply({ type: 'step', id: 'b', done: true })
+  assert.deepEqual(first.snapshot().progress.done, ['future.new','a','b'], 'stale view erased a tick or future ID')
+  first.apply({ type: 'step', id: 'a', done: false })
+  second.apply({ type: 'os', os: 'macos' })
+  assert.deepEqual(loadSetupProgress(store), { os: 'macos', done: ['future.new','b'] }, 'OS switch erased unrelated work')
+})
+
+test('failed setup write is replayed over another view’s saved work', () => {
+  const store = memoryStore()
+  let blocked = true
+  const first = createSetupState(() => ({ getItem: store.getItem, setItem: (k,v) => { if (blocked) throw new Error('blocked'); store.setItem(k,v) } }))
+  const second = createSetupState(() => store)
+  assert.equal(first.apply({ type: 'step', id: 'a', done: true }).saveFailed, true, 'refusal not disclosed')
+  second.apply({ type: 'step', id: 'b', done: true })
+  blocked = false
+  assert.deepEqual(first.apply({ type: 'step', id: 'c', done: true }).progress.done, ['b','a','c'], 'retry lost a tick')
+  assert.equal(first.snapshot().saveFailed, false, 'retry left stale error')
+})
+
+test('each real part and module has a retrieval check and rejects distractors', () => {
+  assert.deepEqual(Object.keys(SETUP_CHECKS).sort(), SETUP_PARTS.map(p => p.id).sort(), 'setup source drift')
+  assert.deepEqual(Object.keys(WEB_CHECKS).sort(), WEB_TRACK.modules.map(p => p.id).sort(), 'web source drift')
+  for (const [id, check] of Object.entries({...SETUP_CHECKS, ...WEB_CHECKS})) {
+    assert.equal(new Set(check.options).size, 3, id + ': duplicate or missing option')
+    assert.equal(checkAnswer(check, null), 'unanswered', id + ': empty answer passed')
+    assert.equal(checkAnswer(check, -1), 'unanswered', id + ': invalid answer passed')
+    assert.equal(checkAnswer(check, check.correct), 'correct', id + ': correct answer rejected')
+    check.options.forEach((_, i) => { if (i !== check.correct) assert.equal(checkAnswer(check,i), 'incorrect', id + ': distractor accepted') })
+  }
+})
+
+test('read refusal cannot overwrite an existing valid record even if writes succeed', () => {
+  const store = memoryStore('{"v":1,"os":"windows","done":["old.saved"]}')
+  let readable = true
+  let writes = 0
+  const state = createSetupState(() => ({
+    getItem: k => { if (!readable) throw new Error('read denied'); return store.getItem(k) },
+    setItem: (k,v) => { writes++; store.setItem(k,v) },
+  }))
+  state.snapshot()
+  readable = false
+  const refused = state.apply({ type: 'step', id: 'new.step', done: true })
+  assert.equal(refused.issue, 'read', 'read error misclassified as empty')
+  assert.deepEqual(refused.progress.done, ['old.saved','new.step'], 'last known progress or intent lost')
+  assert.equal(writes, 0, 'read refusal must prohibit writes')
+  readable = true
+  assert.deepEqual(state.retry().progress.done, ['old.saved','new.step'], 'retry failed to rebase')
+  assert.equal(writes, 1)
+})
+
+test('future version, unfamiliar fields, malformed records and overflow cannot be downgraded', () => {
+  const future = [
+    '{"v":2,"os":"windows","done":["a"],"extra":{"keep":true}}',
+    '{"v":1,"os":null,"done":["a"],"extra":42}',
+    '{"v":1,"os":null,"done":["valid","invalid id"]}',
+    '{"v":1,"os":"future-os","done":["a"]}',
+    '{"v":1,"os":null,"done":',
+    JSON.stringify({v:1,os:null,done:Array.from({length:501},(_,i)=>'step.'+i)}),
+  ]
+  for (const raw of future) {
+    const store = memoryStore(raw)
+    const state = createSetupState(() => store)
+    const next = state.apply({type:'step',id:'new.step',done:true})
+    assert.equal(next.issue,'format','unsafe record accepted: '+raw.slice(0,90))
+    assert.equal(store.getItem(SETUP_PROGRESS_KEY),raw,'record destroyed: '+raw.slice(0,90))
+    assert.equal(next.pendingCount,1,'refused write discarded intent')
+  }
+})
+
+test('cap overflow retains unsaved intention instead of acknowledging a dropped tick', () => {
+  const raw = JSON.stringify({v:1,os:null,done:Array.from({length:500},(_,i)=>'step.'+i)})
+  const store = memoryStore(raw)
+  const state = createSetupState(() => store)
+  assert.equal(state.apply({type:'step',id:'new.step',done:true}).issue,'format')
+  assert.equal(store.getItem(SETUP_PROGRESS_KEY),raw,'overflow overwrote persisted progress')
+  const recovered = state.apply({type:'step',id:'step.0',done:false})
+  assert.equal(recovered.pendingCount,0)
+  assert.ok(loadSetupProgress(store).done.includes('new.step'),'pending tick did not recover when room was available')
+})
+
+test('cooperating tabs flush under the lock; a rejected lock is not bypassed', async () => {
+  const store = memoryStore()
+  const a = createSetupState(() => store), b = createSetupState(() => store)
+  a.stage({type:'step',id:'a',done:true})
+  b.stage({type:'step',id:'b',done:true})
+  await flushSetup(a, async () => { throw new Error('lock unavailable') })
+  assert.deepEqual(loadSetupProgress(store).done, [], 'refused lock was bypassed')
+  assert.equal(a.getSnapshot().issue,'lock')
+  let tail = Promise.resolve()
+  const lock = (work:()=>void) => { tail = tail.then(work); return tail }
+  await Promise.all([flushSetup(a,lock),flushSetup(b,lock)])
+  assert.deepEqual(loadSetupProgress(store).done,['a','b'],'serialized flush erased a cooperating writer')
+  assert.equal(a.getSnapshot().pendingCount,0)
+})
+
+test('fixed independent semantic answer oracle, distractor-specific feedback and option permutation', () => {
+  const expected: Record<string,string> = {
+    terminal:'Consultas la ruta de la carpeta actual.',
+    python:'La orden está invocando Python 3.11.',
+    vscode:'Abres la carpeta del nuevo proyecto.',
+    git:'Git tiene datos para atribuir tus commits.',
+    github:'Conservas los códigos de recuperación en privado.',
+    conectar:'El commit visible en el repositorio remoto.',
+    final:'Identificas la herramienta que falló y verificas su salida.',
+    html:'Escapas los caracteres al incorporar el dato.',
+    http:'El servidor no encontró el recurso solicitado o no revela su existencia.',
+    sitio:'Los datos cargados y la lógica de ordenamiento.',
+    despliegue:'./data.json',
+    prototipo:'El plan de consulta y los índices del filtro.',
+    modelo:'Con una fila que referencia al alumno y al curso.',
+  }
+  const checks = {...SETUP_CHECKS,...WEB_CHECKS}
+  assert.deepEqual(Object.keys(checks).sort(),Object.keys(expected).sort(),'semantic oracle drift; review added/removed question')
+  for (const [id,check] of Object.entries(checks)) {
+    const correct = check.options.indexOf(expected[id])
+    assert.ok(correct>=0,id+': independent answer removed')
+    assert.equal(checkAnswer(check,correct),'correct',id+': semantic key changed')
+    assert.equal(check.feedback.length,check.options.length,id+': feedback drift')
+    const wrong = check.options.map((_,i)=>i).filter(i=>i!==correct)
+    assert.equal(new Set(wrong.map(i=>answerFeedback(check,i))).size,wrong.length,id+': generic distractor feedback')
+    for (const i of wrong) assert.ok(answerFeedback(check,i).trim().length>0,id+': missing misconception explanation')
+    assert.equal(answerFeedback(check,null),'',id+': answer leaked before selection')
+    assert.equal(answerFeedback(check,correct),check.explanation,id+': no correct-answer explanation')
+  }
+  const perm = shuffledOptions(3,()=>0)
+  assert.deepEqual(perm,[1,2,0],'Fisher-Yates fixture did not move identity')
+  assert.deepEqual([...perm].sort(),[0,1,2],'shuffle duplicated or lost an option')
+  for (const [id,check] of Object.entries(SETUP_CHECKS)) {
+    assert.ok(check.practice?.task && check.practice.evidence,id+': missing independent task or manual verification')
+  }
+})
+
+test('read refresh cannot falsely announce that an unsaved intent has recovered', () => {
+  const store = memoryStore('{"v":2,"os":null,"done":["old"]}')
+  const state = createSetupState(() => store)
+  assert.equal(state.apply({type:'step',id:'new.step',done:true}).issue,'format')
+  store.setItem(SETUP_PROGRESS_KEY,'{"v":1,"os":null,"done":["old"]}')
+  const refreshed = state.snapshot()
+  assert.equal(refreshed.issue,'format','read alone falsely cleared pending failure')
+  assert.equal(refreshed.pendingCount,1)
+  assert.equal(state.retry().issue,null,'explicit successful retry did not clear failure')
+})
+
+test('a rejected redundant lock after successful flush does not display a false error', async () => {
+  const store = memoryStore()
+  const state = createSetupState(() => store)
+  state.stage({type:'step',id:'new.step',done:true})
+  await flushSetup(state)
+  await flushSetup(state, async () => { throw new Error('late lock denial') })
+  assert.equal(state.getSnapshot().issue,null,'late denial invented an unsaved failure')
+  assert.deepEqual(loadSetupProgress(store).done,['new.step'])
+})
+
+import { spawnSync } from 'node:child_process'
+
+test('lesson-parity mutation probes kill deliberate regressions in disposable copies of real source', () => {
+  const run = spawnSync(process.execPath,['scripts/lesson_parity_mutations.mjs'],{encoding:'utf8',timeout:60000})
+  const report = (run.stdout ?? '') + (run.stderr ?? '')
+  console.log(report)
+  assert.equal(run.status,0,'mutation runner refused or a mutant survived:\n'+report+'\n'+String(run.error ?? ''))
+})
+
+import { LEARNING_PHASES, phaseFor } from '@/lib/learning-phases'
+
+test('all thirteen live groups have distinct authored phases and independent semantic guided-answer keys', () => {
+  const expected:Record<string,string>={
+    terminal:'La carpeta de trabajo de esa terminal.',
+    python:'La serie 3.12 coincide; el parche es distinto.',
+    vscode:'La carpeta abierta y la ruta de la terminal.',
+    git:'La configuración de autor de Git.',
+    github:'No lo compartes; revisas la ayuda oficial.',
+    conectar:'Seleccionar el README con `git add`.',
+    final:'La disponibilidad de `code` en esa terminal.',
+    html:'Sur & Este como texto visible.',
+    http:'Leer el cuerpo como texto.',
+    sitio:'1430.25.',
+    despliegue:'./app.js',
+    prototipo:'Un índice sobre `(sede_id, monto)`.',
+    modelo:'En cada fila de pedidos.',
+  }
+  const actual=[...SETUP_PARTS.map(p=>p.id),...WEB_TRACK.modules.map(m=>m.id)]
+  assert.deepEqual([...actual].sort(),Object.keys(expected).sort(),'source group drift: author new phases and oracle')
+  assert.deepEqual(Object.keys(LEARNING_PHASES).sort(),Object.keys(expected).sort(),'orphan or missing phase')
+  for(const id of actual){
+    const p=phaseFor(id)
+    const check=p.guided
+    const index=check.options.indexOf(expected[id])
+    assert.ok(index>=0,id+': expected semantic answer missing')
+    assert.equal(checkAnswer(check,index),'correct',id+': wrong guided answer key')
+    assert.notEqual(check.question,({...SETUP_CHECKS,...WEB_CHECKS})[id].question,id+': guided and self-check duplicate')
+    for(let i=0;i<check.options.length;i++)if(i!==index) {
+      assert.equal(checkAnswer(check,i),'incorrect',id+': distractor accepted')
+      assert.ok(answerFeedback(check,i).trim(),id+': missing corrective feedback')
+    }
+    assert.ok(p.example.trim()&&p.reason.trim()&&p.result.trim()&&p.hint.trim()&&p.action.trim()&&p.evidence.trim(),id+': incomplete scaffold')
+  }
+  for(const part of SETUP_PARTS)for(const os of ['windows','macos','linux'] as const){
+    assert.ok(stepsFor(part,os).length,part.id+'/'+os+': no guided steps')
+    assert.ok(SETUP_CHECKS[part.id]?.practice?.evidence,part.id+': no independent acceptance criteria')
+  }
+})
+
+/** A cue audit, not a validated psychometric estimate. Catch systematic length artifacts in authored guided choices. */
+test('guided answer length and position do not supply a majority shortcut',()=>{
+  const cases=Object.values(LEARNING_PHASES).map(p=>p.guided)
+  const counts={longest:0,shortest:0,positions:[0,0,0]}
+  for(const q of cases){
+    const lengths=q.options.map(o=>o.length)
+    const n=lengths[q.correct]
+    if(lengths.filter(x=>x===n).length===1){
+      if(n===Math.max(...lengths)) counts.longest++
+      if(n===Math.min(...lengths)) counts.shortest++
+    }
+    counts.positions[q.correct]++
+  }
+  const limit=Math.floor(cases.length/2)
+  assert.ok(counts.longest<=limit && counts.shortest<=limit && Math.max(...counts.positions)<=limit,
+    'systematic guided answer cue; review plausible distractors, not just length: '+JSON.stringify(counts))
+})

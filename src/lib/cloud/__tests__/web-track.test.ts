@@ -10,7 +10,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { COURSE_SECTIONS } from '@/lib/course'
@@ -30,6 +30,7 @@ import {
   toggleTrackStep,
   isTrackComplete,
   trackProgressKey,
+  trackFurthestKey,
 } from '@/lib/tracks/progress'
 import { WEB_TRACK, WEB_TRACK_ANCHORS, WEB_TRACK_ID } from '@/lib/tracks/web/content'
 import { WEB_TRACK_PLACEMENT, WEB_TRACK_STEP_IDS, trackModuleFromHash } from '@/lib/tracks/web/placed'
@@ -1089,4 +1090,219 @@ test('run in order, the entornos blocks leave the terminal in the Worker folder 
   assert.deepEqual(problems, [], 'add a cd back to ventas-api (where wrangler.jsonc is) before these blocks')
   // Negative control: the same check on the old vercel_entornos.sh, without its last cd .., must fail.
   assert.equal(depthAfter('cd site\nnpx vercel', 0), 1, 'sanity: a cd into site/ must count as one folder down')
+})
+
+import { createTrackState as createGuardedTrackState, flushTrack } from '@/lib/tracks/shared-state'
+import { nextLearningGroup } from '@/lib/learning-resume'
+
+test('live track refuses future, malformed and unknown-field records even when backups could succeed', () => {
+  const key = trackProgressKey(WEB_TRACK_ID)
+  for (const raw of [
+    '{"v":2,"done":["html.reparto"],"finished":true}',
+    '{"v":1,"done":["html.reparto"],"metadata":{"keep":1}}',
+    '{"v":1,"done":["bad id"]}',
+    '{"v":1,"done":[],"finished":"yes"}',
+    '{',
+    JSON.stringify({v:1,done:Array.from({length:501},(_,i)=>'step.'+i)}),
+  ]) {
+    const {kv,m:map}=mapStore()
+    map.set(key,raw)
+    const state=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+    state.setStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+    assert.equal(map.get(key),raw,'active record downgraded: '+raw.slice(0,80))
+    assert.equal(map.size,1,'normal UI attempted backup migration')
+    assert.equal(state.getSnapshot().issue,'format')
+    assert.equal(state.getSnapshot().pendingCount,1)
+  }
+})
+
+test('denied track read keeps last known ticks and blocks writes, then explicit retry rebases', () => {
+  const {kv,m:map}=mapStore()
+  const key=trackProgressKey(WEB_TRACK_ID)
+  map.set(key,'{"v":1,"done":["html.reparto"]}')
+  let readable=true
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>({
+    getItem:k=>{if (!readable && k===key) throw Error('denied');return kv.getItem(k)},
+    setItem:kv.setItem,
+  }))
+  state.refresh()
+  readable=false
+  state.setStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+  assert.deepEqual(state.getSnapshot().progress.done,['html.reparto','http.navegador'],'read error erased known state')
+  assert.equal(state.getSnapshot().issue,'read')
+  assert.equal(map.get(key),'{"v":1,"done":["html.reparto"]}','read refusal overwrote active record')
+  readable=true
+  map.set(key,'{"v":1,"done":["html.reparto","sitio.servir"]}')
+  assert.equal(state.retry(),true)
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,['html.reparto','sitio.servir','http.navegador'])
+})
+
+test('cooperating track tabs lock ticks and high-water updates; rejected lock does not write', async () => {
+  const {kv}=mapStore()
+  const a=createGuardedTrackState(WEB_TRACK_ID,()=>kv), b=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+  const sections=[{id:'early',index:1},{id:'late',index:30}]
+  a.stageStep('html.reparto',true,WEB_TRACK_STEP_IDS)
+  b.stageStep('http.navegador',true,WEB_TRACK_STEP_IDS)
+  a.stageVisit(sections,'late')
+  b.stageVisit(sections,'early')
+  await flushTrack(a,async()=>{throw Error('denied')})
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,[],'denied lock bypassed')
+  assert.equal(loadTrackFurthest(kv,WEB_TRACK_ID),null)
+  let tail=Promise.resolve()
+  const lock=(work:()=>void)=>{tail=tail.then(work);return tail}
+  await Promise.all([flushTrack(a,lock),flushTrack(b,lock)])
+  assert.deepEqual(loadTrackProgress(kv,WEB_TRACK_ID).done,['html.reparto','http.navegador'])
+  assert.equal(loadTrackFurthest(kv,WEB_TRACK_ID),'late','older tab lowered high-water')
+  assert.equal(a.getSnapshot().pendingCount,0)
+  assert.equal(b.getSnapshot().pendingCount,0)
+})
+
+test('resume follows visible unfinished groups after insertion, reorder, OS switch and historical completion', () => {
+  const groups=[{id:'a',title:'A',stepIds:['a.1']},{id:'b',title:'B',stepIds:['b.1']}]
+  assert.equal(nextLearningGroup(groups,['a.1'])?.id,'b')
+  assert.equal(nextLearningGroup(groups,['a.1','b.1']),null)
+  assert.equal(nextLearningGroup([{id:'insert',title:'New',stepIds:['new.1']},...groups],['a.1','b.1'])?.id,'insert')
+  assert.equal(nextLearningGroup([...groups].reverse(),[])?.id,'b')
+  assert.equal(nextLearningGroup([{id:'a',title:'A',stepIds:['a.mac']}],['a.win'])?.id,'a')
+  assert.equal(nextLearningGroup([{id:'empty',title:'Empty',stepIds:[]},...groups],[])?.id,'a')
+})
+
+test('failed high-water save retains latest visit and refuses malformed position bytes', () => {
+  const {kv,m}=mapStore()
+  const key=trackFurthestKey(WEB_TRACK_ID)
+  let blocked=true
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>({
+    getItem:kv.getItem,
+    setItem:(k,v)=>{if(k===key&&blocked)throw Error('denied');kv.setItem(k,v)},
+  }))
+  const sections=[{id:'early',index:1},{id:'late',index:30}]
+  state.visit(sections,'late')
+  state.visit(sections,'early')
+  assert.equal(state.getSnapshot().furthestSeen,'late','failed newer visit lost on backward navigation')
+  assert.equal(state.getSnapshot().issue,'write')
+  blocked=false
+  m.set(key,'{"v":2,"position":"future"}')
+  state.retry()
+  assert.equal(m.get(key),'{"v":2,"position":"future"}','future position overwritten')
+  m.delete(key)
+  assert.equal(state.retry(),true)
+  assert.equal(m.get(key),'late','retry lost newest pending visit')
+})
+
+test('track cap overflow does not silently drop a newly acknowledged tick', () => {
+  const {kv,m}=mapStore()
+  const key=trackProgressKey(WEB_TRACK_ID)
+  const raw=JSON.stringify({v:1,done:Array.from({length:500},(_,i)=>'step.'+i)})
+  m.set(key,raw)
+  const state=createGuardedTrackState(WEB_TRACK_ID,()=>kv)
+  state.setStep('new.step',true,[])
+  assert.equal(m.get(key),raw,'cap silently truncated active record')
+  assert.equal(state.getSnapshot().issue,'format')
+  assert.ok(state.getSnapshot().progress.done.includes('new.step'),'unsaved intent lost')
+  state.setStep('step.0',false,[])
+  assert.ok(loadTrackProgress(kv,WEB_TRACK_ID).done.includes('new.step'),'pending tick not saved after space recovered')
+  assert.equal(state.getSnapshot().pendingCount,0)
+})
+
+import { phaseFor, splitLearningSteps } from '@/lib/learning-phases'
+
+test('web phases partition actual source steps in order, independent exercise at end, no lost IDs', () => {
+  for (const m of WEB_TRACK.modules) {
+    const p=phaseFor(m.id)
+    const split=splitLearningSteps(m.steps,p.demoThrough)
+    assert.ok(p.example && p.reason && p.result && p.hint,m.id+': incomplete worked/guided example')
+    assert.deepEqual([...split.demo,...split.guided,...split.independent].map(s=>s.id),m.steps.map(s=>s.id),m.id+': reordered or lost steps')
+    assert.ok([...split.demo,...split.guided].every(s=>!s.exercise),m.id+': solution exposed in guided phase')
+    assert.ok(split.independent.every(s=>s.exercise),m.id+': independent challenge missing')
+  }
+  const a={id:'a'}, guide={id:'guide'}, b={id:'b',exercise:{}}
+  assert.throws(()=>splitLearningSteps([a,guide,b,{id:'future'}],'a'),/future/,'new trailing step must be reviewed')
+  assert.throws(()=>splitLearningSteps([a,guide],'a'),/expected worked example/,'missing exercise silently accepted')
+  assert.throws(()=>splitLearningSteps([a,guide,b],'removed'),/removed/,'deleted demo anchor silently accepted')
+  assert.throws(()=>splitLearningSteps([a,b],'a'),/expected worked example/,'missing guided step silently accepted')
+  assert.throws(()=>phaseFor('future-module'),/future-module/,'new module silently lacks pedagogy')
+  assert.throws(()=>phaseFor('constructor'),/constructor/,'prototype key accepted as content')
+  const inserted=splitLearningSteps([a,{id:'insert'},guide,b],'a')
+  assert.deepEqual(inserted.demo.map(s=>s.id),['a'])
+  assert.deepEqual(inserted.guided.map(s=>s.id),['insert','guide'])
+})
+
+/** Independently specified changed inputs/outputs, executing the real source in a scratch folder. */
+function guidedSource(title:string, replacements:readonly [string,string][]) {
+  const block=ALL_STEPS.flatMap(({step})=>step.code??[]).find(c=>c.title===title)
+  assert.ok(block,title+': guided source disappeared')
+  let code=block.code
+  for(const [before,after] of replacements){
+    assert.equal(code.split(before).length-1,1,title+': source drift at '+before)
+    code=code.replace(before,after)
+  }
+  return code
+}
+function runGuidedPython(title:string, replacements:readonly [string,string][]) {
+  const py=python()
+  const cwd=mkdtempSync(path.join(tmpdir(),'guided-web-'))
+  try{
+    const r=spawnSync(py.bin.includes('/')?path.resolve(py.bin):py.bin,['-I','-'],{input:guidedSource(title,replacements),encoding:'utf8',timeout:20000,cwd})
+    assert.equal(r.status,0,title+' guided variation failed: '+r.stderr)
+    return r.stdout.trim()
+  }finally{rmSync(cwd,{recursive:true,force:true})}
+}
+test('guided HTML variation escapes ampersands without deleting text',()=>{
+  const out=runGuidedPython('escapar_celdas.py',[['Bodega <Norte>','Sur & Este']])
+  assert.ok(out.includes('<td>Sur &amp; Este</td>'),'HTML escaped output mismatch')
+  assert.ok(out.includes('<td>Sur & Este</td>'),'HTML unescaped comparison missing')
+})
+test('guided HTTP variation reads plain text rather than assuming JSON',()=>{
+  const out=runGuidedPython('servidor_y_cliente.py',[
+    ['cuerpo = json.dumps({"sede": "Sede A", "ventas": "1250.00"}).encode("utf-8")','cuerpo = b"hola"'],
+    ['self.send_header("Content-Type", "application/json")','self.send_header("Content-Type", "text/plain; charset=utf-8")'],
+    ['print(json.load(respuesta))','print(respuesta.read().decode("utf-8"))'],
+  ])
+  assert.equal(out,'200 text/plain; charset=utf-8\nhola')
+})
+test('guided URL variation distinguishes root and document-relative paths without network',()=>{
+  const out=runGuidedPython('rutas_relativas.py',[
+    ['https://tu-usuario.github.io/mi-sitio/','https://ejemplo.test/demo/index.html'],
+    ['"/data.json"','"/app.js"'],['"data.json"','"./app.js"'],
+  ])
+  assert.equal(out,'https://ejemplo.test/app.js\nhttps://ejemplo.test/demo/app.js')
+})
+test('guided index variation verifies changed order direction with local SQLite plan',()=>{
+  const out=runGuidedPython('indice_compuesto.py',[['ORDER BY monto DESC','ORDER BY monto ASC']])
+  const lines=out.split('\n')
+  assert.equal(lines.length,2)
+  assert.match(lines[0],/USE TEMP B-TREE FOR ORDER BY/)
+  assert.doesNotMatch(lines[1],/USE TEMP B-TREE FOR ORDER BY/)
+  assert.match(lines[1],/idx_ventas_sede_monto/)
+})
+test('guided stock variation accepts a new pair instead of duplicate',()=>{
+  const out=runGuidedPython('muchos_a_muchos.py',[
+    ["INSERT INTO stock VALUES ('SED-01', 'PRD-1', 5)","INSERT INTO stock VALUES ('SED-02', 'PRD-2', 5)"],
+    ['except sqlite3.IntegrityError as error:', '    print("filas de stock:", con.execute("SELECT COUNT(*) FROM stock").fetchone()[0])\nexcept sqlite3.IntegrityError as error:'],
+  ])
+  assert.match(out,/filas de stock: 4$/)
+  assert.doesNotMatch(out,/UNIQUE constraint failed/)
+})
+test('guided sorting variation checks numeric ordering after a changed amount',()=>{
+  const code=ALL_STEPS.flatMap(({step})=>step.code??[]).find(c=>c.title==='app.js')?.code
+  assert.ok(code,'app.js missing')
+  const table=fakeTable([['Sede A','1500.00'],['Bodega <Norte>','980.50'],['Sede C','1430.25']])
+  new Function('document',code)(table.document)
+  table.clicks[1]()
+  assert.deepEqual(table.column(1),['980.50','1430.25','1500.00'])
+  table.clicks[1]()
+  assert.deepEqual(table.column(1),['1500.00','1430.25','980.50'])
+})
+
+test('guided site generation changes actual HTML and JSON before sorting',()=>{
+  const py=python()
+  const cwd=mkdtempSync(path.join(tmpdir(),'guided-site-'))
+  try{
+    const r=spawnSync(py.bin.includes('/')?path.resolve(py.bin):py.bin,['-I','-'],{input:guidedSource('construir_sitio.py',[['Sede A,1250.00','Sede A,1500.00']]),encoding:'utf8',timeout:20000,cwd})
+    assert.equal(r.status,0,'guided site generation failed: '+r.stderr)
+    const rows=JSON.parse(readFileSync(path.join(cwd,'site/data.json'),'utf8'))
+    assert.equal(rows.length,3,'guided change lost a data row')
+    assert.equal(rows[0].ventas,'1500.00','JSON did not reflect changed amount')
+    assert.match(readFileSync(path.join(cwd,'site/index.html'),'utf8'),/<td>1500\.00<\/td>/,'HTML did not reflect changed amount')
+  }finally{rmSync(cwd,{recursive:true,force:true})}
 })
