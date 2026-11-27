@@ -27,7 +27,7 @@ export function SetupStepView({
   step: SetupStep
   number: string
   done: boolean
-  onToggle: () => void
+  onToggle: (checked: boolean) => void
 }) {
   const lang = useI18n((s) => s.lang)
   const tr = (key: string) => t(key, lang)
@@ -100,7 +100,7 @@ export function SetupStepView({
           id={checkId}
           type="checkbox"
           checked={done}
-          onChange={onToggle}
+          onChange={(event) => onToggle(event.target.checked)}
           className="h-5 w-5 accent-green-600"
           data-testid="setup-step-done"
         />

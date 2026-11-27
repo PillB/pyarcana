@@ -61,3 +61,6 @@ npm run test:python-content     # executes every lesson snippet
 npm run test:course-complete
 node scripts/complexity_gate.mjs
 ```
+
+For cross-surface learning changes follow the Cross-surface instructional parity section in
+[`AGENTS.md`](./AGENTS.md), using the repository-relative path in any worktree.

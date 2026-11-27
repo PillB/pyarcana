@@ -234,3 +234,16 @@ test localises better, or a unit test as proof of a user journey.
 
 Learner prose follows `docs/policies/HANDCRAFTED_WRITING_PROTOCOL.md` (canonical; the
 `.docx` is a generated copy), distilled in `audit/fixer/writing_rules.md`.
+
+## Cross-surface instructional parity
+- Audit Sesión 0, applied tracks and canonical sections together: objective, demonstration, guided
+  practice, independent transfer, feedback, navigation, accessibility, persistence and recovery.
+  Manual setup verification is not an automated assessment; formative answers never change credentials.
+- Every round records the independent oracle, observed red mutation, repaired result, complexity lint
+  (ceiling 15; no relaxation) and unresolved gates. Four red-team passes for material changes:
+  pedagogy, interaction/accessibility, state/drift and CI/deployment. Unexecuted passes are REFUSED.
+- Capture identical browser, viewport, theme, locale, route, scroll and state on the exact deployed
+  SHA. Record screenshot paths, traces, geometry and observations. Source-derived findings are
+  not screenshot findings. No claim of production readiness without live evidence.
+- For every decision record the expert benchmark, rejected alternatives, evidence, trade-offs and
+  limitations. Never substitute a tautological assertion for a wrong-answer or failure fixture.

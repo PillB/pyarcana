@@ -391,3 +391,45 @@ test('every step that shows a picture links the product\'s own current guide, na
     assert.ok(!/\b(aqu[ií]|clic|click)\b/i.test(s.guide.label) && s.guide.label.length > 15, `${s.id}: "${s.guide.label}"`)
   }
 })
+
+import { createSetupState } from '@/lib/setup/shared-state'
+import { checkAnswer, SETUP_CHECKS, WEB_CHECKS } from '@/lib/learning-checks'
+import { WEB_TRACK } from '@/lib/tracks/web/content'
+
+test('two setup views preserve sequential changes, future IDs and explicit unticks', () => {
+  const store = memoryStore('{"v":1,"os":"windows","done":["future.new"]}')
+  const first = createSetupState(() => store)
+  const second = createSetupState(() => store)
+  first.snapshot()
+  second.snapshot()
+  first.apply({ type: 'step', id: 'a', done: true })
+  second.apply({ type: 'step', id: 'b', done: true })
+  assert.deepEqual(first.snapshot().progress.done, ['future.new','a','b'], 'stale view erased a tick or future ID')
+  first.apply({ type: 'step', id: 'a', done: false })
+  second.apply({ type: 'os', os: 'macos' })
+  assert.deepEqual(loadSetupProgress(store), { os: 'macos', done: ['future.new','b'] }, 'OS switch erased unrelated work')
+})
+
+test('failed setup write is replayed over another view’s saved work', () => {
+  const store = memoryStore()
+  let blocked = true
+  const first = createSetupState(() => ({ getItem: store.getItem, setItem: (k,v) => { if (blocked) throw new Error('blocked'); store.setItem(k,v) } }))
+  const second = createSetupState(() => store)
+  assert.equal(first.apply({ type: 'step', id: 'a', done: true }).saveFailed, true, 'refusal not disclosed')
+  second.apply({ type: 'step', id: 'b', done: true })
+  blocked = false
+  assert.deepEqual(first.apply({ type: 'step', id: 'c', done: true }).progress.done, ['b','a','c'], 'retry lost a tick')
+  assert.equal(first.snapshot().saveFailed, false, 'retry left stale error')
+})
+
+test('each real part and module has a retrieval check and rejects distractors', () => {
+  assert.deepEqual(Object.keys(SETUP_CHECKS).sort(), SETUP_PARTS.map(p => p.id).sort(), 'setup source drift')
+  assert.deepEqual(Object.keys(WEB_CHECKS).sort(), WEB_TRACK.modules.map(p => p.id).sort(), 'web source drift')
+  for (const [id, check] of Object.entries({...SETUP_CHECKS, ...WEB_CHECKS})) {
+    assert.equal(new Set(check.options).size, 3, id + ': duplicate or missing option')
+    assert.equal(checkAnswer(check, null), 'unanswered', id + ': empty answer passed')
+    assert.equal(checkAnswer(check, -1), 'unanswered', id + ': invalid answer passed')
+    assert.equal(checkAnswer(check, check.correct), 'correct', id + ': correct answer rejected')
+    check.options.forEach((_, i) => { if (i !== check.correct) assert.equal(checkAnswer(check,i), 'incorrect', id + ': distractor accepted') })
+  }
+})

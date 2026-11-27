@@ -6,14 +6,14 @@ import { ArrowRight, CheckCircle2, Laptop, Smartphone } from 'lucide-react'
 import { useI18n, t } from '@/lib/i18n'
 import { browserOsSignals, detectOs, FALLBACK_OS, type OsGuess, type SetupOs } from '@/lib/setup/os'
 import {
-  chooseOs,
   countDone,
-  loadSetupProgress,
-  saveSetupProgress,
-  toggleStep,
+  SETUP_PROGRESS_KEY,
   type SetupProgress,
 } from '@/lib/setup/progress'
+import { createSetupState, type SetupIntent } from '@/lib/setup/shared-state'
 import { SETUP_INTRO, SETUP_PARTS, stepsFor, setupStepIds } from '@/lib/setup/content'
+import { SETUP_CHECKS } from '@/lib/learning-checks'
+import { LearningCheckCard } from '@/components/course/LearningCheckCard'
 import { InlineText } from '@/components/course/RichText'
 import { OsSwitch } from './OsSwitch'
 import { SetupStepView } from './SetupStepView'
@@ -45,20 +45,32 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
   const [progress, setProgress] = useState<SetupProgress>({ os: null, done: [] })
   const [mounted, setMounted] = useState(false)
   const [saveFailed, setSaveFailed] = useState(false)
+  const [state] = useState(() => createSetupState(storage))
 
   useEffect(() => {
     // Reading the browser has to wait for mount: the prerendered HTML has no navigator.
     /* eslint-disable react-hooks/set-state-in-effect */
     setGuess(detectOs(browserOsSignals()))
-    setProgress(loadSetupProgress(storage()))
+    const refresh = () => {
+      const next = state.snapshot()
+      setProgress(next.progress)
+      setSaveFailed(next.saveFailed)
+    }
+    refresh()
     setMounted(true)
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [])
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === SETUP_PROGRESS_KEY || event.key === null) refresh()
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [state])
 
   const os: SetupOs = progress.os ?? guess.os
-  const update = (next: SetupProgress) => {
-    setProgress(next)
-    setSaveFailed(!saveSetupProgress(storage(), next))
+  const update = (intent: SetupIntent) => {
+    const next = state.apply(intent)
+    setProgress(next.progress)
+    setSaveFailed(next.saveFailed)
   }
 
   const allIds = useMemo(() => setupStepIds(os), [os])
@@ -98,7 +110,7 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
         </ul>
       </section>
 
-      <OsSwitch value={os} origin={origin} onChange={(next) => update(chooseOs(progress, next))} />
+      <OsSwitch value={os} origin={origin} onChange={(next) => update({ type: 'os', os: next })} />
 
       <p className="mt-3 text-sm text-muted-foreground" role="status" data-testid="setup-progress">
         {tr('setup.progress').replace('{done}', String(doneAll)).replace('{total}', String(allIds.length))}
@@ -162,10 +174,11 @@ export function SetupIntro({ onContinue }: { onContinue?: () => void } = {}) {
                   step={step}
                   number={`${i + 1}.${n + 1}`}
                   done={progress.done.includes(step.id)}
-                  onToggle={() => update(toggleStep(progress, step.id))}
+                  onToggle={(checked) => update({ type: 'step', id: step.id, done: checked })}
                 />
               ))}
             </ol>
+            {SETUP_CHECKS[part.id] && <LearningCheckCard check={SETUP_CHECKS[part.id]} checkId={part.id} />}
           </section>
         )
       })}

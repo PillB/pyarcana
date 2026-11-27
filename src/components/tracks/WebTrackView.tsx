@@ -7,6 +7,8 @@ import { countTrackDone } from '@/lib/tracks/progress'
 import { WEB_TRACK } from '@/lib/tracks/web/content'
 import { trackModuleFromHash } from '@/lib/tracks/web/placed'
 import { sectionLabel } from '@/lib/tracks/web/placed'
+import { WEB_CHECKS } from '@/lib/learning-checks'
+import { LearningCheckCard } from '@/components/course/LearningCheckCard'
 import { InlineText } from '@/components/course/RichText'
 import { TrackStepView } from './TrackStepView'
 import { useWebTrack } from './useWebTrack'
@@ -69,7 +71,7 @@ export function WebTrackView() {
             const complete = countTrackDone(progress, ids) === ids.length
             return (
               <li key={m.id}>
-                <a href={`#ruta-web/${m.id}`} onClick={(e) => { e.preventDefault(); window.history.replaceState(null, '', `#ruta-web/${m.id}`); document.getElementById(`track-${m.id}`)?.scrollIntoView() }} className="flex items-center gap-2 rounded px-2 py-1 hover:bg-accent">
+                <a href={`#ruta-web/${m.id}`} className="flex items-center gap-2 rounded px-2 py-1 hover:bg-accent">
                   {complete ? <CheckCircle2 className="h-4 w-4 text-green-600" aria-label={tr('track.done')} /> : <span className="w-4 text-center text-muted-foreground">{i + 1}</span>}
                   <span>{m.title}</span>
                 </a>
@@ -105,6 +107,7 @@ export function WebTrackView() {
                 <TrackStepView key={step.id} step={step} number={`${i + 1}.${n + 1}`} done={progress.done.includes(step.id)} onToggle={(checked) => setStep(step.id, checked)} />
               ))}
             </ol>
+            {WEB_CHECKS[m.id] && <LearningCheckCard check={WEB_CHECKS[m.id]} checkId={m.id} />}
           </section>
         )
       })}

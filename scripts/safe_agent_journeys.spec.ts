@@ -409,3 +409,44 @@ test.describe('Lesson navigation journeys', () => {
     await context.close()
   })
 })
+
+test('setup and web retrieval checks reject a wrong answer, allow retry and leave ticks alone', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    for (const [url, id, wrong, correct, tick] of [
+      ['empezar', 'terminal', 0, 1, 'setup-step-done'],
+      ['#ruta-web', 'html', 0, 2, 'track-step-done'],
+    ] as const) {
+      await page.goto(HOME + url)
+      const card = page.locator('[data-testid="learning-check"][data-check-id="' + id + '"]')
+      const submit = card.getByRole('button')
+      const feedback = card.getByTestId('learning-check-feedback')
+      await expect(submit, id + ': blank answer accepted').toBeDisabled()
+      await card.getByRole('radio').nth(wrong).check()
+      await submit.click()
+      await expect(feedback, id + ': wrong answer accepted').toContainText('Todavía no')
+      await card.getByRole('radio').nth(correct).check()
+      await submit.click()
+      await expect(feedback, id + ': correct answer rejected').toContainText('Correcto')
+      await expect(page.getByTestId(tick).first(), id + ': assessment changed checklist').not.toBeChecked()
+    }
+  } finally { await context.close() }
+})
+
+test('web module links retain back and forward history', async ({ browser }) => {
+  const context = await browser.newContext()
+  try {
+    const page = await context.newPage()
+    await dismissTour(page)
+    await page.goto(HOME + '#ruta-web')
+    await page.locator('nav a[href="#ruta-web/html"]').click()
+    await page.locator('nav a[href="#ruta-web/http"]').click()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+    await page.goBack()
+    await expect(page, 'module link replaced history').toHaveURL(/#ruta-web\/html$/)
+    await page.goForward()
+    await expect(page).toHaveURL(/#ruta-web\/http$/)
+  } finally { await context.close() }
+})
