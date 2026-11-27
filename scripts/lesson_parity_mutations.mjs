@@ -16,7 +16,7 @@ const paths = [
   'src/lib/setup/os.ts', 'src/lib/setup/progress.ts',
   'src/lib/setup/shared-state.ts', 'src/lib/learning-checks.ts',
   'src/lib/tracks/progress.ts', 'src/lib/tracks/placement.ts', 'src/lib/tracks/shared-state.ts',
-  'src/lib/tracks/storage-admission.ts', 'src/lib/learning-resume.ts',
+  'src/lib/tracks/storage-admission.ts', 'src/lib/learning-resume.ts', 'src/lib/learning-phases.ts',
 ]
 const sources = Object.fromEntries(paths.map(p => [p.replace('src/lib/',''), readFileSync(join(root,p),'utf8')]))
 const key = 'pyarcana:sesion0:v1'
@@ -50,7 +50,7 @@ async function withSources(mutation, run) {
       writeFileSync(destination,result.outputText)
     }
     const load = createRequire(join(dir,'entry.cjs'))
-    return await run({state:load('./setup/shared-state.js'),checks:load('./learning-checks.js'),track:load('./tracks/shared-state.js'),resume:load('./learning-resume.js')})
+    return await run({state:load('./setup/shared-state.js'),checks:load('./learning-checks.js'),track:load('./tracks/shared-state.js'),resume:load('./learning-resume.js'),phases:load('./learning-phases.js')})
   } finally { rmSync(dir,{recursive:true,force:true}) }
 }
 
@@ -153,7 +153,27 @@ async function resumeDrift({resume}) {
   const groups=[{id:'new',title:'New',stepIds:['new.1']},{id:'old',title:'Old',stepIds:['old.1']}]
   fail('RESUME_INSERTION_IGNORED',resume.nextLearningGroup(groups,['old.1'])?.id,'new')
 }
+async function phaseBoundary({phases}){
+  const a={id:'demo'},g={id:'guided'},b={id:'exercise',exercise:{}}
+  const s=phases.splitLearningSteps([a,g,b],'demo')
+  fail('PHASE_DEMO_BOUNDARY',s.demo.map(x=>x.id),['demo'])
+  fail('PHASE_GUIDED_BOUNDARY',s.guided.map(x=>x.id),['guided'])
+  fail('PHASE_EXERCISE_BOUNDARY',s.independent.map(x=>x.id),['exercise'])
+}
+async function misplacedExercise({phases}){
+  let rejected=false
+  try{phases.splitLearningSteps([{id:'demo'},{id:'guided'},{id:'exercise',exercise:{}},{id:'new'}],'demo')}catch(e){rejected=String(e).includes('new')}
+  fail('PHASE_TRAILING_STEP_ACCEPTED',rejected,true)
+}
+async function missingPhase({phases}){
+  let rejected=false
+  try{phases.phaseFor('constructor')}catch(e){rejected=String(e).includes('constructor')}
+  fail('PHASE_PROTOTYPE_CONTENT',rejected,true)
+}
 const cases = [
+  {name:'demo boundary drops actual worked example',file:'learning-phases.ts',from:'demo: steps.slice(0,demoEnd+1)',to:'demo: steps.slice(0,demoEnd)',run:phaseBoundary,code:'PHASE_DEMO_BOUNDARY'},
+  {name:'trailing unclassified step accepted',file:'learning-phases.ts',from:'steps.slice(boundary).some(step => !step.exercise)',to:'false',run:misplacedExercise,code:'PHASE_TRAILING_STEP_ACCEPTED'},
+  {name:'prototype property treated as authored content',file:'learning-phases.ts',from:'!Object.hasOwn(LEARNING_PHASES,id) || !phase',to:'!phase',run:missingPhase,code:'PHASE_PROTOTYPE_CONTENT'},
   {name:'track future active record downgraded',file:'tracks/storage-admission.ts',from:"r.v !== 1 || Object.keys(r).some",to:"false || Object.keys(r).some",run:trackVersion,code:'TRACK_ACTIVE_DOWNGRADE'},
   {name:'track read denial forgets known state',file:'tracks/shared-state.ts',from:"if (!result.ok) { progressIssue = result.issue; return false }",to:"if (!result.ok) { lastGood = {done:[]}; progressIssue = result.issue; return false }",run:trackRead,code:'TRACK_READ_LOST_KNOWN'},
   {name:'track denied lock bypassed',file:'tracks/shared-state.ts',from:"catch { state.refuseLock() }",to:"catch { state.retry() }",run:trackLock,code:'TRACK_LOCK_BYPASS'},

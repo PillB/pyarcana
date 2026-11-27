@@ -580,8 +580,8 @@ test('all thirteen live groups have distinct authored phases and independent sem
     http:'Leer el cuerpo como texto.',
     sitio:'1430.25.',
     despliegue:'./app.js',
-    prototipo:'Un índice sobre `(cliente_id, creado)`.',
-    modelo:'En cada fila de ventas.',
+    prototipo:'Un índice sobre `(sede_id, monto)`.',
+    modelo:'En cada fila de pedidos.',
   }
   const actual=[...SETUP_PARTS.map(p=>p.id),...WEB_TRACK.modules.map(m=>m.id)]
   assert.deepEqual([...actual].sort(),Object.keys(expected).sort(),'source group drift: author new phases and oracle')
@@ -597,7 +597,7 @@ test('all thirteen live groups have distinct authored phases and independent sem
       assert.equal(checkAnswer(check,i),'incorrect',id+': distractor accepted')
       assert.ok(answerFeedback(check,i).trim(),id+': missing corrective feedback')
     }
-    assert.ok(p.example.trim()&&p.reason.trim()&&p.result.trim()&&p.hint.trim(),id+': incomplete scaffold')
+    assert.ok(p.example.trim()&&p.reason.trim()&&p.result.trim()&&p.hint.trim()&&p.action.trim()&&p.evidence.trim(),id+': incomplete scaffold')
   }
   for(const part of SETUP_PARTS)for(const os of ['windows','macos','linux'] as const){
     assert.ok(stepsFor(part,os).length,part.id+'/'+os+': no guided steps')

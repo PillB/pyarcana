@@ -1209,15 +1209,87 @@ import { phaseFor, splitLearningSteps } from '@/lib/learning-phases'
 test('web phases partition actual source steps in order, independent exercise at end, no lost IDs', () => {
   for (const m of WEB_TRACK.modules) {
     const p=phaseFor(m.id)
-    const split=splitLearningSteps(m.steps)
+    const split=splitLearningSteps(m.steps,p.demoThrough)
     assert.ok(p.example && p.reason && p.result && p.hint,m.id+': incomplete worked/guided example')
-    assert.deepEqual([...split.guided,...split.independent].map(s=>s.id),m.steps.map(s=>s.id),m.id+': reordered or lost steps')
-    assert.ok(split.guided.every(s=>!s.exercise),m.id+': solution exposed in guided phase')
+    assert.deepEqual([...split.demo,...split.guided,...split.independent].map(s=>s.id),m.steps.map(s=>s.id),m.id+': reordered or lost steps')
+    assert.ok([...split.demo,...split.guided].every(s=>!s.exercise),m.id+': solution exposed in guided phase')
     assert.ok(split.independent.every(s=>s.exercise),m.id+': independent challenge missing')
   }
-  const a={id:'a'}, b={id:'b',exercise:{}}
-  assert.throws(()=>splitLearningSteps([a,b,{id:'future'}]),/future/,'new trailing step must be reviewed')
-  assert.throws(()=>splitLearningSteps([a]),/expected guided steps/,'missing exercise silently accepted')
+  const a={id:'a'}, guide={id:'guide'}, b={id:'b',exercise:{}}
+  assert.throws(()=>splitLearningSteps([a,guide,b,{id:'future'}],'a'),/future/,'new trailing step must be reviewed')
+  assert.throws(()=>splitLearningSteps([a,guide],'a'),/expected worked example/,'missing exercise silently accepted')
+  assert.throws(()=>splitLearningSteps([a,guide,b],'removed'),/removed/,'deleted demo anchor silently accepted')
+  assert.throws(()=>splitLearningSteps([a,b],'a'),/expected worked example/,'missing guided step silently accepted')
   assert.throws(()=>phaseFor('future-module'),/future-module/,'new module silently lacks pedagogy')
-  assert.deepEqual(splitLearningSteps([a,{id:'insert'},b]).guided.map(s=>s.id),['a','insert'])
+  assert.throws(()=>phaseFor('constructor'),/constructor/,'prototype key accepted as content')
+  const inserted=splitLearningSteps([a,{id:'insert'},guide,b],'a')
+  assert.deepEqual(inserted.demo.map(s=>s.id),['a'])
+  assert.deepEqual(inserted.guided.map(s=>s.id),['insert','guide'])
+})
+
+/** Independently specified changed inputs/outputs, executing the real source in a scratch folder. */
+function guidedSource(title:string, replacements:readonly [string,string][]) {
+  const block=ALL_STEPS.flatMap(({step})=>step.code??[]).find(c=>c.title===title)
+  assert.ok(block,title+': guided source disappeared')
+  let code=block.code
+  for(const [before,after] of replacements){
+    assert.equal(code.split(before).length-1,1,title+': source drift at '+before)
+    code=code.replace(before,after)
+  }
+  return code
+}
+function runGuidedPython(title:string, replacements:readonly [string,string][]) {
+  const py=python()
+  const cwd=mkdtempSync(path.join(tmpdir(),'guided-web-'))
+  try{
+    const r=spawnSync(py.bin.includes('/')?path.resolve(py.bin):py.bin,['-I','-'],{input:guidedSource(title,replacements),encoding:'utf8',timeout:20000,cwd})
+    assert.equal(r.status,0,title+' guided variation failed: '+r.stderr)
+    return r.stdout.trim()
+  }finally{rmSync(cwd,{recursive:true,force:true})}
+}
+test('guided HTML variation escapes ampersands without deleting text',()=>{
+  const out=runGuidedPython('escapar_celdas.py',[['Bodega <Norte>','Sur & Este']])
+  assert.ok(out.includes('<td>Sur &amp; Este</td>'),'HTML escaped output mismatch')
+  assert.ok(out.includes('<td>Sur & Este</td>'),'HTML unescaped comparison missing')
+})
+test('guided HTTP variation reads plain text rather than assuming JSON',()=>{
+  const out=runGuidedPython('servidor_y_cliente.py',[
+    ['cuerpo = json.dumps({"sede": "Sede A", "ventas": "1250.00"}).encode("utf-8")','cuerpo = b"hola"'],
+    ['self.send_header("Content-Type", "application/json")','self.send_header("Content-Type", "text/plain; charset=utf-8")'],
+    ['print(json.load(respuesta))','print(respuesta.read().decode("utf-8"))'],
+  ])
+  assert.equal(out,'200 text/plain; charset=utf-8\nhola')
+})
+test('guided URL variation distinguishes root and document-relative paths without network',()=>{
+  const out=runGuidedPython('rutas_relativas.py',[
+    ['https://tu-usuario.github.io/mi-sitio/','https://ejemplo.test/demo/index.html'],
+    ['"/data.json"','"/app.js"'],['"data.json"','"./app.js"'],
+  ])
+  assert.equal(out,'https://ejemplo.test/app.js\nhttps://ejemplo.test/demo/app.js')
+})
+test('guided index variation verifies changed order direction with local SQLite plan',()=>{
+  const out=runGuidedPython('indice_compuesto.py',[['ORDER BY monto DESC','ORDER BY monto ASC']])
+  const lines=out.split('\n')
+  assert.equal(lines.length,2)
+  assert.match(lines[0],/USE TEMP B-TREE FOR ORDER BY/)
+  assert.doesNotMatch(lines[1],/USE TEMP B-TREE FOR ORDER BY/)
+  assert.match(lines[1],/idx_ventas_sede_monto/)
+})
+test('guided stock variation accepts a new pair instead of duplicate',()=>{
+  const out=runGuidedPython('muchos_a_muchos.py',[
+    ["INSERT INTO stock VALUES ('SED-01', 'PRD-1', 5)","INSERT INTO stock VALUES ('SED-02', 'PRD-2', 5)"],
+    ['except sqlite3.IntegrityError as error:', '    print("filas de stock:", con.execute("SELECT COUNT(*) FROM stock").fetchone()[0])\nexcept sqlite3.IntegrityError as error:'],
+  ])
+  assert.match(out,/filas de stock: 4$/)
+  assert.doesNotMatch(out,/UNIQUE constraint failed/)
+})
+test('guided sorting variation checks numeric ordering after a changed amount',()=>{
+  const code=ALL_STEPS.flatMap(({step})=>step.code??[]).find(c=>c.title==='app.js')?.code
+  assert.ok(code,'app.js missing')
+  const table=fakeTable([['Sede A','1500.00'],['Bodega <Norte>','980.50'],['Sede C','1430.25']])
+  new Function('document',code)(table.document)
+  table.clicks[1]()
+  assert.deepEqual(table.column(1),['980.50','1430.25','1500.00'])
+  table.clicks[1]()
+  assert.deepEqual(table.column(1),['1500.00','1430.25','980.50'])
 })

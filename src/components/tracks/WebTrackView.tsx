@@ -88,7 +88,7 @@ export function WebTrackView() {
       {WEB_TRACK.modules.map((m, i) => {
         const ids = m.steps.map((s) => s.id)
         const phase = phaseFor(m.id)
-        const {guided, independent} = splitLearningSteps(m.steps)
+        const {demo, guided, independent} = splitLearningSteps(m.steps, phase.demoThrough)
         return (
           <section key={m.id} id={`track-${m.id}`} aria-labelledby={`track-${m.id}-h`} className="mt-10 scroll-mt-20" data-testid="track-module">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -109,16 +109,21 @@ export function WebTrackView() {
                 </p>
               ))}
             </div>
-            <LearningPhase id={'web-'+m.id} kind="demo"><WorkedExample phase={phase}/></LearningPhase>
+            <LearningPhase id={'web-'+m.id} kind="demo">
+              <WorkedExample phase={phase}/>
+              <ol className="mt-4 space-y-4">
+                {demo.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              </ol>
+            </LearningPhase>
             <LearningPhase id={'web-'+m.id} kind="guided">
-              <ol className="space-y-4">
-                {guided.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              <ol className="space-y-4" start={demo.length+1}>
+                {guided.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${demo.length+n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
               </ol>
               <GuidedPrediction phase={phase} id={m.id}/>
             </LearningPhase>
             <LearningPhase id={'web-'+m.id} kind="independent">
-              <ol className="space-y-4" start={guided.length+1}>
-                {independent.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${guided.length+n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
+              <ol className="space-y-4" start={demo.length+guided.length+1}>
+                {independent.map((step,n) => <TrackStepView key={step.id} step={step} number={`${i+1}.${demo.length+guided.length+n+1}`} done={progress.done.includes(step.id)} onToggle={checked=>setStep(step.id,checked)}/>)}
               </ol>
             </LearningPhase>
             <LearningPhase id={'web-'+m.id} kind="check"><LearningCheckCard check={WEB_CHECKS[m.id]} checkId={m.id} embedded/></LearningPhase>

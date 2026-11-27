@@ -163,3 +163,6 @@ https://eric.ed.gov/?id=EJ678596 ; WCAG https://www.w3.org/TR/WCAG22/ .
 PRIMM classroom evidence is not adult self-paced outcome evidence. Explicit prediction is
 formative, and the independent Web Path solution remains runnable locally; no external action
 or credential required by the new guided checkpoints. Physical device and novice study pending.
+
+### Fifth-round follow-up: actual worked source and changed cases
+Web demonstrations now include the original runnable worked examples, partitioned by stable source anchors rather than duplicating code. All thirteen guided phases have a concrete changed-input/action task and a hidden observable result. Independent web exercises remain distinct from the guided cases (including prototype and relational modeling). Five local Python variations and a JS sort fixture exercise actual source; exact source replacement counts fail on drift. Three additional mutations test phase boundaries, trailing unclassified steps, and inherited property IDs. Initial JSX syntax error in optional hint fixed by extracting the header component; current-head gates still required. Setup practice remains manual, not automatic installation proof.

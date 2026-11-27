@@ -25,5 +25,16 @@ export function WorkedExample({ phase }: {phase:LearningPhases}) {
 }
 
 export function GuidedPrediction({ phase, id }: {phase:LearningPhases;id:string}) {
-  return <LearningCheckCard check={phase.guided} checkId={id} guidedHint={phase.hint}/>
+  const lang=useI18n(s=>s.lang)
+  return <>
+    <LearningCheckCard check={phase.guided} checkId={id} guidedHint={phase.hint}/>
+    <div className="mt-4 rounded-md border border-border p-3" data-testid="guided-action">
+      <h4 className="font-semibold">{t('learningPhase.action',lang)}</h4>
+      <p className="mt-2"><InlineText text={phase.action}/></p>
+      <details className="mt-3" data-testid="guided-evidence">
+        <summary className="min-h-11 cursor-pointer py-2 font-medium">{t('learningPhase.compare',lang)}</summary>
+        <p className="mt-1 text-sm"><InlineText text={phase.evidence}/></p>
+      </details>
+    </div>
+  </>
 }
